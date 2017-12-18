@@ -1,0 +1,67 @@
+.signin-frame-header .title {
+	color: @title-color;
+	font-size: 16px;
+}
+
+.frame_head_add_button {
+	margin-top: 12px;
+	float: right;
+	height: 36px;
+	padding: 0 20px;
+	font-size: 14px;
+	line-height: 36px;
+	border: 1px solid @primary-color;
+	text-align: center;
+	border-radius: 4px;
+	border: 1px solid @primary-color;
+	color: @primary-color;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	i {
+		margin-right: 4px;
+	}
+	&:after {
+		width: 200px;
+		height: 200px;
+		background-color: rgba(55, 183, 253, .1);
+		position: absolute;
+		content: '';
+		left: 50%;
+		top: 50%;
+		margin: -100px 0 0 -100px;
+		transition: .2s ease-in-out all;
+		transform: scale(0);
+		border-radius: 50%;
+	}
+	&:hover {
+		&:after {
+			transform: scale(1);
+		}
+	}
+}
+
+// 描述性文字
+.signin-page-caption-top {
+	color: @caption-color;
+	margin-bottom: 20px;
+	font-size: 13px;
+	line-height: 20px;
+}
+
+.signin-page-caption-btm {
+	color: @caption-color;
+	margin-top: 20px;
+	font-size: 13px;
+	line-height: 20px;
+}
+
+// 手势
+.cp {
+	cursor: pointer;
+}
+
+// scroll 
+.ps>.ps__scrollbar-y-rail {
+	z-index: 9999;
+}
