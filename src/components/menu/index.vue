@@ -138,14 +138,14 @@ export default {
             });
             // 没在nemuconfig中注册的地址
             let otherPaths = ['/SettingAuthor'];
-            try{
-                if( otherPaths.includes(to.path) ){
-                    exist = true ;
+            try {
+                if (otherPaths.includes(to.path)) {
+                    exist = true;
                 }
-            }catch(e){}
+            } catch (e) {}
 
             if(!exist) { // 如果不存在当前路由跳转回from或mycheckin
-                // this.goToLink(from ? from.path : '/MyCheckin');
+                this.goToLink(from ? from.path : '/MyCheckin');
             }
             this.setActiveName(to || null);
         },

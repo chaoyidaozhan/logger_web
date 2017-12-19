@@ -6,35 +6,35 @@ const menus = [
         subMenu: [
             {
                 name: '所有日志',
-                path: '/DepartmentCheckinDeal'
+                path: '/LoggerAll'
             },
             {
                 name: '@我的',
-                path: '/DepartmentCheckinCount'
+                path: '/LoggerAtMe'
             },
             {
                 name: '我的日志',
-                path: '/DepartmentCheckinCount'
+                path: '/LoggerOfMine'
             },
             {
                 name: '团队日志',
-                path: '/DepartmentCheckinCount'
+                path: '/LoggerGroup'
             },
             {
                 name: '下属日志',
                 type: ['deptManager'],
-                path: '/DepartmentCheckinCount'
+                path: '/LoggerUnder'
             },
         ]
     },
     {
         name: '我的草稿',
-        path: '/CheckinAnalyse',
+        path: '/DraftOfMine',
         icon: 'error'
     },
     {
         name: '我的收藏',
-        path: '/CheckinAnalyse',
+        path: '/CollectOfMine',
         icon: 'error'
     },
     {
@@ -43,22 +43,26 @@ const menus = [
         subMenu: [
             {
                 name: '按部门统计',
-                path: '/SigninRule'
+                path: '/StatisticsOfDepart'
             },
             {
                 name: '按团队统计',
-                path: '/CheckinSettingType'
-            }
+                path: '/StatisticsOfGroup'
+            },
+            {
+                name: '按团队统计',
+                path: '/StatisticsOfMember'
+            },
         ]
     },
     {
         name: '日志汇总',
-        path: '/CheckinCycle',
+        path: '/LoggerSummary',
         icon: 'signin-circle',
     },
     {
         name: '模板管理',
-        path: '/CheckinCycle',
+        path: '/LoggerTemplate',
         icon: 'signin-circle',
         type: ['admin ','diary_examer'],
     },
