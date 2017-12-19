@@ -43,7 +43,7 @@ export default {
     methods: {
         initMenu() { // 初始化导航菜单
             let userInfo = this.$store.state.userInfo;
-            this.menuLimits = {
+            let menuLimits = {
                 admin:  userInfo && userInfo.admin, 
                 diary_examer:  userInfo && userInfo.diary_examer, 
                 deptManager:  userInfo && userInfo.deptManager, 
@@ -51,15 +51,33 @@ export default {
             this.menus = [];
             if(menus) {
                 menus.forEach((item)=>{
+                    // 验证一级菜单
                     if(item.type) {
                         for(let i = 0; i < item.type.length; i++) {
-                            if(!!this.menuLimits[item.type[i]]) {
+                            if(!!menuLimits[item.type[i]]) {
                                 this.menus.push(item);
                                 return false;
                             }
                         }
                     } else {
                         this.menus.push(item);
+                    }
+                    // 验证二级菜单
+                    if(item.checkChilren) {
+                        let subMenu = []
+                        item.subMenu.forEach((val)=>{
+                            if(val.type) {
+                                for(let i = 0; i < val.type.length; i++) {
+                                    if(!!menuLimits[val.type[i]]) {
+                                        subMenu.push(val);
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                subMenu.push(val);
+                            }
+                        })
+                        item.subMenu = subMenu;
                     }
                 });
                 this.initScroll()

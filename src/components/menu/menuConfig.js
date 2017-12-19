@@ -2,6 +2,7 @@ const menus = [
     {
         name: '日志查询',
         icon: 'depart-signin',
+        checkChilren: true,
         subMenu: [
             {
                 name: '所有日志',
@@ -21,7 +22,7 @@ const menus = [
             },
             {
                 name: '下属日志',
-                type: 'deptManager',
+                type: ['deptManager'],
                 path: '/DepartmentCheckinCount'
             },
         ]
