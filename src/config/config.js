@@ -1,7 +1,7 @@
 module.exports = {
     v: '4.5',
     salt: 'BAN/+GGzUBtMW',
-    token: '067ba732-e314-4c7b-ba55-b7d162d517f2',
+    token: 'd12fdcc7-b9ac-48c4-adf6-5b1958e9afc4',
     development: { // 开发环境
         host: '//123.103.9.204:93',
         apiHost: '//123.103.9.204:6058',

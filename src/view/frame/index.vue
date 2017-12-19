@@ -1,10 +1,10 @@
 <template>
-	<div class="signin-frame">
-		<div class="signin-frame-header">
+	<div class="logger-frame">
+		<div class="logger-frame-header">
 			<!-- 放置头部 -->
 			<slot name="head"></slot>
 		</div>
-		<div class="signin-frame-body" @scroll="onScroll">
+		<div class="logger-frame-body" @scroll="onScroll">
 			<!-- 放置内容 -->
 			<slot name="body"></slot>
 		</div>
@@ -28,34 +28,34 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	.signin-frame{
-        width: 100%;
-        height: 100%;
-        padding-top: 60px;
-        position: relative;
-        .signin-frame-header {
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            height: 60px;
-            line-height: 60px;
-            font-size: 14px;
-            border-bottom: 1px solid rgb(238, 238, 238);
-            padding: 0 20px;
-            .signin-subread {
-                color: #262626;
-                font-size: 16px;
-            }
-        }
-        .signin-frame-body {
-            width: 100%;
-            height: 100%;
-            padding: 20px 20px 0;
-            overflow: auto;
-            & > div {
-                padding-bottom: 80px;
-            }
-        }
+	.logger-frame {
+	    width: 100%;
+	    height: 100%;
+	    padding-top: 60px;
+	    position: relative;
+	    .logger-frame-header {
+	        position: absolute;
+	        left: 0;
+	        right: 0;
+	        top: 0;
+	        height: 60px;
+	        line-height: 60px;
+	        font-size: 14px;
+	        border-bottom: 1px solid rgb(238, 238, 238);
+	        padding: 0 20px;
+	        .logger-subread {
+	            color: #262626;
+	            font-size: 16px;
+	        }
+	    }
+	    .logger-frame-body {
+	        width: 100%;
+	        height: 100%;
+	        padding: 20px 20px 0;
+	        overflow: auto;
+	        &>div {
+	            padding-bottom: 80px;
+	        }
+	    }
 	}
 </style>

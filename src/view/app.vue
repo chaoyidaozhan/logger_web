@@ -6,7 +6,6 @@
 </template>
 <script>
 import FsSignMenu from 'app_component/menu';
-import FsFirstAccess from '../components/common/first-access';
 import menus from '../components/menu/';
 import '../directives/loading/';
 
@@ -21,7 +20,6 @@ export default {
     },
     components: {
         FsSignMenu,
-        FsFirstAccess
     },
     watch: {
         '$route': function (to, from) { // 路由权限控制
@@ -36,27 +34,9 @@ export default {
             storage.set('$sign', $sign);
             this.token = $sign.token;
         },
-        getSignTips() { // 用户是否开启人脸识别
-            this.$ajax({
-                url: '/signin/signinTips/identity',
-                success: (res)=>{
-                    if(res && res.code === 0) {
-                        this.$store.dispatch('update_userinfo', { // 获取人脸识别更新store
-                            userInfo: {
-                                identity: res.data.identity || 0,
-                                ...this.$store.state.userInfo, 
-                            }
-                        });
-                        if(!!res.data.identity) {
-                            this.$refs.menu.init();
-                        }
-                    } 
-                }
-            })
-        },
         getUserInfo() { // 获取用户信息
             this.$ajax({
-                url: '/signin/attentance/getUserInfo',
+                url: '/logger/main/getUserInfo',
                 type: 'get',
                 success: (res)=>{
                     if(res && res.code === 0) {
@@ -64,10 +44,8 @@ export default {
                         this.$store.dispatch('update_userinfo', { //登录成功更新store
                             userInfo: res.data || {}
                         });
-                        this.isFirstAccess = res.data.isFirstAccess;
                         this.hasGetUserInfo = true;
                         this.$eventbus.$emit('checkLimit');
-                        this.getSignTips();
                     } else {
                         this.$eventbus.$emit('checkLimit');
                         this.$Message.warning((res && res.msg) || '网络错误');

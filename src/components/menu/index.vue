@@ -1,7 +1,7 @@
 <template>
     <div class="signin-menu">
         <div class="signin-menu-logo">
-            <i class="icon-signin-logo"></i><span>签到</span>
+            <i class="icon-signin-logo"></i><span>日志</span>
         </div>
         <div class="signin-menu-layout" ref="signinMenuLayout">
             <Menu ref="signinMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
@@ -125,7 +125,7 @@ export default {
             }catch(e){}
 
             if(!exist) { // 如果不存在当前路由跳转回from或mycheckin
-                this.goToLink(from ? from.path : '/MyCheckin');
+                // this.goToLink(from ? from.path : '/MyCheckin');
             }
             this.setActiveName(to || null);
         },
