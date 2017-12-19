@@ -6,19 +6,19 @@
         <div class="signin-menu-layout" ref="signinMenuLayout">
             <Menu ref="signinMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
                 <div v-for="(item, index) in menus" :key="index">
-                    <MenuItem :name="item.path" v-if="!item.subMenu">
+                    <Menu-Item :name="item.path" v-if="!item.subMenu">
                         <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
                         <span>{{item.name}}</span>
-                    </MenuItem>
+                    </Menu-Item>
                     <Submenu :name="item.name" v-if="item.subMenu && !!item.subMenu.length">
                             <template slot="title">
                                 <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
                                 <span>{{item.name}}</span>
                             </template>
 
-                            <MenuItem v-for="(val, index) in item.subMenu" :name="val.path" :key="index">
+                            <Menu-Item v-for="(val, index) in item.subMenu" :name="val.path" :key="index">
                                 {{val.name}}
-                            </MenuItem>
+                            </Menu-Item>
                     </Submenu>
                 </div>
             </Menu>

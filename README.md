@@ -41,4 +41,5 @@
 - **fonts**
     - 字体源文件为selection.json
     - 新加字体需要先导入selection.json 然后在新增svg导出
-    - 注意替换css,字体源文件 制作地址 https://icomoon.io/app/#/select
+    - 注意替换css,字体源文件 制作地址 https://icomoon.io/app/#/selec
+// Do not use built-in or reserved HTML elements as component (iview插件的bug开发环境会提示不用管)
