@@ -4,7 +4,12 @@ module.exports = {
             list: [],
             pageNum: 1, 
             pageSize: 20, 
-            loading: true
+            params: {
+                range: 0,
+                dataStatus: 1 // 日志查询标记
+            },
+            loading: false,
+            hasMore: true,
         }
     },
     created() {
@@ -28,11 +33,16 @@ module.exports = {
         /**
          * 分页
          */
-        handleChangePage(index) {
-            this.pageNum = index;
-        },
         onScroll(e) {
-            // this.pageNum++
+            if(!this.loading && this.hasMore) {
+                let $target = e && e.target;
+                let scrollHeight = $target.scrollHeight;
+                let scrollTop = $target.scrollTop;
+                let offsetHeight = $target.offsetHeight;
+                if (offsetHeight == (scrollHeight - scrollTop)) {
+                    this.pageNum++
+                }
+            }
         },
         /**
          * loadData成功之后更新数据
@@ -41,7 +51,15 @@ module.exports = {
          */
         updateList(res) {
             if(res && res.code === 0) {
-                this.list = res.data || [];
+                this.hasMore = true;
+                if(this.pageNum == 1) {
+                    this.list = res.data || [];
+                } else {
+                    this.list = this.list.concat(res.data || []);
+                }
+                if (res.data && res.data.length < this.pageSize) {
+                    this.hasMore = false;
+                }
             } else {
                 this.list = [];
                 this.$Message.warning((res && res.msg) || '网络错误');
@@ -51,8 +69,11 @@ module.exports = {
          * 初始化列表
          */
         initList() {
+            this.params.range = this.$route && this.$route.params && this.$route.params.range;
             this.pageNum = 1;
             this.list = [];
+            this.loading = false;
+            this.hasMore = true;
             this.loadData();
         },
         /**

@@ -33,7 +33,6 @@
 		width: 100%;
 		height: 100%;
 		margin-top: 8px;
-		background-color: #fff;
 		overflow: auto;
 	}
 }

@@ -1,6 +1,10 @@
 <template>
     <div class="logger-list-item">
         <div class="logger-list-user">
+            <fs-avatar
+                :avatar="loggerItemData.avatar" 
+                :name="loggerItemData.userName"
+            />
             <div class="logger-list-row">
                 <span class="label">{{loggerItemData.userName}}</span>
                 <span class="caption">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
@@ -8,9 +12,7 @@
         </div>
         <div class="logger-list-range">
             <div class="ellipsis">
-                <span class="caption" v-for="(item, index) in loggerItemData.range" :key="index">
-                    {{item.teamName || item.spaceName}}
-                </span>
+                {{renderRange(loggerItemData.range)}}
             </div>
             <div class="tool-tip">
                 {{renderRange(loggerItemData.range)}}
@@ -36,12 +38,21 @@
             <span class="caption">{{item.value || item.content}}</span>
         </div>
         <div class="logger-list-operate">
-
+            <span class="reply">
+                {{loggerItemData.commentNum}}个回复
+            </span>
+            <span class="collect" @click="handleCollect">
+                {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}收藏
+            </span>
+            <span class="like" @click="handleLike">
+                {{loggerItemData.like && loggerItemData.like.likeNum}}个赞
+            </span>
         </div>
     </div>
 </template>
 <script>
 import FormatTime from '../../../filters/format-time';
+import FsAvatar from '../../common/avatar/';
 export default {
     props: {
         loggerItemData: {
@@ -53,6 +64,9 @@ export default {
             dataSource: ["其他", "日报", "周报", "月报", "其他"]
         }
     },
+    components: {
+        FsAvatar
+    },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期
             return FormatTime(new Date(val), 'YYYY-MM-DD')
@@ -63,27 +77,78 @@ export default {
     },
     methods: {
         renderRange(range) {
-            let str = ''
+            let str = '可见范围：'
             range.forEach(item=>{
                 str += `${item.teamName || item.spaceName} `
             })
             return str;
-        }
+        },
+        handleCollect(e) {
+            e.stopPropagation();
+            let uri = this.loggerItemData.favorite.isFavorite ? 
+                    '/logger/favorite/delete' : '/logger/favorite/add'
+            this.$ajax({
+                url: uri,
+                type: 'post',
+                data: {
+                    diaryId: this.loggerItemData.id
+                },
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.loggerItemData.favorite = res.data;
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.warning('操作失败');
+                }
+            })
+        },
+        handleLike(e) {
+            e.stopPropagation();
+            this.$ajax({
+                url: `/logger/diaryLike/${this.loggerItemData.id}`,
+                type: 'post',
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.loggerItemData.like.likeNum = res.data.likeTotal;
+                        this.loggerItemData.like.isLike = !!this.loggerItemData.like.isLike?0:1;
+                    } 
+                },
+                error: (res)=>{
+                    this.$Message.warning('操作失败');
+                }
+            })
+        },
     },
     created () {
-        console.log(this.loggerItemData)
-        console.log( JSON.parse(this.loggerItemData.content))
     }
 }
 </script>
 <style lang="less">
 @import '../../../assets/css/var.less';
 .logger-list-item {
-    padding: 14px 30px;
-    transition: .4s ease all;
-    color: rgb(130, 130, 130);
+    padding: 14px 20px;
+    transition: .2s ease all;
+    padding-left: 74px;
+    position: relative;
+    background-color: @white-color;
+    &.fade-enter {
+        opacity: 0;
+    }
+    &.fade-enter-in {
+        opacity: 1;
+    }
+    &:after {
+        position: absolute;
+        left: 74px;
+        height: 1px;
+        right: 0;
+        bottom: 0;
+        content: '';
+        background-color: @gray-color-elip;
+    }
     &>div {
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
     .logger-list-row {
         line-height: 1.5;
@@ -100,6 +165,13 @@ export default {
     }
 
     .logger-list-user {
+        font-size: 0;
+        margin-left: -54px;
+        .logger-list-row {
+            display: inline-block;
+            padding-left: 10px;
+            vertical-align: middle;
+        }
         .caption {
             font-size: 12px;
         }
@@ -126,7 +198,7 @@ export default {
            opacity: 0;
            top: 23px;
            transition: .2s ease all;
-           background-color: #fff;
+           background-color: @white-color;
            border:1px solid @gray-color-normal;
            color: @gray-color-dark;
            font-size: 12px;
@@ -151,7 +223,7 @@ export default {
            }
            &:after {
                top: -9px;
-               border-color: #fff transparent #fff transparent;
+               border-color: @white-color transparent @white-color transparent;
            }
        }
        &:hover {
@@ -162,7 +234,7 @@ export default {
        }
     }
     .logger-list-tips {
-        color: #fff;
+        color: @white-color;
         font-size: 12px;
         span {
             border-radius: 2px;
@@ -170,6 +242,15 @@ export default {
             padding: 3px 4px;
             display: inline-block;
             background-color: @primary-color;
+        }
+    }
+    .logger-list-operate {
+        color: @gray-color-light;
+        font-size: 12px;
+        margin-top: 10px;
+        span {
+            margin-right: 5px;
+            cursor: pointer;
         }
     }
     &:hover {

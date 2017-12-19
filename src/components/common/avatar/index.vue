@@ -70,6 +70,7 @@ export default{
         font-size: 0;
         text-align: center;
         border-radius: 50%;
+        vertical-align: middle;
         .avatar {
             width: 100%;
             height: 100%;
