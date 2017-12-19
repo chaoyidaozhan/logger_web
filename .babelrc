@@ -1,0 +1,8 @@
+{
+    "presets": [
+        "es2015",
+        "vue",
+        "stage-2"
+    ],
+    "ignore": []
+}

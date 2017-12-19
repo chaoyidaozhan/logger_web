@@ -95,7 +95,7 @@ module.exports = {
                 removeComments: true,
                 collapseWhitespace: true,
             },
-            favicon: path.join(APP_SRC, '/assets/images/favicon.ico'),
+            favicon: path.join(APP_SRC, '/assets/images/dailyrecord.png'),
             template: path.join(APP_SRC, '/template/index.html'),
         }),
         new webpack.DefinePlugin({
