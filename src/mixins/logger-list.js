@@ -2,9 +2,8 @@ module.exports = {
     data() {
         return {
             list: [],
-            pageNo: 1, 
+            pageNum: 1, 
             pageSize: 20, 
-            totalCount: 0,
             loading: true
         }
     },
@@ -12,7 +11,7 @@ module.exports = {
         this.initList()
     },
     watch: {
-        pageNo: 'loadData'
+        pageNum: 'loadData'
     },
     methods: {
         /**
@@ -22,7 +21,7 @@ module.exports = {
          */
         getParams(params) {
             return Object.assign({
-                pageNo: this.pageNo,
+                pageNum: this.pageNum,
                 pageSize: this.pageSize
             }, params)
         },
@@ -30,7 +29,10 @@ module.exports = {
          * 分页
          */
         handleChangePage(index) {
-            this.pageNo = index;
+            this.pageNum = index;
+        },
+        onScroll(e) {
+            // this.pageNum++
         },
         /**
          * loadData成功之后更新数据
@@ -39,19 +41,9 @@ module.exports = {
          */
         updateList(res) {
             if(res && res.code === 0) {
-                if (res.data && res.data.list) {
-                    this.list = res.data.list || res.data || [];
-                } 
-                if (res.data && res.data.pager) {
-                    if(this.list.length >= this.pageSize || this.pageNo != 1) {
-                        this.totalCount = res.data.pager.totalRows || 0;
-                    } else {
-                        this.totalCount = 0;
-                    }
-                }
+                this.list = res.data || [];
             } else {
                 this.list = [];
-                this.totalCount = 0;
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
         },
@@ -59,7 +51,7 @@ module.exports = {
          * 初始化列表
          */
         initList() {
-            this.pageNo = 1;
+            this.pageNum = 1;
             this.list = [];
             this.loadData();
         },

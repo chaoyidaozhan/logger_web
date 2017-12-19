@@ -13,9 +13,6 @@ import StatisticsOfDepart from '../view/logger-statistics/'; // 日志统计 --�
 import StatisticsOfGroup from '../view/logger-statistics/';  // 日志统计 --团队
 import StatisticsOfMember from '../view/logger-statistics/'; // 日志统计 --成员
 
-
-
-
 export default [
     {
         path: '/',

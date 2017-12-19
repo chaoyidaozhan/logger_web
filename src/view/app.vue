@@ -1,12 +1,12 @@
 <template>
-    <div class="signin-container" v-loading="{loading: loaded, text: '加载中...'}">
+    <div class="logger-container" v-loading="{loading: loaded, text: '加载中...'}">
         <fs-sign-menu ref="menu" v-if="loaded"></fs-sign-menu>
         <router-view v-if="hasGetUserInfo"></router-view>
     </div>
 </template>
 <script>
 import FsSignMenu from 'app_component/menu';
-import '../directives/loading/';
+import 'app_src/directives/loading/';
 
 export default {
     data() {
@@ -68,12 +68,14 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-    .signin-container {
-        width: 100%;
-        height: 100%;
-        padding-left: 200px;
-        position: relative;
-    }
+@import '../assets/css/var.less';
+.logger-container {
+    width: 100%;
+    height: 100%;
+    padding-left: 200px;
+    position: relative;
+    background-color: @gray-color-elip
+}
 </style>
 
 

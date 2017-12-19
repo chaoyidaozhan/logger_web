@@ -16,22 +16,23 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-    .loading-wrapper {
-        z-index: 9999;
-        color: #37b7fd;
-        .text {
-            font-size: 12px;
-        }
+@import '../../assets/css/var.less';
+.loading-wrapper {
+    z-index: 9999;
+    color: @primary-color;
+    .text {
+        font-size: 12px;
     }
-    .loading {
-        animation: ani-demo-spin 1s linear infinite;
-        margin-bottom: 10px;
-    }
-    @keyframes ani-demo-spin {
-        from { transform: rotate(0deg);}
-        50%  { transform: rotate(180deg);}
-        to   { transform: rotate(360deg);}
-    }
+}
+.loading {
+    animation: ani-demo-spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+@keyframes ani-demo-spin {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
+}
 </style>
 
 

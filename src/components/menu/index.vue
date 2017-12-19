@@ -1,10 +1,10 @@
 <template>
-    <div class="signin-menu">
-        <div class="signin-menu-logo">
-            <i class="icon-signin-logo"></i><span>日志</span>
+    <div class="logger-menu">
+        <div class="logger-menu-logo">
+            <i class="icon-logger-logo"></i><span>日志</span>
         </div>
-        <div class="signin-menu-layout" ref="signinMenuLayout">
-            <Menu ref="signinMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
+        <div class="logger-menu-layout" ref="loggerMenuLayout">
+            <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
                 <div v-for="(item, index) in menus" :key="index">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
                         <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
@@ -85,7 +85,7 @@ export default {
         },
         initScroll() {
             this.$nextTick(()=>{
-                let container = this.$refs.signinMenuLayout;
+                let container = this.$refs.loggerMenuLayout;
                 Ps.destroy(container);
                 Ps.initialize(container, {
                     wheelSpeed: 0.5,
@@ -122,7 +122,7 @@ export default {
             if(this.activeName == '/LoggerQuery') {
                 this.activeName += `/${this.$route.params.range}`
             }
-            
+
             this.setOpenNames();
         },
         checkLimit(to, from) { // 检测当前路由权限
@@ -183,7 +183,7 @@ export default {
 </script>
 <style lang="less">
 @import '../../assets/css/var.less';
-.signin-menu {
+.logger-menu {
     position: absolute;
     left: 0;
     top: 0;
@@ -194,7 +194,7 @@ export default {
         ::selection {
         background-color: transparent!important;
     }
-    .signin-menu-layout {
+    .logger-menu-layout {
         position: absolute;
         top: 86px;
         bottom: 0;
@@ -203,7 +203,7 @@ export default {
         left: 0;
         padding-bottom: 20px;
     }
-    .signin-menu-logo {
+    .logger-menu-logo {
         color: @primary-color;
         padding: 28px 0;
         text-align: center;
@@ -235,7 +235,7 @@ export default {
             color: @menu-title-color;
             border-right: 0;
             &:hover {
-                background-color: rgba(55, 183, 253, .1);
+                background-color: @menu-hover-color;
                 color: @primary-color;
             }
             &.ivu-menu-item-active,
