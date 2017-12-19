@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import iView from 'iview'; // 引入ui库
 import store from './store/';
 import routes from './router/';
 import axios from 'axios';
 import http from './config/http';
-import iView from './common/iview/src/'; // 引入ui库
 import ajax from './common/ajax'; // 引入封装过后的ajax
+
 import storage from './common/store.js-master/dist/store.legacy.min';
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.css';
 import './assets/css/common.less';

@@ -16,7 +16,10 @@
                                 <span>{{item.name}}</span>
                             </template>
 
-                            <Menu-Item v-for="(val, index) in item.subMenu" :name="val.path" :key="index">
+                            <Menu-Item 
+                                v-for="(val, index) in item.subMenu" 
+                                :name="val.path" 
+                                :key="index">
                                 {{val.name}}
                             </Menu-Item>
                     </Submenu>
@@ -34,24 +37,23 @@ export default {
         return {
             openNames: [],
             activeName: '/MyCheckin',
-            menus: []
+            menus: [],
         }
     },
     methods: {
         initMenu() { // 初始化导航菜单
             let userInfo = this.$store.state.userInfo;
-            let menuParams = {
-                deptManager:  userInfo && userInfo.deptManager, // 部门管理员
-                signinAdmin:  userInfo && userInfo.signinAdmin, // 签到管理员
-                attendanceAdmin:  userInfo && userInfo.attendanceAdmin, // 考勤管理员
-                identity:  userInfo && userInfo.identity // 考勤管理员
+            this.menuLimits = {
+                admin:  userInfo && userInfo.admin, 
+                diary_examer:  userInfo && userInfo.diary_examer, 
+                deptManager:  userInfo && userInfo.deptManager, 
             }
             this.menus = [];
             if(menus) {
                 menus.forEach((item)=>{
                     if(item.type) {
                         for(let i = 0; i < item.type.length; i++) {
-                            if(!!menuParams[item.type[i]]) {
+                            if(!!this.menuLimits[item.type[i]]) {
                                 this.menus.push(item);
                                 return false;
                             }

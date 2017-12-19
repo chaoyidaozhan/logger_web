@@ -6,7 +6,6 @@
 </template>
 <script>
 import FsSignMenu from 'app_component/menu';
-import menus from '../components/menu/';
 import '../directives/loading/';
 
 export default {
@@ -15,7 +14,6 @@ export default {
             loaded: false, // 是否loading成功
             hasGetUserInfo: false, // 是否成功获取用户信息
             token: '',
-            isFirstAccess: false // 用户是否是第一次进入
         }
     },
     components: {
