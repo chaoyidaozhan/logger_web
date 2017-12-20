@@ -4,22 +4,17 @@
             <span class="title">日志查询</span> 
         </template>
         <template slot="body">
-            <fs-logger-query-list ref="LoggerQueryList"/>
+            <fs-logger-list ref="LoggerQueryList"/>
         </template>
     </fs-frame>
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerQueryList from 'app_component/logger-query/';
+import FsLoggerList from 'app_component/common/logger-list/';
 export default {
-    watch: {
-        '$route': function (to, from) { // 路由权限控制
-            // this.$refs.LoggerQueryList.initList()
-        }
-    },
     components: {
         FsFrame,
-        FsLoggerQueryList
+        FsLoggerList
     }
 }
 </script>
