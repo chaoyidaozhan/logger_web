@@ -26,23 +26,25 @@ export default {
 		}
 	},
 	methods: {
-		// 初始化调用
-		setNowYear() {
+		setNowYear() { // 初始化调用
 			this.nowYear = (new Date()).getFullYear();
 			this.maxYear = (new Date()).getFullYear();
-			console.log(this.nowYear)
-			console.log(this.maxYear)
 		},
-		delYear() {
+		delYear() { // 减少年份
 			if(!this.ltDisabled) {
 				this.nowYear--;
+				this.handleChangeYear();
 			}
 		},
-		addYear() {
+		addYear() {  // 增加年份
 			if(!this.rtDisabled) {
 				this.nowYear++;
+				this.handleChangeYear();
 			}
 		},
+		handleChangeYear() { // 切换年份回调
+			this.$emit('handleChangeYear', this.nowYear);
+		}
 	},
 	created () {
 		this.setNowYear();
