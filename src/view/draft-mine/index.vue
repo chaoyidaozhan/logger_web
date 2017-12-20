@@ -10,7 +10,7 @@
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerList from 'app_component/common/logger-list/';
+import FsLoggerList from 'app_component/logger-list/';
 export default {
     components: {
         FsFrame,

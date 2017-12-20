@@ -1,7 +1,7 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <span class="title">部门统计</span> 
+            <span class="title">团队统计</span> 
         </template>
         <template slot="body">
             <fs-logger-statistics 
@@ -13,7 +13,7 @@
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerStatistics from '../../components/common/logger-statistics/'
+import FsLoggerStatistics from 'app_component/logger-statistics/'
 export default {
     data() {
         return {

@@ -18,7 +18,7 @@
     </div>
 </template>
 <script>
-import FsLoggerListItem from '../logger-list-item/';
+import FsLoggerListItem from './node-item';
 /**
     range 
     0  所有日志
@@ -122,7 +122,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../../../assets/css/var.less';
+@import '../../assets/css/var.less';
 .demo-spin-icon-load{
     animation: ani-demo-spin 1s linear infinite;
 }
