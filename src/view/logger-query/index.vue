@@ -5,28 +5,23 @@
             <fs-query-form @handleQuery="handleQuery"/>
         </template>
         <template slot="body">
-            <fs-logger-query-list ref="loggerQueryList"/>
+            <fs-logger-list ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerQueryList from 'app_component/logger-query/';
 import FsQueryForm from 'app_component/common/query-form/'
+import FsLoggerList from 'app_component/common/logger-list/';
 export default {
-    watch: {
-        '$route': function (to, from) { // 路由权限控制
-            // this.$refs.LoggerQueryList.initList()
-        }
-    },
     components: {
         FsFrame,
-        FsLoggerQueryList,
+        FsLoggerList,
         FsQueryForm
     },
     methods: {
         handleQuery(params) {
-            this.$refs.loggerQueryList.loadData(params);
+            this.$refs.loggerList.loadData(params);
         }
     }
 }

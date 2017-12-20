@@ -12,14 +12,13 @@
         </div>
         <div class="logger-list-range">
             <div class="ellipsis">
-                {{renderRange(loggerItemData.range)}}
+                {{renderRange(loggerItemData)}}
             </div>
             <div class="tool-tip">
-                {{renderRange(loggerItemData.range)}}
+                {{renderRange(loggerItemData)}}
             </div>
         </div>
         <div class="logger-list-tips">
-           
             <span v-if="loggerItemData.templateName">
                 {{loggerItemData.templateName}}
             </span>
@@ -35,7 +34,7 @@
             v-for="(item, index) in JSON.parse(loggerItemData.content)"
             :key="index">
             <span class="label">{{item.title}}</span>
-            <span class="caption">{{item.value || item.content}}</span>
+            <span class="caption">{{item.content || item.value}}</span>
         </div>
         <div class="logger-list-operate">
             <span class="reply">
@@ -76,11 +75,42 @@ export default {
         }
     },
     methods: {
-        renderRange(range) {
+        renderRange(loggerItemData) { // 可见范围控制
+            let range = loggerItemData.range;
             let str = '可见范围：'
-            range.forEach(item=>{
-                str += `${item.teamName || item.spaceName} `
-            })
+            if(!range.length) {
+                if(loggerItemData.visibleRange === 0) {
+                    str += '所有人可见';
+                } else if (loggerItemData.visibleRange === 2) {
+                    str += '仅自己可见';
+                } else {
+                    str = '';
+                }
+            } else {
+                range.forEach(item=>{
+                    switch(+item.dataType) {
+                        case 1:
+                            if(item.teamName) {
+                                str += `${item.teamName } `
+                            } else {
+                                if(this.$store.state.userInfo.dept_id === 0) {
+                                    str += `${item.spaceName } `
+                                }
+                            }
+                            break;
+                        case 4:
+                            if(item.userName) {
+                                str += `${item.userName } `
+                            }
+                            break;
+                        case 3:
+                            if(item.teamName) {
+                                str += `${item.teamName } `
+                            }
+                    }
+                })
+            }
+            
             return str;
         },
         handleCollect(e) {
@@ -121,6 +151,7 @@ export default {
         },
     },
     created () {
+        console.log(JSON.parse(this.loggerItemData.content))
     }
 }
 </script>

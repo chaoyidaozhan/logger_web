@@ -1,20 +1,22 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <span class="title">我的草稿</span> 
+            <span class="title">部门统计</span> 
         </template>
         <template slot="body">
-            <fs-logger-list ref="LoggerQueryList" :dataStatus="0"/>
+            <fs-logger-statistics 
+                :deptId="0"
+                ref="LoggerLoggerStatistics"/>
         </template>
     </fs-frame>
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerList from 'app_component/common/logger-list/';
+import FsLoggerStatistics from '../../components/common/logger-statistics/'
 export default {
     components: {
         FsFrame,
-        FsLoggerList
+        FsLoggerStatistics
     }
 }
 </script>
