@@ -4,12 +4,24 @@
 			<!-- 放置头部 -->
 			<slot name="head"></slot>
 		</div>
-		<div class="logger-frame-body">
+		<div class="logger-frame-body" ref="loggerBody">
 			<!-- 放置内容 -->
 			<slot name="body"></slot>
 		</div>
 	</div>
 </template>
+<script>
+export default {
+	mounted () {
+		this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
+		window.onresize = ()=>{  
+			this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
+			this.$eventbus.$emit('changeHeight');
+		}  
+	}
+}
+</script>
+
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
 .logger-frame {
@@ -33,7 +45,6 @@
 		width: 100%;
 		height: 100%;
 		margin-top: 8px;
-		overflow: auto;
 	}
 }
 </style>
