@@ -16,7 +16,10 @@ export default {
 		this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
 		window.onresize = ()=>{  
 			this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
-			this.$eventbus.$emit('changeHeight');
+			
+			try {
+				this.$eventbus.$emit('changeHeight');
+			} catch(e){}
 		}  
 	}
 }

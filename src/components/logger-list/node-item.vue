@@ -149,9 +149,6 @@ export default {
                 }
             })
         },
-    },
-    created () {
-        console.log(JSON.parse(this.loggerItemData.content))
     }
 }
 </script>

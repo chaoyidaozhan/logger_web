@@ -19,7 +19,7 @@ export default {
         return {
             params: {
                 deptId: 0,
-                orderType: '0'
+                orderType: '1'
             }       
         }
     },
