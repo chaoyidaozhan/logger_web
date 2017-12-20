@@ -1,15 +1,15 @@
 <template>
     <div class="search-form">
-        <Row type="flex" justify="start" class="code-row-bg">
-            <Col span="4" v-if="showTemplate">
-                <fs-select-template  ref="selectTemplate" />
-            </Col>
-            <Col span="2" v-if="showTemplate">
+        <row type="flex" justify="start" class="code-row-bg">
+            <col span="4" v-if="showTemplate">
+                <fs-select-template  ref="selectTemplate"></fs-select-template>
+            </col>
+            <col span="2" v-if="showTemplate">
                 <Button @click="handleQuery">
                     查询
                 </Button>
-            </Col>
-        </Row>
+            </col>
+        </row>
         
     </div>
 </template>

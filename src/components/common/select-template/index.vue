@@ -2,7 +2,6 @@
     <div class="select-template">
         <Select :loading= "true"
                 v-model="templateId"
-                @click.native="loadData"
                 style="width:200px">
                 <Option v-for="item in tempListData"
                     :value="item.id"
@@ -21,35 +20,33 @@
                         title: '全部模板'
                     }
                 ],
-                templateId: 0,
-                hasLoad: false,
+                templateId: 0
             }
         },
         methods: {
             loadData() {
-                if(!this.hasLoad) {
-                    this.$ajax({
-                        url: '/logger/template/list',
-                        type: 'get',
-                        data: {
-                            pageNumber: 1,
-                            pageSize: 1000
-                        },
-                        success: (res)=>{
-                            if(res && res.code === 0) {
-                                this.tempListData = this.tempListData.concat(res.data.list || []);
-                                console.log(this.tempListData)
-                                this.hasLoad = true
-                            } else {
-                                this.$Message.warning((res && res.msg) || '网络错误');
-                            }
-                        },
-                        error: (res)=>{
-                            this.$Message.error((res && res.msg) || '网络错误');
+                this.$ajax({
+                    url: '/logger/template/list',
+                    type: 'get',
+                    data: {
+                        pageNumber: 1,
+                        pageSize: 1000
+                    },
+                    success: (res)=>{
+                        if(res && res.code === 0) {
+                            this.tempListData = this.tempListData.concat(res.data.list || []);
+                        } else {
+                            this.$Message.warning((res && res.msg) || '网络错误');
                         }
-                    });
-                }
+                    },
+                    error: (res)=>{
+                        this.$Message.error((res && res.msg) || '网络错误');
+                    }
+                });
             }
+        },
+        created() {
+            this.loadData();
         }
     }
 </script>
