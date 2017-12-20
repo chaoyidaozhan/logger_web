@@ -1,10 +1,14 @@
 <template>
-    <div class="logger-statistics">
+    <div class="logger-statistics" ref="loggerStatisticsWrapper">
         <fs-year-picker @handleChangeYear="handleChangeYear"/>
         <fs-logger-statistics-month 
             :data="list"
-            v-if="params.orderType == 0"/>
-        <fs-logger-statistics-season v-if="params.orderType == 1"/>>
+            :type="type"
+            v-if="params.orderType == 0 && !!list.length"/>
+        <fs-logger-statistics-season  
+            :data="list"
+            :type="type"
+            v-if="params.orderType == 1 && !!list.length"/>
     </div>
 </template>
 <script>
@@ -17,13 +21,13 @@ export default {
             type: Object,
             default() {
                 return {
-                    groupId: '',
-                    templateId: '',
-                    deptId: '0',
                     orderType: '0',
                 }
             }
         },
+        type: {
+            type: String
+        }
     },
     data() {
         return {
@@ -39,20 +43,12 @@ export default {
     methods: {
         handleChangeYear(year) {
             this.years = year || (new Date()).getFullYear();
+            this.loadData();
         },
         getParams() { // 获取参数
-            let params = {};
-            let keys = Object.keys(this.params);
-            if(keys.length) {
-                keys.forEach(key=>{
-                    if(this.params[`${key}`]) {
-                        params[`${key}`] = this.params[`${key}`]
-                    }
-                })
-            }
             return Object.assign({
                 years: this.years
-            }, params)
+            }, this.params)
         },
         loadData() {
             this.$ajax({
@@ -70,11 +66,20 @@ export default {
         },
         init() {
             this.handleChangeYear();
-            this.loadData();
         }
     },
     created () {
         this.init();
+    },
+    mounted () {
     }
 }
 </script>
+<style lang="less" scoped>
+.logger-statistics {
+    padding: 0 20px;
+    width: 100%;
+    height: 100%;
+}
+</style>
+

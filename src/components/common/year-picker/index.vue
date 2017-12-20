@@ -62,7 +62,7 @@ export default {
 	position: relative;
 	text-align: center;
 	font-size: 18px;
-	margin: 0 auto;
+	margin: 0 auto 10px;
 	::selection {
 		background-color: transparent;
 	}
