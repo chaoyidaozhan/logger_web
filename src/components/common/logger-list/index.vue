@@ -31,14 +31,6 @@ export default {
     props: {
         params: { // 暴露的对象字段
             type: Object,
-            default() {
-                return {
-                    groupId: '',
-                    templateId: '',
-                    beginDate: '',
-                    endData: ''
-                }
-            }
         },
         dataStatus: { // 日志查询标记
             type: Number,
@@ -63,19 +55,18 @@ export default {
         this.initList()
     },
     watch: {
-        '$route': function (to, from) {
-            this.initList();
-        },
-        pageNum: 'loadData'
+        pageNum: 'loadData',
+        params: 'initList'
     },
     methods: {
-        getParams(params) { // 获取参数
+        getParams() { // 获取参数
+            console.log(this.params)
             return Object.assign({
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
                 range: this.range,
                 dataStatus: this.dataStatus
-            }, params)
+            }, this.params)
         },
         onScroll(e) { // 分页
             if(!this.loading && this.hasMore) {
@@ -104,11 +95,11 @@ export default {
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
         },
-        loadData(params) { // 请求接口
+        loadData() { // 请求接口
             this.loading = true;
             this.$ajax({
                 url: '/logger/diaryQuery/getAllDiary',
-                data: this.getParams(params),
+                data: this.getParams(),
                 success: (res)=>{
                     this.loading = false;
                     this.updateList(res);
