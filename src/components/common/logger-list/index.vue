@@ -1,5 +1,5 @@
 <template>
-    <div class="page-logger-query" @scroll.stop="onScroll">
+    <div class="page-logger-list" @scroll.stop="onScroll">
         <transition-group name="fade">
             <fs-logger-list-item 
                 v-for="item in list" 
@@ -104,20 +104,11 @@ export default {
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
         },
-        loadData() { // 请求接口
+        loadData(params) { // 请求接口
             this.loading = true;
-            let data = {};
-            let keys = Object.keys(this.params);
-            if(keys.length) {
-                keys.forEach(key=>{
-                    if(this.params[`${key}`]) {
-                        data[`${key}`] = this.params[`${key}`]
-                    }
-                })
-            }
             this.$ajax({
                 url: '/logger/diaryQuery/getAllDiary',
-                data: this.getParams(data),
+                data: this.getParams(params),
                 success: (res)=>{
                     this.loading = false;
                     this.updateList(res);
@@ -149,7 +140,7 @@ export default {
     50%  { transform: rotate(180deg);}
     to   { transform: rotate(360deg);}
 }
-.page-logger-query {
+.page-logger-list {
     width: 100%;
     height: 100%;
     overflow: auto;
