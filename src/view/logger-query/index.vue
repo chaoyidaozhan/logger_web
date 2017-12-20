@@ -5,7 +5,7 @@
             <fs-query-form @handleQuery="handleQuery"/>
         </template>
         <template slot="body">
-            <fs-logger-list ref="loggerList"/>
+            <fs-logger-list :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
@@ -14,6 +14,11 @@ import FsFrame from '../frame/';
 import FsQueryForm from 'app_component/common/query-form/'
 import FsLoggerList from 'app_component/common/logger-list/';
 export default {
+    data() {
+        return {
+            params: {}
+        }
+    },
     components: {
         FsFrame,
         FsLoggerList,
@@ -21,7 +26,8 @@ export default {
     },
     methods: {
         handleQuery(params) {
-            this.$refs.loggerList.loadData(params);
+            this.params = params;
+            this.$refs.loggerList.loadData();
         }
     }
 }
