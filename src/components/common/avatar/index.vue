@@ -9,7 +9,7 @@
             :src="avatar"
             @error="onError" 
             class="avatar">
-        <span class="name" v-else>{{formatName}}</span>
+        <span class="name" v-else>{{ formatName }}</span>
     </div>
 </template>
 <script>
@@ -59,7 +59,7 @@ export default{
 		randomBetween(lowerValue, upperValue) {
 			var choices = upperValue - lowerValue + 1;
 			return Math.floor(Math.random() * choices + lowerValue);
-		},
+		}
     }
 };
 </script>
