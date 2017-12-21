@@ -7,12 +7,12 @@
             <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
                 <div v-for="(item, index) in menus" :key="index">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
-                        <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
+                        <i v-if="item.icon" :class="`${item.icon}`"></i>
                         <span>{{item.name}}</span>
                     </Menu-Item>
                     <Submenu :name="item.name" v-if="item.subMenu && !!item.subMenu.length">
                             <template slot="title">
-                                <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
+                                <i v-if="item.icon" :class="`${item.icon}`"></i>
                                 <span>{{item.name}}</span>
                             </template>
 
@@ -228,16 +228,8 @@ export default {
             line-height: 14px;
             color: @menu-title-color;
             border-right: 0;
-            &:hover {
-                background-color: @menu-hover-bg-color;
-                color: @primary-color;
-            }
-            &.ivu-menu-item-active,
-            &.ivu-menu-item-selected {
-                background-color: @primary-color;
-                color: @menu-hover-color!important;
-                border-right: 0!important;
-            }
+          
+          
             &>i {
                 font-size: 18px;
                 margin-right: 4px;
@@ -245,10 +237,27 @@ export default {
                 width: 18px;
                 height: 18px;
                 display: inline-block;
+                color: @gray-color-light;
             }
             &>span {
                 vertical-align: middle;
                 display: inline-block;
+            }
+            &:hover {
+                background-color: @menu-hover-bg-color;
+                color: @primary-color;
+                &>i {
+                    color: @primary-color;;
+                }
+            }
+            &.ivu-menu-item-active,
+            &.ivu-menu-item-selected {
+                background-color: @primary-color;
+                color: @menu-hover-color!important;
+                border-right: 0!important;
+                &>i {
+                    color: @menu-hover-color;
+                }
             }
         }
         .ivu-menu-submenu .ivu-menu-item {
