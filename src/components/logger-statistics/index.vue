@@ -1,6 +1,7 @@
 <template>
     <div class="logger-statistics" ref="loggerStatisticsWrapper">
-        <fs-year-picker @handleChangeYear="handleChangeYear"/>
+        <fs-year-picker  v-if="params.orderType == 0 || params.orderType == 1" @handleChangeYear="handleChangeYear"/>
+        <fs-month-picker @handleChangeMonth="handleChangeYear"/>
         <fs-logger-statistics-month 
             :data="list"
             :type="type"
@@ -12,7 +13,8 @@
     </div>
 </template>
 <script>
-import FsYearPicker from '../common/year-picker/';
+import FsYearPicker from '../common/picker/year';
+import FsMonthPicker from '../common/picker/month';
 import FsLoggerStatisticsMonth from './logger-statistics-month';
 import FsLoggerStatisticsSeason from './logger-statistics-season';
 export default {
@@ -37,6 +39,7 @@ export default {
     },
     components: {
         FsYearPicker,
+        FsMonthPicker,
         FsLoggerStatisticsMonth,
         FsLoggerStatisticsSeason
     },

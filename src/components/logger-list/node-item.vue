@@ -1,57 +1,96 @@
 <template>
-    <div class="logger-list-item">
-        <div class="logger-list-user">
+    <div class="logger-list-item" ref="loggerListItem">
+        <!--当前人信息-->
+        <div class="logger-list-row clearfix logger-list-user">
             <fs-avatar
+                class="avatar"
                 :avatar="loggerItemData.avatar" 
                 :name="loggerItemData.userName"
             />
-            <div class="logger-list-row">
-                <span class="label">{{loggerItemData.userName}}</span>
-                <span class="caption">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
+            <div class="logger-list-col clearfix">
+                <span class="username">{{loggerItemData.userName}}</span>
+                <span class="template-name" v-if="loggerItemData.templateName">{{loggerItemData.templateName}}</span>
+                <div class="pull-right">
+                    <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
+                    <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
+                    <Poptip placement="bottom-end" width="70">
+                        <ul class="operate-tips" slot="content">
+                            <li class="cursor-pointer" 
+                                v-if="userInfo.member_id == loggerItemData.memberId">
+                                编辑
+                            </li>
+                            <li class="cursor-pointer"
+                                @click="handleDelete"
+                                v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
+                                删除
+                            </li>
+                            <li class="cursor-pointer" @click="`handlePrint`">打印</li>
+                            <li class="cursor-pointer">操作记录</li>
+                        </ul>
+                        <span class="operate cursor-pointer"><Icon type="more"></Icon></span>
+                    </Poptip>
+                </div>
             </div>
         </div>
-        <div class="logger-list-range">
-            <div class="ellipsis">
+        <!--可见范围-->
+        <div class="logger-list-row logger-list-range">
+            <div class="logger-list-col" 
+                :class="{'ellipsis': (!rangeExpand && rangeRealHeight > rangeDefaultHeight)}" 
+                :style="{'height': `${rangeHeight}px` }"
+                ref="rangeHeight">
                 {{renderRange(loggerItemData)}}
+                <span v-if="rangeRealHeight > rangeDefaultHeight" class="expand cursor-pointer" @click="handleRangeExpand">
+                    <Icon v-if="rangeExpand" type="chevron-up"></Icon>
+                    <Icon v-else type="chevron-down"></Icon>
+                </span>
             </div>
-            <div class="tool-tip">
-                {{renderRange(loggerItemData)}}
+        </div>
+        <!-- 控制展开收起 -->
+        <div class="handle-content-expand" 
+            ref="contentHeight" 
+            :style="{'height': `${contentHeight}px` }">
+            <div class="logger-list-row logger-list-time">
+                <div class="logger-list-col">
+                    <div class="title">日志日期</div>
+                    <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+                </div>
+            </div>
+            <!--具体内容-->
+            <div class="logger-list-row logger-list-content"
+                v-for="(item, index) in JSON.parse(loggerItemData.content)"
+                :key="index">
+                <div class="logger-list-col">
+                    <div class="title">{{item.title}}</div>
+                    <div class="caption">{{item.content || item.value}}</div>
+                </div>
             </div>
         </div>
-        <div class="logger-list-tips">
-            <span v-if="loggerItemData.templateName">
-                {{loggerItemData.templateName}}
-            </span>
-            <span>
-                {{dataSource[loggerItemData.dataType || 0]}}
-            </span>
+        <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
+            <div class="logger-list-col">
+                <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">展开全文</span>
+                <span class="cursor-pointer" @click="handleContentExpand" v-else>收起全文</span>
+            </div>
         </div>
-        <div class="logger-list-time logger-list-row">
-            <span class="label">日志日期</span>
-            <span class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</span>
-        </div>
-        <div class="logger-list-content logger-list-row"
-            v-for="(item, index) in JSON.parse(loggerItemData.content)"
-            :key="index">
-            <span class="label">{{item.title}}</span>
-            <span class="caption">{{item.content || item.value}}</span>
-        </div>
-        <div class="logger-list-operate">
-            <span class="reply">
-                {{loggerItemData.commentNum}}个回复
-            </span>
-            <span class="collect" @click="handleCollect">
-                {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}收藏
-            </span>
-            <span class="like" @click="handleLike">
-                {{loggerItemData.like && loggerItemData.like.likeNum}}个赞
-            </span>
+        <!--点赞回复收藏-->
+        <div class="logger-list-row logger-list-operate">
+            <div class="logger-list-col">
+                <span class="cursor-pointer reply">
+                    {{loggerItemData.commentNum}}个回复
+                </span>
+                <span class="cursor-pointer collect" @click="handleCollect">
+                    {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}收藏
+                </span>
+                <span class="cursor-pointer like" @click="handleLike">
+                    {{loggerItemData.like && loggerItemData.like.likeNum}}个赞
+                </span>
+            </div>
         </div>
     </div>
 </template>
 <script>
 import FormatTime from 'app_src/filters/format-time';
 import FsAvatar from 'app_component/common/avatar/';
+const rowHeight = 24
 export default {
     props: {
         loggerItemData: {
@@ -60,7 +99,17 @@ export default {
     },
     data() {
         return {
-            dataSource: ["其他", "日报", "周报", "月报", "其他"]
+            dataSource: ["其他", "日报", "周报", "月报", "其他"],
+            rangeHeight: '',
+            rangeRealHeight: '',
+            rangeDefaultHeight: rowHeight + 2,
+            rangeExpand: false,
+
+            contentHeight: '',
+            contentRealHeight: '',
+            contentDefaultHeight: rowHeight * 7,
+            contentExpand: false,
+            userInfo: this.$store.state.userInfo
         }
     },
     components: {
@@ -75,6 +124,18 @@ export default {
         }
     },
     methods: {
+        setRangeHeight() { // 设置可展开的高度
+            this.rangeRealHeight = this.$refs.rangeHeight.offsetHeight;
+            this.contentRealHeight = this.$refs.contentHeight.offsetHeight;
+
+            this.rangeHeight = this.rangeDefaultHeight;
+            console.log(this.rangeRealHeight)
+            if(this.contentRealHeight > this.contentDefaultHeight) {
+                this.contentHeight = this.contentDefaultHeight;
+            } else {
+                this.contentHeight = this.contentRealHeight;
+            }
+        },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;
             let str = '可见范围：'
@@ -149,17 +210,57 @@ export default {
                 }
             })
         },
+        handleRangeExpand() { // 范围展开操作
+            this.rangeExpand = !this.rangeExpand;
+            if(this.rangeExpand) {
+                this.rangeHeight = this.rangeRealHeight;
+            } else {
+                this.rangeHeight = this.rangeDefaultHeight;
+            }
+        },
+        handleContentExpand() { // 全文展开操作
+            this.contentExpand = !this.contentExpand;
+            if(this.contentExpand) {
+                this.contentHeight = this.contentRealHeight;
+            } else {
+                this.contentHeight = this.contentDefaultHeight;
+            }
+        },
+        handlePrint() {
+            window.print();
+        },
+        handleDelete() {
+            this.$Modal.warning({
+                title: '删除日志提示',
+                content: '确定删除该日志么',
+                onOk: (res)=>{
+                    this.$ajax({
+                        url: `/logger/diary/${this.loggerItemData.id}`,
+                        type: 'delete',
+                        error: (res)=>{
+                            this.$Message.error(res && res.msg || '网络错误')
+                        }
+                    })
+                },
+                onCancel: (res)=>{}
+            });
+            
+        }
+    },
+    mounted () {
+        this.setRangeHeight();
     }
 }
 </script>
 <style lang="less">
 @import '../../assets/css/var.less';
 .logger-list-item {
-    padding: 14px 20px;
+    padding: 20px 20px 0;
     transition: .2s ease all;
-    padding-left: 74px;
     position: relative;
     background-color: @white-color;
+    color: @gray-color-dark;
+    font-size: 14px;
     &.fade-enter {
         opacity: 0;
     }
@@ -175,114 +276,122 @@ export default {
         content: '';
         background-color: @gray-color-elip;
     }
-    &>div {
-        margin-bottom: 8px;
-    }
     .logger-list-row {
-        line-height: 1.5;
-        span {
-            display: block;
-            font-size: 14px;
+        line-height: 24px;
+        word-break: break-all;
+        .avatar {
+            float: left;
         }
-        .label {
-            color: @gray-color-dark;
-        }
-        .caption {
-            color: @gray-color-light;
+        .logger-list-col {
+            margin-left: 54px;
+            .title {
+                color: @gray-color-light;
+            }
+            .caption {
+            }
         }
     }
-
     .logger-list-user {
-        font-size: 0;
-        margin-left: -54px;
-        .logger-list-row {
+        line-height: 24px;
+        .template-name {
+            border: 1px solid @primary-color;
+            color: @primary-color;
+            border-radius: 3px;
+            padding: 3px 6px;
+            transform: scale(0.8);
             display: inline-block;
-            padding-left: 10px;
-            vertical-align: middle;
+            line-height: 12px;
         }
-        .caption {
-            font-size: 12px;
+        .pull-right {
+            color: @gray-color-light;
+            font-size: 0;
+            span {
+                font-size: 12px;
+                margin-left: 8px;
+                &.operate {
+                    font-size: 14px;
+                }
+            }
+            .ivu-poptip {
+                position: relative;
+            }
+            .ivu-poptip-popper {
+                min-width: auto;
+                left: -45px!important;
+                top: 17px!important;
+                .ivu-poptip-arrow {
+                    right: 6px;
+                }
+            }
+            .ivu-poptip-body {
+                padding: 0;
+            }
+            .operate-tips {
+                line-height: 32px;
+                li {
+                    color: @text-color;
+                    padding: 0 10px;
+                    margin: 1px;
+                    transition: .2 ease all;
+                    &:hover {
+                        background-color: @white-color-light;
+                        color: @primary-color;
+                    }
+                }
+            }
         }
     }
     .logger-list-range {
-        color: @gray-color-light;
         font-size: 12px;
-        margin-top: 5px;
+        color: @gray-color-light;
+        margin-top: -20px;
+        margin-bottom: 10px;
         position: relative;
-        .ellipsis {
+        .logger-list-col {
             padding: 1px 0;
-            &::after {
-               position: absolute;
-               content: '';
-               left: 0;
-               right: 0;
-               height: 10px;
-               bottom: -10px;
+            transition: .2s ease height;
+        }
+        .expand {
+            font-size: 12px;
+            height: 20px;
+            line-height: 20px;
+        }
+        .ellipsis {
+            padding-right: 20px;
+            .expand {
+                position: absolute;
+                right: 8px;
+                top: 3px;
             }
         }
-       .tool-tip {
-           visibility: hidden;
-           position: absolute;
-           opacity: 0;
-           top: 23px;
-           transition: .2s ease all;
-           background-color: @white-color;
-           border:1px solid @gray-color-normal;
-           color: @gray-color-dark;
-           font-size: 12px;
-           line-height: 1.5;
-           padding: 8px;
-           border-radius: 6px;
-           max-width: 100%;
-           min-width: 100px;
-           left:50%;
-           margin-left: -50%;
-           word-break: break-all;
-
-           &:before, &:after {
-               position: absolute;
-               top: -10px;
-               border-width: 0  10px 10px 10px;
-               border-color: @gray-color-normal transparent @gray-color-normal transparent;
-               border-style: solid;
-               width: 0;
-               left: 50%;
-               content: '';
-           }
-           &:after {
-               top: -9px;
-               border-color: @white-color transparent @white-color transparent;
-           }
-       }
-       &:hover {
-        .tool-tip {
-            opacity: 1;
-            visibility: visible;
-        }           
-       }
     }
-    .logger-list-tips {
-        color: @white-color;
-        font-size: 12px;
-        span {
-            border-radius: 2px;
-            margin-right: 5px;
-            padding: 3px 4px;
-            display: inline-block;
-            background-color: @primary-color;
-        }
+    .logger-list-time {
+        // margin-bottom: 5px;
+    }
+    .handle-content-expand {
+        overflow: hidden;
+        transition: .2s ease height;
+    }
+    .handle-content-expand-btn {
+        color: @primary-color;
     }
     .logger-list-operate {
-        color: @gray-color-light;
-        font-size: 12px;
-        margin-top: 10px;
+        font-size: 0;
+        margin-top: 20px;
+        padding-bottom: 8px;
         span {
-            margin-right: 5px;
-            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 12px;
+            color: @gray-color-light;
+            height: 20px;
+            line-height: 20px;
+            padding: 0 34px;
+            border-right: 1px solid @border-color;
+            &.like {
+                border-right: 0;
+            }
         }
-    }
-    &:hover {
-        background-color: @white-color-light;
     }
 }
 </style>

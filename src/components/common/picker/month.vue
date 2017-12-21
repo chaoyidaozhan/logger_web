@@ -1,8 +1,8 @@
 <template>
-	<div class="year-picker">
-		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delYear"></div>
-		<div>{{nowYear}}</div>
-		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addYear"></div>
+	<div class="picker">
+		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delMonth"></div>
+		<div>{{nowYear}}年{{(nowMonth < 10) ? `0${nowMonth}` : nowMonth}}月</div>
+		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addMonth"></div>
 	</div>
 </template>
 <script type="text/javascript">
@@ -10,35 +10,47 @@ export default {
 	data() {
 		return {
 			nowYear: '',
+			nowMonth: '',
 			maxYear: '',
-			minYear: '',
+			minYear: 2000,
+			maxMonth: '',
+			minMonth: 1,
 			ltDisabled: false,
 			rtDisabled: false
 		}
 	},
 	watch: {
-		nowYear() {
-			if (this.nowYear === this.maxYear) {
+		nowMonth() {
+            if (this.nowYear === this.maxYear && this.nowMonth == this.maxMonth) {
 				this.rtDisabled = true;
 			} else  {
 				this.rtDisabled = false;
+            }
+            if (this.nowYear === this.minYear && this.nowMonth == this.minMonth) {
+				this.ltDisabled = true;
+			} else  {
+				this.ltDisabled = false;
 			}
-		}
+        },
 	},
 	methods: {
-		setNowYear() { // 初始化调用
+        setNowDate() { // 初始化调用
 			this.nowYear = (new Date()).getFullYear();
-			this.maxYear = (new Date()).getFullYear();
-		},
-		delYear() { // 减少年份
+            this.maxYear = (new Date()).getFullYear();
+			this.nowMonth = (new Date()).getMonth() + 1;
+			this.maxMonth = (new Date()).getMonth() + 1;
+        },
+        delMonth() { // 减少年份
 			if(!this.ltDisabled) {
-				this.nowYear--;
+                this.nowMonth--;
+                this.nowMonth == 0 && (this.nowMonth = 12, this.nowYear--)
 				this.handleChangeYear();
 			}
 		},
-		addYear() {  // 增加年份
+		addMonth() {  // 增加年份
 			if(!this.rtDisabled) {
-				this.nowYear++;
+                this.nowMonth++;
+                this.nowMonth == 13 && (this.nowMonth = 1, this.nowYear++)
 				this.handleChangeYear();
 			}
 		},
@@ -46,14 +58,14 @@ export default {
 			this.$emit('handleChangeYear', this.nowYear);
 		}
 	},
-	created () {
-		this.setNowYear();
-	}
+    created () {
+        this.setNowDate();
+    }
 }
 </script>
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
-.year-picker {
+.picker {
 	width: 180px;
 	height: 38px;
 	padding: 0 30px;
