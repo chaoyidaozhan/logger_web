@@ -1,8 +1,6 @@
 <template>
     <div class="select-template">
-        <Select :loading= "true"
-                v-model="templateId"
-                style="width:200px">
+        <Select v-model="templateId">
                 <Option v-for="item in tempListData"
                     :value="item.id"
                     :key="item.id">{{ item.title }}
@@ -51,6 +49,8 @@
     }
 </script>
 <style lang="less" scoped>
-
+    .select-template {
+        margin-right: 15px;
+    }
 </style>
 
