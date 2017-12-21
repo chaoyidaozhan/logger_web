@@ -15,7 +15,7 @@ export default {
     props: {
         showEmpty: {
             type: Boolean,
-            default: false
+            default: true
         },
         showError: {
             type: Boolean,

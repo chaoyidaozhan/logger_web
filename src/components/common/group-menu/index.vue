@@ -141,7 +141,7 @@ export default {
             line-height: 50px;
             text-align: center;
             font-size: 14px;
-            background-color: @white-color-lighter;
+            background-color: @white-color-light;
             color: @gray-color-light;
             position: relative;
             overflow: hidden;
