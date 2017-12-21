@@ -74,7 +74,7 @@ export default {
     height: 100%;
     padding-left: 200px;
     position: relative;
-    background-color: @gray-color-elip
+    background-color: @white-color;
 }
 </style>
 

@@ -50,7 +50,7 @@ const menus = [
                 path: '/StatisticsOfGroup'
             },
             {
-                name: '按团队统计',
+                name: '按人员统计',
                 path: '/StatisticsOfMember'
             },
         ]

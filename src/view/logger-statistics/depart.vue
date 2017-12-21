@@ -1,26 +1,31 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <span class="title">日志汇总</span> 
+            <span class="title">部门统计</span> 
         </template>
         <template slot="body">
-            <fs-logger-summary ref="loggerSummary" />
+            <fs-logger-statistics 
+                :params="params"
+                type="depart"
+                ref="loggerStatistics"/>
         </template>
     </fs-frame>
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerSummary from 'app_component/logger-summary/';
-
+import FsLoggerStatistics from 'app_component/logger-statistics/'
 export default {
     data() {
         return {
-               
+            params: {
+                deptId: 0,
+                orderType: '1'
+            }       
         }
     },
     components: {
         FsFrame,
-        FsLoggerSummary,
+        FsLoggerStatistics
     },
     methods: {
         handleQuery(params) {

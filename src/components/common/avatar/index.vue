@@ -4,12 +4,12 @@
             'width':size, 
             'height':size,
             'font-size': fontSize,
-            'background-color': `${loadError ? backgroundColor : backgroundColor}`}"> 
+            'background-color': `${loadError ? backgroundColor : ''}`}"> 
         <img v-if="avatar && !loadError"
             :src="avatar"
             @error="onError" 
             class="avatar">
-        <span class="name" v-else>{{formatName}}</span>
+        <span class="name" v-else>{{ formatName }}</span>
     </div>
 </template>
 <script>
@@ -59,7 +59,7 @@ export default{
 		randomBetween(lowerValue, upperValue) {
 			var choices = upperValue - lowerValue + 1;
 			return Math.floor(Math.random() * choices + lowerValue);
-		},
+		}
     }
 };
 </script>
@@ -70,6 +70,7 @@ export default{
         font-size: 0;
         text-align: center;
         border-radius: 50%;
+        vertical-align: middle;
         .avatar {
             width: 100%;
             height: 100%;

@@ -1,5 +1,20 @@
 <template>
-    <div>
-        321
-    </div>
+    <fs-frame>
+        <template slot="head">
+            <span class="title">我的草稿</span> 
+        </template>
+        <template slot="body">
+            <fs-logger-list ref="LoggerQueryList" :dataStatus="0"/>
+        </template>
+    </fs-frame>
 </template>
+<script>
+import FsFrame from '../frame/';
+import FsLoggerList from 'app_component/logger-list/';
+export default {
+    components: {
+        FsFrame,
+        FsLoggerList
+    }
+}
+</script>
