@@ -82,6 +82,9 @@ export default {
             this.initScroll();
         })
         this.$eventbus.$emit('changeHeight');
+    },
+    destroyed () {
+        this.$eventbus.$off('changeHeight');
     }
 }
 </script>
