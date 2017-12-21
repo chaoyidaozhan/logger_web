@@ -1,12 +1,14 @@
 <template>
-    <fs-frame>
+    <fs-frame :leftDistance="range == 3 ? '200px' : ''">
+        <template slot="othter" v-if="range == 3">
+            <fs-group-menu></fs-group-menu>
+        </template>
         <template slot="head">
             <!-- <span class="title">日志查询</span>  -->
             <fs-query-form @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <fs-group-menu v-if="range == 3"></fs-group-menu>
-            <fs-logger-list :style="{'padding-left': `${range == 3 ? '240px' : '0'}`}" :params="params" ref="loggerList"/>
+            <fs-logger-list :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
 </template>

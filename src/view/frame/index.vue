@@ -1,10 +1,11 @@
 <template>
 	<div class="logger-frame">
-		<div class="logger-frame-header">
+		<slot name="othter"></slot>
+		<div class="logger-frame-header" :style="{'left': leftDistance}">
 			<!-- 放置头部 -->
 			<slot name="head"></slot>
 		</div>
-		<div class="logger-frame-body" ref="loggerBody">
+		<div class="logger-frame-body" :style="{'margin-left': leftDistance}" ref="loggerBody">
 			<!-- 放置内容 -->
 			<slot name="body"></slot>
 		</div>
@@ -12,6 +13,12 @@
 </template>
 <script>
 export default {
+	props: {
+		leftDistance: {
+			type: String,
+			default: '0'
+		}
+	},
 	mounted () {
 		this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
 		window.onresize = ()=>{  
@@ -24,7 +31,6 @@ export default {
 	}
 }
 </script>
-
 <style lang="less">
 @import '../../assets/css/var.less';
 .logger-frame {
@@ -45,7 +51,6 @@ export default {
 		background-color: #fff;
 	}
 	.logger-frame-body {
-		width: 100%;
 		height: 100%;
 		position: relative;
 		::selection {

@@ -1,22 +1,18 @@
 <template>
     <div class="empty-tips">
-        <div class="empty" v-if="showEmpty">
+        <div class="empty" v-if="!showError">
             <img :src="imgSrc" class="empty-img">
-            <p class="emptyMsg">{{ emptyMsg }}</p>
+            <p class="empty-msg">{{emptyMsg}}</p>
         </div>
         <div class="error" v-if="showError">
-            <span class="errorMsg">{{ errorMsg }}</span>
-            <span class="reload" @click="reload">, 点击重新加载</span>
+            <span class="error-msg">{{errorMsg}}</span>
+            <span class="reload" @click="handleReload">, 点击重新加载</span>
         </div>
     </div>
 </template>
 <script>
 export default {
     props: {
-        showEmpty: {
-            type: Boolean,
-            default: true
-        },
         showError: {
             type: Boolean,
             default: false
@@ -35,8 +31,8 @@ export default {
         }
     },
     methods: {
-        reload(params) {
-            this.$emit('reload', params);
+        handleReload(params) {
+            this.$emit('handleReload', params);
         }
     }
 }
@@ -44,22 +40,16 @@ export default {
 <style lang="less" scoped>
     .empty-tips {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 200px;
+        margin: 0 auto;
         text-align: center;
-        font-size: 14px;
-        line-height: 20px;
-        .empty {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .emptyMsg {
+        top: 30%;
+        margin-top: -100px;
+        .empty-msg {
             margin-top: 16px;
             color: #999;
         }
-        .errorMsg {
+        .error-msg {
             color: #666;
         }
         .reload {

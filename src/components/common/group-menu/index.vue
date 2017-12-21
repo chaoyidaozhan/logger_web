@@ -1,11 +1,11 @@
 <template>
     <div class="group-wrap" ref="groupWrap"  @scroll.stop="onScroll">
-        <div class="group-item"
+        <div class="group-item clearfix"
             :class="{active: (currentId == groupItem.groupId)}"
             v-for="groupItem in groupsData"
             :key="groupItem.groupId"
             @click="getDaily(groupItem)">
-            <avatar :avatar="groupItem.logo"></avatar>
+            <avatar class="pull-left" :avatar="groupItem.logo"></avatar>
             <div class="group-row-right">
                 <p class="ellipsis group-name">{{groupItem.groupName}} ({{groupItem.groupMemberCount}})人</p>
                 <p class="ellipsis">{{groupItem.diaryNum}}篇日志</p>
@@ -111,11 +111,12 @@ export default {
         position: absolute;
         left: 0;
         top: 0;        
-        width: 240px;
+        width: 200px;
         height: 100%;        
         font-size: 12px;
-        line-height: 20px;
+        line-height: 1.5;
         background-color: @white-color;
+        border-right: 1px solid @border-color;
         .group-item {
             padding: 10px 15px;            
             cursor: pointer;
@@ -124,8 +125,7 @@ export default {
             }
         }
         .group-row-right{
-            display: inline-block;
-            margin-left: 10px;
+            margin-left: 54px;
             vertical-align: middle;
             color: @gray-color-light;
             .group-name {
@@ -133,7 +133,7 @@ export default {
                 color: @gray-color-dark;
             }
             &>p {
-                width: 130px;
+                width: 100%;
             }
         }
         .loading {
