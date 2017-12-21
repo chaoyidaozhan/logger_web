@@ -50,8 +50,8 @@
     </div>
 </template>
 <script>
-import FormatTime from '../../../filters/format-time';
-import FsAvatar from '../../common/avatar/';
+import FormatTime from 'app_src/filters/format-time';
+import FsAvatar from 'app_component/common/avatar/';
 export default {
     props: {
         loggerItemData: {
@@ -149,14 +149,11 @@ export default {
                 }
             })
         },
-    },
-    created () {
-        console.log(JSON.parse(this.loggerItemData.content))
     }
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/var.less';
+@import '../../assets/css/var.less';
 .logger-list-item {
     padding: 14px 20px;
     transition: .2s ease all;

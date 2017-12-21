@@ -13,13 +13,13 @@
 </template>
 <script>
 import FsFrame from '../frame/';
-import FsLoggerStatistics from '../../components/common/logger-statistics/'
+import FsLoggerStatistics from 'app_component/logger-statistics/'
 export default {
     data() {
         return {
             params: {
                 deptId: 0,
-                orderType: '0'
+                orderType: '1'
             }       
         }
     },
