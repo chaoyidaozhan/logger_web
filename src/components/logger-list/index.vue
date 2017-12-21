@@ -132,7 +132,6 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-list {
-    width: 100%;
     height: 100%;
     overflow: auto;
     .loading {

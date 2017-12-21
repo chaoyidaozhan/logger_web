@@ -4,8 +4,9 @@
             <!-- <span class="title">日志查询</span>  -->
             <fs-query-form @handleQuery="handleQuery" ref="queryForm"/>
         </template>
-        <template slot="body">
-            <fs-logger-list :params="params" ref="loggerList"/>
+        <template slot="body" >
+            <fs-group-menu v-if="range == 3"></fs-group-menu>
+            <fs-logger-list :style="{'padding-left': `${range == 3 ? '240px' : '0'}`}" :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
@@ -13,20 +14,24 @@
 import FsFrame from '../frame/';
 import FsQueryForm from 'app_component/common/query-form/'
 import FsLoggerList from 'app_component/logger-list/';
+import FsGroupMenu from 'app_component/common/group-menu/';
 export default {
     data() {
         return {
-            params: {}
+            params: {},
+            range: ''
         }
     },
     components: {
         FsFrame,
         FsLoggerList,
-        FsQueryForm
+        FsQueryForm,
+        FsGroupMenu
     },
     watch: {
         '$route': function (to, from) { // 切换初始化列表
             this.params = {};
+            this.setRange();
             this.$refs.queryForm.resetQuery();
             this.$refs.loggerList.initList();
         }                                                    
@@ -34,7 +39,13 @@ export default {
     methods: {
         handleQuery(params) {
             this.params = params;
+        },
+        setRange() {
+            this.range = this.$route.params.range;
         }
+    },
+    created() {
+        this.setRange();
     }
 }
 </script>
