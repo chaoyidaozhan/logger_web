@@ -25,7 +25,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../../assets/css/var.less';
 .logger-frame {
 	width: 100%;
@@ -47,7 +47,10 @@ export default {
 	.logger-frame-body {
 		width: 100%;
 		height: 100%;
-		margin-top: 8px;
+		::selection {
+			color: @white-color;
+			background-color: @primary-color;
+		}
 	}
 }
 </style>
