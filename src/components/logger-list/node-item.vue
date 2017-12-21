@@ -24,7 +24,7 @@
                                 v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
                                 删除
                             </li>
-                            <li class="cursor-pointer" @click="handlePrint">打印</li>
+                            <li class="cursor-pointer" @click="`handlePrint`">打印</li>
                             <li class="cursor-pointer">操作记录</li>
                         </ul>
                         <span class="operate cursor-pointer"><Icon type="more"></Icon></span>
@@ -35,26 +35,40 @@
         <!--可见范围-->
         <div class="logger-list-row logger-list-range">
             <div class="logger-list-col" 
-                :class="{'ellipsis': !expand}" 
-                :style="{'height': `${expand ? rangeHeight : rangeDefaultHeight}px` }"
+                :class="{'ellipsis': (!rangeExpand && rangeRealHeight > rangeDefaultHeight)}" 
+                :style="{'height': `${rangeHeight}px` }"
                 ref="rangeHeight">
                 {{renderRange(loggerItemData)}}
-                <span class="expand" @click="handleExpand">箭头</span>
+                <span v-if="rangeRealHeight > rangeDefaultHeight" class="expand cursor-pointer" @click="handleRangeExpand">
+                    <Icon v-if="rangeExpand" type="chevron-up"></Icon>
+                    <Icon v-else type="chevron-down"></Icon>
+                </span>
             </div>
         </div>
-        <div class="logger-list-row logger-list-time">
-            <div class="logger-list-col">
-                <div class="title">日志日期</div>
-                <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+        <!-- 控制展开收起 -->
+        <div class="handle-content-expand" 
+            ref="contentHeight" 
+            :style="{'height': `${contentHeight}px` }">
+            <div class="logger-list-row logger-list-time">
+                <div class="logger-list-col">
+                    <div class="title">日志日期</div>
+                    <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+                </div>
+            </div>
+            <!--具体内容-->
+            <div class="logger-list-row logger-list-content"
+                v-for="(item, index) in JSON.parse(loggerItemData.content)"
+                :key="index">
+                <div class="logger-list-col">
+                    <div class="title">{{item.title}}</div>
+                    <div class="caption">{{item.content || item.value}}</div>
+                </div>
             </div>
         </div>
-        <!--具体内容-->
-        <div class="logger-list-row logger-list-content"
-            v-for="(item, index) in JSON.parse(loggerItemData.content)"
-            :key="index">
+        <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
             <div class="logger-list-col">
-                <div class="title">{{item.title}}</div>
-                <div class="caption">{{item.content || item.value}}</div>
+                <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">展开全文</span>
+                <span class="cursor-pointer" @click="handleContentExpand" v-else>收起全文</span>
             </div>
         </div>
         <!--点赞回复收藏-->
@@ -76,6 +90,7 @@
 <script>
 import FormatTime from 'app_src/filters/format-time';
 import FsAvatar from 'app_component/common/avatar/';
+const rowHeight = 24
 export default {
     props: {
         loggerItemData: {
@@ -86,8 +101,14 @@ export default {
         return {
             dataSource: ["其他", "日报", "周报", "月报", "其他"],
             rangeHeight: '',
-            rangeDefaultHeight: '20',
-            expand: false,
+            rangeRealHeight: '',
+            rangeDefaultHeight: rowHeight + 2,
+            rangeExpand: false,
+
+            contentHeight: '',
+            contentRealHeight: '',
+            contentDefaultHeight: rowHeight * 7,
+            contentExpand: false,
             userInfo: this.$store.state.userInfo
         }
     },
@@ -103,8 +124,17 @@ export default {
         }
     },
     methods: {
-        setRangeHeight() {
-            this.rangeHeight = this.$refs.rangeHeight.offsetHeight || 20;
+        setRangeHeight() { // 设置可展开的高度
+            this.rangeRealHeight = this.$refs.rangeHeight.offsetHeight;
+            this.contentRealHeight = this.$refs.contentHeight.offsetHeight;
+
+            this.rangeHeight = this.rangeDefaultHeight;
+            console.log(this.rangeRealHeight)
+            if(this.contentRealHeight > this.contentDefaultHeight) {
+                this.contentHeight = this.contentDefaultHeight;
+            } else {
+                this.contentHeight = this.contentRealHeight;
+            }
         },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;
@@ -180,9 +210,21 @@ export default {
                 }
             })
         },
-        handleExpand() { // 展开操作
-            this.expand = !this.expand;
-            console.log(this.userInfo)
+        handleRangeExpand() { // 范围展开操作
+            this.rangeExpand = !this.rangeExpand;
+            if(this.rangeExpand) {
+                this.rangeHeight = this.rangeRealHeight;
+            } else {
+                this.rangeHeight = this.rangeDefaultHeight;
+            }
+        },
+        handleContentExpand() { // 全文展开操作
+            this.contentExpand = !this.contentExpand;
+            if(this.contentExpand) {
+                this.contentHeight = this.contentRealHeight;
+            } else {
+                this.contentHeight = this.contentDefaultHeight;
+            }
         },
         handlePrint() {
             window.print();
@@ -235,7 +277,8 @@ export default {
         background-color: @gray-color-elip;
     }
     .logger-list-row {
-        line-height: 1.5;
+        line-height: 24px;
+        word-break: break-all;
         .avatar {
             float: left;
         }
@@ -303,21 +346,34 @@ export default {
         color: @gray-color-light;
         margin-top: -20px;
         margin-bottom: 10px;
+        position: relative;
         .logger-list-col {
             padding: 1px 0;
+            transition: .2s ease height;
         }
-        &.ellipsis {
+        .expand {
+            font-size: 12px;
+            height: 20px;
+            line-height: 20px;
+        }
+        .ellipsis {
             padding-right: 20px;
             .expand {
                 position: absolute;
-                right: 0;
-                height: 20px;
-                line-height: 20px;
+                right: 8px;
+                top: 1px;
             }
         }
     }
     .logger-list-time {
         // margin-bottom: 5px;
+    }
+    .handle-content-expand {
+        overflow: hidden;
+        transition: .2s ease height;
+    }
+    .handle-content-expand-btn {
+        color: @primary-color;
     }
     .logger-list-operate {
         font-size: 0;
