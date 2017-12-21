@@ -60,7 +60,6 @@ export default {
     },
     methods: {
         getParams() { // 获取参数
-            console.log(this.params)
             return Object.assign({
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
