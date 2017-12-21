@@ -1,5 +1,5 @@
 <template>
-	<div class="year-picker">
+	<div class="picker">
 		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delYear"></div>
 		<div>{{nowYear}}</div>
 		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addYear"></div>
@@ -53,7 +53,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
-.year-picker {
+.picker {
 	width: 180px;
 	height: 38px;
 	padding: 0 30px;

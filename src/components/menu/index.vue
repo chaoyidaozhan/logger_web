@@ -1,7 +1,7 @@
 <template>
     <div class="logger-menu">
         <div class="logger-menu-logo">
-            <i class="icon-logger-logo"></i><span>日志</span>
+            <Button type="primary" :style="{width: '100px'}">创建日志</Button>
         </div>
         <div class="logger-menu-layout" ref="loggerMenuLayout">
             <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
@@ -189,8 +189,8 @@ export default {
     top: 0;
     bottom: 0;
     width: 200px;
-    border-right: 1px solid @menu-border-color;
-    background-color: @menu-bg-color;
+    border-right: 1px solid @border-color;
+    background-color: @white-color;
         ::selection {
         background-color: transparent!important;
     }
@@ -208,14 +208,8 @@ export default {
         padding: 28px 0;
         text-align: center;
         height: 86px;
-        i {
-            font-size: 30px;
-            margin-right: 8px;
-            display: inline-block;
-            vertical-align: middle;
-        }
         span {
-            font-size: 20px;
+            font-size: 14px;
             display: inline-block;
             vertical-align: middle;
         }
@@ -235,13 +229,13 @@ export default {
             color: @menu-title-color;
             border-right: 0;
             &:hover {
-                background-color: @menu-hover-color;
+                background-color: @menu-hover-bg-color;
                 color: @primary-color;
             }
             &.ivu-menu-item-active,
             &.ivu-menu-item-selected {
                 background-color: @primary-color;
-                color: @menu-color!important;
+                color: @menu-hover-color!important;
                 border-right: 0!important;
             }
             &>i {
