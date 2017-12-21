@@ -1,7 +1,12 @@
 <template>
     <div class="empty-tips">
         <div class="empty" v-if="!showError">
-            <img :src="imgSrc" class="empty-img">
+            <img v-if="!iconType" :src="imgSrc" class="empty-img">
+            <template>
+                <i class="icon-none-department" v-if="iconType == depart"></i>
+                <i class="icon-none-team" v-if="iconType == team"></i>
+                <i class="icon-none-user" v-if="iconType == user"></i>
+            </template>
             <p class="empty-msg">{{emptyMsg}}</p>
         </div>
         <div class="error" v-if="showError">
@@ -13,6 +18,9 @@
 <script>
 export default {
     props: {
+        iconType: {
+            type: String
+        },
         showError: {
             type: Boolean,
             default: false

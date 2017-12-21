@@ -53,10 +53,6 @@ export default {
 	.logger-frame-body {
 		height: 100%;
 		position: relative;
-		::selection {
-			color: @white-color;
-			background-color: @primary-color;
-		}
 	}
 }
 </style>
