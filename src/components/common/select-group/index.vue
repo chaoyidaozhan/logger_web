@@ -1,6 +1,6 @@
 <template>
     <div class="select-group">
-        <Select v-model="groupId">
+        <Select v-model="groupId" filterable>
                 <Option v-for="item in groupListData"
                     :value="item.gid"
                     :key="item.gid">{{ item.groupName }}

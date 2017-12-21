@@ -4,7 +4,7 @@
             'width':size, 
             'height':size,
             'font-size': fontSize,
-            'background-color': `${loadError ? backgroundColor : backgroundColor}`}"> 
+            'background-color': `${loadError ? backgroundColor : ''}`}"> 
         <img v-if="avatar && !loadError"
             :src="avatar"
             @error="onError" 

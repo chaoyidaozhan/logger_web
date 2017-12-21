@@ -15,10 +15,12 @@
             </div>
             <div class="loading-content" v-if="!hasMore && !loading && list.length">已加载全部数据</div>
         </div>
+        <fs-empty-tips v-if="!list.length && !loading"/>
     </div>
 </template>
 <script>
 import FsLoggerListItem from './node-item';
+import FsEmptyTips from 'app_component/common/empty-tips/'
 /**
     range 
     0  所有日志
@@ -49,7 +51,8 @@ export default {
         }
     },
     components: {
-        FsLoggerListItem
+        FsLoggerListItem,
+        FsEmptyTips
     },
     watch: {
         pageNum: 'loadData',
@@ -132,7 +135,6 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-list {
-    width: 100%;
     height: 100%;
     overflow: auto;
     .loading {

@@ -1,7 +1,7 @@
 const menus = [
     {
         name: '日志查询',
-        icon: 'depart-signin',
+        icon: 'icon-search',
         checkChilren: true,
         subMenu: [
             {
@@ -30,16 +30,16 @@ const menus = [
     {
         name: '我的草稿',
         path: '/DraftOfMine',
-        icon: 'error'
+        icon: 'icon-draft'
     },
     {
         name: '我的收藏',
         path: '/CollectOfMine',
-        icon: 'error'
+        icon: 'icon-collect-normal'
     },
     {
         name: '日志统计',
-        icon: 'setting-signin',
+        icon: 'icon-statistics',
         subMenu: [
             {
                 name: '按部门统计',
@@ -58,12 +58,12 @@ const menus = [
     {
         name: '日志汇总',
         path: '/LoggerSummary',
-        icon: 'signin-circle',
+        icon: 'icon-collect',
     },
     {
         name: '模板管理',
         path: '/LoggerTemplate',
-        icon: 'signin-circle',
+        icon: 'icon-template',
         type: ['admin ','diary_examer'],
     },
 ]
