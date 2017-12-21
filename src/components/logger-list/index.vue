@@ -15,7 +15,7 @@
             </div>
             <div class="loading-content" v-if="!hasMore && !loading && list.length">已加载全部数据</div>
         </div>
-        <fs-empty-tips v-if="!list.length && !loading"/>
+        <fs-empty-tips v-if="!list.length && !loading" iconType="depart"/>
     </div>
 </template>
 <script>
