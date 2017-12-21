@@ -1,53 +1,50 @@
 <template>
-    <div class = "listContent">
-        <div class="contentHeader">
-            <Col span="4" v-if="showTemplate">
-                <fs-select-template  ref="selectTemplate"></fs-select-template>
-            </Col>
-            <Col span="4" v-if="showDatePicker">
-                <fs-select-date ref="selectDate"></fs-select-date>
-            </Col>
-            <Button type="ghost" @click="searchData">查询</Button>
-            <div class="note">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
+    <div class ="list-content">
+        <div class="content-header">
+            <!-- <div class="note">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div> -->
         </div>
-        <div class="contentBar">
-            <Table border ref="selection" :columns="columnsData" :data="dataList" @on-select="handleSelect" @on-selection-change="handleSelectChange"></Table>
+        <div class="content-bar">
+            <Table border ref="selection" :columns="columnsData" :data="list"  @on-selection-change="handleSelectChange"></Table>
         </div>
-        <div class="contentBottom">
-            <span class="bottomLeft">
-               已选中<span v-html ="checkNum"></span>日志
-                <input type="checkbox" :data-type="dataType" class="" @click="handleSelectAll(dataType)">
-                全选
+        <div class="content-bottom" v-if="this.list.length">
+            <span class="bottom-left">
+                <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
+                已选中<span>{{checkNum}}</span>日志
             </span>
-            <span class="bottomRight">
+            <span class="bottom-right">
                 <Button type="success">汇总日志</Button>
-                <Button type="ghost">导出EXCEL</Button>
+                <Button type="ghost" @click="exportECL">导出EXCEL</Button>
             </span>
-           
         </div>
+        <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" ></pagination>
     </div>
 </template>
 <script>
-import FsSelectTemplate from 'app_component/common/select-template';
-import FsSelectDate from 'app_component/common/select-date';
+import Pagination from 'app_component/common/pagination';
 export default {
-    components: {
-        FsSelectTemplate,FsSelectDate
-    },
     props: {
-        showTemplate: {
-            type: Boolean,
-            default: true
+        params: { // 暴露的对象字段
+            type: Object,
+            default: {}
         },
-        showDatePicker: {
-            type: Boolean,
-            default: true
-        },
+        // pageNo:{
+        //     type: Number,
+        //     default: 1
+        // }
     },
     data(){
         return {
             dataType:0,
             checkNum:0,
+            list: [],
+            pageNum: 1, 
+            // pageSize: 20, 
+            pageSize: 3,
+            range: 0,
+            loading: false,
+            loaderror: false,
+            totalCount:0,
+            list:[],
             columnsData: [
                 {
                     type: 'selection',
@@ -88,7 +85,37 @@ export default {
                 }
 
             ],
-            dataList: [
+            listTest: [
+                {
+                    subTime:'2016-10-03',
+                    subPeo: 'John Brown',
+                    txtInput:'haha',
+                    numInput:'444',
+                    workContent:'能否哈哈哈哈',
+                    radioCheckbox:'红',
+                    date: '2016-10-03',
+                    price:'123'
+                },
+                {
+                    subTime:'2016-10-03',
+                    subPeo: 'John Brown',
+                    txtInput:'haha',
+                    numInput:'444',
+                    workContent:'能否哈哈哈哈',
+                    radioCheckbox:'红',
+                    date: '2016-10-03',
+                    price:'123'
+                },
+                {
+                    subTime:'2016-10-03',
+                    subPeo: 'John Brown',
+                    txtInput:'haha',
+                    numInput:'444',
+                    workContent:'能否哈哈哈哈',
+                    radioCheckbox:'红',
+                    date: '2016-10-03',
+                    price:'123'
+                },
                 {
                     subTime:'2016-10-03',
                     subPeo: 'John Brown',
@@ -133,47 +160,105 @@ export default {
             ]
         }
     },
+    components: {
+        Pagination
+    },
+    watch: {
+        params: 'initList',
+    },
     methods: {
         handleSelectAll (dataType) {//全选
-            if(dataType==1){
+            if(dataType==1) {
                 this.dataType = 0
-                this.$refs.selection.selectAll(false);
-            }else{
-                this.dataType = 1;
                 this.$refs.selection.selectAll(true);
+            } else {
+                this.dataType = 1;
+                this.$refs.selection.selectAll(false);
             }  
-        },
-        handleSelect(selection){
-            console.log(11,selection)
         },
         handleSelectChange(selection){//选项发生变化
             this.checkNum = selection.length;
-            console.log(222,selection)
+        },
+        handleChangePage(pageNo){
+            this.pageNum = pageNo;
+            this.loadData();
+        },
+        exportECL(){//导出
+        var url = "/diaryQuery/exportDiaryStatistics?timestamp=" + (new Date()).valueOf() + "&token=" + token + "&templateId=" + id + 
+        "&beginDate=" + beginDate + "&endDate=" + endDate + "&deptIds=" + deptIds.join(",") + "&memberIds=" + memberIds.join(",") + "&teamIds=" + teamIds.join(",");
+            this.$ajax({
+                url: '/diaryQuery/exportDiaryStatistics',
+                data: {
+                    templateId: this.templateId,
+                    beginDate: this.beginDate,
+                    endDate: this.endDate,
+                    deptIds: this.deptIds,
+                    memberIds: this.memberIds,
+                    teamIds: this.teamIds
+                },
+                success: (res)=>{
+
+                },
+                error: (res)=>{
+
+                }
+            })
+        },
+        updateList(res){
+            if(res && res.code === 0) {
+                // this.list = res.data || [];
+                this.list = this.listTest;
+                this.totalCount =  this.list.length;
+            } else {
+                this.list = [];
+                this.$Message.warning((res && res.msg) || '网络错误');
+            }
+        },
+        getParams() {
+            var data = Object.assign({
+                pageNumber: this.pageNum,
+                pageSize: this.pageSize,
+                range: this.range,
+                memberIds:'',
+                deptIds:'',
+                teamIds:'',
+            }, this.params);
+            data.templateId==null?data.templateId=0:data.templateId;
+            return data;
+        },
+        getExportParams() {
 
         },
-        searchData(){
-            
+        loadData() {
+            console.log(444)
+            this.loading = true;
+            this.$ajax({
+                url: '/logger/diaryQuery/getDiaryStatistics',
+                data: this.getParams(),
+                success: (res)=>{
+                    this.loading = false;
+                    this.updateList(res);
+                },
+                error: (res)=>{
+                    this.list=[];
+                    this.loaderror = true;
+                }
+            })
+        },
+        initList() {
+            this.list = [];
+            this.pageNum = 1;
+            this.loadData();
         }
-        
-
     },
-    created(){
-
-    }
-
 }
 </script>
 <style lang="less" scoped>
-.listContent{
+.list-content{
     width: 100%;
     height: 100%;
     background: #fff;
-    .contentHeader{
-        height:100px;
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-        position: relative;
+    .content-header{
         .note{
             position: absolute;
             bottom:20px;
@@ -181,18 +266,18 @@ export default {
             color: rgb(255, 181, 94);
         }
     }
-    .contentBar{
+    .content-bar{
         .ivu-table-wrapper{
             border:none;
         }
     }
-    .contentBottom{
+    .content-bottom{
         height: 50px;
         line-height: 50px;
-        .bottomLeft{
+        .bottom-left{
             display: inline-block;
         }
-        .bottomRight{
+        .bottom-right{
             float:right;
         }
     }

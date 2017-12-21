@@ -67,9 +67,9 @@ export default {
                 endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
                 orderType: this.$refs.selectDateType && this.$refs.selectDateType.orderType,
                 groupId: this.$refs.selectGroup && this.$refs.selectGroup.groupId,
-                deptId: this.$refs.selectDept && this.$refs.selectDept.deptId
+                deptId: this.$refs.selectDept && this.$refs.selectDept.deptId,
+                memberId: this.$refs.selectMember && this.$refs.selectMember.deptId,
             };
-            console.log(params, 999);
             let keys = Object.keys(params);
             keys.forEach(key=>{ // 非空验证
                 if(!params[key] && key != 'deptId') {

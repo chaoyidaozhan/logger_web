@@ -51,9 +51,6 @@ export default {
     components: {
         FsLoggerListItem
     },
-    created() {
-        this.initList()
-    },
     watch: {
         pageNum: 'loadData',
         params: 'initList'
@@ -118,6 +115,9 @@ export default {
             this.hasMore = true;
             this.loadData();
         },
+    },
+    created() {
+        this.initList()
     },
 }
 </script>
