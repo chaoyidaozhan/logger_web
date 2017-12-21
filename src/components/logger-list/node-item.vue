@@ -361,7 +361,7 @@ export default {
             .expand {
                 position: absolute;
                 right: 8px;
-                top: 1px;
+                top: 3px;
             }
         }
     }
