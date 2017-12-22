@@ -48,9 +48,3 @@
         }
     }
 </script>
-<style lang="less" scoped>
-    .select-template {
-        margin-right: 15px;
-    }
-</style>
-

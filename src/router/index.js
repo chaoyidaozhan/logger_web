@@ -70,7 +70,10 @@ export default [
                 path: 'LoggerTemplate', 		    	
                 component: LoggerTemplate
             },
-           
+            {
+                path: '*',
+                redirect: '/LoggerQueryAll'
+            },
         ]
     },
 
