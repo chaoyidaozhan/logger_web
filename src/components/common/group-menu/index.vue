@@ -19,7 +19,10 @@
                     <span>正在加载中...</span>
                 </Spin>
             </div>
-            <fs-empty-tips :showError="true" v-if="loaderror"></fs-empty-tips>
+            <fs-empty-tips :showError="true"
+                            position="normal"
+                            v-if="loaderror"
+                            @handleReload="handleReload" class="load-error"></fs-empty-tips>
             <div class="loading-content"
                  v-if="!hasMore && !loading && groupsData.length">已加载全部数据</div>
         </div>
@@ -116,6 +119,11 @@ export default {
         getDaily(params) {
             this.currentId = params.groupId;
             this.$emit("getDaily", params);
+        },
+        handleReload() {
+            this.loaderror = false;            
+            this.loading = true;
+            this.loadData();
         }
     },
     created() {
@@ -125,6 +133,14 @@ export default {
 </script>
 <style lang="less" scoped>
     @import "../../../assets/css/var.less";
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
     .group-wrap {
         position: absolute;
         left: 0;
@@ -150,22 +166,29 @@ export default {
                 font-size: 14px;
                 color: @gray-color-dark;
             }
-            &>p {
+            & > p {
                 width: 100%;
             }
         }
         & > .loading {
             text-align: center;
             font-size: 14px;
-            background-color: @white-color-light;
             color: @gray-color-light;
             position: relative;
             overflow: hidden;
+            * {
+                vertical-align: middle;
+                color: @gray-color-light;
+            }
             .loading-content {
                 height: 60px;
                 line-height: 50px;
                 width: 100%;
                 height: 100%;
+            }
+            .load-error {
+                font-size: 12px;
+                line-height: 2;
             }
         }
     }
