@@ -191,9 +191,9 @@ export default {
         },
         updateList(res){
             if(res && res.code === 0) {
-                this.list = res.data || [];
+                // this.list = res.data || [];
                 this.list = this.listTest;
-                // this.totalCount =  this.list.length;
+                this.totalCount =  this.list.length;
             } else {
                 this.list = [];
                 this.$Message.warning((res && res.msg) || '网络错误');
