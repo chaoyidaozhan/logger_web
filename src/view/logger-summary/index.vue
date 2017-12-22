@@ -1,32 +1,33 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <span class="title">日志汇总</span> 
+            <fs-query-form @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">
-            <fs-logger-summary ref="loggerSummary" />
+            <fs-logger-summary :params="params" ref="loggerSummary" />
         </template>
     </fs-frame>
 </template>
 <script>
 import FsFrame from '../frame/';
 import FsLoggerSummary from 'app_component/logger-summary/';
+import FsQueryForm from 'app_component/common/query-form/'
 
 export default {
     data() {
         return {
-               
+            params: {}, 
         }
     },
     components: {
         FsFrame,
         FsLoggerSummary,
+        FsQueryForm
     },
     methods: {
         handleQuery(params) {
             this.params = params;
-            this.$refs.loggerStatistics.loadData();
-        }
+        },
     }
 }
 </script>

@@ -1,7 +1,12 @@
 <template>
     <div class="empty-tips">
         <div class="empty" v-if="!showError">
-            <img :src="imgSrc" class="empty-img">
+            <img v-if="!iconType" :src="imgSrc" class="empty-img">
+            <template v-else>
+                <i class="icon-none-department" v-if="iconType == 'depart'"></i>
+                <i class="icon-none-team" v-if="iconType == 'team'"></i>
+                <i class="icon-none-user" v-if="iconType == 'member'"></i>
+            </template>
             <p class="empty-msg">{{emptyMsg}}</p>
         </div>
         <div class="error" v-if="showError">
@@ -13,6 +18,9 @@
 <script>
 export default {
     props: {
+        iconType: {
+            type: String
+        },
         showError: {
             type: Boolean,
             default: false
@@ -38,6 +46,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import '../../../assets/css/var.less';
     .empty-tips {
         position: relative;
         width: 200px;
@@ -47,14 +56,18 @@ export default {
         margin-top: -100px;
         .empty-msg {
             margin-top: 16px;
-            color: #999;
+            color: @gray-color-light;
         }
         .error-msg {
-            color: #666;
+            color: @gray-color-medium;
         }
         .reload {
-            color: #000;
+            color: @primary-color;
             cursor: pointer;
+        }
+        [class^="icon-"] {
+            font-size: 75px;
+            color: @gray-color-normal;
         }
     }
 </style>

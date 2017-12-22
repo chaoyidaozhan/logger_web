@@ -15,7 +15,7 @@
             </div>
             <div class="loading-content" v-if="!hasMore && !loading && list.length">已加载全部数据</div>
         </div>
-        <fs-empty-tips v-if="!list.length && !loading"/>
+        <fs-empty-tips v-if="!list.length && !loading" iconType="depart"/>
     </div>
 </template>
 <script>
@@ -54,16 +54,12 @@ export default {
         FsLoggerListItem,
         FsEmptyTips
     },
-    created() {
-        this.initList()
-    },
     watch: {
         pageNum: 'loadData',
         params: 'initList'
     },
     methods: {
         getParams() { // 获取参数
-            console.log(this.params)
             return Object.assign({
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
@@ -121,6 +117,9 @@ export default {
             this.hasMore = true;
             this.loadData();
         },
+    },
+    created() {
+        this.initList()
     },
 }
 </script>
