@@ -44,6 +44,7 @@ export default {
                         });
                         this.hasGetUserInfo = true;
                         this.$eventbus.$emit('checkLimit');
+                        console.log(this.$store)
                     } else {
                         this.$eventbus.$emit('checkLimit');
                         this.$Message.warning((res && res.msg) || '网络错误');

@@ -218,15 +218,15 @@ export default {
         }
         .ivu-menu-item,
         .ivu-menu-submenu-title {
-            padding: 17px 24px;
+            padding: 17px 20px;
             font-size: 14px;
             line-height: 14px;
             color: @menu-title-color;
-            border-right: 0;
+            border-right: 0!important;
           
           
             &>i {
-                font-size: 18px;
+                font-size: 16px;
                 margin-right: 4px;
                 vertical-align: middle;
                 width: 18px;
@@ -239,24 +239,24 @@ export default {
                 display: inline-block;
             }
             &:hover {
-                background-color: @menu-hover-bg-color;
+                background-color: @menu-hover-color;
                 color: @primary-color;
+                border-right: 0!important;
                 &>i {
-                    color: @primary-color;;
+                    color: @primary-color;
                 }
             }
             &.ivu-menu-item-active,
             &.ivu-menu-item-selected {
-                background-color: @primary-color;
-                color: @menu-hover-color!important;
+                background-color: @menu-hover-bg-color;
                 border-right: 0!important;
                 &>i {
-                    color: @menu-hover-color;
+                    color: @primary-color;
                 }
             }
         }
         .ivu-menu-submenu .ivu-menu-item {
-            padding-left: 50px;
+            padding-left: 48px;
         }
         .ivu-menu-submenu-title-icon {
             top: 0;
