@@ -39,7 +39,7 @@ export default {
             checkNum:0,
             list: [],
             pageNum: 1, 
-            pageSize: 3, 
+            pageSize: 20, 
             range: 0,
             totalCount:0,
             list:[],
