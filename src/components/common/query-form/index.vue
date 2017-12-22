@@ -1,20 +1,26 @@
 <template>
     <div class="search-form">
-        <Form inline :label-width="40">
-            <FormItem label="模板"  v-if="showTemplate">
-                <fs-select-template ref="selectTemplate"></fs-select-template>
+        <Form inline>
+            <FormItem :label-width="40" label="模板"  v-if="showTemplate">
+                <fs-select-template 
+                    :hasDefaultTemplate="hasDefaultTemplate" 
+                    :templateType="templateType" 
+                    ref="selectTemplate"/>
             </FormItem> 
-            <FormItem label="日期"  v-if="showDatePicker">
-                <fs-select-date ref="selectDate"></fs-select-date>
+            <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
+                <Checkbox @on-change="handleChange">已停用/删除模板</Checkbox>
             </FormItem> 
-            <FormItem label="团队"  v-if="showGroup">
-                <fs-select-group ref="selectGroup"></fs-select-group>
+            <FormItem :label-width="40" label="日期"  v-if="showDatePicker">
+                <fs-select-date ref="selectDate"/>
             </FormItem> 
-            <FormItem label="日期"  v-if="showOrderType">
-                <fs-select-order-type ref="selectOrderType"></fs-select-order-type>
+            <FormItem :label-width="40" label="团队"  v-if="showGroup">
+                <fs-select-group ref="selectGroup"/>
+            </FormItem> 
+            <FormItem :label-width="40" label="日期"  v-if="showOrderType">
+                <fs-select-order-type ref="selectOrderType"/>
             </FormItem> 
             
-            <FormItem :label-width="0" class="search-btn">
+            <FormItem class="search-btn">
                 <Button type="primary" @click="handleQuery">
                     查询
                 </Button>
@@ -32,6 +38,14 @@ export default {
         showTemplate: {
             type: Boolean,
             default: false
+        },
+        showTemplateCheck: {
+            type: Boolean,
+            default: false
+        },
+        hasDefaultTemplate: {
+            type: Boolean,
+            default: true
         },
         showDatePicker: {
             type: Boolean,
@@ -64,6 +78,11 @@ export default {
         FsSelectGroup,
         FsSelectOrderType
     },
+    data() {
+        return {
+            templateType: 'app'
+        }
+    },
     methods: {
         handleQuery() { // 查询时返回整理好的数据
             let params = {
@@ -88,6 +107,14 @@ export default {
             })
             this.$emit('handleQuery', params);
         },
+        handleChange(value) {
+            console.log(value)
+            if(value) {
+                this.templateType = 'web'
+            } else {
+                this.templateType = 'app'
+            }
+        },
         resetQuery() {
             if(this.$refs.selectTemplate) { // 重置模板
                 this.$refs.selectTemplate.templateId = 0;
@@ -111,6 +138,12 @@ export default {
         vertical-align: middle;
         margin: 0 10px 0 0;
         width: 226px;
+        &.form-item-checkbox {
+            width: auto;
+        }
+        .ivu-form-item-label {
+            padding-top: 11px;
+        }
         &.search-btn {
             position: absolute;
             right: 0;
