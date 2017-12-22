@@ -5,7 +5,7 @@
         </div>
         <div v-if="list.length">
             <div class="content-bar">
-                <Table border ref="selection" :columns="columnsData" :data="list"  @on-selection-change="handleSelectChange"></Table>
+                <Table border ref="selection" :columns="columnsData" :data="listTest"  @on-selection-change="handleSelectChange"></Table>
             </div>
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
@@ -19,7 +19,8 @@
             </div>
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
-        <fs-empty-tips v-else  />
+        <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
+        <!-- <span v-if="list.length<=0">选择联系人</span> -->
     </div>
 </template>
 <script>
@@ -42,121 +43,12 @@ export default {
             pageSize: 20, 
             range: 0,
             totalCount:0,
-            list:[],
+            listTemplate:[],
             exportUrl:'',
-            columnsData: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '提交时间',
-                    key: 'subTime'
-                },
-                {
-                    title: '提交人',
-                    key: 'subPeo'
-                },
-                {
-                    title: '文本输入框',
-                    key: 'txtInput'
-                },
-                {
-                    title: '数字输入框',
-                    key: 'numInput'
-                },
-                {
-                    title: '今日工作内容',
-                    key: 'workContent'
-                },
-                {
-                    title: '单选框',
-                    key: 'radioCheckbox'
-                },
-                {
-                    title: '日期',
-                    key: 'date'
-                },
-                {
-                    title: '所得金额',
-                    key: 'price'
-                }
-
-            ],
-            listTest: [
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                
-            ]
+            iconType:'member',
+            emptyMsg:'请选择联系人',
+            columnsData:[],
+            listTest: [],
         }
     },
     components: {
@@ -191,13 +83,81 @@ export default {
         },
         updateList(res){
             if(res && res.code === 0) {
-                // this.list = res.data || [];
-                this.list = this.listTest;
+                this.list = res.data.list|| [];
+                this.columnsData = [{
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
+                {
+                    title: '提交时间',
+                    key: 'column1'
+                },
+                {
+                    title: '提交人',
+                    key: 'column2'
+                }],
+                this.listTest = [];
+                if(this.list.length<=0){
+                    this.iconType = '';
+                    this.emptyMsg = '没有相关数据';
+                }
                 this.totalCount =  this.list.length;
+
+                let columnArr = [];
+                try{
+                    columnArr = JSON.parse(this.list[0].content)
+                } catch(e){
+                    //
+                }
+                columnArr.forEach((item, key) => {
+                    let length = this.columnsData.length,
+                        columnKey = 'column' + length;
+                    let headerColumn = {
+                        title: columnArr[key].title || '',
+                        key : columnKey
+                    }
+                    this.columnsData.push(headerColumn);
+                });
+
+                this.list.forEach((item, key) => {
+                    let contentObj = [];
+                    let columnLength = this.columnsData.length; //总列数
+                    let data = {
+                        column1: this.resetTime(item.createTime),
+                        column2: item.userName,
+                    };
+                    try{
+                        contentObj = JSON.parse(item.content);
+                    } catch(e){
+                        //
+                    }
+                    let contentLength = contentObj.length; //返回的列数
+                    contentObj.forEach((v, k) => {
+                        let i = columnLength - contentLength + k;
+                        data['column' + i] = v.value || '';
+                    });
+                    this.listTest.push(data);
+                });
             } else {
                 this.list = [];
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
+        },
+        resetTime(time){
+            var date = new Date(time);  
+            var y = date.getFullYear();    
+            var m = date.getMonth() + 1;    
+            m = m < 10 ? ('0' + m) : m;    
+            var d = date.getDate();    
+            d = d < 10 ? ('0' + d) : d;    
+            var h = date.getHours();  
+            h = h < 10 ? ('0' + h) : h;  
+            var minute = date.getMinutes();  
+            var second = date.getSeconds();  
+            minute = minute < 10 ? ('0' + minute) : minute;    
+            second = second < 10 ? ('0' + second) : second;   
+            return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
         },
         getParams() {
             var data = Object.assign({
@@ -207,6 +167,7 @@ export default {
                 memberIds:'',
                 deptIds:'',
                 teamIds:'',
+                templateId:17980,
             }, this.params);
             return data; 
         },
@@ -229,7 +190,6 @@ export default {
             } 
         },
         initList() {
-            this.list = [];
             this.pageNum = 1;
             this.loadData();
         }
