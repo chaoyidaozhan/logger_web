@@ -84,63 +84,64 @@ export default {
         updateList(res){
             if(res && res.code === 0) {
                 this.list = res.data.list|| [];
-                this.columnsData = [{
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '提交时间',
-                    key: 'column1'
-                },
-                {
-                    title: '提交人',
-                    key: 'column2'
-                }],
-                this.listTest = [];
+                this.totalCount =  this.list.length;
                 if(this.list.length<=0){
                     this.iconType = '';
                     this.emptyMsg = '没有相关数据';
-                }
-                this.totalCount =  this.list.length;
-
-                let columnArr = [];
-                try{
-                    columnArr = JSON.parse(this.list[0].content)
-                } catch(e){
-                    //
-                }
-                columnArr.forEach((item, key) => {
-                    let length = this.columnsData.length,
-                        columnKey = 'column' + length;
-                    let headerColumn = {
-                        title: columnArr[key].title || '',
-                        key : columnKey
-                    }
-                    this.columnsData.push(headerColumn);
-                });
-
-                this.list.forEach((item, key) => {
-                    let contentObj = [];
-                    let columnLength = this.columnsData.length; //总列数
-                    let data = {
-                        column1: this.resetTime(item.createTime),
-                        column2: item.userName,
-                    };
+                }else{
+                    this.listTest = [];
+                    this.columnsData = [{
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '提交时间',
+                        key: 'column1'
+                    },
+                    {
+                        title: '提交人',
+                        key: 'column2'
+                    }];
+                    
+                    let columnArr = [];
                     try{
-                        contentObj = JSON.parse(item.content);
+                        columnArr = JSON.parse(this.list[0].content)
                     } catch(e){
-                        //
+                    
                     }
-                    let contentLength = contentObj.length; //返回的列数
-                    contentObj.forEach((v, k) => {
-                        let i = columnLength - contentLength + k;
-                        data['column' + i] = v.value || '';
+                    columnArr.forEach((item, key) => {
+                        let length = this.columnsData.length,
+                            columnKey = 'column' + length;
+                        let headerColumn = {
+                            title: columnArr[key].title || '',
+                            key : columnKey
+                        }
+                        this.columnsData.push(headerColumn);
                     });
-                    this.listTest.push(data);
-                });
+
+                    this.list.forEach((item, key) => {
+                        let contentObj = [];
+                        let columnLength = this.columnsData.length; //总列数
+                        let data = {
+                            column1: this.resetTime(item.createTime),
+                            column2: item.userName,
+                        };
+                        try{
+                            contentObj = JSON.parse(item.content);
+                        } catch(e){
+                            //
+                        }
+                        let contentLength = contentObj.length; //返回的列数
+                        contentObj.forEach((v, k) => {
+                            let i = columnLength - contentLength + k;
+                            data['column' + i] = v.value || '';
+                        });
+                        this.listTest.push(data);
+                    });
+                }
+                
             } else {
-                this.list = [];
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
         },
