@@ -27,7 +27,7 @@
                             <li class="cursor-pointer" @click="handlePrint">打印</li>
                             <li class="cursor-pointer" @click="handleOperate">操作记录</li>
                         </ul>
-                        <span class="operate cursor-pointer"><Icon type="more"></Icon></span>
+                        <span class="operate cursor-pointer"><i class="icon-more"></i></span>
                     </Poptip>
                 </div>
             </div>
@@ -101,7 +101,7 @@
                 <div class="operate-content">
                     <div class="clearfix">
                         <span>{{item.userName}}</span>
-                        <span class="pull-right">{{item.createTime}}</span>
+                        <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
                     </div>
                     <div>
                         {{item.reason}}

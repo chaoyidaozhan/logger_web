@@ -52,10 +52,3 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-    .select-group {
-        margin-right: 15px;
-    }
-</style>
-
-

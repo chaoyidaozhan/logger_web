@@ -1,63 +1,68 @@
 <template>
     <div class="search-form">
-        <Row type="flex" justify="start" class="code-row-bg">
-            <Col span="4" v-if="showTemplate">
-                <fs-select-template  ref="selectTemplate"></fs-select-template>
-            </Col>
-            <Col span="4" v-if="showDatePicker">
+        <Form inline :label-width="40">
+            <FormItem label="模板"  v-if="showTemplate">
+                <fs-select-template ref="selectTemplate"></fs-select-template>
+            </FormItem> 
+            <FormItem label="日期"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate"></fs-select-date>
-            </Col>
-            <Col span="4" v-if="showGroup">
+            </FormItem> 
+            <FormItem label="团队"  v-if="showGroup">
                 <fs-select-group ref="selectGroup"></fs-select-group>
-            </Col>
-            <Col span="4" v-if="showDateType">
-                <fs-select-date-type ref="selectDateType"></fs-select-date-type>
-            </Col>
-            <Col span="2" class="search-btn">
+            </FormItem> 
+            <FormItem label="日期"  v-if="showOrderType">
+                <fs-select-order-type ref="selectOrderType"></fs-select-order-type>
+            </FormItem> 
+            
+            <FormItem :label-width="0" class="search-btn">
                 <Button type="primary" @click="handleQuery">
                     查询
                 </Button>
-            </Col>
-        </Row>
+            </FormItem>
+        </Form>
     </div>
 </template>
 <script>
 import FsSelectTemplate from '../select-template/';
 import FsSelectDate from '../select-date/';
 import FsSelectGroup from '../select-group/';
-import FsSelectDateType from '../select-date-type/';
+import FsSelectOrderType from '../select-order-type/';
 export default {
     props: {
         showTemplate: {
             type: Boolean,
-            default: true
+            default: false
         },
         showDatePicker: {
             type: Boolean,
-            default: true
+            default: false
         },
         showMember: {
             type: Boolean,
-            default: true
+            default: false
         },
         showDepart: {
             type: Boolean,
-            default: true
+            default: false
         },
         showGroup: {
             type: Boolean,
-            default: true
+            default: false
         },
-        showDateType: {
+        showOrderType: { // 时间统计类型
             type: Boolean,
-            default: true
-        }
+            default: false
+        },
+        showOrderTypeMulti: {
+            type: Boolean,
+            default: false
+        },
     },
     components: {
         FsSelectTemplate,
         FsSelectDate,
         FsSelectGroup,
-        FsSelectDateType
+        FsSelectOrderType
     },
     methods: {
         handleQuery() { // 查询时返回整理好的数据
@@ -65,7 +70,7 @@ export default {
                 templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                 beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
                 endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
-                orderType: this.$refs.selectDateType && this.$refs.selectDateType.orderType,
+                orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
                 groupId: this.$refs.selectGroup && this.$refs.selectGroup.groupId,
                 deptId: this.$refs.selectDept && this.$refs.selectDept.deptId,
                 memberId: this.$refs.selectMember && this.$refs.selectMember.deptId,
@@ -75,7 +80,7 @@ export default {
                 if(!params[key] && key != 'deptId') {
                     delete params[key];
                 }
-                if(key == 'deptId') {
+                if(key == 'deptId' || key == 'templateId') {
                     if(!params[key] && params[key] !== 0) {
                         delete params[key];
                     }
@@ -97,10 +102,29 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-    .search-btn {
-        float: right;
+<style lang="less">
+.search-form {
+    position: relative;
+    font-size: 0;
+    line-height: 56px;
+    .ivu-form-inline .ivu-form-item {
+        vertical-align: middle;
+        margin: 0 10px 0 0;
+        width: 226px;
+        &.search-btn {
+            position: absolute;
+            right: 0;
+            width: auto;
+            top: 11px;
+            button {
+                margin-left: 10px;
+            }
+        }
     }
+    .select-date {
+        margin-right: 0;
+    }
+}
 </style>
 
 

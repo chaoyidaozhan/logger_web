@@ -6,24 +6,24 @@ const menus = [
         subMenu: [
             {
                 name: '所有日志',
-                path: '/LoggerQuery/0'
+                path: '/LoggerQueryAll'
             },
             {
                 name: '@我的',
-                path: '/LoggerQuery/4'
+                path: '/LoggerQueryAtme'
             },
             {
                 name: '我的日志',
-                path: '/LoggerQuery/-1'
+                path: '/LoggerQueryMy'
             },
             {
                 name: '团队日志',
-                path: '/LoggerQuery/3'
+                path: '/LoggerQueryGroup'
             },
             {
                 name: '下属日志',
                 type: ['deptManager'],
-                path: '/LoggerQuery/1'
+                path: '/LoggerQueryUnder'
             },
         ]
     },

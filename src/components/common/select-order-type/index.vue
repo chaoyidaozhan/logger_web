@@ -31,9 +31,3 @@
         }
     }
 </script>
-<style lang="less" scoped>
-    .select-date-type {
-        margin-right: 15px;
-    }
-</style>
-
