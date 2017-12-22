@@ -1,17 +1,17 @@
 
 import * as types from './mutations_types';
+import ajax from '../../common/ajax';
 
 module.exports = {
-    update_template: ({ commit }, { template }) => {
+    update_template_app: ({ commit }, { app }) => {
         return new Promise((resolve, reject) => {
-            commit(types.UPDATE_TEMPLATE, { template });
+            commit(types.UPDATE_TEMPLATE_APP, { app });
             resolve()
         });
     },
-
-    remove_template: ({ commit }) => {
+    update_template_web: ({ commit }, { web }) => {
         return new Promise((resolve, reject) => {
-            commit(types.REMOVE_TEMPLATE);
+            commit(types.UPDATE_TEMPLATE_WEB, { web });
             resolve()
         });
     },

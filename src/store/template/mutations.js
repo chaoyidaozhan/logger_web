@@ -1,11 +1,10 @@
 import * as types from './mutations_types'
 
 module.exports = {
-    [types.UPDATE_TEMPLATE](state, tem) {
-        state.template = tem.template || {};
+    [types.UPDATE_TEMPLATE_APP](state, template) {
+        state.app = template.app || [];
     },
-
-    [types.REMOVE_TEMPLATE](state) {
-        state.template = {};
-    },
+    [types.UPDATE_TEMPLATE_WEB](state, template) {
+        state.web = template.web || [];
+    }
 };
