@@ -60,6 +60,7 @@ export default {
     },
     watch: {
         pageNum: 'loadData',
+        params: 'initList' 
     },
     methods: {
         getParams() { // 获取参数

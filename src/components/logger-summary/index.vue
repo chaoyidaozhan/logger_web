@@ -1,36 +1,37 @@
 <template>
-    <div class ="list-content">
+    <div class ="logger-summary-content">
         <div class="content-header">
-            <!-- <div class="note">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div> -->
+            <div class="note">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
         </div>
-        <div class="content-bar">
-            <Table border ref="selection" :columns="columnsData" :data="list"  @on-selection-change="handleSelectChange"></Table>
+        <div v-if="list.length">
+            <div class="content-bar">
+                <Table border ref="selection" :columns="columnsData" :data="list"  @on-selection-change="handleSelectChange"></Table>
+            </div>
+            <div class="content-bottom" v-if="list.length">
+                <span class="bottom-left">
+                    <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
+                    <span class="checkout-note">已选中<span class="check-num">{{checkNum}}</span>日志</span>  
+                </span>
+                <span class="bottom-right">
+                    <Button type="success">汇总日志</Button>
+                    <Button type="ghost" @click="exportECL">导出EXCEL</Button>
+                </span>
+            </div>
+            <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
-        <div class="content-bottom" v-if="this.list.length">
-            <span class="bottom-left">
-                <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
-                已选中<span>{{checkNum}}</span>日志
-            </span>
-            <span class="bottom-right">
-                <Button type="success">汇总日志</Button>
-                <Button type="ghost" @click="exportECL">导出EXCEL</Button>
-            </span>
-        </div>
-        <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" ></pagination>
+        <fs-empty-tips v-else  />
     </div>
 </template>
 <script>
 import Pagination from 'app_component/common/pagination';
+import FsEmptyTips from 'app_component/common/empty-tips';
+import config from 'app_src/config/config'
 export default {
     props: {
         params: { // 暴露的对象字段
             type: Object,
             default: {}
         },
-        // pageNo:{
-        //     type: Number,
-        //     default: 1
-        // }
     },
     data(){
         return {
@@ -38,13 +39,11 @@ export default {
             checkNum:0,
             list: [],
             pageNum: 1, 
-            // pageSize: 20, 
-            pageSize: 3,
+            pageSize: 20, 
             range: 0,
-            loading: false,
-            loaderror: false,
             totalCount:0,
             list:[],
+            exportUrl:'',
             columnsData: [
                 {
                     type: 'selection',
@@ -161,7 +160,8 @@ export default {
         }
     },
     components: {
-        Pagination
+        Pagination,
+        FsEmptyTips,
     },
     watch: {
         params: 'initList',
@@ -184,25 +184,10 @@ export default {
             this.loadData();
         },
         exportECL(){//导出
-        var url = "/diaryQuery/exportDiaryStatistics?timestamp=" + (new Date()).valueOf() + "&token=" + token + "&templateId=" + id + 
-        "&beginDate=" + beginDate + "&endDate=" + endDate + "&deptIds=" + deptIds.join(",") + "&memberIds=" + memberIds.join(",") + "&teamIds=" + teamIds.join(",");
-            this.$ajax({
-                url: '/diaryQuery/exportDiaryStatistics',
-                data: {
-                    templateId: this.templateId,
-                    beginDate: this.beginDate,
-                    endDate: this.endDate,
-                    deptIds: this.deptIds,
-                    memberIds: this.memberIds,
-                    teamIds: this.teamIds
-                },
-                success: (res)=>{
-
-                },
-                error: (res)=>{
-
-                }
-            })
+            let templateId = this.params.templateId==null?0:this.params.templateId;
+            let url = `${config[__ENV__].apiHost}/logger/diaryQuery/exportDiaryStatistics`+'?timestamp='+(new Date()).valueOf()+
+            '&beginDate='+this.params.beginDate+'&endDate='+this.params.endDate+'&token='+this.$store.state.userInfo.token+'&templateId='+templateId;
+            window.open(url, '_blank');
         },
         updateList(res){
             if(res && res.code === 0) {
@@ -223,27 +208,25 @@ export default {
                 deptIds:'',
                 teamIds:'',
             }, this.params);
-            data.templateId==null?data.templateId=0:data.templateId;
-            return data;
-        },
-        getExportParams() {
-
+            return data; 
         },
         loadData() {
-            console.log(444)
-            this.loading = true;
-            this.$ajax({
-                url: '/logger/diaryQuery/getDiaryStatistics',
-                data: this.getParams(),
-                success: (res)=>{
-                    this.loading = false;
-                    this.updateList(res);
-                },
-                error: (res)=>{
-                    this.list=[];
-                    this.loaderror = true;
-                }
-            })
+            let data = this.getParams();
+            if(!data.templateId){
+                this.$Message.warning('请选择模版');
+                return false;
+            }else{
+                this.$ajax({
+                    url: '/logger/diaryQuery/getDiaryStatistics',
+                    data: data,
+                    success: (res)=>{
+                        this.updateList(res);
+                    },
+                    error: (res)=>{
+                        this.$Message.warning((res && res.msg) || '网络错误');
+                    }
+                })
+            } 
         },
         initList() {
             this.list = [];
@@ -254,21 +237,25 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.list-content{
+@import '../../assets/css/var.less';
+.logger-summary-content{
     width: 100%;
     height: 100%;
     background: #fff;
+    padding: 0px 20px 20px 20px;
     .content-header{
         .note{
-            position: absolute;
-            bottom:20px;
             font-size: 12px;
-            color: rgb(255, 181, 94);
+            padding:10px 0px;
+            color:@orange-color;
         }
     }
     .content-bar{
         .ivu-table-wrapper{
             border:none;
+        }
+        .ivu-table-border th, .ivu-table-border td{
+            border-right:none!important;
         }
     }
     .content-bottom{
@@ -276,6 +263,12 @@ export default {
         line-height: 50px;
         .bottom-left{
             display: inline-block;
+            .checkout-note{
+                font-size:12px;
+                .check-num{
+                    color:@primary-color
+                }
+            }
         }
         .bottom-right{
             float:right;

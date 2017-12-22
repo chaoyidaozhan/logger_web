@@ -1,7 +1,13 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <fs-query-form @handleQuery="handleQuery" ref="queryForm"/>
+            <fs-query-form 
+                :hasDefaultTemplate="false" 
+                :showTemplate="true" 
+                :showTemplateCheck="true" 
+                :showDatePicker="true" 
+                @handleQuery="handleQuery" 
+                ref="queryForm"/>
         </template>
         <template slot="body">
             <fs-logger-summary :params="params" ref="loggerSummary" />
