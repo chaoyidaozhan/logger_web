@@ -1,5 +1,5 @@
 <template>
-    <div class="empty-tips">
+    <div class="empty-tips" :class="`empty-${position}`">
         <div class="empty" v-if="!showError">
             <img v-if="!iconType" :src="imgSrc" class="empty-img">
             <template v-else>
@@ -36,6 +36,10 @@ export default {
         errorMsg: {
             type: String,
             default: "网络异常"
+        },
+        position: {
+            type: String,
+            default: 'middle'
         }
     },
     methods: {
@@ -52,8 +56,14 @@ export default {
         width: 200px;
         margin: 0 auto;
         text-align: center;
-        top: 30%;
-        margin-top: -100px;
+        &.empty-middle {
+            top: 30%;
+            margin-top: -100px;
+        }
+        &.empty-nomal {
+            top: 0;
+            margin-top: 0;
+        }
         .empty-msg {
             margin-top: 16px;
             color: @gray-color-light;
