@@ -208,20 +208,25 @@ export default {
                 deptIds:'',
                 teamIds:'',
             }, this.params);
-            data.templateId==null?data.templateId=0:data.templateId;
-            return data;
+            return data; 
         },
         loadData() {
-            this.$ajax({
-                url: '/logger/diaryQuery/getDiaryStatistics',
-                data: this.getParams(),
-                success: (res)=>{
-                    this.updateList(res);
-                },
-                error: (res)=>{
-                    this.$Message.warning((res && res.msg) || '网络错误');
-                }
-            })
+            let data = this.getParams();
+            if(!data.templateId){
+                this.$Message.warning('请选择模版');
+                return false;
+            }else{
+                this.$ajax({
+                    url: '/logger/diaryQuery/getDiaryStatistics',
+                    data: data,
+                    success: (res)=>{
+                        this.updateList(res);
+                    },
+                    error: (res)=>{
+                        this.$Message.warning((res && res.msg) || '网络错误');
+                    }
+                })
+            } 
         },
         initList() {
             this.list = [];
