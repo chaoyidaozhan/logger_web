@@ -10,8 +10,8 @@
             <p class="empty-msg">{{emptyMsg}}</p>
         </div>
         <div class="error" v-if="showError">
-            <span class="error-msg">{{errorMsg}}</span>
-            <span class="reload" @click="handleReload">, 点击重新加载</span>
+            <span class="error-msg">{{errorMsg}}</span>,
+            <span class="reload" @click="handleReload"> 点击重新加载</span>
         </div>
     </div>
 </template>
@@ -43,8 +43,8 @@ export default {
         }
     },
     methods: {
-        handleReload(params) {
-            this.$emit('handleReload', params);
+        handleReload() {
+            this.$emit('handleReload');
         }
     }
 }
@@ -55,12 +55,13 @@ export default {
         position: relative;
         width: 200px;
         margin: 0 auto;
+        font-size: 14px;
         text-align: center;
         &.empty-middle {
             top: 30%;
             margin-top: -100px;
         }
-        &.empty-nomal {
+        &.empty-normal {
             top: 0;
             margin-top: 0;
         }

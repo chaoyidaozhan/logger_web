@@ -18,7 +18,7 @@ export default {
             groupListData: [
                 {
                     gid: 0,
-                    groupName: '全部部门'
+                    groupName: '全部团队'
                 }
             ],
             groupId: 0
