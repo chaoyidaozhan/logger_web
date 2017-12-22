@@ -1,6 +1,10 @@
 import APP from '../view/app';  // App根组件
 
-import LoggerQuery from '../view/logger-query/'; // 日志查询
+import LoggerQueryAll from '../view/logger-query/all'; // 日志查询 --所有
+import LoggerQueryAtme from '../view/logger-query/atme'; // 日志查询 --@我的
+import LoggerQueryGroup from '../view/logger-query/group'; // 日志查询 --团队
+import LoggerQueryMy from '../view/logger-query/my'; // 日志查询 --我的
+import LoggerQueryUnder from '../view/logger-query/under'; // 日志查询 --下属
 
 import DraftOfMine from '../view/draft-mine/'; // 我的草稿
 import CollectOfMine from '../view/collect-mine/'; // 我的收藏
@@ -19,8 +23,24 @@ export default [
         component: APP,
         children:[
             {
-                path: 'LoggerQuery/:range',
-                component: LoggerQuery
+                path: 'LoggerQueryAll',
+                component: LoggerQueryAll
+            },
+            {
+                path: 'LoggerQueryAtme',
+                component: LoggerQueryAtme
+            },
+            {
+                path: 'LoggerQueryGroup',
+                component: LoggerQueryGroup
+            },
+            {
+                path: 'LoggerQueryMy',
+                component: LoggerQueryMy
+            },
+            {
+                path: 'LoggerQueryUnder',
+                component: LoggerQueryUnder
             },
             {
                 path: 'CollectOfMine', 		    

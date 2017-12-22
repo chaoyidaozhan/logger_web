@@ -118,11 +118,6 @@ export default {
             } else {
                 this.activeName = path
             }
-
-            if(this.activeName == '/LoggerQuery') {
-                this.activeName += `/${this.$route.params.range}`
-            }
-
             this.setOpenNames();
         },
         checkLimit(to, from) { // 检测当前路由权限
@@ -150,7 +145,7 @@ export default {
             } catch (e) {}
 
             if(!exist) { // 如果不存在当前路由跳转回from或mycheckin
-                this.goToLink(from ? from.path : '/LoggerQuery/0');
+                this.goToLink(from ? from.path : '/LoggerQueryAll');
             }
             this.setActiveName(to || null);
         },

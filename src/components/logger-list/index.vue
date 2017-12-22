@@ -15,7 +15,7 @@
             </div>
             <div class="loading-content" v-if="!hasMore && !loading && list.length">已加载全部数据</div>
         </div>
-        <fs-empty-tips v-if="!list.length && !loading" iconType="depart"/>
+        <fs-empty-tips v-if="!list.length && !loading"/>
     </div>
 </template>
 <script>
@@ -37,6 +37,10 @@ export default {
         dataStatus: { // 日志查询标记
             type: Number,
             default: 1
+        },
+        range: {
+            type: String,
+            default: '0'
         }
     },
     data() {
@@ -44,10 +48,10 @@ export default {
             list: [],
             pageNum: 1, 
             pageSize: 20, 
-            range: 0,
             loading: false,
             loaderror: false,
             hasMore: true,
+            requesTimer: null
         }
     },
     components: {
@@ -56,7 +60,6 @@ export default {
     },
     watch: {
         pageNum: 'loadData',
-        params: 'initList'
     },
     methods: {
         getParams() { // 获取参数
@@ -107,20 +110,19 @@ export default {
                     this.list=[];
                     this.loaderror = true;
                 }
-            })
+            });
         },
         initList() { // 初始化列表
             this.list = [];
-            this.range = this.$route && this.$route.params && this.$route.params.range || 0;
             this.pageNum = 1;
             this.loading = false;
             this.hasMore = true;
             this.loadData();
         },
     },
-    created() {
-        this.initList()
-    },
+    mounted () {
+        this.initList();
+    }
 }
 </script>
 <style lang="less" scoped>
