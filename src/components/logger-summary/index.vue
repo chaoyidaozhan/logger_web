@@ -5,7 +5,7 @@
         </div>
         <div v-if="list.length">
             <div class="content-bar">
-                <Table border ref="selection" :columns="columnsData" :data="listTest"  @on-selection-change="handleSelectChange"></Table>
+                <Table border ref="selection" :columns="columnsData" :data="listTemplate"  @on-selection-change="handleSelectChange"></Table>
             </div>
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
@@ -43,12 +43,10 @@ export default {
             pageSize: 20, 
             range: 0,
             totalCount:0,
-            listTemplate:[],
-            exportUrl:'',
             iconType:'member',
             emptyMsg:'请选择联系人',
-            columnsData:[],
-            listTest: [],
+            columnsData:[],//表头
+            listTemplate: [],//表内容
         }
     },
     components: {
@@ -71,7 +69,7 @@ export default {
         handleSelectChange(selection){//选项发生变化
             this.checkNum = selection.length;
         },
-        handleChangePage(pageNo){
+        handleChangePage(pageNo){//改变页数
             this.pageNum = pageNo;
             this.loadData();
         },
@@ -89,7 +87,7 @@ export default {
                     this.iconType = '';
                     this.emptyMsg = '没有相关数据';
                 }else{
-                    this.listTest = [];
+                    this.listTemplate = [];
                     this.columnsData = [{
                         type: 'selection',
                         width: 60,
@@ -110,7 +108,7 @@ export default {
                     } catch(e){
                     
                     }
-                    columnArr.forEach((item, key) => {
+                    columnArr.forEach((item, key) => {//循环构建表头
                         let length = this.columnsData.length,
                             columnKey = 'column' + length;
                         let headerColumn = {
@@ -120,7 +118,7 @@ export default {
                         this.columnsData.push(headerColumn);
                     });
 
-                    this.list.forEach((item, key) => {
+                    this.list.forEach((item, key) => {//循环构建表body
                         let contentObj = [];
                         let columnLength = this.columnsData.length; //总列数
                         let data = {
@@ -137,7 +135,7 @@ export default {
                             let i = columnLength - contentLength + k;
                             data['column' + i] = v.value || '';
                         });
-                        this.listTest.push(data);
+                        this.listTemplate.push(data);
                     });
                 }
                 
@@ -158,7 +156,7 @@ export default {
             var second = date.getSeconds();  
             minute = minute < 10 ? ('0' + minute) : minute;    
             second = second < 10 ? ('0' + second) : second;   
-            return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
+            return y + '-' + m + '-' + d+' '+h+':'+minute; 
         },
         getParams() {
             var data = Object.assign({
@@ -197,6 +195,20 @@ export default {
     },
 }
 </script>
+<style  lang="less">
+.content-bar{
+    .ivu-table-wrapper{
+        border:none;
+    }
+    .ivu-table{
+        height: 500px;
+        overflow: auto;
+    }
+    .ivu-table-cell{
+        max-height: 100px;
+    }
+}
+</style>
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
 .logger-summary-content{
@@ -209,14 +221,6 @@ export default {
             font-size: 12px;
             padding:10px 0px;
             color:@orange-color;
-        }
-    }
-    .content-bar{
-        .ivu-table-wrapper{
-            border:none;
-        }
-        .ivu-table-border th, .ivu-table-border td{
-            border-right:none!important;
         }
     }
     .content-bottom{
