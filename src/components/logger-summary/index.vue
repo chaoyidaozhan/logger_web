@@ -1,8 +1,6 @@
 <template>
     <div class ="logger-summary-content">
-        <div class="content-header">
-            <div class="note">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
-        </div>
+        <div class="note" v-if="list.length">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
         <div v-if="list.length">
             <div class="content-bar">
                 <Table border ref="selection" :columns="columnsData" :data="listTemplate"  @on-selection-change="handleSelectChange"></Table>
@@ -228,16 +226,15 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
 .logger-summary-content{
+    position: absolute;
     width: 100%;
     height: 100%;
     background: #fff;
     padding: 0px 20px 20px 20px;
-    .content-header{
-        .note{
-            font-size: 12px;
-            padding:10px 0px;
-            color:@orange-color;
-        }
+    .note{
+        font-size: 12px;
+        padding:10px 0px;
+        color:@orange-color;
     }
     .content-bottom{
         height: 50px;
@@ -258,7 +255,7 @@ export default {
     .nodata{
         display: block;
         position: absolute;
-        top: 37%;
+        top: 32%;
         left: 50%;
         transform: translateX(-50%);
         color: #999999;
