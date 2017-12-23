@@ -9,14 +9,14 @@
             </div>
         </div>
         <transition-group name="scale">
-            <div class="col" v-for="item in list.slice(1, 10)" :key="item.id">
-                <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item"/>
+            <div class="col" v-for="item in list" :key="item.id">
+                <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
             </div>
         </transition-group>
     </div>
 </template>
 <script>
-import FsTemplateItem from './template-node'
+import FsTemplateItem from './template-node';
 export default {
     props: {
         showEdit: {
@@ -27,7 +27,8 @@ export default {
     data() {
         return {
             list: [],
-            show: true
+            show: true,
+            totalCount: 0
         }
     },
     components: {
@@ -35,17 +36,23 @@ export default {
     },
     methods: {
         setTempListData(name) {
-            this.list = this.$store.state.template[`${name}`]
+            this.list = this.$store.state.template[`${name}`];
         },
         getTemplateApp(call) {
             this.$store.dispatch('update_template_app').then(()=>{
                 this.setTempListData('app');
             })
         },
-        getTemplateWeb(call) {
+        getTemplateWeb(call) { // 全部日志分页
             this.$store.dispatch('update_template_web').then(()=>{
-                console.log(123)
                 this.setTempListData('web');
+            })
+        },
+        deleteData(data) { // 删除日志
+            this.list.forEach((val, i)=>{
+                if(data.id == val.id) {
+                    this.list.splice(i, 1)
+                }
             })
         },
         loadData() { // 默认优先获取数据保存到store
@@ -62,7 +69,6 @@ export default {
                     this.setTempListData('app');
                 }
             }
-            console.log(this.list)
         },
     },
     created () {
@@ -77,15 +83,17 @@ export default {
         width: 33.33333333333%;
         display: inline-block;
         padding: 0 10px 20px;
-        // transition: .4s ease all;
+        transition: .4s ease all;
         font-size: 14px;
         overflow: hidden;
+        vertical-align: top;
         &.scale-leave-active {
-            transition: opacity .2s
+            transition: width .3s, opacity .3s;
         }
         &.scale-leave-to {
+            width: 0;
             opacity: 0;
-            transform-origin: left;
+            padding: 0;
         }
     }
     @media (min-width: 1280px) {

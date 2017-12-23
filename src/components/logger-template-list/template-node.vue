@@ -4,7 +4,6 @@
             <div class="template-item-title ellipsis">{{ data.title }}</div>
             <div v-if="!showEdit" class="template-item-describe ellipsis">{{ data.describe }}</div>
             <template v-if="showEdit">
-                <div class="template-item-time ellipsis">更新于{{ data.id }}</div>
                 <div class="template-item-time ellipsis">更新于{{ data.createTime | filterTime }}</div>
                 <div v-if="!data.dataStatus" class="template-item-status ellipsis">已停用</div>
             </template>
@@ -52,6 +51,7 @@ export default {
                 },
                 success: (res)=>{
                     this.data.dataStatus = name == 'start' ? 1 : 0
+                    console.log(this.$store);
                 },
                 error: (res)=>{
                     this.$Message.error(res && res.msg || '网络错误');
@@ -59,22 +59,17 @@ export default {
             })
         },
         handleDelete() {
-            this.$store.dispatch('remove_template_web', {
-                web: this.data
-            }).then(()=>{
-                this.$emit('setTempListData', 'web')
+            this.$ajax({
+                url: ` /logger/template/delete/${this.data.id}`,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.$emit('deleteData', this.data);
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.error(res && res.msg || '网络错误');
+                }
             })
-            // this.$ajax({
-            //     url: ` /logger/template/delete/${this.data.id}`,
-            //     success: (res)=>{
-            //         this.$store.dispatch('remove_template_web', {
-            //             id: this.data.id
-            //         })
-            //     },
-            //     error: (res)=>{
-            //         this.$Message.error(res && res.msg || '网络错误');
-            //     }
-            // })
         },
         goToDetail() {
             if(this.showEdit) {

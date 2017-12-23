@@ -7,7 +7,4 @@ module.exports = {
     [types.UPDATE_TEMPLATE_WEB](state, template) {
         state.web = template.web || [];
     },
-    [types.REMOVE_TEMPLATE_WEB](state, template) {
-        state.web.splice(0, 1);
-    },
 };

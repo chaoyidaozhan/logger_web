@@ -52,10 +52,4 @@ module.exports = {
             });
         })
     },
-    remove_template_web: ({ commit }, {web}) => {
-        return new Promise((resolve, reject) => {
-            commit(types.REMOVE_TEMPLATE_WEB, { web});
-            resolve()
-        })
-    },
 };
