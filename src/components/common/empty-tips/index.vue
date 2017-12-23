@@ -78,7 +78,7 @@ export default {
         }
         [class^="icon-"] {
             font-size: 75px;
-            color: @gray-color-normal;
+            color: @gray-color-elip;
         }
     }
 </style>

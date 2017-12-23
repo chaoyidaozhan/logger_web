@@ -1,5 +1,9 @@
 import APP from '../view/app';  // App根组件
 
+import LoggerDetail from '../view/logger-detail'; // 创建日志
+import LoggerDetailList from '../view/logger-detail/logger-detail-list'; // 创建日志
+import LoggerDetailOperate from '../view/logger-detail/logger-detail-operate'; // 创建日志
+
 import LoggerQueryAll from '../view/logger-query/all'; // 日志查询 --所有
 import LoggerQueryAtme from '../view/logger-query/atme'; // 日志查询 --@我的
 import LoggerQueryGroup from '../view/logger-query/group'; // 日志查询 --团队
@@ -22,6 +26,24 @@ export default [
         path: '/',
         component: APP,
         children:[
+            {
+                path: 'LoggerDetail',
+                component: LoggerDetail,
+                children: [
+                    {
+                        path: 'template',
+                        component: LoggerDetailList,
+                    },
+                    {
+                        path: 'operate/:loggertype/:id',
+                        component: LoggerDetailOperate,
+                    },
+                    {
+                        path: '*',
+                        redirect: '/LoggerDetail'
+                    },
+                ]
+            },
             {
                 path: 'LoggerQueryAll',
                 component: LoggerQueryAll
