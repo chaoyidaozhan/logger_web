@@ -20,13 +20,14 @@
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
         <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
-        <!-- <span v-if="list.length<=0">选择联系人</span> -->
+        <span class="nodata" v-if="!list.length&&iconFlag">选择联系人选择联系人选择联系人选择联系人</br>选择联系人选择联系人选择联系人选择联系人</span>
     </div>
 </template>
 <script>
 import Pagination from 'app_component/common/pagination';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import config from 'app_src/config/config'
+// import formatTime from'../../filters/format-time'
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -36,8 +37,9 @@ export default {
     },
     data(){
         return {
-            dataType:0,
+            dataType:false,
             checkNum:0,
+            iconFlag:1,
             list: [],
             pageNum: 1, 
             pageSize: 20, 
@@ -46,7 +48,7 @@ export default {
             iconType:'member',
             emptyMsg:'请选择联系人',
             columnsData:[],//表头
-            listTemplate: [],//表内容
+            listTemplate: [],//表body
         }
     },
     components: {
@@ -58,16 +60,11 @@ export default {
     },
     methods: {
         handleSelectAll (dataType) {//全选
-            if(dataType==1) {
-                this.dataType = 0
-                this.$refs.selection.selectAll(true);
-            } else {
-                this.dataType = 1;
-                this.$refs.selection.selectAll(false);
-            }  
+            this.$refs.selection.selectAll(dataType);
         },
         handleSelectChange(selection){//选项发生变化
             this.checkNum = selection.length;
+            this.dataType = selection.length<this.list.length?false:(selection.length==this.list.length?true: this.dataType);
         },
         handleChangePage(pageNo){//改变页数
             this.pageNum = pageNo;
@@ -84,11 +81,12 @@ export default {
                 this.list = res.data.list|| [];
                 this.totalCount =  this.list.length;
                 if(this.list.length<=0){
+                    this.iconFlag = 0;
                     this.iconType = '';
                     this.emptyMsg = '没有相关数据';
                 }else{
                     this.listTemplate = [];
-                    this.columnsData = [{
+                    this.columnsData = [{//固定的前三列
                         type: 'selection',
                         width: 60,
                         align: 'center'
@@ -128,7 +126,7 @@ export default {
                         try{
                             contentObj = JSON.parse(item.content);
                         } catch(e){
-                            //
+
                         }
                         let contentLength = contentObj.length; //返回的列数
                         contentObj.forEach((v, k) => {
@@ -166,7 +164,6 @@ export default {
                 memberIds:'',
                 deptIds:'',
                 teamIds:'',
-                templateId:17980,
             }, this.params);
             return data; 
         },
@@ -174,6 +171,9 @@ export default {
             let data = this.getParams();
             if(!data.templateId){
                 this.$Message.warning('请选择模版');
+                return false;
+            }else if(!data.beginDate||!data.endDate){
+                this.$Message.warning('请选择日期');
                 return false;
             }else{
                 this.$ajax({
@@ -196,6 +196,7 @@ export default {
 }
 </script>
 <style  lang="less">
+@import '../../assets/css/var.less';
 .content-bar{
     .ivu-table-wrapper{
         border:none;
@@ -206,6 +207,21 @@ export default {
     }
     .ivu-table-cell{
         max-height: 100px;
+    }
+    .ivu-table:before{
+        height: 0px;
+    }
+    .ivu-table:after{
+        width: 0px;
+    }
+    .ivu-table-border th, .ivu-table-border td{
+        border-right:none;
+    }
+    .ivu-table-row-hover td{
+        background-color:@white-color-light;
+    }
+    .ivu-table-header .ivu-checkbox{
+        display: none;
     }
 }
 </style>
@@ -238,6 +254,15 @@ export default {
         .bottom-right{
             float:right;
         }
+    }
+    .nodata{
+        display: block;
+        position: absolute;
+        top: 37%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #999999;
+        font-size:14px;
     }
     
 }
