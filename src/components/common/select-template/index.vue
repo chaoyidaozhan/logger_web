@@ -36,44 +36,14 @@
         },
         methods: {
             getTemplateApp(call) {
-                this.$ajax({
-                    url: '/logger/template/list',
-                    data: {
-                        pageNumber: 1,
-                        pageSize: 1000,
-                        client: 'app'
-                    },
-                    success: (res)=>{
-                        if(res && res.code === 0) {
-                            this.$store.dispatch('update_template_app', { //登录成功更新store
-                                app: res.data || []
-                            })
-                            this.setTempListData();
-                        } else {
-                            this.$Message.warning((res && res.msg) || '网络错误');
-                        }
-                    }
-                });
+                this.$store.dispatch('update_template_app').then(()=>{
+                    this.setTempListData();
+                })
             },
             getTemplateWeb(call) {
-                this.$ajax({
-                    url: '/logger/template/list',
-                    data: {
-                        pageNumber: 1,
-                        pageSize: 1000,
-                        client: 'web'
-                    },
-                    success: (res)=>{
-                        if(res && res.code === 0) {
-                            this.$store.dispatch('update_template_web', { //登录成功更新store
-                                web: res.data.list || []
-                            });
-                            this.setTempListData();
-                        } else {
-                            this.$Message.warning((res && res.msg) || '网络错误');
-                        }
-                    }
-                });
+                this.$store.dispatch('update_template_web').then(()=>{
+                    this.setTempListData();
+                })
             },
             setTempListData() { // 设置当前模板数据
                 if(this.hasDefaultTemplate) {

@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-import FsLoggerListItem from './node-item';
+import FsLoggerListItem from './logger-list-node';
 import FsEmptyTips from 'app_component/common/empty-tips/'
 /**
     range 

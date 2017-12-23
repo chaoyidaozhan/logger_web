@@ -2,17 +2,60 @@
 import * as types from './mutations_types';
 import ajax from '../../common/ajax';
 
+
+function getTemplateApp(call) {
+    ajax({
+        url: '/logger/template/list',
+        data: {
+            pageNumber: 1,
+            pageSize: 1000,
+            client: 'app'
+        },
+        success: (res) => {
+            if (res && res.code == 0) {
+                call && call(res.data || []);
+            }
+        }
+    })
+}
+function getTemplateWeb(call) {
+    ajax({
+        url: '/logger/template/list',
+        data: {
+            pageNumber: 1,
+            pageSize: 1000,
+            client: 'web'
+        },
+        success: (res) => {
+            if(res && res.code == 0) {
+                call && call(res.data.list || []);
+            }
+        }
+    });
+}
+
 module.exports = {
-    update_template_app: ({ commit }, { app }) => {
+    update_template_app: ({ commit }) => {
         return new Promise((resolve, reject) => {
-            commit(types.UPDATE_TEMPLATE_APP, { app });
-            resolve()
-        });
+            getTemplateApp((app) => {
+                commit(types.UPDATE_TEMPLATE_APP, { app });
+                resolve()
+            });
+        })
+        
     },
-    update_template_web: ({ commit }, { web }) => {
+    update_template_web: ({ commit }) => {
         return new Promise((resolve, reject) => {
-            commit(types.UPDATE_TEMPLATE_WEB, { web });
+            getTemplateWeb((web) => {
+                commit(types.UPDATE_TEMPLATE_WEB, { web });
+                resolve()
+            });
+        })
+    },
+    remove_template_web: ({ commit }, {web}) => {
+        return new Promise((resolve, reject) => {
+            commit(types.REMOVE_TEMPLATE_WEB, { web});
             resolve()
-        });
+        })
     },
 };

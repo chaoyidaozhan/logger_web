@@ -3,7 +3,7 @@
         <template slot="head">
             <div class="logger-detail-header clearfix">
                 <span class="back cursor-pointer pull-left" @click="handleBack"><Icon type="chevron-left"></Icon>返回</span>
-                <span class="back pull-right">返回</span>
+                <span class="back pull-right">村委草稿</span>
             </div>
         </template>
         <template slot="body">

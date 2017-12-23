@@ -122,7 +122,7 @@ export default {
         },
         checkLimit(to, from) { // 检测当前路由权限
             let path = to ? to.path : this.$route.path;
-            let menus = this.menus;
+            let menus = JSON.parse(JSON.stringify(this.menus));
 
             menus.push({ // 不存在menuconfig中的地址
                 path: '/LoggerDetail'

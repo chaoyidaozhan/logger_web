@@ -1,13 +1,22 @@
 <template>
-    <div class="logger-detail">
-        <div class="title"><span>1</span>创建日志-产品周报</div>
-        <fs-template-list/>
-    </div>
+    <fs-frame>
+        <template slot="head">
+            <div class="logger-detail-header clearfix">
+                日志模板
+            </div>
+        </template>
+        <template slot="body">
+            <!-- <router-view></router-view> -->
+            <fs-template-list :showEdit="true"/>
+        </template>
+    </fs-frame>
 </template>
 <script>
+import FsFrame from '../frame/';
 import FsTemplateList from 'app_component/logger-template-list/';
 export default {
     components: {
+        FsFrame,
         FsTemplateList
     }
 }
@@ -30,7 +39,7 @@ export default {
             width: 20px;
             height: 20px;
             border-radius: 100%;
-            background-color: @gray-color-elip;
+            background-color: @gray-color-normal;
             line-height: 19px;
             text-align: center;
             margin-right: 8px;
