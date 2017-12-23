@@ -15,7 +15,10 @@ import CollectOfMine from '../view/collect-mine/'; // 我的收藏
 
 
 import LoggerSummary from '../view/logger-summary/'; // 日志汇总
+
 import LoggerTemplate from '../view/logger-template-manager/'; // 日志模板
+import LoggerTemplateList from '../view/logger-template-manager/logger-template-list'; // 日志模板 --列表
+import LoggerTemplateOperate from '../view/logger-template-manager/logger-template-operate'; // 日志模板 --新建编辑
 
 import StatisticsOfDepart from '../view/logger-statistics/depart'; // 日志统计 --部门
 import StatisticsOfGroup from '../view/logger-statistics/group';  // 日志统计 --团队
@@ -91,14 +94,15 @@ export default [
             {
                 path: 'LoggerTemplate', 		    	
                 component: LoggerTemplate,
+                redirect: '/LoggerTemplate/manager',
                 children: [
                     {
                         path: 'manager',
-                        component: LoggerTemplate,
+                        component: LoggerTemplateList,
                     },
                     {
                         path: 'operate/:loggertype/:id',
-                        component: LoggerDetailOperate,
+                        component: LoggerTemplateOperate,
                     },
                     {
                         path: '*',

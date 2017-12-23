@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             openNames: [],
-            activeName: '/MyCheckin',
+            activeName: '',
             menus: [],
         }
     },
@@ -112,16 +112,12 @@ export default {
         },
         setActiveName(to) { // 设置当前激活导航
             let path = to ? to.path : this.$route && this.$route.path;
-            let reg = /\/([^\/]*)(\/ | ?)/g;
-            if(reg.exec(path)){
-                this.activeName = `/${RegExp.$1}`
-            } else {
-                this.activeName = path
-            }
+            this.activeName = path
             this.setOpenNames();
         },
         checkLimit(to, from) { // 检测当前路由权限
             let path = to ? to.path : this.$route.path;
+            console.log(path)
             let menus = JSON.parse(JSON.stringify(this.menus));
 
             menus.push({ // 不存在menuconfig中的地址
@@ -150,7 +146,7 @@ export default {
             this.$router.push({
                 path: name,
                 query: {
-                    token: (storage.get('$sign') && storage.get('$sign').token) || this.$store.state.userInfo.token
+                    token: this.$store.state.userInfo.token
                 }
             });
         },
@@ -158,7 +154,7 @@ export default {
             this.$router.push({
                 path: `/LoggerDetail/template`,
                 query: {
-                    token: (storage.get('$sign') && storage.get('$sign').token) || this.$store.state.userInfo.token
+                    token: this.$store.state.userInfo.token
                 }
             });
         },

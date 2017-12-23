@@ -60,7 +60,7 @@ export default {
         },
         handleDelete() {
             this.$ajax({
-                url: ` /logger/template/delete/${this.data.id}`,
+                url: `/logger/template/delete/${this.data.id}`,
                 success: (res)=>{
                     if(res && res.code == 0) {
                         this.$emit('deleteData', this.data);
@@ -72,11 +72,14 @@ export default {
             })
         },
         goToDetail() {
-            if(this.showEdit) {
-
-            } else {
-                
-            }
+            if(!this.showEdit) {
+                this.$router.push({
+                    path: `operate/create/${this.data.id}`,
+                    query: {
+                        token: this.$store.state.userInfo.token
+                    }
+                })
+            } 
             // console.log(this.data);
             // console.log(this.$store.state.template)
         }

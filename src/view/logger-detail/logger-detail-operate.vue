@@ -1,7 +1,7 @@
 <template>
     <div class="logger-detail">
-        <div class="title"><span>1</span>创建日志-产品周报</div>
-        <fs-template-list/>
+        <div class="title"><span>2</span>创建日志-产品周报</div>
+        <!-- <fs-template-list/> -->
     </div>
 </template>
 <script>
