@@ -36,7 +36,9 @@ export default {
             totalCount: 0,
             pageSize: 19,
             pageNum: 1,
-            loaded: false
+            loaded: false,
+            animate: 'fade',
+            timer: null
         }
     },
     components: {
@@ -46,6 +48,10 @@ export default {
     methods: {
         setTempListData(name) {
             this.list = this.$store.state.template[`${name}`];
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                this.loaded = true
+            }, 400);
         },
         getTemplateApp(call) {
             this.$store.dispatch('update_template_app').then(()=>{
@@ -67,10 +73,11 @@ export default {
             this.pageNum = index;
             this.loadData();
         },
-        loadData() { // 默认优先获取数据保存到store
-            this.animate = 'in';
+        loadData(animate) { // 默认优先获取数据保存到store
+            this.animate = animate || '';
+            this.loaded = false;
             if(this.showEdit) { // 编辑页面分页进行请求
-                this.loaded = false;
+                this.list = [];
                 this.$ajax({
                     url: '/logger/template/list',
                     data: {
@@ -82,10 +89,13 @@ export default {
                             this.list = res.data.list || []
                             this.totalCount = res.data.pages
                         }
-                        this.loaded = true
+                        clearTimeout(this.timer);
+                        this.timer = setTimeout(() => {
+                            this.loaded = true
+                        }, 400);
                     },
                     error: (res)=>{
-
+                        this.$Message.error(res && res.msg || '网络错误')
                     }
                 })
             } else {
@@ -98,7 +108,7 @@ export default {
         },
     },
     created () {
-        this.loadData();
+        this.loadData('fade');
     }
 }
 </script>
@@ -111,7 +121,7 @@ export default {
         left: 0;
         width: 100%;
         background: #fff;
-        padding: 0 0 30px;
+        padding: 0 0 60px;
     }
     .col {
         width: 33.33333333333%;
@@ -128,11 +138,11 @@ export default {
             opacity: 0;
             padding: 0;
         }
-        &.in-enter {
-            transition: width .3s, opacity .3s;
+        &.fade-enter {
             opacity: 0;
+            transition: width .3s, opacity .3s;
         }
-        &.in-enter-in {
+        &.fade-enter-in {
             opacity: 1;
         }
     }
