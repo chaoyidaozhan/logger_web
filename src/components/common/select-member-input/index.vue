@@ -122,7 +122,7 @@ export default {
                 }
             };
             this.$selectMember.show(info, res=>{
-                this.handleSelectMember(res)
+                this.handleSelectMember(JSON.parse(JSON.stringify(res)))
             })
         }
     }
