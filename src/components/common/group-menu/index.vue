@@ -12,20 +12,10 @@
                 <p class="ellipsis">{{groupItem.lastUpdateTime}}更新</p>
             </div>
         </div>
-        <div class="loading">
-            <div class="loading-content" v-if="loading">
-                <Spin>
-                    <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-                    <span>正在加载中...</span>
-                </Spin>
-            </div>
-            <fs-empty-tips :showError="true"
-                            position="normal"
-                            v-if="loaderror"
-                            @handleReload="handleReload" class="load-error"></fs-empty-tips>
-            <div class="loading-content"
-                 v-if="!hasMore && !loading && groupsData.length">已加载全部数据</div>
-        </div>
+        <loading :loading="loading"
+                 :loadError="loaderror"
+                 :hasMore="hasMore"
+                 @handleReload="handleReload"></loading>
     </div>
 </template>
 <script>
@@ -33,6 +23,7 @@ import Avatar from '../avatar';
 import FormatTime  from 'app_src/filters/format-time';
 import Ps from 'perfect-scrollbar';
 import FsEmptyTips from 'app_component/common/empty-tips/'
+import Loading from 'app_component/common/loading-scroll/'
 export default {
     data() {
         return {
@@ -47,7 +38,8 @@ export default {
     },
     components: {
         Avatar,
-        FsEmptyTips
+        FsEmptyTips,
+        Loading
     },
     watch: {
         pageNum: "loadData"
@@ -80,6 +72,7 @@ export default {
                 if(this.pageNum === 1) {
                     this.groupsData = res.data || [];
                     this.currentId = this.groupsData[0] && this.groupsData[0].groupId;
+                    this.$emit("getDaily", this.currentId);
                 }else {
                     this.groupsData = this.groupsData.concat(res.data || []);
                 }
@@ -134,14 +127,6 @@ export default {
 </script>
 <style lang="less" scoped>
     @import "../../../assets/css/var.less";
-    .demo-spin-icon-load{
-        animation: ani-demo-spin 1s linear infinite;
-    }
-    @keyframes ani-demo-spin {
-        from { transform: rotate(0deg);}
-        50%  { transform: rotate(180deg);}
-        to   { transform: rotate(360deg);}
-    }
     .group-wrap {
         position: absolute;
         left: 0;
@@ -169,28 +154,6 @@ export default {
             }
             & > p {
                 width: 100%;
-            }
-        }
-        & > .loading {
-            text-align: center;
-            font-size: 14px;
-            color: @gray-color-light;
-            position: relative;
-            overflow: hidden;
-            * {
-                vertical-align: middle;
-                color: @gray-color-light;
-            }
-            .loading-content {
-                height: 60px;
-                line-height: 50px;
-                width: 100%;
-                height: 100%;
-            }
-            .load-error {
-                height: 40px;
-                font-size: 12px;
-                line-height: 2;
             }
         }
     }
