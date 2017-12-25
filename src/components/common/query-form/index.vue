@@ -117,10 +117,14 @@ export default {
                 beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
                 endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
                 orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
-                groupId: this.$refs.selectGroup && this.$refs.selectGroup.groupId,
-                deptId: this.$refs.selectDept && this.$refs.selectDept.deptId,
-                memberId: this.$refs.selectMember && this.$refs.selectMember.deptId,
             };
+            if(!!this.man.length) {
+                let memberIds = []
+                this.man.forEach(item=>{
+                    memberIds.push(item.memberId);
+                })
+                params.memberIds = memberIds.join(',');
+            }
             let keys = Object.keys(params);
             keys.forEach(key=>{ // 非空验证
                 if(!params[key] && key != 'deptId') {
@@ -173,7 +177,8 @@ export default {
     .ivu-form-inline .ivu-form-item {
         vertical-align: middle;
         margin: 0 10px 0 0;
-        width: 226px;
+        max-width: 360px;
+        min-width: 226px;
         &.form-item-checkbox {
             width: auto;
         }
@@ -184,7 +189,9 @@ export default {
             position: absolute;
             right: 0;
             width: auto;
+            min-width: auto;
             top: 11px;
+            text-align: right;
             button {
                 margin-left: 10px;
             }

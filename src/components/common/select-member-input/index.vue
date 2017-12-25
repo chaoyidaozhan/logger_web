@@ -6,9 +6,15 @@
             {{placeholder}}
         </template>
         <template v-else>
-            <span class="tag" v-for="item in dep" :key="item.deptId">{{item.deptName}}</span>
-            <span class="tag" v-for="item in team" :key="item.deptId">{{item.groupName}}</span>
-            <span class="tag" v-for="item in man" :key="item.deptId">{{item.userName}}</span>
+            <span class="tag" v-for="item in dep" :key="item.deptId">
+                {{item.deptName}}
+            </span>
+            <span class="tag" v-for="item in team" :key="item.groupId">
+                {{item.groupName}}
+            </span>
+            <span class="tag" v-for="item in man" :key="item.memberId">
+                {{item.userName}}
+            </span>
         </template>
         <i class="icon-add"></i>
     </div>
@@ -73,12 +79,11 @@ export default {
                 team:  this.showGroup,
                 dep: this.showDept,
                 selected: {
-                    dep: this.dep,
-                    man: this.man,
-                    team: this.team
+                    dep: JSON.parse(JSON.stringify(this.dep)),
+                    man: JSON.parse(JSON.stringify(this.man)),
+                    team: JSON.parse(JSON.stringify(this.team))
                 }
             };
-            console.log(info)
             this.$selectMember.show(info, res=>{
                 this.handleSelectMember(res)
             })
@@ -94,7 +99,7 @@ export default {
     width: 100%;
     height: 32px;
     line-height: 22px;
-    padding: 4px 24px 4px 7px;
+    padding: 4px 30px 4px 7px;
     font-size: 12px;
     border: 1px solid @border-color;
     border-radius: 4px;
@@ -105,7 +110,7 @@ export default {
     &.disabled {
         color: @btn-disable-color;
     }
-    i {
+    .icon-add {
         position: absolute;
         right: 10px;
         height: 32px;
