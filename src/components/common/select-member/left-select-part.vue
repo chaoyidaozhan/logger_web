@@ -42,6 +42,7 @@
 				index:3
 			} 
 		};
+
 	export default{
 		props:['info'],
 		components:{
@@ -59,7 +60,7 @@
 		},
 		computed:{
 			tabInfo(){
-				let list = {...DEFAULT_LIST};
+				let list = JSON.parse( JSON.stringify(DEFAULT_LIST));
 				!this.info.dep  ? delete list.dep  : null ;
 				!this.info.team ? delete list.team : null ;
 				!this.info.man  ? delete list.man  : null ;
