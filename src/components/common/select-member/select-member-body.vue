@@ -89,7 +89,7 @@
 				height: 100%;
 				position: absolute;
 				top: 0;right: 0;
-				width: 238px;
+				width: 240px;
 				border-left: 1px solid #e9eaec;
 			}
 			.sel_left>section,.sel_right>section{

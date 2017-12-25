@@ -37,7 +37,7 @@ export default {
             data:()=>{
                 return {
                     // 配置选项 ;
-                    info:{...DEFAULT_INFO,open:false},
+                    info:{...JSON.parse(JSON.stringify(DEFAULT_INFO)),open:false},
                     // 储存所有的部门,团队,人团 ( 右侧点击 删除用的 )
                     saveAjaxDep : [],
                     saveAjaxTeam: [],
@@ -51,14 +51,21 @@ export default {
                 show( config={} , callback ){
                     callback ? this.getSelectedCallback = callback : null ;
                     let info = {
-                        ...DEFAULT_INFO,
+                        ...JSON.parse(JSON.stringify(DEFAULT_INFO)),
                         ...config,
                         open:true,
                     }
+                    console.log(DEFAULT_INFO)
                     !config.dep  ? info.selected.dep =[]  : null ;
                     !config.team ? info.selected.team=[]  : null ;
                     !config.man  ? info.selected.man =[]  : null ; 
                     this.info = info ;
+
+                    //重置默认设置 ;
+                    this.info.dep  ? this.setDefaultTure('dep') : null ;
+                    this.info.team ? this.setDefaultTure('team'): null ;
+                    this.info.man  ? this.setDefaultTure('man') : null ;
+
                 },
                 // 设置传进来的为true 
                 setDefaultTure( type ){

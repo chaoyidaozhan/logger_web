@@ -2,6 +2,7 @@
     <fs-frame>
         <template slot="head">
             <fs-query-form 
+                :showMember="true"
                 :showTemplate="true"
                 :showDatePicker="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
