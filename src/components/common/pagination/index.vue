@@ -1,5 +1,5 @@
 <template>
-    <div class="signin-page" v-if="totalCount > pageSize">
+    <div class="logger-page" v-if="totalCount > pageSize">
         <Page :total="totalCount" :page-size="pageSize" :current="pageNo" @on-change="changePage" show-elevator></Page>
     </div>
 </template>
@@ -25,9 +25,10 @@ export default {
 }
 </script>
 <style>
-.signin-page {
+.logger-page {
     text-align: center;
     padding-top: 20px;
+    font-size: 12px;
 }
 </style>
 

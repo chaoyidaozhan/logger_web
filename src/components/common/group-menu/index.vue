@@ -13,13 +13,18 @@
             </div>
         </div>
         <div class="loading">
-            <div class="loading-content">
+            <div class="loading-content" v-if="loading">
                 <Spin>
                     <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
                     <span>正在加载中...</span>
                 </Spin>
             </div>
-            <div class="loading-content">已加载全部数据</div>
+            <fs-empty-tips :showError="true"
+                            position="normal"
+                            v-if="loaderror"
+                            @handleReload="handleReload" class="load-error"></fs-empty-tips>
+            <div class="loading-content"
+                 v-if="!hasMore && !loading && groupsData.length">已加载全部数据</div>
         </div>
     </div>
 </template>
@@ -27,10 +32,11 @@
 import Avatar from '../avatar';
 import FormatTime  from 'app_src/filters/format-time';
 import Ps from 'perfect-scrollbar';
+import FsEmptyTips from 'app_component/common/empty-tips/'
 export default {
     data() {
         return {
-            pageSize: 100,
+            pageSize: 15,
             pageNum: 1,
             groupsData: [],
             currentId: '',
@@ -40,10 +46,15 @@ export default {
         }
     },
     components: {
-        Avatar
+        Avatar,
+        FsEmptyTips
+    },
+    watch: {
+        pageNum: "loadData"
     },
     methods: {
         loadData() {
+            this.loading = true;
             this.$ajax({
                 url: '/logger/diaryQuery/getGeneralGroupDiary',
                 type: 'get',
@@ -52,20 +63,33 @@ export default {
                     pageSize: this.pageSize
                 },
                 success: (res)=>{
-                    if(res && res.code === 0) {
-                        this.groupsData = res.data || [];
-                        this.groupsData.forEach((item)=>{
-                            item.lastUpdateTime = FormatTime(new Date(item.lastUpdateTime), "YYYY-MM-DD");
-                        });
-                        this.initScroll();
-                    } else {
-                        this.$Message.warning((res && res.msg) || '网络错误');
-                    }
+                    this.updateList(res);
                 },
                 error: (res)=>{
-                    this.$Message.error((res && res.msg) || '网络错误');
+                    this.loading = false;
+                    this.loaderror = true;
                 }
             });
+        },
+        updateList(res) {
+            if(res && res.code === 0) {
+                this.loading = false;
+                res.data && res.data.forEach((item)=>{
+                    item.lastUpdateTime = FormatTime(new Date(item.lastUpdateTime), "YYYY-MM-DD");
+                });
+                if(this.pageNum === 1) {
+                    this.groupsData = res.data || [];
+                }else {
+                    this.groupsData = this.groupsData.concat(res.data || []);
+                }
+                if (res.data && res.data.length < this.pageSize) {
+                    this.hasMore = false;
+                }
+                this.initScroll();            
+            }else {
+                this.loading = false;
+                this.loaderror = true;
+            }
         },
         initScroll() {
             this.$nextTick(()=>{
@@ -81,9 +105,6 @@ export default {
                 });
             })
         },
-        watch: {
-            pageNum: "loadData"
-        },
         onScroll(e) {
             if(!this.loading && this.hasMore) {
                 let $target = e && e.target;
@@ -91,13 +112,18 @@ export default {
                 let scrollTop = $target.scrollTop;
                 let offsetHeight = $target.offsetHeight;
                 if (offsetHeight == (scrollHeight - scrollTop)) {
-                    this.pageNum++
+                    this.pageNum++;
                 }
             }
         },
         getDaily(params) {
             this.currentId = params.groupId;
             this.$emit("getDaily", params);
+        },
+        handleReload() {
+            this.loaderror = false;            
+            this.loading = true;
+            this.loadData();
         }
     },
     created() {
@@ -107,6 +133,14 @@ export default {
 </script>
 <style lang="less" scoped>
     @import "../../../assets/css/var.less";
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
     .group-wrap {
         position: absolute;
         left: 0;
@@ -132,25 +166,29 @@ export default {
                 font-size: 14px;
                 color: @gray-color-dark;
             }
-            &>p {
+            & > p {
                 width: 100%;
             }
         }
-        .loading {
-            height: 60px;
-            line-height: 50px;
+        & > .loading {
             text-align: center;
             font-size: 14px;
-            background-color: @white-color-light;
             color: @gray-color-light;
             position: relative;
             overflow: hidden;
+            * {
+                vertical-align: middle;
+                color: @gray-color-light;
+            }
             .loading-content {
-                position: absolute;
-                top:0;
+                height: 60px;
+                line-height: 50px;
                 width: 100%;
                 height: 100%;
-                left: 0;
+            }
+            .load-error {
+                font-size: 12px;
+                line-height: 2;
             }
         }
     }

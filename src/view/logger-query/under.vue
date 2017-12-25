@@ -3,41 +3,34 @@
         <template slot="head">
             <fs-query-form 
                 :showTemplate="true"
-                :showGroup="true"
-                :showOrderType="true"
+                :showDatePicker="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
-        <template slot="body">
-            <fs-logger-statistics 
-                :params="params"
-                type="group"
-                ref="LoggerLoggerStatistics"/>
+        <template slot="body" >
+            <fs-logger-list :range="range" :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
 <script>
 import FsFrame from '../frame/';
 import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerStatistics from 'app_component/logger-statistics/'
+import FsLoggerList from 'app_component/logger-list/';
 export default {
     data() {
         return {
-            params: {
-                groupId: 0,
-                orderType: '0'
-            }
+            params: {},
+            range: '1',
         }
     },
     components: {
         FsFrame,
+        FsLoggerList,
         FsQueryForm,
-        FsLoggerStatistics
     },
     methods: {
         handleQuery(params) {
             this.params = params;
-            this.$refs.LoggerLoggerStatistics.loadData();
         }
-    }
+    },
 }
 </script>

@@ -1,45 +1,45 @@
 const menus = [
     {
         name: '日志查询',
-        icon: 'depart-signin',
+        icon: 'icon-search',
         checkChilren: true,
         subMenu: [
             {
                 name: '所有日志',
-                path: '/LoggerQuery/0'
+                path: '/LoggerQueryAll'
             },
             {
                 name: '@我的',
-                path: '/LoggerQuery/4'
+                path: '/LoggerQueryAtme'
             },
             {
                 name: '我的日志',
-                path: '/LoggerQuery/-1'
+                path: '/LoggerQueryMy'
             },
             {
                 name: '团队日志',
-                path: '/LoggerQuery/3'
+                path: '/LoggerQueryGroup'
             },
             {
                 name: '下属日志',
                 type: ['deptManager'],
-                path: '/LoggerQuery/1'
+                path: '/LoggerQueryUnder'
             },
         ]
     },
     {
         name: '我的草稿',
         path: '/DraftOfMine',
-        icon: 'error'
+        icon: 'icon-draft'
     },
     {
         name: '我的收藏',
         path: '/CollectOfMine',
-        icon: 'error'
+        icon: 'icon-collect-normal'
     },
     {
         name: '日志统计',
-        icon: 'setting-signin',
+        icon: 'icon-statistics',
         subMenu: [
             {
                 name: '按部门统计',
@@ -58,12 +58,12 @@ const menus = [
     {
         name: '日志汇总',
         path: '/LoggerSummary',
-        icon: 'signin-circle',
+        icon: 'icon-collect',
     },
     {
         name: '模板管理',
-        path: '/LoggerTemplate',
-        icon: 'signin-circle',
+        path: '/LoggerTemplate/manager',
+        icon: 'icon-template',
         type: ['admin ','diary_examer'],
     },
 ]

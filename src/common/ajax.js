@@ -31,7 +31,7 @@ function initString(params) {
 function initParams(uri, newParams, type) {
     let getParams = { // 任何请求都带到url
         timestamp: (new Date).valueOf(),
-        version: config.v || '1.0',
+        // version: config.v || '1.0',
         token: (storage.get('$sign') && storage.get('$sign').token) || config.token,
     }
     let signParams = { // 用于签名的对象

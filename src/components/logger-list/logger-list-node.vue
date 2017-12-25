@@ -24,10 +24,10 @@
                                 v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
                                 删除
                             </li>
-                            <li class="cursor-pointer" @click="`handlePrint`">打印</li>
-                            <li class="cursor-pointer">操作记录</li>
+                            <li class="cursor-pointer" @click="handlePrint">打印</li>
+                            <li class="cursor-pointer" @click="handleOperate">操作记录</li>
                         </ul>
-                        <span class="operate cursor-pointer"><Icon type="more"></Icon></span>
+                        <span class="operate cursor-pointer"><i class="icon-more"></i></span>
                     </Poptip>
                 </div>
             </div>
@@ -74,17 +74,42 @@
         <!--点赞回复收藏-->
         <div class="logger-list-row logger-list-operate">
             <div class="logger-list-col">
+                <span class="cursor-pointer like" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                    <i class="icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
+                    <i class="icon-good-selected" v-else></i>
+                    {{loggerItemData.like && loggerItemData.like.likeNum}}
+                </span>
                 <span class="cursor-pointer reply">
-                    {{loggerItemData.commentNum}}个回复
+                    <i class="icon-chat-normal"></i>
+                    {{loggerItemData.commentNum}}
                 </span>
-                <span class="cursor-pointer collect" @click="handleCollect">
-                    {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}收藏
-                </span>
-                <span class="cursor-pointer like" @click="handleLike">
-                    {{loggerItemData.like && loggerItemData.like.likeNum}}个赞
+                <span class="cursor-pointer collect" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                    <i class="icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
+                    <i class="icon-collect-selected" v-else></i>
+                    {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}
                 </span>
             </div>
         </div>
+        <!--操作记录弹层-->
+        <Modal
+            v-model="operateModal"
+            class="operate-modal"
+            title="操作记录"
+        >   
+            <div class="operate-row" v-for="item in operateModalData" :key="item.id">
+                <fs-avatar class="operate-avatar" size="31px" :avatar="item.avatar" :name="item.userName"></fs-avatar>
+                <div class="operate-content">
+                    <div class="clearfix">
+                        <span>{{item.userName}}</span>
+                        <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
+                    </div>
+                    <div>
+                        {{item.reason}}
+                    </div>
+                </div>
+            </div>
+            <p slot="footer"></p>
+        </Modal>
     </div>
 </template>
 <script>
@@ -100,6 +125,7 @@ export default {
     data() {
         return {
             dataSource: ["其他", "日报", "周报", "月报", "其他"],
+
             rangeHeight: '',
             rangeRealHeight: '',
             rangeDefaultHeight: rowHeight + 2,
@@ -109,7 +135,10 @@ export default {
             contentRealHeight: '',
             contentDefaultHeight: rowHeight * 7,
             contentExpand: false,
-            userInfo: this.$store.state.userInfo
+
+            userInfo: this.$store.state.userInfo,
+            operateModal: false,
+            operateModalData: []
         }
     },
     components: {
@@ -129,7 +158,6 @@ export default {
             this.contentRealHeight = this.$refs.contentHeight.offsetHeight;
 
             this.rangeHeight = this.rangeDefaultHeight;
-            console.log(this.rangeRealHeight)
             if(this.contentRealHeight > this.contentDefaultHeight) {
                 this.contentHeight = this.contentDefaultHeight;
             } else {
@@ -174,7 +202,7 @@ export default {
             
             return str;
         },
-        handleCollect(e) {
+        handleCollect(e) { // 收藏
             e.stopPropagation();
             let uri = this.loggerItemData.favorite.isFavorite ? 
                     '/logger/favorite/delete' : '/logger/favorite/add'
@@ -194,7 +222,7 @@ export default {
                 }
             })
         },
-        handleLike(e) {
+        handleLike(e) { // 点赞
             e.stopPropagation();
             this.$ajax({
                 url: `/logger/diaryLike/${this.loggerItemData.id}`,
@@ -226,13 +254,10 @@ export default {
                 this.contentHeight = this.contentDefaultHeight;
             }
         },
-        handlePrint() {
-            window.print();
-        },
-        handleDelete() {
-            this.$Modal.warning({
+        handleDelete() { // 删除
+            this.$Modal.confirm({
                 title: '删除日志提示',
-                content: '确定删除该日志么',
+                content: '点击确定删除该日志',
                 onOk: (res)=>{
                     this.$ajax({
                         url: `/logger/diary/${this.loggerItemData.id}`,
@@ -241,10 +266,26 @@ export default {
                             this.$Message.error(res && res.msg || '网络错误')
                         }
                     })
-                },
-                onCancel: (res)=>{}
+                }
             });
             
+        },
+        handlePrint() { // 打印
+            window.print();
+        },
+        handleOperate() { // 操作记录
+            this.$ajax({
+                url: `/logger/diaryOpeationLoggers/${this.loggerItemData.id}`,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.operateModalData = res.data || [];
+                        this.operateModal = true;
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.error(res && res.msg || '网络错误')
+                }
+            })
         }
     },
     mounted () {
@@ -286,8 +327,6 @@ export default {
             margin-left: 54px;
             .title {
                 color: @gray-color-light;
-            }
-            .caption {
             }
         }
     }
@@ -365,9 +404,6 @@ export default {
             }
         }
     }
-    .logger-list-time {
-        // margin-bottom: 5px;
-    }
     .handle-content-expand {
         overflow: hidden;
         transition: .2s ease height;
@@ -379,6 +415,9 @@ export default {
         font-size: 0;
         margin-top: 20px;
         padding-bottom: 8px;
+        ::selection{
+            background-color: transparent;
+        }
         span {
             display: inline-block;
             margin-right: 10px;
@@ -388,10 +427,99 @@ export default {
             line-height: 20px;
             padding: 0 34px;
             border-right: 1px solid @border-color;
-            &.like {
+            i {
+                font-size: 14px;
+            }
+            &.reply {
+                i {
+                    position: relative;
+                    top: 2px;
+                }
+            }
+            &.collect {
                 border-right: 0;
+                &.active {
+                    color: @collect-color;
+                }
+            }
+            &.like {
+                &.active {
+                    color: @like-color;
+                }
             }
         }
+    }
+    
+}
+.operate-modal {
+    .ivu-modal-body {
+        padding: 0 50px;
+        min-height: 340px;
+        max-height: 340px;
+        position: relative;
+        &:before {
+            position: absolute;
+            left: 26px;
+            content: '';
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: @border-color;
+        }
+        .operate-row {
+            line-height: 20px;
+            font-size: 14px;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 4px;
+            background-color: @white-color-light;
+            position: relative;
+            &:before {
+                position: absolute;
+                content: '';
+                left: -26px;
+                top: 15px;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background-color: @gray-color-normal;
+            }
+            &:after {
+                position: absolute;
+                content: '';
+                width: 0;
+                border-style: solid;
+                border-width: 8px 8px 8px 0;
+                border-color: transparent @white-color-light transparent @white-color-light;
+                left: -7px;
+                top: 10px;
+            }
+            &:first-child {
+                &:before {
+                    background-color: @primary-color;
+                }
+            }
+            .operate-avatar {
+                float: left;
+                margin-top: 4px;
+            }
+            .operate-content {
+                margin-left: 41px;
+                .clearfix {
+                    color: @gray-color-light;
+                    height: 20px;
+                }
+                .pull-right {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    .ivu-modal-header p, .ivu-modal-header-inner {
+        font-weight: normal;
+    }
+    .ivu-modal-footer {
+        display: none;
     }
 }
 </style>

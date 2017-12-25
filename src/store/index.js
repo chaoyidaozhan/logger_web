@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import user from './userinfo/';
-
+import userInfo from './userinfo/';
+import template from './template/';
 Vue.use(Vuex);
-
 export default new Vuex.Store({
-    ...user
+    modules: {
+        template,
+    },
+    ...userInfo
 })

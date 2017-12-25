@@ -1,15 +1,13 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?nk6xk0');
-  src:  url('fonts/icomoon.eot?nk6xk0#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?nk6xk0') format('truetype'),
-    url('fonts/icomoon.woff?nk6xk0') format('woff'),
-    url('fonts/icomoon.svg?nk6xk0#icomoon') format('svg');
+  src: url('fonts/icomoon.eot?lxnopn');
+  src: url('fonts/icomoon.eot?lxnopn#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?lxnopn') format('truetype'), url('fonts/icomoon.woff?lxnopn') format('woff'), url('fonts/icomoon.svg?lxnopn#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="icon-"],
+[class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -18,51 +16,143 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-signin-tips:before {
-  content: "\e90c";
-}
-.icon-no-data:before {
-  content: "\e90b";
-}
-.icon-signin-logo:before {
-  content: "\e90a";
-}
-.icon-signin-circle:before {
-  content: "\e909";
-}
-.icon-depart-signin:before {
+.icon-add-big:before {
   content: "\e900";
 }
-.icon-error:before {
+
+.icon-add-template:before {
   content: "\e901";
 }
-.icon-my-signin:before {
+
+.icon-add:before {
   content: "\e902";
 }
-.icon-repair-signin:before {
+
+.icon-arrow-down:before {
+  content: "\e903";
+}
+
+.icon-arrow-left:before {
   content: "\e904";
 }
-.icon-setting-limit:before {
+
+.icon-arrow-right:before {
+  content: "\e905";
+}
+
+.icon-arrow-up:before {
   content: "\e906";
 }
-.icon-setting-signin:before {
+
+.icon-chat-normal:before {
+  content: "\e907";
+}
+
+.icon-chat-selected:before {
   content: "\e908";
 }
-.icon-status-signet-doing:before {
-  content: "\e903";
-  color: #666;
+
+.icon-check:before {
+  content: "\e909";
 }
-.icon-status-signet-no:before {
-  content: "\e905";
-  color: rgb(250, 79, 82);
+
+.icon-collect-normal:before {
+  content: "\e90a";
 }
-.icon-status-signet-yes:before {
-  content: "\e907";
-  color: #37b7fd;
+
+.icon-collect-selected:before {
+  content: "\e90b";
+}
+
+.icon-collect:before {
+  content: "\e90d";
+}
+
+.icon-delete-userlist:before {
+  content: "\e90e";
+}
+
+.icon-delete:before {
+  content: "\e90f";
+}
+
+.icon-department:before {
+  content: "\e910";
+}
+
+.icon-details:before {
+  content: "\e911";
+}
+
+.icon-draft:before {
+  content: "\e912";
+}
+
+.icon-edit:before {
+  content: "\e913";
+}
+
+.icon-fullarrow-down:before {
+  content: "\e914";
+}
+
+.icon-fullarrow-left:before {
+  content: "\e915";
+}
+
+.icon-fullarrow-right:before {
+  content: "\e916";
+}
+
+.icon-fullarrow-up:before {
+  content: "\e917";
+}
+
+.icon-good-normal:before {
+  content: "\e918";
+}
+
+.icon-good-selected:before {
+  content: "\e919";
+}
+
+.icon-more:before {
+  content: "\e91a";
+}
+
+.icon-none-department:before {
+  content: "\e91b";
+}
+
+.icon-none-team:before {
+  content: "\e91c";
+}
+
+.icon-none-user:before {
+  content: "\e91d";
+}
+
+.icon-play:before {
+  content: "\e91e";
+}
+
+.icon-search:before {
+  content: "\e91f";
+}
+
+.icon-statistics:before {
+  content: "\e920";
+}
+
+.icon-stop:before {
+  content: "\e921";
+}
+
+.icon-template:before {
+  content: "\e922";
 }

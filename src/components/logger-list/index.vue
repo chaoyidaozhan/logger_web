@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-import FsLoggerListItem from './node-item';
+import FsLoggerListItem from './logger-list-node';
 import FsEmptyTips from 'app_component/common/empty-tips/'
 /**
     range 
@@ -37,6 +37,10 @@ export default {
         dataStatus: { // 日志查询标记
             type: Number,
             default: 1
+        },
+        range: {
+            type: String,
+            default: '0'
         }
     },
     data() {
@@ -44,26 +48,22 @@ export default {
             list: [],
             pageNum: 1, 
             pageSize: 20, 
-            range: 0,
             loading: false,
             loaderror: false,
             hasMore: true,
+            requesTimer: null
         }
     },
     components: {
         FsLoggerListItem,
         FsEmptyTips
     },
-    created() {
-        this.initList()
-    },
     watch: {
         pageNum: 'loadData',
-        params: 'initList'
+        params: 'initList' 
     },
     methods: {
         getParams() { // 获取参数
-            console.log(this.params)
             return Object.assign({
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
@@ -111,17 +111,19 @@ export default {
                     this.list=[];
                     this.loaderror = true;
                 }
-            })
+            });
         },
         initList() { // 初始化列表
             this.list = [];
-            this.range = this.$route && this.$route.params && this.$route.params.range || 0;
             this.pageNum = 1;
             this.loading = false;
             this.hasMore = true;
             this.loadData();
         },
     },
+    mounted () {
+        this.initList();
+    }
 }
 </script>
 <style lang="less" scoped>

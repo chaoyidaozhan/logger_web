@@ -1,7 +1,10 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <span class="title">部门统计</span> 
+            <fs-query-form 
+                :showTemplate="true"
+                :showOrderType="true"
+                @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">
             <fs-logger-statistics 
@@ -13,6 +16,7 @@
 </template>
 <script>
 import FsFrame from '../frame/';
+import FsQueryForm from 'app_component/common/query-form/'
 import FsLoggerStatistics from 'app_component/logger-statistics/'
 export default {
     data() {
@@ -25,6 +29,7 @@ export default {
     },
     components: {
         FsFrame,
+        FsQueryForm,
         FsLoggerStatistics
     },
     methods: {

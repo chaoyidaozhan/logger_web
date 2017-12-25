@@ -1,18 +1,18 @@
 <template>
     <div class="logger-menu">
         <div class="logger-menu-logo">
-            <Button type="primary" :style="{width: '100px'}">创建日志</Button>
+            <Button type="primary" @click="goLoggerDetail" :style="{width: '100px'}">创建日志</Button>
         </div>
         <div class="logger-menu-layout" ref="loggerMenuLayout">
             <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
                 <div v-for="(item, index) in menus" :key="index">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
-                        <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
+                        <i v-if="item.icon" :class="`${item.icon}`"></i>
                         <span>{{item.name}}</span>
                     </Menu-Item>
                     <Submenu :name="item.name" v-if="item.subMenu && !!item.subMenu.length">
                             <template slot="title">
-                                <i v-if="item.icon" :class="`icon-${item.icon}`"></i>
+                                <i v-if="item.icon" :class="`${item.icon}`"></i>
                                 <span>{{item.name}}</span>
                             </template>
 
@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             openNames: [],
-            activeName: '/MyCheckin',
+            activeName: '',
             menus: [],
         }
     },
@@ -112,22 +112,17 @@ export default {
         },
         setActiveName(to) { // 设置当前激活导航
             let path = to ? to.path : this.$route && this.$route.path;
-            let reg = /\/([^\/]*)(\/ | ?)/g;
-            if(reg.exec(path)){
-                this.activeName = `/${RegExp.$1}`
-            } else {
-                this.activeName = path
-            }
-
-            if(this.activeName == '/LoggerQuery') {
-                this.activeName += `/${this.$route.params.range}`
-            }
-
+            this.activeName = path
             this.setOpenNames();
         },
         checkLimit(to, from) { // 检测当前路由权限
             let path = to ? to.path : this.$route.path;
-            let menus = this.menus;
+            console.log(path)
+            let menus = JSON.parse(JSON.stringify(this.menus));
+
+            menus.push({ // 不存在menuconfig中的地址
+                path: '/LoggerDetail'
+            })
             let exist = false;
             menus.forEach((m)=>{
                 if(m.path && path.indexOf(m.path) != -1) { // 存在
@@ -141,16 +136,9 @@ export default {
                     })
                 }
             });
-            // 没在nemuconfig中注册的地址
-            let otherPaths = ['/SettingAuthor'];
-            try {
-                if (otherPaths.includes(to.path)) {
-                    exist = true;
-                }
-            } catch (e) {}
 
             if(!exist) { // 如果不存在当前路由跳转回from或mycheckin
-                this.goToLink(from ? from.path : '/LoggerQuery/0');
+                this.goToLink(from ? from.path : '/LoggerQueryAll');
             }
             this.setActiveName(to || null);
         },
@@ -158,7 +146,15 @@ export default {
             this.$router.push({
                 path: name,
                 query: {
-                    token: (storage.get('$sign') && storage.get('$sign').token) || this.$store.state.userInfo.token
+                    token: this.$store.state.userInfo.token
+                }
+            });
+        },
+        goLoggerDetail() {
+            this.$router.push({
+                path: `/LoggerDetail/template`,
+                query: {
+                    token: this.$store.state.userInfo.token
                 }
             });
         },
@@ -223,36 +219,45 @@ export default {
         }
         .ivu-menu-item,
         .ivu-menu-submenu-title {
-            padding: 17px 24px;
+            padding: 17px 20px;
             font-size: 14px;
             line-height: 14px;
             color: @menu-title-color;
-            border-right: 0;
-            &:hover {
-                background-color: @menu-hover-bg-color;
-                color: @primary-color;
-            }
-            &.ivu-menu-item-active,
-            &.ivu-menu-item-selected {
-                background-color: @primary-color;
-                color: @menu-hover-color!important;
-                border-right: 0!important;
-            }
+            border-right: 0!important;
+          
+          
             &>i {
-                font-size: 18px;
+                font-size: 16px;
                 margin-right: 4px;
                 vertical-align: middle;
                 width: 18px;
                 height: 18px;
                 display: inline-block;
+                color: @gray-color-light;
             }
             &>span {
                 vertical-align: middle;
                 display: inline-block;
             }
+            &:hover {
+                background-color: @menu-hover-color;
+                color: @primary-color;
+                border-right: 0!important;
+                &>i {
+                    color: @primary-color;
+                }
+            }
+            &.ivu-menu-item-active,
+            &.ivu-menu-item-selected {
+                background-color: @menu-hover-bg-color;
+                border-right: 0!important;
+                &>i {
+                    color: @primary-color;
+                }
+            }
         }
         .ivu-menu-submenu .ivu-menu-item {
-            padding-left: 50px;
+            padding-left: 48px;
         }
         .ivu-menu-submenu-title-icon {
             top: 0;
