@@ -10,7 +10,7 @@
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <fs-logger-list :range="range" :params="params" ref="loggerList"/>
+            <fs-logger-list v-if="hasLoadedGroup" :range="range" :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
@@ -24,6 +24,7 @@ export default {
         return {
             params: {},
             range: '3',
+            hasLoadedGroup: false
         }
     },
     components: {
@@ -41,6 +42,7 @@ export default {
                 ...this.params,
                 groupId: groupId
             };
+            this.hasLoadedGroup = true
         }
     },
 }
