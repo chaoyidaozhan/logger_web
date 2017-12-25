@@ -62,7 +62,7 @@ const menus = [
     },
     {
         name: '模板管理',
-        path: '/LoggerTemplate',
+        path: '/LoggerTemplate/manager',
         icon: 'icon-template',
         type: ['admin ','diary_examer'],
     },

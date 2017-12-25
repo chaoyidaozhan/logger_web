@@ -18,6 +18,10 @@ window.storage = storage; // 建立全局的storage
 Vue.use(VueRouter);
 Vue.use(iView);
 
+// 选人组件依赖 iview 和 ajax.js ;
+import selectMember from './components/common/select-member';
+Vue.use(selectMember);
+
 const router = new VueRouter({ // 创建路由
     mode: 'hash',
     routes

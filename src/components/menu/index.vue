@@ -1,7 +1,7 @@
 <template>
     <div class="logger-menu">
         <div class="logger-menu-logo">
-            <Button type="primary" :style="{width: '100px'}">创建日志</Button>
+            <Button type="primary" @click="goLoggerDetail" :style="{width: '100px'}">创建日志</Button>
         </div>
         <div class="logger-menu-layout" ref="loggerMenuLayout">
             <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             openNames: [],
-            activeName: '/MyCheckin',
+            activeName: '',
             menus: [],
         }
     },
@@ -112,17 +112,17 @@ export default {
         },
         setActiveName(to) { // 设置当前激活导航
             let path = to ? to.path : this.$route && this.$route.path;
-            let reg = /\/([^\/]*)(\/ | ?)/g;
-            if(reg.exec(path)){
-                this.activeName = `/${RegExp.$1}`
-            } else {
-                this.activeName = path
-            }
+            this.activeName = path
             this.setOpenNames();
         },
         checkLimit(to, from) { // 检测当前路由权限
             let path = to ? to.path : this.$route.path;
-            let menus = this.menus;
+            console.log(path)
+            let menus = JSON.parse(JSON.stringify(this.menus));
+
+            menus.push({ // 不存在menuconfig中的地址
+                path: '/LoggerDetail'
+            })
             let exist = false;
             menus.forEach((m)=>{
                 if(m.path && path.indexOf(m.path) != -1) { // 存在
@@ -136,13 +136,6 @@ export default {
                     })
                 }
             });
-            // 没在nemuconfig中注册的地址
-            let otherPaths = ['/SettingAuthor'];
-            try {
-                if (otherPaths.includes(to.path)) {
-                    exist = true;
-                }
-            } catch (e) {}
 
             if(!exist) { // 如果不存在当前路由跳转回from或mycheckin
                 this.goToLink(from ? from.path : '/LoggerQueryAll');
@@ -153,7 +146,15 @@ export default {
             this.$router.push({
                 path: name,
                 query: {
-                    token: (storage.get('$sign') && storage.get('$sign').token) || this.$store.state.userInfo.token
+                    token: this.$store.state.userInfo.token
+                }
+            });
+        },
+        goLoggerDetail() {
+            this.$router.push({
+                path: `/LoggerDetail/template`,
+                query: {
+                    token: this.$store.state.userInfo.token
                 }
             });
         },

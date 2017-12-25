@@ -1,11 +1,9 @@
 <template>
     <div class ="logger-summary-content">
-        <div class="content-header">
-            <div class="note">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
-        </div>
+        <div class="note" v-if="list.length">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
         <div v-if="list.length">
             <div class="content-bar">
-                <Table border ref="selection" :columns="columnsData" :data="list"  @on-selection-change="handleSelectChange"></Table>
+                <Table border ref="selection" :columns="columnsData" :data="listTemplate"  @on-selection-change="handleSelectChange"></Table>
             </div>
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
@@ -19,13 +17,15 @@
             </div>
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
-        <fs-empty-tips v-else  />
+        <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
+        <span class="nodata" v-if="!list.length&&iconFlag">选择联系人选择联系人选择联系人选择联系人</br>选择联系人选择联系人选择联系人选择联系人</span>
     </div>
 </template>
 <script>
 import Pagination from 'app_component/common/pagination';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import config from 'app_src/config/config'
+// import formatTime from'../../filters/format-time'
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -35,128 +35,18 @@ export default {
     },
     data(){
         return {
-            dataType:0,
+            dataType:false,
             checkNum:0,
+            iconFlag:1,
             list: [],
             pageNum: 1, 
             pageSize: 20, 
             range: 0,
             totalCount:0,
-            list:[],
-            exportUrl:'',
-            columnsData: [
-                {
-                    type: 'selection',
-                    width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '提交时间',
-                    key: 'subTime'
-                },
-                {
-                    title: '提交人',
-                    key: 'subPeo'
-                },
-                {
-                    title: '文本输入框',
-                    key: 'txtInput'
-                },
-                {
-                    title: '数字输入框',
-                    key: 'numInput'
-                },
-                {
-                    title: '今日工作内容',
-                    key: 'workContent'
-                },
-                {
-                    title: '单选框',
-                    key: 'radioCheckbox'
-                },
-                {
-                    title: '日期',
-                    key: 'date'
-                },
-                {
-                    title: '所得金额',
-                    key: 'price'
-                }
-
-            ],
-            listTest: [
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                {
-                    subTime:'2016-10-03',
-                    subPeo: 'John Brown',
-                    txtInput:'haha',
-                    numInput:'444',
-                    workContent:'能否哈哈哈哈',
-                    radioCheckbox:'红',
-                    date: '2016-10-03',
-                    price:'123'
-                },
-                
-            ]
+            iconType:'member',
+            emptyMsg:'请选择联系人',
+            columnsData:[],//表头
+            listTemplate: [],//表body
         }
     },
     components: {
@@ -168,18 +58,13 @@ export default {
     },
     methods: {
         handleSelectAll (dataType) {//全选
-            if(dataType==1) {
-                this.dataType = 0
-                this.$refs.selection.selectAll(true);
-            } else {
-                this.dataType = 1;
-                this.$refs.selection.selectAll(false);
-            }  
+            this.$refs.selection.selectAll(dataType);
         },
         handleSelectChange(selection){//选项发生变化
             this.checkNum = selection.length;
+            this.dataType = selection.length<this.list.length?false:(selection.length==this.list.length?true: this.dataType);
         },
-        handleChangePage(pageNo){
+        handleChangePage(pageNo){//改变页数
             this.pageNum = pageNo;
             this.loadData();
         },
@@ -191,13 +76,83 @@ export default {
         },
         updateList(res){
             if(res && res.code === 0) {
-                // this.list = res.data || [];
-                this.list = this.listTest;
+                this.list = res.data.list|| [];
                 this.totalCount =  this.list.length;
+                if(this.list.length<=0){
+                    this.iconFlag = 0;
+                    this.iconType = '';
+                    this.emptyMsg = '没有相关数据';
+                }else{
+                    this.listTemplate = [];
+                    this.columnsData = [{//固定的前三列
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
+                        title: '提交时间',
+                        key: 'column1'
+                    },
+                    {
+                        title: '提交人',
+                        key: 'column2'
+                    }];
+                    
+                    let columnArr = [];
+                    try{
+                        columnArr = JSON.parse(this.list[0].content)
+                    } catch(e){
+                    
+                    }
+                    columnArr.forEach((item, key) => {//循环构建表头
+                        let length = this.columnsData.length,
+                            columnKey = 'column' + length;
+                        let headerColumn = {
+                            title: columnArr[key].title || '',
+                            key : columnKey
+                        }
+                        this.columnsData.push(headerColumn);
+                    });
+
+                    this.list.forEach((item, key) => {//循环构建表body
+                        let contentObj = [];
+                        let columnLength = this.columnsData.length; //总列数
+                        let data = {
+                            column1: this.resetTime(item.createTime),
+                            column2: item.userName,
+                        };
+                        try{
+                            contentObj = JSON.parse(item.content);
+                        } catch(e){
+
+                        }
+                        let contentLength = contentObj.length; //返回的列数
+                        contentObj.forEach((v, k) => {
+                            let i = columnLength - contentLength + k;
+                            data['column' + i] = v.value || '';
+                        });
+                        this.listTemplate.push(data);
+                    });
+                }
+                
             } else {
-                this.list = [];
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
+        },
+        resetTime(time){
+            var date = new Date(time);  
+            var y = date.getFullYear();    
+            var m = date.getMonth() + 1;    
+            m = m < 10 ? ('0' + m) : m;    
+            var d = date.getDate();    
+            d = d < 10 ? ('0' + d) : d;    
+            var h = date.getHours();  
+            h = h < 10 ? ('0' + h) : h;  
+            var minute = date.getMinutes();  
+            var second = date.getSeconds();  
+            minute = minute < 10 ? ('0' + minute) : minute;    
+            second = second < 10 ? ('0' + second) : second;   
+            return y + '-' + m + '-' + d+' '+h+':'+minute; 
         },
         getParams() {
             var data = Object.assign({
@@ -215,6 +170,9 @@ export default {
             if(!data.templateId){
                 this.$Message.warning('请选择模版');
                 return false;
+            }else if(!data.beginDate||!data.endDate){
+                this.$Message.warning('请选择日期');
+                return false;
             }else{
                 this.$ajax({
                     url: '/logger/diaryQuery/getDiaryStatistics',
@@ -229,34 +187,54 @@ export default {
             } 
         },
         initList() {
-            this.list = [];
             this.pageNum = 1;
             this.loadData();
         }
     },
 }
 </script>
+<style  lang="less">
+@import '../../assets/css/var.less';
+.content-bar{
+    .ivu-table-wrapper{
+        border:none;
+    }
+    .ivu-table{
+        height: 500px;
+        overflow: auto;
+    }
+    .ivu-table-cell{
+        max-height: 100px;
+    }
+    .ivu-table:before{
+        height: 0px;
+    }
+    .ivu-table:after{
+        width: 0px;
+    }
+    .ivu-table-border th, .ivu-table-border td{
+        border-right:none;
+    }
+    .ivu-table-row-hover td{
+        background-color:@white-color-light;
+    }
+    .ivu-table-header .ivu-checkbox{
+        display: none;
+    }
+}
+</style>
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
 .logger-summary-content{
+    position: absolute;
     width: 100%;
     height: 100%;
     background: #fff;
     padding: 0px 20px 20px 20px;
-    .content-header{
-        .note{
-            font-size: 12px;
-            padding:10px 0px;
-            color:@orange-color;
-        }
-    }
-    .content-bar{
-        .ivu-table-wrapper{
-            border:none;
-        }
-        .ivu-table-border th, .ivu-table-border td{
-            border-right:none!important;
-        }
+    .note{
+        font-size: 12px;
+        padding:10px 0px;
+        color:@orange-color;
     }
     .content-bottom{
         height: 50px;
@@ -273,6 +251,15 @@ export default {
         .bottom-right{
             float:right;
         }
+    }
+    .nodata{
+        display: block;
+        position: absolute;
+        top: 32%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #999999;
+        font-size:14px;
     }
     
 }
