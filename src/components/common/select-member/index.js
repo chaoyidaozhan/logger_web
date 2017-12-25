@@ -56,10 +56,16 @@ export default {
                         open:true,
                     }
                     console.log(DEFAULT_INFO)
-                    !config.dep  ? info.selected.dep =[]  : this.setDefaultTure('dep') ;
-                    !config.team ? info.selected.team=[]  : this.setDefaultTure('team') ;
-                    !config.man  ? info.selected.man =[]  : this.setDefaultTure('man') ; 
+                    !config.dep  ? info.selected.dep =[]  : null ;
+                    !config.team ? info.selected.team=[]  : null ;
+                    !config.man  ? info.selected.man =[]  : null ; 
                     this.info = info ;
+
+                    //重置默认设置 ;
+                    this.info.dep  ? this.setDefaultTure('dep') : null ;
+                    this.info.team ? this.setDefaultTure('team'): null ;
+                    this.info.man  ? this.setDefaultTure('man') : null ;
+
                 },
                 // 设置传进来的为true 
                 setDefaultTure( type ){
