@@ -5,15 +5,29 @@
         <template v-if="!dep.length && !team.length && !man.length">
             {{placeholder}}
         </template>
+        <template v-else-if="ellipsis">
+            <span v-for="item in dep" :key="item.deptId">
+                {{item.deptName}}
+            </span>
+            <span v-for="item in team" :key="item.groupId">
+                {{item.groupName}}
+            </span>
+            <span v-for="item in man" :key="item.memberId">
+                {{item.userName}}
+            </span>
+        </template>
         <template v-else>
             <span class="tag" v-for="item in dep" :key="item.deptId">
                 {{item.deptName}}
+                <Icon type="close-round" @click.native="handleClearMember($event, item, 'dep')"></Icon>
             </span>
             <span class="tag" v-for="item in team" :key="item.groupId">
                 {{item.groupName}}
+                <Icon type="close-round" @click.native="handleClearMember($event, item, 'team')"></Icon>
             </span>
             <span class="tag" v-for="item in man" :key="item.memberId">
                 {{item.userName}}
+                <Icon type="close-round" @click.native="handleClearMember($event, item, 'man')"></Icon>
             </span>
         </template>
         <i class="icon-add"></i>
@@ -72,6 +86,29 @@ export default {
         handleSelectMember(res) {
             this.$emit('handleSelectMember', res);
         },
+        handleClearMember(e, item, name) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(e)
+            let selected = {
+                dep: JSON.parse(JSON.stringify(this.dep)),
+                man: JSON.parse(JSON.stringify(this.man)),
+                team: JSON.parse(JSON.stringify(this.team))
+            }
+            let arr = [];
+            let id = {
+                dep: 'deptId',
+                team: 'groupId',
+                man: 'memberId'
+            }
+            selected[name].forEach((val)=>{
+                if(val[`${id[name]}`] != item[[`${id[name]}`]]) {
+                    arr.push(val)
+                }
+            });
+            selected[name] = arr;
+            this.handleSelectMember(selected)
+        },
         openSelectMember() {
             let info = {
                 title: this.title,
@@ -97,8 +134,6 @@ export default {
     display: inline-block;
     vertical-align: middle;
     width: 100%;
-    height: 32px;
-    line-height: 22px;
     padding: 4px 30px 4px 7px;
     font-size: 12px;
     border: 1px solid @border-color;
@@ -107,17 +142,34 @@ export default {
     background-color: @white-color;
     background-image: none;
     position: relative;
+    line-height: 22px;
+    &.ellipsis {
+        height: 32px;
+    }
     &.disabled {
         color: @btn-disable-color;
     }
     .icon-add {
         position: absolute;
-        right: 10px;
-        height: 32px;
+        height: 30px;
         font-size: 14px;
         line-height: 30px;
-        top: 0;
+        top: 50%;
+        margin-top: -15px;
+        width: 30px;
+        background-color: @white-color;
         color: @gray-color-normal;
+        right: 1px;
+        text-align: center;
+    }
+    .tag {
+        padding: 0 6px;
+        color: @gray-color-light;
+        background-color: @gray-color-elip;
+        margin:2px;
+        line-height: 19px;
+        border-radius: 12px;
+        display: inline-block;
     }
 }
 </style>

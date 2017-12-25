@@ -15,7 +15,7 @@
                     ref="selectTemplate"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
-                <Checkbox @on-change="handleChange">已停用/删除模板</Checkbox>
+                <Checkbox @on-change="handleChange">停用/删除</Checkbox>
             </FormItem> 
             <FormItem :label-width="40" label="日期"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate"/>
@@ -43,7 +43,7 @@
             </FormItem> 
             
             <FormItem class="search-btn">
-                <Button type="primary" @click="handleQuery">
+                <Button :disabled="loading" type="primary" @click="handleQuery">
                     查询
                 </Button>
             </FormItem>
@@ -99,7 +99,6 @@ export default {
         FsSelectMember,
         FsSelectTemplate,
         FsSelectDate,
-        FsSelectGroup,
         FsSelectOrderType
     },
     data() {
@@ -108,47 +107,63 @@ export default {
             dep: [],
             team: [],
             man: [],
+            queryTimer: null,
+            loading: false
         }
     },
     methods: {
         handleQuery() { // 查询时返回整理好的数据
-            let params = {
-                templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
-                beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
-                endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
-                orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
-            };
-            if(!!this.man.length) {
-                let memberIds = []
-                this.man.forEach(item=>{
-                    memberIds.push(item.memberId);
-                })
-                params.memberIds = memberIds.join(',');
-            }
-            let keys = Object.keys(params);
-            keys.forEach(key=>{ // 非空验证
-                if(!params[key] && key != 'deptId') {
-                    delete params[key];
+            clearTimeout(this.queryTimer);
+            this.queryTimer = setTimeout(() => {
+                let params = {
+                    templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
+                    beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
+                    endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
+                    orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
+                };
+                if(!!this.man.length) { // 整理人员id
+                    let memberIds = []
+                    this.man.forEach(item=>{
+                        memberIds.push(item.memberId);
+                    })
+                    params.memberIds = memberIds.join(',');
                 }
-                if(key == 'deptId' || key == 'templateId') {
-                    if(!params[key] && params[key] !== 0) {
+                if(!!this.dep.length) { // 整理组织id
+                    let deptId = []
+                    this.dep.forEach(item=>{
+                        deptId.push(item.deptId);
+                    })
+                    params.deptId = deptId.join(',');
+                }
+                if(!!this.team.length) { // 整理团队
+                    let groupId = []
+                    this.team.forEach(item=>{
+                        groupId.push(item.groupId);
+                    })
+                    params.groupId = groupId.join(',');
+                }
+                let keys = Object.keys(params);
+                keys.forEach(key=>{ // 非空验证
+                    if(!params[key] && key != 'deptId') {
                         delete params[key];
                     }
-                }
-            })
-            this.$emit('handleQuery', params);
+                    if(key == 'deptId' || key == 'templateId') {
+                        if(!params[key] && params[key] !== 0) {
+                            delete params[key];
+                        }
+                    }
+                })
+                this.$emit('handleQuery', params);
+            }, 200);
+           
         },
         handleSelectMember(res) {
             let keys = Object.keys(res);
             keys.forEach(key=>{
                 this[key] = res[key]
             })
-            console.log(this.dep)
-            console.log(this.man)
-            console.log(this.team)
         },
         handleChange(value) {
-            console.log(value)
             if(value) {
                 this.templateType = 'web'
             } else {
@@ -166,6 +181,14 @@ export default {
                 this.$refs.selectDept.deptId = '';
             }
         }
+    },
+    mounted () {
+        this.$eventbus.$on('setBtnLoading', (data)=>{
+            this.loading = data;
+        })
+    },
+    destroyed () {
+        this.$eventbus.$off('setBtnLoading')
     }
 }
 </script>
@@ -181,6 +204,7 @@ export default {
         min-width: 226px;
         &.form-item-checkbox {
             width: auto;
+            min-width: auto;
         }
         .ivu-form-item-label {
             padding-top: 11px;
