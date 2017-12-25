@@ -79,6 +79,7 @@ export default {
                 });
                 if(this.pageNum === 1) {
                     this.groupsData = res.data || [];
+                    this.currentId = this.groupsData[0] && this.groupsData[0].groupId;
                 }else {
                     this.groupsData = this.groupsData.concat(res.data || []);
                 }
@@ -118,7 +119,7 @@ export default {
         },
         getDaily(params) {
             this.currentId = params.groupId;
-            this.$emit("getDaily", params);
+            this.$emit("getDaily", this.currentId);
         },
         handleReload() {
             this.loaderror = false;            
@@ -152,7 +153,7 @@ export default {
         background-color: @white-color;
         border-right: 1px solid @border-color;
         .group-item {
-            padding: 10px 15px;            
+            padding: 10px;            
             cursor: pointer;
             &.active {
                 background-color: @white-color-light;
@@ -187,6 +188,7 @@ export default {
                 height: 100%;
             }
             .load-error {
+                height: 40px;
                 font-size: 12px;
                 line-height: 2;
             }

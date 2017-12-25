@@ -1,7 +1,7 @@
 <template>
     <fs-frame :leftDistance="range == 3 ? '200px' : ''">
         <template slot="othter" v-if="range == 3">
-            <fs-group-menu></fs-group-menu>
+            <fs-group-menu @getDaily="getDaily"></fs-group-menu>
         </template>
         <template slot="head">
             <fs-query-form
@@ -36,6 +36,12 @@ export default {
         handleQuery(params) {
             this.params = params;
         },
+        getDaily(groupId) {
+            this.params = {
+                ...this.params,
+                groupId: groupId
+            };
+        }
     },
 }
 </script>
