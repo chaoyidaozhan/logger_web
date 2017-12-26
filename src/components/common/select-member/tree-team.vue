@@ -5,7 +5,7 @@
 		<ul class="man_scroll">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
 				<div class="head-wrap l">
-					<avatar :avatar="each.groupLogo" :name="each.groupName" :size="'28px'"/>
+					<avatar :avatar="each.groupLogo" type="group" :name="each.groupName" :size="'28px'"/>
 				</div>
 				<div class="groupName l">
 					{{each.groupName}}

@@ -5,7 +5,7 @@
             v-for="groupItem in groupsData"
             :key="groupItem.groupId"
             @click="getDaily(groupItem)">
-            <avatar class="pull-left" :avatar="groupItem.logo"></avatar>
+            <avatar class="pull-left" fontSize="20px" :avatar="groupItem.logo" :name="groupItem.groupName" type="group"></avatar>
             <div class="group-row-right">
                 <p class="ellipsis group-name">{{groupItem.groupName}} ({{groupItem.groupMemberCount}})人</p>
                 <p class="ellipsis">{{groupItem.diaryNum}}篇日志</p>
@@ -60,6 +60,7 @@ export default {
                 error: (res)=>{
                     this.loading = false;
                     this.loaderror = true;
+                    
                 }
             });
         },

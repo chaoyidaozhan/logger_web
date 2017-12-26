@@ -6,6 +6,7 @@
                 class="avatar"
                 :avatar="loggerItemData.avatar" 
                 :name="loggerItemData.userName"
+                :fontSize="loggerItemData.userName ? '14px' : '20px'" 
             />
             <div class="logger-list-col clearfix">
                 <span class="username">{{loggerItemData.userName}}</span>
@@ -96,10 +97,13 @@
         <Modal
             v-model="operateModal"
             class="operate-modal"
-            title="操作记录"
-        >   
+            title="操作记录">   
             <div class="operate-row" v-for="item in operateModalData" :key="item.id">
-                <fs-avatar class="operate-avatar" size="31px" :avatar="item.avatar" :name="item.userName"></fs-avatar>
+                <fs-avatar class="operate-avatar" 
+                    size="31px" 
+                    :avatar="item.avatar" 
+                    :fontSize="item.userName ? '12px' : '18px'" 
+                    :name="item.userName"></fs-avatar>
                 <div class="operate-content">
                     <div class="clearfix">
                         <span>{{item.userName}}</span>

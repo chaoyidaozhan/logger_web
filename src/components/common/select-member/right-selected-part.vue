@@ -16,7 +16,7 @@
 			<ul v-show="openDep">
 				<li class="li" v-for="each in depList">
 					<div class="head-wrap l">
-						<avatar :name="each.deptName" :size="'28px'"/>
+						<avatar :name="each.deptName" type="dept" :size="'28px'"/>
 					</div>
 					<div class="depName elli l">
 						{{each.deptName}}
@@ -35,7 +35,7 @@
 			<ul v-show="openTeam">
 				<li class="li" v-for="each in teamList">
 					<div class="head-wrap l">
-						<avatar :avatar="each.groupLogo" :name="each.groupName" :size="'28px'"/>
+						<avatar :avatar="each.groupLogo"  type="group" :name="each.groupName" :size="'28px'"/>
 					</div>
 					<div class="groupName elli l">
 						{{each.groupName}}

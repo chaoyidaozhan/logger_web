@@ -3,20 +3,28 @@
         :style="{
             'width':size, 
             'height':size,
-            'font-size': fontSize,
-            'background-color': `${loadError ? backgroundColor : ''}`}"> 
-        <template v-if="avatar && !loadError">
+            'line-height':size,
+            'background-color': `${isDefault() && !loadError ?  '' : backgroundColor}`}"> 
+        <template v-if="isDefault() && !loadError">
             <img 
-                v-if="!type"
                 :src="avatar"
                 @error="onError" 
                 class="avatar">
-            <template v-else>
-                <span v-if="type=='depart'"></span>
-                <span v-if="type=='group'"></span>
-            </template>
         </template>
-        <span class="name" v-else>{{ formatName }}</span>
+        <template v-else :style="{'font-size': fontSize}">
+            <template v-if="!!type">
+                <span :style="{'font-size': fontSize}" class="name" v-if="type=='dept'">
+                    <i class="icon-department"></i>
+                </span>
+                <span :style="{'font-size': fontSize}" class="name" v-if="type=='group'">
+                    <Icon type="person-stalker"></Icon>
+                </span>
+            </template>
+            <span :style="{'font-size': fontSize}" class="name" v-else-if="name">{{ formatName }}</span>
+            <span :style="{'font-size': fontSize}" class="name" v-else>
+                <Icon type="person"></Icon>
+            </span>
+        </template>
     </div>
 </template>
 <script>
@@ -59,6 +67,17 @@ export default{
         }
     },
     methods: {
+        isDefault() {
+            let avatar = ''
+            if(this.avatar && this.avatar.indexOf('default_avatar') != -1) {
+                avatar = '';
+            } else if(this.avatar && this.avatar.indexOf('defaultGroup') != -1) {
+                avatar = '';
+            }  else {
+                avatar = this.avatar;
+            }
+            return avatar;
+        },
         onError(e) {
             this.loadError = true;
         },
@@ -84,16 +103,7 @@ export default{
             display: block;
             width: 100%;
             height: 100%;
-            font-size: 14px;
             color: #fff;
-            margin-left: -1px;
-            &:before {
-                display: inline-block;
-                width: 1px;
-                height: 100%;
-                content: '';
-                vertical-align: middle;
-            }
         }
     }
 </style>
