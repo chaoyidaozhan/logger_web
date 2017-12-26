@@ -56,6 +56,7 @@
 		},
 		methods:{
 			keyWordChange( kw ){
+			  if( this.keyWord==kw ){ return };
 				this.keyWord = kw ;
 				this.list    = [];
 				this.pageNum = 1;
@@ -137,8 +138,8 @@
 			overflow: hidden;
 			.head-wrap{
 				width: 28px;height: 28px;
-				background: #f0f0f0;
-				border-radius: 50%;
+				// background: #f0f0f0;
+				// border-radius: 50%;
 				font-size: 0;
 			}
 			.userName{

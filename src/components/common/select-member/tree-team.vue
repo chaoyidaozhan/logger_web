@@ -5,7 +5,7 @@
 		<ul class="man_scroll">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
 				<div class="head-wrap l">
-					<Icon type="social-octocat"></Icon>
+					<avatar :avatar="each.groupLogo" :name="each.groupName" :size="'28px'"/>
 				</div>
 				<div class="groupName l">
 					{{each.groupName}}
@@ -55,6 +55,7 @@
 		},
 		methods:{
 			keyWordChange( kw ){
+			  if( this.keyWord==kw ){ return };
 				this.keyWord = kw ;
 				this.list    = [];
 				this.pageNum = 1;
@@ -144,8 +145,8 @@
 			}
 			.head-wrap{
 				width: 28px;height: 28px;
-				background: #f0f0f0;
-				border-radius: 50%;
+				// background: #f0f0f0;
+				// border-radius: 50%;
 				font-size: 0;
 			}
 			.groupName{

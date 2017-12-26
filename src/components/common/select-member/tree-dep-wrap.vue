@@ -5,7 +5,7 @@
 		<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
 				<div class="head-wrap l">
-					<Icon type="social-usd-outline"></Icon>
+					<avatar avatar="1"  :name="each.deptName" :size="'28px'"/>
 				</div>
 				<div class="deptName l">
 					{{each.deptName}}
@@ -29,11 +29,12 @@
 	</div>
 </template>
 <script type="text/javascript">
+	import avatar from '../avatar';
 	import searchInput from './search-input.vue';
 	export default{
 		props:['info'],
 		components:{
-			searchInput
+			avatar , searchInput
 		},
 
 		data(){
@@ -106,6 +107,9 @@
 </script>
 <style lang="less">
 	.tree-dep-wrap{
+		.avatar-wrapper .name{
+			font-size: 12px;
+		}
 		.tree-wrap{
 			padding: 0 15px 0 25px;
 		}
@@ -119,8 +123,8 @@
 			}
 			.head-wrap{
 				width: 28px;height: 28px;
-				background: #f0f0f0;
-				border-radius: 50%;
+				// background: #f0f0f0;
+				// border-radius: 50%;
 				font-size: 0;
 			}
 			.deptName{

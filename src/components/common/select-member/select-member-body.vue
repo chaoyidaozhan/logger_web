@@ -16,7 +16,7 @@
         	<p class="l maxCount" v-show=" maxCount>1 ">
         		每次选择不可超过{{maxCount}}人，请分批选择
         	</p>
-        	<div class="show-all-wrap" v-show="info.limit.showAll">
+        	<div class="show-all-wrap" v-show="info.limit.showAll && info.limit.count==1">
         		<Button class="btn" type="ghost" v-show="showAllIndex==1" @click="chooseAll('dep')" >全部部门</Button>
         		<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="chooseAll('team')">全部团队</Button>
         		<Button class="btn" type="ghost" v-show="showAllIndex==3" @click="chooseAll('man')" >全部成员</Button>
@@ -30,7 +30,6 @@
 <script type="text/javascript">
 	import LeftSelectPart from './left-select-part';
 	import RightSelectedPart from './right-selected-part';
-	
 	export default {
 		props:['info'],
 		components:{
@@ -91,6 +90,7 @@
 	.r{float: right;}
 	.l{float: left;}
 	.show-all-wrap{
+		margin-right: 8px;
 		display: inline-block;
 	}
 	.select_member{
@@ -108,9 +108,10 @@
 		.sel_body{
 			position: relative;
 			height: 100%;
+			padding-right: 240px;
 			.sel_left{
 				position: relative;
-				height: 100%;width: 360px;
+				height: 100%;width:100%;
 			}
 			.sel_right{
 				height: 100%;
