@@ -11,6 +11,7 @@
             <fs-logger-statistics 
                 :params="params"
                 type="depart"
+                title="部门名称"
                 ref="loggerStatistics"/>
         </template>
     </fs-frame>
@@ -24,7 +25,7 @@ export default {
         return {
             params: {
                 deptId: 0,
-                orderType: '1'
+                orderType: '0'
             }       
         }
     },
@@ -35,8 +36,8 @@ export default {
     },
     methods: {
         handleQuery(params) {
+            console.log(params)
             this.params = params;
-            this.$refs.loggerStatistics.loadData();
         }
     }
 }

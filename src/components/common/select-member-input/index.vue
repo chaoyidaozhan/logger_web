@@ -36,19 +36,19 @@
 <script>
 export default {
     props: {
-        dep: {
+        dep: { // 组织数据
             type: Array,
             default() {
                 return []
             }
         },
-        team: {
+        team: { // 团队数据
             type: Array,
             default() {
                 return []
             }
         },
-        man: {
+        man: { // 人员数据
             type: Array,
             default() {
                 return []
@@ -115,6 +115,11 @@ export default {
                 man: this.showMember,
                 team:  this.showGroup,
                 dep: this.showDept,
+                limit: { 
+                    showAll: true,
+                    warning: '',
+                    count: 1
+                },
                 selected: {
                     dep: JSON.parse(JSON.stringify(this.dep)),
                     man: JSON.parse(JSON.stringify(this.man)),

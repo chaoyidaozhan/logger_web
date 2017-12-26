@@ -126,6 +126,7 @@
 		}
 		.btn{
 			width: 90px;
+			margin-left: 8px;
 		}
 		.success{
 		    background: #1FDA9A;
