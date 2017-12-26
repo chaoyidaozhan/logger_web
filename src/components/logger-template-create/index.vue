@@ -71,7 +71,7 @@
             </FormItem>
             <FormItem label="附件">
                 <template>
-                    <Upload :action="uploadFile">
+                    <Upload :action="uploadFile" :on-success="handleFileSuccess">
                         <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
                     </Upload>
                 </template>
@@ -88,14 +88,15 @@
 <script>
 import SelectMemberInput from '../common/select-member-input/';
 import config from 'app_src/config/config';
+import FormatTime  from 'app_src/filters/format-time';
 export default {
     data(){
         return{
             templateContent: [],
+            templateItemData:[],
             formInfo: {
 
             },
-            hasLoaded: false,
             deptRange: [],
             groupRange: [],
             memberRange: [],
@@ -152,7 +153,8 @@ export default {
             let template = this.$store.state.template.app || [];
             template.forEach((v,k) => {
                 if(v.id == templateId){
-                    this.templateContent = JSON.parse(v.content) || []
+                    this.templateContent = JSON.parse(v.content) || [];
+                    this.templateItemData = v;
                 }
             });
             this.formInfo = {
@@ -185,8 +187,7 @@ export default {
                                     'deptId': v.teamId,
                                     'deptName': v.teamName
                                 });
-                            }
-                            else if(v.dataType==3){//团队
+                            }else if(v.dataType==3){//团队
                                 teamArray.push({
                                     'groupId': v.teamId,
                                     'groupName': v.teamName
@@ -214,19 +215,50 @@ export default {
         handleChecked(value) {
             console.log(value)
         },
+        handleFileSuccess(res, file){
+            console.log(res,file)
+        },      
         handleSubmit() {
-            console.log(this.formInfo);
+            console.log(this.formInfo,99999);
             console.log(this.$refs.selectDept.dep,8888)
 
-            this.deptRange.push({
-                deptName: 1231,
-                deptId: 1231
-            })
-            
+          
+            let deptRangeStr = [];
+            this.deptRange.forEach((v,k)=>{
+                deptRangeStr.push({
+                    'teamId': v.deptId,
+                    'teamName': v.deptName,
+                    'dataType':1
+                })
+            });
+            this.groupRange.forEach((v,k)=>{
+                deptRangeStr.push({
+                    'teamId': v.groupId||v.gid,
+                    'teamName': v.groupName,
+                    'dataType':3
+                })
+            });
+            this.memberRange.forEach((v,k)=>{
+                deptRangeStr.push({
+                    'memberId': v.memberId,
+                    'userName': v.userName,
+                    'dataType':4
+                })
+            });
             let submitData = {
+                gather:0,
+                diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
+                templateName:this.templateItemData.title,
+                version:'1514202355530',
+                source:3,//1 安卓   2 ios    3web    4微信
                 templateId:this.$route.params.id||0,
+                visibleRange:1,
+                visibleRangeStr:deptRangeStr,
+                dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
+                fileStr:[]
                 
             };
+            console.log(submitData,'submitData')
             this.$ajax({
                 url: '/logger/diary/lastVisibleRange',
                 data: submitData,
