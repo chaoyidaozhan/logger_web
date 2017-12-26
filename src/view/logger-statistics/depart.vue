@@ -11,33 +11,20 @@
             <fs-logger-statistics 
                 :params="params"
                 type="depart"
+                title="部门名称"
                 ref="loggerStatistics"/>
         </template>
     </fs-frame>
 </template>
 <script>
-import FsFrame from '../frame/';
-import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerStatistics from 'app_component/logger-statistics/'
+import query from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
-            params: {
-                deptId: 0,
-                orderType: '1'
-            }       
+            deptId: 0,
+            validateString: 'deptId'
         }
     },
-    components: {
-        FsFrame,
-        FsQueryForm,
-        FsLoggerStatistics
-    },
-    methods: {
-        handleQuery(params) {
-            this.params = params;
-            this.$refs.loggerStatistics.loadData();
-        }
-    }
+    mixins: [query]
 }
 </script>

@@ -57,9 +57,8 @@
 				this.list = arr ;
 			},
 			getList(){
-				let pid = this.pid ;
             	let data={ pid : this.pid };
-            	!pid ? delete data.pid : null ;
+            	!this.pid ? delete data.pid : null ;
             	this.$ajax({
 	                url: '/logger/team/getDepts',
 	                data: data ,
@@ -94,6 +93,11 @@
             	}
             },
             checkEach(each){
+            	// 限制 ;
+				let next = this.$selectMember.checkLimit(each ,'dep');
+				if( !next ){ return };
+
+            	// 正常选择 ;
             	each.checked = !each.checked ;
             	if( each.checked ){
             		// 添加右侧

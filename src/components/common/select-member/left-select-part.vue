@@ -9,14 +9,14 @@
 			</li>
 		</ul>
 		<div class="tab-content-wrap" :style="{paddingTop:tabInfo.paddingTop}">
-			<div class="ud scroll sm_scroll" v-show="activeIndex==1">
-				<tree-dep  v-if="mountdDep"  :info="info" style="padding: 0 15px 0 25px;"/>
+			<div class="ud" v-show="activeIndex==1">
+				<tree-dep-wrap v-if="mountdDep" :info="info"/>
 			</div>
-			<div class="ud scroll sm_scroll" v-show="activeIndex==2">
-				<tree-team v-if="mountdTeam" :info="info"/>
+			<div class="ud" v-show="activeIndex==2">
+				<tree-team  v-if="mountdTeam" :info="info"/>
 			</div>
 			<div class="ud" v-show="activeIndex==3">
-				<tree-man  v-if="mountdMan"  :info="info"/>
+				<tree-man   v-if="mountdMan"  :info="info"/>
 			</div>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 <script type="text/javascript">
 	import TreeTeam from './tree-team.vue';
 	import TreeMan from './tree-man.vue';
-
+	import TreeDepWrap from './tree-dep-wrap.vue';
 	const DEFAULT_LIST = {
 			dep :{
 				show:false,
@@ -46,7 +46,7 @@
 	export default{
 		props:['info'],
 		components:{
-			TreeTeam,TreeMan
+			TreeTeam,TreeMan,TreeDepWrap
 		},
 
 		data(){
@@ -87,6 +87,12 @@
 				return obj ;
 			}
 		},
+		watch:{
+			activeIndex(){
+				this.$emit('changeTab',this.activeIndex);
+			}
+		},
+		
 		// 在updated监控open ; 如果打开请求数据 ;
 		updated(){
 			let open = this.info.open ;
@@ -102,6 +108,15 @@
 			}
 		}
 	}
+
+
+	// ok.show({
+	// 	dep:true,man:true,team:true,limit:{count:2},
+	// 	selected:{
+	// 		team:[
+	// 			{"szId":null,"gid":555,"groupName":"上的风景束带结发手机","groupLogo":"http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/","pub":null,"memberId":null,"groupMemberCount":2,"newFeedCount":null,"status":null,"createTime":null,"updateTime":null,"checked":true}]
+	// 	}
+	// },(res)=>{console.log(JSON.stringify(res))});
 </script>
 <style lang="less">
 	.left_select_part{

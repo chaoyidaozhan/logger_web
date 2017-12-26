@@ -13,12 +13,15 @@ export default {
         },
         type: {
             type: String
+        },
+        title: {
+            type: String
         }
     },
     data() {
         return {
             columns: {
-                title: '部门名称',
+                title: this.title,
                 array: ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
                 caption: '汇总'
             }
@@ -47,12 +50,7 @@ export default {
     },
     methods: {
         init() {
-            if(this.type == 'depart') {
-                this.columns.title = '部门名称'
-            }
-            if(this.type == 'group') {
-                this.columns.title = '团队名称'
-            }
+            this.columns.title = this.title;
         }
     },
     created () {

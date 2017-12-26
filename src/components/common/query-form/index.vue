@@ -138,19 +138,18 @@ export default {
                 if(!!this.team.length) { // 整理团队
                     let groupId = []
                     this.team.forEach(item=>{
-                        groupId.push(item.groupId);
+                        groupId.push(item.gid);
                     })
                     params.groupId = groupId.join(',');
+                    console.log(this.team)
                 }
                 let keys = Object.keys(params);
                 keys.forEach(key=>{ // 非空验证
-                    if(!params[key] && key != 'deptId') {
+                    if(!+params[key] && params[key] != 0) {
                         delete params[key];
                     }
-                    if(key == 'deptId' || key == 'templateId') {
-                        if(!params[key] && params[key] !== 0) {
-                            delete params[key];
-                        }
+                    if(key == 'templateId' && params[key] == 0) {
+                        delete params[key];
                     }
                 })
                 this.$emit('handleQuery', params);

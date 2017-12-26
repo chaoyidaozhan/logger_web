@@ -1,18 +1,26 @@
 <template>
 
-    <Modal v-model="info.open" class="select_member" width="600px">
+    <Modal v-model="info.open" class="select_member" width="600px" @on-cancel="cancel">
         <div slot="header" class="header">
             {{info.title}}
         </div>
         <div class="sel_body">
             <div class="sel_left">
-            	<left-select-part :info="info"/>
+            	<left-select-part :info="info" @changeTab="changeTab"/>
             </div>
-            <div class="sel_right sm_scroll">
+            <div class="sel_right">
             	<right-selected-part :info="info"/>
             </div>
         </div>
         <div slot="footer">
+        	<p class="l maxCount" v-show=" maxCount>1 ">
+        		每次选择不可超过{{maxCount}}人，请分批选择
+        	</p>
+        	<div class="show-all-wrap" v-show="info.limit.showAll && info.limit.count==1">
+        		<Button class="btn" type="ghost" v-show="showAllIndex==1" @click="chooseAll('dep')" >全部部门</Button>
+        		<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="chooseAll('team')">全部团队</Button>
+        		<Button class="btn" type="ghost" v-show="showAllIndex==3" @click="chooseAll('man')" >全部成员</Button>
+        	</div>
             <Button class="btn" type="ghost" @click="cancel">取消</Button>
             <Button class="btn success" type="success" @click="submit">确定</Button>
         </div>
@@ -27,13 +35,32 @@
 		components:{
 			LeftSelectPart,RightSelectedPart
 		},
+		data(){
+			return {
+				showAllIndex:-1
+			}
+		},
+		computed:{
+			maxCount(){
+				return this.info.limit.count ;
+			}
+		},
 		methods:{
 			cancel(){
 				this.$emit('cancel');
 			},
 			submit(){
 				this.$emit('submit');
+			},
+			chooseAll( type ){
+				this.$selectMember.checkAll(type);
+			},
+			changeTab( i ){
+				this.showAllIndex = i ;
 			}
+		},
+		mounted(){
+	
 		}
 	}
 
@@ -41,9 +68,6 @@
 <style lang="less">
 	li{
 		list-style: none;
-	}
-	.sm_scroll{
-		overflow-y: auto;
 	}
 	.inlb{
 		vertical-align: middle;
@@ -65,7 +89,10 @@
 	}
 	.r{float: right;}
 	.l{float: left;}
-
+	.show-all-wrap{
+		margin-right: 7px;
+		display: inline-block;
+	}
 	.select_member{
 		.ivu-modal-header{
 			background: #F2F3F4;
@@ -81,9 +108,10 @@
 		.sel_body{
 			position: relative;
 			height: 100%;
+			padding-right: 240px;
 			.sel_left{
 				position: relative;
-				height: 100%;width: 360px;
+				height: 100%;width:100%;
 			}
 			.sel_right{
 				height: 100%;
@@ -103,11 +131,12 @@
 		    background: #1FDA9A;
 		    border: 1px solid #1FDA9A;
 		}
+		.maxCount{
+			font-size: 12px;
+			line-height: 26px;
+			color: #fd838a;
+		}
 	}
 
-	// .fs_tree{
-	// 	position: relative;
-	// 	top: -20px;
-	// 	font-size: 13px;
-	// }
+
 </style>
