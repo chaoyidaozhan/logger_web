@@ -178,36 +178,29 @@ export default {
                 success: (res)=>{
                     if(res && res.code === 0) {
                         let datalist = res.data.ranges||[];
-                        let teamArray = [{
-                            groupId:'',
-                            groupName:''
-                        }],
-                         depArrar = [{
-                            deptId:'',
-                            deptName:''
-                        }],
-                         manArray = [{
-                            memberId:'',
-                            userName:'',
-                        }];
+                        let teamArray = [], depArrar = [], manArray = [];
                         datalist.forEach((v,k)=>{
                             if(v.dataType==1){//部门
-                                depArrar['deptId'] = v.teamId;
-                                depArrar['deptName'] = v.teamName;
+                                depArrar.push({
+                                    'deptId': v.teamId,
+                                    'deptName': v.teamName
+                                });
                             }
                             else if(v.dataType==3){//团队
-                                teamArray['groupId'] = v.teamId;
-                                teamArray['groupName'] = v.teamName;
+                                teamArray.push({
+                                    'groupId': v.teamId,
+                                    'groupName': v.teamName
+                                });
                             }else if(v.dataType==4){//个人
-                                manArray['memberId'] = v.memberId;
-                                manArray['userName'] = v.userName;
+                                manArray.push({
+                                    'memberId': v.memberId,
+                                    'userName': v.userName
+                                });
                             }
                         });
-                        this.deptRange =  this.deptRange.concat(depArrar);
-                        this.teamRange = teamArray;
-                        this.manRange = manArray;
-                        this.hasLoaded = true;
-                        console.log(this.deptRange, 888)
+                        this.deptRange = depArrar;
+                        this.groupRange = teamArray;
+                        this.memberRange = manArray;
                     }else{
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }

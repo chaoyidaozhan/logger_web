@@ -125,75 +125,86 @@
 	}
 </script>
 <style lang="less">
-	.right_selected_part{
-		height: 100%;width: 100%;
-		position: relative;
-		.title{
-			height: 40px;line-height: 40px;
-			padding:0 15px;
-			box-sizing: border-box;
-			border-bottom: 1px solid #e9eaec;
-			.r{
-				color: #fd838a
-			}
-		}
-		.tit{
-			height: 27px;line-height: 27px;
-			padding:0 15px;
-			box-sizing: border-box;
-			border-top: 1px solid #e9eaec;
-			background: #f9f9f9;
-			.r{
-				font-size: 12px;
-				color: #999;
-				opacity: .8;
-				position: relative;top: 7px;
-			}
-		}
-		.scroll{
-			position: absolute;
-			left: 0;right: 0;
-			top: 40px;bottom: 0;
-		}
-		.avatar-wrapper .name{
-			font-size: 12px;
-		}
-		.head-wrap{
-			width: 28px;height: 28px;
-			// background: #f0f0f0;
-			// border-radius: 50%;
-			font-size: 0;
-		}
-		.li{
-			line-height: 28px;
-			color: #333;
-			overflow: hidden;
-			font-size: 13px;
-			padding: 7px 16px 7px 15px;
-			&:hover .close{
-				display: inline-block;
-			}
-			&:hover{
-				background:rgba(126,231,192,0.1);
-			}
-		}
-		.li:nth-of-type(1){
-			padding-top: 13px;
-		}
-		.close{
-			font-size: 12px;
-			color: #999;
-			display: none;
-			opacity: .8;
-			position: relative;top: -1px;
-		}
-		.depName,.groupName,.userName{
-			margin-left: 8px;
-			max-width: 150px;
-		}
-		.scroll>div:nth-child(1){
-			border: none;
+@import '../../../assets/css/var.less';
+.right_selected_part {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	.title {
+		height: 40px;
+		line-height: 40px;
+		padding: 0 15px;
+		box-sizing: border-box;
+		border-bottom: 1px solid @border-color;
+		.r {
+			color: @error-color
 		}
 	}
-	
+	.tit {
+		height: 27px;
+		line-height: 27px;
+		padding: 0 15px;
+		box-sizing: border-box;
+		border-top: 1px solid @border-color;
+		background: @white-color-light;
+		.r {
+			font-size: 12px;
+			color: @gray-color-light;
+			opacity: .8;
+			position: relative;
+			top: 7px;
+		}
+	}
+	.scroll {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 40px;
+		bottom: 0;
+		overflow: auto;
+	}
+	.avatar-wrapper .name {
+		font-size: 12px;
+	}
+	.head-wrap {
+		width: 28px;
+		height: 28px; 
+		// background: #f0f0f0;
+		// border-radius: 50%;
+		font-size: 0;
+	}
+	.li {
+		line-height: 28px;
+		color: @gray-color-dark;
+		overflow: hidden;
+		font-size: 13px;
+		padding: 7px 16px 7px 15px;
+		&:hover .close {
+			display: inline-block;
+		}
+		&:hover {
+			background: rgba(126, 231, 192, 0.1);
+		}
+	}
+	.li:nth-of-type(1) {
+		padding-top: 13px;
+	}
+	.close {
+		font-size: 12px;
+		color: @gray-color-light;
+		display: none;
+		opacity: .8;
+		position: relative;
+		top: -1px;
+	}
+	.depName,
+	.groupName,
+	.userName {
+		margin-left: 8px;
+		max-width: 150px;
+	}
+	.scroll>div:nth-child(1) {
+		border: none;
+	}
+}
 </style>

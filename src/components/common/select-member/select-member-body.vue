@@ -66,77 +66,95 @@
 
 </script>
 <style lang="less">
-	li{
-		list-style: none;
+@import '../../../assets/css/var.less';
+li {
+	list-style: none;
+}
+
+.inlb {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.cp {
+	cursor: pointer;
+}
+
+.discp {
+	cursor: not-allowed;
+}
+
+.elli {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.auto {
+	display: block;
+	width: 20px;
+	margin: 0 auto;
+}
+
+.r {
+	float: right;
+}
+
+.l {
+	float: left;
+}
+
+.show-all-wrap {
+	margin-right: 7px;
+	display: inline-block;
+}
+
+.select_member {
+	.ivu-modal-header {
+		background: @white-color;
+		font-size: 14px;
 	}
-	.inlb{
-		vertical-align: middle;
-		display: inline-block;
-	}
-	.cp{
-		cursor: pointer;
-	}
-	.discp{
-		cursor: not-allowed;
-	}
-	.elli{
+	.ivu-modal-content {
 		overflow: hidden;
-		text-overflow:ellipsis;
-		white-space: nowrap;
 	}
-	.auto{
-		display:block;width:20px;margin:0 auto;
+	.ivu-modal-body {
+		height: 400px;
+		padding: 0px;
 	}
-	.r{float: right;}
-	.l{float: left;}
-	.show-all-wrap{
-		margin-right: 7px;
-		display: inline-block;
-	}
-	.select_member{
-		.ivu-modal-header{
-			background: #F2F3F4;
-			font-size: 14px;
-		}
-		.ivu-modal-content{
-			overflow: hidden;
-		}
-		.ivu-modal-body{
-			height: 400px;
-			padding: 0px;
-		}
-		.sel_body{
+	.sel_body {
+		position: relative;
+		height: 100%;
+		padding-right: 240px;
+		.sel_left {
 			position: relative;
 			height: 100%;
-			padding-right: 240px;
-			.sel_left{
-				position: relative;
-				height: 100%;width:100%;
-			}
-			.sel_right{
-				height: 100%;
-				position: absolute;
-				top: 0;right: 0;
-				width: 240px;
-				border-left: 1px solid #e9eaec;
-			}
-			.sel_left>section,.sel_right>section{
-				width: 100%;height: 100%;
-			}
+			width: 100%;
 		}
-		.btn{
-			width: 90px;
+		.sel_right {
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 240px;
+			border-left: 1px solid @border-color;
 		}
-		.success{
-		    background: #1FDA9A;
-		    border: 1px solid #1FDA9A;
-		}
-		.maxCount{
-			font-size: 12px;
-			line-height: 26px;
-			color: #fd838a;
+		.sel_left>section,
+		.sel_right>section {
+			width: 100%;
+			height: 100%;
 		}
 	}
-
-
+	.btn {
+		width: 90px;
+	}
+	.success {
+		background: @primary-color;
+		border: 1px solid @primary-color;
+	}
+	.maxCount {
+		font-size: 12px;
+		line-height: 26px;
+		color: @error-color;
+	}
+}
 </style>
