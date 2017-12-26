@@ -28,18 +28,18 @@
             <FormItem v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title" :prop="item.isRequired==1?'requiredFlag':''">
                 <template v-if="item.type == 'InputText'">
-                    <Input type="textarea" :autosize="{ minRows: 5}"/>
+                    <Input v-model="inputTextValue" type="textarea" :autosize="{ minRows: 5}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
                     <InputNumber  v-model="numberValue" size="large"></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.options.string">
-                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
+                    <RadioGroup v-model="inputRadioValue" :key="index"  @on-change="handleChangeRadio(inputRadioValue,index)">
+                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" @on-change="handleRadio(inputRadioValue,index)"></Radio>
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="item.checkedArr">
+                    <CheckboxGroup v-model="inputCheckboxValue" @on-change="handleChangeCheckbox(inputCheckboxValue)">
                         <Checkbox v-for="(val, key) in item.options" 
                             :key="key"
                             :label="`${key + 1}`">
@@ -104,12 +104,16 @@ export default {
             dateValue:new Date(),
             dateValueSec:new Date(),
             numberValue: 0,
+            inputTextValue:'',
+            inputRadioValue:'',
+            inputCheckboxValue:[],
             dateOption: {
                 disabledDate (date) {
                     return date && date.valueOf() > Date.now();
                 }
             },
             uploadFile:`${config[__ENV__].apiHost}/logger/diaryFile/?token=`+this.$store.state.userInfo.token,
+            fileStr :[],            
             formValidate: {
                 range:'',
                 requiredFlag:''
@@ -215,12 +219,28 @@ export default {
         handleChecked(value) {
             console.log(value)
         },
-        handleFileSuccess(res, file){
-            console.log(res,file)
+        handleRadio(inputRadioValue,index){
+            console.log(1,inputRadioValue,index)
+        },
+        handleChangeRadio(inputRadioValue,index){
+            console.log(inputRadioValue,54,index)
+        },
+        handleChangeCheckbox(inputCheckboxValue){
+            console.log(inputCheckboxValue,34)
+        },
+        handleFileSuccess(res, file){//处理上传的文件数据
+            let fileData = res.data||[];
+            fileData.forEach((v,k)=>{
+                this.fileStr.push({
+                    fileName:v.fileName,
+                    fileSize:v.fileSize,
+                    fileExtension:v.fileExtension,
+                    fileKey:v.fileKey
+                });
+            })
         },      
         handleSubmit() {
             console.log(this.formInfo,99999);
-            console.log(this.$refs.selectDept.dep,8888)
 
           
             let deptRangeStr = [];
@@ -245,6 +265,28 @@ export default {
                     'dataType':4
                 })
             });
+            console.log(this.templateContent,9)
+            console.log(this.inputCheckboxValue,555)
+            let submitContent = [];
+            let templateContentClone = this.templateContent.slice(0);
+            templateContentClone.forEach((v,k)=>{
+                if(v.type=='InputText'){
+                    v.value = this.inputTextValue;
+                    v.content = this.inputTextValue;
+                }else if(v.type=='InputTextNum'){
+                    v.value = this.numberValue;
+                    v.content = this.numberValue;
+                }else if(v.type=='InputRadio'){
+                    
+
+                }else if(v.type=='InputCheckbox'){
+
+                }else if(v.type=='InputDate'){
+                    v.value = FormatTime(new Date(this.dateValueSec), "YYYY-MM-DD");
+                    v.content = FormatTime(new Date(this.dateValueSec), "YYYY-MM-DD");
+                }
+            })
+           
             let submitData = {
                 gather:0,
                 diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
@@ -255,7 +297,8 @@ export default {
                 visibleRange:1,
                 visibleRangeStr:deptRangeStr,
                 dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
-                fileStr:[]
+                fileStr:this.fileStr,
+                content:[],
                 
             };
             console.log(submitData,'submitData')
