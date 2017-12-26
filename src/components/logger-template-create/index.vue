@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-creat">
+    <div class="logger-create">
         <Form :label-width="138" ref="formValidate" :model="formValidate" :rules="ruleValidate">
             <FormItem label="日志日期">
                  <DatePicker type="date"
@@ -95,12 +95,11 @@ export default {
             formInfo: {
 
             },
+            hasLoaded: false,
             deptRange: [],
             groupRange: [],
             memberRange: [],
             member: [],
-            value1:[],
-            // radioCheck:
             dateValue:new Date(),
             dateValueSec:new Date(),
             numberValue: 0,
@@ -141,7 +140,7 @@ export default {
             keys.forEach(key=>{
                 this[`${key}Range`] && (this[`${key}Range`] = res[key])
             })
-            console.log(this.depRange,555)
+            console.log(this.deptRange,555)
         },
         getTemplateApp() {
             this.$store.dispatch('update_template_app').then(()=>{
@@ -204,10 +203,11 @@ export default {
                                 manArray['userName'] = v.userName;
                             }
                         });
-                        this.depRange = depArrar;
+                        this.deptRange =  this.deptRange.concat(depArrar);
                         this.teamRange = teamArray;
                         this.manRange = manArray;
-                        console.log(this.depRange,this.teamRange,this.manRange,898989)
+                        this.hasLoaded = true;
+                        console.log(this.deptRange, 888)
                     }else{
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
@@ -225,7 +225,10 @@ export default {
             console.log(this.formInfo);
             console.log(this.$refs.selectDept.dep,8888)
 
-
+            this.deptRange.push({
+                deptName: 1231,
+                deptId: 1231
+            })
         }
     },
     created(){

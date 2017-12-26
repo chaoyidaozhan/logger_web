@@ -150,6 +150,12 @@ export default {
                 this.handleSelectMember(JSON.parse(JSON.stringify(params)))
             })
         }
+    },
+    created(){
+       
+    },
+    update() {
+        console.log(this.dept)
     }
 }
 </script>
