@@ -115,6 +115,11 @@ export default {
                 man: this.showMember,
                 team:  this.showGroup,
                 dep: this.showDept,
+                limit: { 
+                    showAll: true,
+                    warning: '',
+                    count: 1
+                },
                 selected: {
                     dep: JSON.parse(JSON.stringify(this.dep)),
                     man: JSON.parse(JSON.stringify(this.man)),
