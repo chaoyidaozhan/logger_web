@@ -13,13 +13,15 @@
             </FormItem>
             <FormItem label="可见范围" prop="range" >
                 <select-member-input 
-                    :dep="dep"
+                    :dep="depRange"
+                    :team="teamRange"
+                    :man="manRange"
                     title="选择可见范围"
                     placeholder="本部门可见"
                     @handleSelectMember="handleSelectRange"
                     :ellipsis="false" 
                     :showDept="true" 
-                    :showMember="false"
+                    :showGroup="true" 
                     ref="selectDept"
                     />
             </FormItem>
@@ -32,8 +34,8 @@
                     <InputNumber  v-model="numberValue" size="large"></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.options[0].string">
-                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string"></Radio>
+                    <RadioGroup v-model="item.options.string">
+                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
@@ -93,7 +95,11 @@ export default {
             formInfo: {
 
             },
+            depRange: [],
+            teamRange: [],
+            manRange: [],
             dep: [],
+            team: [],
             man: [],
             value1:[],
             // radioCheck:
@@ -125,21 +131,19 @@ export default {
     },
 
     methods: {
-        handleSelectMember(member) {
-            let keys = Object.keys(member);
+        handleSelectMember(res) {//选人
+            let keys = Object.keys(res);
             keys.forEach(key=>{
                 this[key] = res[key]
             })
-            
+            console.log(this.man,22)
         },
-        handleSelectRange(range){
-            // console.log(res,777)
-            let keys = Object.keys(range);
-             console.log(keys,122223)
+        handleSelectRange(res){//选范围
+            let keys = Object.keys(res);
             keys.forEach(key=>{
-                this[key] = res[key]
+                this[`${key}Range`] = res[key]
             })
-            console.log(this.dep)
+            console.log(this.depRange,555)
         },
         getTemplateApp() {
             this.$store.dispatch('update_template_app').then(()=>{
@@ -154,7 +158,6 @@ export default {
                     this.templateContent = JSON.parse(v.content) || []
                 }
             });
-            console.log(this.templateContent,888)
             this.formInfo = {
                 ...this.defautlFormInfo,
                 content: this.templateContent
@@ -169,6 +172,54 @@ export default {
                 this.setTempListData();
             }
         },
+        getVisibleRange(){
+            this.$ajax({
+                url: '/logger/diary/lastVisibleRange',
+                data: {
+                    templateId:this.$route.params.id
+                },
+                success: (res)=>{
+                    if(res && res.code === 0) {
+                        let datalist = res.data.ranges||[];
+                        let teamArray = [{
+                            groupId:'',
+                            groupName:''
+                        }],
+                         depArrar = [{
+                            deptId:'',
+                            deptName:''
+                        }],
+                         manArray = [{
+                            memberId:'',
+                            userName:'',
+                        }];
+                        datalist.forEach((v,k)=>{
+                            if(v.dataType==1){//部门
+                                depArrar['deptId'] = v.teamId;
+                                depArrar['deptName'] = v.teamName;
+                            }
+                            else if(v.dataType==3){//团队
+                                teamArray['groupId'] = v.teamId;
+                                teamArray['groupName'] = v.teamName;
+                            }else if(v.dataType==4){//个人
+                                manArray['memberId'] = v.memberId;
+                                manArray['userName'] = v.userName;
+                            }
+                        });
+                        this.depRange = depArrar;
+                        this.teamRange = teamArray;
+                        this.manRange = manArray;
+                        console.log(this.depRange,this.teamRange,this.manRange,898989)
+                    }else{
+                        this.$Message.warning((res && res.msg) || '网络错误');
+                    }
+                    console.log(res)
+                },
+                error: (res)=>{
+                    this.$Message.warning((res && res.msg) || '网络错误');
+                }
+            })
+        },
         handleChecked(value) {
             console.log(value)
         },
@@ -176,10 +227,12 @@ export default {
             console.log(this.formInfo);
             console.log(this.$refs.selectDept.dep,8888)
 
+
         }
     },
     created(){
         this.loadData();
+        this.getVisibleRange();
        
     },
 }
