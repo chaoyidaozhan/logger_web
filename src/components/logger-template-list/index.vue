@@ -13,7 +13,7 @@
                 <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
             </div>
         </transition-group>
-        <div class="page">
+        <div class="page" v-if="totalCount > pageSize">
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
     </div>

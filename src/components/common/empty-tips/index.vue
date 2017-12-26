@@ -3,7 +3,7 @@
         <div class="empty" v-if="!showError">
             <img v-if="!iconType" :src="imgSrc" class="empty-img">
             <template v-else>
-                <i class="icon-none-department" v-if="iconType == 'depart'"></i>
+                <i class="icon-none-department" v-if="iconType == 'dept'"></i>
                 <i class="icon-none-team" v-if="iconType == 'group'"></i>
                 <i class="icon-none-user" v-if="iconType == 'member'"></i>
             </template>

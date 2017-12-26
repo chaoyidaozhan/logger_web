@@ -131,7 +131,7 @@ export default {
                 })
                 params.memberIds = memberIds.join(',');
             }
-            if(this.dep && !!this.dep.length) { // 整理组织id
+            if(this.dept && !!this.dept.length) { // 整理组织id
                 let deptId = []
                 this.dept.forEach(item=>{
                     deptId.push(item.deptId);
@@ -179,7 +179,6 @@ export default {
                     endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
                     orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
                 };
-                
                 this.trimIds(params);
                 this.rulesValidate(params);
                 this.$emit('handleQuery', params);

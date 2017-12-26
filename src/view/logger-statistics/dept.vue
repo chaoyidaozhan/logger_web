@@ -10,7 +10,7 @@
         <template slot="body">
             <fs-logger-statistics 
                 :params="params"
-                type="depart"
+                type="dept"
                 title="部门名称"
                 ref="loggerStatistics"/>
         </template>

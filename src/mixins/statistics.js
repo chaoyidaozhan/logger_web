@@ -31,6 +31,7 @@ export default {
     },
     methods: {
         handleQuery(params) {
+            console.log(params)
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
                 return this.$Message.warning(validateMsg[this.validateString]);
