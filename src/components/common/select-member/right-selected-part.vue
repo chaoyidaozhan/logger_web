@@ -16,7 +16,7 @@
 			<ul v-show="openDep">
 				<li class="li" v-for="each in depList">
 					<div class="head-wrap l">
-						<avatar avatar="1" :name="each.deptName" :size="'28px'"/>
+						<avatar :name="each.deptName" :size="'28px'"/>
 					</div>
 					<div class="depName elli l">
 						{{each.deptName}}

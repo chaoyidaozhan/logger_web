@@ -90,7 +90,7 @@
 	.r{float: right;}
 	.l{float: left;}
 	.show-all-wrap{
-		margin-right: 8px;
+		margin-right: 7px;
 		display: inline-block;
 	}
 	.select_member{
@@ -126,7 +126,6 @@
 		}
 		.btn{
 			width: 90px;
-			margin-left: 8px;
 		}
 		.success{
 		    background: #1FDA9A;

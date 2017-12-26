@@ -5,7 +5,7 @@
 		<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
 				<div class="head-wrap l">
-					<avatar avatar="1"  :name="each.deptName" :size="'28px'"/>
+					<avatar :name="each.deptName" :size="'28px'"/>
 				</div>
 				<div class="deptName l">
 					{{each.deptName}}
