@@ -173,7 +173,7 @@ export default {
             this.$ajax({
                 url: '/logger/diary/lastVisibleRange',
                 data: {
-                    templateId:this.$route.params.id
+                    templateId:this.$route.params.id||0
                 },
                 success: (res)=>{
                     if(res && res.code === 0) {
@@ -228,6 +228,26 @@ export default {
             this.deptRange.push({
                 deptName: 1231,
                 deptId: 1231
+            })
+            
+            let submitData = {
+                templateId:this.$route.params.id||0,
+                
+            };
+            this.$ajax({
+                url: '/logger/diary/lastVisibleRange',
+                data: submitData,
+                success: (res)=>{
+                    if(res && res.code === 0) {
+
+                    }else{
+                        this.$Message.warning((res && res.msg) || '网络错误');
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.warning((res && res.msg) || '网络错误');
+                }
+
             })
         }
     },
