@@ -100,16 +100,20 @@ export default {
         },
         loadData() { // 请求接口
             this.loading = true;
+            this.$eventbus.$emit('setBtnLoading', this.loading);
             this.$ajax({
                 url: '/logger/diaryQuery/getAllDiary',
                 data: this.getParams(),
                 success: (res)=>{
                     this.loading = false;
+                    this.$eventbus.$emit('setBtnLoading', this.loading);
                     this.updateList(res);
                 },
                 error: (res)=>{
                     this.list=[];
                     this.loaderror = true;
+                    this.loading = false;
+                    this.$eventbus.$emit('setBtnLoading', this.loading);
                 }
             });
         },
