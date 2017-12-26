@@ -12,25 +12,13 @@
     </fs-frame>
 </template>
 <script>
-import FsFrame from '../frame/';
-import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerList from 'app_component/logger-list/';
+import query from 'app_src/mixins/query.js';
 export default {
     data() {
         return {
-            params: {},
-            range: '0',
+            range: '0'
         }
     },
-    components: {
-        FsFrame,
-        FsLoggerList,
-        FsQueryForm,
-    },
-    methods: {
-        handleQuery(params) {
-            this.params = params;
-        }
-    },
+    mixins: [query]
 }
 </script>

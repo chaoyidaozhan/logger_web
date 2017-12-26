@@ -60,6 +60,7 @@ export default function ajax(opt) { //公用的ajax方法
     } else {
         params = opt.data
     }
+    
     let uri = initParams(opt.url, opt.data || {}, opt.type || null);
     // let uri = initParams(opt.url, opt.data || {});
     axios[type](uri, params, opt.config || {}).then((res) => {

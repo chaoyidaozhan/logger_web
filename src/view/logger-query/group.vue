@@ -1,6 +1,6 @@
 <template>
-    <fs-frame :leftDistance="range == 3 ? '200px' : ''">
-        <template slot="othter" v-if="range == 3">
+    <fs-frame leftDistance="200px">
+        <template slot="othter">
             <fs-group-menu @getDaily="getDaily"></fs-group-menu>
         </template>
         <template slot="head">
@@ -15,28 +15,21 @@
     </fs-frame>
 </template>
 <script>
-import FsFrame from '../frame/';
-import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerList from 'app_component/logger-list/';
+import query from 'app_src/mixins/query.js';
 import FsGroupMenu from 'app_component/common/group-menu/';
+
 export default {
     data() {
         return {
-            params: {},
             range: '3',
             hasLoadedGroup: false
         }
     },
     components: {
-        FsFrame,
-        FsLoggerList,
-        FsQueryForm,
         FsGroupMenu
     },
+    mixins: [query],
     methods: {
-        handleQuery(params) {
-            this.params = params;
-        },
         getDaily(groupId) {
             this.params = {
                 ...this.params,
@@ -44,6 +37,6 @@ export default {
             };
             this.hasLoadedGroup = true
         }
-    },
+    }
 }
 </script>
