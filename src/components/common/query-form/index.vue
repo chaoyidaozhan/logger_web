@@ -5,7 +5,7 @@
                 <fs-select-member ref="selectMember" 
                     title="选择提交人"
                     placeholder="选择提交人"
-                    :man="man"
+                    :member="member"
                     @handleSelectMember="handleSelectMember"/>
             </FormItem> 
             <FormItem :label-width="40" label="模板"  v-if="showTemplate">
@@ -20,12 +20,12 @@
             <FormItem :label-width="40" label="日期"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate"/>
             </FormItem> 
-            <FormItem :label-width="40" label="部门"  v-if="showDepart">
+            <FormItem :label-width="40" label="部门"  v-if="showDept">
                 <fs-select-member ref="selectDept" 
                     @handleSelectMember="handleSelectMember" 
                     :showMember="false" 
                     :showDept="true"
-                    :dep="dep"
+                    :dept="dept"
                     title="选择部门"
                     placeholder="选择部门"/>
             </FormItem> 
@@ -34,7 +34,7 @@
                     @handleSelectMember="handleSelectMember" 
                     :showMember="false" 
                     :showGroup="true" 
-                    :team="team"
+                    :group="group"
                     title="选择团队"
                     placeholder="选择团队"/>
             </FormItem> 
@@ -51,6 +51,17 @@
     </div>
 </template>
 <script>
+/**
+ * showTemplate 是否显示模板
+ * showTemplateCheck 是否显示模板过滤check
+ * hasDefaultTemplate 是否显示默认全部模板
+ * showDatePicker 是否显示日期组件
+ * showDept 是否显示选择组织组件
+ * showGroup 是否显示选择团队组件
+ * showMember 是否显示选择提交人组件
+ * showOrderType 是否显示选择日期类型组件
+ * showOrderTypeMulti 选择日期类型是否支持选择日期
+ **/
 import FsSelectMember from '../select-member-input/';
 import FsSelectTemplate from '../select-template/';
 import FsSelectDate from '../select-date/';
@@ -58,7 +69,7 @@ import FsSelectGroup from '../select-group/';
 import FsSelectOrderType from '../select-order-type/';
 export default {
     props: {
-        showTemplate: {
+        showTemplate: { // 是否显示模板
             type: Boolean,
             default: false
         },
@@ -74,11 +85,7 @@ export default {
             type: Boolean,
             default: false
         },
-        showMember: {
-            type: Boolean,
-            default: false
-        },
-        showDepart: {
+        showDept: {
             type: Boolean,
             default: false
         },
@@ -86,7 +93,11 @@ export default {
             type: Boolean,
             default: false
         },
-        showOrderType: { // 时间统计类型
+        showMember: {
+            type: Boolean,
+            default: false
+        },
+        showOrderType: {
             type: Boolean,
             default: false
         },
@@ -104,14 +115,61 @@ export default {
     data() {
         return {
             templateType: 'app',
-            dep: [],
-            team: [],
-            man: [],
+            dept: [], // 组织
+            group: [], // 团队
+            member: [], // 提交人
             queryTimer: null,
             loading: false
         }
     },
     methods: {
+        trimIds(params) { // 整理id数据
+            if(this.member && !!this.member.length) { // 整理人员id
+                let memberIds = []
+                this.member.forEach(item=>{
+                    memberIds.push(item.memberId);
+                })
+                params.memberIds = memberIds.join(',');
+            }
+            if(this.dep && !!this.dep.length) { // 整理组织id
+                let deptId = []
+                this.dept.forEach(item=>{
+                    deptId.push(item.deptId);
+                })
+                params.deptId = deptId.join(',');
+            }
+            if(this.group && !!this.group.length) { // 整理团队
+                let groupId = []
+                this.group.forEach(item=>{
+                    groupId.push(item.gid);
+                })
+                params.groupId = groupId.join(',');
+            }
+        },
+        rulesValidate(params) { // 非空验证
+            let keys = Object.keys(params);
+            keys.forEach(key=>{ 
+                switch (typeof params[key]) {
+                    case 'number':
+                        if(!params[key] && !params[key] !== 0) {
+                            delete params[key];
+                        }
+                        break;
+                    case 'string':
+                        if(!params[key]) {
+                            delete params[key];
+                        }
+                        break;
+                    default:
+                        delete params[key];
+                        break;
+                }
+               
+                if(key == 'templateId' && params[key] == 0) {
+                    delete params[key];
+                }
+            })
+        },
         handleQuery() { // 查询时返回整理好的数据
             clearTimeout(this.queryTimer);
             this.queryTimer = setTimeout(() => {
@@ -121,37 +179,9 @@ export default {
                     endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
                     orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
                 };
-                if(!!this.man.length) { // 整理人员id
-                    let memberIds = []
-                    this.man.forEach(item=>{
-                        memberIds.push(item.memberId);
-                    })
-                    params.memberIds = memberIds.join(',');
-                }
-                if(!!this.dep.length) { // 整理组织id
-                    let deptId = []
-                    this.dep.forEach(item=>{
-                        deptId.push(item.deptId);
-                    })
-                    params.deptId = deptId.join(',');
-                }
-                if(!!this.team.length) { // 整理团队
-                    let groupId = []
-                    this.team.forEach(item=>{
-                        groupId.push(item.gid);
-                    })
-                    params.groupId = groupId.join(',');
-                    console.log(this.team)
-                }
-                let keys = Object.keys(params);
-                keys.forEach(key=>{ // 非空验证
-                    if(!+params[key] && params[key] != 0) {
-                        delete params[key];
-                    }
-                    if(key == 'templateId' && params[key] == 0) {
-                        delete params[key];
-                    }
-                })
+                
+                this.trimIds(params);
+                this.rulesValidate(params);
                 this.$emit('handleQuery', params);
             }, 200);
            

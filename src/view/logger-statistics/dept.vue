@@ -3,7 +3,7 @@
         <template slot="head">
             <fs-query-form 
                 :showTemplate="true"
-                :showDepart="true"
+                :showDept="true"
                 :showOrderType="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>

@@ -43,7 +43,7 @@ const menus = [
         subMenu: [
             {
                 name: '按部门统计',
-                path: '/StatisticsOfDepart'
+                path: '/StatisticsOfDept'
             },
             {
                 name: '按团队统计',
