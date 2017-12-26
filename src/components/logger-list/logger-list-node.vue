@@ -9,7 +9,9 @@
             />
             <div class="logger-list-col clearfix">
                 <span class="username">{{loggerItemData.userName}}</span>
-                <span class="template-name" v-if="loggerItemData.templateName">{{loggerItemData.templateName}}</span>
+                <span class="template-name" v-if="loggerItemData.templateName">
+                    <i>{{loggerItemData.templateName}}</i>
+                </span>
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
                     <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
@@ -61,7 +63,7 @@
                 :key="index">
                 <div class="logger-list-col">
                     <div class="title">{{item.title}}</div>
-                    <div class="caption">{{item.content || item.value}}</div>
+                    <div class="caption" v-html="item.content || item.value"></div>
                 </div>
             </div>
         </div>
@@ -335,11 +337,15 @@ export default {
         .template-name {
             border: 1px solid @primary-color;
             color: @primary-color;
-            border-radius: 3px;
-            padding: 3px 6px;
-            transform: scale(0.8);
+            border-radius: 2px;
             display: inline-block;
-            line-height: 12px;
+            i {
+                font-style: normal;
+                padding: 1px 0;
+                line-height: 12px;
+                transform: scale(0.8);
+                display: block;
+            }
         }
         .pull-right {
             color: @gray-color-light;

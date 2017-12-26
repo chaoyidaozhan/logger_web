@@ -20,6 +20,7 @@
     </div>
 </template>
 <script>
+import encodeColor from 'app_src/filters/encode-color'
 export default{
     props: {
         avatar: {
@@ -47,7 +48,7 @@ export default{
     data() {
         return {
             loadError: false,
-            backgroundColor: this.getRandomColor()
+            backgroundColor: this.getColors()
         }
     },
     computed: {
@@ -61,14 +62,8 @@ export default{
         onError(e) {
             this.loadError = true;
         },
-        getColors () {
-			var colors = ['#29d4ff', '#1594ff', '#ffa92f', '#b587fa',
-                         '#06cf86', '#fa6771', '#73d51c', '#8991ff'];
-			return colors[this.randomBetween(0, colors.length - 1)];
-		},
-		randomBetween(lowerValue, upperValue) {
-			var choices = upperValue - lowerValue + 1;
-			return Math.floor(Math.random() * choices + lowerValue);
+        getColors() {
+			return encodeColor(this.name);
 		}
     }
 };

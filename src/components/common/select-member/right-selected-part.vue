@@ -161,6 +161,7 @@
 		right: 0;
 		top: 40px;
 		bottom: 0;
+		overflow: auto;
 	}
 	.avatar-wrapper .name {
 		font-size: 12px;
