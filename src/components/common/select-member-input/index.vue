@@ -36,19 +36,19 @@
 <script>
 export default {
     props: {
-        dep: {
+        dep: { // 组织数据
             type: Array,
             default() {
                 return []
             }
         },
-        team: {
+        team: { // 团队数据
             type: Array,
             default() {
                 return []
             }
         },
-        man: {
+        man: { // 人员数据
             type: Array,
             default() {
                 return []

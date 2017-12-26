@@ -7,7 +7,7 @@
 		</div>
 		<div class="logger-frame-body" :style="{'margin-left': leftDistance}" ref="loggerBody">
 			<!-- 放置内容 -->
-			<slot name="body"></slot>
+			<slot name="body" v-if="hasComputedHeight"></slot>
 		</div>
 	</div>
 </template>
@@ -19,11 +19,16 @@ export default {
 			default: '0'
 		}
 	},
+	data() {
+		return {
+			hasComputedHeight: false
+		}
+	},
 	mounted () {
 		this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
+		this.hasComputedHeight = true;
 		window.onresize = ()=>{  
 			this.$store.state.screenHeight = this.$refs.loggerBody.offsetHeight;
-			
 			try {
 				this.$eventbus.$emit('changeHeight');
 			} catch(e){}

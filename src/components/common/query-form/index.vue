@@ -144,13 +144,11 @@ export default {
                 }
                 let keys = Object.keys(params);
                 keys.forEach(key=>{ // 非空验证
-                    if(!params[key] && key != 'deptId') {
+                    if(!+params[key] && params[key] != 0) {
                         delete params[key];
                     }
-                    if(key == 'deptId' || key == 'templateId') {
-                        if(!params[key] && params[key] !== 0) {
-                            delete params[key];
-                        }
+                    if(key == 'templateId' && params[key] == 0) {
+                        delete params[key];
                     }
                 })
                 this.$emit('handleQuery', params);

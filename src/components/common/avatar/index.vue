@@ -5,10 +5,17 @@
             'height':size,
             'font-size': fontSize,
             'background-color': `${loadError ? backgroundColor : ''}`}"> 
-        <img v-if="avatar && !loadError"
-            :src="avatar"
-            @error="onError" 
-            class="avatar">
+        <template v-if="avatar && !loadError">
+            <img 
+                v-if="!type"
+                :src="avatar"
+                @error="onError" 
+                class="avatar">
+            <template v-else>
+                <span v-if="type=='depart'"></span>
+                <span v-if="type=='group'"></span>
+            </template>
+        </template>
         <span class="name" v-else>{{ formatName }}</span>
     </div>
 </template>
@@ -32,6 +39,9 @@ export default{
         fontSize: {
             type: String,
             default: "14px"
+        },
+        type: {
+            type: String
         }
     },
     data() {

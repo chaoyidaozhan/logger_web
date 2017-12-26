@@ -11,6 +11,7 @@
             <fs-logger-statistics 
                 :params="params"
                 type="group"
+                title="团队名称"
                 ref="LoggerLoggerStatistics"/>
         </template>
     </fs-frame>
@@ -36,7 +37,6 @@ export default {
     methods: {
         handleQuery(params) {
             this.params = params;
-            this.$refs.LoggerLoggerStatistics.loadData();
         }
     }
 }
