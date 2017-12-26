@@ -61,7 +61,7 @@ export default{
         onError(e) {
             this.loadError = true;
         },
-        getRandomColor () {
+        getColors () {
 			var colors = ['#29d4ff', '#1594ff', '#ffa92f', '#b587fa',
                          '#06cf86', '#fa6771', '#73d51c', '#8991ff'];
 			return colors[this.randomBetween(0, colors.length - 1)];

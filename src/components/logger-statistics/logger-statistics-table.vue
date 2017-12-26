@@ -103,7 +103,6 @@ export default {
     mounted () {
         this.$eventbus.$on('changeHeight', ()=>{ // 计算当前屏幕宽度
             this.height = this.$store.state.screenHeight - 200;
-            console.log(this.height)
             this.initScroll();
         })
         this.$eventbus.$emit('changeHeight');

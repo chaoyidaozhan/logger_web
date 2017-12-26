@@ -119,49 +119,59 @@
 	// },(res)=>{console.log(JSON.stringify(res))});
 </script>
 <style lang="less">
-	.left_select_part{
-		position: relative;
-		.tab{
-			width: 100%;height: 40px;line-height: 40px;
-			border-bottom: 1px solid #e9eaec;
-			position: absolute;
-			left: 0;top: 0;
-			background: white;
-			z-index: 1;
-			li{
-				height: 40px;line-height: 40px;
-				float: left;
-				width: 33.3%;
-				text-align: center;
-				transition:color .15s ease-in;
-				.sp{
+@import '../../../assets/css/var.less';
+.left_select_part {
+	position: relative;
+	.tab {
+		width: 100%;
+		height: 40px;
+		line-height: 40px;
+		border-bottom: 1px solid @border-color;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: @white-color;
+		z-index: 1;
+		li {
+			height: 40px;
+			line-height: 40px;
+			float: left;
+			width: 33.3%;
+			text-align: center;
+			transition: color .15s ease-in;
+			.sp {
+				display: inline-block;
+				padding: 0 12px;
+				position: relative;
+				&::after {
+					content: '';
 					display: inline-block;
-					padding: 0 12px;
-					position: relative;
-					&::after{
-						content: '';display: inline-block;
-						height: 2px;width: 100%;
-						position: absolute;
-						left: 0;bottom: 0;
-						background:transparent ;
-						transition:background .3s;
-					}
-				}
-			}
-			.active{
-				color: #1FDA9A;
-				.sp{
-					&::after{background: #1FDA9A;}
+					height: 2px;
+					width: 100%;
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					background: transparent;
+					transition: background .3s;
 				}
 			}
 		}
-
-		.tab-content-wrap{
-			height: 400px;
-			.ud{
-				position: relative;
-				width: 100%;height: 100%;
+		.active {
+			color: @primary-color;
+			.sp {
+				&::after {
+					background: @primary-color;
+				}
 			}
 		}
 	}
+	.tab-content-wrap {
+		height: 400px;
+		.ud {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
 </style>
