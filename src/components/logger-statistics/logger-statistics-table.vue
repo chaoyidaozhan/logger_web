@@ -16,7 +16,7 @@
         </div>    
         <div v-show="!!data.length" class="table-body" ref="tableScroll" :style="{'height': `${height}px`}">
             <div class="table-row clearfix"  v-for="item in data" :key="item.deptId">
-                <div class="table-title table-cell ellipsis">
+                <div class="table-title table-cell">
                     <span v-if="type!='member'">{{item.deptName}}</span>
                 </div>
                 <ul class="table-content">
@@ -140,6 +140,7 @@ export default {
         border-right: 1px solid @border-color;
         text-align: center;
         background-color: @white-color;
+        overflow: hidden;
         &.nodata {
             background-color: @white-color-light;
         }
