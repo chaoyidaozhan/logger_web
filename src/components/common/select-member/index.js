@@ -22,10 +22,16 @@ export default {
             man:false,    
             // 所有选中内容 ( 添加用的 );  
             selected:{ 
-                dep :[],
-                team:[],
+                dep :[] ,
+                team:[] ,
                 man :[]
-            }
+            },
+            // 上限
+            limit:{
+                count:500,
+                showAll:false, //当limit为1时 可选择是否全选 ;
+                warning:'超出选择范围'
+            },
         }
         Vue.prototype.$selectMember = window.ok = new Vue({
             template:`<div id="selectMember"> 
@@ -44,9 +50,18 @@ export default {
                     saveAjaxMan : []
                 }
             },
-            mounted(){
-
+            computed:{
+                allowCheck(){
+                    let all = this.info.selected.dep.length + this.info.selected.team.length + this.info.selected.man.length ;
+                    let max = this.info.limit.count ;
+                    if( all>=max ){
+                        return false ;
+                    }else {
+                        return true ;
+                    }
+                }
             },
+
             methods:{
                 show( config={} , callback ){
                     callback ? this.getSelectedCallback = callback : null ;
@@ -54,18 +69,17 @@ export default {
                         ...JSON.parse(JSON.stringify(DEFAULT_INFO)),
                         ...config,
                         open:true,
-                    }
-                    console.log(DEFAULT_INFO)
-                    !config.dep  ? info.selected.dep =[]  : null ;
-                    !config.team ? info.selected.team=[]  : null ;
-                    !config.man  ? info.selected.man =[]  : null ; 
+                    };
+                    !info.selected.dep  ? info.selected.dep =[]  : null ;
+                    !info.selected.team ? info.selected.team=[]  : null ;
+                    !info.selected.man  ? info.selected.man =[]  : null ; 
+                    // 赋值
                     this.info = info ;
 
-                    //重置默认设置 ;
+                    //重置默认设置 
                     this.info.dep  ? this.setDefaultTure('dep') : null ;
                     this.info.team ? this.setDefaultTure('team'): null ;
                     this.info.man  ? this.setDefaultTure('man') : null ;
-
                 },
                 // 设置传进来的为true 
                 setDefaultTure( type ){
@@ -112,6 +126,14 @@ export default {
                     // 重置关键字
                     this.$selectMember.$emit('resetKeyWord');
                 },
+                resetAllSelected(){
+                    this.info.selected.dep   =[];
+                    this.info.selected.team  =[];
+                    this.info.selected.man   =[];
+                    this.saveAjaxDep.map(  v =>v.checked=false ); 
+                    this.saveAjaxTeam.map( v =>v.checked=false ); 
+                    this.saveAjaxMan.map(  v =>v.checked=false );                     
+                },
                 resetScrollTop(){
                     let doms = document.querySelectorAll('.sm_scroll');
                     try{
@@ -120,6 +142,86 @@ export default {
                         });
                     }catch(e){
                         console.log(e)
+                    }
+                },
+                // 检查上限
+                checkLimit( each , type ){
+                    let info = this.info ;
+                    // 当前没被点击时执行 *** 
+                    if( !each.checked ){
+                        // *** 选择全部不能再点击
+                        // if( this.info.limit.showAll ){
+                        //     if(type=='dep' && info.selected.dep.length>0 && info.selected.dep[0].deptId==0){
+                        //         this.$Message.warning( '已点击全选' );
+                        //         return false ;
+                        //     };
+                        //     if(type=='team' && info.selected.team.length>0 && info.selected.team[0].gid==0){
+                        //         this.$Message.warning( '已点击全选' );
+                        //         return false ;
+                        //     };
+                        //     if(type=='man' && info.selected.man.length>0 && info.selected.man[0].memberId==0){
+                        //         this.$Message.warning( '已点击全选' );
+                        //         return false ;
+                        //     }
+                        // };
+
+                        if( info.limit.count==1 ){
+                            //单选替换
+                            let isRadio = false ;
+                            let r_each , type ;
+                            if( info.selected.dep.length>0 ){
+                                r_each  = info.selected.dep[0] ;
+                                isRadio = true  ;
+                                type    = 'dep' ;
+                            };
+                            if( info.selected.team.length>0 ){
+                                r_each  = info.selected.team[0] ;
+                                isRadio = true   ;
+                                type    = 'team' ;
+                            };
+                            if( info.selected.man.length>0 ){
+                                r_each  = info.selected.man[0] ;
+                                isRadio = true  ;
+                                type    = 'man' ;
+                            };   
+                            // 单选已经选了 ;             
+                            if( isRadio ){ 
+                                this.right_del( type , r_each );
+                            };
+                        }else if( !this.allowCheck ){
+                            // 多选提示
+                            let str = info.limit.warning ;
+                               !str ? str="超出选择范围" : null ;
+                            this.$Message.warning( str );
+                            return false ;
+                        };
+                    }
+                    return true ;
+                },
+                // 全选
+                checkAll( k ){
+                    let info = this.info ;
+                    // limit为1 直接替换
+                    if( info.limit.count==1 && info.limit.showAll ){
+                        this.resetAllSelected();
+                        if( k=='dep' ){
+                            this.info.selected.dep = [{
+                                deptId:0,
+                                deptName:'全部部门'
+                            }]
+                        };
+                        if( k=='team' ){
+                            this.info.selected.team = [{
+                                gid:0,
+                                groupName:'全部团队'                           
+                            }]
+                        };
+                        if( k=='man' ){
+                            this.info.selected.man = [{
+                                memberId:0,
+                                userName:'全部成员'
+                            }]
+                        };
                     }
                 },
                 submit(){
@@ -135,18 +237,7 @@ export default {
                 // 点击左侧 右侧增加一个选中项 ;
                 right_add( k , each ){
                     let arr = this.info.selected[k] ;
-                    // 如果选择人员增加过滤 ( 暂时不用!!! );
-                    // if( k=='man'){
-                    //     let inarr = false ;
-                    //     arr.map( (v)=>{
-                    //         if(v.memberId == each.memberId){
-                    //             inarr=true ;
-                    //         }
-                    //     })
-                    //     !inarr ? arr.push(each) : null ;
-                    // }else {
                         arr.push(each);   
-                    // }
                 },
                 // 点击(左侧/右侧) 删除一个选中项目 ;
                 right_del( k , model_each ){
