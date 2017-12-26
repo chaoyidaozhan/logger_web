@@ -17,27 +17,14 @@
     </fs-frame>
 </template>
 <script>
-import FsFrame from '../frame/';
-import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerStatistics from 'app_component/logger-statistics/'
+import query from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
-            params: {
-                groupId: 0,
-                orderType: '0'
-            }
+            groupId: 0,
+            validateString: 'groupId',
         }
     },
-    components: {
-        FsFrame,
-        FsQueryForm,
-        FsLoggerStatistics
-    },
-    methods: {
-        handleQuery(params) {
-            this.params = params;
-        }
-    }
+    mixins: [query]
 }
 </script>

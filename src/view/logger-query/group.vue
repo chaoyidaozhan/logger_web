@@ -15,7 +15,7 @@
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/query.js';
+import query from 'app_src/mixins/query';
 import FsGroupMenu from 'app_component/common/group-menu/';
 
 export default {

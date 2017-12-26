@@ -12,7 +12,7 @@
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/query.js';
+import query from 'app_src/mixins/query';
 export default {
     data() {
         return {
