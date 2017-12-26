@@ -13,9 +13,9 @@
             </FormItem>
             <FormItem label="可见范围" prop="range" >
                 <select-member-input 
-                    :dep="depRange"
-                    :team="teamRange"
-                    :man="manRange"
+                    :dept="deptRange"
+                    :group="groupRange"
+                    :member="memberRange"
                     title="选择可见范围"
                     placeholder="本部门可见"
                     @handleSelectMember="handleSelectRange"
@@ -61,7 +61,7 @@
            
             <FormItem label="@TA查看">
                 <select-member-input 
-                    :man="man"
+                    :member="member"
                     title="@TA查看"
                     placeholder="提醒关键人员查看您的日志"
                     @handleSelectMember="handleSelectMember"
@@ -95,17 +95,15 @@ export default {
             formInfo: {
 
             },
-            depRange: [],
-            teamRange: [],
-            manRange: [],
-            dep: [],
-            team: [],
-            man: [],
+            deptRange: [],
+            groupRange: [],
+            memberRange: [],
+            member: [],
             value1:[],
             // radioCheck:
             dateValue:new Date(),
             dateValueSec:new Date(),
-            numberValue:1,
+            numberValue: 0,
             dateOption: {
                 disabledDate (date) {
                     return date && date.valueOf() > Date.now();
@@ -131,17 +129,17 @@ export default {
     },
 
     methods: {
-        handleSelectMember(res) {//选人
+        handleSelectMember(res) { //选人
             let keys = Object.keys(res);
             keys.forEach(key=>{
-                this[key] = res[key]
+                this[key] && (this[key] = res[key])
             })
             console.log(this.man,22)
         },
-        handleSelectRange(res){//选范围
+        handleSelectRange(res){ //选范围
             let keys = Object.keys(res);
             keys.forEach(key=>{
-                this[`${key}Range`] = res[key]
+                this[`${key}Range`] && (this[`${key}Range`] = res[key])
             })
             console.log(this.depRange,555)
         },

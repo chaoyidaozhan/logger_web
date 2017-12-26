@@ -35,15 +35,11 @@
 </template>
 <script>
 /**
- * showTemplate 是否显示模板
- * showTemplateCheck 是否显示模板过滤check
- * hasDefaultTemplate 是否显示默认全部模板
- * showDatePicker 是否显示日期组件
  * showDept 是否显示选择组织组件
  * showGroup 是否显示选择团队组件
  * showMember 是否显示选择提交人组件
- * showOrderType 是否显示选择日期类型组件
- * showOrderTypeMulti 选择日期类型是否支持选择日期
+ * ellipsis 是否强制换行, 不换行时可以删除单个选择 
+ * limit showAll 是否添加全选 count 最大数量限制 warning 超过选择提示信息
  **/
 export default {
     props: {
