@@ -26,20 +26,20 @@
                     />
             </FormItem>
             <FormItem v-for="(item, index) in templateContent" :key="index" 
-                :label="item.title" :prop="item.isRequired==1?'requiredFlag':''">
+                :label="item.title" :prop="item.isRequired==1?item.type:''">
                 <template v-if="item.type == 'InputText'">
-                    <Input v-model="inputTextValue" type="textarea" :autosize="{ minRows: 5}"/>
+                    <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
-                    <InputNumber  v-model="numberValue" size="large"></InputNumber>
+                    <InputNumber  v-model="item.value" size="large"></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="inputRadioValue" :key="index"  @on-change="handleChangeRadio(inputRadioValue,index)">
-                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" @on-change="handleRadio(inputRadioValue,index)"></Radio>
+                    <RadioGroup v-model="item.checked">
+                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="inputCheckboxValue" @on-change="handleChangeCheckbox(inputCheckboxValue)">
+                    <CheckboxGroup v-model="item.checkedArr">
                         <Checkbox v-for="(val, key) in item.options" 
                             :key="key"
                             :label="`${key + 1}`">
@@ -52,7 +52,7 @@
                         placement="bottom-start"
                         placeholder="日期" 
                         class="date-wrap"
-                        :value="dateValueSec"
+                        v-model="item.dateValueSec"
                     >
                     </DatePicker>
                 </template>
@@ -78,7 +78,7 @@
             </FormItem>
            
             <FormItem>
-                <Button @click="handleSubmit">
+                <Button @click="handleSubmit()">
                     提交
                 </Button>
             </FormItem>
@@ -93,6 +93,7 @@ export default {
     data(){
         return{
             templateContent: [],
+            templateContentClone:[],
             templateItemData:[],
             formInfo: {
 
@@ -100,13 +101,18 @@ export default {
             deptRange: [],
             groupRange: [],
             memberRange: [],
+            rangeArr:[],
             member: [],
             dateValue:new Date(),
             dateValueSec:new Date(),
             numberValue: 0,
-            inputTextValue:'',
-            inputRadioValue:'',
+            inputTextValue:[],
+            inputRadioValue:{},
             inputCheckboxValue:[],
+            radioString:{},
+            radioContent:'',
+            checkboxString:'',
+            checkboxContent:[],
             dateOption: {
                 disabledDate (date) {
                     return date && date.valueOf() > Date.now();
@@ -116,13 +122,29 @@ export default {
             fileStr :[],            
             formValidate: {
                 range:'',
-                requiredFlag:''
+                InputText:'' ,
+                InputTextNum:'',
+                InputRadio:'',
+                InputCheckbox:'',
+                InputDate:''
             },
             ruleValidate:{
                 range:[
                         { required: true, message: '范围不能为空', trigger: 'blur' }
                     ],
-                requiredFlag:[{
+                InputText:[{
+                     required: true, message: '范围不能为空', trigger: 'blur' 
+                }] ,
+                InputTextNum:[{
+                     required: true, message: '范围不能为空', trigger: 'blur' 
+                }] ,
+                InputRadio:[{
+                     required: true, message: '范围不能为空', trigger: 'blur' 
+                }] ,
+                InputCheckbox:[{
+                     required: true, message: '范围不能为空', trigger: 'blur' 
+                }] ,
+                InputDate:[{
                      required: true, message: '不能为空', trigger: 'blur' 
                 }]
             }
@@ -131,7 +153,6 @@ export default {
     components: {
         SelectMemberInput
     },
-
     methods: {
         handleSelectMember(res) { //选人
             let keys = Object.keys(res);
@@ -165,8 +186,21 @@ export default {
                 ...this.defautlFormInfo,
                 content: this.templateContent
             }
-            console.log(this.formInfo);
-
+            this.templateContent.forEach((v,k)=>{
+                console.log(v,k)
+                if(v.type=='InputRadio'){
+                    v.checked = v.value || v.options[0].string;
+                }else if(v.type=='InputCheckbox'){
+                    if(v.value){
+                        v.checkedArr.push(v.value);
+                    }
+                }else if(v.type=='InputTextNum'){
+                    v.value = parseInt(v.value)||0;
+                }else if(v.type=='InputDate'){
+                    v.dateValueSec = v.value?new Date(v.value):new Date();
+                }
+            })
+            console.log(this.templateContent,'444')
         },
         loadData(){
             if(!this.$store.state.template.app.length) { 
@@ -216,77 +250,86 @@ export default {
                 }
             })
         },
-        handleChecked(value) {
-            console.log(value)
-        },
-        handleRadio(inputRadioValue,index){
-            console.log(1,inputRadioValue,index)
-        },
-        handleChangeRadio(inputRadioValue,index){
-            console.log(inputRadioValue,54,index)
-        },
-        handleChangeCheckbox(inputCheckboxValue){
-            console.log(inputCheckboxValue,34)
-        },
         handleFileSuccess(res, file){//处理上传的文件数据
-            let fileData = res.data||[];
-            fileData.forEach((v,k)=>{
-                this.fileStr.push({
-                    fileName:v.fileName,
-                    fileSize:v.fileSize,
-                    fileExtension:v.fileExtension,
-                    fileKey:v.fileKey
-                });
-            })
-        },      
-        handleSubmit() {
-            console.log(this.formInfo,99999);
-
-          
-            let deptRangeStr = [];
+            let fileData = res.data[0]||[];
+            this.fileStr.push({
+                fileName:file.name,
+                fileSize:fileData.fileSize,
+                fileExtension:fileData.fileExtension,
+                fileKey:fileData.fileKey
+            });
+        },    
+        handleSubmitData(){//处理提交数据
+            let visibleRangeStr = [],submitContent = [];
             this.deptRange.forEach((v,k)=>{
-                deptRangeStr.push({
+                visibleRangeStr.push({
                     'teamId': v.deptId,
                     'teamName': v.deptName,
                     'dataType':1
                 })
             });
             this.groupRange.forEach((v,k)=>{
-                deptRangeStr.push({
+                visibleRangeStr.push({
                     'teamId': v.groupId||v.gid,
                     'teamName': v.groupName,
                     'dataType':3
                 })
             });
             this.memberRange.forEach((v,k)=>{
-                deptRangeStr.push({
+                visibleRangeStr.push({
                     'memberId': v.memberId,
                     'userName': v.userName,
                     'dataType':4
                 })
             });
-            console.log(this.templateContent,9)
-            console.log(this.inputCheckboxValue,555)
-            let submitContent = [];
-            let templateContentClone = this.templateContent.slice(0);
-            templateContentClone.forEach((v,k)=>{
+            this.rangeArr = visibleRangeStr;
+            this.templateContentClone = this.templateContent.slice(0);
+            console.log(this.templateContentClone,444)
+
+            this.templateContentClone.forEach((v,k)=>{
                 if(v.type=='InputText'){
-                    v.value = this.inputTextValue;
-                    v.content = this.inputTextValue;
+                    v.value = this.inputTextValue[k];
+                    v.content = this.inputTextValue[k];
+
                 }else if(v.type=='InputTextNum'){
-                    v.value = this.numberValue;
-                    v.content = this.numberValue;
+                    v.content = v.value;
                 }else if(v.type=='InputRadio'){
-                    
-
+                    v.content = v.checked;
+                    v.options&&v.options.forEach((value,key)=>{
+                        if(value.string==v.checked){
+                            v.value = key; 
+                        }
+                    })
+                    delete this.templateContentClone[k].checked;
                 }else if(v.type=='InputCheckbox'){
-
+                    console.log(v.checkedArr,768)
+                    let valueArr = [],contentArr = [];
+                    v.checkedArr&&v.checkedArr.forEach((value,key)=>{
+                        valueArr.push(value-1);
+                        contentArr.push(v.options[value-1].string);
+                    })
+                    v.value = valueArr.toString();
+                    v.content = contentArr.toString();
+                    
                 }else if(v.type=='InputDate'){
-                    v.value = FormatTime(new Date(this.dateValueSec), "YYYY-MM-DD");
-                    v.content = FormatTime(new Date(this.dateValueSec), "YYYY-MM-DD");
+                    // v.value = FormatTime(new Date(v.value), "YYYY-MM-DD");
+                    // v.content = FormatTime(new Date(v.value), "YYYY-MM-DD");
                 }
             })
-           
+            console.log( this.templateContentClone,555)
+        },  
+        handleValidate(submitData){
+            // console.log(formValidate,11)
+            // this.$refs[name].validate((valid) => {
+            //     if (valid) {
+            //         this.$Message.success('Success!');
+            //     } else {
+            //         this.$Message.error('Fail!');
+            //     }
+            // })
+        },
+        handleSubmit() {
+            this.handleSubmitData();
             let submitData = {
                 gather:0,
                 diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
@@ -295,18 +338,20 @@ export default {
                 source:3,//1 安卓   2 ios    3web    4微信
                 templateId:this.$route.params.id||0,
                 visibleRange:1,
-                visibleRangeStr:deptRangeStr,
+                visibleRangeStr:JSON.stringify(this.rangeArr),
                 dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
-                fileStr:this.fileStr,
-                content:[],
-                
+                fileStr:JSON.stringify(this.fileStr),
+                content:JSON.stringify(this.templateContent),  
             };
+            this.handleValidate(submitData);
             console.log(submitData,'submitData')
             this.$ajax({
-                url: '/logger/diary/lastVisibleRange',
+                url: '/logger/diary/diaryCommit',
                 data: submitData,
+                type:'post',
                 success: (res)=>{
                     if(res && res.code === 0) {
+                        this.$Message.warning((res && res.msg) || '创建成功');
 
                     }else{
                         this.$Message.warning((res && res.msg) || '网络错误');
