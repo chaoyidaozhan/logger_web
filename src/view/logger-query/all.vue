@@ -8,6 +8,7 @@
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
+            <reply></reply>
             <fs-logger-list :range="range" :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
@@ -16,6 +17,7 @@
 import FsFrame from '../frame/';
 import FsQueryForm from 'app_component/common/query-form/'
 import FsLoggerList from 'app_component/logger-list/';
+import Reply from 'app_component/common/reply'
 export default {
     data() {
         return {
@@ -27,6 +29,7 @@ export default {
         FsFrame,
         FsLoggerList,
         FsQueryForm,
+        Reply
     },
     methods: {
         handleQuery(params) {

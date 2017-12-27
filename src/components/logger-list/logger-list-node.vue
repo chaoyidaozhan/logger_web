@@ -79,7 +79,7 @@
                     <i class="icon-good-selected" v-else></i>
                     {{loggerItemData.like && loggerItemData.like.likeNum}}
                 </span>
-                <span class="cursor-pointer reply">
+                <span class="cursor-pointer reply" @click="handleReply">
                     <i class="icon-chat-normal"></i>
                     {{loggerItemData.commentNum}}
                 </span>
@@ -286,6 +286,9 @@ export default {
                     this.$Message.error(res && res.msg || '网络错误')
                 }
             })
+        },
+        handleReply() { // 回复
+            
         }
     },
     mounted () {
