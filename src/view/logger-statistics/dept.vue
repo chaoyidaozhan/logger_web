@@ -17,7 +17,7 @@
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/statistics';
+import statistics from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
@@ -25,6 +25,6 @@ export default {
             validateString: 'deptId'
         }
     },
-    mixins: [query]
+    mixins: [statistics]
 }
 </script>

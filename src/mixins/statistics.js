@@ -7,7 +7,8 @@
  * **/
 import FsFrame from 'app_src/view/frame/';
 import FsQueryForm from 'app_component/common/query-form/';
-import FsLoggerStatistics from 'app_component/logger-statistics/';
+import FsLoggerStatistics from 'app_component/logger-statistics/common-statistics/';
+import FsMemberStatistics from 'app_component/logger-statistics/member-statistics/';
 
 const validateMsg = {
     deptId: '请先选择部门',
@@ -27,19 +28,16 @@ export default {
     components: {
         FsFrame,
         FsQueryForm,
-        FsLoggerStatistics
+        FsLoggerStatistics,
+        FsMemberStatistics
     },
     methods: {
         handleQuery(params) {
-            console.log(params)
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
-                return this.$Message.warning(validateMsg[this.validateString]);
+                this.$Message.warning(validateMsg[this.validateString]);
             } 
-            this.params = {
-                ...this.params,
-                ...params
-            };
+            this.params = params;
         }
     }
 }

@@ -44,18 +44,18 @@ export default {
 			if(!this.ltDisabled) {
                 this.nowMonth--;
                 this.nowMonth == 0 && (this.nowMonth = 12, this.nowYear--)
-				this.handleChangeYear();
+				this.handleChangeDate();
 			}
 		},
 		addMonth() {  // 增加年份
 			if(!this.rtDisabled) {
                 this.nowMonth++;
                 this.nowMonth == 13 && (this.nowMonth = 1, this.nowYear++)
-				this.handleChangeYear();
+				this.handleChangeDate();
 			}
 		},
-		handleChangeYear() { // 切换年份回调
-			this.$emit('handleChangeYear', this.nowYear);
+		handleChangeDate() { // 切换年份回调
+			this.$emit('handleChangeDate', this.nowYear);
 		}
 	},
     created () {
@@ -63,51 +63,3 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-@import '../../../assets/css/var.less';
-.picker {
-	width: 180px;
-	height: 38px;
-	padding: 0 30px;
-	line-height: 38px;
-	color: @primary-color;
-	position: relative;
-	text-align: center;
-	font-size: 18px;
-	margin: 0 auto 10px;
-	::selection {
-		background-color: transparent;
-	}
-	.btn {
-		width: 30px;
-		height: 38px;
-		position: absolute;
-		top: 0;
-		cursor: pointer;
-		&::after {
-			content: "";
-			display: inline-block;
-			border: 6px solid @primary-color;
-			border-radius: 2.5px;
-			border-top-color: transparent;
-			border-bottom-color: transparent;
-		}
-		&.lt {
-			left: -2px;
-			&::after {
-				border-left-color: transparent;
-			}
-		}
-		&.rt {
-			right: 0;
-			&::after {
-				border-right-color: transparent;
-			}
-		}
-		&.disabled {
-			cursor: not-allowed;
-			opacity: 0.5;
-		}
-	}
-}
-</style>

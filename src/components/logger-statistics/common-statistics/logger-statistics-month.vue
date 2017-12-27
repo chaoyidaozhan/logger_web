@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import FsTable from './logger-statistics-table';
+import FsTable from '../statistics-table';
 export default {
     props: {
         data: {
@@ -22,6 +22,7 @@ export default {
         return {
             columns: {
                 title: this.title,
+                key: 'deptName',
                 array: ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
                 caption: '汇总'
             }

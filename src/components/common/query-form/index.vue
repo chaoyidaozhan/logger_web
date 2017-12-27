@@ -26,6 +26,7 @@
                     :showMember="false" 
                     :showDept="true"
                     :dept="dept"
+                    :limit="{ showAll: true, warning: '', count: 1 }"
                     title="选择部门"
                     placeholder="选择部门"/>
             </FormItem> 
@@ -35,6 +36,7 @@
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
+                    :limit="{ showAll: true, warning: '', count: 1 }"
                     title="选择团队"
                     placeholder="选择团队"/>
             </FormItem> 
@@ -151,7 +153,7 @@ export default {
             keys.forEach(key=>{ 
                 switch (typeof params[key]) {
                     case 'number':
-                        if(!params[key] && !params[key] !== 0) {
+                        if(!params[key] && params[key] != 0) {
                             delete params[key];
                         }
                         break;
