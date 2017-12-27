@@ -1,14 +1,14 @@
 <template>
-	<div class="tree_team">
+	<div class="tree-dep-wrap">
 		<search-input @change="keyWordChange"/>
-
-		<ul class="man_scroll">
+		<!-- keyword不为空显示平级结构 -->
+		<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
 				<div class="head-wrap l">
-					<avatar :avatar="each.groupLogo" type="group" :name="each.groupName" :size="'28px'"/>
+					<avatar :name="each.deptName" type="dept" :size="'28px'"/>
 				</div>
-				<div class="groupName l">
-					{{each.groupName}}
+				<div class="deptName l">
+					{{each.deptName}}
 				</div>
 				<div class="r">
 					<!-- Checkbox阻止事件 -->
@@ -18,10 +18,14 @@
 			<li class="ajaxStatus">
 				<Spin class="auto" v-if="ajaxStatus=='loading'"/>
 				<span v-if="ajaxStatus=='over'">已加载全部</span>
-				<span class="cp" v-if="ajaxStatus=='success'" @click="add">加载更多</span>
+				<span class="cp" v-if="ajaxStatus=='success'">加载更多</span>
 				<span class="cp" v-if="ajaxStatus=='error'">加载失败 <span class="cp" style="color:#1FDA9A" @click="getList">重新加载</span></span>
 			</li>
-		</ul>
+		</div>
+		<!-- keyword为空显示树形结构 -->
+		<div class="tree-wrap man_scroll" v-if=" keyWord=='' ">
+			<tree-dep  :info="info"/>
+		</div>
 	</div>
 </template>
 <script type="text/javascript">
@@ -37,53 +41,42 @@
 			return {
 				ajaxStatus:'loading',  // loding---加载中 success---加载更多 error---加载失败 over--全部;
 				keyWord:'',
-				pageSize:40,
-				pageNum:1,
-				list:[],
+				list:[]
 			}
 		},
 		watch:{
 			// 储存变量 , 设置默认值
 			list(){
-				this.$selectMember.saveAjaxTeam = this.list ;
-				this.$selectMember.setDefaultTure('team');
+				this.$selectMember.saveAjaxDep = this.list ;
+				this.$selectMember.setDefaultTure('dep');
 			}
 		},
 
 		mounted(){
-			this.getList();
+			window.ll = this ;
 		},
 		methods:{
 			keyWordChange( kw ){
-			  if( this.keyWord==kw ){ return };
 				this.keyWord = kw ;
-				this.list    = [];
-				this.pageNum = 1;
-				this.getList();
+				if(kw){
+					this.getList();
+				} 
 			},
 			getList(){
-				let url ;
-				if( this.keyWord=='' ){
-					url = '/logger/group/me' ;
-				}else {
-					url = '/logger/group/authMe' ;
-				}
-				this.ajaxStatus = 'loading' ;
+            	let data={ 
+            		keyWord : this.keyWord 
+            	};
             	this.$ajax({
-	                url: '/logger/group/authMe' ,
-	                data:{
-	                	pageSize : this.pageSize,
-	                	pageNum  : this.pageNum,
-	                	keyword  : this.keyWord
-	                },
+	                url: '/logger/team/getDepts',
+	                data: data ,
 	                success: (res)=>{
 	                	if( res.code==0 ){
 	                		let arr = res.data ;
-	                			arr.length>=this.pageSize ? this.ajaxStatus='success' : this.ajaxStatus='over' ;
 		                		arr.map(v=>{
 		                			v.checked=false ;
 		                		})
-	                		this.list=this.list.concat( arr );
+	                		this.list = arr ;
+	                		this.ajaxStatus = 'over' ;
 	                	}else {
 	                		this.ajaxStatus = 'error' ;
 	                	}
@@ -94,48 +87,33 @@
 	                }
 	            })
             },
-            add(){
-            	this.pageNum++ ;
-            	this.getList() ;
-            },
             checkEach( each ){
             	// 限制 ;
-				let next = this.$selectMember.checkLimit(each ,'team');
+				let next = this.$selectMember.checkLimit(each , 'dep');
 				if( !next ){ return };
 
             	// 正常选择 ;
             	each.checked = !each.checked ;
             	if( each.checked ){
             		// 添加右侧
-            		this.$selectMember.right_add('team',each);
+            		this.$selectMember.right_add('dep',each);
             	}else {
             		// 删除右侧
-            		this.$selectMember.right_del('team',each);
+            		this.$selectMember.right_del('dep',each);
             	};
             }
 		}
 	}
 </script>
 <style lang="less">
-	.tree_team{
+	.tree-dep-wrap{
 		.avatar-wrapper .name{
 			font-size: 12px;
 		}
-		.man_scroll{
-			position: absolute;
-			top: 47px;bottom: 0px;
-			left: 0px;right: 0px;
-			overflow-y: auto;
+		.tree-wrap{
+			padding: 0 15px 0 25px;
 		}
-		.ajaxStatus{
-			text-align: center;
-			padding: 10px 0 15px 0;
-			&>span{
-				font-size: 12px;
-				padding: 0 10px;
-			}
-		}
-		.li{
+		.search-wrap .li{
 			font-size: 13px;
 			overflow: hidden;
 			line-height: 28px;
@@ -149,12 +127,26 @@
 				// border-radius: 50%;
 				font-size: 0;
 			}
-			.groupName{
+			.deptName{
 				margin-left: 8px;
 			}
 		}
-		.li:nth-of-type(1){
+		.search-wrap .li:nth-of-type(1){
 			padding-top: 12px;
+		}
+		.ajaxStatus{
+			text-align: center;
+			padding: 10px 0 15px 0;
+			&>span{
+				font-size: 12px;
+				padding: 0 10px;
+			}
+		}
+		.man_scroll{
+			position: absolute;
+			top: 47px;bottom: 0px;
+			left: 0px;right: 0px;
+			overflow-y: auto;
 		}
 	}
 </style>

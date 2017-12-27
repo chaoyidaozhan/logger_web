@@ -18,7 +18,7 @@
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
         <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
-        <span class="nodata" v-if="!list.length&&iconFlag">选择联系人选择联系人选择联系人选择联系人</br>选择联系人选择联系人选择联系人选择联系人</span>
+        <span class="nodata" v-if="!list.length&&iconFlag">只能查询到最新模板的数据，模板修改前的数据 可以导出EXCEL，切换到sheet进行查看</span>
     </div>
 </template>
 <script>

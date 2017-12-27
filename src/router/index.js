@@ -20,7 +20,7 @@ import LoggerTemplate from '../view/logger-template-manager/'; // 日志模板
 import LoggerTemplateList from '../view/logger-template-manager/logger-template-list'; // 日志模板 --列表
 import LoggerTemplateOperate from '../view/logger-template-manager/logger-template-operate'; // 日志模板 --新建编辑
 
-import StatisticsOfDepart from '../view/logger-statistics/depart'; // 日志统计 --部门
+import StatisticsOfDept from '../view/logger-statistics/dept'; // 日志统计 --部门
 import StatisticsOfGroup from '../view/logger-statistics/group';  // 日志统计 --团队
 import StatisticsOfMember from '../view/logger-statistics/member'; // 日志统计 --成员
 
@@ -76,8 +76,8 @@ export default [
                 component: DraftOfMine
             },
             {
-                path: 'StatisticsOfDepart', 		    	
-                component: StatisticsOfDepart
+                path: 'StatisticsOfDept', 		    	
+                component: StatisticsOfDept
             },
             {
                 path: 'StatisticsOfGroup', 		    	

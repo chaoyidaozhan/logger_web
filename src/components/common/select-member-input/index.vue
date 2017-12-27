@@ -1,31 +1,31 @@
 <template>
     <div class="select-member-input cursor-pointer" 
         @click="openSelectMember" 
-        :class="{disabled: !dep.length && !team.length && !man.length, ellipsis: ellipsis}">
-        <template v-if="!dep.length && !team.length && !man.length">
+        :class="{disabled: !dept.length && !group.length && !member.length, ellipsis: ellipsis}">
+        <template v-if="!dept.length && !group.length && !member.length">
             {{placeholder}}
         </template>
         <template v-else-if="ellipsis">
-            <span v-for="item in dep" :key="item.deptId">
+            <span v-for="item in dept" :key="item.deptId">
                 {{item.deptName}}
             </span>
-            <span v-for="item in team" :key="item.groupId">
+            <span v-for="item in group" :key="item.groupId">
                 {{item.groupName}}
             </span>
-            <span v-for="item in man" :key="item.memberId">
+            <span v-for="item in member" :key="item.memberId">
                 {{item.userName}}
             </span>
         </template>
         <template v-else>
-            <span class="tag" v-for="item in dep" :key="item.deptId">
+            <span class="tag" v-for="item in dept" :key="item.deptId">
                 {{item.deptName}}
                 <Icon type="close-round" @click.native="handleClearMember($event, item, 'dep')"></Icon>
             </span>
-            <span class="tag" v-for="item in team" :key="item.groupId">
+            <span class="tag" v-for="item in group" :key="item.groupId">
                 {{item.groupName}}
                 <Icon type="close-round" @click.native="handleClearMember($event, item, 'team')"></Icon>
             </span>
-            <span class="tag" v-for="item in man" :key="item.memberId">
+            <span class="tag" v-for="item in member" :key="item.memberId">
                 {{item.userName}}
                 <Icon type="close-round" @click.native="handleClearMember($event, item, 'man')"></Icon>
             </span>
@@ -34,31 +34,40 @@
     </div>
 </template>
 <script>
+/**
+ * showDept 是否显示选择组织组件
+ * showGroup 是否显示选择团队组件
+ * showMember 是否显示选择提交人组件
+ * ellipsis 是否强制换行, 不换行时可以删除单个选择 
+ * limit showAll 是否添加全选 count 最大数量限制 warning 超过选择提示信息
+ **/
 export default {
     props: {
-        dep: {
+        dept: { // 组织数据
             type: Array,
             default() {
                 return []
             }
         },
-        team: {
+        group: { // 团队数据
             type: Array,
             default() {
                 return []
             }
         },
-        man: {
+        member: { // 人员数据
             type: Array,
             default() {
                 return []
             }
         },
         showDept: {
-            type: Boolean
+            type: Boolean,
+            default: false
         },
         showGroup: {
-            type: Boolean
+            type: Boolean,
+            default: false
         },
         showMember: {
             type: Boolean,
@@ -75,6 +84,16 @@ export default {
         placeholder: {
             type: String,
             default: '选择可见范围'
+        },
+        limit: {
+            type: Object,
+            default() {
+                return {
+                    showAll: false,
+                    warning: '',
+                    count: 500
+                }
+            }            
         }
     },
     data() {
@@ -87,19 +106,17 @@ export default {
             this.$emit('handleSelectMember', res);
         },
         handleClearMember(e, item, name) {
-            e.preventDefault();
             e.stopPropagation();
-            console.log(e)
             let selected = {
-                dep: JSON.parse(JSON.stringify(this.dep)),
-                man: JSON.parse(JSON.stringify(this.man)),
-                team: JSON.parse(JSON.stringify(this.team))
+                dept: JSON.parse(JSON.stringify(this.dept)),
+                member: JSON.parse(JSON.stringify(this.member)),
+                group: JSON.parse(JSON.stringify(this.group))
             }
             let arr = [];
             let id = {
-                dep: 'deptId',
-                team: 'groupId',
-                man: 'memberId'
+                dept: 'deptId',
+                group: 'groupId',
+                member: 'memberId'
             }
             selected[name].forEach((val)=>{
                 if(val[`${id[name]}`] != item[[`${id[name]}`]]) {
@@ -115,16 +132,30 @@ export default {
                 man: this.showMember,
                 team:  this.showGroup,
                 dep: this.showDept,
+                limit: { 
+                    ...this.limit
+                },
                 selected: {
-                    dep: JSON.parse(JSON.stringify(this.dep)),
-                    man: JSON.parse(JSON.stringify(this.man)),
-                    team: JSON.parse(JSON.stringify(this.team))
+                    dep: this.dept,
+                    man: this.member,
+                    team: this.group
                 }
             };
-            this.$selectMember.show(info, res=>{
-                this.handleSelectMember(res)
+            this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
+                let params = {};
+                params.dept = res.dep;
+                params.member = res.man;
+                params.group = res.team;
+                console.log(params)
+                this.handleSelectMember(JSON.parse(JSON.stringify(params)))
             })
         }
+    },
+    created(){
+       
+    },
+    update() {
+        console.log(this.dept)
     }
 }
 </script>

@@ -6,10 +6,13 @@
                 class="avatar"
                 :avatar="loggerItemData.avatar" 
                 :name="loggerItemData.userName"
+                :fontSize="loggerItemData.userName ? '14px' : '20px'" 
             />
             <div class="logger-list-col clearfix">
                 <span class="username">{{loggerItemData.userName}}</span>
-                <span class="template-name" v-if="loggerItemData.templateName">{{loggerItemData.templateName}}</span>
+                <span class="template-name" v-if="loggerItemData.templateName">
+                    <i>{{loggerItemData.templateName}}</i>
+                </span>
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
                     <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
@@ -61,7 +64,7 @@
                 :key="index">
                 <div class="logger-list-col">
                     <div class="title">{{item.title}}</div>
-                    <div class="caption">{{item.content || item.value}}</div>
+                    <div class="caption" v-html="item.content || item.value"></div>
                 </div>
             </div>
         </div>
@@ -71,8 +74,9 @@
                 <span class="cursor-pointer" @click="handleContentExpand" v-else>收起全文</span>
             </div>
         </div>
+        <div class="lat"></div>
         <!--点赞回复收藏-->
-        <div class="logger-list-row logger-list-operate">
+        <div class="logger-list-row logger-list-operate" v-if="!isDraft">
             <div class="logger-list-col">
                 <span class="cursor-pointer like" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
                     <i class="icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
@@ -94,10 +98,13 @@
         <Modal
             v-model="operateModal"
             class="operate-modal"
-            title="操作记录"
-        >   
+            title="操作记录">   
             <div class="operate-row" v-for="item in operateModalData" :key="item.id">
-                <fs-avatar class="operate-avatar" size="31px" :avatar="item.avatar" :name="item.userName"></fs-avatar>
+                <fs-avatar class="operate-avatar" 
+                    size="31px" 
+                    :avatar="item.avatar" 
+                    :fontSize="item.userName ? '12px' : '18px'" 
+                    :name="item.userName"></fs-avatar>
                 <div class="operate-content">
                     <div class="clearfix">
                         <span>{{item.userName}}</span>
@@ -120,6 +127,13 @@ export default {
     props: {
         loggerItemData: {
             type: Object
+        },
+        index: {
+            type: Number
+        },
+        isDraft: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -215,6 +229,11 @@ export default {
                 success: (res)=>{
                     if(res && res.code == 0) {
                         this.loggerItemData.favorite = res.data;
+                        if(this.loggerItemData.favorite) {
+                            if(this.$parent.$parent.isFavorite) {
+                                this.$parent.$parent.list.splice(this.index ,1);
+                            }
+                        }
                     }
                 },
                 error: (res)=>{
@@ -300,12 +319,12 @@ export default {
 @import '../../assets/css/var.less';
 .logger-list-item {
     padding: 20px 20px 0;
-    transition: .2s ease all;
     position: relative;
     background-color: @white-color;
     color: @gray-color-dark;
     font-size: 14px;
     &.fade-enter {
+        transition: .2s ease opacity;
         opacity: 0;
     }
     &.fade-enter-in {
@@ -338,11 +357,15 @@ export default {
         .template-name {
             border: 1px solid @primary-color;
             color: @primary-color;
-            border-radius: 3px;
-            padding: 3px 6px;
-            transform: scale(0.8);
+            border-radius: 2px;
             display: inline-block;
-            line-height: 12px;
+            i {
+                font-style: normal;
+                padding: 1px 0;
+                line-height: 12px;
+                transform: scale(0.8);
+                display: block;
+            }
         }
         .pull-right {
             color: @gray-color-light;
@@ -414,9 +437,11 @@ export default {
     .handle-content-expand-btn {
         color: @primary-color;
     }
+    .lat {
+        height: 20px;
+    }
     .logger-list-operate {
         font-size: 0;
-        margin-top: 20px;
         padding-bottom: 8px;
         ::selection{
             background-color: transparent;

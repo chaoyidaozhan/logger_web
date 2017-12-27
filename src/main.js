@@ -13,6 +13,12 @@ import './assets/css/common.less';
 
 Vue.prototype.$eventbus = new Vue(); // 建立组件全局通信的钩子
 Vue.prototype.$ajax = ajax; // 将ajax挂在到vue实例
+Vue.prototype.$axios = axios; // 将ajax挂在到vue实例
+var CancelToken = axios.CancelToken;
+var source = CancelToken.source();
+Vue.prototype.$source = source; // 将ajax挂在到vue实例
+console.log(source.token)
+
 window.storage = storage; // 建立全局的storage
 
 Vue.use(VueRouter);

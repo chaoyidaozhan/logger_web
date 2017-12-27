@@ -8,33 +8,18 @@
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <reply></reply>
             <fs-logger-list :range="range" :params="params" ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
 <script>
-import FsFrame from '../frame/';
-import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerList from 'app_component/logger-list/';
-import Reply from 'app_component/common/reply'
+import query from 'app_src/mixins/query';
 export default {
     data() {
         return {
-            params: {},
-            range: '0',
+            range: '0'
         }
     },
-    components: {
-        FsFrame,
-        FsLoggerList,
-        FsQueryForm,
-        Reply
-    },
-    methods: {
-        handleQuery(params) {
-            this.params = params;
-        }
-    },
+    mixins: [query]
 }
 </script>

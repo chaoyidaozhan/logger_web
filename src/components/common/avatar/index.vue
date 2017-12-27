@@ -3,16 +3,32 @@
         :style="{
             'width':size, 
             'height':size,
-            'font-size': fontSize,
-            'background-color': `${loadError ? backgroundColor : ''}`}"> 
-        <img v-if="avatar && !loadError"
-            :src="avatar"
-            @error="onError" 
-            class="avatar">
-        <span class="name" v-else>{{ formatName }}</span>
+            'line-height':size,
+            'background-color': `${isDefault() && !loadError ?  '' : backgroundColor}`}"> 
+        <template v-if="isDefault() && !loadError">
+            <img 
+                :src="avatar"
+                @error="onError" 
+                class="avatar">
+        </template>
+        <template v-else :style="{'font-size': fontSize}">
+            <template v-if="!!type">
+                <span :style="{'font-size': fontSize}" class="name" v-if="type=='dept'">
+                    <i class="icon-department"></i>
+                </span>
+                <span :style="{'font-size': fontSize}" class="name" v-if="type=='group'">
+                    <Icon type="person-stalker"></Icon>
+                </span>
+            </template>
+            <span :style="{'font-size': fontSize}" class="name" v-else-if="name">{{ formatName }}</span>
+            <span :style="{'font-size': fontSize}" class="name" v-else>
+                <Icon type="person"></Icon>
+            </span>
+        </template>
     </div>
 </template>
 <script>
+import encodeColor from 'app_src/filters/encode-color'
 export default{
     props: {
         avatar: {
@@ -32,12 +48,15 @@ export default{
         fontSize: {
             type: String,
             default: "14px"
+        },
+        type: {
+            type: String
         }
     },
     data() {
         return {
             loadError: false,
-            backgroundColor: this.getRandomColor()
+            backgroundColor: this.getColors()
         }
     },
     computed: {
@@ -48,17 +67,22 @@ export default{
         }
     },
     methods: {
+        isDefault() {
+            let avatar = ''
+            if(this.avatar && this.avatar.indexOf('default_avatar') != -1) {
+                avatar = '';
+            } else if(this.avatar && this.avatar.indexOf('defaultGroup') != -1) {
+                avatar = '';
+            }  else {
+                avatar = this.avatar;
+            }
+            return avatar;
+        },
         onError(e) {
             this.loadError = true;
         },
-        getRandomColor () {
-			var colors = ['#29d4ff', '#1594ff', '#ffa92f', '#b587fa',
-                         '#06cf86', '#fa6771', '#73d51c', '#8991ff'];
-			return colors[this.randomBetween(0, colors.length - 1)];
-		},
-		randomBetween(lowerValue, upperValue) {
-			var choices = upperValue - lowerValue + 1;
-			return Math.floor(Math.random() * choices + lowerValue);
+        getColors() {
+			return encodeColor(this.name);
 		}
     }
 };
@@ -79,16 +103,7 @@ export default{
             display: block;
             width: 100%;
             height: 100%;
-            font-size: 14px;
             color: #fff;
-            margin-left: -1px;
-            &:before {
-                display: inline-block;
-                width: 1px;
-                height: 100%;
-                content: '';
-                vertical-align: middle;
-            }
         }
     }
 </style>

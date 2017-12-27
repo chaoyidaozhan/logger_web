@@ -1,15 +1,17 @@
 <template>
     <div class="logger-statistics" ref="loggerStatisticsWrapper">
         <fs-year-picker  v-if="params.orderType == 0 || params.orderType == 1" @handleChangeYear="handleChangeYear"/>
-        <fs-month-picker @handleChangeMonth="handleChangeYear"/>
+        <!-- <fs-month-picker @handleChangeMonth="handleChangeYear"/> -->
         <fs-logger-statistics-month 
             :data="list"
             :type="type"
-            v-if="params.orderType == 0 && !!list.length"/>
+            :title="title"
+            v-if="params.orderType == 0"/>
         <fs-logger-statistics-season  
             :data="list"
             :type="type"
-            v-if="params.orderType == 1 && !!list.length"/>
+            :title="title"
+            v-if="params.orderType == 1"/>
     </div>
 </template>
 <script>
@@ -29,12 +31,16 @@ export default {
         },
         type: {
             type: String
+        },
+        title: {
+            type: String,
+            default: '名称'
         }
     },
     data() {
         return {
             list: [],
-            years: ''
+            years: (new Date()).getFullYear()
         }
     },
     components: {
@@ -42,6 +48,9 @@ export default {
         FsMonthPicker,
         FsLoggerStatisticsMonth,
         FsLoggerStatisticsSeason
+    },
+    watch: {
+        params: 'loadData'
     },
     methods: {
         handleChangeYear(year) {
@@ -72,7 +81,7 @@ export default {
         }
     },
     created () {
-        this.init();
+        // this.init();
     },
     mounted () {
     }
