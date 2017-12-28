@@ -80,12 +80,16 @@ export default {
 				this.handleChangeDate();
 			}
 		},
-		handleChangeDate() { // 切换年份回调
-			this.$emit('handleChangeDate', this.nowYear);
+		handleChangeDate() { // 切换周回调
+			this.$emit('handleChangeDate', {
+                beiginDate: this.beginDate,
+                endDate: this.endDate
+            });
         }
 	},
     created () {
         this.setNowDate();
+        this.handleChangeDate();
     }
 }
 </script>

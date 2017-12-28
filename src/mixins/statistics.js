@@ -13,7 +13,7 @@ import FsMemberStatistics from 'app_component/logger-statistics/member-statistic
 const validateMsg = {
     deptId: '请先选择部门',
     groupId: '请先选择团队',
-    memberId: '请先选择提交人',
+    memberIds: '请先选择提交人',
 }
 
 export default {
@@ -33,9 +33,10 @@ export default {
     },
     methods: {
         handleQuery(params) {
+            console.log(params)
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
-                this.$Message.warning(validateMsg[this.validateString]);
+                // return this.$Message.warning(validateMsg[this.validateString]);
             } 
             this.params = params;
         }

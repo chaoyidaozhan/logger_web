@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-statistics" ref="loggerStatisticsWrapper">
+    <div class="logger-statistics"  ref="loggerStatisticsWrapper">
         <fs-year-picker @handleChangeDate="handleChangeDate"/>
         <!--月份统计-->
         <fs-logger-statistics-month 
@@ -19,6 +19,8 @@
 import FsYearPicker from 'app_component/common/picker/year';
 import FsLoggerStatisticsMonth from './logger-statistics-month';
 import FsLoggerStatisticsSeason from './logger-statistics-season';
+import 'app_src/directives/loading/';
+
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -40,7 +42,9 @@ export default {
     data() {
         return {
             list: [],
-            years: (new Date()).getFullYear()
+            years: (new Date()).getFullYear(),
+            timer: null,
+            loaded: false
         }
     },
     components: {
@@ -49,12 +53,19 @@ export default {
         FsLoggerStatisticsSeason,
     },
     watch: {
-        params: 'loadData'
+        params: 'handleChangeDate'
     },
     methods: {
-        handleChangeDate(date) {
-            this.years = date || (new Date()).getFullYear();
-            this.loadData();
+        handleChangeDate({year}) {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                if(year) {
+                    this.years = year || (new Date()).getFullYear();
+                }
+                if(this.params.deptId || this.params.groupId) {
+                    this.loadData();
+                }
+            }, 200);
         },
         getParams() { // 获取参数
             return Object.assign({
@@ -62,6 +73,7 @@ export default {
             }, this.params);
         },
         loadData() {
+            this.loaded = false;
             this.$ajax({
                 url: '/logger/diaryQuery/getStatisticsByCondition',
                 data: this.getParams(),
@@ -69,12 +81,17 @@ export default {
                     if(res && res.code === 0) {
                         this.list = res.data;
                     }
+                    this.loaded = true;
                 },
                 error: (res)=>{
-                    this.list = []
+                    this.loaded = true;
+                    this.$Message.error(res && res.msg || '网络错误');
                 }
             })
         }
+    },
+    destroyed () {
+        clearTimeout(this.timer);
     }
 }
 </script>

@@ -115,21 +115,21 @@ export default {
                 let scrollLeft = e && e.target && e.target.scrollLeft || 0;
                 let headerHorizonal = this.$refs.headerHorizonal;
                 let bodyHorizonal = this.$refs.bodyHorizonal;
-                headerHorizonal.scrollLeft = scrollLeft;
-                bodyHorizonal.scrollLeft = scrollLeft;
+                headerHorizonal && (headerHorizonal.scrollLeft = scrollLeft);
+                bodyHorizonal && (bodyHorizonal.scrollLeft = scrollLeft);
             }
         },
         scrollTo(dir) {
             let headerHorizonal = this.$refs.headerHorizonal;
             let bodyHorizonal = this.$refs.bodyHorizonal;
-            let scrollLeft = headerHorizonal.scrollLeft;
+            let scrollLeft = headerHorizonal && headerHorizonal.scrollLeft;
             if(dir == 'right') {
                 scrollLeft += 200
             } else {
                 scrollLeft -= 200
             }
-            headerHorizonal.scrollLeft = scrollLeft;
-            bodyHorizonal.scrollLeft = scrollLeft;
+            headerHorizonal && (headerHorizonal.scrollLeft = scrollLeft);
+            bodyHorizonal && (bodyHorizonal.scrollLeft = scrollLeft);
         },
         getEmptyMsg() {
             let tips = '';

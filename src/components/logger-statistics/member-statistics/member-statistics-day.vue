@@ -5,6 +5,7 @@
 </template>
 <script>
 import FsTable from '../statistics-table';
+import {getMonthNum, getWeek} from 'app_src/filters/date-utils';
 export default {
     props: {
         data: {
@@ -26,12 +27,9 @@ export default {
             columns: {
                 title: this.title,
                 key: 'deptName',
-                array: ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
+                array: [],
                 caption: '汇总'
             },
-            point: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30 ,31], // 对应每月天数,
-            month: 11,
-            yearMonth: '2017-12'
         }
     },
     components: {
@@ -39,13 +37,12 @@ export default {
     },
     computed: {
         list: function () {
-            this.initData();
             let list = [];
             list = this.data;
             this.data.forEach(item => {
                 item.totalCount = 0;
                 item.array = [];
-                item.array.length = 31;
+                item.array.length = getMonthNum(new Date(this.start.replace('-', '/')));
                 if(item.resultList && item.resultList.length) {
                     item.resultList.forEach(val=>{
                         item.array[val.days - 1] = val;
@@ -53,35 +50,25 @@ export default {
                     })
                 }
             });
-            console.log(this.data)
             return list;
         }
     },
+    watch: {
+        start: 'initData',
+    },
     methods: {
-        isLeapYear(fullyear) { // 判断是否是闰年
-            let year = fullyear || (new Date()).getFullYear();
-            if (year % 4 == 0 && year % 100 != 0) {
-                this.point[1] = 29;
-            } else if (year % 400 == 0) {
-                this.point[1] = 29;
-            } 
-        },
-        getWeek(day) { // 获取周
-            return "日一二三四五六".charAt(new Date(`${this.year}/${this.month}/${day}`).getDay());
-        },
         initData() {
             this.columns.title = this.title;
-
-            let date = new Date(this.start.replace('-', '/'));
-            this.isLeapYear(date.getFullYear());
-            this.year = date.getFullYear();
-            this.month = date.getMonth();
-            console.log(this.month)
+            let date = this.start.replace(/[\-*]/g, '/');
+            let yearMonth = date.substring(0, date.lastIndexOf('/'));
             this.columns.array = [];
-            for(let i = 0; i < this.point[this.month]; i++) {
-                this.columns.array.push(`${i+1} 周${this.getWeek(i+1)}`)
+            for(let i = 0; i < getMonthNum(new Date(date)); i++) {
+                this.columns.array.push(`${i+1} 周${getWeek(new Date(`${yearMonth}/${i+1}`))}`)
             }
         }
+    },
+    created () {
+        this.initData();
     }
 }
 </script>
