@@ -1,6 +1,6 @@
 <template>
     <div class="logger-create">
-        <Form :label-width="138" ref="formValidate" :model="formValidate" :rules="ruleValidate">
+        <Form :label-width="138" >
             <FormItem label="日志日期">
                  <DatePicker type="date"
                     placement="bottom-start"
@@ -8,10 +8,11 @@
                     class="date-wrap"
                     :options="dateOption"
                     :value="dateValue"
+                    :clearable="false"
                     >
                 </DatePicker>
             </FormItem>
-            <FormItem label="可见范围" prop="range" >
+            <FormItem label="可见范围" class="required-icon">
                 <select-member-input 
                     :dept="deptRange"
                     :group="groupRange"
@@ -26,7 +27,7 @@
                     />
             </FormItem>
             <FormItem v-for="(item, index) in templateContent" :key="index" 
-                :label="item.title" :prop="item.isRequired==1?item.type:''">
+                :label="item.title" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
                     <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
                 </template>
@@ -53,6 +54,7 @@
                         placeholder="日期" 
                         class="date-wrap"
                         v-model="item.dateValueSec"
+                        :clearable="false"
                     >
                     </DatePicker>
                 </template>
@@ -78,7 +80,7 @@
             </FormItem>
            
             <FormItem>
-                <Button @click="handleSubmit()">
+                <Button @click="handleSubmit">
                     提交
                 </Button>
             </FormItem>
@@ -93,11 +95,10 @@ export default {
     data(){
         return{
             templateContent: [],
-            templateContentClone:[],
             templateItemData:[],
-            formInfo: {
+            // formInfo: {
 
-            },
+            // },
             deptRange: [],
             groupRange: [],
             memberRange: [],
@@ -105,14 +106,7 @@ export default {
             member: [],
             dateValue:new Date(),
             dateValueSec:new Date(),
-            numberValue: 0,
             inputTextValue:[],
-            inputRadioValue:{},
-            inputCheckboxValue:[],
-            radioString:{},
-            radioContent:'',
-            checkboxString:'',
-            checkboxContent:[],
             dateOption: {
                 disabledDate (date) {
                     return date && date.valueOf() > Date.now();
@@ -120,34 +114,6 @@ export default {
             },
             uploadFile:`${config[__ENV__].apiHost}/logger/diaryFile/?token=`+this.$store.state.userInfo.token,
             fileStr :[],            
-            formValidate: {
-                range:'',
-                InputText:'' ,
-                InputTextNum:'',
-                InputRadio:'',
-                InputCheckbox:'',
-                InputDate:''
-            },
-            ruleValidate:{
-                range:[
-                        { required: true, message: '范围不能为空', trigger: 'blur' }
-                    ],
-                InputText:[{
-                     required: true, message: '范围不能为空', trigger: 'blur' 
-                }] ,
-                InputTextNum:[{
-                     required: true, message: '范围不能为空', trigger: 'blur' 
-                }] ,
-                InputRadio:[{
-                     required: true, message: '范围不能为空', trigger: 'blur' 
-                }] ,
-                InputCheckbox:[{
-                     required: true, message: '范围不能为空', trigger: 'blur' 
-                }] ,
-                InputDate:[{
-                     required: true, message: '不能为空', trigger: 'blur' 
-                }]
-            }
         }
     },
     components: {
@@ -182,10 +148,10 @@ export default {
                     this.templateItemData = v;
                 }
             });
-            this.formInfo = {
-                ...this.defautlFormInfo,
-                content: this.templateContent
-            }
+            // this.formInfo = {
+            //     ...this.defautlFormInfo,
+            //     content: this.templateContent
+            // }
             this.templateContent.forEach((v,k)=>{
                 console.log(v,k)
                 if(v.type=='InputRadio'){
@@ -200,7 +166,7 @@ export default {
                     v.dateValueSec = v.value?new Date(v.value):new Date();
                 }
             })
-            console.log(this.templateContent,'444')
+            
         },
         loadData(){
             if(!this.$store.state.template.app.length) { 
@@ -243,7 +209,6 @@ export default {
                     }else{
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
-                    console.log(res)
                 },
                 error: (res)=>{
                     this.$Message.warning((res && res.msg) || '网络错误');
@@ -283,14 +248,11 @@ export default {
                 })
             });
             this.rangeArr = visibleRangeStr;
-            this.templateContentClone = this.templateContent.slice(0);
-            console.log(this.templateContentClone,444)
 
-            this.templateContentClone.forEach((v,k)=>{
+            this.templateContent.forEach((v,k)=>{
                 if(v.type=='InputText'){
                     v.value = this.inputTextValue[k];
                     v.content = this.inputTextValue[k];
-
                 }else if(v.type=='InputTextNum'){
                     v.content = v.value;
                 }else if(v.type=='InputRadio'){
@@ -300,9 +262,7 @@ export default {
                             v.value = key; 
                         }
                     })
-                    delete this.templateContentClone[k].checked;
                 }else if(v.type=='InputCheckbox'){
-                    console.log(v.checkedArr,768)
                     let valueArr = [],contentArr = [];
                     v.checkedArr&&v.checkedArr.forEach((value,key)=>{
                         valueArr.push(value-1);
@@ -310,23 +270,36 @@ export default {
                     })
                     v.value = valueArr.toString();
                     v.content = contentArr.toString();
-                    
                 }else if(v.type=='InputDate'){
-                    // v.value = FormatTime(new Date(v.value), "YYYY-MM-DD");
-                    // v.content = FormatTime(new Date(v.value), "YYYY-MM-DD");
+                    v.value = FormatTime(v.dateValueSec, "YYYY-MM-DD");
+                    v.content = FormatTime(v.dateValueSec, "YYYY-MM-DD");
                 }
             })
-            console.log( this.templateContentClone,555)
         },  
-        handleValidate(submitData){
-            // console.log(formValidate,11)
-            // this.$refs[name].validate((valid) => {
-            //     if (valid) {
-            //         this.$Message.success('Success!');
-            //     } else {
-            //         this.$Message.error('Fail!');
-            //     }
-            // })
+        handleValidate(submitData,templateContent){
+            console.log(submitData,4,templateContent)
+            if(!submitData.diaryTime){
+                this.$Message.warning('日志日期不能为空');
+                return false;
+            }
+            else if(submitData.visibleRangeStr=='[]'){
+                this.$Message.warning('可见范围不能为空');
+                return false;
+            }
+            else{
+                for (let i = 0,l =templateContent.length ; i < l; i++) {
+                    if(templateContent[i].isRequired==1){
+                        if((templateContent[i].type!='InputRadio'&&templateContent[i].type!='InputTextNum'&&!templateContent[i].value)||
+                        ((templateContent[i].type=='InputRadio'&&templateContent[i].type=='InputTextNum'&&templateContent[i].value==''))){
+                            this.$Message.warning(templateContent[i].title+'不能为空');
+                            return false;
+                        }
+                        
+                    } 
+                }
+                
+            }
+            return true;
         },
         handleSubmit() {
             this.handleSubmitData();
@@ -343,8 +316,33 @@ export default {
                 fileStr:JSON.stringify(this.fileStr),
                 content:JSON.stringify(this.templateContent),  
             };
-            this.handleValidate(submitData);
+            
             console.log(submitData,'submitData')
+            if(!this.handleValidate(submitData,this.templateContent)){
+                return 
+            }else{
+                this.templateContent.forEach((v,k)=>{
+                    switch(v.type){
+                        case 'InputRadio':
+                            if(v.checked) {
+                                delete v.checked;
+                            }
+                            break;
+                        case 'InputCheckbox':
+                            if(v.checkedArr) {
+                                delete v.checkedArr;
+                            }
+                            break;
+                        case 'InputDate':
+                            if(v.dateValueSec){
+                                delete v.dateValueSec
+                            }
+                        default:
+                            break;
+                    }
+                   
+                })  
+            }
             this.$ajax({
                 url: '/logger/diary/diaryCommit',
                 data: submitData,
@@ -371,9 +369,20 @@ export default {
     },
 }
 </script>
+<style>
+.required-icon .ivu-form-item-label::before{
+    content: '*';
+    display: inline-block;
+    margin-right: 4px;
+    line-height: 1;
+    font-family: SimSun;
+    font-size: 12px;
+    color: #fd838a;
+}
+</style>
+
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
-
 </style>
 
 
