@@ -7,4 +7,7 @@ module.exports = {
     [types.UPDATE_TEMPLATE_WEB](state, template) {
         state.web = template.web || [];
     },
+    [types.UPDATE_TEMPLATE_CONTENT](state, template) {
+        state.content = template.content || [];
+    },
 };

@@ -80,8 +80,14 @@
             </FormItem>
            
             <FormItem>
-                <Button @click="handleSubmit">
+                <Button type="primary" class="submit-btn" @click="handleSubmit">
                     提交
+                </Button>
+                <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
+                    取消
+                </Button>
+                <Button type="ghost"  class="draft-btn" @click="saveDraftFun">
+                    保存为草稿
                 </Button>
             </FormItem>
         </Form>
@@ -113,7 +119,9 @@ export default {
                 }
             },
             uploadFile:`${config[__ENV__].apiHost}/logger/diaryFile/?token=`+this.$store.state.userInfo.token,
-            fileStr :[],            
+            fileStr :[],  
+            submitData:{}, 
+            saveDraft:false,         
         }
     },
     components: {
@@ -135,6 +143,12 @@ export default {
             console.log(this.deptRange,555)
         },
         getTemplateApp() {
+            this.$store.dispatch('update_returndata', {
+                returndata: {
+                        starttime: decidetime.starttime,
+                        endtime: decidetime.endtime
+                }
+            });
             this.$store.dispatch('update_template_app').then(()=>{
                 this.setTempListData();
             })
@@ -175,7 +189,7 @@ export default {
                 this.setTempListData();
             }
         },
-        getVisibleRange(){
+        getVisibleRange(){//可见范围
             this.$ajax({
                 url: '/logger/diary/lastVisibleRange',
                 data: {
@@ -276,7 +290,7 @@ export default {
                 }
             })
         },  
-        handleValidate(submitData,templateContent){
+        handleValidate(submitData,templateContent){//校验数据
             console.log(submitData,4,templateContent)
             if(!submitData.diaryTime){
                 this.$Message.warning('日志日期不能为空');
@@ -293,32 +307,31 @@ export default {
                         ((templateContent[i].type=='InputRadio'&&templateContent[i].type=='InputTextNum'&&templateContent[i].value==''))){
                             this.$Message.warning(templateContent[i].title+'不能为空');
                             return false;
-                        }
-                        
+                        }  
                     } 
                 }
                 
             }
             return true;
         },
-        handleSubmit() {
+        handleSubmit() {//提交
             this.handleSubmitData();
-            let submitData = {
+            this.submitData = {
                 gather:0,
                 diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
                 templateName:this.templateItemData.title,
                 version:'1514202355530',
                 source:3,//1 安卓   2 ios    3web    4微信
                 templateId:this.$route.params.id||0,
-                visibleRange:1,
+                visibleRange:this.saveDraft?3:1,
                 visibleRangeStr:JSON.stringify(this.rangeArr),
                 dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
                 fileStr:JSON.stringify(this.fileStr),
                 content:JSON.stringify(this.templateContent),  
             };
             
-            console.log(submitData,'submitData')
-            if(!this.handleValidate(submitData,this.templateContent)){
+            console.log(this.submitData,'submitData')
+            if(!this.handleValidate(this.submitData,this.templateContent)){
                 return 
             }else{
                 this.templateContent.forEach((v,k)=>{
@@ -344,13 +357,18 @@ export default {
                 })  
             }
             this.$ajax({
-                url: '/logger/diary/diaryCommit',
-                data: submitData,
+                url: this.saveDraft?'/logger/diary/diaryCommitDraft':'/logger/diary/diaryCommit',
+                data: this.submitData,
                 type:'post',
                 success: (res)=>{
                     if(res && res.code === 0) {
-                        this.$Message.warning((res && res.msg) || '创建成功');
-
+                        this.saveDraft?this.$Message.warning('日志草稿保存成功'):this.$Message.warning('日志创建成功');
+                        this.$router.push({
+                            path: '/LoggerQueryAll',
+                            query:{
+                                token:this.$store.state.userInfo.token
+                            }
+                        });
                     }else{
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
@@ -360,6 +378,25 @@ export default {
                 }
 
             })
+        },
+        cancleSubmit(){//取消编辑
+            this.$Modal.confirm({
+                title: '取消编辑',
+                content: '您的日志还没提交，确定要放弃编辑吗？',
+                onOk: ()=>{
+                    this.$router.push({
+                        path: '/LoggerQueryAll',
+                        query:{
+                            token:this.$store.state.userInfo.token
+                        }
+                    });
+                    
+                }
+            });
+        },
+        saveDraftFun(){// 保存草稿
+            this.saveDraft = true;
+            this.handleSubmit();
         }
     },
     created(){
@@ -383,6 +420,22 @@ export default {
 
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
+.logger-create{
+    max-width: 900px;
+    .ivu-btn {
+        min-width: 65px;
+        height: 31px;
+    }
+    .submit-btn{
+        margin:0 5px 0 0;
+    }
+    .cancel-btn{
+        margin:0 10px;
+    }
+    .draft-btn{
+        margin:0 5px;
+    }
+}
 </style>
 
 
