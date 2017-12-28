@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-statistics-month">
+    <div class="logger-statistics-content">
         <fs-table :columns="columns" :data="list" :type="type"></fs-table>
     </div>
 </template>
@@ -58,8 +58,3 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-.logger-statistics-month {
-    height: 100%;
-}
-</style>

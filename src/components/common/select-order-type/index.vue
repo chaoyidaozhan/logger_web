@@ -1,18 +1,26 @@
 <template>
     <div class="select-order-type">
-        <div @click="handleExpand" 
-            class="select-order-type-select cursor-pointer" 
+        <div class="select-order-type-select cursor-pointer" 
+            @click="handleExpand"
             :class="{expand: expand}">
-            <div class="selected">
-                {{orderNameObj[orderType]}}
+            <div class="selected" >
+                {{(orderType == 3 && start) ? `${start} - ${end}` : orderNameObj[orderType]}}
                 <i class="ivu-icon ivu-icon-arrow-down-b ivu-select-arrow"></i>
             </div>
             <ul v-if="expand">
                 <li v-for="item in orderData"
-                    @click="handleSelect(item)"
+                    @click="handleSelect($event, item)"
                     :class="(orderType == item.id) ?' selected': ''"
                     :key="item.id">
-                    {{item.name}}
+                    <span>{{item.name}}</span>
+                    <DatePicker type="daterange" v-if="item.id == 3"
+                        placement="bottom-end"
+                        v-model="pickerValue"
+                        placeholder="日期" 
+                        :options="options"
+                        @on-change="change"
+                        :style="{'width': '190px'}">
+                    </DatePicker>
                 </li>
             </ul>
         </div>
@@ -67,16 +75,27 @@ export default {
             orderType: '',
             orderName: '',
             expand: false,
+            options: {
+                disabledDate (date) {
+                    console.log(date.valueOf())
+                    return date && date.valueOf() > Date.now();
+                }
+            },
             start: '',
-            end: ''
+            end: '',
+            pickerValue: []
         }
     },
     methods: {
         handleExpand() {
             this.expand = !this.expand;
+            console.log(this.pickerValue)
         },
-        handleSelect(data) {
-            this.orderType = data.id
+        handleSelect(e, data) {
+            if(data.id == 3) {
+                e.stopPropagation();
+            }
+            this.orderType = data.id;
         },
         init() {
             if(this.multi) {
@@ -87,6 +106,13 @@ export default {
                 this.orderType = 0
             }
         },
+        change(params) {
+            this.start = params[0] || "";
+            this.end = params[1] || "";
+            this.pickerValue[0] = params[0] || "";
+            this.pickerValue[1] = params[1] || "";
+            // this.expand = false;
+        },
         getParams() {
             let params = {
                 orderType: this.orderType
@@ -95,7 +121,6 @@ export default {
                 params.start = this.start;
                 params.end = this.end;
             }
-            console.log(params)
             return params;
         }
     },
@@ -127,9 +152,7 @@ export default {
         }
         ul {
             position: absolute;
-            max-height: 200px;
-            overflow: auto;
-            width: 100%;
+            min-width: 100%;
             padding: 5px 0;
             background-color: @white-color;
             box-sizing: border-box;
@@ -154,7 +177,7 @@ export default {
                     background-color: #f3f3f3;
                 }
                 &.selected {
-                    color: @white-color;
+                    span { color: @white-color; }
                     background-color: @primary-color;
                 }
             }

@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-statistics-month">
+    <div class="logger-statistics-content">
         <fs-table :columns="columns" :data="list" :type="type"></fs-table>
     </div>
 </template>

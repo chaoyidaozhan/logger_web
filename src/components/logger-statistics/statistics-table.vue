@@ -56,6 +56,8 @@
 <script>
 import Ps from 'perfect-scrollbar';
 import FsEmptyTips from 'app_component/common/empty-tips/';
+import 'app_src/directives/loading/';
+
 export default {
     props: {
         columns: {
@@ -171,6 +173,9 @@ export default {
     width: 100%;
     border-top: 1px solid @border-color;
     font-size: 0;
+    position: relative;
+    min-height: 250px;
+
     .table-header-content, .table-body-content {
         width: 76%;
         display: inline-block;
@@ -179,7 +184,6 @@ export default {
         position: relative;
     }
     .table-header-content {
-       
         .ps__scrollbar-x-rail {
             top: 0!important;
             height: 30px!important;
@@ -243,11 +247,13 @@ export default {
             background-color: @white-color-dark;
             color: @gray-color-light;
             border: none;
+            height: 40px;
+            line-height: 40px;
         }
         .icon {
             position: absolute;
-            height: 30px;
-            line-height: 30px;
+            height: 40px;
+            line-height: 40px;
             top: 0;
             font-size: 14px;
             &.icon-fullarrow-left {

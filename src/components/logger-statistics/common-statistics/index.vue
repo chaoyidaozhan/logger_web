@@ -19,7 +19,6 @@
 import FsYearPicker from 'app_component/common/picker/year';
 import FsLoggerStatisticsMonth from './logger-statistics-month';
 import FsLoggerStatisticsSeason from './logger-statistics-season';
-import 'app_src/directives/loading/';
 
 export default {
     props: {
@@ -44,7 +43,6 @@ export default {
             list: [],
             years: (new Date()).getFullYear(),
             timer: null,
-            loaded: false
         }
     },
     components: {
@@ -64,7 +62,7 @@ export default {
                 }
                 if(this.params.deptId || this.params.groupId) {
                     this.loadData();
-                }
+                } 
             }, 200);
         },
         getParams() { // 获取参数
@@ -73,7 +71,6 @@ export default {
             }, this.params);
         },
         loadData() {
-            this.loaded = false;
             this.$ajax({
                 url: '/logger/diaryQuery/getStatisticsByCondition',
                 data: this.getParams(),
@@ -81,10 +78,8 @@ export default {
                     if(res && res.code === 0) {
                         this.list = res.data;
                     }
-                    this.loaded = true;
                 },
                 error: (res)=>{
-                    this.loaded = true;
                     this.$Message.error(res && res.msg || '网络错误');
                 }
             })
@@ -95,11 +90,5 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-.logger-statistics {
-    padding: 0 20px;
-    width: 100%;
-    height: 100%;
-}
-</style>
+
 
