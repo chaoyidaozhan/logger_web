@@ -26,7 +26,7 @@
             <div class="fixed-left">
                 <ul class="fixed-left-content">
                     <li class="table-cell ellipsis" v-for="(item, index) in data" :key="index">
-                        {{item[`${type}Name`]}}
+                        {{item[`${type == 'member' ? 'user' : type}Name`]}}
                     </li>
                 </ul>
             </div>

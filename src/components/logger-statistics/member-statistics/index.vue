@@ -1,7 +1,7 @@
 <template>
     <div class="logger-statistics" ref="loggerStatisticsWrapper">
-        <!-- <fs-year-picker @handleChangeDate="handleChangeDate"/> -->
-        <fs-month-picker @handleChangeDate="handleChangeDate"/>
+        <fs-month-picker v-if="params.orderType == 4" @handleChangeDate="handleChangeDate"/>
+        <fs-year-picker v-if="params.orderType == 0" @handleChangeDate="handleChangeDate"/>
         
         <!--月份统计-->
         <fs-member-statistics-day

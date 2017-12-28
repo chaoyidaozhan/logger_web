@@ -15,11 +15,11 @@ export default {
             type: Array,
             default: function () {
                 return [{
+                    name: "按日统计",
+                    id: 4
+                }, {
                     name: "按月统计",
                     id: 0
-                }, {
-                    name: "按季度统计",
-                    id: 1
                 }];
             }
         }

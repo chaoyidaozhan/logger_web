@@ -43,6 +43,9 @@
             <FormItem :label-width="40" label="日期"  v-if="showOrderType">
                 <fs-select-order-type ref="selectOrderType"/>
             </FormItem> 
+            <FormItem :label-width="40" label="日期"  v-if="showOrderTypeMulti">
+                <fs-select-order-type-multi ref="selectOrderTypeMulti"/>
+            </FormItem> 
             
             <FormItem class="search-btn">
                 <Button :disabled="loading" type="primary" @click="handleQuery">
@@ -69,6 +72,7 @@ import FsSelectTemplate from '../select-template/';
 import FsSelectDate from '../select-date/';
 import FsSelectGroup from '../select-group/';
 import FsSelectOrderType from '../select-order-type/';
+import FsSelectOrderTypeMulti from '../select-order-type/select-order-type-multi';
 export default {
     props: {
         showTemplate: { // 是否显示模板
@@ -112,7 +116,8 @@ export default {
         FsSelectMember,
         FsSelectTemplate,
         FsSelectDate,
-        FsSelectOrderType
+        FsSelectOrderType,
+        FsSelectOrderTypeMulti
     },
     data() {
         return {

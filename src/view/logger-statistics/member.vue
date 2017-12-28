@@ -4,13 +4,13 @@
             <fs-query-form 
                 :showTemplate="true"
                 :showMember="true"
-                :showOrderType="true"
+                :showOrderTypeMulti="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">
             <fs-member-statistics 
                 :params="params"
-                type="user"
+                type="member"
                 title="人员名称"
                 ref="LoggerLoggerStatistics"/>
         </template>
