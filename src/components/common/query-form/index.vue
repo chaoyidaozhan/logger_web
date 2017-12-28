@@ -26,6 +26,7 @@
                     :showMember="false" 
                     :showDept="true"
                     :dept="dept"
+                    :limit="{ showAll: true, warning: '', count: 1 }"
                     title="选择部门"
                     placeholder="选择部门"/>
             </FormItem> 
@@ -35,11 +36,15 @@
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
+                    :limit="{ showAll: true, warning: '', count: 1 }"
                     title="选择团队"
                     placeholder="选择团队"/>
             </FormItem> 
             <FormItem :label-width="40" label="日期"  v-if="showOrderType">
                 <fs-select-order-type ref="selectOrderType"/>
+            </FormItem> 
+            <FormItem :label-width="40" label="日期"  v-if="showOrderTypeMulti">
+                <fs-select-order-type-multi ref="selectOrderTypeMulti"/>
             </FormItem> 
             
             <FormItem class="search-btn">
@@ -67,6 +72,7 @@ import FsSelectTemplate from '../select-template/';
 import FsSelectDate from '../select-date/';
 import FsSelectGroup from '../select-group/';
 import FsSelectOrderType from '../select-order-type/';
+import FsSelectOrderTypeMulti from '../select-order-type/select-order-type-multi';
 export default {
     props: {
         showTemplate: { // 是否显示模板
@@ -110,7 +116,8 @@ export default {
         FsSelectMember,
         FsSelectTemplate,
         FsSelectDate,
-        FsSelectOrderType
+        FsSelectOrderType,
+        FsSelectOrderTypeMulti
     },
     data() {
         return {
@@ -131,7 +138,7 @@ export default {
                 })
                 params.memberIds = memberIds.join(',');
             }
-            if(this.dep && !!this.dep.length) { // 整理组织id
+            if(this.dept && !!this.dept.length) { // 整理组织id
                 let deptId = []
                 this.dept.forEach(item=>{
                     deptId.push(item.deptId);
@@ -151,7 +158,7 @@ export default {
             keys.forEach(key=>{ 
                 switch (typeof params[key]) {
                     case 'number':
-                        if(!params[key] && !params[key] !== 0) {
+                        if(!params[key] && params[key] != 0) {
                             delete params[key];
                         }
                         break;
@@ -179,7 +186,6 @@ export default {
                     endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
                     orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
                 };
-                
                 this.trimIds(params);
                 this.rulesValidate(params);
                 this.$emit('handleQuery', params);

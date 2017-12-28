@@ -7,7 +7,12 @@
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <fs-logger-list :range="range" :dataStatus="0" :params="params" ref="loggerList"/>
+            <fs-logger-list 
+                :isDraft="true"
+                :range="range" 
+                :dataStatus="0" 
+                :params="params" 
+                ref="loggerList"/>
         </template>
     </fs-frame>
 </template>

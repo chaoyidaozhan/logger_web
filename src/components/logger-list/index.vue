@@ -2,7 +2,9 @@
     <div class="page-logger-list" @scroll.stop="onScroll">
         <transition-group name="fade">
             <fs-logger-list-item 
-                v-for="item in list" 
+                v-for="(item, index) in list"
+                :index="index" 
+                :isDraft="isDraft"
                 :loggerItemData="item"
                 :key="item.id" />
         </transition-group>
@@ -41,6 +43,18 @@ export default {
         range: {
             type: String,
             default: '0'
+        },
+        url: {
+            type: String,
+            default: '/logger/diaryQuery/getAllDiary'
+        },
+        isCollect: {
+            type: Boolean,
+            default: false
+        },
+        isDraft: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -51,7 +65,6 @@ export default {
             loading: false,
             loaderror: false,
             hasMore: true,
-            requesTimer: null
         }
     },
     components: {
@@ -64,12 +77,15 @@ export default {
     },
     methods: {
         getParams() { // 获取参数
-            return Object.assign({
+            let data = {
                 pageNum: this.pageNum,
                 pageSize: this.pageSize,
                 range: this.range,
-                dataStatus: this.dataStatus
-            }, this.params)
+            }
+            if(!this.isCollect) {
+                data.dataStatus = this.dataStatus
+            }
+            return Object.assign(data, this.params)
         },
         onScroll(e) { // 分页
             if(!this.loading && this.hasMore) {
@@ -102,7 +118,7 @@ export default {
             this.loading = true;
             this.$eventbus.$emit('setBtnLoading', this.loading);
             this.$ajax({
-                url: '/logger/diaryQuery/getAllDiary',
+                url: this.url,
                 data: this.getParams(),
                 success: (res)=>{
                     this.loading = false;
@@ -110,7 +126,6 @@ export default {
                     this.updateList(res);
                 },
                 error: (res)=>{
-                    this.list=[];
                     this.loaderror = true;
                     this.loading = false;
                     this.$eventbus.$emit('setBtnLoading', this.loading);

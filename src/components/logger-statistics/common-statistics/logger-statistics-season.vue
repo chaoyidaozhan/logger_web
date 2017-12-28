@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import FsTable from './logger-statistics-table';
+import FsTable from '../statistics-table';
 export default {
     props: {
         data: {

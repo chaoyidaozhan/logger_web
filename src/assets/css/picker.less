@@ -1,0 +1,47 @@
+.picker {
+	width: 180px;
+	height: 38px;
+	padding: 0 30px;
+	line-height: 38px;
+	color: @gray-color-dark;
+	position: relative;
+	text-align: center;
+	font-size: 16px;
+	margin: 10px auto 10px;
+	::selection {
+		background-color: transparent;
+	}
+	.btn {
+		width: 30px;
+		height: 38px;
+		position: absolute;
+		top: 50%;
+		margin-top: -19px;
+		cursor: pointer;
+		line-height: 38px;
+		&::after {
+			content: "";
+			display: inline-block;
+			border: 6px solid @gray-color-normal;
+			border-radius: 2.5px;
+			border-top-color: transparent;
+			border-bottom-color: transparent;
+		}
+		&.lt {
+			left: -2px;
+			&::after {
+				border-left-color: transparent;
+			}
+		}
+		&.rt {
+			right: 0;
+			&::after {
+				border-right-color: transparent;
+			}
+		}
+		&.disabled {
+			cursor: not-allowed;
+			opacity: 0.5;
+		}
+	}
+}

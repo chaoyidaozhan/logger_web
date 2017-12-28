@@ -4,11 +4,11 @@
             <fs-query-form 
                 :showTemplate="true"
                 :showMember="true"
-                :showOrderType="true"
+                :showOrderTypeMulti="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">
-            <fs-logger-statistics 
+            <fs-member-statistics 
                 :params="params"
                 type="member"
                 title="人员名称"
@@ -17,25 +17,17 @@
     </fs-frame>
 </template>
 <script>
-import FsFrame from '../frame/';
-import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerStatistics from 'app_component/logger-statistics/'
+import statistics from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
-            params: {
-                memberIds: 0,
-                orderType: '0'
-            }
+            validateString: 'memberIds',
         }
     },
-    components: {
-        FsFrame,
-        FsQueryForm,
-        FsLoggerStatistics
-    },
+    mixins: [statistics],
     methods: {
         handleQuery(params) {
+            params.orderType = 4
             this.params = params;
         }
     }

@@ -10,14 +10,14 @@
         <template slot="body">
             <fs-logger-statistics 
                 :params="params"
-                type="depart"
+                type="dept"
                 title="部门名称"
                 ref="loggerStatistics"/>
         </template>
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/statistics';
+import statistics from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
@@ -25,6 +25,6 @@ export default {
             validateString: 'deptId'
         }
     },
-    mixins: [query]
+    mixins: [statistics]
 }
 </script>

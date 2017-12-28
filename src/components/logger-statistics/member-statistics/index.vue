@@ -1,24 +1,23 @@
 <template>
     <div class="logger-statistics" ref="loggerStatisticsWrapper">
-        <fs-year-picker  v-if="params.orderType == 0 || params.orderType == 1" @handleChangeYear="handleChangeYear"/>
-        <!-- <fs-month-picker @handleChangeMonth="handleChangeYear"/> -->
-        <fs-logger-statistics-month 
+        <fs-month-picker v-if="params.orderType == 4" @handleChangeDate="handleChangeDate"/>
+        <fs-year-picker v-if="params.orderType == 0" @handleChangeDate="handleChangeDate"/>
+        
+        <!--月份统计-->
+        <fs-member-statistics-day
             :data="list"
             :type="type"
+            :start="start"
             :title="title"
-            v-if="params.orderType == 0"/>
-        <fs-logger-statistics-season  
-            :data="list"
-            :type="type"
-            :title="title"
-            v-if="params.orderType == 1"/>
+            v-if="params.orderType == 4"/>
+      
     </div>
 </template>
 <script>
-import FsYearPicker from '../common/picker/year';
-import FsMonthPicker from '../common/picker/month';
-import FsLoggerStatisticsMonth from './logger-statistics-month';
-import FsLoggerStatisticsSeason from './logger-statistics-season';
+import FsYearPicker from 'app_component/common/picker/year';
+import FsMonthPicker from 'app_component/common/picker/month';
+import FsMemberStatisticsMonth from './member-statistics-month';
+import FsMemberStatisticsDay from './member-statistics-day';
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -40,50 +39,44 @@ export default {
     data() {
         return {
             list: [],
-            years: (new Date()).getFullYear()
+            start: '2017-12-10',
+            end: ''
         }
     },
     components: {
         FsYearPicker,
         FsMonthPicker,
-        FsLoggerStatisticsMonth,
-        FsLoggerStatisticsSeason
+        FsMemberStatisticsMonth,
+        FsMemberStatisticsDay,
     },
     watch: {
         params: 'loadData'
     },
     methods: {
-        handleChangeYear(year) {
-            this.years = year || (new Date()).getFullYear();
+        handleChangeDate(date) {
+            this.years = date || (new Date()).getFullYear();
             this.loadData();
         },
         getParams() { // 获取参数
             return Object.assign({
-                years: this.years
-            }, this.params)
+                start : this.start
+            }, this.params);
         },
         loadData() {
             this.$ajax({
-                url: '/logger/diaryQuery/getStatisticsByCondition',
+                url: '/logger/diaryQuery/getUsersStatisticsByCondition',
                 data: this.getParams(),
                 success: (res)=>{
                     if(res && res.code === 0) {
-                        this.list = res.data;
+                        this.list = res.data.resultList;
+                        console.log(this.list)
                     }
                 },
                 error: (res)=>{
                     this.list = []
                 }
             })
-        },
-        init() {
-            this.handleChangeYear();
         }
-    },
-    created () {
-        // this.init();
-    },
-    mounted () {
     }
 }
 </script>

@@ -9,25 +9,25 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            dateListData: {
-                type: Array,
-                default: function() {
-                    return [{
-                        name: "按月统计",
-                        id: 0 
-                        }, {
-                        name: "按季度统计",
-                        id: 1 
-                    }];
-                }
-            }
-        },
-        data() {
-            return {
-                orderType: this.dateListData[0] && this.dateListData[0].id
+export default {
+    props: {
+        dateListData: {
+            type: Array,
+            default: function () {
+                return [{
+                    name: "按月统计",
+                    id: 0
+                }, {
+                    name: "按季度统计",
+                    id: 1
+                }];
             }
         }
+    },
+    data() {
+        return {
+            orderType: this.dateListData[0] && this.dateListData[0].id
+        }
     }
+}
 </script>

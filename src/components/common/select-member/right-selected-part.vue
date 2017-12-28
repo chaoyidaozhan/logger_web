@@ -54,7 +54,7 @@
 			<ul v-show="openMan">
 				<li class="li" v-for="each in manList">
 					<div class="head-wrap elli l">
-						<avatar :avatar="each.avatar" :name="each.userName" :size="'28px'"/>
+						<avatar :avatar="each.avatar" :name="each.userName" fontSize="12px" :size="'28px'"/>
 					</div>
 					<div class="userName l">
 						{{each.userName}}

@@ -74,15 +74,16 @@
                 <span class="cursor-pointer" @click="handleContentExpand" v-else>收起全文</span>
             </div>
         </div>
+        <div class="lat"></div>
         <!--点赞回复收藏-->
-        <div class="logger-list-row logger-list-operate">
+        <div class="logger-list-row logger-list-operate" v-if="!isDraft">
             <div class="logger-list-col">
                 <span class="cursor-pointer like" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
                     <i class="icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
                     <i class="icon-good-selected" v-else></i>
                     {{loggerItemData.like && loggerItemData.like.likeNum}}
                 </span>
-                <span class="cursor-pointer reply">
+                <span class="cursor-pointer reply" @click="handleReply">
                     <i class="icon-chat-normal"></i>
                     {{loggerItemData.commentNum}}
                 </span>
@@ -126,6 +127,13 @@ export default {
     props: {
         loggerItemData: {
             type: Object
+        },
+        index: {
+            type: Number
+        },
+        isDraft: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -221,6 +229,11 @@ export default {
                 success: (res)=>{
                     if(res && res.code == 0) {
                         this.loggerItemData.favorite = res.data;
+                        if(this.loggerItemData.favorite) {
+                            if(this.$parent.$parent.isFavorite) {
+                                this.$parent.$parent.list.splice(this.index ,1);
+                            }
+                        }
                     }
                 },
                 error: (res)=>{
@@ -292,6 +305,9 @@ export default {
                     this.$Message.error(res && res.msg || '网络错误')
                 }
             })
+        },
+        handleReply() { // 回复
+            
         }
     },
     mounted () {
@@ -303,12 +319,12 @@ export default {
 @import '../../assets/css/var.less';
 .logger-list-item {
     padding: 20px 20px 0;
-    transition: .2s ease all;
     position: relative;
     background-color: @white-color;
     color: @gray-color-dark;
     font-size: 14px;
     &.fade-enter {
+        transition: .2s ease opacity;
         opacity: 0;
     }
     &.fade-enter-in {
@@ -421,9 +437,11 @@ export default {
     .handle-content-expand-btn {
         color: @primary-color;
     }
+    .lat {
+        height: 20px;
+    }
     .logger-list-operate {
         font-size: 0;
-        margin-top: 20px;
         padding-bottom: 8px;
         ::selection{
             background-color: transparent;
