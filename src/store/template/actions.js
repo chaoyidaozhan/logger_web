@@ -52,13 +52,10 @@ module.exports = {
             });
         })
     },
-    update_template_content: ({ commit }) => {
+    update_template_content: ({ commit }, { content }) => {
         return new Promise((resolve, reject) => {
-            getTemplateContent((web) => {
-                commit(types.UPDATE_TEMPLATE_CONTENT, { content });
-                resolve()
-            });
+            commit(types.UPDATE_TEMPLATE_CONTENT, { content });
+            resolve()
         })
     },
-
 };

@@ -19,6 +19,7 @@
                     <Poptip placement="bottom-end" width="70">
                         <ul class="operate-tips" slot="content">
                             <li class="cursor-pointer" 
+                                @click="handleEdit"
                                 v-if="userInfo.member_id == loggerItemData.memberId">
                                 编辑
                             </li>
@@ -272,6 +273,20 @@ export default {
             } else {
                 this.contentHeight = this.contentDefaultHeight;
             }
+        },
+        handleEdit(){
+           console.log(this.loggerItemData,545466)
+            this.$store.dispatch('update_template_content', { //登录成功更新store
+                content: this.loggerItemData
+            }).then(()=>{
+                console.log(this.$store.state.template,111)
+                this.$router.push({
+                    path: `LoggerDetail/operate/create/${this.loggerItemData.id}`,
+                    query:{
+                        token:this.$store.state.userInfo.token
+                    }
+                });
+            });
         },
         handleDelete() { // 删除
             this.$Modal.confirm({
