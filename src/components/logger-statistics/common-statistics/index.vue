@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-statistics" ref="loggerStatisticsWrapper">
+    <div class="logger-statistics"  ref="loggerStatisticsWrapper">
         <fs-year-picker @handleChangeDate="handleChangeDate"/>
         <!--月份统计-->
         <fs-logger-statistics-month 
@@ -19,6 +19,7 @@
 import FsYearPicker from 'app_component/common/picker/year';
 import FsLoggerStatisticsMonth from './logger-statistics-month';
 import FsLoggerStatisticsSeason from './logger-statistics-season';
+
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -40,7 +41,8 @@ export default {
     data() {
         return {
             list: [],
-            years: (new Date()).getFullYear()
+            years: (new Date()).getFullYear(),
+            timer: null,
         }
     },
     components: {
@@ -49,12 +51,19 @@ export default {
         FsLoggerStatisticsSeason,
     },
     watch: {
-        params: 'loadData'
+        params: 'handleChangeDate'
     },
     methods: {
-        handleChangeDate(date) {
-            this.years = date || (new Date()).getFullYear();
-            this.loadData();
+        handleChangeDate({year}) {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                if(year) {
+                    this.years = year || (new Date()).getFullYear();
+                }
+                if(this.params.deptId || this.params.groupId) {
+                    this.loadData();
+                } 
+            }, 200);
         },
         getParams() { // 获取参数
             return Object.assign({
@@ -71,18 +80,15 @@ export default {
                     }
                 },
                 error: (res)=>{
-                    this.list = []
+                    this.$Message.error(res && res.msg || '网络错误');
                 }
             })
         }
+    },
+    destroyed () {
+        clearTimeout(this.timer);
     }
 }
 </script>
-<style lang="less" scoped>
-.logger-statistics {
-    padding: 0 20px;
-    width: 100%;
-    height: 100%;
-}
-</style>
+
 

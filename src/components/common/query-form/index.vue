@@ -40,13 +40,9 @@
                     title="选择团队"
                     placeholder="选择团队"/>
             </FormItem> 
-            <FormItem :label-width="40" label="日期"  v-if="showOrderType">
-                <fs-select-order-type ref="selectOrderType"/>
+            <FormItem :label-width="40" label="日期"  v-if="showOrderType || showOrderTypeMulti">
+                <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
-            <FormItem :label-width="40" label="日期"  v-if="showOrderTypeMulti">
-                <fs-select-order-type-multi ref="selectOrderTypeMulti"/>
-            </FormItem> 
-            
             <FormItem class="search-btn">
                 <Button :disabled="loading" type="primary" @click="handleQuery">
                     查询
@@ -72,7 +68,6 @@ import FsSelectTemplate from '../select-template/';
 import FsSelectDate from '../select-date/';
 import FsSelectGroup from '../select-group/';
 import FsSelectOrderType from '../select-order-type/';
-import FsSelectOrderTypeMulti from '../select-order-type/select-order-type-multi';
 export default {
     props: {
         showTemplate: { // 是否显示模板
@@ -117,7 +112,6 @@ export default {
         FsSelectTemplate,
         FsSelectDate,
         FsSelectOrderType,
-        FsSelectOrderTypeMulti
     },
     data() {
         return {
@@ -184,7 +178,7 @@ export default {
                     templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                     beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
                     endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
-                    orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.orderType,
+                    ...this.$refs.selectOrderType && this.$refs.selectOrderType.getParams(),
                 };
                 this.trimIds(params);
                 this.rulesValidate(params);

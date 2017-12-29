@@ -43,11 +43,15 @@ export default {
 			}
 		},
 		handleChangeDate() { // 切换年份回调
-			this.$emit('handleChangeDate', this.nowYear);
+			this.$emit('handleChangeDate', {
+				year: this.nowYear,
+				beiginDate: `${this.nowYear}-1-1`
+			});
 		}
 	},
 	created () {
 		this.setNowYear();
+		this.handleChangeDate();
 	}
 }
 </script>

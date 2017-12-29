@@ -54,12 +54,16 @@ export default {
 				this.handleChangeDate();
 			}
 		},
-		handleChangeDate() { // 切换年份回调
-			this.$emit('handleChangeDate', this.nowYear);
+		handleChangeDate() { // 切换月份
+			this.$emit('handleChangeDate', {
+				month: this.nowMonth, 
+				beiginDate: `${this.nowYear}-${this.nowMonth}-1`
+			});
 		}
 	},
     created () {
-        this.setNowDate();
+		this.setNowDate();
+		this.handleChangeDate();
     }
 }
 </script>

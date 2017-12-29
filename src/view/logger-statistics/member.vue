@@ -21,15 +21,12 @@ import statistics from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
+            params: {
+                orderType: '4'
+            },
             validateString: 'memberIds',
         }
     },
-    mixins: [statistics],
-    methods: {
-        handleQuery(params) {
-            params.orderType = 4
-            this.params = params;
-        }
-    }
+    mixins: [statistics]
 }
 </script>
