@@ -94,14 +94,13 @@ export default [
             {
                 path: 'LoggerTemplate', 		    	
                 component: LoggerTemplate,
-                redirect: '/LoggerTemplate/manager',
                 children: [
                     {
                         path: 'manager',
                         component: LoggerTemplateList,
                     },
                     {
-                        path: 'operate/:loggertype/:id',
+                        path: 'operate',
                         component: LoggerTemplateOperate,
                     },
                     {
