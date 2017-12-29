@@ -15,10 +15,10 @@
     </div>
 </template>
 <script>
-import Sortable from 'sortablejs'
+// import Sortable from 'sortablejs'
 export default {
     mounted () {
-        Sortable.create(this.$refs.leftNav)
+        // Sortable.create(this.$refs.leftNav)
     }
 }
 </script>

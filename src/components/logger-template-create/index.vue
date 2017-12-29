@@ -174,7 +174,6 @@ export default {
         },
         initRange(datalist){
             let teamArray = [], depArrar = [], manArray = [];
-            console.log(datalist,322)
             datalist&&datalist.forEach((v,k)=>{
                 if(v.dataType==1){//部门
                     depArrar.push({
@@ -196,7 +195,6 @@ export default {
             this.deptRange = depArrar;
             this.groupRange = teamArray;
             this.memberRange = manArray;
-            console.log(this.deptRange,this.groupRange,this.memberRange ,888888)
         },
         initAtMember(templateItemData){
             let atArr = templateItemData.at||[],atMember = [];

@@ -286,6 +286,7 @@ export default {
                         token:this.$store.state.userInfo.token
                     }
                 });
+                console.log(this.$store.state.template,22)
             });
         },
         handleDelete() { // 删除
