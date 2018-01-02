@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <fs-template-create />
-    </div>
+    <fs-template-create />
 </template>
 <script>
 import FsTemplateCreate from 'app_component/logger-template-manager/template-create';
