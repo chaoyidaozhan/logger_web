@@ -3,15 +3,18 @@
         <div class="loading-item" v-if="loading && !loadError && hasMore">
             <Spin>
                 <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-                <span class="load-text">正在加载中...</span>
+                <span class="load-text">{{loadingMsg}}</span>
             </Spin>
         </div>
         <div class="error-item" v-if="loadError && hasMore && !loading">
             <span class="error-text">网络异常,</span>
             <span class="error-reload" @click="handleReload"> 点击重新加载</span>
         </div>
-        <div class="more-item" v-if="!hasMore && !loadError && !loading">
+        <div class="loaded-all" v-if="!hasMore && !loadError && !loading">
             <p>已加载全部数据</p>
+        </div>
+        <div class="load-more" v-if="hasMore && !loadError && !loading && loadMore">
+            <p @click="handleLoadMore">加载更多</p>
         </div>
     </div>
 </template>
@@ -22,6 +25,10 @@ export default {
             type: Boolean,
             default: true
         },
+        loadingMsg: {
+            type: String,
+            default: "正在加载中..."
+        },
         loadError: {
             type: Boolean,
             default: false
@@ -29,11 +36,18 @@ export default {
         hasMore: {
             type: Boolean,
             default: true
+        },
+        loadMore: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
         handleReload() {
             this.$emit("handleReload");
+        },
+        handleLoadMore() {
+            this.$emit("handleLoadMore");
         }
     }
 }
@@ -66,6 +80,9 @@ export default {
                 color: @primary-color;
                 cursor: pointer;
             }
+        }
+        .load-more {
+            cursor: pointer;
         }
     }
 </style>
