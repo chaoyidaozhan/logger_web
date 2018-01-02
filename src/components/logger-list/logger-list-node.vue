@@ -275,13 +275,12 @@ export default {
             }
         },
         handleEdit(){
-           console.log(this.loggerItemData,545466)
             this.$store.dispatch('update_template_content', { //登录成功更新store
                 content: this.loggerItemData
             }).then(()=>{
                 console.log(this.$store.state.template,111)
                 this.$router.push({
-                    path: `LoggerDetail/operate/create/${this.loggerItemData.id}`,
+                    path: `LoggerDetail/operate/edit/${this.loggerItemData.id}`,
                     query:{
                         token:this.$store.state.userInfo.token
                     }

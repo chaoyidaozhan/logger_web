@@ -26,7 +26,7 @@
                     ref="selectDept"
                     />
             </FormItem>
-            <FormItem v-for="(item, index) in templateContent" :key="index" 
+            <FormItem   v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
                     <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
@@ -40,7 +40,7 @@
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="item.checkedArr">
+                    <CheckboxGroup v-model="item.checkedArr" @on-change="handleCheckbox">
                         <Checkbox v-for="(val, key) in item.options" 
                             :key="key"
                             :label="`${key + 1}`">
@@ -86,7 +86,7 @@
                 <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
                     取消
                 </Button>
-                <Button type="ghost"  class="draft-btn" @click="saveDraftFun">
+                <Button v-if="!editFlag" type="ghost"  class="draft-btn" @click="saveDraftFun">
                     保存为草稿
                 </Button>
             </FormItem>
@@ -113,6 +113,7 @@ export default {
             dateValue:new Date(),
             dateValueSec:new Date(),
             inputTextValue:[],
+            checkedArr:[],
             dateOption: {
                 disabledDate (date) {
                     return date && date.valueOf() > Date.now();
@@ -123,54 +124,21 @@ export default {
             atStr:[],
             defaultFileList:[],  //默认上传的文件
             submitData:{}, 
-            saveDraft:false,   
+            saveDraft:false, 
+            editFlag:0  
                  
         }
     },
     components: {
         SelectMemberInput
     },
-    methods: {
-        handleSelectMember(res) { //选人
-            let keys = Object.keys(res);
-            keys.forEach(key=>{
-                this[key] && (this[key] = res[key])
-            })
-            console.log(this.member,888)
-        },
-        handleSelectRange(res){ //选范围
-            let keys = Object.keys(res);
-            keys.forEach(key=>{
-                this[`${key}Range`] && (this[`${key}Range`] = res[key])
-            })
-        },
-        getTemplateApp() {
-            this.$store.dispatch('update_template_content').then(()=>{
-                this.setTempListData();
-            })
-        },
-        setTempListData() {
-            this.templateItemData = this.$store.state.template.content||{};
-            this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
-           
-           
-            // this.formInfo = {
-            //     ...this.defautlFormInfo,
-            //     content: this.templateContent
-            // }
-            this.initData(this.templateItemData,this.templateContent);
-            console.log(this.templateContent,'hhah', this.templateItemData)
-           
-            
-        },
+    methods: { 
         initData(templateItemData,templateContent){
             this.dateValue = templateItemData.diaryTime||new Date();//初始化日志日期
             this.initRange(templateItemData.range||[]);//初始化可选范围
             this.initAtMember(templateItemData);//初始化at人 
             this.initDefaultFile(templateItemData)//初始化文件
             this.initTemplateContent(templateContent)//初始化可变表单
-           
-
         },
         initRange(datalist){
             let teamArray = [], depArrar = [], manArray = [];
@@ -196,7 +164,7 @@ export default {
             this.groupRange = teamArray;
             this.memberRange = manArray;
         },
-        initAtMember(templateItemData){
+        initAtMember(templateItemData){//初始化at人
             let atArr = templateItemData.at||[],atMember = [];
             atArr.forEach((v,k)=>{
                 atMember.push({
@@ -208,8 +176,8 @@ export default {
 
         },
         initTemplateContent(templateContent){//初始化可变表单
+            console.log(templateContent,333222)
             templateContent&&templateContent.forEach((v,k)=>{
-                console.log(v,k)
                 if(v.type =='InputText'){
                     this.inputTextValue[k] = v.value;
                 }
@@ -217,7 +185,12 @@ export default {
                     v.checked = v.content || v.options[0].string;
                 }else if(v.type=='InputCheckbox'){
                     if(v.value){
-                        v.checkedArr.push(v.value);
+                        v.checkedArr = [];
+                        let inputChecked = v.value.split(',')||[];
+                        console.log(8888,inputChecked)
+                        inputChecked.forEach((item,key)=>{
+                            v.checkedArr.push(JSON.stringify(item-0+1));
+                        }) 
                     }
                 }else if(v.type=='InputTextNum'){
                     v.value = parseInt(v.value)||0;
@@ -225,16 +198,43 @@ export default {
                     v.dateValueSec = v.value?new Date(v.value):new Date();
                 }
             })
+            console.log(templateContent,6677666666)
         },
         initDefaultFile(templateItemData){//初始化文件列表
-            let defaultFile = [],fileArr = templateItemData.fileStr||[];
+            this.defaultFileList = [];
+            let fileArr = templateItemData.fileStr||[],defaultFile = []; 
+            console.log(templateItemData,fileArr,'fileArr')
             fileArr.forEach((v,k)=>{
+                console.log(defaultFile,'klll')
                 defaultFile.push({
                     name: v.fileName,
                     url: v.fileKey
                 })
+                console.log(defaultFile,'kkk')
             })
             this.defaultFileList = defaultFile||[];
+            console.log(defaultFile,'defaultFileList')
+            console.log(this.defaultFileList,44)
+        },
+        getTemplateApp() {
+            this.$store.dispatch('update_template_content').then(()=>{
+                this.setTempListData();
+            })
+        },
+        setTempListData() {
+            this.templateItemData = this.$store.state.template.content||{};
+            this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
+            
+           
+            // this.formInfo = {
+            //     ...this.defautlFormInfo,
+            //     content: this.templateContent
+            // }
+            console.log(this.templateContent,'hhahjjjjjj', this.templateItemData)
+           
+            this.initData(this.templateItemData,this.templateContent);
+           
+            
         },
         loadData(){
             console.log(this.$store.state.template.content,555)
@@ -264,14 +264,33 @@ export default {
                 }
             })
         },
+        handleSelectMember(res) { //选人
+            let keys = Object.keys(res);
+            keys.forEach(key=>{
+                this[key] && (this[key] = res[key])
+            })
+            console.log(this.member,888)
+        },
+        handleSelectRange(res){ //选范围
+            let keys = Object.keys(res);
+            keys.forEach(key=>{
+                this[`${key}Range`] && (this[`${key}Range`] = res[key])
+            })
+        },
+        handleCheckbox(data){
+            console.log(data,33344)
+        },
         handleFileSuccess(res, file){//处理上传的文件数据
             let fileData = res.data[0]||[];
+            console.log(this.defaultFileList,45)
+            this.fileStr.concat(this.defaultFileList);
             this.fileStr.push({
                 fileName:file.name,
                 fileSize:fileData.fileSize,
                 fileExtension:fileData.fileExtension,
                 fileKey:fileData.fileKey
             });
+            console.log(this.fileStr,'fff')
         },    
         handleSubmitData(){//处理提交数据
             let visibleRangeStr = [],submitContent = [],memberArr = [];
@@ -307,19 +326,24 @@ export default {
                 }else if(v.type=='InputRadio'){
                     v.content = v.checked;
                     v.options&&v.options.forEach((value,key)=>{
-                        if(value.string==v.checked){
+                        if(value.string == v.checked){
                             v.value = key; 
                         }
                     })
-                }else if(v.type=='InputCheckbox'){
+                   
+                }
+                else if(v.type=='InputCheckbox'){
+                    console.log(this.templateContent,77777)
                     let valueArr = [],contentArr = [];
                     v.checkedArr&&v.checkedArr.forEach((value,key)=>{
+                        console.log(value,key,44, v.checkedArr)
                         valueArr.push(value-1);
                         contentArr.push(v.options[value-1].string);
                     })
                     v.value = valueArr.toString();
                     v.content = contentArr.toString();
-                }else if(v.type=='InputDate'){
+                }
+                else if(v.type=='InputDate'){
                     v.value = FormatTime(v.dateValueSec, "YYYY-MM-DD");
                     v.content = FormatTime(v.dateValueSec, "YYYY-MM-DD");
                 }
@@ -334,16 +358,16 @@ export default {
             })
             this.atStr = memberArr;
         },  
-        handleValidate(submitData,templateContent){//校验数据
-            console.log(submitData,4,templateContent)
-            if(!submitData.diaryTime){
+        handleValidate(diaryTime,templateContent){//校验数据
+           
+            if(!diaryTime){
                 this.$Message.warning('日志日期不能为空');
                 return false;
             }
-            else if(submitData.visibleRangeStr=='[]'){
-                this.$Message.warning('可见范围不能为空');
-                return false;
-            }
+            // else if(submitData.visibleRangeStr=='[]'){
+            //     this.$Message.warning('可见范围不能为空');
+            //     return false;
+            // }
             else{
                 for (let i = 0,l =templateContent.length ; i < l; i++) {
                     if(templateContent[i].isRequired==1){
@@ -360,24 +384,8 @@ export default {
         },
         handleSubmit() {//提交
             this.handleSubmitData();
-           
-            this.submitData = {
-                gather:0,
-                diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
-                templateName:this.templateItemData.title,
-                version:'1514202355530',
-                source:3,//1 安卓   2 ios    3web    4微信
-                templateId:this.$route.params.id||0,
-                visibleRange:this.saveDraft?3:1,
-                visibleRangeStr:JSON.stringify(this.rangeArr),
-                dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
-                fileStr:JSON.stringify(this.fileStr),
-                content:JSON.stringify(this.templateContent), 
-                atStr: JSON.stringify(this.atStr)
-            };
-            
-            console.log(this.submitData,'submitData')
-            if(!this.handleValidate(this.submitData,this.templateContent)){
+            let diaryTime = FormatTime(new Date(this.dateValue), "YYYY-MM-DD");
+            if(!this.handleValidate(diaryTime,this.templateContent)){
                 return 
             }else{
                 this.templateContent.forEach((v,k)=>{// 校验完再去删除
@@ -398,24 +406,45 @@ export default {
                             break;
                     }
                    
-                }) 
-                this.$store.dispatch('update_template_content',{
-                    content:this.templateContent
                 });
-                console.log(this.$store.state.template.content,7777,this.submitData)
+                this.$store.dispatch('update_template_content',{
+                    content:{
+                        content:this.templateContent
+                    }
+                });
+                this.submitData = {
+                    gather:0,//是否是汇总日志 0：否 1：是
+                    diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
+                    templateName:this.templateItemData.title||this.templateItemData.templateName,
+                    version: (new Date()).valueOf(),
+                    source:3,//1 安卓   2 ios    3web    4微信
+                    templateId:!this.editFlag?this.$route.params.id||0:this.templateItemData.templateId||0,
+                    visibleRange:this.saveDraft?3:1,
+                    visibleRangeStr:JSON.stringify(this.rangeArr),
+                    dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
+                    fileStr:JSON.stringify(this.fileStr),
+                    content:JSON.stringify(this.templateContent), 
+                    atStr: JSON.stringify(this.atStr)
+                };
+                this.editFlag?this.submitData.id = this.templateItemData.id||0:'';
+                
+                console.log(this.templateContent,6,this.$store.state.template.content.content)
                 this.$ajax({
-                    url: this.saveDraft?'/logger/diary/diaryCommitDraft':'/logger/diary/diaryCommit',
+                    url: this.saveDraft?'/logger/diary/diaryCommitDraft':(this.editFlag?'/logger/diary/edit':'/logger/diary/diaryCommit'),
                     data: this.submitData,
                     type:'post',
                     success: (res)=>{
                         if(res && res.code === 0) {
-                            this.saveDraft?this.$Message.warning('日志草稿保存成功'):this.$Message.warning('日志创建成功');
-                            this.$router.push({
-                                path: '/LoggerQueryAll',
-                                query:{
-                                    token:this.$store.state.userInfo.token
-                                }
-                            });
+                            this.saveDraft?this.$Message.warning('日志草稿保存成功'):(this.editFlag?this.$Message.warning('日志修改成功'):this.$Message.warning('日志创建成功'));
+                            // this.getDiaryById(()=>{
+                                this.$router.push({
+                                    path: '/LoggerQueryAll',
+                                    query:{
+                                        token:this.$store.state.userInfo.token
+                                    }
+                                });
+                            // });
+                           
                         }else{
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
@@ -428,6 +457,22 @@ export default {
             }
             
         },
+        // getDiaryById(call) {
+        //     this.$ajax({
+        //         url: `/logger/diaryQuery/getDiaryById/${this.$route.params.id}`,
+        //         success: (res)=>{
+        //             if(res && res.code === 0) {
+        //                 call && call()
+        //             } else {
+        //                 this.$Message.warning((res && res.msg) || '网络错误');
+        //             }
+        //         },
+        //         error: (res)=>{
+        //             this.$Message.warning((res && res.msg) || '网络错误');
+        //         }
+
+        //     })
+        // },
         cancleSubmit(){//取消编辑
             this.$Modal.confirm({
                 title: '取消编辑',
@@ -449,27 +494,18 @@ export default {
         }
     },
     watch:{
-        
-        // $route(){
-        //     if(this.$route.params.loggertype=='create'){
-        //          console.log(this.$route,8877)
-        //         this.getVisibleRange();
-        //     }
-        // }
         '$route'(to, from) {
             console.log(to,from,11111)
-            // if(from.name==''){
-            //     this.getVisibleRange();
-            // }
+          
         }
     },
     created(){
-        
-        // this.getVisibleRange();
-        console.log(this.$route,8877)
+        if(this.$route.params.loggertype!='edit'){
+            this.getVisibleRange();
+        }else{
+            this.editFlag = 1;
+        }
         this.loadData();
-        
-       
     },
 }
 </script>
