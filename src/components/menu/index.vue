@@ -121,6 +121,7 @@ export default {
 
             menus.push({ // 不存在menuconfig中的地址
                 path: '/LoggerDetail',
+            }, {
                 path: '/LoggerTemplate',
             })
             let exist = false;
