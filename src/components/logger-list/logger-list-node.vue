@@ -94,6 +94,12 @@
                 </span>
             </div>
         </div>
+        <div class="logger-list-row">
+            <div class="logger-list-col">
+                <fs-reply v-if="showReply"
+                         :dailyId="loggerItemData.id"/>
+            </div>
+        </div>
         <!--操作记录弹层-->
         <Modal
             v-model="operateModal"
@@ -122,7 +128,9 @@
 <script>
 import FormatTime from 'app_src/filters/format-time';
 import FsAvatar from 'app_component/common/avatar/';
-const rowHeight = 24
+import FsReply from 'app_component/common/reply/';
+
+const rowHeight = 24;
 export default {
     props: {
         loggerItemData: {
@@ -152,11 +160,14 @@ export default {
 
             userInfo: this.$store.state.userInfo,
             operateModal: false,
-            operateModalData: []
+            operateModalData: [],
+
+            showReply: false
         }
     },
     components: {
-        FsAvatar
+        FsAvatar,
+        FsReply
     },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期
@@ -307,11 +318,11 @@ export default {
             })
         },
         handleReply() { // 回复
-            
+            this.showReply = !this.showReply;
         }
     },
     mounted () {
-        this.setRangeHeight();
+        this.setRangeHeight();        
     }
 }
 </script>
