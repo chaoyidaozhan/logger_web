@@ -52,4 +52,10 @@ module.exports = {
             });
         })
     },
+    update_template_content: ({ commit }, { content }) => {
+        return new Promise((resolve, reject) => {
+            commit(types.UPDATE_TEMPLATE_CONTENT, { content });
+            resolve()
+        })
+    },
 };

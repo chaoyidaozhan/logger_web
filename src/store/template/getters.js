@@ -8,4 +8,7 @@ module.exports = {
     getTemplateWeb(state) {
         return state.template && state.template.web ? state.template.web : [];
     },
+    getTemplateContent(state) {
+        return state.template && state.template.content ? state.template.content : [];
+    },
 };

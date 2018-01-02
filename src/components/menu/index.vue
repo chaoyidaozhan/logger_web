@@ -120,7 +120,9 @@ export default {
             let menus = JSON.parse(JSON.stringify(this.menus));
 
             menus.push({ // 不存在menuconfig中的地址
-                path: '/LoggerDetail'
+                path: '/LoggerDetail',
+            }, {
+                path: '/LoggerTemplate',
             })
             let exist = false;
             menus.forEach((m)=>{

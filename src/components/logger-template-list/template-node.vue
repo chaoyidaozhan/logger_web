@@ -26,6 +26,7 @@
 </template>
 <script>
 import FormatTime from 'app_src/filters/format-time';
+import { mapActions } from 'vuex';
 export default {
     props: {
         data: {
@@ -42,6 +43,9 @@ export default {
         },
     },
     methods: {
+        ...mapActions({
+            updateTemplateContent: 'update_template_content'
+        }),
         handleSwitch(name) {
             this.$ajax({
                 url: `/logger/template/${name}`,
@@ -72,6 +76,10 @@ export default {
             })
         },
         goToDetail() {
+            this.updateTemplateContent({
+                content: this.data
+            })
+            console.log(this.$store.state.template.content,23456)
             if(!this.showEdit) {
                 this.$router.push({
                     path: `operate/create/${this.data.id}`,
