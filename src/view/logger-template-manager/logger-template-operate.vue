@@ -8,7 +8,7 @@
                 </div>
                 <div class="pull-right">
                     <!--启用， 停用-->
-                    <Button type="ghost">
+                    <Button type="ghost" @click="handlePreview">
                         预览
                     </Button>
                     <template v-if="!dataStatus">
@@ -63,6 +63,9 @@ export default {
             this.$refs.TemplateCreate.handleSubmit(dataStatus || null, ()=>{
                 this.loading = false;
             });
+        },
+        handlePreview() {
+            this.$refs.TemplateCreate.handlePreview();
         },
         handleStop() {
             this.loading = false;

@@ -42,6 +42,11 @@
             <span class="title">控件</span>
             <div class="nav" ref="advacedPull">
                 <div class="drag-item" v-for="(item, index) in pullList" :key="index">
+                    <i class="icon-control-text" v-if="item.type == 'InputText'"></i>
+                    <i class="icon-control-textfield" v-if="item.type == 'InputTextNum'"></i>
+                    <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
+                    <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
+                    <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
                     {{item.title.substring(0, 4)}}
                 </div>
             </div>
@@ -85,7 +90,7 @@
                     <div>
                         <div class="extra-item">
                             <label class="extra-label"><i>*</i>模板名称</label>
-                            <Input v-model="data.title" type="text"/>
+                            <Input placeholder="不超过10个字" :maxlength="10" v-model="data.title" type="text"/>
                         </div>
                         <div class="extra-item">
                             <label class="extra-label">模板说明</label>
@@ -122,6 +127,17 @@
                 <Button type="primary" @click="onOk">返回模板管理</Button>
                 <Button type="ghost" @click="onCancel">继续编辑</Button>
             </div>
+        </Modal>
+        <Modal :width="580" class-name="preview-modal" v-model="showPreviewModal">
+            <RadioGroup class="tab-radio" v-model="previeWeb" type="button">
+                <Radio label="0">web端</Radio>
+                <Radio label="1">移动端</Radio>
+            </RadioGroup>
+            <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
+                <div v-html="previewHtml"></div>
+                <img v-if="previeWeb != '0'" src="../../assets/images/preview-mobile.png">
+            </div>
+            <div slot="footer"></div>
         </Modal>
     </div>
 </template>
@@ -221,6 +237,9 @@ export default {
             groupRange: [],
             memberRange: [],
             showSuccessModal: false,
+            showPreviewModal: false,
+            previewHtml: null,
+            previeWeb: '0',
             editDisable: false,
         }
     },
@@ -353,6 +372,11 @@ export default {
             if(this.data.dataStatus) { // 如果dataStatus为1模板禁用
                 this.editDisable = true;
             }
+        },
+        handlePreview() {
+            this.showPreviewModal = true;
+            console.log(this.$refs.advacedPush)
+            this.previewHtml = this.$refs.advacedPush.innerHTML;
         },
         handleStop() {  // 停用模板
             let templateId = this.$route.params.id || 0;
@@ -512,6 +536,9 @@ export default {
 </script>
 <style lang="less">
 @import '../../assets/css/var.less';
+.box-shadow {
+    box-shadow: 0 1px 10px @box-shadow;
+}
 .logger-template-create {
     width: 100%;
     height: 100%;
@@ -528,9 +555,6 @@ export default {
         background-color: rgba(80,80,80,.1);
         cursor: not-allowed;
         z-index: 1000;
-    }
-    .box-shadow {
-        box-shadow: 0 1px 10px @box-shadow;
     }
     .sub {
         width: 70px;
@@ -558,13 +582,19 @@ export default {
             .drag-item {
                 display: inline-block;
                 height: 70px;
-                line-height: 70px;
                 text-align: center;
                 width: 100%;
                 cursor: move;
                 color: @gray-color-light;
+                padding: 12px 0;
+                transition: .2s ease all;
+                border: 1px dashed transparent;
+                i {
+                    display: block;
+                    margin-bottom: 3px;
+                    font-size: 25px;
+                }
                 &:hover {
-                    line-height: 68px;
                     border: 1px dashed @drag-border-color;
                     background-color: @drag-bg-color;
                 }
@@ -635,84 +665,91 @@ export default {
         height: 100%;
         width: 100%;
         border-radius: 5px;
-        .main-inner {
-            background-color: @white-color;
-            height: 100%;
-            margin-left: 80px;
-            margin-right: 260px;
-            border-radius: 5px;
-            overflow: auto;
-            padding-bottom: 20px;
-            .box-shadow;
-            .drag-item {
-                position: relative;
-                cursor: pointer;
-                padding: 0 10px 10px;
-                margin-bottom: 5px;
-                .drag-label {
-                    display: block;
-                    font-size: 12px;
-                    padding: 10px 12px 10px 0;
-                    i {
-                        vertical-align: middle;
-                        color: @drag-close-color;
-                    }
-                }
-                .ivu-input-number {
-                    width: 100%;
-                }
-                .ivu-date-picker {
-                    width: 100%;
-                }
-                &:after {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    background-color: rgba(0, 0, 0, 0);
-                    z-index: 90;
-                }
-                textarea {
-                    height: 115px; 
-                    min-height: 115px;
-                    resize: none;
-                }
-                .mask {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    text-align: right;
-                    bottom: 0;
-                    border: 1px dashed @drag-border-color;
-                    background-color: @drag-bg-color;
-                    z-index: 1000;
-                    i {
-                        position: absolute;
-                        right: 0;
-                        top: 0;
-                        font-size: 12px;
-                        width: 20px;
-                        height: 20px;
-                        text-align: center;
-                        line-height: 20px;
-                        background: @drag-close-color;
-                        color: @white-color;
-                        cursor: pointer;
-                    }
-                }
-                &.sortable-chosen-nav {
-                    opacity: .4;
-                    text-align: center;
-                    line-height: 60px;
-                    border: 1px dashed @drag-border-color;
-                    background-color: @drag-bg-color;
-                }
+    }
+}
+.main-inner {
+    background-color: @white-color;
+    height: 100%;
+    margin-left: 80px;
+    margin-right: 260px;
+    border-radius: 5px;
+    overflow: auto;
+    padding-bottom: 20px;
+    .box-shadow;
+    .drag-item {
+        position: relative;
+        cursor: pointer;
+        padding: 0 10px 10px;
+        margin-bottom: 5px;
+        .drag-label {
+            display: block;
+            font-size: 12px;
+            padding: 10px 12px 10px 0;
+            i {
+                vertical-align: middle;
+                color: @drag-close-color;
             }
         }
-        
+        .ivu-radio-wrapper, .ivu-checkbox-wrapper {
+            margin-right: 20px;
+        }
+        .ivu-input-number {
+            width: 100%;
+        }
+        .ivu-date-picker {
+            width: 100%;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0);
+            z-index: 90;
+        }
+        textarea {
+            height: 115px; 
+            min-height: 115px;
+            resize: none;
+        }
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            text-align: right;
+            bottom: 0;
+            border: 1px dashed @drag-border-color;
+            background-color: @drag-bg-color;
+            z-index: 1000;
+            i {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 12px;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                line-height: 20px;
+                background: @drag-close-color;
+                color: @white-color;
+                cursor: pointer;
+            }
+        }
+        &.sortable-chosen-nav {
+            opacity: .4;
+            text-align: center;
+            padding: 20px 0;
+            border: 1px dashed @drag-border-color;
+            background-color: @drag-bg-color;
+            i {
+                display: block;
+                font-size: 25px;
+                margin-bottom: 3px;
+            }
+        }
     }
 }
 .template-modal {
@@ -724,6 +761,79 @@ export default {
     .ivu-modal-footer {
         text-align: center;
         border-top: 0;
+    }
+    
+}
+.preview-modal {
+    .ivu-modal-content {
+        background-color: transparent;
+    }
+    .ivu-modal-footer {
+        border-top: none;
+    }
+    .tab-radio {
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+        .ivu-radio-wrapper {
+            font-size: 14px;
+            width: 90px;
+            height: 40px;
+            line-height: 40px;
+            &.ivu-radio-wrapper-checked {
+                background-color: @primary-color;
+                color: @white-color;
+            }
+        }
+    }
+    .ivu-modal-close {
+        i {
+            width: 24px;
+            height: 24px;
+            color: @white-color;
+            border: 1px solid @white-color;
+            line-height: 24px;
+            text-align: center;
+            border-radius: 50%;
+        }
+        &:hover i{
+            color: @white-color;
+        }
+    }
+    .main-inner {
+        margin: 0 auto;
+        &.mobile-inner {
+            width: 340px;
+            border-radius: 20px;
+            img {
+                width: 100%;
+            }
+            .drag-item {
+                padding: 0 10px;
+                textarea, input {
+                    border: 0;
+                }
+            }
+            .ivu-checkbox-group, .ivu-radio-group {
+                padding-top: 5px;
+            }
+            .ivu-checkbox-wrapper {
+                span {
+                    display: none;
+                }
+                background-color: @white-color-elip;
+                padding: 3px 9px;
+                border-radius: 4px;
+            }
+            .drag-label {
+                margin: 0 -10px;
+                padding: 10px;
+                background-color: @white-color-elip;
+            }
+        }
+        .mask {
+            display: none;
+        }
     }
 }
 </style>
