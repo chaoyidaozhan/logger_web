@@ -17,17 +17,17 @@
             </span>
         </template>
         <template v-else>
-            <span class="tag" v-for="item in dept" :key="item.deptId">
+            <span class="tag" v-for="item in dept" :key="item.deptId" @click="handleClearMember($event, item, 'dept')">
                 {{item.deptName}}
-                <Icon type="close-round" @click.native="handleClearMember($event, item, 'dep')"></Icon>
+                <i class="icon-delete-userlist"></i>
             </span>
-            <span class="tag" v-for="item in group" :key="item.groupId">
+            <span class="tag" v-for="item in group" :key="item.groupId" @click="handleClearMember($event, item, 'group')">
                 {{item.groupName}}
-                <Icon type="close-round" @click.native="handleClearMember($event, item, 'team')"></Icon>
+                <i class="icon-delete-userlist"></i>
             </span>
-            <span class="tag" v-for="item in member" :key="item.memberId">
+            <span class="tag" v-for="item in member" :key="item.memberId" @click="handleClearMember($event, item, 'member')">
                 {{item.userName}}
-                <Icon type="close-round" @click.native="handleClearMember($event, item, 'man')"></Icon>
+                <i class="icon-delete-userlist"></i>
             </span>
         </template>
         <i class="icon-add"></i>
@@ -194,13 +194,24 @@ export default {
         text-align: center;
     }
     .tag {
-        padding: 0 6px;
-        color: @gray-color-light;
-        background-color: @gray-color-elip;
-        margin:2px;
+        padding: 0 10px 0 6px;
+        color: @gray-color-medium;
+        background-color: @white-color-dark;
+        margin:2px 10px 2px 2px;
         line-height: 19px;
-        border-radius: 12px;
         display: inline-block;
+        position: relative;
+        i {
+            color: @error-color;
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            margin-top: -7px;
+            background: @white-color;
+            border-radius: 50%;
+            padding: 1px;
+            font-size: 12px;
+        }
     }
 }
 </style>

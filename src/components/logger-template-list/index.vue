@@ -136,7 +136,7 @@ export default {
                 transition: .4s ease all;
                 display: block;
                 color: @primary-color;
-                margin-bottom: 5px;
+                margin-bottom: 6px;
                 font-size: 24px;
             }
         }

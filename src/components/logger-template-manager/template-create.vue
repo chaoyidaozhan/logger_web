@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-template-create">
+    <div class="logger-template-create" :class="{disabled: editDisable}">
         <!-- 控件列表 -->
         <div class="main pull-left">
             <div class="main-inner" ref="advacedPush">
@@ -59,6 +59,20 @@
                             <label class="extra-label">提示文字</label>
                             <Input v-model="currentItem.description" type="text"/>
                         </div>
+                        <div class="extra-item" v-if="currentItem.type == 'InputRadio' || currentItem.type == 'InputCheckbox'">
+                            <label class="extra-label">选项<span>(至少2项至多10项)</span></label>
+                            <ul class="extra-group-check">
+                                <li v-for="(item, index) in currentItem.options" :key="index">
+                                    <Input :maxlength="20" placeholder="请填写选项名" v-model="item.string" type="text"/>
+                                    <Icon v-if="currentItem.options.length > 2" 
+                                        type="ios-minus-outline" 
+                                        @click.native="handleDeleteOptions(index)" />
+                                </li>
+                            </ul>
+                            <Button type="ghost" long :disabled="!(currentItem.options.length < 10)" @click="handleAddOptions">
+                                添加选项
+                            </Button>
+                        </div>
                         <div class="extra-item">
                             <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
                                 必填
@@ -75,7 +89,7 @@
                         </div>
                         <div class="extra-item">
                             <label class="extra-label">模板说明</label>
-                            <Input placeholder="不超过20个字" maxlength="20" v-model="data.describe" type="text"/>
+                            <Input placeholder="不超过20个字" :maxlength="20" v-model="data.describe" type="text"/>
                         </div>
                         <div class="extra-item">
                             <label class="extra-label">可见范围</label>
@@ -101,8 +115,14 @@
                     </div>
                 </TabPane>
             </Tabs>
-          
         </div>
+        <Modal :width="300" class-name="template-modal" :mask-closable="false" :closable="false" v-model="showSuccessModal">
+            <p>保存成功</p>
+            <div slot="footer">
+                <Button type="primary" @click="onOk">返回模板管理</Button>
+                <Button type="ghost" @click="onCancel">继续编辑</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 <script>
@@ -200,6 +220,8 @@ export default {
             deptRange: [],
             groupRange: [],
             memberRange: [],
+            showSuccessModal: false,
+            editDisable: false,
         }
     },
     components: {
@@ -228,14 +250,16 @@ export default {
             this.currentItem = this.pushList[index + 1] ? this.pushList[index + 1] : this.pushList[index - 1];
             this.pushList.splice(index, 1);
         },
+        handleDeleteOptions(index) { // 删除选项
+            this.currentItem.options.splice(index, 1);
+        },
+        handleAddOptions() { // 添加选项
+            this.currentItem.options.push({
+                string: '选项'
+            })
+        },
         handleChangeRequired() { // 是否必填
             this.currentItem.isRequired = this.isRequired ? '1' : '0';
-        },
-        handleSelectRange(res){ //选范围
-            let keys = Object.keys(res);
-            keys.forEach(key=>{
-                this[`${key}Range`] && (this[`${key}Range`] = res[key])
-            })
         },
         handleChangeCurrentItem(evt, item) { // 更改当前Item
             evt.stopPropagation();
@@ -278,28 +302,202 @@ export default {
                 animation: 150
             })
         },
-        init() {
-            let templateId = this.$route.params.id;
+        handleSelectRange(res){ // 选范围
+            let keys = Object.keys(res);
+            keys.forEach(key=>{
+                this[`${key}Range`] && (this[`${key}Range`] = res[key])
+            })
+        },
+        trimVisibleRangeStr() { // 提交整理范围数据
+            let visibleRangeStr = [];
+            this.deptRange.forEach((item)=>{
+                visibleRangeStr.push({
+                    dataType: 1,
+                    teamId: item.deptId,
+                    teamName: item.deptName,
+                })
+            })
+            this.groupRange.forEach((item)=>{
+                visibleRangeStr.push({
+                    dataType: 3,
+                    teamId: item.groupId,
+                    teamName: item.groupName,
+                })
+            })
+            this.memberRange.forEach((item)=>{
+                visibleRangeStr.push({
+                    dataType: 4,
+                    memberId: item.memberId,
+                })
+            })
+            if(visibleRangeStr.length) {
+                this.data.visibleRange = 1;
+            } else {
+                this.data.visibleRange = 0;
+            }
+            this.data.visibleRangeStr = JSON.stringify(visibleRangeStr);
+        },
+        onOk() { // 返回模板列表
+            this.showSuccessModal = false;
+            this.$emit('handleDataStatus', this.data.dataStatus);
+            this.$router.push({
+                path: `/LoggerTemplate/manager`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            });
+        },
+        onCancel() { // 继续编辑
+            this.showSuccessModal = false;
+            this.$emit('handleDataStatus', this.data.dataStatus);
+            if(this.data.dataStatus) { // 如果dataStatus为1模板禁用
+                this.editDisable = true;
+            }
+        },
+        handleStop() {  // 停用模板
+            let templateId = this.$route.params.id || 0;
+            this.$ajax({
+                url: '/logger/template/stop',
+                type: 'post',
+                data: { 
+                    id: templateId
+                },
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.data.dataStatus = 0;
+                        this.editDisable = false;
+                        this.$emit('handleLoading');
+                        this.$emit('handleDataStatus', this.data.dataStatus);
+                    } else {
+                        this.$Message.error(res && res.msg || '网络错误');
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.error(res && res.msg || '网络错误');
+                }
+            })
+           
+        },
+        handleSubmit(dataStatus, call) { // 保存数据
+            let templateId = this.$route.params.id || 0;
+            this.trimVisibleRangeStr();
+            if(dataStatus) {
+                this.data.dataStatus = dataStatus || 0;
+            }
+            let params = {
+                content: JSON.stringify(this.pushList),
+                ...this.data
+            }
+            if(!params.title.trim()) {
+                return this.$Message.error('请输入模板名称');
+            }
+            call && call();
             if(templateId != -1) {
+                this.$ajax({
+                    url: '/logger/template/edit',
+                    type: 'post',
+                    data: { ...params },
+                    success: (res)=>{
+                        if(res && res.code == 0) {
+                            this.$emit('handleLoading');
+                            this.currentItem = null;
+                            this.showSuccessModal = true;
+                        } else {
+                            this.$Message.error(res && res.msg || '网络错误');
+                        }
+                    },
+                    error: (res)=>{
+                        this.$Message.error(res && res.msg || '网络错误');
+                    }
+                })
+            } else {
+                this.$ajax({
+                    url: '/logger/template/add',
+                    type: 'post',
+                    data: { ...params },
+                    success: (res)=>{
+                        if(res && res.code == 0) {
+                            this.$emit('handleLoading');
+                            this.currentItem = null;
+                            this.showSuccessModal = true;
+                            this.$router.push({
+                                path: `/LoggerTemplate/operate/${res.data && res.data.id || '-1'}`,
+                                query: {
+                                    token: this.$store.state.userInfo.token
+                                }
+                            });
+                            this.initData(res);
+                        } else {
+                            this.$Message.error(res && res.msg || '网络错误');
+                        }
+                    },
+                    error: (res)=>{
+                        this.$Message.error(res && res.msg || '网络错误');
+                    }
+                })
+            }
+        },
+        initRange(datalist) { // 初始化范围数据
+            let teamArray = [], depArrar = [], manArray = [];
+            datalist && datalist.forEach((v, k) => {
+                if (v.dataType == 1) { //部门
+                    depArrar.push({
+                        'deptId': v.teamId,
+                        'deptName': v.teamName
+                    });
+                } else if (v.dataType == 3) { //团队
+                    teamArray.push({
+                        'groupId': v.teamId,
+                        'groupName': v.teamName
+                    });
+                } else if (v.dataType == 4) { //个人
+                    manArray.push({
+                        'memberId': v.memberId,
+                        'userName': v.userName
+                    });
+                }
+            });
+            this.deptRange = depArrar;
+            this.groupRange = teamArray;
+            this.memberRange = manArray;
+        },
+        initData(res) { // 初始化模板对应数据
+            if(res && res.code == 0) {
+                this.pushList = JSON.parse(res.data && res.data.content);
+                let resData = res.data && res.data;
+                this.initRange(resData.templateVisibleRange)
+                this.data = { // 当前模板对应数据
+                    title: resData.title,
+                    describe: resData.describe,
+                    dataType: resData.dataType,
+                    visibleRange: resData.visibleRange,
+                    visibleRangeStr: resData.templateVisibleRange,
+                    source: resData.title,
+                    id: resData.id,
+                    dataStatus: resData.dataStatus
+                }
+                if(this.data.dataStatus) { // 如果dataStatus为1模板禁用
+                    this.editDisable = true;
+                }
+                this.$emit('handleDataStatus', resData.dataStatus);
+                this.$emit('handleLoading');
+            }
+        },
+        init() { // 模板初始化
+            let templateId = this.$route.params.id;
+            if(templateId != -1) { // 当为编辑时请求接口初始化数据
                 this.$ajax({
                     url: `/logger/template/detail/${templateId}`,
                     success: (res)=>{
-                        console.log(res)
-                        if(res && res.code == 0) {
-                            this.pushList = JSON.parse(res.data && res.data.content);
-                            let resData = res.data && res.data;
-                            this.data = {
-                                title: resData.title,
-                                describe: resData.describe,
-                                dataType: resData.dataType,
-                                visibleRange: resData.visibleRange,
-                                visibleRangeStr: resData.templateVisibleRange,
-                                source: resData.title,
-                                id: resData.id
-                            }
-                        }
+                        this.initData(res);
+                    },
+                    error: (res)=>{
+                        this.$Message.error(res && res.msg || '网络错误');
                     }
                 })
+            } else {
+                this.$emit('handleDataStatus', 0)
+                this.$emit('handleLoading');
             }
         }
     },
@@ -319,6 +517,18 @@ export default {
     height: 100%;
     padding: 10px;
     background-color: @white-color-light;
+    position: relative;
+    &.disabled:after {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(80,80,80,.1);
+        cursor: not-allowed;
+        z-index: 1000;
+    }
     .box-shadow {
         box-shadow: 0 1px 10px @box-shadow;
     }
@@ -375,9 +585,30 @@ export default {
                 display: block;
                 font-size: 12px;
                 padding: 10px 12px 10px 0;
+                span {
+                    color: @gray-color-light;
+                }
                 i {
                     vertical-align: middle;
                     color: @drag-close-color;
+                }
+            }
+            .extra-group-check {
+                li {
+                    margin-bottom: 10px;
+                    position: relative;
+                    input {
+                        padding-right: 30px;
+                    }
+                    i {
+                        color: @error-color;
+                        font-size: 20px;
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        cursor: pointer;
+                        margin-top: -10px;
+                    }
                 }
             }
         }
@@ -441,7 +672,7 @@ export default {
                     left: 0;
                     right: 0;
                     background-color: rgba(0, 0, 0, 0);
-                    z-index: 999;
+                    z-index: 90;
                 }
                 textarea {
                     height: 115px; 
@@ -457,7 +688,7 @@ export default {
                     bottom: 0;
                     border: 1px dashed @drag-border-color;
                     background-color: @drag-bg-color;
-                    z-index: 10;
+                    z-index: 1000;
                     i {
                         position: absolute;
                         right: 0;
@@ -482,6 +713,17 @@ export default {
             }
         }
         
+    }
+}
+.template-modal {
+    p {
+        font-size: 16px;
+        padding: 30px 0 10px;
+        text-align: center;
+    }
+    .ivu-modal-footer {
+        text-align: center;
+        border-top: 0;
     }
 }
 </style>
