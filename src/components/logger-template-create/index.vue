@@ -223,7 +223,7 @@ export default {
             })
             console.log(this.defaultFileList, 'aaaaaaaaaa')
         },
-        getTemplateApp() {
+        getTemplateApp() {//获取编辑数据
             this.$ajax({
                 url: `/logger/diary/detail/${this.$route.params.id}`,
                 success: (res)=>{
@@ -252,10 +252,11 @@ export default {
             this.initData(this.templateItemData,this.templateContent);
         },
         loadData(){
-            console.log(this.$store.state.template.content.content,555)
-            if(!this.$store.state.template.content.content) { 
+            if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='edit') { 
                 this.getTemplateApp();
-            } else {
+            } else if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='create'){
+                this.$router.go(-1);
+            }else{
                 this.setTempListData();
             }
         },
