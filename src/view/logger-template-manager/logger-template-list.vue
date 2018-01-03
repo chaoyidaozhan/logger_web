@@ -1,12 +1,27 @@
 <template>
-    <div class="logger-template-list">
-        <fs-template-list :showEdit="true"/>
-    </div>
+    <fs-frame>
+        <template slot="head">
+            <div class="logger-detail-header clearfix">
+                <span>日志模板</span>
+                <div class="pull-right">
+
+                </div>
+            </div>
+        </template>
+        <template slot="body">
+            <div class="logger-template-list">
+                <fs-template-list :showEdit="true"/>
+            </div>
+        </template>
+    </fs-frame>
 </template>
 <script>
+import FsFrame from '../frame/';
 import FsTemplateList from 'app_component/logger-template-list/';
+
 export default {
     components: {
+        FsFrame,
         FsTemplateList
     },
 }

@@ -113,6 +113,9 @@ export default {
         setActiveName(to) { // 设置当前激活导航
             let path = to ? to.path : this.$route && this.$route.path;
             this.activeName = path
+            if(path.indexOf('LoggerTemplate') != -1) {
+                this.activeName = '/LoggerTemplate/manager';
+            }
             this.setOpenNames();
         },
         checkLimit(to, from) { // 检测当前路由权限

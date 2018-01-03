@@ -13,7 +13,7 @@
             <template v-if="!data.dataStatus">
                 <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
                  <!--停用显示编辑和删除-->
-                <span><i class="icon-edit"></i></span>
+                <span @click="goToTemplate"><i class="icon-edit"></i></span>
                 <span><i class="icon-delete" @click="handleDelete"></i></span>
             </template>
             <template v-else>
@@ -78,8 +78,7 @@ export default {
         goToDetail() {
             this.updateTemplateContent({
                 content: this.data
-            })
-            console.log(this.$store.state.template.content,23456)
+            });
             if(!this.showEdit) {
                 this.$router.push({
                     path: `operate/create/${this.data.id}`,
@@ -90,6 +89,20 @@ export default {
             } 
             // console.log(this.data);
             // console.log(this.$store.state.template)
+        },
+        goToTemplate(e) {
+            e.stopPropagation();
+            console.log(this.$store.state.template.content,23456)
+            console.log(this.data.id,23456)
+            this.updateTemplateContent({
+                content: this.data
+            });
+            this.$router.push({
+                path: `/LoggerTemplate/operate/${this.data.id}`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            })
         }
     }
 }

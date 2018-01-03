@@ -100,7 +100,7 @@ export default [
                         component: LoggerTemplateList,
                     },
                     {
-                        path: 'operate',
+                        path: 'operate/:id',
                         component: LoggerTemplateOperate,
                     },
                     {
