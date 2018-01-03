@@ -33,6 +33,20 @@ const router = new VueRouter({ // 创建路由
     routes
 });
 
+router.beforeEach((to, from, next) => {
+    if (from.path.indexOf('/LoggerTemplate/operate') != -1) {
+        iView.Modal.confirm({
+            title: '页面提示',
+            content: '您确定离开当前页面吗？',
+            onOk: ()=>{
+                next();
+            }
+        })
+    } else {
+        next();
+    }
+})
+
 new Vue({
     mixins: [http],
     store,

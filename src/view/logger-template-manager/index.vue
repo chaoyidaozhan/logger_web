@@ -2,7 +2,7 @@
     <fs-frame>
         <template slot="head">
             <div class="logger-detail-header clearfix">
-                日志模板
+                <span>日志模板</span>
             </div>
         </template>
         <template slot="body">

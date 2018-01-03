@@ -1,10 +1,12 @@
 <template>
     <div class="content" v-loading="{loading: loaded, text: '加载中...'}">
-        <div class="col" v-if="showEdit">
+        <div class="col" v-if="showEdit" @click="goToTemplate">
             <div class="template-item cursor-pointer">
-                <div class="template-item-content">
-                    <i class=""></i>
-                    创建模板
+                <div class="template-item-content template-item-content-create">
+                    <span>
+                        <i class="icon-add-template"></i>
+                        创建模板
+                    </span>
                 </div>
             </div>
         </div>
@@ -58,8 +60,14 @@ export default {
                 this.setTempListData('app');
             })
         },
-        getTemplateWeb(call) { // 全部日志分页
-
+        goToTemplate(e) {
+            e.stopPropagation();
+            this.$router.push({
+                path: `/LoggerTemplate/operate/-1`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            })
         },
         deleteData(data) { // 删除日志
             this.animate = 'out';
@@ -113,8 +121,31 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import '../../assets/css/var.less';
  .content {
     font-size: 0;
+    .template-item-content-create {
+        span {
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+            text-align: center;
+            left: 0;
+            right: 0;
+            i {
+                transition: .4s ease all;
+                display: block;
+                color: @primary-color;
+                margin-bottom: 5px;
+                font-size: 24px;
+            }
+        }
+        &:hover {
+            i {
+                transform: rotateX(180deg);
+            }
+        }
+    }
     .page {
         position: absolute;
         bottom: 0;

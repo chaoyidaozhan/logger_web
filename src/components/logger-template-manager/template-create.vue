@@ -1,5 +1,6 @@
 <template>
     <div class="logger-template-create">
+        <!-- 控件列表 -->
         <div class="main pull-left">
             <div class="main-inner" ref="advacedPush">
                 <div class="drag-item" @click="handleChangeCurrentItem($event, item)" v-for="(item, index) in pushList" :key="index">
@@ -30,12 +31,13 @@
                             :clearable="false">
                         </DatePicker>
                     </template>
-                    <div class="mask" v-if="currentItem.id == item.id">
+                    <div class="mask" v-if="(currentItem && currentItem.id) == item.id">
                         <Icon type="close" @click.native="handleDelete($event, item, index)"></Icon>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- 控件菜单 -->
         <div class="sub pull-left">
             <span class="title">控件</span>
             <div class="nav" ref="advacedPull">
@@ -44,30 +46,82 @@
                 </div>
             </div>
         </div>
+        <!-- 控件设置-->
         <div class="extra pull-left">
-            <div>
-                <div class="extra-item">
-                    <label class="extra-label">标题</label>
-                    <Input v-model="currentItem.title" type="text"/>
-                </div>
-                <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
-                    <label class="extra-label">提示文字</label>
-                    <Input v-model="currentItem.description" type="text"/>
-                </div>
-                <div class="extra-item">
-                    <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
-                        必填
-                    </Checkbox>
-                </div>
-            </div>
+            <Tabs>
+                <TabPane label="控件设置">
+                    <div v-if="currentItem">
+                        <div class="extra-item">
+                            <label class="extra-label">标题</label>
+                            <Input v-model="currentItem.title" type="text"/>
+                        </div>
+                        <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
+                            <label class="extra-label">提示文字</label>
+                            <Input v-model="currentItem.description" type="text"/>
+                        </div>
+                        <div class="extra-item">
+                            <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
+                                必填
+                            </Checkbox>
+                        </div>
+                    </div>
+                    <fs-empty-tips v-else emptyMsg="还没有控件哦～请选择控件" iconType="template"/>
+                </TabPane>
+                <TabPane label="模板设置">
+                    <div>
+                        <div class="extra-item">
+                            <label class="extra-label"><i>*</i>模板名称</label>
+                            <Input v-model="data.title" type="text"/>
+                        </div>
+                        <div class="extra-item">
+                            <label class="extra-label">模板说明</label>
+                            <Input placeholder="不超过20个字" maxlength="20" v-model="data.describe" type="text"/>
+                        </div>
+                        <div class="extra-item">
+                            <label class="extra-label">可见范围</label>
+                            <select-member-input 
+                                :dept="deptRange"
+                                :group="groupRange"
+                                :member="memberRange"
+                                title="选择可见范围"
+                                placeholder="本部门可见"
+                                :ellipsis="false" 
+                                :showDept="true" 
+                                :showGroup="true" 
+                                ref="selectDept"
+                                @handleSelectMember="handleSelectRange"
+                                />
+                        </div>
+                        <div class="extra-item">
+                            <label class="extra-label">模板类型</label>
+                            <RadioGroup v-model="data.dataType">
+                                <Radio v-for="(val, key) in options" :key="key" :label="val.dataType" >{{val.string}}</Radio>
+                            </RadioGroup>
+                        </div>
+                    </div>
+                </TabPane>
+            </Tabs>
+          
         </div>
     </div>
 </template>
 <script>
-import Sortable from 'sortablejs'
+import Sortable from 'sortablejs';
+import FsEmptyTips from 'app_component/common/empty-tips';
+import SelectMemberInput from 'app_component/common/select-member-input/';
+
 export default {
     data() {
         return {
+            data: {
+                title: '',
+                describe: '',
+                dataType: 1,
+                visibleRange: 0,
+                visibleRangeStr: [],
+                source: 3,
+                id: ''
+            },
             pullList: [ // 默认数据
                 {
                     "size": 0,
@@ -123,9 +177,34 @@ export default {
                 }
             ],
             pushList: [],
-            currentItem: {},
-            isRequired: false
+            currentItem: null,
+            isRequired: false,
+            options: [
+                {
+                    string: '日报',
+                    dataType: 1
+                },
+                {
+                    string: '周报',
+                    dataType: 2
+                },
+                {
+                    string: '月报',
+                    dataType: 3
+                },
+                {
+                    string: '其他',
+                    dataType: 4
+                },
+            ],
+            deptRange: [],
+            groupRange: [],
+            memberRange: [],
         }
+    },
+    components: {
+        FsEmptyTips,
+        SelectMemberInput
     },
     methods: {
         removeNode(node) { // 移除节点
@@ -151,6 +230,12 @@ export default {
         },
         handleChangeRequired() { // 是否必填
             this.currentItem.isRequired = this.isRequired ? '1' : '0';
+        },
+        handleSelectRange(res){ //选范围
+            let keys = Object.keys(res);
+            keys.forEach(key=>{
+                this[`${key}Range`] && (this[`${key}Range`] = res[key])
+            })
         },
         handleChangeCurrentItem(evt, item) { // 更改当前Item
             evt.stopPropagation();
@@ -192,10 +277,36 @@ export default {
                 },
                 animation: 150
             })
+        },
+        init() {
+            let templateId = this.$route.params.id;
+            if(templateId != -1) {
+                this.$ajax({
+                    url: `/logger/template/detail/${templateId}`,
+                    success: (res)=>{
+                        console.log(res)
+                        if(res && res.code == 0) {
+                            this.pushList = JSON.parse(res.data && res.data.content);
+                            let resData = res.data && res.data;
+                            this.data = {
+                                title: resData.title,
+                                describe: resData.describe,
+                                dataType: resData.dataType,
+                                visibleRange: resData.visibleRange,
+                                visibleRangeStr: resData.templateVisibleRange,
+                                source: resData.title,
+                                id: resData.id
+                            }
+                        }
+                    }
+                })
+            }
         }
     },
+    
     mounted () {
         this.$nextTick(()=>{
+            this.init();
             this.initDragItem();
         })
     }
@@ -264,6 +375,28 @@ export default {
                 display: block;
                 font-size: 12px;
                 padding: 10px 12px 10px 0;
+                i {
+                    vertical-align: middle;
+                    color: @drag-close-color;
+                }
+            }
+        }
+        .empty-tips {
+            margin-top: 40%;
+        }
+        .ivu-tabs-bar {
+            margin-bottom: 0;
+        }
+        .ivu-tabs-nav {
+            width: 100%;
+            background-color: @white-color-light;
+        }
+        .ivu-tabs-tab {
+            width: 50%;
+            margin-right: 0;
+            text-align: center;
+            &:hover {
+                color: @primary-color;
             }
         }
     }
@@ -308,6 +441,7 @@ export default {
                     left: 0;
                     right: 0;
                     background-color: rgba(0, 0, 0, 0);
+                    z-index: 999;
                 }
                 textarea {
                     height: 115px; 
