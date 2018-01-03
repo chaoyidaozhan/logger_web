@@ -6,6 +6,7 @@
                 <i class="icon-none-department" v-if="iconType == 'dept'"></i>
                 <i class="icon-none-team" v-if="iconType == 'group'"></i>
                 <i class="icon-none-user" v-if="iconType == 'member'"></i>
+                <i class="icon-draft" v-if="iconType == 'template'"></i>
             </template>
             <p class="empty-msg">{{emptyMsg}}</p>
         </div>

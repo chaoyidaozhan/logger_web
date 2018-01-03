@@ -46,7 +46,15 @@
                                   v-if="commentItem.replyUserName">{{commentItem.replyUserName}}</span>
                         </p>
 
-                        <p class="content" v-html="commentItem.content"></p>
+                        <div class="content">
+                            <p class="reply-text" v-html="commentItem.content"></p>
+                            <div class="reply-attach-list">
+                                <fs-file :files="commentItem.attachList.files" class="file-wrapper"></fs-file>
+                                <fs-image :images="commentItem.attachList.imgs" class="image-wrapper"></fs-image>
+                                <fs-audio :audios="commentItem.attachList.audios" class="audio-wrapper"></fs-audio>
+                                <fs-video :videos="commentItem.attachList.videos" class="video-wrapper"></fs-video>
+                            </div>
+                        </div>
 
                         <p class="operate">
                             <span>{{commentItem.createTime}}</span>
@@ -75,6 +83,11 @@
     import avatar from '../avatar/';
     import formatTime from 'app_src/filters/friendly-time';
     import loading from '../loading-scroll/';
+    import FsVideo from './video.vue';
+    import FsAudio from './audio.vue';
+    import FsFile from './file.vue';
+    import FsImage from './image.vue';
+
     const FACE_ARR = ['[龇牙]', '[哈哈]', '[色]', '[可怜]', '[晕]', '[汗]', '[害羞]', 
                     '[调皮]', '[疑问]', '[闭嘴]', '[得意]', '[流泪]', '[愉快]', '[难过]', '[困]', 
                     '[生病]', '[笑cry]', '[尴尬]', '[偷笑]', '[奋斗]', '[赞]', '[握手]', '[OK]', 
@@ -88,7 +101,11 @@
         components: {
             emoji,
             avatar,
-            loading
+            loading,
+            FsVideo,
+            FsAudio,
+            FsFile,
+            FsImage
         },
         props: {
             dailyId: {
@@ -108,7 +125,8 @@
                 loadError: false,
                 hasMore: true,
                 loadMore: false,
-                timer: null
+                timer: null,
+              
             }
         },
         computed: {
@@ -131,9 +149,11 @@
                 if(inputContent.length >= this.maxLength) {
                     this.value = inputContent.substring(0, this.maxLength);
                 }
+                console.log(this, 999);
+                
                 this.$refs.replyWrapper.focus();
             },
-            filterContent(content) {
+            filterContent(content) { // 匹配回复内容表情
                 let matchedFace = content.match(/\[.{1,5}?\]/mg) || [];
                 let finalFace = [];
                 matchedFace.forEach((item) => {
@@ -149,11 +169,38 @@
                 });
                 return content;
             },
+            filterContentAttach(attachs) { // 过滤附件
+                let attachList = {
+                    imgs: [],
+                    audios: [],
+                    videos: [],
+                    files: []
+                };
+                attachs.forEach((item) => {
+                    switch(item.type){
+                        case "img":
+                            attachList.imgs.push(item);
+                            break;
+                        case "audio":
+                            item.audioClass = "audio3";
+                            attachList.audios.push(item);
+                            break;
+                        case "video":
+                            attachList.videos.push(item);
+                            break;
+                        default:
+                            attachList.files.push(item);
+                            break;
+                    }
+                });
+                return attachList;
+            },
             updateList(commentData) {
                 commentData.forEach((item) => {
                     item.createTime = formatTime(item.createTime);
                     item.isMyself = item.memberId === +this.$store.state.userInfo.member_id;
                     item.content = this.filterContent(item.content);
+                    item.attachList = this.filterContentAttach(item.replyCommentFileList);
                 });
                 this.pageNum === 1
                             ? this.commentListData = commentData
@@ -274,7 +321,7 @@
 <style lang="less">
     .reply-wrapper {
         .comment-list {
-            .content {
+            .reply-text {
                 i {
                     display: inline-block;
                     background-repeat: no-repeat;
@@ -312,16 +359,17 @@
                 padding: 10px;
                 font-size: 14px;
                 line-height: 18px;
-                border-color: @gray-color-elip;
+                border-color: @border-color;
                 outline: 0px;
                 word-wrap: break-word;
                 word-break: break-all;
-                color: #333;
+                color: @gray-color-dark;
                 resize: none;
             }
             .input-number {
                 position: absolute;
                 font-size: 14px;
+                color: @gray-color-light;
                 bottom: 10px;
                 right: 20px;
                 & > .exceed {
@@ -359,38 +407,56 @@
             font-size: 14px;
             .comment-item {
                 padding: 20px 20px 0;
-                border-bottom: 1px solid #eee;
+                border-bottom: 1px solid @border-color;
                 .avatar-wrapper {
                     float: left;
                 }
                 .comment-content {
                     margin-left: 50px;
-                }
-                .text {
-                    color: #9e9e9e;
-                }
-                .username {
-                    color: #262626;
-                }
-                .reply-username {
-                    color: @text-color;
+                    .names {
+                        line-height: 14px;
+                        margin-bottom: 6px;
+                        .username {
+                            color: #262626;
+                        }
+                        .text {
+                            color: #9e9e9e;
+                        }
+                        .reply-username {
+                            color: @text-color;
+                        }
+                    }
                 }
                 .content {
-                    margin-bottom: 5px;
-                    color: #666;
-                    line-height: 22px;
-                    word-wrap: break-word;
-                    word-break: break-all;
+                    .reply-text {
+                        margin-bottom: 6px;
+                        color: #666;
+                        line-height: 22px;
+                        word-wrap: break-word;
+                        word-break: break-all;
+                    }
+                    .reply-attach-list {
+                        .audio-wrapper {
+                            width: 22%;
+                        }
+                        .video-wrapper {
+                            width: 520px;
+                            overflow: hidden;
+                        }
+                        .image-wrapper {
+                            width: 380px;
+                            overflow: hidden;
+                        }
+                    }
                 }
                 .operate {
                     margin-bottom: 10px;
                     font-size: 12px;
                     color: @gray-color-light;
-                }
-                .reply,
-                .del {
-                    float: right;
-                    cursor: pointer;
+                    .reply, .del {
+                        float: right;
+                        cursor: pointer;
+                    }
                 }
             }
         }
