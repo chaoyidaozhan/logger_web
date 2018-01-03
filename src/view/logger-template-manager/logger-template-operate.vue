@@ -3,8 +3,8 @@
         <template slot="head">
             <div class="logger-template-header clearfix">
                 <div class="pull-left">
-                    <span>日志模板</span>
-                    <span>设置日志模板</span>
+                    <span class="first-name cursor-pointer" @click="goToTemplate">日志模板</span>
+                    <span><i class="icon-arrow-right"></i>设置日志模板</span>
                 </div>
                 <div class="pull-right">
                     <!--启用， 停用-->
@@ -68,6 +68,14 @@ export default {
             this.loading = false;
             this.$refs.TemplateCreate.handleStop();
         },
+        goToTemplate() {
+            this.$router.push({
+                path: `/LoggerTemplate/manager`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            });
+        }
     }
 }
 </script>
@@ -77,6 +85,15 @@ export default {
 .logger-template-header {
     button {
         margin-left: 6px;
+    }
+    .first-name {
+        color: @gray-color-light;
+    }
+    span {
+        i {
+            padding: 0 4px 0 0;
+            font-size: 12px;
+        }
     }
     .ivu-btn-ghost {
         color: @primary-color;
