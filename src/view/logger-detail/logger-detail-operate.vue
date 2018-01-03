@@ -1,6 +1,11 @@
 <template>
     <div class="logger-detail">
-        <div class="title"><span>2</span>创建日志-产品周报</div>
+        <div class="title">
+            <div v-if="this.$route.params.loggertype=='create'">
+                <span>2</span>创建日志-
+                {{this.$route.query.templateName}}
+            </div>
+        </div>
         <fs-template-create/>
     </div>
 </template>

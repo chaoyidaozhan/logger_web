@@ -79,17 +79,15 @@ export default {
             this.updateTemplateContent({
                 content: this.data
             })
-            console.log(this.$store.state.template.content,23456)
             if(!this.showEdit) {
                 this.$router.push({
                     path: `operate/create/${this.data.id}`,
                     query: {
-                        token: this.$store.state.userInfo.token
+                        token: this.$store.state.userInfo.token,
+                        templateName: this.data.title||'' 
                     }
                 })
-            } 
-            // console.log(this.data);
-            // console.log(this.$store.state.template)
+            }
         }
     }
 }

@@ -32,10 +32,10 @@
                     <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
-                    <InputNumber  v-model="item.value" size="large"></InputNumber>
+                    <InputNumber  v-model="item.valueNum" size="large"></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.checked">
+                    <RadioGroup v-model="item.checked" @on-change="handleRadio(item)">
                         <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
                     </RadioGroup>
                 </template>
@@ -86,9 +86,6 @@
                 <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
                     取消
                 </Button>
-                <Button v-if="!editFlag" type="ghost"  class="draft-btn" @click="saveDraftFun">
-                    保存为草稿
-                </Button>
             </FormItem>
         </Form>
     </div>
@@ -113,7 +110,9 @@ export default {
             dateValue:new Date(),
             dateValueSec:new Date(),
             inputTextValue:[],
+            valueNum:0,
             checkedArr:[],
+            checked:'',
             dateOption: {
                 disabledDate (date) {
                     return date && date.valueOf() > Date.now();
@@ -182,7 +181,16 @@ export default {
                     this.inputTextValue[k] = v.value;
                 }
                 else if(v.type=='InputRadio'){
-                    v.checked = v.content || v.options[0].string;
+                    console.log(v.content,v.checked,'checked')
+                    let eqIndex = 0;
+                    v.options.forEach((key, i)=>{
+                        if(key.string === v.content) {
+                            eqIndex = i
+                            console.log(eqIndex, 'nizhajun')
+                        }
+                    })
+                    v.checked = v.options[eqIndex].string || '';
+                    console.log(v.content,111,v.checked)
                 }else if(v.type=='InputCheckbox'){
                     if(v.value){
                         v.checkedArr = [];
@@ -193,7 +201,7 @@ export default {
                         }) 
                     }
                 }else if(v.type=='InputTextNum'){
-                    v.value = parseInt(v.value)||0;
+                    v.valueNum = parseInt(v.value)||0;
                 }else if(v.type=='InputDate'){
                     v.dateValueSec = v.value?new Date(v.value):new Date();
                 }
@@ -201,45 +209,51 @@ export default {
             console.log(templateContent,6677666666)
         },
         initDefaultFile(templateItemData){//初始化文件列表
-            this.defaultFileList = [];
-            let fileArr = templateItemData.fileStr||[],defaultFile = []; 
-            console.log(templateItemData,fileArr,'fileArr')
+            let fileArr = templateItemData.fileStr||[]; 
+             console.log(fileArr,'kkkkklll')
             fileArr.forEach((v,k)=>{
-                console.log(defaultFile,'klll')
-                defaultFile.push({
-                    name: v.fileName,
-                    url: v.fileKey
+                this.defaultFileList.push({
+                    'name':v.fileName,
+                    'url':v.fileKey,
+                    'fileName':v.fileName,
+                    'fileSize':v.fileSize,
+                    'fileExtension':v.fileExtension,
+                    'fileKey':v.fileKey
                 })
-                console.log(defaultFile,'kkk')
             })
-            this.defaultFileList = defaultFile||[];
-            console.log(defaultFile,'defaultFileList')
-            console.log(this.defaultFileList,44)
+            console.log(this.defaultFileList, 'aaaaaaaaaa')
         },
         getTemplateApp() {
-            this.$store.dispatch('update_template_content').then(()=>{
-                this.setTempListData();
+            this.$ajax({
+                url: `/logger/diary/detail/${this.$route.params.id}`,
+                success: (res)=>{
+                    if(res && res.code === 0) {
+                        console.log(res,'zhaoting')
+                        this.templateItemData =res.data||{};
+                        this.templateContent = JSON.parse(res.data.content)||[];
+                        this.initData(this.templateItemData,this.templateContent);
+                    } else {
+                        this.$Message.warning((res && res.msg) || '网络错误');
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.warning((res && res.msg) || '网络错误');
+                }
             })
         },
         setTempListData() {
             this.templateItemData = this.$store.state.template.content||{};
             this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
-            
-           
             // this.formInfo = {
             //     ...this.defautlFormInfo,
             //     content: this.templateContent
             // }
             console.log(this.templateContent,'hhahjjjjjj', this.templateItemData)
-           
             this.initData(this.templateItemData,this.templateContent);
-           
-            
         },
         loadData(){
-            console.log(this.$store.state.template.content,555)
-           
-            if(this.$store.state.template.content.content.length<=0) { 
+            console.log(this.$store.state.template.content.content,555)
+            if(!this.$store.state.template.content.content) { 
                 this.getTemplateApp();
             } else {
                 this.setTempListData();
@@ -277,20 +291,47 @@ export default {
                 this[`${key}Range`] && (this[`${key}Range`] = res[key])
             })
         },
+        handleRadio(data){
+            this.$set(data, 'content', data.checked)
+            console.log(data,'zz')
+        },
         handleCheckbox(data){
             console.log(data,33344)
         },
         handleFileSuccess(res, file){//处理上传的文件数据
-            let fileData = res.data[0]||[];
+            let fileData = res.data[0]||[],defaultList = [];
             console.log(this.defaultFileList,45)
-            this.fileStr.concat(this.defaultFileList);
+            this.defaultFileList&&this.defaultFileList.forEach((v,k)=>{
+                defaultList.push({
+                    fileName:`${v.fileName}`,
+                    fileSize:v.fileSize,
+                    fileExtension:v.fileExtension,
+                    fileKey:v.fileKey
+                })
+            });
             this.fileStr.push({
                 fileName:file.name,
                 fileSize:fileData.fileSize,
                 fileExtension:fileData.fileExtension,
                 fileKey:fileData.fileKey
             });
-            console.log(this.fileStr,'fff')
+            this.fileStr = this.fileStr.concat(defaultList);
+            console.log(this.fileStr,'fff',defaultList)
+        },
+        cancleSubmit(){//取消编辑
+            this.$Modal.confirm({
+                title: '取消编辑',
+                content: '您的日志还没提交，确定要放弃编辑吗？',
+                onOk: ()=>{
+                    this.$router.push({
+                        path: '/LoggerQueryAll',
+                        query:{
+                            token:this.$store.state.userInfo.token
+                        }
+                    });
+                    
+                }
+            });
         },    
         handleSubmitData(){//处理提交数据
             let visibleRangeStr = [],submitContent = [],memberArr = [];
@@ -322,7 +363,8 @@ export default {
                     v.value = this.inputTextValue[k];
                     v.content = this.inputTextValue[k];
                 }else if(v.type=='InputTextNum'){
-                    v.content = v.value;
+                    v.content = v.valueNum;
+                    v.value = v.valueNum;
                 }else if(v.type=='InputRadio'){
                     v.content = v.checked;
                     v.options&&v.options.forEach((value,key)=>{
@@ -390,6 +432,10 @@ export default {
             }else{
                 this.templateContent.forEach((v,k)=>{// 校验完再去删除
                     switch(v.type){
+                        case 'InputTextNum':
+                            if(v.valueNum) {
+                                delete v.valueNum;
+                            }
                         case 'InputRadio':
                             if(v.checked) {
                                 delete v.checked;
@@ -419,7 +465,7 @@ export default {
                     version: (new Date()).valueOf(),
                     source:3,//1 安卓   2 ios    3web    4微信
                     templateId:!this.editFlag?this.$route.params.id||0:this.templateItemData.templateId||0,
-                    visibleRange:this.saveDraft?3:1,
+                    visibleRange:this.saveDraft||this.editFlag?3:1,
                     visibleRangeStr:JSON.stringify(this.rangeArr),
                     dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
                     fileStr:JSON.stringify(this.fileStr),
@@ -473,31 +519,22 @@ export default {
 
         //     })
         // },
-        cancleSubmit(){//取消编辑
-            this.$Modal.confirm({
-                title: '取消编辑',
-                content: '您的日志还没提交，确定要放弃编辑吗？',
-                onOk: ()=>{
-                    this.$router.push({
-                        path: '/LoggerQueryAll',
-                        query:{
-                            token:this.$store.state.userInfo.token
-                        }
-                    });
-                    
-                }
-            });
-        },
-        saveDraftFun(){// 保存草稿
-            this.saveDraft = true;
-            this.handleSubmit();
-        }
+        
     },
     watch:{
         '$route'(to, from) {
             console.log(to,from,11111)
           
         }
+    },
+    mounted () {
+        this.$eventbus.$on('saveDraftFun',()=>{// 保存草稿
+            this.saveDraft = true;
+            this.handleSubmit();
+        })
+    },
+    destroyed () {
+        this.$eventbus.$off('saveDraftFun')
     },
     created(){
         if(this.$route.params.loggertype!='edit'){
@@ -524,7 +561,8 @@ export default {
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
 .logger-create{
-    max-width: 900px;
+    // max-width: 900px;
+    width:100%;
     .ivu-btn {
         min-width: 65px;
         height: 31px;
