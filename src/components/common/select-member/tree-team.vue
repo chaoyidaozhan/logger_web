@@ -145,8 +145,6 @@
 			}
 			.head-wrap{
 				width: 28px;height: 28px;
-				// background: #f0f0f0;
-				// border-radius: 50%;
 				font-size: 0;
 			}
 			.groupName{
@@ -154,7 +152,7 @@
 			}
 		}
 		.li:nth-of-type(1){
-			padding-top: 12px;
+			margin-top: 6px;
 		}
 	}
 </style>
