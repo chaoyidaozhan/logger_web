@@ -496,8 +496,9 @@ export default {
     .ivu-form-item-content {
         line-height: 31px;
     }
-    textarea {
+    textarea.ivu-input {
         resize: none;
+        font-size: 12px;
     }
 }
 </style>

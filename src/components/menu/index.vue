@@ -147,6 +147,7 @@ export default {
             this.setActiveName(to || null);
         },
         goToLink(name) { // 跳转
+            this.setActiveName();
             this.$router.push({
                 path: name,
                 query: {
