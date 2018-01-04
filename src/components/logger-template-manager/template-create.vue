@@ -134,6 +134,10 @@
                 <Radio label="1">移动端</Radio>
             </RadioGroup>
             <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
+                <div class="mobile-title" v-if="previeWeb != '0'">
+                    <i class="icon-arrow-left"></i>
+                    写日志
+                </div>
                 <div v-html="previewHtml"></div>
                 <img v-if="previeWeb != '0'" src="../../assets/images/preview-mobile.png">
             </div>
@@ -692,6 +696,7 @@ export default {
         }
         .ivu-radio-wrapper, .ivu-checkbox-wrapper {
             margin-right: 20px;
+            margin-bottom: 2px;
         }
         .ivu-input-number {
             width: 100%;
@@ -802,9 +807,34 @@ export default {
     }
     .main-inner {
         margin: 0 auto;
+        &.web-inner {
+            padding: 0 10px;
+        }
+        .drag-item {
+            textarea, input {
+                transition: unset!important;
+            }
+        }
         &.mobile-inner {
             width: 340px;
             border-radius: 20px;
+            padding-top: 40px;
+            .mobile-title {
+                border-top: 1px solid @border-color;
+                line-height: 37px;
+                font-size: .48rem;
+                color: @gray-color-dark;
+                position: relative;
+                text-align: center;
+                i {
+                    position: absolute;
+                    color: @primary-color;
+                    left: 10px;
+                    font-size: 20px;
+                    top: 50%;
+                    margin-top: -10px;
+                }
+            }
             img {
                 width: 100%;
             }
@@ -812,6 +842,7 @@ export default {
                 padding: 0 10px;
                 textarea, input {
                     border: 0;
+                    transition: unset!important;
                 }
             }
             .ivu-checkbox-group, .ivu-radio-group {
@@ -824,6 +855,7 @@ export default {
                 background-color: @white-color-elip;
                 padding: 3px 9px;
                 border-radius: 4px;
+                margin: 4px 4px 4px 0;
             }
             .drag-label {
                 margin: 0 -10px;

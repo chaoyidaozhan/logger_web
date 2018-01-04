@@ -245,6 +245,7 @@ export default {
             min-width: auto;
             top: 11px;
             text-align: right;
+            margin-right: 0;
             button {
                 margin-left: 10px;
             }
