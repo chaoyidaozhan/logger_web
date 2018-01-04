@@ -3,6 +3,7 @@
         <template slot="head">
             <fs-query-form 
                 :hasDefaultTemplate="false" 
+                :showAllMember="true"
                 :showTemplate="true" 
                 :showTemplateCheck="true" 
                 :showDatePicker="true" 

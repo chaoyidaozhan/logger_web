@@ -1,6 +1,17 @@
 <template>
     <div class="search-form">
         <Form inline>
+            <FormItem :label-width="50" label="提交人"  v-if="showAllMember">
+                <fs-select-member ref="selectMember" 
+                    title="选择提交人"
+                    placeholder="选择提交人"
+                    :showDept="true"
+                    :showGroup="true" 
+                    :member="member"
+                    :dept="dept"
+                    :group="group"
+                    @handleSelectMember="handleSelectMember"/>
+            </FormItem> 
             <FormItem :label-width="50" label="提交人"  v-if="showMember">
                 <fs-select-member ref="selectMember" 
                     title="选择提交人"
@@ -91,6 +102,10 @@ export default {
             default: false
         },
         showGroup: {
+            type: Boolean,
+            default: false
+        },
+        showAllMember: {
             type: Boolean,
             default: false
         },

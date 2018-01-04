@@ -1,14 +1,15 @@
 <template>
-    <div class ="logger-summary-content">
+    <div class="logger-summary-content">
         <div class="note" v-if="list.length">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
         <div v-if="list.length">
             <div class="content-bar">
-                <Table border ref="selection" :columns="columnsData" :data="listTemplate"  @on-selection-change="handleSelectChange"></Table>
+                <Table border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
             </div>
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
                     <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
-                    <span class="checkout-note">已选中<span class="check-num">{{checkNum}}</span>日志</span>  
+                    <span class="checkout-note">已选中
+                        <span class="check-num">{{checkNum}}</span>日志</span>
                 </span>
                 <span class="bottom-right">
                     <Button type="success">汇总日志</Button>
@@ -18,7 +19,8 @@
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
         <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
-        <span class="nodata" v-if="!list.length&&iconFlag">只能查询到最新模板的数据，模板修改前的数据 可以导出EXCEL，切换到sheet进行查看</span>
+        <span class="nodata" v-if="!list.length&&iconFlag">只能查询到最新模板的数据，模板修改前的数据
+            <br> 可以导出EXCEL，切换到sheet进行查看</span>
     </div>
 </template>
 <script>
@@ -155,15 +157,17 @@ export default {
             return y + '-' + m + '-' + d+' '+h+':'+minute; 
         },
         getParams() {
-            var data = Object.assign({
+            let data = Object.assign({
                 pageNumber: this.pageNum,
                 pageSize: this.pageSize,
                 range: this.range,
-                memberIds:'',
-                deptIds:'',
-                teamIds:'',
+                memberIds: this.params.memberIds || '',
+                deptIds: this.params.deptId || '',
+                teamIds: this.params.groupId || '',
             }, this.params);
-            return data; 
+            delete data.deptId;
+            delete data.groupId;
+            return data;
         },
         loadData() {
             let data = this.getParams();
@@ -225,43 +229,40 @@ export default {
 </style>
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
-.logger-summary-content{
+.logger-summary-content {
     position: absolute;
     width: 100%;
     height: 100%;
     background: #fff;
     padding: 0px 20px 20px 20px;
-    .note{
+    .note {
         font-size: 12px;
-        padding:10px 0px;
-        color:@orange-color;
+        padding: 10px 0px;
+        color: @orange-color;
     }
-    .content-bottom{
+    .content-bottom {
         height: 50px;
         line-height: 50px;
-        .bottom-left{
+        .bottom-left {
             display: inline-block;
-            .checkout-note{
-                font-size:12px;
-                .check-num{
-                    color:@primary-color
+            .checkout-note {
+                font-size: 12px;
+                .check-num {
+                    color: @primary-color
                 }
             }
         }
-        .bottom-right{
-            float:right;
+        .bottom-right {
+            float: right;
         }
     }
-    .nodata{
+    .nodata {
         display: block;
-        position: absolute;
-        top: 32%;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #999999;
-        font-size:14px;
+        color: @gray-color-light;
+        font-size: 14px;
+        text-align: center;
+        line-height: 1.4;
+        margin-top: 5px;
     }
-    
 }
-
 </style>
