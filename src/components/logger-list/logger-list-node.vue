@@ -289,14 +289,12 @@ export default {
             this.$store.dispatch('update_template_content', { //登录成功更新store
                 content: this.loggerItemData
             }).then(()=>{
-                console.log(this.$store.state.template,111)
                 this.$router.push({
                     path: `LoggerDetail/operate/edit/${this.loggerItemData.id}`,
                     query:{
                         token:this.$store.state.userInfo.token
                     }
                 });
-                console.log(this.$store.state.template,22)
             });
         },
         handleDelete() { // 删除
