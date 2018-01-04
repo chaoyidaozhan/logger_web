@@ -142,14 +142,10 @@
     </div>
 </template>
 <script>
-<<<<<<< HEAD
-// import Sortable from 'sortablejs'
-=======
 import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
 
->>>>>>> 86c963e2a1767840236fdf00207dac0b522dcacb
 export default {
     data() {
         return {
