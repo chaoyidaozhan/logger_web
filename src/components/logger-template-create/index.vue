@@ -35,12 +35,12 @@
                     <InputNumber  v-model="item.valueNum" ></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.content" @on-change="handleRadio(item)">
+                    <RadioGroup v-model="item.content">
                         <Radio v-for="(val, key) in item.options" :label="`${val.string}`" :key="key">{{val.string}}</Radio>
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="item.content" @on-change="handleCheckbox(item)">
+                    <CheckboxGroup v-model="item.content">
                         <Checkbox v-for="(val, key) in item.options" 
                             :key="key"
                             :label="val.string">
@@ -97,6 +97,7 @@ export default {
     data() {
         return {
             templateContent: [],
+            templateContentClone:[],
             templateItemData: [],
             deptRange: [],
             groupRange: [],
@@ -104,7 +105,7 @@ export default {
             rangeArr: [],
             member: [],
             dateValue: new Date(),
-            dateValueSec: new Date(),
+            dateValueSec:new Date(),
             inputTextValue: [],
             valueNum: 0,
             dateOption: {
@@ -182,8 +183,10 @@ export default {
                     case 'InputTextNum':
                         v.valueNum = parseInt(v.value) || 0;
                         break;
-                    default:
+                    case 'InputDate':
                         v.dateValueSec = v.value ? new Date(v.value) : new Date();
+                        break;
+                    default:
                         break;
                 }
             })
@@ -208,7 +211,6 @@ export default {
                 url: `/logger/diary/detail/${this.$route.params.id}`,
                 success: (res)=>{
                     if(res && res.code === 0) {
-                        console.log(res,'zhaoting')
                         this.templateItemData =res.data||{};
                         this.templateContent = JSON.parse(res.data.content)||[];
                         this.initData(this.templateItemData,this.templateContent);
@@ -274,6 +276,7 @@ export default {
         },
         handleFileSuccess(res, file){//处理上传的文件数据
             let fileData = res.data[0]||[],defaultList = [];
+            console.log(this.defaultFileList,'defaultFileList')
             this.defaultFileList&&this.defaultFileList.forEach((v,k)=>{
                 defaultList.push({
                     fileName:v.fileName,
@@ -289,6 +292,7 @@ export default {
                 fileKey:fileData.fileKey
             });
             this.fileStr = this.fileStr.concat(defaultList);
+            console.log(this.fileStr,'fileStr')
         },
         handleRemoveFile(file,fileList){//处理移除文件
             fileList&&fileList.forEach((v,k)=>{
@@ -339,14 +343,17 @@ export default {
                 })
             });
             this.rangeArr = visibleRangeStr;
-
-            this.templateContent.forEach((v,k)=>{
+            this.templateContentClone = JSON.parse(JSON.stringify(this.templateContent));
+            this.templateContentClone.forEach((v,k)=>{
                 if(v.type=='InputText'){
                     v.value = this.inputTextValue[k];
                     v.content = this.inputTextValue[k];
                 }else if(v.type=='InputTextNum'){
                     v.content = v.valueNum;
                     v.value = v.valueNum;
+                    if(v.valueNum) {
+                        delete v.valueNum;
+                    }
                 }else if(v.type=='InputRadio'){
                     v.options&&v.options.forEach((value,key)=>{
                         if(value.string == v.content){
@@ -362,12 +369,15 @@ export default {
                             }
                         })
                     })
-                    v.content = v.content.join(',');
+                    v.content = v.content&&v.content.join(',');
                     v.value = valueArr.join(',');
                 }
                 else if(v.type=='InputDate'){
-                    v.value = FormatTime(v.dateValueSec, "YYYY-MM-DD");
-                    v.content = FormatTime(v.dateValueSec, "YYYY-MM-DD");
+                    v.value = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
+                    v.content = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
+                    if(v.dateValueSec){
+                        delete v.dateValueSec
+                    }
                 }
             })
 
@@ -380,57 +390,26 @@ export default {
             })
             this.atStr = memberArr;
         },  
-        handleValidate(diaryTime,templateContent){//校验数据
-           
-            if(!diaryTime){
-                this.$Message.warning('日志日期不能为空');
-                return false;
-            }else{
-                for (let i = 0,l =templateContent.length ; i < l; i++) {
-                    if(templateContent[i].isRequired==1){
-                        if((templateContent[i].type!='InputRadio'&&templateContent[i].type!='InputTextNum'&&!templateContent[i].value)||
-                        ((templateContent[i].type=='InputRadio'&&templateContent[i].type=='InputTextNum'&&templateContent[i].value==''))){
-                            this.$Message.warning(templateContent[i].title+'不能为空');
-                            return false;
-                        }  
-                    } 
-                }
-                
+        handleValidate(templateContent){//校验数据
+            for (let i = 0,l =templateContent.length ; i < l; i++) {
+                if(templateContent[i].isRequired==1){
+                    if((templateContent[i].type!='InputRadio'&&templateContent[i].type!='InputTextNum'&&!templateContent[i].value)||
+                    ((templateContent[i].type=='InputRadio'&&templateContent[i].type=='InputTextNum'&&templateContent[i].value==''))){
+                        this.$Message.warning(templateContent[i].title+'不能为空');
+                        return false;
+                    }  
+                } 
             }
             return true;
         },
         handleSubmit() {//提交
             this.handleSubmitData();
-            let diaryTime = FormatTime(new Date(this.dateValue), "YYYY-MM-DD");
-            if(!this.handleValidate(diaryTime,this.templateContent)){
+            if(!this.handleValidate(this.templateContentClone)){
                 return 
             }else{
-                this.templateContent.forEach((v,k)=>{// 校验完再去删除
-                    switch(v.type){
-                        case 'InputTextNum':
-                            if(v.valueNum) {
-                                delete v.valueNum;
-                            }
-                        case 'InputRadio':
-                            // if(v.checked) {
-                            //     delete v.checked;
-                            // }
-                        case 'InputCheckbox':
-                            // if(v.checkedArr) {
-                            //     delete v.checkedArr;
-                            // }
-                        case 'InputDate':
-                            if(v.dateValueSec){
-                                delete v.dateValueSec
-                            }
-                        default:
-                            break;
-                    }
-                   
-                });
                 this.$store.dispatch('update_template_content',{
                     content:{
-                        content:this.templateContent
+                        content:this.templateContentClone
                     }
                 });
                 this.submitData = {
@@ -444,7 +423,7 @@ export default {
                     visibleRangeStr:JSON.stringify(this.rangeArr),
                     dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
                     fileStr:JSON.stringify(this.fileStr),
-                    content:JSON.stringify(this.templateContent), 
+                    content:JSON.stringify(this.templateContentClone), 
                     atStr: JSON.stringify(this.atStr)
                 };
                 this.editFlag?this.submitData.id = this.templateItemData.id||0:'';
@@ -454,13 +433,13 @@ export default {
                     type:'post',
                     success: (res)=>{
                         if(res && res.code === 0) {
-                            this.saveDraft?this.$Message.warning('日志草稿保存成功'):(this.editFlag?this.$Message.warning('日志修改成功'):this.$Message.warning('日志创建成功'));
-                                this.$router.push({
-                                    path: '/LoggerQueryAll',
-                                    query:{
-                                        token:this.$store.state.userInfo.token
-                                    }
-                                });
+                            this.saveDraft?this.$Message.success('日志草稿保存成功'):(this.editFlag?this.$Message.success('日志修改成功'):this.$Message.success('日志创建成功'));
+                            this.$router.push({
+                                path: '/LoggerQueryAll',
+                                query:{
+                                    token:this.$store.state.userInfo.token
+                                }
+                            });
                         }else{
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
@@ -493,35 +472,43 @@ export default {
     },
 }
 </script>
-<style>
-.required-icon .ivu-form-item-label::before{
-    content: '*';
-    display: inline-block;
-    margin-right: 4px;
-    line-height: 1;
-    font-family: SimSun;
-    font-size: 12px;
-    color: #fd838a;
+<style lang="less">
+.logger-create {
+    .required-icon .ivu-form-item-label::before{
+        content: '*';
+        display: inline-block;
+        margin-right: 4px;
+        line-height: 1;
+        font-family: SimSun;
+        font-size: 12px;
+        color: #fd838a;
+    }
+    .ivu-form .ivu-form-item-label{
+        font-size: 14px!important;
+    }
+    .ivu-upload-list-remove{
+        line-height: inherit;
+    }
 }
 </style>
-
 <style lang="less" scoped>
 @import '../../assets/css/var.less';
 .logger-create{
     // max-width: 900px;
     width:100%;
+    
     .ivu-btn {
         min-width: 65px;
         height: 31px;
     }
     .submit-btn{
-        margin:0 5px 0 0;
+        margin: 0 5px 0 0;
     }
     .cancel-btn{
-        margin:0 10px;
+        margin: 0 10px;
     }
     .draft-btn{
-        margin:0 5px;
+        margin: 0 5px;
     }
 }
 </style>
