@@ -55,11 +55,11 @@ export default {
                 ["ppt", "pptx"],
                 ["pdf"]
             ];
-            fileext = fileext.replace(".", "");
+            fileext = fileext.replace(".", "").toLowerCase();
             for(let i = 0, j = fileTypeArr.length; i < j; i++) {
                 if(fileTypeArr[i].indexOf(fileext) >= 0) {
                     fileType = i;
-                    break;
+                    return fileType;
                 }
             }
             return fileType;

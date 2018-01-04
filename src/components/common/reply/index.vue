@@ -29,7 +29,9 @@
                        @handleFace="handleFace"></emoji>            
             </div>
 
-            <fs-file-upload ref="fileUpload"></fs-file-upload>
+            <fs-file-upload ref="fileUpload"
+                            @sendFileData="getUploadFile"
+                            v-if="replyData.fileStr && replyData.fileStr.length"></fs-file-upload>
 
             <div class="comment-list">
                 <div class="comment-item"
@@ -61,7 +63,8 @@
                         <p class="operate">
                             <span>{{commentItem.createTime}}</span>
                             <span class="reply"
-                                  v-show="!commentItem.isMyself">回复</span>
+                                  v-show="!commentItem.isMyself"
+                                  @click="replySomebody(commentItem)">回复</span>
                             <span class="del"
                                   v-show="commentItem.isMyself"
                                   @click="deleteSingleComment(commentItem)">删除</span>
@@ -129,7 +132,10 @@
                 hasMore: true,
                 loadMore: false,
                 timer: null,
-              
+                replyData: {
+                    diaryId: this.dailyId,
+                    replySource: 3
+                }
             }
         },
         methods: {
@@ -169,6 +175,15 @@
                     content = content.replace(item, '<i exp="' + item.replace(/\[|\]/g,"") + '"></i>');
                 });
                 return content;
+            },
+            getUploadFile(fileData) { // 获取上传附件
+                this.replyData.fileStr = fileData;
+            },
+            replySomebody(commentItem) {
+                this.replyData.replyCommentId = commentItem.memberId;
+                this.replyData.replyUserName = commentItem.userName;
+                this.$refs.replyWrapper.focus();
+                this.value = `回复${commentItem.userName}:`;
             },
             filterContentAttach(attachs) { // 过滤附件
                 let attachList = {
@@ -242,17 +257,11 @@
                 }, 200);
             },
             commitComment() { // 提交回复
+                this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
                 this.$ajax({
                     url: '/logger/diaryComment/reply',
                     type: 'post',
-                    data: {
-                        diaryId: this.dailyId,
-                        replySource: 3,
-                        content: this.value.replace(/^回复[^:]+?:/, ""),
-                        fileStr: []
-                        // replyCommentId: 3216,
-                        // replyUserName: "赵子龙"
-                    },
+                    data: this.replyData,
                     success: (res)=>{
                         if(res && res.code === 0) {
                             this.commentListData = [];
@@ -361,6 +370,7 @@
                 font-size: 14px;
                 line-height: 18px;
                 border-color: @border-color;
+                border-bottom: 0;
                 outline: 0px;
                 word-wrap: break-word;
                 word-break: break-all;
@@ -371,7 +381,7 @@
                 position: absolute;
                 font-size: 14px;
                 color: @gray-color-light;
-                bottom: 10px;
+                bottom: 5px;
                 right: 20px;
                 & > .exceed {
                     color: @error-color;
@@ -382,6 +392,8 @@
             position: relative;
             width: 100%;
             padding: 13px;
+            border: 1px solid @border-color;
+            border-top: 0;
             background-color: #f5f5f5;
             .face-btn,
             .file-btn {
@@ -397,7 +409,6 @@
                 padding-top: 3px;
                 padding-bottom: 3px;
                 width: 56px;
-                height: 25px;
             }
             .emoji {
                 position: absolute;
@@ -410,7 +421,7 @@
         .comment-list {
             font-size: 14px;
             .comment-item {
-                padding: 20px 20px 0;
+                padding: 20px 20px 0 0;
                 border-bottom: 1px solid @border-color;
                 .avatar-wrapper {
                     float: left;
