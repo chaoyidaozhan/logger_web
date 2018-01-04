@@ -1,6 +1,6 @@
 <template>
     <div class="logger-create">
-        <Form :label-width="138" >
+        <Form :label-width="110" >
             <FormItem label="日志日期">
                  <DatePicker type="date"
                     placement="bottom-start"
@@ -505,11 +505,23 @@ export default {
 }
 </style>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../../assets/css/var.less';
 .logger-create{
     // max-width: 900px;
     width:100%;
+    padding: 0 10px;
+    .ivu-form  {
+        .ivu-form-item {
+            margin-bottom: 12px;
+        }
+        .ivu-form-item-label {
+            font-size: 14px;
+        }
+        .ivu-form-item-content {
+            line-height: 31px;
+        }
+    }
     .ivu-btn {
         min-width: 65px;
         height: 31px;

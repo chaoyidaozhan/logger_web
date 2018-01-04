@@ -37,7 +37,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import '../../assets/css/var.less';
 .logger-detail-header {
     .back {
@@ -45,6 +45,28 @@ export default {
         i {
             color: @gray-color-light;
             margin-right: 5px;
+        }
+    }
+}
+.logger-detail {
+    height: 100%;
+    overflow: auto;
+    padding: 0 10px 60px;
+    .title {
+        height: 60px;
+        line-height: 60px;
+        padding-left: 10px;
+        color: @gray-color-medium;
+        font-size: 12px;
+        span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background-color: @gray-color-elip;
+            line-height: 19px;
+            text-align: center;
+            margin-right: 8px;
         }
     }
 }

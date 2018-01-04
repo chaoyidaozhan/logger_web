@@ -58,11 +58,11 @@
                     <div v-if="currentItem">
                         <div class="extra-item">
                             <label class="extra-label">标题</label>
-                            <Input v-model="currentItem.title" type="text"/>
+                            <Input placeholder="不超过10个字" :maxlength="10" v-model="currentItem.title" type="text"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
                             <label class="extra-label">提示文字</label>
-                            <Input v-model="currentItem.description" type="text"/>
+                            <Input placeholder="不超过50个字" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.description" type="textarea"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputRadio' || currentItem.type == 'InputCheckbox'">
                             <label class="extra-label">选项<span>(至少2项至多10项)</span></label>
@@ -146,7 +146,7 @@
     </div>
 </template>
 <script>
-// import Sortable from 'sortablejs';
+import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
 
@@ -379,7 +379,6 @@ export default {
         },
         handlePreview() {
             this.showPreviewModal = true;
-            console.log(this.$refs.advacedPush)
             this.previewHtml = this.$refs.advacedPush.innerHTML;
         },
         handleStop() {  // 停用模板
@@ -427,12 +426,12 @@ export default {
                     data: { ...params },
                     success: (res)=>{
                         if(res && res.code == 0) {
-                            this.$emit('handleLoading');
                             this.currentItem = null;
                             this.showSuccessModal = true;
                         } else {
                             this.$Message.error(res && res.msg || '网络错误');
                         }
+                        this.$emit('handleLoading');
                     },
                     error: (res)=>{
                         this.$Message.error(res && res.msg || '网络错误');
@@ -445,7 +444,6 @@ export default {
                     data: { ...params },
                     success: (res)=>{
                         if(res && res.code == 0) {
-                            this.$emit('handleLoading');
                             this.currentItem = null;
                             this.showSuccessModal = true;
                             this.$router.push({
@@ -458,6 +456,7 @@ export default {
                         } else {
                             this.$Message.error(res && res.msg || '网络错误');
                         }
+                        this.$emit('handleLoading');
                     },
                     error: (res)=>{
                         this.$Message.error(res && res.msg || '网络错误');
@@ -508,8 +507,8 @@ export default {
                     this.editDisable = true;
                 }
                 this.$emit('handleDataStatus', resData.dataStatus);
-                this.$emit('handleLoading');
             }
+            this.$emit('handleLoading');
         },
         init() { // 模板初始化
             let templateId = this.$route.params.id;
@@ -612,6 +611,10 @@ export default {
         background-color: @white-color;
         margin-left: -250px;
         .box-shadow;
+        textarea.ivu-input {
+            font-size: 12px;
+            resize: none;
+        }
         .extra-item {
             padding: 0 10px;
             margin-bottom: 10px;
@@ -657,8 +660,7 @@ export default {
             background-color: @white-color-light;
         }
         .ivu-tabs-tab {
-            width: 50%;
-            margin-right: 0;
+            width: 47%;
             text-align: center;
             &:hover {
                 color: @primary-color;
