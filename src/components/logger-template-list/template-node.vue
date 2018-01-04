@@ -88,8 +88,6 @@ export default {
                     }
                 })
             } 
-            // console.log(this.data);
-            // console.log(this.$store.state.template)
         },
         goToTemplate(e) {
             e.stopPropagation();

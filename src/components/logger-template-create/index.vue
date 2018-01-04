@@ -26,7 +26,7 @@
                     ref="selectDept"
                     />
             </FormItem>
-            <FormItem   v-for="(item, index) in templateContent" :key="index" 
+            <FormItem v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
                     <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
@@ -35,16 +35,15 @@
                     <InputNumber  v-model="item.valueNum" size="large"></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.checked" @on-change="handleRadio(item)">
-                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
+                    <RadioGroup v-model="item.content" @on-change="handleRadio(item)">
+                        <Radio v-for="(val, key) in item.options" :label="`${val.string}`" :key="key">{{val.string}}</Radio>
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="item.checkedArr" @on-change="handleCheckbox">
+                    <CheckboxGroup v-model="item.content" @on-change="handleCheckbox(item)">
                         <Checkbox v-for="(val, key) in item.options" 
                             :key="key"
-                            :label="`${key + 1}`">
-                                {{val.string}}
+                            :label="val.string">
                             </Checkbox>
                     </CheckboxGroup>
                 </template>
@@ -95,64 +94,60 @@ import SelectMemberInput from '../common/select-member-input/';
 import config from 'app_src/config/config';
 import FormatTime  from 'app_src/filters/format-time';
 export default {
-    data(){
-        return{
+    data() {
+        return {
             templateContent: [],
-            templateItemData:[],
-            // formInfo: {
-
-            // },
+            templateItemData: [],
             deptRange: [],
             groupRange: [],
             memberRange: [],
-            rangeArr:[],
+            rangeArr: [],
             member: [],
-            dateValue:new Date(),
-            dateValueSec:new Date(),
-            inputTextValue:[],
-            valueNum:0,
-            checkedArr:[],
-            checked:'',
+            dateValue: new Date(),
+            dateValueSec: new Date(),
+            inputTextValue: [],
+            valueNum: 0,
+            checkedArr: [],
+            checked: '',
             dateOption: {
-                disabledDate (date) {
+                disabledDate(date) {
                     return date && date.valueOf() > Date.now();
                 }
             },
-            uploadFile:`${config[__ENV__].apiHost}/logger/diaryFile/?token=`+this.$store.state.userInfo.token,
-            fileStr :[],
-            atStr:[],
-            defaultFileList:[],  //默认上传的文件
-            submitData:{}, 
-            saveDraft:false, 
-            editFlag:0  
-                 
+            uploadFile: `${config[__ENV__].apiHost}/logger/diaryFile/?token=` + this.$store.state.userInfo.token,
+            fileStr: [],
+            atStr: [],
+            defaultFileList: [], //默认上传的文件
+            submitData: {},
+            saveDraft: false,
+            editFlag: 0
         }
     },
     components: {
         SelectMemberInput
     },
     methods: { 
-        initData(templateItemData,templateContent){
-            this.dateValue = templateItemData.diaryTime||new Date();//初始化日志日期
-            this.initRange(templateItemData.range||[]);//初始化可选范围
-            this.initAtMember(templateItemData);//初始化at人 
-            this.initDefaultFile(templateItemData)//初始化文件
-            this.initTemplateContent(templateContent)//初始化可变表单
+        initData(templateItemData, templateContent) {
+            this.dateValue = templateItemData.diaryTime || new Date(); // 初始化日志日期
+            this.initRange(templateItemData.range || []); // 初始化可选范围
+            this.initAtMember(templateItemData); // 初始化at人 
+            this.initDefaultFile(templateItemData) // 初始化文件
+            this.initTemplateContent(templateContent) // 初始化可变表单
         },
-        initRange(datalist){
+        initRange(datalist) {
             let teamArray = [], depArrar = [], manArray = [];
-            datalist&&datalist.forEach((v,k)=>{
-                if(v.dataType==1){//部门
+            datalist && datalist.forEach((v, k) => {
+                if (v.dataType == 1) { //部门
                     depArrar.push({
                         'deptId': v.teamId,
                         'deptName': v.teamName
                     });
-                }else if(v.dataType==3){//团队
+                } else if (v.dataType == 3) { //团队
                     teamArray.push({
                         'groupId': v.teamId,
                         'groupName': v.teamName
                     });
-                }else if(v.dataType==4){//个人
+                } else if (v.dataType == 4) { //个人
                     manArray.push({
                         'memberId': v.memberId,
                         'userName': v.userName
@@ -163,50 +158,38 @@ export default {
             this.groupRange = teamArray;
             this.memberRange = manArray;
         },
-        initAtMember(templateItemData){//初始化at人
-            let atArr = templateItemData.at||[],atMember = [];
-            atArr.forEach((v,k)=>{
+        initAtMember(templateItemData) { //初始化at人
+            let atArr = templateItemData.at || [],
+                atMember = [];
+            atArr.forEach((v, k) => {
                 atMember.push({
                     'memberId': v.memberId,
                     'userName': v.replayUserName
                 })
             })
             this.member = atMember;
-
         },
-        initTemplateContent(templateContent){//初始化可变表单
-            console.log(templateContent,333222)
-            templateContent&&templateContent.forEach((v,k)=>{
-                if(v.type =='InputText'){
-                    this.inputTextValue[k] = v.value;
-                }
-                else if(v.type=='InputRadio'){
-                    console.log(v.content,v.checked,'checked')
-                    let eqIndex = 0;
-                    v.options.forEach((key, i)=>{
-                        if(key.string === v.content) {
-                            eqIndex = i
-                            console.log(eqIndex, 'nizhajun')
-                        }
-                    })
-                    v.checked = v.options[eqIndex].string || '';
-                    console.log(v.content,111,v.checked)
-                }else if(v.type=='InputCheckbox'){
-                    if(v.value){
-                        v.checkedArr = [];
-                        let inputChecked = v.value.split(',')||[];
-                        console.log(8888,inputChecked)
-                        inputChecked.forEach((item,key)=>{
-                            v.checkedArr.push(JSON.stringify(item-0+1));
-                        }) 
-                    }
-                }else if(v.type=='InputTextNum'){
-                    v.valueNum = parseInt(v.value)||0;
-                }else if(v.type=='InputDate'){
-                    v.dateValueSec = v.value?new Date(v.value):new Date();
+        initTemplateContent(templateContent) { //初始化可变表单
+            templateContent && templateContent.forEach((v, k) => {
+                switch (v.type) {
+                    case 'InputText':
+                        this.inputTextValue[k] = v.value;
+                        break;
+                    case 'InputRadio':
+                        v.content = v.content ? v.content : v.options[0].string;
+                        break;
+                    case 'InputCheckbox':
+                        this.inputTextValue[k] = v.value;
+                        v.content = v.content.value ? v.content.split(',') : [];
+                        break;
+                    case 'InputTextNum':
+                        v.valueNum = parseInt(v.value) || 0;
+                        break;
+                    default:
+                        v.dateValueSec = v.value ? new Date(v.value) : new Date();
+                        break;
                 }
             })
-            console.log(templateContent,6677666666)
         },
         initDefaultFile(templateItemData){//初始化文件列表
             let fileArr = templateItemData.fileStr||[]; 
@@ -293,7 +276,6 @@ export default {
             })
         },
         handleRadio(data){
-            this.$set(data, 'content', data.checked)
             console.log(data,'zz')
         },
         handleCheckbox(data){
