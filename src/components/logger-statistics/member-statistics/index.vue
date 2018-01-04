@@ -30,7 +30,16 @@
                 :start="start"
                 :title="title"/>
         </template>
-
+        <!--自定义统计-->
+        <template v-if="params.orderType == 0">
+            <fs-define-picker @handleChangeDate="handleChangeDate"/>
+            <fs-member-statistics-define
+                v-if="start"
+                :data="list"
+                :type="type"
+                :start="start"
+                :title="title"/>
+        </template>
     </div>
 </template>
 <script>
@@ -42,6 +51,9 @@ import FsMemberStatisticsDay from './member-statistics-day';
 
 import FsWeekPicker from 'app_component/common/picker/week';
 import FsMemberStatisticsWeek from './member-statistics-week';
+
+import FsDefinePicker from 'app_component/common/picker/define';
+import FsMemberStatisticsDefine from './member-statistics-define';
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -76,7 +88,10 @@ export default {
         FsMemberStatisticsDay,
         
         FsWeekPicker,
-        FsMemberStatisticsWeek
+        FsMemberStatisticsWeek,
+
+        FsDefinePicker,
+        FsMemberStatisticsDefine
     },
     watch: {
         params: 'handleChangeDate'
@@ -100,14 +115,12 @@ export default {
             }, this.params);
         },
         loadData() {
-            console.log(this.start)
             this.$ajax({
                 url: '/logger/diaryQuery/getUsersStatisticsByCondition',
                 data: this.getParams(),
                 success: (res)=>{
                     if(res && res.code === 0) {
                         this.list = res.data.resultList;
-                        console.log(this.list)
                     }
                 },
                 error: (res)=>{

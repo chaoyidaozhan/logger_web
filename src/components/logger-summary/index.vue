@@ -14,7 +14,11 @@
                         <span class="check-num">{{checkNum}}</span>日志</span>
                 </span>
                 <span class="bottom-right">
+<<<<<<< HEAD
                     <Button type="success" @click="loggerSummary">汇总日志</Button>
+=======
+                    <Button type="primary">汇总日志</Button>
+>>>>>>> b4e071ca97c21bec85d901dea89c42354c4cd831
                     <Button type="ghost" @click="exportECL">导出EXCEL</Button>
                 </span>
             </div>
@@ -312,13 +316,15 @@ export default {
 @import '../../assets/css/var.less';
 .content-bar{
     .ivu-table-wrapper{
-        border:none;
+        // border:none;
     }
     .ivu-table{
         overflow: auto;
     }
     .ivu-table-cell{
         max-height: 100px;
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
     .ivu-table:before{
         height: 0px;
@@ -357,6 +363,7 @@ export default {
     .content-bar {
         max-height: 100%;
         overflow: auto;
+        padding: 1px;
     }
     .content-footer {
         position: absolute;

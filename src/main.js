@@ -38,16 +38,17 @@ iView.LoadingBar.config({ // 配置loadingbar
 })
 
 router.beforeEach((to, from, next) => {
-    iView.LoadingBar.start();
-    if (from.path.indexOf('/LoggerTemplate/operate') != -1 && to.path.indexOf('/LoggerTemplate/operate') < 0) {
+    if ((from.path.indexOf('/LoggerTemplate/operate') != -1 && to.path.indexOf('/LoggerTemplate/operate') < 0)) {
         iView.Modal.confirm({
             title: '页面提示',
             content: '您确定离开当前页面吗？',
             onOk: ()=>{
+                iView.LoadingBar.start();
                 next();
             }
         })
     } else {
+        iView.LoadingBar.start();
         next();
     }
 })

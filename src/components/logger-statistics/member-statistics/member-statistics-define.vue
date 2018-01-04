@@ -53,7 +53,6 @@ export default {
                     })
                 }
             });
-            console.log(this.data)
             return list;
         }
     },
@@ -76,7 +75,6 @@ export default {
             this.isLeapYear(date.getFullYear());
             this.year = date.getFullYear();
             this.month = date.getMonth();
-            console.log(this.month)
             this.columns.array = [];
             for(let i = 0; i < this.point[this.month]; i++) {
                 this.columns.array.push(`${i+1} 周${this.getWeek(i+1)}`)

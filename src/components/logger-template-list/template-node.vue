@@ -55,7 +55,6 @@ export default {
                 },
                 success: (res)=>{
                     this.data.dataStatus = name == 'start' ? 1 : 0
-                    console.log(this.$store);
                 },
                 error: (res)=>{
                     this.$Message.error(res && res.msg || '网络错误');
@@ -91,8 +90,6 @@ export default {
         },
         goToTemplate(e) {
             e.stopPropagation();
-            console.log(this.$store.state.template.content,23456)
-            console.log(this.data.id,23456)
             this.updateTemplateContent({
                 content: this.data
             });
@@ -194,7 +191,7 @@ export default {
             background-color: rgba(0,0,0,.5);
             border-radius: 50%;
             margin: 0 10px;
-            font-size: 14px;
+            font-size: 16px;
             color: @white-color;
             transition: .2s ease opacity;
             .icon-play {

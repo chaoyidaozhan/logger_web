@@ -50,7 +50,6 @@ export default {
                 dateStart = new Date(y, 0, 1),
                 t = Math.round((dateEnd.valueOf() - dateStart.valueOf()) / 86400000),
                 w = Math.ceil((t + ((dateStart.getDay() + 1) - 1)) / 7 ); 
-                console.log(w)
             return w;
         },
         getDate(year,weeks,weekDay){   

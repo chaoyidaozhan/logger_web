@@ -193,7 +193,6 @@ export default {
         },
         initDefaultFile(templateItemData){//初始化文件列表
             let fileArr = templateItemData.fileStr||[]; 
-             console.log(fileArr,'kkkkklll')
             fileArr.forEach((v,k)=>{
                 this.defaultFileList.push({
                     'name':`${v.fileName}${v.fileExtension}`,
@@ -204,7 +203,6 @@ export default {
                     'fileKey':v.fileKey
                 })
             })
-            console.log(this.defaultFileList, 'aaaaaaaaaa')
         },
         getTemplateApp() {//获取编辑数据
             this.$ajax({
@@ -268,15 +266,8 @@ export default {
                 this[`${key}Range`] && (this[`${key}Range`] = res[key])
             })
         },
-        handleRadio(data){
-            console.log(data,'zz')
-        },
-        handleCheckbox(data){
-            console.log(data,33344)
-        },
         handleFileSuccess(res, file){//处理上传的文件数据
             let fileData = res.data[0]||[],defaultList = [];
-            console.log(this.defaultFileList,'defaultFileList')
             this.defaultFileList&&this.defaultFileList.forEach((v,k)=>{
                 defaultList.push({
                     fileName:v.fileName,
@@ -292,7 +283,6 @@ export default {
                 fileKey:fileData.fileKey
             });
             this.fileStr = this.fileStr.concat(defaultList);
-            console.log(this.fileStr,'fileStr')
         },
         handleRemoveFile(file,fileList){//处理移除文件
             fileList&&fileList.forEach((v,k)=>{
@@ -485,6 +475,7 @@ export default {
     }
     .ivu-form .ivu-form-item-label{
         font-size: 14px!important;
+        line-height: 1.2;
     }
     .ivu-upload-list-remove{
         line-height: inherit;
@@ -495,8 +486,9 @@ export default {
     .ivu-form-item-content {
         line-height: 31px;
     }
-    textarea {
+    textarea.ivu-input {
         resize: none;
+        font-size: 12px;
     }
 }
 </style>

@@ -5,7 +5,7 @@
                 <span class="back cursor-pointer pull-left" @click="handleBack"><Icon type="chevron-left"></Icon>返回</span>
                 <span v-if="this.$route.params.loggertype=='create'" class="back pull-right" >
                     <Button  type="ghost"  class="draft-btn" @click="saveDraftFun">
-                        保存为草稿
+                        存为草稿
                     </Button>
                 </span>
             </div>
@@ -31,8 +31,8 @@ export default {
         handleBack() {
             this.$router.go(-1);
         },
-        saveDraftFun(){
-            this.$eventbus.$emit('saveDraftFun')
+        saveDraftFun() {
+            this.$eventbus.$emit('saveDraftFun');
         }
     }
 }
