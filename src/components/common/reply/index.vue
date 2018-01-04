@@ -15,9 +15,9 @@
             </div>
 
             <div class="comment-btn clearfix">
-                <i class="face-btn" 
-                   @click="chooseFace">表情</i>
-                <i class="file-btn">文件</i>
+                <i class="icon-expression face-btn" 
+                   @click="chooseFace"></i>
+                <i class="file-btn icon-enclosure" @click="uploadFile"></i>
                 <Button class="ok-btn" 
                         type="primary" 
                         :disabled="!value.trim().length"
@@ -28,6 +28,8 @@
                        v-if="showFace"
                        @handleFace="handleFace"></emoji>            
             </div>
+
+            <fs-file-upload ref="fileUpload"></fs-file-upload>
 
             <div class="comment-list">
                 <div class="comment-item"
@@ -87,7 +89,7 @@
     import FsAudio from './audio.vue';
     import FsFile from './file.vue';
     import FsImage from './image.vue';
-
+    import FsFileUpload from './file_upload.vue';
     const FACE_ARR = ['[龇牙]', '[哈哈]', '[色]', '[可怜]', '[晕]', '[汗]', '[害羞]', 
                     '[调皮]', '[疑问]', '[闭嘴]', '[得意]', '[流泪]', '[愉快]', '[难过]', '[困]', 
                     '[生病]', '[笑cry]', '[尴尬]', '[偷笑]', '[奋斗]', '[赞]', '[握手]', '[OK]', 
@@ -105,7 +107,8 @@
             FsVideo,
             FsAudio,
             FsFile,
-            FsImage
+            FsImage,
+            FsFileUpload
         },
         props: {
             dailyId: {
@@ -129,9 +132,6 @@
               
             }
         },
-        computed: {
-
-        },
         methods: {
             handleKeyUp() { // 键盘监听
                 let inputContent = this.value.trim();
@@ -143,14 +143,15 @@
                 e.stopPropagation();
                 this.showFace = !this.showFace;
             },
+            uploadFile() { // 上传附件
+                this.$refs.fileUpload.$el.getElementsByClassName("ivu-upload-input")[0].click();
+            },
             handleFace(faceItem) { // 表情点击
                 this.value += "[" + faceItem + "]";             
                 let inputContent = this.value.trim();
                 if(inputContent.length >= this.maxLength) {
                     this.value = inputContent.substring(0, this.maxLength);
                 }
-                console.log(this, 999);
-                
                 this.$refs.replyWrapper.focus();
             },
             filterContent(content) { // 匹配回复内容表情
@@ -382,12 +383,14 @@
             width: 100%;
             padding: 13px;
             background-color: #f5f5f5;
-            .face-btn {
-                margin: 0 14px;
+            .face-btn,
+            .file-btn {
+                font-size: 20px;
+                vertical-align: middle;
                 cursor: pointer;
             }
-            .file-btn {
-                cursor: pointer;
+            .face-btn {
+                margin: 0 14px;
             }
             .ok-btn {
                 float: right;
@@ -403,6 +406,7 @@
                 z-index: 99;
             }
         }
+
         .comment-list {
             font-size: 14px;
             .comment-item {
