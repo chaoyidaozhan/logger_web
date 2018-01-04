@@ -419,7 +419,7 @@ export default {
                     version: (new Date()).valueOf(),
                     source:3,//1 安卓   2 ios    3web    4微信
                     templateId:!this.editFlag?this.$route.params.id||0:this.templateItemData.templateId||0,
-                    visibleRange:this.saveDraft||this.editFlag?3:1,
+                    visibleRange:this.saveDraft||this.editFlag||this.rangeArr.length<=0?3:1,
                     visibleRangeStr:JSON.stringify(this.rangeArr),
                     dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
                     fileStr:JSON.stringify(this.fileStr),
