@@ -624,6 +624,7 @@ export default {
                 padding: 10px 12px 10px 0;
                 span {
                     color: @gray-color-light;
+                    font-size: 12px;
                 }
                 i {
                     vertical-align: middle;
