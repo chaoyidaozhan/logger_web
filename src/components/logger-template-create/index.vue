@@ -32,7 +32,7 @@
                     <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
-                    <InputNumber  v-model="item.valueNum" size="large"></InputNumber>
+                    <InputNumber  v-model="item.valueNum" ></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
                     <RadioGroup v-model="item.content" @on-change="handleRadio(item)">
@@ -107,8 +107,6 @@ export default {
             dateValueSec: new Date(),
             inputTextValue: [],
             valueNum: 0,
-            checkedArr: [],
-            checked: '',
             dateOption: {
                 disabledDate(date) {
                     return date && date.valueOf() > Date.now();
@@ -179,8 +177,7 @@ export default {
                         v.content = v.content ? v.content : v.options[0].string;
                         break;
                     case 'InputCheckbox':
-                        this.inputTextValue[k] = v.value;
-                        v.content = v.content.value ? v.content.split(',') : [];
+                        v.content = v.value ? v.content.split(',') : [];
                         break;
                     case 'InputTextNum':
                         v.valueNum = parseInt(v.value) || 0;
@@ -227,11 +224,6 @@ export default {
         setTempListData() {
             this.templateItemData = this.$store.state.template.content||{};
             this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
-            // this.formInfo = {
-            //     ...this.defautlFormInfo,
-            //     content: this.templateContent
-            // }
-            console.log(this.templateContent,'hhahjjjjjj', this.templateItemData)
             this.initData(this.templateItemData,this.templateContent);
         },
         loadData(){
@@ -267,7 +259,6 @@ export default {
             keys.forEach(key=>{
                 this[key] && (this[key] = res[key])
             })
-            console.log(this.member,888)
         },
         handleSelectRange(res){ //选范围
             let keys = Object.keys(res);
@@ -357,24 +348,22 @@ export default {
                     v.content = v.valueNum;
                     v.value = v.valueNum;
                 }else if(v.type=='InputRadio'){
-                    v.content = v.checked;
                     v.options&&v.options.forEach((value,key)=>{
-                        if(value.string == v.checked){
+                        if(value.string == v.content){
                             v.value = key; 
                         }
                     })
-                   
-                }
-                else if(v.type=='InputCheckbox'){
-                    console.log(this.templateContent,77777)
-                    let valueArr = [],contentArr = [];
-                    v.checkedArr&&v.checkedArr.forEach((value,key)=>{
-                        console.log(value,key,44, v.checkedArr)
-                        valueArr.push(value-1);
-                        contentArr.push(v.options[value-1].string);
+                }else if(v.type=='InputCheckbox'){
+                    let valueArr = [];
+                    v.options&&v.options.forEach((value,key)=>{
+                        v.content&&v.content.forEach((item,index)=>{
+                            if(value.string == v.content[index]){
+                                valueArr.push(key)
+                            }
+                        })
                     })
-                    v.value = valueArr.toString();
-                    v.content = contentArr.toString();
+                    v.content = v.content.join(',');
+                    v.value = valueArr.join(',');
                 }
                 else if(v.type=='InputDate'){
                     v.value = FormatTime(v.dateValueSec, "YYYY-MM-DD");
@@ -396,12 +385,7 @@ export default {
             if(!diaryTime){
                 this.$Message.warning('日志日期不能为空');
                 return false;
-            }
-            // else if(submitData.visibleRangeStr=='[]'){
-            //     this.$Message.warning('可见范围不能为空');
-            //     return false;
-            // }
-            else{
+            }else{
                 for (let i = 0,l =templateContent.length ; i < l; i++) {
                     if(templateContent[i].isRequired==1){
                         if((templateContent[i].type!='InputRadio'&&templateContent[i].type!='InputTextNum'&&!templateContent[i].value)||
@@ -428,13 +412,13 @@ export default {
                                 delete v.valueNum;
                             }
                         case 'InputRadio':
-                            if(v.checked) {
-                                delete v.checked;
-                            }
+                            // if(v.checked) {
+                            //     delete v.checked;
+                            // }
                         case 'InputCheckbox':
-                            if(v.checkedArr) {
-                                delete v.checkedArr;
-                            }
+                            // if(v.checkedArr) {
+                            //     delete v.checkedArr;
+                            // }
                         case 'InputDate':
                             if(v.dateValueSec){
                                 delete v.dateValueSec
@@ -464,8 +448,6 @@ export default {
                     atStr: JSON.stringify(this.atStr)
                 };
                 this.editFlag?this.submitData.id = this.templateItemData.id||0:'';
-                
-                console.log(this.templateContent,6,this.$store.state.template.content.content)
                 this.$ajax({
                     url: this.saveDraft?'/logger/diary/diaryCommitDraft':(this.editFlag?'/logger/diary/edit':'/logger/diary/diaryCommit'),
                     data: this.submitData,
@@ -473,15 +455,12 @@ export default {
                     success: (res)=>{
                         if(res && res.code === 0) {
                             this.saveDraft?this.$Message.warning('日志草稿保存成功'):(this.editFlag?this.$Message.warning('日志修改成功'):this.$Message.warning('日志创建成功'));
-                            // this.getDiaryById(()=>{
                                 this.$router.push({
                                     path: '/LoggerQueryAll',
                                     query:{
                                         token:this.$store.state.userInfo.token
                                     }
                                 });
-                            // });
-                           
                         }else{
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
@@ -493,30 +472,7 @@ export default {
                 })
             }
             
-        },
-        // getDiaryById(call) {
-        //     this.$ajax({
-        //         url: `/logger/diaryQuery/getDiaryById/${this.$route.params.id}`,
-        //         success: (res)=>{
-        //             if(res && res.code === 0) {
-        //                 call && call()
-        //             } else {
-        //                 this.$Message.warning((res && res.msg) || '网络错误');
-        //             }
-        //         },
-        //         error: (res)=>{
-        //             this.$Message.warning((res && res.msg) || '网络错误');
-        //         }
-
-        //     })
-        // },
-        
-    },
-    watch:{
-        '$route'(to, from) {
-            console.log(to,from,11111)
-          
-        }
+        },   
     },
     mounted () {
         this.$eventbus.$on('saveDraftFun',()=>{// 保存草稿
