@@ -46,7 +46,7 @@ export default {
             range: 0,
             totalCount: 0,
             iconType: 'member',
-            emptyMsg: '请选择联系人',
+            emptyMsg: '请选择提交人',
             columnsData: [], //表头
             listTemplate: [], //表body
         }

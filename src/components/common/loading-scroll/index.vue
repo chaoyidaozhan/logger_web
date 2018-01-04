@@ -61,6 +61,15 @@ export default {
         text-align: center;
         color: @gray-color-light;        
         font-size: 14px;
+        position: relative;
+        overflow: hidden;
+        & > div {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
         .demo-spin-icon-load{
             animation: ani-demo-spin 1s linear infinite;
             color: @gray-color-light;
