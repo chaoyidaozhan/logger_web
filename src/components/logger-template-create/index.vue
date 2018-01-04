@@ -492,6 +492,9 @@ export default {
     .ivu-date-picker, .ivu-input-number {
         width: 100%;
     }
+    .ivu-form-item-content {
+        line-height: 31px;
+    }
     textarea {
         resize: none;
     }
