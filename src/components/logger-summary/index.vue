@@ -12,7 +12,7 @@
                         <span class="check-num">{{checkNum}}</span>日志</span>
                 </span>
                 <span class="bottom-right">
-                    <Button type="success">汇总日志</Button>
+                    <Button type="primary">汇总日志</Button>
                     <Button type="ghost" @click="exportECL">导出EXCEL</Button>
                 </span>
             </div>
@@ -209,6 +209,8 @@ export default {
     }
     .ivu-table-cell{
         max-height: 100px;
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
     .ivu-table:before{
         height: 0px;

@@ -485,6 +485,7 @@ export default {
     }
     .ivu-form .ivu-form-item-label{
         font-size: 14px!important;
+        line-height: 1.2;
     }
     .ivu-upload-list-remove{
         line-height: inherit;
