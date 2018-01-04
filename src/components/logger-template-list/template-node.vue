@@ -83,12 +83,11 @@ export default {
                 this.$router.push({
                     path: `operate/create/${this.data.id}`,
                     query: {
-                        token: this.$store.state.userInfo.token
+                        token: this.$store.state.userInfo.token,
+                        templateName: this.data.title||'' 
                     }
                 })
             } 
-            // console.log(this.data);
-            // console.log(this.$store.state.template)
         },
         goToTemplate(e) {
             e.stopPropagation();

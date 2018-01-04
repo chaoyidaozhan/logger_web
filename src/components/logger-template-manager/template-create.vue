@@ -58,11 +58,11 @@
                     <div v-if="currentItem">
                         <div class="extra-item">
                             <label class="extra-label">标题</label>
-                            <Input v-model="currentItem.title" type="text"/>
+                            <Input placeholder="不超过10个字" :maxlength="10" v-model="currentItem.title" type="text"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
                             <label class="extra-label">提示文字</label>
-                            <Input v-model="currentItem.description" type="text"/>
+                            <Input placeholder="不超过50个字" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.description" type="textarea"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputRadio' || currentItem.type == 'InputCheckbox'">
                             <label class="extra-label">选项<span>(至少2项至多10项)</span></label>
@@ -134,6 +134,10 @@
                 <Radio label="1">移动端</Radio>
             </RadioGroup>
             <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
+                <div class="mobile-title" v-if="previeWeb != '0'">
+                    <i class="icon-arrow-left"></i>
+                    写日志
+                </div>
                 <div v-html="previewHtml"></div>
                 <img v-if="previeWeb != '0'" src="../../assets/images/preview-mobile.png">
             </div>
@@ -375,7 +379,6 @@ export default {
         },
         handlePreview() {
             this.showPreviewModal = true;
-            console.log(this.$refs.advacedPush)
             this.previewHtml = this.$refs.advacedPush.innerHTML;
         },
         handleStop() {  // 停用模板
@@ -423,12 +426,12 @@ export default {
                     data: { ...params },
                     success: (res)=>{
                         if(res && res.code == 0) {
-                            this.$emit('handleLoading');
                             this.currentItem = null;
                             this.showSuccessModal = true;
                         } else {
                             this.$Message.error(res && res.msg || '网络错误');
                         }
+                        this.$emit('handleLoading');
                     },
                     error: (res)=>{
                         this.$Message.error(res && res.msg || '网络错误');
@@ -441,7 +444,6 @@ export default {
                     data: { ...params },
                     success: (res)=>{
                         if(res && res.code == 0) {
-                            this.$emit('handleLoading');
                             this.currentItem = null;
                             this.showSuccessModal = true;
                             this.$router.push({
@@ -454,6 +456,7 @@ export default {
                         } else {
                             this.$Message.error(res && res.msg || '网络错误');
                         }
+                        this.$emit('handleLoading');
                     },
                     error: (res)=>{
                         this.$Message.error(res && res.msg || '网络错误');
@@ -504,8 +507,8 @@ export default {
                     this.editDisable = true;
                 }
                 this.$emit('handleDataStatus', resData.dataStatus);
-                this.$emit('handleLoading');
             }
+            this.$emit('handleLoading');
         },
         init() { // 模板初始化
             let templateId = this.$route.params.id;
@@ -608,6 +611,10 @@ export default {
         background-color: @white-color;
         margin-left: -250px;
         .box-shadow;
+        textarea.ivu-input {
+            font-size: 12px;
+            resize: none;
+        }
         .extra-item {
             padding: 0 10px;
             margin-bottom: 10px;
@@ -653,8 +660,7 @@ export default {
             background-color: @white-color-light;
         }
         .ivu-tabs-tab {
-            width: 50%;
-            margin-right: 0;
+            width: 47%;
             text-align: center;
             &:hover {
                 color: @primary-color;
@@ -692,6 +698,7 @@ export default {
         }
         .ivu-radio-wrapper, .ivu-checkbox-wrapper {
             margin-right: 20px;
+            margin-bottom: 2px;
         }
         .ivu-input-number {
             width: 100%;
@@ -802,9 +809,34 @@ export default {
     }
     .main-inner {
         margin: 0 auto;
+        &.web-inner {
+            padding: 0 10px;
+        }
+        .drag-item {
+            textarea, input {
+                transition: unset!important;
+            }
+        }
         &.mobile-inner {
             width: 340px;
             border-radius: 20px;
+            padding-top: 40px;
+            .mobile-title {
+                border-top: 1px solid @border-color;
+                line-height: 37px;
+                font-size: .48rem;
+                color: @gray-color-dark;
+                position: relative;
+                text-align: center;
+                i {
+                    position: absolute;
+                    color: @primary-color;
+                    left: 10px;
+                    font-size: 20px;
+                    top: 50%;
+                    margin-top: -10px;
+                }
+            }
             img {
                 width: 100%;
             }
@@ -812,6 +844,7 @@ export default {
                 padding: 0 10px;
                 textarea, input {
                     border: 0;
+                    transition: unset!important;
                 }
             }
             .ivu-checkbox-group, .ivu-radio-group {
@@ -824,6 +857,7 @@ export default {
                 background-color: @white-color-elip;
                 padding: 3px 9px;
                 border-radius: 4px;
+                margin: 4px 4px 4px 0;
             }
             .drag-label {
                 margin: 0 -10px;

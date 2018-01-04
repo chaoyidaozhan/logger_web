@@ -146,16 +146,9 @@ export default {
                 params.dept = res.dep;
                 params.member = res.man;
                 params.group = res.team;
-                console.log(params)
                 this.handleSelectMember(JSON.parse(JSON.stringify(params)))
             })
         }
-    },
-    created(){
-       
-    },
-    update() {
-        console.log(this.dept)
     }
 }
 </script>

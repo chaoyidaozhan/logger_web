@@ -53,6 +53,7 @@
                     this.tempListData = this.tempListData.concat(this.$store.state.template[this.templateType])
                 } else {
                     this.tempListData = this.$store.state.template[this.templateType]
+                    this.templateId = null
                 }
             },
             loadData() { // 默认优先获取数据保存到store

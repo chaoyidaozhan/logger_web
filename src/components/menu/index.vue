@@ -194,6 +194,9 @@ export default {
         ::selection {
         background-color: transparent!important;
     }
+    .ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
+        z-index: 999;
+    }
     .logger-menu-layout {
         position: absolute;
         top: 86px;

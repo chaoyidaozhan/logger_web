@@ -3,7 +3,11 @@
         <template slot="head">
             <div class="logger-detail-header clearfix">
                 <span class="back cursor-pointer pull-left" @click="handleBack"><Icon type="chevron-left"></Icon>返回</span>
-                <span class="back pull-right">村委草稿</span>
+                <span v-if="this.$route.params.loggertype=='create'" class="back pull-right" >
+                    <Button  type="ghost"  class="draft-btn" @click="saveDraftFun">
+                        保存为草稿
+                    </Button>
+                </span>
             </div>
         </template>
         <template slot="body">
@@ -26,11 +30,14 @@ export default {
     methods: {
         handleBack() {
             this.$router.go(-1);
+        },
+        saveDraftFun(){
+            this.$eventbus.$emit('saveDraftFun')
         }
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import '../../assets/css/var.less';
 .logger-detail-header {
     .back {
@@ -38,6 +45,28 @@ export default {
         i {
             color: @gray-color-light;
             margin-right: 5px;
+        }
+    }
+}
+.logger-detail {
+    height: 100%;
+    overflow: auto;
+    padding: 0 10px 60px;
+    .title {
+        height: 60px;
+        line-height: 60px;
+        padding-left: 10px;
+        color: @gray-color-medium;
+        font-size: 12px;
+        span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background-color: @gray-color-elip;
+            line-height: 19px;
+            text-align: center;
+            margin-right: 8px;
         }
     }
 }

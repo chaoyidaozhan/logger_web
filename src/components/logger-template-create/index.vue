@@ -1,6 +1,6 @@
 <template>
     <div class="logger-create">
-        <Form :label-width="138" >
+        <Form :label-width="110" >
             <FormItem label="日志日期">
                  <DatePicker type="date"
                     placement="bottom-start"
@@ -32,19 +32,18 @@
                     <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
-                    <InputNumber  v-model="item.value" size="large"></InputNumber>
+                    <InputNumber  v-model="item.valueNum" ></InputNumber>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.checked">
-                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
+                    <RadioGroup v-model="item.content" @on-change="handleRadio(item)">
+                        <Radio v-for="(val, key) in item.options" :label="`${val.string}`" :key="key">{{val.string}}</Radio>
                     </RadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="item.checkedArr">
+                    <CheckboxGroup v-model="item.content" @on-change="handleCheckbox(item)">
                         <Checkbox v-for="(val, key) in item.options" 
                             :key="key"
-                            :label="`${key + 1}`">
-                                {{val.string}}
+                            :label="val.string">
                             </Checkbox>
                     </CheckboxGroup>
                 </template>
@@ -73,7 +72,7 @@
             </FormItem>
             <FormItem label="附件">
                 <template>
-                    <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="defaultFileList">
+                    <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="defaultFileList" :on-remove="handleRemoveFile">
                         <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
                     </Upload>
                 </template>
@@ -86,9 +85,6 @@
                 <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
                     取消
                 </Button>
-                <Button type="ghost"  class="draft-btn" @click="saveDraftFun">
-                    保存为草稿
-                </Button>
             </FormItem>
         </Form>
     </div>
@@ -98,94 +94,58 @@ import SelectMemberInput from '../common/select-member-input/';
 import config from 'app_src/config/config';
 import FormatTime  from 'app_src/filters/format-time';
 export default {
-    data(){
-        return{
+    data() {
+        return {
             templateContent: [],
-            templateItemData:[],
-            // formInfo: {
-
-            // },
+            templateItemData: [],
             deptRange: [],
             groupRange: [],
             memberRange: [],
-            rangeArr:[],
+            rangeArr: [],
             member: [],
-            dateValue:new Date(),
-            dateValueSec:new Date(),
-            inputTextValue:[],
+            dateValue: new Date(),
+            dateValueSec: new Date(),
+            inputTextValue: [],
+            valueNum: 0,
             dateOption: {
-                disabledDate (date) {
+                disabledDate(date) {
                     return date && date.valueOf() > Date.now();
                 }
             },
-            uploadFile:`${config[__ENV__].apiHost}/logger/diaryFile/?token=`+this.$store.state.userInfo.token,
-            fileStr :[],
-            atStr:[],
-            defaultFileList:[],  //默认上传的文件
-            submitData:{}, 
-            saveDraft:false,   
-                 
+            uploadFile: `${config[__ENV__].apiHost}/logger/diaryFile/?token=` + this.$store.state.userInfo.token,
+            fileStr: [],
+            atStr: [],
+            defaultFileList: [], //默认上传的文件
+            submitData: {},
+            saveDraft: false,
+            editFlag: 0
         }
     },
     components: {
         SelectMemberInput
     },
-    methods: {
-        handleSelectMember(res) { //选人
-            let keys = Object.keys(res);
-            keys.forEach(key=>{
-                this[key] && (this[key] = res[key])
-            })
-            console.log(this.member,888)
+    methods: { 
+        initData(templateItemData, templateContent) {
+            this.dateValue = templateItemData.diaryTime || new Date(); // 初始化日志日期
+            this.initRange(templateItemData.range || []); // 初始化可选范围
+            this.initAtMember(templateItemData); // 初始化at人 
+            this.initDefaultFile(templateItemData) // 初始化文件
+            this.initTemplateContent(templateContent) // 初始化可变表单
         },
-        handleSelectRange(res){ //选范围
-            let keys = Object.keys(res);
-            keys.forEach(key=>{
-                this[`${key}Range`] && (this[`${key}Range`] = res[key])
-            })
-        },
-        getTemplateApp() {
-            this.$store.dispatch('update_template_content').then(()=>{
-                this.setTempListData();
-            })
-        },
-        setTempListData() {
-            this.templateItemData = this.$store.state.template.content||{};
-            this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
-           
-           
-            // this.formInfo = {
-            //     ...this.defautlFormInfo,
-            //     content: this.templateContent
-            // }
-            this.initData(this.templateItemData,this.templateContent);
-            console.log(this.templateContent,'hhah', this.templateItemData)
-           
-            
-        },
-        initData(templateItemData,templateContent){
-            this.dateValue = templateItemData.diaryTime||new Date();//初始化日志日期
-            this.initRange(templateItemData.range||[]);//初始化可选范围
-            this.initAtMember(templateItemData);//初始化at人 
-            this.initDefaultFile(templateItemData)//初始化文件
-            this.initTemplateContent(templateContent)//初始化可变表单
-           
-
-        },
-        initRange(datalist){
+        initRange(datalist) {
             let teamArray = [], depArrar = [], manArray = [];
-            datalist&&datalist.forEach((v,k)=>{
-                if(v.dataType==1){//部门
+            datalist && datalist.forEach((v, k) => {
+                if (v.dataType == 1) { //部门
                     depArrar.push({
                         'deptId': v.teamId,
                         'deptName': v.teamName
                     });
-                }else if(v.dataType==3){//团队
+                } else if (v.dataType == 3) { //团队
                     teamArray.push({
                         'groupId': v.teamId,
                         'groupName': v.teamName
                     });
-                }else if(v.dataType==4){//个人
+                } else if (v.dataType == 4) { //个人
                     manArray.push({
                         'memberId': v.memberId,
                         'userName': v.userName
@@ -196,52 +156,82 @@ export default {
             this.groupRange = teamArray;
             this.memberRange = manArray;
         },
-        initAtMember(templateItemData){
-            let atArr = templateItemData.at||[],atMember = [];
-            atArr.forEach((v,k)=>{
+        initAtMember(templateItemData) { //初始化at人
+            let atArr = templateItemData.at || [],
+                atMember = [];
+            atArr.forEach((v, k) => {
                 atMember.push({
                     'memberId': v.memberId,
                     'userName': v.replayUserName
                 })
             })
             this.member = atMember;
-
         },
-        initTemplateContent(templateContent){//初始化可变表单
-            templateContent&&templateContent.forEach((v,k)=>{
-                console.log(v,k)
-                if(v.type =='InputText'){
-                    this.inputTextValue[k] = v.value;
-                }
-                else if(v.type=='InputRadio'){
-                    v.checked = v.content || v.options[0].string;
-                }else if(v.type=='InputCheckbox'){
-                    if(v.value){
-                        v.checkedArr.push(v.value);
-                    }
-                }else if(v.type=='InputTextNum'){
-                    v.value = parseInt(v.value)||0;
-                }else if(v.type=='InputDate'){
-                    v.dateValueSec = v.value?new Date(v.value):new Date();
+        initTemplateContent(templateContent) { //初始化可变表单
+            templateContent && templateContent.forEach((v, k) => {
+                switch (v.type) {
+                    case 'InputText':
+                        this.inputTextValue[k] = v.value;
+                        break;
+                    case 'InputRadio':
+                        v.content = v.content ? v.content : v.options[0].string;
+                        break;
+                    case 'InputCheckbox':
+                        v.content = v.value ? v.content.split(',') : [];
+                        break;
+                    case 'InputTextNum':
+                        v.valueNum = parseInt(v.value) || 0;
+                        break;
+                    default:
+                        v.dateValueSec = v.value ? new Date(v.value) : new Date();
+                        break;
                 }
             })
         },
         initDefaultFile(templateItemData){//初始化文件列表
-            let defaultFile = [],fileArr = templateItemData.fileStr||[];
+            let fileArr = templateItemData.fileStr||[]; 
+             console.log(fileArr,'kkkkklll')
             fileArr.forEach((v,k)=>{
-                defaultFile.push({
-                    name: v.fileName,
-                    url: v.fileKey
+                this.defaultFileList.push({
+                    'name':`${v.fileName}${v.fileExtension}`,
+                    'url':v.fileKey,
+                    'fileName':`${v.fileName}${v.fileExtension}`,
+                    'fileSize':v.fileSize,
+                    'fileExtension':v.fileExtension,
+                    'fileKey':v.fileKey
                 })
             })
-            this.defaultFileList = defaultFile||[];
+            console.log(this.defaultFileList, 'aaaaaaaaaa')
+        },
+        getTemplateApp() {//获取编辑数据
+            this.$ajax({
+                url: `/logger/diary/detail/${this.$route.params.id}`,
+                success: (res)=>{
+                    if(res && res.code === 0) {
+                        console.log(res,'zhaoting')
+                        this.templateItemData =res.data||{};
+                        this.templateContent = JSON.parse(res.data.content)||[];
+                        this.initData(this.templateItemData,this.templateContent);
+                    } else {
+                        this.$Message.warning((res && res.msg) || '网络错误');
+                    }
+                },
+                error: (res)=>{
+                    this.$Message.warning((res && res.msg) || '网络错误');
+                }
+            })
+        },
+        setTempListData() {
+            this.templateItemData = this.$store.state.template.content||{};
+            this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
+            this.initData(this.templateItemData,this.templateContent);
         },
         loadData(){
-            console.log(this.$store.state.template.content,555)
-           
-            if(this.$store.state.template.content.content.length<=0) { 
+            if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='edit') { 
                 this.getTemplateApp();
-            } else {
+            } else if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='create'){
+                this.$router.go(-1);
+            }else{
                 this.setTempListData();
             }
         },
@@ -264,13 +254,65 @@ export default {
                 }
             })
         },
+        handleSelectMember(res) { //选人
+            let keys = Object.keys(res);
+            keys.forEach(key=>{
+                this[key] && (this[key] = res[key])
+            })
+        },
+        handleSelectRange(res){ //选范围
+            let keys = Object.keys(res);
+            keys.forEach(key=>{
+                this[`${key}Range`] && (this[`${key}Range`] = res[key])
+            })
+        },
+        handleRadio(data){
+            console.log(data,'zz')
+        },
+        handleCheckbox(data){
+            console.log(data,33344)
+        },
         handleFileSuccess(res, file){//处理上传的文件数据
-            let fileData = res.data[0]||[];
+            let fileData = res.data[0]||[],defaultList = [];
+            this.defaultFileList&&this.defaultFileList.forEach((v,k)=>{
+                defaultList.push({
+                    fileName:v.fileName,
+                    fileSize:v.fileSize,
+                    fileExtension:v.fileExtension,
+                    fileKey:v.fileKey
+                })
+            });
             this.fileStr.push({
                 fileName:file.name,
                 fileSize:fileData.fileSize,
                 fileExtension:fileData.fileExtension,
                 fileKey:fileData.fileKey
+            });
+            this.fileStr = this.fileStr.concat(defaultList);
+        },
+        handleRemoveFile(file,fileList){//处理移除文件
+            fileList&&fileList.forEach((v,k)=>{
+                this.fileStr.push({
+                    fileName:v.fileName,
+                    fileSize:v.fileSize,
+                    fileExtension:v.fileExtension,
+                    fileKey:v.fileKey
+                })
+            })
+        },
+        cancleSubmit(){//取消编辑
+            this.$Modal.confirm({
+                title: '取消编辑',
+                content: '您的日志还没提交，确定要放弃编辑吗？',
+                onOk: ()=>{
+                    this.$router.push({
+                        path: '/LoggerQueryAll',
+                        query:{
+                            token:this.$store.state.userInfo.token
+                        }
+                    });
+                    
+                }
             });
         },    
         handleSubmitData(){//处理提交数据
@@ -303,23 +345,27 @@ export default {
                     v.value = this.inputTextValue[k];
                     v.content = this.inputTextValue[k];
                 }else if(v.type=='InputTextNum'){
-                    v.content = v.value;
+                    v.content = v.valueNum;
+                    v.value = v.valueNum;
                 }else if(v.type=='InputRadio'){
-                    v.content = v.checked;
                     v.options&&v.options.forEach((value,key)=>{
-                        if(value.string==v.checked){
+                        if(value.string == v.content){
                             v.value = key; 
                         }
                     })
                 }else if(v.type=='InputCheckbox'){
-                    let valueArr = [],contentArr = [];
-                    v.checkedArr&&v.checkedArr.forEach((value,key)=>{
-                        valueArr.push(value-1);
-                        contentArr.push(v.options[value-1].string);
+                    let valueArr = [];
+                    v.options&&v.options.forEach((value,key)=>{
+                        v.content&&v.content.forEach((item,index)=>{
+                            if(value.string == v.content[index]){
+                                valueArr.push(key)
+                            }
+                        })
                     })
-                    v.value = valueArr.toString();
-                    v.content = contentArr.toString();
-                }else if(v.type=='InputDate'){
+                    v.content = v.content.join(',');
+                    v.value = valueArr.join(',');
+                }
+                else if(v.type=='InputDate'){
                     v.value = FormatTime(v.dateValueSec, "YYYY-MM-DD");
                     v.content = FormatTime(v.dateValueSec, "YYYY-MM-DD");
                 }
@@ -334,17 +380,12 @@ export default {
             })
             this.atStr = memberArr;
         },  
-        handleValidate(submitData,templateContent){//校验数据
-            console.log(submitData,4,templateContent)
-            if(!submitData.diaryTime){
+        handleValidate(diaryTime,templateContent){//校验数据
+           
+            if(!diaryTime){
                 this.$Message.warning('日志日期不能为空');
                 return false;
-            }
-            else if(submitData.visibleRangeStr=='[]'){
-                this.$Message.warning('可见范围不能为空');
-                return false;
-            }
-            else{
+            }else{
                 for (let i = 0,l =templateContent.length ; i < l; i++) {
                     if(templateContent[i].isRequired==1){
                         if((templateContent[i].type!='InputRadio'&&templateContent[i].type!='InputTextNum'&&!templateContent[i].value)||
@@ -360,36 +401,24 @@ export default {
         },
         handleSubmit() {//提交
             this.handleSubmitData();
-           
-            this.submitData = {
-                gather:0,
-                diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
-                templateName:this.templateItemData.title,
-                version:'1514202355530',
-                source:3,//1 安卓   2 ios    3web    4微信
-                templateId:this.$route.params.id||0,
-                visibleRange:this.saveDraft?3:1,
-                visibleRangeStr:JSON.stringify(this.rangeArr),
-                dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
-                fileStr:JSON.stringify(this.fileStr),
-                content:JSON.stringify(this.templateContent), 
-                atStr: JSON.stringify(this.atStr)
-            };
-            
-            console.log(this.submitData,'submitData')
-            if(!this.handleValidate(this.submitData,this.templateContent)){
+            let diaryTime = FormatTime(new Date(this.dateValue), "YYYY-MM-DD");
+            if(!this.handleValidate(diaryTime,this.templateContent)){
                 return 
             }else{
                 this.templateContent.forEach((v,k)=>{// 校验完再去删除
                     switch(v.type){
+                        case 'InputTextNum':
+                            if(v.valueNum) {
+                                delete v.valueNum;
+                            }
                         case 'InputRadio':
-                            if(v.checked) {
-                                delete v.checked;
-                            }
+                            // if(v.checked) {
+                            //     delete v.checked;
+                            // }
                         case 'InputCheckbox':
-                            if(v.checkedArr) {
-                                delete v.checkedArr;
-                            }
+                            // if(v.checkedArr) {
+                            //     delete v.checkedArr;
+                            // }
                         case 'InputDate':
                             if(v.dateValueSec){
                                 delete v.dateValueSec
@@ -398,24 +427,40 @@ export default {
                             break;
                     }
                    
-                }) 
-                this.$store.dispatch('update_template_content',{
-                    content:this.templateContent
                 });
-                console.log(this.$store.state.template.content,7777,this.submitData)
+                this.$store.dispatch('update_template_content',{
+                    content:{
+                        content:this.templateContent
+                    }
+                });
+                this.submitData = {
+                    gather:0,//是否是汇总日志 0：否 1：是
+                    diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
+                    templateName:this.templateItemData.title||this.templateItemData.templateName,
+                    version: (new Date()).valueOf(),
+                    source:3,//1 安卓   2 ios    3web    4微信
+                    templateId:!this.editFlag?this.$route.params.id||0:this.templateItemData.templateId||0,
+                    visibleRange:this.saveDraft||this.editFlag?3:1,
+                    visibleRangeStr:JSON.stringify(this.rangeArr),
+                    dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
+                    fileStr:JSON.stringify(this.fileStr),
+                    content:JSON.stringify(this.templateContent), 
+                    atStr: JSON.stringify(this.atStr)
+                };
+                this.editFlag?this.submitData.id = this.templateItemData.id||0:'';
                 this.$ajax({
-                    url: this.saveDraft?'/logger/diary/diaryCommitDraft':'/logger/diary/diaryCommit',
+                    url: this.saveDraft?'/logger/diary/diaryCommitDraft':(this.editFlag?'/logger/diary/edit':'/logger/diary/diaryCommit'),
                     data: this.submitData,
                     type:'post',
                     success: (res)=>{
                         if(res && res.code === 0) {
-                            this.saveDraft?this.$Message.warning('日志草稿保存成功'):this.$Message.warning('日志创建成功');
-                            this.$router.push({
-                                path: '/LoggerQueryAll',
-                                query:{
-                                    token:this.$store.state.userInfo.token
-                                }
-                            });
+                            this.saveDraft?this.$Message.warning('日志草稿保存成功'):(this.editFlag?this.$Message.warning('日志修改成功'):this.$Message.warning('日志创建成功'));
+                                this.$router.push({
+                                    path: '/LoggerQueryAll',
+                                    query:{
+                                        token:this.$store.state.userInfo.token
+                                    }
+                                });
                         }else{
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
@@ -427,49 +472,24 @@ export default {
                 })
             }
             
-        },
-        cancleSubmit(){//取消编辑
-            this.$Modal.confirm({
-                title: '取消编辑',
-                content: '您的日志还没提交，确定要放弃编辑吗？',
-                onOk: ()=>{
-                    this.$router.push({
-                        path: '/LoggerQueryAll',
-                        query:{
-                            token:this.$store.state.userInfo.token
-                        }
-                    });
-                    
-                }
-            });
-        },
-        saveDraftFun(){// 保存草稿
+        },   
+    },
+    mounted () {
+        this.$eventbus.$on('saveDraftFun',()=>{// 保存草稿
             this.saveDraft = true;
             this.handleSubmit();
-        }
+        })
     },
-    watch:{
-        
-        // $route(){
-        //     if(this.$route.params.loggertype=='create'){
-        //          console.log(this.$route,8877)
-        //         this.getVisibleRange();
-        //     }
-        // }
-        '$route'(to, from) {
-            console.log(to,from,11111)
-            // if(from.name==''){
-            //     this.getVisibleRange();
-            // }
-        }
+    destroyed () {
+        this.$eventbus.$off('saveDraftFun')
     },
     created(){
-        
-        // this.getVisibleRange();
-        console.log(this.$route,8877)
+        if(this.$route.params.loggertype!='edit'){
+            this.getVisibleRange();
+        }else{
+            this.editFlag = 1;
+        }
         this.loadData();
-        
-       
     },
 }
 </script>
@@ -485,10 +505,23 @@ export default {
 }
 </style>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '../../assets/css/var.less';
 .logger-create{
-    max-width: 900px;
+    // max-width: 900px;
+    width:100%;
+    padding: 0 10px;
+    .ivu-form  {
+        .ivu-form-item {
+            margin-bottom: 12px;
+        }
+        .ivu-form-item-label {
+            font-size: 14px;
+        }
+        .ivu-form-item-content {
+            line-height: 31px;
+        }
+    }
     .ivu-btn {
         min-width: 65px;
         height: 31px;
