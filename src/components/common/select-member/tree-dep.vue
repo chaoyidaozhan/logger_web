@@ -146,11 +146,9 @@
 				padding-left: 15px;
 				transition:height .4s ease-in-out;
 				overflow-y: hidden;
-				// transform-origin: top;
 			}
 		}
 	}
-
 </style>
 
 
