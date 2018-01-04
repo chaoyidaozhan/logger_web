@@ -202,7 +202,7 @@ export default {
 @import '../../assets/css/var.less';
 .content-bar{
     .ivu-table-wrapper{
-        border:none;
+        // border:none;
     }
     .ivu-table{
         overflow: auto;
@@ -249,6 +249,7 @@ export default {
     .content-bar {
         max-height: 100%;
         overflow: auto;
+        padding: 1px;
     }
     .content-footer {
         position: absolute;

@@ -594,7 +594,7 @@ export default {
                 border: 1px dashed transparent;
                 i {
                     display: block;
-                    margin-bottom: 3px;
+                    margin-bottom: 4px;
                     font-size: 25px;
                 }
                 &:hover {
@@ -604,6 +604,10 @@ export default {
             }
         }
     }
+    textarea.ivu-input {
+        resize: none;
+        font-size: 12px;
+    }
     .extra {
         width: 250px;
         height: 100%;
@@ -611,16 +615,12 @@ export default {
         background-color: @white-color;
         margin-left: -250px;
         .box-shadow;
-        textarea.ivu-input {
-            font-size: 12px;
-            resize: none;
-        }
         .extra-item {
             padding: 0 10px;
             margin-bottom: 10px;
             .extra-label {
                 display: block;
-                font-size: 12px;
+                font-size: 14px;
                 padding: 10px 12px 10px 0;
                 span {
                     color: @gray-color-light;
@@ -629,6 +629,9 @@ export default {
                     vertical-align: middle;
                     color: @drag-close-color;
                 }
+            }
+            .ivu-checkbox-wrapper {
+                font-size: 14px;
             }
             .extra-group-check {
                 li {
@@ -689,7 +692,7 @@ export default {
         margin-bottom: 5px;
         .drag-label {
             display: block;
-            font-size: 12px;
+            font-size: 14px;
             padding: 10px 12px 10px 0;
             i {
                 vertical-align: middle;
@@ -699,6 +702,12 @@ export default {
         .ivu-radio-wrapper, .ivu-checkbox-wrapper {
             margin-right: 20px;
             margin-bottom: 2px;
+            font-size: 14px;
+        }
+        textarea {
+            height: 115px; 
+            min-height: 115px;
+            resize: none;
         }
         .ivu-input-number {
             width: 100%;
@@ -715,11 +724,6 @@ export default {
             right: 0;
             background-color: rgba(0, 0, 0, 0);
             z-index: 90;
-        }
-        textarea {
-            height: 115px; 
-            min-height: 115px;
-            resize: none;
         }
         .mask {
             position: absolute;

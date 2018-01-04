@@ -194,7 +194,7 @@ export default {
             background-color: rgba(0,0,0,.5);
             border-radius: 50%;
             margin: 0 10px;
-            font-size: 14px;
+            font-size: 16px;
             color: @white-color;
             transition: .2s ease opacity;
             .icon-play {
