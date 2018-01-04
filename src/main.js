@@ -33,7 +33,12 @@ const router = new VueRouter({ // 创建路由
     routes
 });
 
+iView.LoadingBar.config({ // 配置loadingbar
+    height: 2
+})
+
 router.beforeEach((to, from, next) => {
+    iView.LoadingBar.start();
     if (from.path.indexOf('/LoggerTemplate/operate') != -1 && to.path.indexOf('/LoggerTemplate/operate') < 0) {
         iView.Modal.confirm({
             title: '页面提示',
@@ -46,6 +51,12 @@ router.beforeEach((to, from, next) => {
         next();
     }
 })
+
+router.afterEach((to, from, next) => { // 路由切换之后
+    setTimeout(() => {
+        iView.LoadingBar.finish();
+    }, 200);
+});
 
 new Vue({
     mixins: [http],

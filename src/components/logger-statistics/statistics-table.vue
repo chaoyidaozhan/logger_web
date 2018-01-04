@@ -166,16 +166,21 @@ export default {
 </script>
 <style lang="less">
 @import '../../assets/css/var.less';
-.ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
-    background-color: transparent!important;
-}
+
 .table {
     width: 100%;
     border-top: 1px solid @border-color;
     font-size: 0;
     position: relative;
     min-height: 250px;
-
+    .ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
+        background-color: transparent!important;
+    }
+    .ps > .ps__scrollbar-x-rail > .ps__scrollbar-x {
+        border-radius: 0!important;
+        background-color: @gray-color-normal!important;
+        height: 7px!important;
+    }
     .table-header-content, .table-body-content {
         width: 76%;
         display: inline-block;

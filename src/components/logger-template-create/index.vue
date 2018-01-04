@@ -489,6 +489,12 @@ export default {
     .ivu-upload-list-remove{
         line-height: inherit;
     }
+    .ivu-date-picker, .ivu-input-number {
+        width: 100%;
+    }
+    textarea {
+        resize: none;
+    }
 }
 </style>
 <style lang="less" scoped>
