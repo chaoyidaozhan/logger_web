@@ -5,6 +5,7 @@
                 v-for="(item, index) in list"
                 :index="index" 
                 :isDraft="isDraft"
+                @handleDelete="handleDelete"
                 :loggerItemData="item"
                 :key="item.id" />
         </transition-group>
@@ -112,6 +113,17 @@ export default {
             } else {
                 this.list = [];
                 this.$Message.warning((res && res.msg) || '网络错误');
+            }
+        },
+        handleDelete(id) {
+            if(id) {
+                let eq;
+                this.list.forEach((item, index)=>{
+                    if(item.id == id) {
+                        eq = index;
+                    }
+                });
+                this.list.splice(eq, 1);
             }
         },
         loadData() { // 请求接口

@@ -268,6 +268,7 @@
                             this.pageNum = 1;
                             this.loadCommentData();
                             this.value = "";
+                            this.$emit('handleReplyNum', true);
                         } else {
                             this.$Message.error((res && res.msg) || '网络错误');
                         }
@@ -302,6 +303,7 @@
                                         }
                                     });
                                     this.commentListData.splice(index, 1);
+                                    this.$emit('handleReplyNum');
                                 } else {
                                     this.$Message.error((res && res.msg) || '网络错误');
                                 }

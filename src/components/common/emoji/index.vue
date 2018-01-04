@@ -29,19 +29,19 @@
 </script>
 
 <style lang="less" scoped>
-    @import '../../../assets/css/var.less';
-    .faces-wrapper {
+@import '../../../assets/css/var.less';
+.faces-wrapper {
+    display: inline-block;
+    box-sizing: content-box;
+    width: 300px;
+    padding: 10px;
+    overflow: hidden;
+    border: 1px solid @border-color;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .15);
+    background-color: @white-color;
+    .face-item {
         display: inline-block;
-        box-sizing: content-box;
-        width: 300px;
-        padding: 10px;
-        overflow: hidden;
-        border: 1px solid @gray-color-normal;
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,.15);
-        background-color: @white-color;
-        .face-item {
-            display: inline-block;
-            cursor: pointer;
-        }
+        cursor: pointer;
     }
+}
 </style>

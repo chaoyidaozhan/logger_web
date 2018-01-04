@@ -72,7 +72,6 @@ export default {
                     d = i - monthNum;
                     yearMonth = `${year}/${+month + 1}`
                 }
-                console.log(yearMonth)
                 this.columns.array.push(`${d} 周${getWeek(new Date(`${yearMonth}/${d}`))}`)
             }
         }

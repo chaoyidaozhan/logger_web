@@ -1,10 +1,10 @@
 <template>
     <div class="logger-summary-content">
         <div class="note" v-if="list.length">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
-        <div v-if="list.length">
-            <div class="content-bar">
-                <Table border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
-            </div>
+        <div class="content-bar" v-if="list.length">
+            <Table border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
+        </div>
+        <div class="content-footer" v-if="list.length">
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
                     <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
@@ -12,7 +12,7 @@
                         <span class="check-num">{{checkNum}}</span>日志</span>
                 </span>
                 <span class="bottom-right">
-                    <Button type="success">汇总日志</Button>
+                    <Button type="primary">汇总日志</Button>
                     <Button type="ghost" @click="exportECL">导出EXCEL</Button>
                 </span>
             </div>
@@ -46,7 +46,7 @@ export default {
             range: 0,
             totalCount: 0,
             iconType: 'member',
-            emptyMsg: '请选择联系人',
+            emptyMsg: '请选择提交人',
             columnsData: [], //表头
             listTemplate: [], //表body
         }
@@ -202,14 +202,15 @@ export default {
 @import '../../assets/css/var.less';
 .content-bar{
     .ivu-table-wrapper{
-        border:none;
+        // border:none;
     }
     .ivu-table{
-        height: 500px;
         overflow: auto;
     }
     .ivu-table-cell{
         max-height: 100px;
+        padding-top: 1px;
+        padding-bottom: 1px;
     }
     .ivu-table:before{
         height: 0px;
@@ -235,11 +236,25 @@ export default {
     width: 100%;
     height: 100%;
     background: #fff;
-    padding: 0px 20px 20px 20px;
+    padding: 52px 20px 150px 20px;
     .note {
         font-size: 12px;
-        padding: 10px 0px;
+        padding: 20px 0px;
         color: @orange-color;
+        position: absolute;
+        top: 0;
+        left: 20px;
+        right: 20px;
+    }
+    .content-bar {
+        max-height: 100%;
+        overflow: auto;
+        padding: 1px;
+    }
+    .content-footer {
+        position: absolute;
+        left: 20px;
+        right: 20px
     }
     .content-bottom {
         height: 50px;

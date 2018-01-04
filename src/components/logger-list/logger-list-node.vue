@@ -84,7 +84,7 @@
                     <i class="icon-good-selected" v-else></i>
                     {{loggerItemData.like && loggerItemData.like.likeNum}}
                 </span>
-                <span class="cursor-pointer reply" @click="handleReply">
+                <span class="cursor-pointer reply" :class="{active: showReply}"  @click="handleReply">
                     <i class="icon-chat-normal"></i>
                     {{loggerItemData.commentNum}}
                 </span>
@@ -98,7 +98,8 @@
         <div class="logger-list-row">
             <div class="logger-list-col">
                 <fs-reply v-if="showReply"
-                         :dailyId="loggerItemData.id"/>
+                    @handleReplyNum="handleReplyNum"
+                    :dailyId="loggerItemData.id"/>
             </div>
         </div>
         <!--操作记录弹层-->
@@ -289,14 +290,12 @@ export default {
             this.$store.dispatch('update_template_content', { //登录成功更新store
                 content: this.loggerItemData
             }).then(()=>{
-                console.log(this.$store.state.template,111)
                 this.$router.push({
                     path: `LoggerDetail/operate/edit/${this.loggerItemData.id}`,
                     query:{
                         token:this.$store.state.userInfo.token
                     }
                 });
-                console.log(this.$store.state.template,22)
             });
         },
         handleDelete() { // 删除
@@ -307,6 +306,12 @@ export default {
                     this.$ajax({
                         url: `/logger/diary/${this.loggerItemData.id}`,
                         type: 'delete',
+                        success: (res)=>{
+                            if(res && res.code == 0) {
+                                this.$Message.success('删除成功！');
+                                this.$emit('handleDelete', this.loggerItemData.id);
+                            }
+                        },
                         error: (res)=>{
                             this.$Message.error(res && res.msg || '网络错误')
                         }
@@ -334,6 +339,13 @@ export default {
         },
         handleReply() { // 回复
             this.showReply = !this.showReply;
+        },
+        handleReplyNum(type) {
+            if(type) {
+                this.loggerItemData.commentNum += 1;
+            } else {
+                this.loggerItemData.commentNum -= 1;
+            }
         }
     },
     mounted () {
@@ -488,6 +500,9 @@ export default {
                 i {
                     position: relative;
                     top: 2px;
+                }
+                &.active {
+                    color: @primary-color;
                 }
             }
             &.collect {

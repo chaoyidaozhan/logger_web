@@ -77,7 +77,6 @@ export default {
             expand: false,
             options: {
                 disabledDate (date) {
-                    console.log(date.valueOf())
                     return date && date.valueOf() > Date.now();
                 }
             },
@@ -87,9 +86,9 @@ export default {
         }
     },
     methods: {
-        handleExpand() {
+        handleExpand(e) {
+            e.stopPropagation();
             this.expand = !this.expand;
-            console.log(this.pickerValue)
         },
         handleSelect(e, data) {
             if(data.id == 3) {
@@ -105,13 +104,15 @@ export default {
                 this.orderData = this.normalOrderData;
                 this.orderType = 0
             }
+            document.onclick = (e)=>{
+                this.expand = false;
+            }
         },
         change(params) {
             this.start = params[0] || "";
             this.end = params[1] || "";
             this.pickerValue[0] = params[0] || "";
             this.pickerValue[1] = params[1] || "";
-            // this.expand = false;
         },
         getParams() {
             let params = {

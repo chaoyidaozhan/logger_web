@@ -82,7 +82,6 @@
 	                	}
 	                },
 	                error:(res)=>{
-	                	console.log(res)
 	                	this.ajaxStatus = 'error' ;
 	                }
 	            })
