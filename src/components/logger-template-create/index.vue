@@ -73,7 +73,7 @@
             </FormItem>
             <FormItem label="附件">
                 <template>
-                    <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="defaultFileList">
+                    <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="defaultFileList" :on-remove="handleRemoveFile">
                         <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
                     </Upload>
                 </template>
@@ -213,9 +213,9 @@ export default {
              console.log(fileArr,'kkkkklll')
             fileArr.forEach((v,k)=>{
                 this.defaultFileList.push({
-                    'name':v.fileName,
+                    'name':`${v.fileName}${v.fileExtension}`,
                     'url':v.fileKey,
-                    'fileName':v.fileName,
+                    'fileName':`${v.fileName}${v.fileExtension}`,
                     'fileSize':v.fileSize,
                     'fileExtension':v.fileExtension,
                     'fileKey':v.fileKey
@@ -301,10 +301,9 @@ export default {
         },
         handleFileSuccess(res, file){//处理上传的文件数据
             let fileData = res.data[0]||[],defaultList = [];
-            console.log(this.defaultFileList,45)
             this.defaultFileList&&this.defaultFileList.forEach((v,k)=>{
                 defaultList.push({
-                    fileName:`${v.fileName}`,
+                    fileName:v.fileName,
                     fileSize:v.fileSize,
                     fileExtension:v.fileExtension,
                     fileKey:v.fileKey
@@ -317,7 +316,16 @@ export default {
                 fileKey:fileData.fileKey
             });
             this.fileStr = this.fileStr.concat(defaultList);
-            console.log(this.fileStr,'fff',defaultList)
+        },
+        handleRemoveFile(file,fileList){//处理移除文件
+            fileList&&fileList.forEach((v,k)=>{
+                this.fileStr.push({
+                    fileName:v.fileName,
+                    fileSize:v.fileSize,
+                    fileExtension:v.fileExtension,
+                    fileKey:v.fileKey
+                })
+            })
         },
         cancleSubmit(){//取消编辑
             this.$Modal.confirm({

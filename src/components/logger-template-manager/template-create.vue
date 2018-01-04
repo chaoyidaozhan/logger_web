@@ -142,7 +142,7 @@
     </div>
 </template>
 <script>
-import Sortable from 'sortablejs';
+// import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
 
