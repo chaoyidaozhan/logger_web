@@ -17,7 +17,6 @@ Vue.prototype.$axios = axios; // 将ajax挂在到vue实例
 var CancelToken = axios.CancelToken;
 var source = CancelToken.source();
 Vue.prototype.$source = source; // 将ajax挂在到vue实例
-console.log(source.token)
 
 window.storage = storage; // 建立全局的storage
 

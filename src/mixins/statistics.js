@@ -22,6 +22,8 @@ export default {
             params: {
                 orderType: '0'
             },
+            minDate: '',
+            maxDate: '',
             validateString: null
         }
     },
@@ -37,6 +39,10 @@ export default {
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
                 // return this.$Message.warning(validateMsg[this.validateString]);
             } 
+            this.minDate = params.minDate || '';
+            this.maxDate = params.minDate || '';
+            delete params.minDate;
+            delete params.maxDate;
             this.params = params;
         }
     }

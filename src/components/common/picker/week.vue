@@ -62,6 +62,7 @@ export default {
         setNowDate() { // 初始化调用
             this.nowYear = (new Date()).getFullYear();
             this.nowWeek = this.getNowWeek();
+            this.maxWeek = this.getNowWeek();
 
             this.maxYear = (new Date()).getFullYear();
         },
