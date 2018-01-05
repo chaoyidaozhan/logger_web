@@ -1,12 +1,12 @@
 <template>
     <div class="loading-wrapper">
-        <div class="loading-item" v-if="loading && !loadError && hasMore">
+        <div class="loading-item" v-if="loading && !loadError">
             <Spin>
                 <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
                 <span class="load-text">{{loadingMsg}}</span>
             </Spin>
         </div>
-        <div class="error-item" v-if="loadError && hasMore && !loading">
+        <div class="error-item" v-if="loadError && !loading">
             <span class="error-text">网络异常,</span>
             <span class="error-reload" @click="handleReload"> 点击重新加载</span>
         </div>

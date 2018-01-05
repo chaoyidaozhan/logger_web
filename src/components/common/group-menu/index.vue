@@ -27,7 +27,7 @@ import Loading from 'app_component/common/loading-scroll/'
 export default {
     data() {
         return {
-            pageSize: 15,
+            pageSize: 100,
             pageNum: 1,
             groupsData: [],
             currentId: '',

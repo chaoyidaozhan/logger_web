@@ -1,7 +1,7 @@
 <template>
     <div class="audio-list">
         <div class="audio-item" 
-            v-for="(item, index) in audios" :key="index">
+            v-for="item in audios" :key="item.fid">
             <audio :src="item.fileUrl" preload="auto">您的浏览器不支持html5的audio标签</audio>
             <span class="audio-icon"
                  :class="item.audioClass"

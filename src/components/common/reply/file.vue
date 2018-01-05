@@ -1,8 +1,8 @@
 <template>
     <div class="file-list">
         <div class="file-item"
-             v-for="(item, index) in files"
-             :key="index">
+             v-for="item in files"
+             :key="item.fid">
             <span class="file-icon" :class="classMap[getFileTypePath(item.fileext)]"></span>
             <span class="file-name">{{item.fileName}}</span>
             <span class="file-download" @click="downloadReplyFile(item.fileUrl)">下载</span>

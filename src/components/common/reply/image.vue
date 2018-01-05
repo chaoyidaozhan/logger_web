@@ -1,7 +1,7 @@
 <template>
     <div class="img-list">
         <div class="img-item" 
-            v-for="(item, index) in images" :key="index">
+            v-for="item in images" :key="item.fid">
             <img :src="item.fileUrl" :alt="item.fileName">
         </div>
     </div>
