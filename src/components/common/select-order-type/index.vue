@@ -4,7 +4,7 @@
             @click="handleExpand"
             :class="{expand: expand}">
             <div class="selected" >
-                {{(orderType == 3 && start) ? `${start} - ${end}` : orderNameObj[orderType]}}
+                {{(orderType == 3 && minDate) ? `${minDate} - ${maxDate}` : orderNameObj[orderType]}}
                 <i class="ivu-icon ivu-icon-arrow-down-b ivu-select-arrow"></i>
             </div>
             <ul v-if="expand">
@@ -80,8 +80,8 @@ export default {
                     return date && date.valueOf() > Date.now();
                 }
             },
-            start: '',
-            end: '',
+            minDate: '',
+            maxDate: '',
             pickerValue: []
         }
     },
@@ -109,8 +109,8 @@ export default {
             }
         },
         change(params) {
-            this.start = params[0] || "";
-            this.end = params[1] || "";
+            this.minDate = params[0] || "";
+            this.maxDate = params[1] || "";
             this.pickerValue[0] = params[0] || "";
             this.pickerValue[1] = params[1] || "";
         },
@@ -119,8 +119,8 @@ export default {
                 orderType: this.orderType
             }
             if(this.multi) {
-                params.start = this.start;
-                params.end = this.end;
+                params.minDate = this.minDate;
+                params.maxDate = this.maxDate;
             }
             return params;
         }
