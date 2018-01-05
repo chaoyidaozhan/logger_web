@@ -12,6 +12,8 @@
                 :params="params"
                 type="member"
                 title="人员名称"
+                :minDate="minDate"
+                :maxDate="maxDate"
                 ref="LoggerLoggerStatistics"/>
         </template>
     </fs-frame>

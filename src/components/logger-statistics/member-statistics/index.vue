@@ -33,14 +33,15 @@
         <!--自定义统计-->
         <template v-if="params.orderType == 3">
             <fs-define-picker 
-                minDate="minDate"
-                maxDate="maxDate"
+                :minDate="minDate"
+                :maxDate="maxDate"
                 @handleChangeDate="handleChangeDate"/>
             <fs-member-statistics-define
                 v-if="start"
                 :data="list"
                 :type="type"
                 :start="start"
+                :end="end"
                 :title="title"/>
         </template>
     </div>
@@ -67,6 +68,12 @@ export default {
                 }
             }
         },
+        minDate: {
+            type: String,
+        },
+        maxDate: {
+            type: String,
+        },
         type: {
             type: String
         },
@@ -78,8 +85,6 @@ export default {
     data() {
         return {
             list: [],
-            minDate: '',
-            maxDate: '',
             start: '', // 开始时间
             end: '',  // 结束时间,
             timer: null
@@ -102,13 +107,13 @@ export default {
         params: 'handleChangeDate'
     },
     methods: {
-        handleChangeDate({month, beiginDate, endDate}) {
-            console.log(beiginDate)
+        handleChangeDate({month, beginDate, endDate}) {
+            console.log(beginDate)
             console.log(this.start)
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
-                if(beiginDate) {
-                    this.start = beiginDate || '';
+                if(beginDate) {
+                    this.start = beginDate || '';
                     this.end = endDate || '';
                 }
                 // if(this.params.memberIds) {

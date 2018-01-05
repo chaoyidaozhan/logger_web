@@ -82,7 +82,7 @@ export default {
 		},
 		handleChangeDate() { // 切换周回调
 			this.$emit('handleChangeDate', {
-                beiginDate: this.beginDate,
+                beginDate: this.beginDate,
                 endDate: this.endDate
             });
         }

@@ -37,10 +37,10 @@ export default {
         handleQuery(params) {
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
-                // return this.$Message.warning(validateMsg[this.validateString]);
+                return this.$Message.warning(validateMsg[this.validateString]);
             } 
             this.minDate = params.minDate || '';
-            this.maxDate = params.minDate || '';
+            this.maxDate = params.maxDate || '';
             delete params.minDate;
             delete params.maxDate;
             this.params = params;
