@@ -50,7 +50,7 @@ export default {
                 item.array = [];
                 let start = new Date(this.start).valueOf();
                 let end = new Date(this.end).valueOf();
-                let len = (end - start)/86400000 < 7 ? 7 : (end - start)/86400000
+                let len = (end - start)/86400000 < 6 ? 6 : (end - start)/86400000
                 item.array.length = len+1;
                 if(item.resultList && item.resultList.length) {
                     item.resultList.forEach(val=>{
@@ -72,7 +72,7 @@ export default {
             let start = new Date(this.start).valueOf();
             let end = new Date(this.end).valueOf();
             this.columns.array = [];
-            let len = (end - start)/86400000 < 7 ? 7 : (end - start)/86400000;
+            let len = (end - start)/86400000 < 6 ? 6 : (end - start)/86400000;
             for(let i = 0; i <= len; i++) {
                 let day = start + 86400000 * i;
                 this.columns.array.push(`${new Date(day).getDate()} 周${this.getWeek(day)}`)
