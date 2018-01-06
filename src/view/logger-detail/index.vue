@@ -53,11 +53,13 @@ export default {
     overflow: auto;
     padding: 0 10px 60px;
     .title {
-        height: 60px;
-        line-height: 60px;
-        padding-left: 10px;
+        padding: 10px;
         color: @gray-color-medium;
         font-size: 12px;
+        & > div {
+            height: 40px;
+            line-height: 40px;
+        }
         span {
             display: inline-block;
             width: 20px;

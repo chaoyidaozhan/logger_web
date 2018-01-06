@@ -1,6 +1,6 @@
 <template>
     <div class="logger-statistics-content">
-        <fs-table :columns="columns" :data="list" :type="type"></fs-table>
+        <fs-table :columns="columns" :data="list" :totalMap="totalMap" :type="type"></fs-table>
     </div>
 </template>
 <script>
@@ -19,6 +19,12 @@ export default {
         },
         start: {
             type: String
+        },
+        end: {
+            type: String
+        },
+        totalMap: {
+            type: Object
         }
     },
     data() {
@@ -45,7 +51,10 @@ export default {
             this.data.forEach(item => {
                 item.totalCount = 0;
                 item.array = [];
-                item.array.length = 31;
+                let start = new Date(this.start).valueOf();
+                let end = new Date(this.end).valueOf();
+                let len = (end - start)/86400000 < 6 ? 6 : (end - start)/86400000
+                item.array.length = len+1;
                 if(item.resultList && item.resultList.length) {
                     item.resultList.forEach(val=>{
                         item.array[val.days - 1] = val;
@@ -57,34 +66,21 @@ export default {
         }
     },
     methods: {
-        isLeapYear(fullyear) { // 判断是否是闰年
-            let year = fullyear || (new Date()).getFullYear();
-            if (year % 4 == 0 && year % 100 != 0) {
-                this.point[1] = 29;
-            } else if (year % 400 == 0) {
-                this.point[1] = 29;
-            } 
-        },
-        getWeek(day) { // 获取周
-            return "日一二三四五六".charAt(new Date(`${this.year}/${this.month}/${day}`).getDay());
+        getWeek(date) { // 获取周
+            return "日一二三四五六".charAt(new Date(date).getDay());
         },
         initData() {
             this.columns.title = this.title;
 
-            let date = new Date(this.start.replace('-', '/'));
-            this.isLeapYear(date.getFullYear());
-            this.year = date.getFullYear();
-            this.month = date.getMonth();
+            let start = new Date(this.start).valueOf();
+            let end = new Date(this.end).valueOf();
             this.columns.array = [];
-            for(let i = 0; i < this.point[this.month]; i++) {
-                this.columns.array.push(`${i+1} 周${this.getWeek(i+1)}`)
+            let len = (end - start)/86400000 < 6 ? 6 : (end - start)/86400000;
+            for(let i = 0; i <= len; i++) {
+                let day = start + 86400000 * i;
+                this.columns.array.push(`${new Date(day).getDate()} 周${this.getWeek(day)}`)
             }
         }
     }
 }
 </script>
-<style lang="less" scoped>
-.logger-statistics-month {
-    height: 100%;
-}
-</style>

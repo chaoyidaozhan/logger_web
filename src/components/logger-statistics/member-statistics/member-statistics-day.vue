@@ -1,6 +1,6 @@
 <template>
     <div class="logger-statistics-content">
-        <fs-table :columns="columns" :data="list" :type="type"></fs-table>
+        <fs-table :columns="columns" :data="list" :totalMap="totalMap" :type="type"></fs-table>
     </div>
 </template>
 <script>
@@ -20,6 +20,9 @@ export default {
         },
         start: {
             type: String
+        },
+        totalMap: {
+            type: Object
         }
     },
     data() {
@@ -72,8 +75,3 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-.logger-statistics-month {
-    height: 100%;
-}
-</style>

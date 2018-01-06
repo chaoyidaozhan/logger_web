@@ -57,7 +57,7 @@ export default {
 		handleChangeDate() { // 切换月份
 			this.$emit('handleChangeDate', {
 				month: this.nowMonth, 
-				beiginDate: `${this.nowYear}-${this.nowMonth}-1`
+				beginDate: `${this.nowYear}-${this.nowMonth}-1`
 			});
 		}
 	},

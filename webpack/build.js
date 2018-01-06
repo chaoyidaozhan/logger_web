@@ -4,7 +4,14 @@ var merge = require('webpack-merge');
 var config = require("./base.js");
 
 config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({minimize: true})
+    new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        compress: {
+            warnings: false,
+            drop_debugger: true,
+            drop_console: true
+        }
+    })
 );
 
 module.exports = merge(config, {

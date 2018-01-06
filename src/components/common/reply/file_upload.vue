@@ -57,10 +57,14 @@
 
 <style lang="less">
     .file-upload {
+        line-height: 0;
         .ivu-upload-list-file {
             padding: 8px;
             background-color: #f5f5f5;
             margin-bottom: 6px;
+        }
+        .ivu-upload-list {
+            margin-top: 0;
         }
     }
 </style>

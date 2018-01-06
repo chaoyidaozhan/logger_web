@@ -1,8 +1,13 @@
 <template>
     <div class="img-list">
         <div class="img-item" 
-            v-for="(item, index) in images" :key="index">
-            <img :src="item.fileUrl" :alt="item.fileName">
+            v-for="(item, index) in images" :key="item.fid">
+            <img ref="previewImg" 
+                class="preview-img" 
+                :src="item.fileUrl" 
+                :alt="item.fileName" 
+                @load="onLoad"
+                @click="$preview.open(index, list, options)">
         </div>
     </div>
 </template>
@@ -14,10 +19,48 @@ export default {
             type: Array,
             default: []
         }
+    },
+    data() {
+        return {
+            list: [],
+            options: {
+                bgOpacity: .6,
+                closeOnScroll: false,
+                closeOnVerticalDrag: false,
+                shareEl: false,
+                barsSize: {top:0,bottom:0},
+                captionEl: false,
+                showAnimationDuration: 0
+            },
+            loadTimer: null
+        }
+    },
+    methods: {
+        setList() { // 设置list
+            this.list = [];
+            this.$nextTick(()=>{
+                let images = this.$refs.previewImg;
+                images && images.forEach((item, index) => {
+                    let w = item.naturalWidth && item.naturalWidth || 600,
+                        h = item.naturalHeight && item.naturalHeight || 400,
+                        imagesList = this.images[index];
+                        this.list.push({
+                            src: imagesList.fileUrl,
+                            w: w,
+                            h: h,
+                        })
+                });
+            })
+        },
+        onLoad(e) { // 加载成功
+            clearTimeout(this.loadTimer);
+            this.loadTimer = setTimeout(() => {
+                this.setList();
+            }, 300);
+        }
     }
 }
 </script>
-
 <style lang="less" scoped>
     .img-list {
         .img-item {

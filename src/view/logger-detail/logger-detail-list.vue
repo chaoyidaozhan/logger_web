@@ -1,6 +1,8 @@
 <template>
     <div class="logger-detail">
-        <div class="title"><span>1</span>选择模板</div>
+        <div class="title">
+            <div><span>1</span>选择模板</div>
+        </div>
         <fs-template-list/>
     </div>
 </template>

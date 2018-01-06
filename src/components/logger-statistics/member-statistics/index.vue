@@ -8,6 +8,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
         <!--按周统计-->
@@ -18,6 +19,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
         <!--按月统计-->
@@ -28,18 +30,26 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
         <!--自定义统计-->
-        <template v-if="params.orderType == 0">
-            <fs-define-picker @handleChangeDate="handleChangeDate"/>
+        <template v-if="params.orderType == 3">
+            <fs-define-picker 
+                :minDate="minDate"
+                :maxDate="maxDate"
+                @handleChangeDate="handleChangeDate"/>
             <fs-member-statistics-define
                 v-if="start"
                 :data="list"
                 :type="type"
                 :start="start"
+                :end="end"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
+
+        <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
     </div>
 </template>
 <script>
@@ -54,6 +64,7 @@ import FsMemberStatisticsWeek from './member-statistics-week';
 
 import FsDefinePicker from 'app_component/common/picker/define';
 import FsMemberStatisticsDefine from './member-statistics-define';
+import Pagination from 'app_component/common/pagination';
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -63,6 +74,12 @@ export default {
                     orderType: '0',
                 }
             }
+        },
+        minDate: {
+            type: String,
+        },
+        maxDate: {
+            type: String,
         },
         type: {
             type: String
@@ -75,9 +92,13 @@ export default {
     data() {
         return {
             list: [],
+            totalMap: null,
             start: '', // 开始时间
             end: '',  // 结束时间,
-            timer: null
+            timer: null,
+            totalCount: 0,
+            pageSize: 20,
+            pageNo: 1
         }
     },
     components: {
@@ -91,27 +112,35 @@ export default {
         FsMemberStatisticsWeek,
 
         FsDefinePicker,
-        FsMemberStatisticsDefine
+        FsMemberStatisticsDefine,
+
+        Pagination
     },
     watch: {
         params: 'handleChangeDate'
     },
     methods: {
-        handleChangeDate({month, beiginDate, endDate}) {
+        handleChangeDate({month, beginDate, endDate}) {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
-                if(beiginDate) {
-                    this.start = beiginDate || '';
+                this.pageNo = 1;
+                if(beginDate) {
+                    this.start = beginDate || '';
                     this.end = endDate || '';
                 }
-                // if(this.params.memberIds) {
-                    this.loadData();
-                // }
+                this.loadData();
             }, 200);
+        },
+        handleChangePage(index) {
+            this.pageNo = index;
+            this.loadData();
         },
         getParams() { // 获取参数
             return Object.assign({
-                start : this.start
+                start : this.start,
+                end: this.end,
+                pageSize: this.pageSize,
+                pageNo: this.pageNo
             }, this.params);
         },
         loadData() {
@@ -120,7 +149,16 @@ export default {
                 data: this.getParams(),
                 success: (res)=>{
                     if(res && res.code === 0) {
-                        this.list = res.data.resultList;
+                        this.list = res.data.resultList || [];
+                        let keys = Object.keys(res.data.totalMap || {});
+                        this.totalCount = 100;
+                        if(keys && keys.length) {
+                            res.data.totalMap.total = 0
+                            keys.forEach(key=>{
+                                res.data.totalMap.total += res.data.totalMap[key];
+                            })
+                        }
+                        this.totalMap = res.data.totalMap || {};
                     }
                 },
                 error: (res)=>{

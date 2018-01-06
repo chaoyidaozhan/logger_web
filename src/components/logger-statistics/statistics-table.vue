@@ -22,7 +22,7 @@
             </div>
         </div>
         <!-- 表身 -->
-        <div class="table-body" v-if="!!data.length" ref="vertical" :style="{'height': `${height}px`}">
+        <div class="table-body" v-if="!!data.length" ref="vertical" :style="{'max-height': `${height}px`}">
             <div class="fixed-left">
                 <ul class="fixed-left-content">
                     <li class="table-cell ellipsis" v-for="(item, index) in data" :key="index">
@@ -43,10 +43,37 @@
             </div>
             <div class='fixed-right'>
                 <ul class="fixed-right-content">
-                    <li class="table-cell" v-for="(item, index) in data" :key="index">
-                        {{item.totalCount}}
+                    <li class="table-cell"
+                        :class="{nodata: !item.totalCount}"
+                        v-for="(item, index) in data" :key="index">
+                        {{item.totalCount ? item.totalCount : ''}}
                     </li>
                 </ul>
+            </div>
+        </div>
+        <div class="table-footer" v-if="totalMap">
+            <div class="fixed-left">
+                <ul class="fixed-left-content">
+                    <li class="table-cell ellipsis">
+                        统计
+                    </li>
+                </ul>
+            </div>
+            <div class="table-header-content" @scroll="onScroll" ref="footerHorizonal">
+                <ul class="table-content">
+                    <li class="table-cell" 
+                        :class="{nodata: !totalMap[`${index+1}`]}"
+                        v-for="(val, index) in columns.array" 
+                        :style="{'width': `${100/(columns.array.length > minLen ? minLen : columns.array.length)}%`}"
+                        :key="index">
+                        {{totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}篇` : ''}}
+                    </li>
+                </ul>
+            </div>
+            <div class="fixed-right table-cell"
+                :class="{nodata: !totalMap.total}"
+                >
+                {{totalMap.total ? `${totalMap.total}篇` : ''}}
             </div>
         </div>
         <fs-empty-tips v-if="!data.length" :iconType="type"
@@ -69,6 +96,9 @@ export default {
         type: {
             type: String
         },
+        totalMap: {
+            type: Object
+        }
     },
     data() {
         return {
@@ -88,7 +118,7 @@ export default {
         initScroll() {
             let scrollArr = ['vertical'];
             if(this.columns.array.length > this.minLen) {
-                scrollArr = ['headerHorizonal', 'vertical', 'bodyHorizonal'];
+                scrollArr = ['headerHorizonal', 'footerHorizonal', 'vertical', 'bodyHorizonal'];
             }
             scrollArr.forEach(el=>{
                 this.initPs(el);
@@ -117,8 +147,10 @@ export default {
                 let scrollLeft = e && e.target && e.target.scrollLeft || 0;
                 let headerHorizonal = this.$refs.headerHorizonal;
                 let bodyHorizonal = this.$refs.bodyHorizonal;
+                let footerHorizonal = this.$refs.footerHorizonal;
                 headerHorizonal && (headerHorizonal.scrollLeft = scrollLeft);
                 bodyHorizonal && (bodyHorizonal.scrollLeft = scrollLeft);
+                footerHorizonal && (footerHorizonal.scrollLeft = scrollLeft);
             }
         },
         scrollTo(dir) {
@@ -172,7 +204,6 @@ export default {
     border-top: 1px solid @border-color;
     font-size: 0;
     position: relative;
-    min-height: 250px;
     .ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
         background-color: transparent!important;
     }
@@ -197,7 +228,7 @@ export default {
             }
         }
     }
-    .table-body-content {
+    .table-body-content,.table-footer {
        .ps__scrollbar-x-rail, .ps__scrollbar-y-rail {
             display: none!important;
         }

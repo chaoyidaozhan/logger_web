@@ -30,47 +30,48 @@
             </div>
 
             <fs-file-upload ref="fileUpload"
-                            @sendFileData="getUploadFile"
-                            v-if="replyData.fileStr && replyData.fileStr.length"></fs-file-upload>
+                            @sendFileData="getUploadFile"></fs-file-upload>
 
             <div class="comment-list">
-                <div class="comment-item"
-                     v-for="(commentItem, key) in commentListData" 
-                     :key="key">
-                    <avatar :avatar="commentItem.user.avatar" 
-                            :name="commentItem.userName"
-                            size="36px"></avatar>
+                <transition-group name="fade-list" tag="div">
+                    <div class="comment-item"
+                        v-for="commentItem in commentListData" 
+                        :key="commentItem.id">
+                        <avatar :avatar="commentItem.user.avatar" 
+                                :name="commentItem.userName"
+                                size="36px"></avatar>
 
-                    <div class="comment-content">
-                        <p class="names">
-                            <span class="username">{{commentItem.userName}}</span>
-                            <span class="text"
-                                  v-if="commentItem.replyUserName">回复</span>
-                            <span class="reply-username"
-                                  v-if="commentItem.replyUserName">{{commentItem.replyUserName}}</span>
-                        </p>
+                        <div class="comment-content">
+                            <p class="names">
+                                <span class="username">{{commentItem.userName}}</span>
+                                <span class="text"
+                                    v-if="commentItem.replyUserName">回复</span>
+                                <span class="reply-username"
+                                    v-if="commentItem.replyUserName">{{commentItem.replyUserName}}</span>
+                            </p>
 
-                        <div class="content">
-                            <p class="reply-text" v-html="commentItem.content"></p>
-                            <div class="reply-attach-list">
-                                <fs-file :files="commentItem.attachList.files" class="file-wrapper"></fs-file>
-                                <fs-image :images="commentItem.attachList.imgs" class="image-wrapper"></fs-image>
-                                <fs-audio :audios="commentItem.attachList.audios" class="audio-wrapper"></fs-audio>
-                                <fs-video :videos="commentItem.attachList.videos" class="video-wrapper"></fs-video>
+                            <div class="content">
+                                <p class="reply-text" v-html="commentItem.content"></p>
+                                <div class="reply-attach-list">
+                                    <fs-file :files="commentItem.attachList.files" class="file-wrapper"></fs-file>
+                                    <fs-image :images="commentItem.attachList.imgs" class="image-wrapper"></fs-image>
+                                    <fs-audio :audios="commentItem.attachList.audios" class="audio-wrapper"></fs-audio>
+                                    <fs-video :videos="commentItem.attachList.videos" class="video-wrapper"></fs-video>
+                                </div>
                             </div>
-                        </div>
 
-                        <p class="operate">
-                            <span>{{commentItem.createTime}}</span>
-                            <span class="reply"
-                                  v-show="!commentItem.isMyself"
-                                  @click="replySomebody(commentItem)">回复</span>
-                            <span class="del"
-                                  v-show="commentItem.isMyself"
-                                  @click="deleteSingleComment(commentItem)">删除</span>
-                        </p>
+                            <p class="operate">
+                                <span>{{commentItem.createTime}}</span>
+                                <span class="reply"
+                                    v-show="!commentItem.isMyself"
+                                    @click="replySomebody(commentItem)">回复</span>
+                                <span class="del"
+                                    v-show="commentItem.isMyself"
+                                    @click="deleteSingleComment(commentItem)">删除</span>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                </transition-group>
                 <loading :loading="loading"
                          :loadError="loadError"
                          :hasMore="hasMore"
@@ -423,8 +424,14 @@
         .comment-list {
             font-size: 14px;
             .comment-item {
-                padding: 20px 20px 0 0;
+                padding: 20px 0 0 0;
                 border-bottom: 1px solid @border-color;
+                &.fade-list-leave-active {
+                    transition: opacity 0.6s;
+                }
+                &.fade-list-leave, &.fade-list-leave-to {
+                    opacity: 0;
+                }
                 .avatar-wrapper {
                     float: left;
                 }
@@ -453,9 +460,9 @@
                         word-break: break-all;
                     }
                     .reply-attach-list {
-                        .audio-wrapper {
-                            width: 22%;
-                        }
+                        // .audio-wrapper {
+                        //     width: 22%;
+                        // }
                         .video-wrapper {
                             width: 520px;
                             overflow: hidden;

@@ -1,8 +1,8 @@
 <template>
     <div class="file-list">
         <div class="file-item"
-             v-for="(item, index) in files"
-             :key="index">
+             v-for="item in files"
+             :key="item.fid">
             <span class="file-icon" :class="classMap[getFileTypePath(item.fileext)]"></span>
             <span class="file-name">{{item.fileName}}</span>
             <span class="file-download" @click="downloadReplyFile(item.fileUrl)">下载</span>
@@ -74,7 +74,7 @@ export default {
     .file-list {
         .file-item {
             width: 100%;
-            padding: 5px 8px 5px 15px;
+            padding: 5px 20px 5px 6px;
             margin-bottom: 6px;
             line-height: 30px;
             background-color: #f5f5f5;
@@ -118,7 +118,7 @@ export default {
             }
             .file-size {
                 color: #9e9e9e;
-                margin-right: 66px;
+                margin-right: 20px;
             }
             .file-download {
                 color: @primary-color;
