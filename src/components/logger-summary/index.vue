@@ -266,6 +266,7 @@ export default {
     .ivu-table-cell{
         padding-top: 10px;
         padding-bottom: 10px;
+        line-height: 1.3;
     }
     .ivu-table:before{
         height: 0px;
