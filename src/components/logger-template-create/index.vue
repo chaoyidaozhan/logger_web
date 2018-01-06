@@ -229,7 +229,7 @@ export default {
         loadData(){
             if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='edit') { 
                 this.getTemplateApp();
-            } else if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='create'){
+            } else if(!this.$store.state.template.content.content&&(this.$route.params.loggertype=='create'||this.$route.params.loggertype=='summary')){
                 this.$router.go(-1);
             }else{
                 this.setTempListData();
@@ -406,7 +406,7 @@ export default {
                     gather:0,//是否是汇总日志 0：否 1：是
                     diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
                     templateName:this.templateItemData.title||this.templateItemData.templateName,
-                    version: (new Date()).valueOf(),
+                    version: this.templateItemData.version,
                     source:3,//1 安卓   2 ios    3web    4微信
                     templateId:!this.editFlag?this.$route.params.id||0:this.templateItemData.templateId||0,
                     visibleRange:this.saveDraft||this.editFlag||this.rangeArr.length<=0?3:1,

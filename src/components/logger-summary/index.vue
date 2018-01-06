@@ -4,28 +4,21 @@
         <div class="content-bar" v-if="list.length">
             <Table border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
         </div>
-        <div class="content-footer" >
-             <div class="content-bottom" >
-        <!-- <div class="content-footer" v-if="list.length"> -->
-            <!-- <div class="content-bottom" v-if="list.length"> -->
+        <div class="content-footer" v-if="list.length">
+            <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
                     <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
                     <span class="checkout-note">已选中
                         <span class="check-num">{{checkNum}}</span>日志</span>
                 </span>
                 <span class="bottom-right">
-<<<<<<< HEAD
                     <Button type="success" @click="loggerSummary">汇总日志</Button>
-=======
-                    <Button type="primary">汇总日志</Button>
->>>>>>> b4e071ca97c21bec85d901dea89c42354c4cd831
                     <Button type="ghost" @click="exportECL">导出EXCEL</Button>
                 </span>
             </div>
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
         </div>
-        <fs-empty-tips  :iconType="iconType" :emptyMsg="emptyMsg" />
-        <!-- <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" /> -->
+        <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
         <span class="nodata" v-if="!list.length&&iconFlag">只能查询到最新模板的数据，模板修改前的数据
             <br> 可以导出EXCEL，切换到sheet进行查看</span>
     </div>
@@ -34,7 +27,7 @@
 import Pagination from 'app_component/common/pagination';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import config from 'app_src/config/config'
-// import formatTime from'../../filters/format-time'
+import formatTime from'../../filters/format-time'
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -55,9 +48,11 @@ export default {
             iconType: 'member',
             emptyMsg: '请选择提交人',
             columnsData: [], //表头
-            listTemplate: [], //表body
-            summaryContent:[],
-            templateContent:[]
+            listTemplate: [], //表bod
+            templateContent:[],
+            templateItemData:[],
+            selectList:[],
+            selectContent:[],
         }
     },
     components: {
@@ -71,77 +66,42 @@ export default {
         handleSelectAll(dataType) { //全选
             this.$refs.selection.selectAll(dataType);
         },
-        handleSelectChange(selection) { //选项发生变化
-            console.log(selection,'selection')
+        handleSelectChange(selection,index) { //选项发生变化
+            let ids = [],summaryList = [],summaryarr = [];
             this.checkNum = selection.length;
             this.dataType = selection.length < this.list.length ? false : (selection.length == this.list.length ? true : this.dataType);
+            selection&&selection.forEach((v,k)=>{
+                ids.push(v.id);
+            })
+            this.list.forEach((v,k)=>{
+                if(ids.indexOf(v.id) >= 0){
+                    summaryList.push(v);
+                    summaryarr.push(JSON.parse(v.content));
+                }
+            })
+            this.selectList = summaryList;
+            this.selectContent = summaryarr;
         },
         handleChangePage(pageNo) { //改变页数
             this.pageNum = pageNo;
             this.loadData();
         },
         handleSummaryData(){//汇总数据
-            let summaryarr = [],contentArr = [];
-            let InputTextContent = [],InputTextNumContent = [],InputDateContent = [],InputRadioContent = [],InputCheckboxContent = [];
-            let InputTextValue = [],InputTextNumValue = [],InputDateValue = [],InputRadioValue = [],InputCheckboxValue = [];
-            this.templateContent = this.list[0].content||[];
-            this.list&&this.list.forEach((v,k)=>{
-                summaryarr.push(v.content)
-            })
-            summaryarr&&summaryarr.forEach((v,k)=>{
-                v.forEach((item,index)=>{
-                    switch (item.type) {
-                        case 'InputText':
-                            InputTextContent.push(item.content);
-                            InputTextValue.push(item.value);
-                            break;
-                        case 'InputTextNum':
-                            InputTextNumContent.push(item.content);
-                            InputTextNumValue.push(item.value);
-                            break;
-                        case 'InputDate':
-                            InputDateContent.push(item.content);
-                            InputDateValue.push(item.value);
-                            break;
-                        case 'InputRadio':
-                            InputRadioContent.push(item.content);
-                            InputRadioValue.push(item.value);
-                            break;
-                        case 'InputCheckbox':
-                            InputCheckboxContent.push(item.content);
-                            InputCheckboxValue.push(item.value);
-                            break;
-                        default:
-                            break;
-                    }
-                })
-            });
-            this.templateContent.forEach((v,k)=>{
-                switch (v.type) {
-                    case 'InputText':
-                        v.content = InputTextContent.join('<br>');
-                        v.value = InputTextValue.join('<br>');
-                        break;
-                    case 'InputTextNum':
-                        v.content = InputTextNumContent[0];
-                        v.value = InputTextNumValue[0];
-                        break;
-                    case 'InputDate':
-                        v.content = InputDateContent[0];
-                        v.value = InputDateValue[0];
-                        break;
-                    case 'InputRadio':
-                        v.content = InputRadioContent[0];
-                        v.value = InputRadioValue[0];
-                        break;
-                    case 'InputCheckbox':
-                        v.content = InputCheckboxContent[0];
-                        v.value = InputCheckboxValue[0];
-                        break;
-                    default:
-                        break;
+            let contentArr = [];
+            this.templateItemData = this.selectList[0]||{};
+            this.selectContent.forEach((v,k)=>{
+                if(k == 0) {
+                    contentArr = v;
+                } else {
+                    v.forEach((item, index)=>{
+                        if(item.type == 'InputText') {
+                            contentArr[index].content += `\n${item.content}`;
+                            contentArr[index].value += `\n${item.value}`;
+                        }
+                    })
                 }
             });
+            this.templateItemData.content = JSON.stringify(contentArr);
         },
         loggerSummary(){
             if(this.checkNum <= 0){
@@ -149,9 +109,7 @@ export default {
             }else{
                 this.handleSummaryData();
                 this.$store.dispatch('update_template_content',{
-                    content:{
-                        content:this.summaryContent
-                    }
+                    content:this.templateItemData
                 });
                 this.$router.push({
                     path: `LoggerDetail/operate/summary/${this.params.templateId}`,
@@ -160,7 +118,6 @@ export default {
                     }
                 });
             }
-           
         },
         exportECL() { //导出
             let templateId = this.params.templateId == null ? 0 : this.params.templateId;
@@ -171,28 +128,6 @@ export default {
         updateList(res) {
             if (res && res.code === 0) {
                 this.list = res.data.list || [];
-                this.list = [{
-                    'content':{
-                        "size":0,
-                        "description":"本周完成的关键工作事项",
-                        "id":1487574589286,
-                        "title":"本周完成工作",
-                        "isRequired":"1",
-                        "value":"1.学习了总账的基础数据的操作。",
-                        "content":"1.学习了总账的基础数据的操作。",
-                        "type":"InputText"
-                    },
-                    'content':{
-                        "size":0,
-                        "description":"本周完成的关键工作事项",
-                        "id":1487574589286,
-                        "title":"本周完成工作",
-                        "isRequired":"1",
-                        "value":"1.学习了总账的基础数据的操作。",
-                        "content":"1.学习了总账的基础数据的操作。",
-                        "type":"InputText"
-                    },
-                }]
                 this.totalCount = this.list.length;
                 if (this.list.length <= 0) {
                     this.iconFlag = 0;
@@ -206,8 +141,14 @@ export default {
                             align: 'center'
                         },
                         {
+                            title: 'id',
+                            key: 'id',
+                            className:'id-column'
+
+                        },
+                        {
                             title: '提交时间',
-                            key: 'column1'
+                            key: 'column1',
                         },
                         {
                             title: '提交人',
@@ -248,6 +189,7 @@ export default {
                             let i = columnLength - contentLength + k;
                             data['column' + i] = v.value || '';
                         });
+                        data.id = item.id;
                         this.listTemplate.push(data);
                     });
                 }
@@ -340,6 +282,9 @@ export default {
     }
     .ivu-table-header .ivu-checkbox{
         display: none;
+    }
+    .id-column{
+        
     }
 }
 </style>
