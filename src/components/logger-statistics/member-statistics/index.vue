@@ -8,6 +8,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
         <!--按周统计-->
@@ -18,6 +19,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
         <!--按月统计-->
@@ -28,6 +30,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
         <!--自定义统计-->
@@ -42,6 +45,7 @@
                 :type="type"
                 :start="start"
                 :end="end"
+                :totalMap="totalMap"
                 :title="title"/>
         </template>
     </div>
@@ -58,6 +62,7 @@ import FsMemberStatisticsWeek from './member-statistics-week';
 
 import FsDefinePicker from 'app_component/common/picker/define';
 import FsMemberStatisticsDefine from './member-statistics-define';
+import Pagination from 'app_component/common/pagination';
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -85,6 +90,7 @@ export default {
     data() {
         return {
             list: [],
+            totalMap: null,
             start: '', // 开始时间
             end: '',  // 结束时间,
             timer: null
@@ -101,24 +107,22 @@ export default {
         FsMemberStatisticsWeek,
 
         FsDefinePicker,
-        FsMemberStatisticsDefine
+        FsMemberStatisticsDefine,
+        
+        Pagination
     },
     watch: {
         params: 'handleChangeDate'
     },
     methods: {
         handleChangeDate({month, beginDate, endDate}) {
-            console.log(beginDate)
-            console.log(this.start)
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
                 if(beginDate) {
                     this.start = beginDate || '';
                     this.end = endDate || '';
                 }
-                // if(this.params.memberIds) {
-                    this.loadData();
-                // }
+                this.loadData();
             }, 200);
         },
         getParams() { // 获取参数
@@ -134,7 +138,15 @@ export default {
                 data: this.getParams(),
                 success: (res)=>{
                     if(res && res.code === 0) {
-                        this.list = res.data.resultList;
+                        this.list = res.data.resultList || [];
+                        let keys = Object.keys(res.data.totalMap || {});
+                        if(keys && keys.length) {
+                            res.data.totalMap.total = 0
+                            keys.forEach(key=>{
+                                res.data.totalMap.total += res.data.totalMap[key];
+                            })
+                        }
+                        this.totalMap = res.data.totalMap || {};
                     }
                 },
                 error: (res)=>{
