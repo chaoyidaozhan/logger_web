@@ -119,7 +119,8 @@ export default {
             defaultFileList: [], //默认上传的文件
             submitData: {},
             saveDraft: false,
-            editFlag: 0
+            editFlag: 0,
+            summaryFlag: 0
         }
     },
     components: {
@@ -403,7 +404,7 @@ export default {
                     }
                 });
                 this.submitData = {
-                    gather:0,//是否是汇总日志 0：否 1：是
+                    gather:this.summaryFlag?1:0,//是否是汇总日志 0：否 1：是
                     diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
                     templateName:this.templateItemData.title||this.templateItemData.templateName,
                     version: this.templateItemData.version,
@@ -455,6 +456,9 @@ export default {
     created(){
         if(this.$route.params.loggertype!='edit'){
             this.getVisibleRange();
+            if(this.$route.params.loggertype == 'summary'){
+                this.summaryFlag = 1;
+            }
         }else{
             this.editFlag = 1;
         }
