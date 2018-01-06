@@ -460,9 +460,9 @@
                         word-break: break-all;
                     }
                     .reply-attach-list {
-                        .audio-wrapper {
-                            width: 22%;
-                        }
+                        // .audio-wrapper {
+                        //     width: 22%;
+                        // }
                         .video-wrapper {
                             width: 520px;
                             overflow: hidden;

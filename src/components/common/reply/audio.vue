@@ -1,6 +1,7 @@
 <template>
     <div class="audio-list">
         <div class="audio-item" 
+            :style="{width: `${item.timeLength*20}px`}"
             v-for="item in audios" :key="item.fid">
             <audio :src="item.fileUrl" preload="auto">您的浏览器不支持html5的audio标签</audio>
             <span class="audio-icon"
@@ -64,11 +65,12 @@
         font-size: 0;
         .audio-item {
             position: relative;
-            width: 100%;
-            padding: 7px 10px;
+            min-width: 100px;
+            max-width: 100%;
+            padding: 6px 10px;
             margin-bottom: 6px;
             background-color: #f5f5f5;
-            border-radius: 5px;
+            border-radius: 4px;
             &::before {
                 position: absolute;
                 top: 50%;
@@ -86,7 +88,7 @@
                 width: 13px;
                 height: 21px;
                 cursor: pointer;
-                vertical-align: top;
+                vertical-align: middle;
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
