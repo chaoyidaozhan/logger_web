@@ -372,7 +372,7 @@ export default {
         position: absolute;
         left: 74px;
         height: 1px;
-        right: 0;
+        right: 20px;
         bottom: 0;
         content: '';
         background-color: @gray-color-elip;

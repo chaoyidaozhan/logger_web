@@ -93,8 +93,9 @@ export default {
         handleSelect(e, data) {
             if(data.id == 3) {
                 e.stopPropagation();
+            } else {
+                this.orderType = data.id;
             }
-            this.orderType = data.id;
         },
         init() {
             if(this.multi) {
@@ -109,10 +110,12 @@ export default {
             }
         },
         change(params) {
+            this.orderType = 3;
             this.minDate = params[0] || "";
             this.maxDate = params[1] || "";
             this.pickerValue[0] = params[0] || "";
             this.pickerValue[1] = params[1] || "";
+            this.expand = false;
         },
         getParams() {
             let params = {

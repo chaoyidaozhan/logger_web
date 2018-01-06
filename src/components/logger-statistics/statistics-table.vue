@@ -204,7 +204,6 @@ export default {
     border-top: 1px solid @border-color;
     font-size: 0;
     position: relative;
-    min-height: 250px;
     .ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
         background-color: transparent!important;
     }

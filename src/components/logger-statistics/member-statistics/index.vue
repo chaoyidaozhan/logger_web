@@ -48,6 +48,8 @@
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
+
+        <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
     </div>
 </template>
 <script>
@@ -93,7 +95,10 @@ export default {
             totalMap: null,
             start: '', // 开始时间
             end: '',  // 结束时间,
-            timer: null
+            timer: null,
+            totalCount: 0,
+            pageSize: 20,
+            pageNo: 1
         }
     },
     components: {
@@ -108,7 +113,7 @@ export default {
 
         FsDefinePicker,
         FsMemberStatisticsDefine,
-        
+
         Pagination
     },
     watch: {
@@ -118,6 +123,7 @@ export default {
         handleChangeDate({month, beginDate, endDate}) {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
+                this.pageNo = 1;
                 if(beginDate) {
                     this.start = beginDate || '';
                     this.end = endDate || '';
@@ -125,11 +131,16 @@ export default {
                 this.loadData();
             }, 200);
         },
+        handleChangePage(index) {
+            this.pageNo = index;
+            this.loadData();
+        },
         getParams() { // 获取参数
-            console.log(this.params)
             return Object.assign({
                 start : this.start,
-                end: this.end
+                end: this.end,
+                pageSize: this.pageSize,
+                pageNo: this.pageNo
             }, this.params);
         },
         loadData() {
@@ -140,6 +151,7 @@ export default {
                     if(res && res.code === 0) {
                         this.list = res.data.resultList || [];
                         let keys = Object.keys(res.data.totalMap || {});
+                        this.totalCount = 100;
                         if(keys && keys.length) {
                             res.data.totalMap.total = 0
                             keys.forEach(key=>{

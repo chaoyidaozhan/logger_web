@@ -128,6 +128,10 @@
 			}
 			.deptName{
 				margin-left: 8px;
+				width: 80%;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
 			}
 		}
 		.search-wrap .li:nth-of-type(1){

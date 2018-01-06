@@ -84,8 +84,3 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
-.logger-statistics-month {
-    height: 100%;
-}
-</style>

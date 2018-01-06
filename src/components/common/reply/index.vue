@@ -424,7 +424,7 @@
         .comment-list {
             font-size: 14px;
             .comment-item {
-                padding: 20px 20px 0 0;
+                padding: 20px 0 0 0;
                 border-bottom: 1px solid @border-color;
                 &.fade-list-leave-active {
                     transition: opacity 0.6s;

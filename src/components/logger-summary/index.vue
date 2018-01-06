@@ -208,9 +208,8 @@ export default {
         overflow: auto;
     }
     .ivu-table-cell{
-        max-height: 100px;
-        padding-top: 1px;
-        padding-bottom: 1px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     .ivu-table:before{
         height: 0px;
