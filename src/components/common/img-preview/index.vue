@@ -226,7 +226,6 @@ export default {
 							}
 							const finalPath = path.replace(/(.*[\\|\/])((.*)\.(.*))/,'$1');
 							const finalName = path.replace(/(.*[\\|\/])((.*)\.(.*))/,'$3');
-							console.log(finalPath, finalName)
 							//const finalSuffix = path.replace(/(.*[\\|\/])((.*)\.(.*))/,'$4');
 
 							that.download(message, finalPath, `${finalName}${message.data.content.type ? '.' + message.data.content.type : ''}`);

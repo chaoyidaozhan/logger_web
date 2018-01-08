@@ -71,7 +71,6 @@
 	                },
 	                error:(res)=>{
 	                	this.loading=false;
-	                	console.error(res);
 	                }
 	            })
             },

@@ -58,7 +58,6 @@
                 }
             },
             loadData() { // 默认优先获取数据保存到store
-            console.log(this.templateType)
                 this.getTemplateApp();
                 if(this.tempListData.length < 2) {
                     this.setTempListData();

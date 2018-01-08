@@ -63,7 +63,7 @@ export default {
         params: 'initList',
     },
     methods: {
-        handleSelectAll(dataType) { //全选
+        handleSelectAll(dataType) { // 全选
             this.$refs.selection.selectAll(dataType);
         },
         handleSelectChange(selection,index) { //选项发生变化
@@ -82,11 +82,11 @@ export default {
             this.selectList = summaryList;
             this.selectContent = summaryarr;
         },
-        handleChangePage(pageNo) { //改变页数
+        handleChangePage(pageNo) { // 改变页数
             this.pageNum = pageNo;
             this.loadData();
         },
-        handleSummaryData(){//汇总数据
+        handleSummaryData(){ // 汇总数据
             let contentArr = [];
             this.templateItemData = this.selectList[0]||{};
             this.selectContent.forEach((v,k)=>{
@@ -103,29 +103,29 @@ export default {
             });
             this.templateItemData.content = JSON.stringify(contentArr);
         },
-        loggerSummary(){
-            if(this.checkNum <= 0){
+        loggerSummary() { // 日志汇总
+            if (this.checkNum <= 0) {
                 this.$Message.warning('请选择汇总的日志');
-            }else{
+            } else {
                 this.handleSummaryData();
-                this.$store.dispatch('update_template_content',{
-                    content:this.templateItemData
+                this.$store.dispatch('update_template_content', {
+                    content: this.templateItemData
                 });
                 this.$router.push({
                     path: `LoggerDetail/operate/summary/${this.params.templateId}`,
-                    query:{
-                        token:this.$store.state.userInfo.token
+                    query: {
+                        token: this.$store.state.userInfo.token
                     }
                 });
             }
         },
-        exportECL() { //导出
+        exportECL() { // 导出
             let templateId = this.params.templateId == null ? 0 : this.params.templateId;
-            let url = `${config[__ENV__].apiHost}/logger/diaryQuery/exportDiaryStatistics` + '?timestamp=' + (new Date()).valueOf() +
-                '&beginDate=' + this.params.beginDate + '&endDate=' + this.params.endDate + '&token=' + this.$store.state.userInfo.token + '&templateId=' + templateId;
+            let url = `${config[__ENV__].apiHost}/logger/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}
+            &endDate=${this.params.endDate}&token=${this.$store.state.userInfo.token}&templateId=templateId` 
             window.open(url, '_blank');
         },
-        updateList(res) {
+        updateList(res) { // 更新列表
             if (res && res.code === 0) {
                 this.list = res.data.list || [];
                 this.totalCount = this.list.length;
@@ -143,16 +143,19 @@ export default {
                         {
                             title: 'id',
                             key: 'id',
-                            className:'id-column'
+                            className:'id-column',
 
                         },
                         {
                             title: '提交时间',
                             key: 'column1',
+                            width: 150
                         },
                         {
                             title: '提交人',
-                            key: 'column2'
+                            key: 'column2',
+                            ellipsis: true,
+                            width: 80
                         }
                     ];
 
@@ -213,7 +216,7 @@ export default {
             second = second < 10 ? ('0' + second) : second;
             return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
         },
-        getParams() {
+        getParams() { // 合并参数
             let data = Object.assign({
                 pageNumber: this.pageNum,
                 pageSize: this.pageSize,
@@ -226,7 +229,7 @@ export default {
             delete data.groupId;
             return data;
         },
-        loadData() {
+        loadData() { // 加载数据
             let data = this.getParams();
             if (!data.templateId) {
                 this.$Message.warning('请选择模版');
@@ -247,8 +250,10 @@ export default {
                 })
             }
         },
-        initList() {
+        initList() { // 初始化列表
             this.pageNum = 1;
+            this.dataType = false;
+            this.checkNum = 0;
             this.loadData();
         }
     },
@@ -257,11 +262,11 @@ export default {
 <style  lang="less">
 @import '../../assets/css/var.less';
 .content-bar{
-    .ivu-table-wrapper{
-        // border:none;
-    }
     .ivu-table{
         overflow: auto;
+        .ivu-checkbox-wrapper {
+            margin-right: 0;
+        }
     }
     .ivu-table-cell{
         padding-top: 10px;
@@ -274,9 +279,6 @@ export default {
     .ivu-table:after{
         width: 0px;
     }
-    .ivu-table-border th, .ivu-table-border td{
-        border-right:none;
-    }
     .ivu-table-row-hover td{
         background-color:@white-color-light;
     }
@@ -284,7 +286,9 @@ export default {
         display: none;
     }
     .id-column{
-        
+       visibility: hidden;
+       width: 0;
+       overflow: hidden;
     }
 }
 </style>

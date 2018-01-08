@@ -29,7 +29,7 @@
                 <Checkbox @on-change="handleChange">停用/删除</Checkbox>
             </FormItem> 
             <FormItem :label-width="40" label="日期"  v-if="showDatePicker">
-                <fs-select-date ref="selectDate"/>
+                <fs-select-date ref="selectDate" :timeArr="timeArr"/>
             </FormItem> 
             <FormItem :label-width="40" label="部门"  v-if="showDept">
                 <fs-select-member ref="selectDept" 
@@ -124,6 +124,12 @@ export default {
         templateType: {
             type: String,
             default: 'app'
+        },
+        timeArr: {
+            type: Array,
+            default: function () {
+                return []
+            }
         }
     },
     components: {

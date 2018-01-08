@@ -29,7 +29,7 @@
             <FormItem v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
-                    <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5}"/>
+                    <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
                     <InputNumber  v-model="item.valueNum" ></InputNumber>

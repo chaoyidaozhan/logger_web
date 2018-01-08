@@ -2,6 +2,7 @@
     <div class="select-date">
         <DatePicker type="daterange"
             placement="bottom-start"
+            :value="timeArr"
             @on-change="change"
             placeholder="日期" class="date-wrap">
         </DatePicker>
@@ -9,17 +10,32 @@
 </template>
 <script>
 export default {
+    props: {
+        timeArr: {
+            type: Array,
+            default: function () {
+                return []
+            }
+        }
+    },
     data() {
         return {
             beginDate: "",
-            endDate: ""
+            endDate: "",
         }
     },
     methods: {
         change(params) {
             this.beginDate = params[0] || "";
             this.endDate = params[1] || "";
+        },
+        init() {
+            this.beginDate = this.timeArr[0] || "";
+            this.endDate = this.timeArr[1] || "";
         }
+    },
+    created () {
+        this.init();
     }
 }
 </script>
