@@ -23,7 +23,7 @@
 </template>
 <script>
 import FsLoggerListItem from './logger-list-node';
-import FsEmptyTips from 'app_component/common/empty-tips/'
+import FsEmptyTips from 'app_component/common/empty-tips/';
 /**
     range 
     0  所有日志

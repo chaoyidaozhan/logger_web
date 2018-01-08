@@ -6,23 +6,26 @@ import routes from './router/';
 import axios from 'axios';
 import http from './config/http';
 import ajax from './common/ajax'; // 引入封装过后的ajax
-import VuePreview from 'vue-preview'
 import storage from './common/store.js-master/dist/store.legacy.min';
+import 'video.js/dist/video-js.min.css';
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.css';
 import './assets/css/common.less';
 
 Vue.prototype.$eventbus = new Vue(); // 建立组件全局通信的钩子
 Vue.prototype.$ajax = ajax; // 将ajax挂在到vue实例
-Vue.prototype.$axios = axios; // 将ajax挂在到vue实例
-var CancelToken = axios.CancelToken;
-var source = CancelToken.source();
-Vue.prototype.$source = source; // 将ajax挂在到vue实例
 
 window.storage = storage; // 建立全局的storage
 
 Vue.use(VueRouter);
 Vue.use(iView);
-Vue.use(VuePreview);
+
+// 图片预览组件
+// import VuePreview from 'vue-preview';
+// Vue.use(VuePreview);
+
+// 视频组件
+import FsVueVideo from './components/common/video/index';
+Vue.use(FsVueVideo);
 
 // 选人组件依赖 iview 和 ajax.js ;
 import selectMember from './components/common/select-member';

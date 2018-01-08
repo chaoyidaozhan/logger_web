@@ -57,6 +57,10 @@ module.exports = {
                 }
             },
             {
+                test: /\.(swf)(\?[a-z0-9]+)?$/,
+                loader: 'file-loader',
+            },
+            {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader!postcss-loader',
             },
