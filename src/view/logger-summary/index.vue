@@ -7,6 +7,7 @@
                 :showTemplate="true" 
                 :showTemplateCheck="true" 
                 :showDatePicker="true" 
+                templateType="select"
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
         </template>

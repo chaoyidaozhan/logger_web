@@ -36,7 +36,7 @@
         },
         methods: {
             getTemplateApp(call) {
-                this.$store.dispatch('update_template_app').then(()=>{
+                this.$store.dispatch('update_template_app', {templateType:this.templateType}).then(()=>{
                     this.setTempListData();
                 })
             },
@@ -49,17 +49,17 @@
                 if(!this.$store.state.template.web.length && this.templateType == 'web') {
                     this.getTemplateWeb();
                 }
+                let templateType = this.templateType != 'web' ? 'app' : 'web';
                 if(this.hasDefaultTemplate) {
-                    this.tempListData = this.tempListData.concat(this.$store.state.template[this.templateType])
+                    this.tempListData = this.tempListData.concat(this.$store.state.template[templateType])
                 } else {
-                    this.tempListData = this.$store.state.template[this.templateType]
+                    this.tempListData = this.$store.state.template[templateType]
                     this.templateId = null
                 }
             },
             loadData() { // 默认优先获取数据保存到store
-                if(!this.$store.state.template.app.length) { 
-                    this.getTemplateApp();
-                }
+            console.log(this.templateType)
+                this.getTemplateApp();
                 if(this.tempListData.length < 2) {
                     this.setTempListData();
                 }

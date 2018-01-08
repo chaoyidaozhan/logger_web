@@ -30,7 +30,7 @@ export default {
                 shareEl: false,
                 barsSize: {top:0,bottom:0},
                 captionEl: false,
-                showAnimationDuration: 0
+                showAnimationDuration: 200
             },
             loadTimer: null
         }

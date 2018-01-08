@@ -121,6 +121,10 @@ export default {
             type: Boolean,
             default: false
         },
+        templateType: {
+            type: String,
+            default: 'app'
+        }
     },
     components: {
         FsSelectMember,
@@ -130,7 +134,6 @@ export default {
     },
     data() {
         return {
-            templateType: 'app',
             dept: [], // 组织
             group: [], // 团队
             member: [], // 提交人
@@ -211,7 +214,7 @@ export default {
             if(value) {
                 this.templateType = 'web'
             } else {
-                this.templateType = 'app'
+                this.templateType = 'select'
             }
         },
         resetQuery() {

@@ -656,12 +656,30 @@ export default {
         .empty-tips {
             margin-top: 40%;
         }
+        .ivu-tabs {
+            height: 100%;
+            position: relative;
+        }
         .ivu-tabs-bar {
             margin-bottom: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 36px;
+            z-index: 10;
         }
         .ivu-tabs-nav {
             width: 100%;
             background-color: @white-color-light;
+        }
+        .ivu-tabs-content {
+            height: 100%;
+            padding-top: 36px;
+            .ivu-tabs-tabpane {
+                height: 100%;
+                overflow: auto;
+            }
         }
         .ivu-tabs-tab {
             width: 47%;

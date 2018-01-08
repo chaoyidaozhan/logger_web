@@ -192,7 +192,6 @@ export default {
             }
         },
         filterEncode(val) {
-            
             return val ? HTMLDeCode(val.replace(/\n/g, '<br>')) : ''
         },
         renderRange(loggerItemData) { // 可见范围控制

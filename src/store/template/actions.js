@@ -3,13 +3,13 @@ import * as types from './mutations_types';
 import ajax from '../../common/ajax';
 
 
-function getTemplateApp(call) {
+function getTemplateApp(call, type) {
     ajax({
         url: '/logger/template/list',
         data: {
             pageNumber: 1,
             pageSize: 1000,
-            client: 'app'
+            client: type || 'app'
         },
         success: (res) => {
             if (res && res.code == 0) {
@@ -35,12 +35,12 @@ function getTemplateWeb(call) {
 }
 
 module.exports = {
-    update_template_app: ({ commit }) => {
+    update_template_app: ({ commit }, { templateType }) => {
         return new Promise((resolve, reject) => {
             getTemplateApp((app) => {
                 commit(types.UPDATE_TEMPLATE_APP, { app });
                 resolve()
-            });
+            }, templateType);
         })
         
     },

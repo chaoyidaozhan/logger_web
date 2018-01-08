@@ -40,7 +40,7 @@ export default {
             pageNum: 1,
             loaded: false,
             animate: 'fade',
-            timer: null
+            timer: null,
         }
     },
     components: {
@@ -48,19 +48,19 @@ export default {
         pagination
     },
     methods: {
-        setTempListData(name) {
+        setTempListData(name) { // 设置模板数据
             this.list = this.$store.state.template[`${name}`];
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 this.loaded = true
             }, 400);
         },
-        getTemplateApp(call) {
-            this.$store.dispatch('update_template_app').then(()=>{
+        getTemplateApp(call) { // 获取当前模板列表
+            this.$store.dispatch('update_template_app', { templateType: 'app' }).then(()=>{
                 this.setTempListData('app');
             })
         },
-        goToTemplate(e) {
+        goToTemplate(e) { 
             e.stopPropagation();
             this.$router.push({
                 path: `/LoggerTemplate/operate/-1`,
@@ -107,11 +107,7 @@ export default {
                     }
                 })
             } else {
-                if(!this.$store.state.template.app.length) { 
-                    this.getTemplateApp();
-                } else {
-                    this.setTempListData('app');
-                }
+                this.getTemplateApp();
             }
         },
     },
