@@ -68,6 +68,11 @@
                     <div class="caption" v-html="filterEncode(item.content || item.value)"></div>
                 </div>
             </div>
+            <!-- 附件 -->
+            <div class="logger-list-attach">
+                <fs-images></fs-images>
+                <fs-files></fs-files>
+            </div>
         </div>
         <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
             <div class="logger-list-col">
@@ -132,6 +137,8 @@ import FormatTime from 'app_src/filters/format-time';
 import FsAvatar from 'app_component/common/avatar/';
 import FsReply from 'app_component/common/reply/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+import FsFiles from './file';
+import FsImages from './image';
 const rowHeight = 24;
 export default {
     props: {
@@ -169,7 +176,9 @@ export default {
     },
     components: {
         FsAvatar,
-        FsReply
+        FsReply,
+        FsFiles,
+        FsImages
     },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期

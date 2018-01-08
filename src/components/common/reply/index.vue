@@ -53,10 +53,18 @@
                             <div class="content">
                                 <p class="reply-text" v-html="commentItem.content"></p>
                                 <div class="reply-attach-list">
-                                    <fs-file :files="commentItem.attachList.files" class="file-wrapper"></fs-file>
-                                    <fs-image :images="commentItem.attachList.imgs" class="image-wrapper"></fs-image>
-                                    <fs-audio :audios="commentItem.attachList.audios" class="audio-wrapper"></fs-audio>
-                                    <fs-video :videos="commentItem.attachList.videos" class="video-wrapper"></fs-video>
+                                    <fs-file class="file-wrapper"
+                                             :files="commentItem.attachList.files"
+                                             v-if="commentItem.attachList.files && commentItem.attachList.files.length"></fs-file>
+                                    <fs-image class="image-wrapper" 
+                                              :images="commentItem.attachList.imgs"
+                                              v-if="commentItem.attachList.imgs && commentItem.attachList.imgs.length"></fs-image>
+                                    <fs-audio class="audio-wrapper"
+                                              :audios="commentItem.attachList.audios"
+                                              v-if="commentItem.attachList.audios && commentItem.attachList.audios.length"></fs-audio>
+                                    <fs-video class="video-wrapper"
+                                              :videos="commentItem.attachList.videos"
+                                              v-if="commentItem.attachList.videos && commentItem.attachList.videos.length"></fs-video>
                                 </div>
                             </div>
 
@@ -206,8 +214,13 @@
                             attachList.videos.push(item);
                             break;
                         default:
-                            attachList.files.push(item);
-                            break;
+                            if(item.fileext === ".mp4"
+                             || item.fileext === ".webm"
+                             || item.fileext === ".ogv") {
+                                attachList.videos.push(item);
+                            }else {
+                                attachList.files.push(item);
+                            }
                     }
                 });
                 return attachList;
