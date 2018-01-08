@@ -65,7 +65,7 @@
                 :key="index">
                 <div class="logger-list-col">
                     <div class="title">{{item.title}}</div>
-                    <div class="caption" v-html="item.content || item.value"></div>
+                    <div class="caption" v-html="filterEncode(item.content || item.value)"></div>
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
 import FormatTime from 'app_src/filters/format-time';
 import FsAvatar from 'app_component/common/avatar/';
 import FsReply from 'app_component/common/reply/';
-
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 const rowHeight = 24;
 export default {
     props: {
@@ -177,12 +177,12 @@ export default {
         },
         filterDiaryUserTime(val) { // 格式化日志日期
             return FormatTime(new Date(val), 'MM-DD HH:mm')
-        }
+        },
     },
     methods: {
         setRangeHeight() { // 设置可展开的高度
-            this.rangeRealHeight = this.$refs.rangeHeight.offsetHeight;
-            this.contentRealHeight = this.$refs.contentHeight.offsetHeight;
+            this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight;
+            this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight;
 
             this.rangeHeight = this.rangeDefaultHeight;
             if(this.contentRealHeight > this.contentDefaultHeight) {
@@ -190,6 +190,10 @@ export default {
             } else {
                 this.contentHeight = this.contentRealHeight;
             }
+        },
+        filterEncode(val) {
+            
+            return val ? HTMLDeCode(val.replace(/\n/g, '<br>')) : ''
         },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;
