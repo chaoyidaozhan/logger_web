@@ -143,12 +143,7 @@ export default {
         }
     }
     .page {
-        position: absolute;
-        bottom: 0;
-        left: 0;
         width: 100%;
-        background: #fff;
-        padding: 0 0 60px;
     }
     .col {
         width: 33.33333333333%;
