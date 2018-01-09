@@ -2,7 +2,7 @@
     <div class="logger-summary-content">
         <div class="note" v-if="list.length">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
         <div class="content-bar" v-if="list.length">
-            <Table border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
+            <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
         </div>
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom" v-if="list.length">
@@ -53,6 +53,7 @@ export default {
             templateItemData:[],
             selectList:[],
             selectContent:[],
+            loading: false
         }
     },
     components: {
@@ -238,13 +239,16 @@ export default {
                 this.$Message.warning('请选择日期');
                 return false;
             } else {
+                this.loading = true;
                 this.$ajax({
                     url: '/logger/diaryQuery/getDiaryStatistics',
                     data: data,
                     success: (res) => {
                         this.updateList(res);
+                        this.loading = false;
                     },
                     error: (res) => {
+                        this.loading = false;
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
                 })

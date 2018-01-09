@@ -39,7 +39,6 @@
 <script>
 import FsFrame from '../frame/';
 import FsTemplateCreate from 'app_component/logger-template-manager/template-create';
-import 'app_src/directives/loading/';
 
 export default {
     data () {

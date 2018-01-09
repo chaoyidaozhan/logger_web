@@ -53,6 +53,7 @@ export default {
                 item.array = [];
                 let start = new Date(this.start).valueOf();
                 let end = new Date(this.end).valueOf();
+
                 let len = (end - start)/86400000 < 6 ? 6 : (end - start)/86400000
                 item.array.length = len+1;
                 if(item.resultList && item.resultList.length) {

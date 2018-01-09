@@ -83,7 +83,6 @@
 <script>
 import Ps from 'perfect-scrollbar';
 import FsEmptyTips from 'app_component/common/empty-tips/';
-import 'app_src/directives/loading/';
 
 export default {
     props: {

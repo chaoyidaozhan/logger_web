@@ -20,6 +20,7 @@ export default {
 .loading-wrapper {
     z-index: 9999;
     color: @primary-color;
+    background-color: rgba(255,255,255,.6);
     .text {
         font-size: 12px;
     }

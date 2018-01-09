@@ -6,7 +6,6 @@
 </template>
 <script>
 import FsSignMenu from 'app_component/menu';
-import 'app_src/directives/loading/';
 
 export default {
     data() {

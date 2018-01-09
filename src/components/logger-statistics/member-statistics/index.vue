@@ -8,6 +8,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                v-loading="{loading: loaded, text: '正在加载...'}"
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
@@ -19,6 +20,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
+                v-loading="{loading: loaded, text: '正在加载...'}"
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
@@ -31,6 +33,7 @@
                 :type="type"
                 :start="start"
                 :totalMap="totalMap"
+                v-loading="{loading: loaded, text: '正在加载...'}"
                 :title="title"/>
         </template>
         <!--自定义统计-->
@@ -40,15 +43,15 @@
                 :maxDate="maxDate"
                 @handleChangeDate="handleChangeDate"/>
             <fs-member-statistics-define
-                v-if="start"
+                v-if="start && end"
                 :data="list"
                 :type="type"
                 :start="start"
                 :end="end"
                 :totalMap="totalMap"
+                v-loading="{loading: loaded, text: '正在加载...'}"
                 :title="title"/>
         </template>
-
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
     </div>
 </template>
@@ -98,7 +101,8 @@ export default {
             timer: null,
             totalCount: 0,
             pageSize: 20,
-            pageNo: 1
+            pageNo: 1,
+            loaded: false
         }
     },
     components: {
@@ -128,7 +132,11 @@ export default {
                     this.start = beginDate || '';
                     this.end = endDate || '';
                 }
-                this.loadData();
+                if(this.params.memberIds) {
+                    this.loadData();
+                } else {
+                    this.loaded = true;
+                }
             }, 200);
         },
         handleChangePage(index) {
@@ -144,6 +152,7 @@ export default {
             }, this.params);
         },
         loadData() {
+            this.loaded = false;
             this.$ajax({
                 url: '/logger/diaryQuery/getUsersStatisticsByCondition',
                 data: this.getParams(),
@@ -151,7 +160,7 @@ export default {
                     if(res && res.code === 0) {
                         this.list = res.data.resultList || [];
                         let keys = Object.keys(res.data.totalMap || {});
-                        this.totalCount = 100;
+                        this.totalCount = res.data.totalCount || 0;
                         if(keys && keys.length) {
                             res.data.totalMap.total = 0
                             keys.forEach(key=>{
@@ -160,9 +169,11 @@ export default {
                         }
                         this.totalMap = res.data.totalMap || {};
                     }
+                    this.loaded = true;
                 },
                 error: (res)=>{
                     this.$Message.error(res && res.msg || '网络错误');
+                    this.loaded = true;
                 }
             })
         }
@@ -172,4 +183,9 @@ export default {
     }
 }
 </script>
+<style lang="less">
+.logger-statistics-content {
+    position: relative;
+}
+</style>
 
