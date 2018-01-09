@@ -25,6 +25,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../../assets/css/var.less';
     .video-list {
         .video-item {
             float: left;
@@ -35,7 +36,7 @@ export default {
             & > div {
                 width: 100%;
                 height: 100%;
-                background-color: #000;
+                background-color: @gray-color-light;;
                 position: relative;
             }
             .play-btn {
@@ -48,19 +49,18 @@ export default {
                 line-height: 46px;
                 width: 50px;
                 border-radius: 50%;
-                border: 2px solid #fff;
+                border: 2px solid @white-color;
                 text-align: center;
                 padding: 0;
                 opacity: 1;
-                background-color: rgba(43, 51, 63, .7);
                 transition: all .4s;
                 i {
-                    color: #fff;
+                    color: @white-color;
                 }
             }
             &:hover {
                 .play-btn {
-                    background-color: #2b333f;
+                    transform: scale(1.1)
                 }
             }
         }
