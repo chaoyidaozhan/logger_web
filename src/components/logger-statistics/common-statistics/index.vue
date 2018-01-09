@@ -6,12 +6,14 @@
             :data="list"
             :type="type"
             :title="title"
+            v-loading="{loading: loaded, text: '加载中...'}"
             v-if="params.orderType == 0"/>
         <!--季度统计-->
         <fs-logger-statistics-season  
             :data="list"
             :type="type"
             :title="title"
+            v-loading="{loading: loaded, text: '加载中...'}"
             v-if="params.orderType == 1"/>
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
     </div>
@@ -47,7 +49,8 @@ export default {
             timer: null,
             pageSize: 20,
             pageNo: 1,
-            totalCount: 0
+            totalCount: 0,
+            loaded: true
         }
     },
     components: {
@@ -84,6 +87,7 @@ export default {
             }, this.params);
         },
         loadData() {
+            this.loaded = false;
             this.$ajax({
                 url: '/logger/diaryQuery/getStatisticsByCondition',
                 data: this.getParams(),
@@ -94,8 +98,10 @@ export default {
                             this.totalCount = res.data[0].totalCount || 0
                         }
                     }
+                    this.loaded = true;
                 },
                 error: (res)=>{
+                    this.loaded = true;
                     this.$Message.error(res && res.msg || '网络错误');
                 }
             })

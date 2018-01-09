@@ -8,7 +8,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
-                v-loading="{loading: loaded, text: '正在加载...'}"
+                v-loading="{loading: loaded, text: '加载中...'}"
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
@@ -20,7 +20,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
-                v-loading="{loading: loaded, text: '正在加载...'}"
+                v-loading="{loading: loaded, text: '加载中...'}"
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
@@ -33,7 +33,7 @@
                 :type="type"
                 :start="start"
                 :totalMap="totalMap"
-                v-loading="{loading: loaded, text: '正在加载...'}"
+                v-loading="{loading: loaded, text: '加载中...'}"
                 :title="title"/>
         </template>
         <!--自定义统计-->
@@ -49,7 +49,7 @@
                 :start="start"
                 :end="end"
                 :totalMap="totalMap"
-                v-loading="{loading: loaded, text: '正在加载...'}"
+                v-loading="{loading: loaded, text: '加载中...'}"
                 :title="title"/>
         </template>
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
@@ -102,7 +102,7 @@ export default {
             totalCount: 0,
             pageSize: 20,
             pageNo: 1,
-            loaded: false
+            loaded: true
         }
     },
     components: {
@@ -134,9 +134,7 @@ export default {
                 }
                 if(this.params.memberIds) {
                     this.loadData();
-                } else {
-                    this.loaded = true;
-                }
+                } 
             }, 200);
         },
         handleChangePage(index) {

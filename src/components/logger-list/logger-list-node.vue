@@ -201,7 +201,7 @@ export default {
             }
         },
         filterEncode(val) {
-            return val ? HTMLDeCode(val.replace(/\n/g, '<br>')) : ''
+            return typeof val == 'string' ? (val ? HTMLDeCode(val.replace(/\n/g, '<br>')) : ''): val
         },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;

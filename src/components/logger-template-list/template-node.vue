@@ -19,7 +19,7 @@
             <template v-else>
                 <!--启用显示查看-->
                 <span @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
-                <span><i class="icon-check"></i></span>
+                <span @click="goToTemplate"><i class="icon-check"></i></span>
             </template>
         </div>
     </div>
@@ -37,6 +37,11 @@ export default {
             default: false
         }
     },
+    data() {
+        return {
+            timer: null
+        }
+    },
     filters: {
         filterTime(val) { // 格式化日志日期
             return FormatTime(new Date(val), 'YYYY-MM-DD HH:mm')
@@ -47,19 +52,22 @@ export default {
             updateTemplateContent: 'update_template_content'
         }),
         handleSwitch(name) {
-            this.$ajax({
-                url: `/logger/template/${name}`,
-                type: 'post',
-                data: {
-                    id: this.data.id
-                },
-                success: (res)=>{
-                    this.data.dataStatus = name == 'start' ? 1 : 0
-                },
-                error: (res)=>{
-                    this.$Message.error(res && res.msg || '网络错误');
-                }
-            })
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+                this.$ajax({
+                    url: `/logger/template/${name}`,
+                    type: 'post',
+                    data: {
+                        id: this.data.id
+                    },
+                    success: (res)=>{
+                        this.data.dataStatus = name == 'start' ? 1 : 0
+                    },
+                    error: (res)=>{
+                        this.$Message.error(res && res.msg || '网络错误');
+                    }
+                });
+            }, 200);
         },
         handleDelete() {
             this.$ajax({
@@ -72,7 +80,7 @@ export default {
                 error: (res)=>{
                     this.$Message.error(res && res.msg || '网络错误');
                 }
-            })
+            });
         },
         goToDetail() {
             this.updateTemplateContent({
@@ -85,7 +93,7 @@ export default {
                         token: this.$store.state.userInfo.token,
                         templateName: this.data.title||'' 
                     }
-                })
+                });
             } 
         },
         goToTemplate(e) {
@@ -98,7 +106,7 @@ export default {
                 query: {
                     token: this.$store.state.userInfo.token
                 }
-            })
+            });
         }
     }
 }
@@ -172,7 +180,8 @@ export default {
         border-radius: 4px;
         background-color: rgba(0,0,0,.5);
         opacity: 0;
-        transition: .2s ease opacity;
+        transform: translateY(-70%);
+        transition: .3s ease-in-out all;
         text-align: center;
         &:before {
             height: 100%;
@@ -193,7 +202,8 @@ export default {
             margin: 0 10px;
             font-size: 16px;
             color: @white-color;
-            transition: .2s ease opacity;
+            transition: .3s ease-in-out color, .4s ease-in-out transform;
+            transform: translateY(-100%);
             .icon-play {
                 margin-left: 2px;
             }
@@ -205,6 +215,10 @@ export default {
     &:hover {
         .template-operate-modal{
             opacity: 1;
+            transform: translateY(0);
+            span {
+                transform: translateY(0);
+            }
         }
     }
 }
