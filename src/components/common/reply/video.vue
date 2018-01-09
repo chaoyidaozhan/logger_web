@@ -4,6 +4,9 @@
             v-for="item in videos" :key="item.fid">
             <div @click="open(item)">
                 <span class="play-btn cursor-pointer"><Icon type="play"></Icon></span>
+                <div class="btm ellipsis">
+                    {{item.fileName}}
+                </div>
             </div>
         </div>
     </div>
@@ -43,9 +46,9 @@ export default {
                 position: absolute;
                 left: 50%;
                 top: 50%;
-                margin: -25px 0 0 -25px;
+                margin: -35px 0 0 -25px;
                 display: inline-block;
-                font-size: 24px;
+                font-size: 20px;
                 line-height: 46px;
                 width: 50px;
                 border-radius: 50%;
@@ -58,9 +61,23 @@ export default {
                     color: @white-color;
                 }
             }
+            .btm {
+                background-color: rgba(0,0,0,.7);
+                padding: 5px 10px;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                left: 0;
+                font-size: 12px;  
+                transition: all .4s;
+            }
             &:hover {
                 .play-btn {
-                    transform: scale(1.1)
+                    box-shadow: 0 1px 4px @box-shadow;
+                    background-color: @box-shadow;
+                }
+                .btm {
+
                 }
             }
         }
