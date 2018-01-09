@@ -24,8 +24,8 @@ Vue.use(VueRouter);
 Vue.use(iView);
 
 // 图片预览组件
-// import VuePreview from 'vue-preview';
-// Vue.use(VuePreview);
+import VuePreview from 'vue-preview';
+Vue.use(VuePreview);
 
 // 视频组件
 import FsVueVideo from './components/common/video/index';

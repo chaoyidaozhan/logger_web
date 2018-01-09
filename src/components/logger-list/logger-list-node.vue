@@ -69,9 +69,11 @@
                 </div>
             </div>
             <!-- 附件 -->
-            <div class="logger-list-attach">
-                <fs-images></fs-images>
-                <fs-files></fs-files>
+            <div class="logger-list-row logger-list-attach">
+                <fs-images :images="loggerItemAttachs.imgs"
+                           v-if="loggerItemAttachs.imgs && loggerItemAttachs.imgs.length"></fs-images>
+                <fs-files :files="loggerItemAttachs.files"
+                          v-if="loggerItemAttachs.files && loggerItemAttachs.files.length"></fs-files>
             </div>
         </div>
         <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
@@ -186,7 +188,22 @@ export default {
         },
         filterDiaryUserTime(val) { // 格式化日志日期
             return FormatTime(new Date(val), 'MM-DD HH:mm')
-        },
+        }
+    },
+    computed: {
+        loggerItemAttachs() { // 目前仅图片和文件类型
+            let attachList = {
+                imgs: [],
+                files: []
+            };
+            let imgTypeArr = [".jpg", ".jpeg", ".png", ".pic", ".gif", ".bmp", ".svg", ".raw"];
+            this.loggerItemData.fileStr.forEach((item) => {
+                imgTypeArr.indexOf(item.fileExtension) >= 0
+                ? attachList.imgs.push(item)
+                : attachList.files.push(item);
+            });
+            return attachList;
+        }
     },
     methods: {
         setRangeHeight() { // 设置可展开的高度
