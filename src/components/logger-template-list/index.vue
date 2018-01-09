@@ -16,7 +16,7 @@
             </div>
         </transition-group>
         <div class="page" v-if="totalCount > pageSize">
-            <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
+            <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
     </div>
 </template>
@@ -37,7 +37,7 @@ export default {
             show: true,
             totalCount: 0,
             pageSize: 19,
-            pageNum: 1,
+            pageNo: 1,
             loaded: false,
             animate: 'fade',
             timer: null,
@@ -78,7 +78,7 @@ export default {
             })
         },
         handleChangePage(index) {
-            this.pageNum = index;
+            this.pageNo = index;
             this.loadData();
         },
         loadData(animate) { // 默认优先获取数据保存到store
@@ -90,7 +90,7 @@ export default {
                     url: '/logger/template/list',
                     data: {
                         pageSize: this.pageSize,
-                        pageNum: this.pageNum,
+                        pageNo: this.pageNo,
                     },
                     success: (res)=>{
                         if(res && res.code == 0) {

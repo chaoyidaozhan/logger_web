@@ -133,7 +133,7 @@
                 value: '',
                 maxLength: 200,
                 showFace: false,
-                pageNum: 1,
+                pageNo: 1,
                 pageSize: 10,
                 commentListData: [],
                 loading: true,
@@ -232,7 +232,7 @@
                     item.content = this.filterContent(item.content);
                     item.attachList = this.filterContentAttach(item.replyCommentFileList);
                 });
-                this.pageNum === 1
+                this.pageNo === 1
                             ? this.commentListData = commentData
                             : this.commentListData = this.commentListData.concat(commentData);
                 if(commentData.length < this.pageSize) {
@@ -251,7 +251,7 @@
                         url: `/logger/diaryComment/${this.dailyId}/reply`,
                         type: 'get',
                         data: {
-                            pageNum: this.pageNum,
+                            pageNo: this.pageNo,
                             pageSize: this.pageSize
                         },
                         success: (res)=>{
@@ -279,7 +279,7 @@
                     success: (res)=>{
                         if(res && res.code === 0) {
                             this.commentListData = [];
-                            this.pageNum = 1;
+                            this.pageNo = 1;
                             this.loadCommentData();
                             this.value = "";
                             this.$emit('handleReplyNum', true);
@@ -293,7 +293,7 @@
                 })
             },
             handleLoadMore() { // 加载更多
-                this.pageNum++;
+                this.pageNo++;
             },
             handleReload() { // 网络错误，重新加载
                 this.loadError = false; 
@@ -331,7 +331,7 @@
             }
         },
         watch: {
-            "pageNum": "loadCommentData"
+            "pageNo": "loadCommentData"
         },
         created() {
             this.loadCommentData();

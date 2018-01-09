@@ -61,7 +61,7 @@ export default {
     data() {
         return {
             list: [],
-            pageNum: 1, 
+            pageNo: 1, 
             pageSize: 20, 
             loading: false,
             loaderror: false,
@@ -73,13 +73,13 @@ export default {
         FsEmptyTips
     },
     watch: {
-        pageNum: 'loadData',
+        pageNo: 'loadData',
         params: 'initList' 
     },
     methods: {
         getParams() { // 获取参数
             let data = {
-                pageNum: this.pageNum,
+                pageNo: this.pageNo,
                 pageSize: this.pageSize,
                 range: this.range,
             }
@@ -95,14 +95,14 @@ export default {
                 let scrollTop = $target.scrollTop;
                 let offsetHeight = $target.offsetHeight;
                 if (offsetHeight == (scrollHeight - scrollTop)) {
-                    this.pageNum++
+                    this.pageNo++
                 }
             }
         },
         updateList(res) { // load成功之后更新数据
             if(res && res.code === 0) {
                 this.hasMore = true;
-                if(this.pageNum == 1) {
+                if(this.pageNo == 1) {
                     this.list = res.data || [];
                 } else {
                     this.list = this.list.concat(res.data || []);
@@ -146,7 +146,7 @@ export default {
         },
         initList() { // 初始化列表
             this.list = [];
-            this.pageNum = 1;
+            this.pageNo = 1;
             this.loading = false;
             this.hasMore = true;
             this.loadData();

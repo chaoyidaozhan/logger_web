@@ -28,7 +28,7 @@ export default {
     data() {
         return {
             pageSize: 100,
-            pageNum: 1,
+            pageNo: 1,
             groupsData: [],
             currentId: '',
             loading: false,
@@ -42,7 +42,7 @@ export default {
         Loading
     },
     watch: {
-        pageNum: "loadData"
+        pageNo: "loadData"
     },
     methods: {
         loadData() {
@@ -51,7 +51,7 @@ export default {
                 url: '/logger/diaryQuery/getGeneralGroupDiary',
                 type: 'get',
                 data: {
-                    pageNum: this.pageNum,
+                    pageNo: this.pageNo,
                     pageSize: this.pageSize
                 },
                 success: (res)=>{

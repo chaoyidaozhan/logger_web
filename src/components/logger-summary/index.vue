@@ -16,7 +16,7 @@
                     <Button type="ghost" @click="exportECL">导出EXCEL</Button>
                 </span>
             </div>
-            <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNum" />
+            <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
         <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
         <span class="nodata" v-if="!list.length&&iconFlag">只能查询到最新模板的数据，模板修改前的数据
@@ -41,7 +41,7 @@ export default {
             checkNum: 0,
             iconFlag: 1,
             list: [],
-            pageNum: 1,
+            pageNo: 1,
             pageSize: 20,
             range: 0,
             totalCount: 0,
@@ -83,7 +83,7 @@ export default {
             this.selectContent = summaryarr;
         },
         handleChangePage(pageNo) { // 改变页数
-            this.pageNum = pageNo;
+            this.pageNo = pageNo;
             this.loadData();
         },
         handleSummaryData(){ // 汇总数据
@@ -218,7 +218,7 @@ export default {
         },
         getParams() { // 合并参数
             let data = Object.assign({
-                pageNumber: this.pageNum,
+                pageNo: this.pageNo,
                 pageSize: this.pageSize,
                 range: this.range,
                 memberIds: this.params.memberIds || '',
@@ -251,7 +251,7 @@ export default {
             }
         },
         initList() { // 初始化列表
-            this.pageNum = 1;
+            this.pageNo = 1;
             this.dataType = false;
             this.checkNum = 0;
             this.loadData();
