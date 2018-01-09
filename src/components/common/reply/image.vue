@@ -44,6 +44,7 @@ export default {
                     let w = item.naturalWidth && item.naturalWidth || 600,
                         h = item.naturalHeight && item.naturalHeight || 400,
                         imagesList = this.images[index];
+                        (w < 100 && h < 100) && (w = w * 10, h = h * 10);
                         this.list.push({
                             src: imagesList.fileUrl,
                             w: w,

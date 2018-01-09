@@ -503,6 +503,15 @@ export default {
     }
     .handle-content-expand-btn {
         color: @primary-color;
+        position: relative;
+        &:after {
+            content: '';
+            height: 10px;
+            width: 100%;
+            position: absolute;
+            top: -10px;
+            background: -webkit-linear-gradient(bottom, #ffffff 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0) 100%);
+        }
     }
     .lat {
         height: 20px;
