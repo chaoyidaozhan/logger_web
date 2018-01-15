@@ -560,9 +560,8 @@ export default {
 }
 .operate-modal {
     .ivu-modal-body {
-        padding: 0 50px;
+        padding: 0 50px 10px;
         min-height: 340px;
-        max-height: 340px;
         position: relative;
         &:before {
             position: absolute;
