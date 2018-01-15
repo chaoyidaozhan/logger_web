@@ -97,7 +97,7 @@ export default {
     data() {
         return {
             templateContent: [],
-            templateContentClone:[],
+            templateContentClone: [],
             templateItemData: [],
             deptRange: [],
             groupRange: [],
@@ -105,7 +105,7 @@ export default {
             rangeArr: [],
             member: [],
             dateValue: new Date(),
-            dateValueSec:new Date(),
+            dateValueSec: new Date(),
             inputTextValue: [],
             valueNum: 0,
             dateOption: {
@@ -126,8 +126,9 @@ export default {
     components: {
         SelectMemberInput
     },
-    methods: { 
+    methods: {
         initData(templateItemData, templateContent) {
+            window.createComplete = false;
             this.dateValue = templateItemData.diaryTime || new Date(); // 初始化日志日期
             this.initRange(templateItemData.range || []); // 初始化可选范围
             this.initAtMember(templateItemData); // 初始化at人 
@@ -135,7 +136,9 @@ export default {
             this.initTemplateContent(templateContent) // 初始化可变表单
         },
         initRange(datalist) {
-            let teamArray = [], depArrar = [], manArray = [];
+            let teamArray = [],
+                depArrar = [],
+                manArray = [];
             datalist && datalist.forEach((v, k) => {
                 if (v.dataType == 1) { //部门
                     depArrar.push({
@@ -192,274 +195,277 @@ export default {
                 }
             })
         },
-        initDefaultFile(templateItemData){//初始化文件列表
-            let fileArr = templateItemData.fileStr||[]; 
-            fileArr.forEach((v,k)=>{
+        initDefaultFile(templateItemData) { //初始化文件列表
+            let fileArr = templateItemData.fileStr || [];
+            fileArr.forEach((v, k) => {
                 this.defaultFileList.push({
-                    'name':`${v.fileName}${v.fileExtension}`,
-                    'url':v.fileKey,
-                    'fileName':`${v.fileName}${v.fileExtension}`,
-                    'fileSize':v.fileSize,
-                    'fileExtension':v.fileExtension,
-                    'fileKey':v.fileKey
+                    'name': `${v.fileName}${v.fileExtension}`,
+                    'url': v.fileKey,
+                    'fileName': `${v.fileName}${v.fileExtension}`,
+                    'fileSize': v.fileSize,
+                    'fileExtension': v.fileExtension,
+                    'fileKey': v.fileKey
                 })
             })
         },
-        getTemplateApp() {//获取编辑数据
+        getTemplateApp() { //获取编辑数据
             this.$ajax({
                 url: `/logger/diary/detail/${this.$route.params.id}`,
-                success: (res)=>{
-                    if(res && res.code === 0) {
-                        this.templateItemData =res.data||{};
-                        this.templateContent = JSON.parse(res.data.content)||[];
-                        this.initData(this.templateItemData,this.templateContent);
+                success: (res) => {
+                    if (res && res.code === 0) {
+                        this.templateItemData = res.data || {};
+                        this.templateContent = JSON.parse(res.data.content) || [];
+                        this.initData(this.templateItemData, this.templateContent);
                     } else {
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
                 },
-                error: (res)=>{
+                error: (res) => {
                     this.$Message.warning((res && res.msg) || '网络错误');
                 }
             })
         },
         setTempListData() {
-            this.templateItemData = this.$store.state.template.content||{};
+            this.templateItemData = this.$store.state.template.content || {};
             this.templateContent = JSON.parse(this.$store.state.template.content.content) || [];
-            this.initData(this.templateItemData,this.templateContent);
+            this.initData(this.templateItemData, this.templateContent);
         },
-        loadData(){
-            if(!this.$store.state.template.content.content&&this.$route.params.loggertype=='edit') { 
+        loadData() {
+            if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'edit' || this.$route.params.loggertype == 'editDraft')) {
                 this.getTemplateApp();
-            } else if(!this.$store.state.template.content.content&&(this.$route.params.loggertype=='create'||this.$route.params.loggertype=='summary')){
+            } else if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'create' || this.$route.params.loggertype == 'summary')) {
                 this.$router.go(-1);
-            }else{
+            } else {
                 this.setTempListData();
             }
         },
-        getVisibleRange(){//可见范围
+        getVisibleRange() { //可见范围
             this.$ajax({
                 url: '/logger/diary/lastVisibleRange',
                 data: {
-                    templateId:this.$route.params.id||0
+                    templateId: this.$route.params.id || 0
                 },
-                success: (res)=>{
-                    if(res && res.code === 0) {
-                        let datalist = res.data.ranges||[];
+                success: (res) => {
+                    if (res && res.code === 0) {
+                        let datalist = res.data.ranges || [];
                         this.initRange(datalist);
-                    }else{
+                    } else {
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
                 },
-                error: (res)=>{
+                error: (res) => {
                     this.$Message.warning((res && res.msg) || '网络错误');
                 }
             })
         },
         handleSelectMember(res) { //选人
             let keys = Object.keys(res);
-            keys.forEach(key=>{
+            keys.forEach(key => {
                 this[key] && (this[key] = res[key])
             })
         },
-        handleSelectRange(res){ //选范围
+        handleSelectRange(res) { //选范围
             let keys = Object.keys(res);
-            keys.forEach(key=>{
+            keys.forEach(key => {
                 this[`${key}Range`] && (this[`${key}Range`] = res[key])
             })
         },
-        handleFileSuccess(res, file){//处理上传的文件数据
-            let fileData = res.data[0]||[],defaultList = [];
-            this.defaultFileList&&this.defaultFileList.forEach((v,k)=>{
+        handleFileSuccess(res, file) { //处理上传的文件数据
+            let fileData = res.data[0] || [],
+                defaultList = [];
+            this.defaultFileList && this.defaultFileList.forEach((v, k) => {
                 defaultList.push({
-                    fileName:v.fileName,
-                    fileSize:v.fileSize,
-                    fileExtension:v.fileExtension,
-                    fileKey:v.fileKey
+                    fileName: v.fileName,
+                    fileSize: v.fileSize,
+                    fileExtension: v.fileExtension,
+                    fileKey: v.fileKey
                 })
             });
             this.fileStr.push({
-                fileName:file.name,
-                fileSize:fileData.fileSize,
-                fileExtension:fileData.fileExtension,
-                fileKey:fileData.fileKey
+                fileName: file.name,
+                fileSize: fileData.fileSize,
+                fileExtension: fileData.fileExtension,
+                fileKey: fileData.fileKey
             });
             this.fileStr = this.fileStr.concat(defaultList);
         },
-        handleRemoveFile(file,fileList){//处理移除文件
-            fileList&&fileList.forEach((v,k)=>{
+        handleRemoveFile(file, fileList) { //处理移除文件
+            fileList && fileList.forEach((v, k) => {
                 this.fileStr.push({
-                    fileName:v.fileName,
-                    fileSize:v.fileSize,
-                    fileExtension:v.fileExtension,
-                    fileKey:v.fileKey
+                    fileName: v.fileName,
+                    fileSize: v.fileSize,
+                    fileExtension: v.fileExtension,
+                    fileKey: v.fileKey
                 })
             })
         },
-        cancleSubmit(){//取消编辑
+        cancleSubmit() { //取消编辑
             this.$Modal.confirm({
                 title: '取消编辑',
                 content: '您的日志还没提交，确定要放弃编辑吗？',
-                onOk: ()=>{
+                onOk: () => {
                     this.$router.push({
                         path: '/LoggerQueryAll',
-                        query:{
-                            token:this.$store.state.userInfo.token
+                        query: {
+                            token: this.$store.state.userInfo.token
                         }
                     });
-                    
+
                 }
             });
-        },    
-        handleSubmitData(){//处理提交数据
-            let visibleRangeStr = [],submitContent = [],memberArr = [];
-            this.deptRange.forEach((v,k)=>{
+        },
+        handleSubmitData() { //处理提交数据
+            let visibleRangeStr = [],
+                submitContent = [],
+                memberArr = [];
+            this.deptRange.forEach((v, k) => {
                 visibleRangeStr.push({
                     'teamId': v.deptId,
                     'teamName': v.deptName,
-                    'dataType':1
+                    'dataType': 1
                 })
             });
-            this.groupRange.forEach((v,k)=>{
+            this.groupRange.forEach((v, k) => {
                 visibleRangeStr.push({
-                    'teamId': v.groupId||v.gid,
+                    'teamId': v.groupId || v.gid,
                     'teamName': v.groupName,
-                    'dataType':3
+                    'dataType': 3
                 })
             });
-            this.memberRange.forEach((v,k)=>{
+            this.memberRange.forEach((v, k) => {
                 visibleRangeStr.push({
                     'memberId': v.memberId,
                     'userName': v.userName,
-                    'dataType':4
+                    'dataType': 4
                 })
             });
             this.rangeArr = visibleRangeStr;
             this.templateContentClone = JSON.parse(JSON.stringify(this.templateContent));
-            this.templateContentClone.forEach((v,k)=>{
-                if(v.type=='InputText'){
+            this.templateContentClone.forEach((v, k) => {
+                if (v.type == 'InputText') {
                     v.value = this.inputTextValue[k];
                     v.content = this.inputTextValue[k];
-                }else if(v.type=='InputTextNum'){
+                } else if (v.type == 'InputTextNum') {
                     v.content = v.valueNum;
                     v.value = v.valueNum;
-                    if(v.valueNum) {
+                    if (v.valueNum) {
                         delete v.valueNum;
                     }
-                }else if(v.type=='InputRadio'){
-                    v.options&&v.options.forEach((value,key)=>{
-                        if(value.string == v.content){
-                            v.value = key; 
+                } else if (v.type == 'InputRadio') {
+                    v.options && v.options.forEach((value, key) => {
+                        if (value.string == v.content) {
+                            v.value = key;
                         }
                     })
-                }else if(v.type=='InputCheckbox'){
+                } else if (v.type == 'InputCheckbox') {
                     let valueArr = [];
-                    v.options&&v.options.forEach((value,key)=>{
-                        v.content&&v.content.forEach((item,index)=>{
-                            if(value.string == v.content[index]){
+                    v.options && v.options.forEach((value, key) => {
+                        v.content && v.content.forEach((item, index) => {
+                            if (value.string == v.content[index]) {
                                 valueArr.push(key)
                             }
                         })
                     })
-                    v.content = v.content&&v.content.join(',');
+                    v.content = v.content && v.content.join(',');
                     v.value = valueArr.join(',');
-                }
-                else if(v.type=='InputDate'){
+                } else if (v.type == 'InputDate') {
                     v.value = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
                     v.content = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
-                    if(v.dateValueSec){
+                    if (v.dateValueSec) {
                         delete v.dateValueSec
                     }
                 }
             })
 
-            this.member.forEach((v,k)=>{
+            this.member.forEach((v, k) => {
                 memberArr.push({
-                    userName:v.userName,
-                    memberId:v.memberId,
-                    szId:1
+                    userName: v.userName,
+                    memberId: v.memberId,
+                    szId: 1
                 })
             })
             this.atStr = memberArr;
-        },  
-        handleValidate(templateContent){//校验数据
-            for (let i = 0,l =templateContent.length ; i < l; i++) {
-                if(templateContent[i].isRequired==1){
-                    if((templateContent[i].type!='InputRadio'&&templateContent[i].type!='InputTextNum'&&!templateContent[i].value)||
-                    ((templateContent[i].type=='InputRadio'&&templateContent[i].type=='InputTextNum'&&templateContent[i].value==''))){
-                        this.$Message.warning(templateContent[i].title+'不能为空');
+        },
+        handleValidate(templateContent) { //校验数据
+            for (let i = 0, l = templateContent.length; i < l; i++) {
+                if (templateContent[i].isRequired == 1) {
+                    if ((templateContent[i].type != 'InputRadio' && templateContent[i].type != 'InputTextNum' && !templateContent[i].value) ||
+                        ((templateContent[i].type == 'InputRadio' && templateContent[i].type == 'InputTextNum' && templateContent[i].value == ''))) {
+                        this.$Message.warning(templateContent[i].title + '不能为空');
                         return false;
-                    }  
-                } 
+                    }
+                }
             }
             return true;
         },
-        handleSubmit() {//提交
+        handleSubmit() { //提交
             this.handleSubmitData();
-            if(!this.handleValidate(this.templateContentClone)){
-                return 
-            }else{
-                this.$store.dispatch('update_template_content',{
-                    content:{
-                        content:this.templateContentClone
+            if (!this.handleValidate(this.templateContentClone)) {
+                return
+            } else {
+                window.createComplete = true;
+                this.$store.dispatch('update_template_content', {
+                    content: {
+                        content: this.templateContentClone
                     }
                 });
                 this.submitData = {
-                    gather:this.summaryFlag?1:0,//是否是汇总日志 0：否 1：是
-                    diaryTime:FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
-                    templateName:this.templateItemData.title||this.templateItemData.templateName,
+                    gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
+                    diaryTime: FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
+                    templateName: this.templateItemData.title || this.templateItemData.templateName,
                     version: this.templateItemData.version,
-                    source:3,//1 安卓   2 ios    3web    4微信
-                    templateId:!this.editFlag?this.$route.params.id||0:this.templateItemData.templateId||0,
-                    visibleRange:this.saveDraft||this.editFlag||this.rangeArr.length<=0?3:1,
-                    visibleRangeStr:JSON.stringify(this.rangeArr),
-                    dataType:this.templateItemData.dataType,// ["其他", "日报", "周报", "月报"]
-                    fileStr:JSON.stringify(this.fileStr),
-                    content:JSON.stringify(this.templateContentClone), 
+                    source: 3, //1 安卓   2 ios    3web    4微信
+                    templateId: !this.editFlag ? this.$route.params.id || 0 : this.templateItemData.templateId || 0,
+                    visibleRange: this.saveDraft || this.editFlag || this.rangeArr.length <= 0 ? 3 : 1,
+                    visibleRangeStr: JSON.stringify(this.rangeArr),
+                    dataType: this.templateItemData.dataType, // ["其他", "日报", "周报", "月报"]
+                    fileStr: JSON.stringify(this.fileStr),
+                    content: JSON.stringify(this.templateContentClone),
                     atStr: JSON.stringify(this.atStr)
                 };
-                this.editFlag?this.submitData.id = this.templateItemData.id||0:'';
+                this.editFlag ? this.submitData.id = this.templateItemData.id || 0 : '';
                 this.$ajax({
-                    url: this.saveDraft?'/logger/diary/diaryCommitDraft':(this.editFlag?'/logger/diary/edit':'/logger/diary/diaryCommit'),
+                    url: this.saveDraft ? '/logger/diary/diaryCommitDraft' : (this.editFlag ? '/logger/diary/edit' : '/logger/diary/diaryCommit'),
                     data: this.submitData,
-                    type:'post',
-                    success: (res)=>{
-                        if(res && res.code === 0) {
-                            this.saveDraft?this.$Message.success('日志草稿保存成功'):(this.editFlag?this.$Message.success('日志修改成功'):this.$Message.success('日志创建成功'));
+                    type: 'post',
+                    success: (res) => {
+                        if (res && res.code === 0) {
+                            this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
                             this.$router.push({
                                 path: '/LoggerQueryAll',
-                                query:{
-                                    token:this.$store.state.userInfo.token
+                                query: {
+                                    token: this.$store.state.userInfo.token
                                 }
                             });
-                        }else{
+                        } else {
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
                     },
-                    error: (res)=>{
+                    error: (res) => {
                         this.$Message.warning((res && res.msg) || '网络错误');
                     }
 
                 })
             }
-            
-        },   
+
+        },
     },
-    mounted () {
-        this.$eventbus.$on('saveDraftFun',()=>{// 保存草稿
+    mounted() {
+        this.$eventbus.$on('saveDraftFun', () => { // 保存草稿
             this.saveDraft = true;
             this.handleSubmit();
         })
     },
-    destroyed () {
+    destroyed() {
         this.$eventbus.$off('saveDraftFun')
     },
-    created(){
-        if(this.$route.params.loggertype!='edit'){
+    created() {
+        if (this.$route.params.loggertype != 'edit') {
             this.getVisibleRange();
-            if(this.$route.params.loggertype == 'summary'){
+            if (this.$route.params.loggertype == 'summary') {
                 this.summaryFlag = 1;
             }
-        }else{
+        } else {
             this.editFlag = 1;
         }
         this.loadData();

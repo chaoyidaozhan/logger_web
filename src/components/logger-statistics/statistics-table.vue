@@ -51,7 +51,7 @@
                 </ul>
             </div>
         </div>
-        <div class="table-footer" v-if="totalMap">
+        <div class="table-footer" v-if="totalMap && data.length > 1">
             <div class="fixed-left">
                 <ul class="fixed-left-content">
                     <li class="table-cell ellipsis">

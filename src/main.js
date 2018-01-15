@@ -43,11 +43,12 @@ const router = new VueRouter({ // 创建路由
 iView.LoadingBar.config({ // 配置loadingbar
     height: 2
 })
-
+// 用于创建日志的通信
+window.createComplete = false;
 router.beforeEach((to, from, next) => {
     if ((from.path.indexOf('/LoggerTemplate/operate') != -1
         && to.path.indexOf('/LoggerTemplate/operate') < 0)
-        || (from.path.indexOf('/LoggerDetail/operate/create') != -1)) {
+        || (from.path.indexOf('/LoggerDetail/operate/create') != -1 && !window.createComplete)) {
         iView.Modal.confirm({
             title: '页面提示',
             content: '您确定离开当前页面吗？',

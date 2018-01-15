@@ -1,6 +1,5 @@
 <template>
     <div class="logger-summary-content">
-        <div class="note" v-if="list.length">说明：只能查询到最新模板的数据，模板修改前的数据可以导出EXCEL，切换不同sheet进行查看</div>
         <div class="content-bar" v-if="list.length">
             <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
         </div>
@@ -293,6 +292,7 @@ export default {
        visibility: hidden;
        width: 0;
        overflow: hidden;
+       font-size: 0;
     }
 }
 </style>
@@ -303,7 +303,7 @@ export default {
     width: 100%;
     height: 100%;
     background: #fff;
-    padding: 52px 20px 150px 20px;
+    padding: 20px 20px 150px 20px;
     .note {
         font-size: 12px;
         padding: 20px 0px;
