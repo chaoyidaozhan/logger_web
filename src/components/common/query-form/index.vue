@@ -1,7 +1,7 @@
 <template>
     <div class="search-form">
         <Form inline>
-            <FormItem :label-width="50" label="提交人"  v-if="showAllMember">
+            <FormItem :label-width="50" label="提交人"  v-if="showAllMember && !showTemplateCheck">
                 <fs-select-member ref="selectMember" 
                     title="选择提交人"
                     placeholder="选择提交人"
@@ -30,6 +30,17 @@
             </FormItem> 
             <FormItem :label-width="40" label="日期"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate" :timeArr="timeArr"/>
+            </FormItem> 
+            <FormItem :label-width="50" label="提交人"  v-if="showAllMember && showTemplateCheck">
+                <fs-select-member ref="selectMember" 
+                    title="选择提交人"
+                    placeholder="选择提交人"
+                    :showDept="true"
+                    :showGroup="true" 
+                    :member="member"
+                    :dept="dept"
+                    :group="group"
+                    @handleSelectMember="handleSelectMember"/>
             </FormItem> 
             <FormItem :label-width="40" label="部门"  v-if="showDept">
                 <fs-select-member ref="selectDept" 

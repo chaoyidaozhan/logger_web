@@ -404,8 +404,6 @@ export default {
                 return
             } else {
                 window.createComplete = true;
-                console.log(this.templateContentClone)
-                console.log(this.templateItemData)
                 this.$store.dispatch('update_template_content', {
                     content: {
                         content: this.templateContentClone
@@ -419,7 +417,7 @@ export default {
                     source: 3, //1 安卓   2 ios    3web    4微信
                     templateId: !this.editFlag ? this.$route.params.id || 0 : this.templateItemData.templateId || 0,
                     id: this.$route.params.id,
-                    visibleRange: this.saveDraft || this.editFlag || this.rangeArr.length <= 0 ? 3 : 1,
+                    visibleRange: this.rangeArr.length <= 0 ? 3 : 1,
                     visibleRangeStr: JSON.stringify(this.rangeArr),
                     dataType: this.templateItemData.dataType, // ["其他", "日报", "周报", "月报"]
                     fileStr: JSON.stringify(this.fileStr),
@@ -479,15 +477,15 @@ export default {
         this.$eventbus.$off('saveDraftFun')
     },
     created() {
-        if (this.$route.params.loggertype != 'edit') {
+        if (this.$route.params.loggertype != 'edit') { // 非编辑情况
             this.getVisibleRange();
-            if (this.$route.params.loggertype == 'draft') {
+            if (this.$route.params.loggertype == 'draft') { // 草稿
                 this.editFlag = 1;
             }
-            if (this.$route.params.loggertype == 'summary') {
+            if (this.$route.params.loggertype == 'summary') { // 汇总
                 this.summaryFlag = 1;
             }
-        } else {
+        } else { // 编辑情况
             this.editFlag = 1;
         }
         this.loadData();
@@ -525,7 +523,6 @@ export default {
 }
 </style>
 <style lang="less" scoped>
-@import '../../assets/css/var.less';
 .logger-create{
     // max-width: 900px;
     width:100%;
