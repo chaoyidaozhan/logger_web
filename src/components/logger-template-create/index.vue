@@ -7,7 +7,7 @@
                     placeholder="日期" 
                     class="date-wrap"
                     :options="dateOption"
-                    :value="dateValue"
+                    v-model="dateValue"
                     :clearable="false"
                     >
                 </DatePicker>
