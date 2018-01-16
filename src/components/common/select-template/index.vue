@@ -50,7 +50,14 @@
                     this.getTemplateWeb();
                 }
                 let templateType = this.templateType != 'web' ? 'app' : 'web';
+                console.log(this.tempListData)
                 if(this.hasDefaultTemplate) {
+                    this.tempListData = [
+                        {
+                            id: 0,
+                            title: '全部模板'
+                        }
+                    ]
                     this.tempListData = this.tempListData.concat(this.$store.state.template[templateType])
                 } else {
                     this.tempListData = this.$store.state.template[templateType]

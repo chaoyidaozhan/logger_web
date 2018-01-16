@@ -158,7 +158,7 @@ export default {
     display: inline-block;
     vertical-align: middle;
     width: 100%;
-    padding: 4px 30px 4px 7px;
+    padding: 4px 35px 4px 7px;
     font-size: 12px;
     border: 1px solid @border-color;
     border-radius: 4px;

@@ -187,7 +187,7 @@ export default {
             return FormatTime(new Date(val), 'YYYY-MM-DD')
         },
         filterDiaryUserTime(val) { // 格式化日志日期
-            return FormatTime(new Date(val), 'MM-DD HH:mm')
+            return FormatTime(new Date(val), 'YYYY-MM-DD HH:mm')
         }
     },
     computed: {

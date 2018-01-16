@@ -4,12 +4,14 @@
         @on-ok="controlVideo"
         @on-cancel="controlVideo"
         :title="title"
+        :width="800"
         v-model="showModal">
         <div class="video-js">
             <video ref="video" controls="true">
                 <source :src="src"> 
             </video>
         </div>
+        <div class="footer" slot="footer"></div>
     </Modal>
 </template>
 <script>
@@ -56,6 +58,15 @@ export default {
 </script>
 <style lang="less">
 .logger-video-wrapper {
+    .ivu-modal-footer {
+        display: none;
+    }
+    .ivu-modal-body {
+        padding: 0;
+    }
+    .ivu-modal-header {
+        padding: 12px 16px 12px;
+    }
     .video-js {
         width: 100%;
         padding-bottom: 66%;

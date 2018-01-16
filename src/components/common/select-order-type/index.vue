@@ -18,6 +18,7 @@
                         v-model="pickerValue"
                         placeholder="日期" 
                         :options="options"
+                        :editable="false"
                         @on-change="change"
                         :style="{'width': '190px'}">
                     </DatePicker>

@@ -3,6 +3,8 @@
         <DatePicker type="daterange"
             placement="bottom-start"
             :value="timeArr"
+            :editable="false"
+            :options="options"
             @on-change="change"
             placeholder="日期" class="date-wrap">
         </DatePicker>
@@ -20,6 +22,11 @@ export default {
     },
     data() {
         return {
+            options: {
+                disabledDate (date) {
+                    return date && date.valueOf() > Date.now();
+                }
+            },
             beginDate: "",
             endDate: "",
         }
