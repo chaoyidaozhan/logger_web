@@ -1,7 +1,7 @@
 <template>
     <div class="faces-wrapper">
         <ul>
-            <li class="face-item" v-for="(faceItem, key) in faceArr" :key="key" @click="handleFace(faceItem)">
+            <li class="face-item" v-for="(faceItem, key) in faceArr" :key="key" @click="handleFace($event, faceItem)">
                 <i :title="faceItem" :exp="faceItem"></i>
             </li>
         </ul>
@@ -21,7 +21,8 @@
             }
         },
         methods: {
-            handleFace(faceItem) {
+            handleFace(e, faceItem) {
+                e.stopPropagation();
                 this.$emit("handleFace", faceItem);
             }
         }
