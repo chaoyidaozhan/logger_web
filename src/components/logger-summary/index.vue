@@ -95,8 +95,10 @@ export default {
                 } else {
                     v.forEach((item, index)=>{
                         if(item.type == 'InputText') {
-                            contentArr[index].content += `\n${item.content}`;
-                            contentArr[index].value += `\n${item.value}`;
+                            if(!!item.content.trim()) {
+                                contentArr[index].content += `\n${item.content}`;
+                                contentArr[index].value += `\n${item.value}`;
+                            }
                         }
                     })
                 }

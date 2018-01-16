@@ -231,7 +231,7 @@ export default {
             this.initData(this.templateItemData, this.templateContent);
         },
         loadData() {
-            if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'edit' || this.$route.params.loggertype == 'editDraft')) {
+            if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'edit' || this.$route.params.loggertype == 'draft')) {
                 this.getTemplateApp();
             } else if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'create' || this.$route.params.loggertype == 'summary')) {
                 this.$router.go(-1);
@@ -398,12 +398,14 @@ export default {
             }
             return true;
         },
-        handleSubmit() { //提交
+        handleSubmit() { // 提交
             this.handleSubmitData();
             if (!this.handleValidate(this.templateContentClone)) {
                 return
             } else {
                 window.createComplete = true;
+                console.log(this.templateContentClone)
+                console.log(this.templateItemData)
                 this.$store.dispatch('update_template_content', {
                     content: {
                         content: this.templateContentClone
@@ -416,6 +418,7 @@ export default {
                     version: this.templateItemData.version,
                     source: 3, //1 安卓   2 ios    3web    4微信
                     templateId: !this.editFlag ? this.$route.params.id || 0 : this.templateItemData.templateId || 0,
+                    id: this.$route.params.id,
                     visibleRange: this.saveDraft || this.editFlag || this.rangeArr.length <= 0 ? 3 : 1,
                     visibleRangeStr: JSON.stringify(this.rangeArr),
                     dataType: this.templateItemData.dataType, // ["其他", "日报", "周报", "月报"]
@@ -424,15 +427,31 @@ export default {
                     atStr: JSON.stringify(this.atStr)
                 };
                 this.editFlag ? this.submitData.id = this.templateItemData.id || 0 : '';
+                let uri = `/logger/diary/diaryCommit`;
+
+                if(this.saveDraft && this.editFlag) { // 即为草稿又为编辑
+                    uri = `/logger/diary/edit`;
+                } else if (this.saveDraft) { // 草稿 新增草稿情况下删除id
+                    uri = `/logger/diary/diaryCommitDraft`
+                    delete this.submitData.id;
+                } else if (this.editFlag) { // 编辑
+                    uri = `/logger/diary/edit`;
+                    if(this.$route.params.loggertype == 'draft') { // 草稿编辑保存时需要多加一个字段dataStatus
+                        this.submitData.dataStatus = 1;
+                    }
+                } else { // 其他 新增情况下删除id
+                    uri = `/logger/diary/diaryCommit`;
+                    delete this.submitData.id;
+                }
                 this.$ajax({
-                    url: this.saveDraft ? '/logger/diary/diaryCommitDraft' : (this.editFlag ? '/logger/diary/edit' : '/logger/diary/diaryCommit'),
+                    url: uri,
                     data: this.submitData,
                     type: 'post',
                     success: (res) => {
                         if (res && res.code === 0) {
                             this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
                             this.$router.push({
-                                path: '/LoggerQueryAll',
+                                path:  this.saveDraft ? '/DraftOfMine' : '/LoggerQueryAll',
                                 query: {
                                     token: this.$store.state.userInfo.token
                                 }
@@ -462,6 +481,9 @@ export default {
     created() {
         if (this.$route.params.loggertype != 'edit') {
             this.getVisibleRange();
+            if (this.$route.params.loggertype == 'draft') {
+                this.editFlag = 1;
+            }
             if (this.$route.params.loggertype == 'summary') {
                 this.summaryFlag = 1;
             }

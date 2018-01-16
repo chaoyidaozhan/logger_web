@@ -320,7 +320,7 @@ export default {
                 content: this.loggerItemData
             }).then(()=>{
                 this.$router.push({
-                    path: `LoggerDetail/operate/edit/${this.loggerItemData.id}`,
+                    path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${this.loggerItemData.id}`,
                     query:{
                         token:this.$store.state.userInfo.token
                     }
