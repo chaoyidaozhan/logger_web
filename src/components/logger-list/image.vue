@@ -33,16 +33,6 @@
                     captionEl: false,
                     showAnimationDuration: 200,
                     fullscreenEl: false,
-                    addCaptionHTMLFn: function(item, captionEl, isFake) {
-                        console.log(item)
-
-                        if(!item.title) {
-                            captionEl.children[0].innerHTML = '';
-                            return false;
-                        }
-                        captionEl.children[0].innerHTML = 'item.title';
-                        return true;
-                    },
                 },
                 loadTimer: null
             }

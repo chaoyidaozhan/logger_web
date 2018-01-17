@@ -228,11 +228,13 @@ export default {
             })
         },
         handleChange(value) {
+            let templateType;
             if(value) {
-                this.templateType = 'web'
+                templateType = 'web'
             } else {
-                this.templateType = 'select'
+                templateType = 'select'
             }
+            this.$emit('handleTemplateType', templateType)
         },
         resetQuery() {
             if(this.$refs.selectTemplate) { // 重置模板
