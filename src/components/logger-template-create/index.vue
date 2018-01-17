@@ -26,7 +26,7 @@
                     ref="selectDept"
                     />
             </FormItem>
-            <FormItem v-for="(item, index) in templateContent" :key="index" 
+            <FormItem v-if="templateContent.length" v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title | filterHtml" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
                     <Input :placeholder="item.deion" v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
@@ -184,28 +184,30 @@ export default {
             this.member = atMember;
         },
         initTemplateContent(templateContent) { //初始化可变表单
-            templateContent && templateContent.forEach((v, k) => {
-                switch (v.type) {
-                    case 'InputText':
-                        v.value = HTMLDeCode(v.value)
-                        this.inputTextValue[k] = v.value;
-                        break;
-                    case 'InputRadio':
-                        v.content = v.content ? v.content : v.options[0].string;
-                        break;
-                    case 'InputCheckbox':
-                        v.content = v.value ? v.content.split(',') : [];
-                        break;
-                    case 'InputTextNum':
-                        v.valueNum = parseInt(v.value) || null;
-                        break;
-                    case 'InputDate':
-                        v.dateValueSec = v.value ? new Date(v.value) : new Date();
-                        break;
-                    default:
-                        break;
-                }
-            })
+            if(typeof templateContent == 'object') {
+                templateContent && templateContent.forEach((v, k) => {
+                    switch (v.type) {
+                        case 'InputText':
+                            v.value = HTMLDeCode(v.value)
+                            this.inputTextValue[k] = v.value;
+                            break;
+                        case 'InputRadio':
+                            v.content = v.content ? v.content : v.options[0].string;
+                            break;
+                        case 'InputCheckbox':
+                            v.content = v.value ? v.content.split(',') : [];
+                            break;
+                        case 'InputTextNum':
+                            v.valueNum = parseInt(v.value) || null;
+                            break;
+                        case 'InputDate':
+                            v.dateValueSec = v.value ? new Date(v.value) : new Date();
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            }
         },
         initDefaultFile(templateItemData) { //初始化文件列表
             let fileArr = templateItemData.fileStr || [];
