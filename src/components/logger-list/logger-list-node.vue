@@ -261,7 +261,14 @@ export default {
         handleCollect(e) { // 收藏
             e.stopPropagation();
             let uri = this.loggerItemData.favorite.isFavorite ? 
-                    '/logger/favorite/delete' : '/logger/favorite/add'
+                    '/logger/favorite/delete' : '/logger/favorite/add';
+                    
+            this.loggerItemData.favorite.isFavorite = !!this.loggerItemData.favorite.isFavorite?0:1;
+            if(this.loggerItemData.favorite.isFavorite) {
+                this.loggerItemData.favorite.favoriteNum += 1;
+            } else {
+                this.loggerItemData.favorite.favoriteNum -= 1;
+            }
             this.$ajax({
                 url: uri,
                 type: 'post',
@@ -270,12 +277,12 @@ export default {
                 },
                 success: (res)=>{
                     if(res && res.code == 0) {
-                        this.loggerItemData.favorite = res.data;
-                        if(this.loggerItemData.favorite) {
-                            if(this.$parent.$parent.isFavorite) {
-                                this.$parent.$parent.list.splice(this.index ,1);
-                            }
-                        }
+                        // this.loggerItemData.favorite = res.data;
+                        // if(this.loggerItemData.favorite) {
+                        //     if(this.$parent.$parent.isFavorite) {
+                        //         this.$parent.$parent.list.splice(this.index ,1);
+                        //     }
+                        // }
                     }
                 },
                 error: (res)=>{
