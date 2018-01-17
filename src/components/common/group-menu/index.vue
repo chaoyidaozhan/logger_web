@@ -5,7 +5,12 @@
             v-for="groupItem in groupsData"
             :key="groupItem.groupId"
             @click="getDaily(groupItem)">
-            <avatar class="pull-left" fontSize="20px" :avatar="groupItem.logo" :name="groupItem.groupName" type="group"></avatar>
+            <span class="hasNoRead" v-if="groupItem.hasNoRead"></span>
+            <avatar class="pull-left"
+                    fontSize="20px" 
+                    :avatar="groupItem.logo" 
+                    :name="groupItem.groupName" 
+                    type="group"></avatar>
             <div class="group-row-right">
                 <p class="ellipsis group-name">{{groupItem.groupName}} ({{groupItem.groupMemberCount}})人</p>
                 <p class="ellipsis">{{groupItem.diaryNum}}篇日志</p>
@@ -68,9 +73,9 @@ export default {
             if(res && res.code === 0) {
                 this.loading = false;
                 res.data && res.data.forEach((item)=>{
-                    item.lastUpdateTime = FormatTime(new Date(item.lastUpdateTime), "YYYY-MM-DD");
+                    item.lastUpdateTime = FormatTime(new Date(item.lastUpdateTime || new Date()), "YYYY-MM-DD");
                 });
-                if(this.pageNum === 1) {
+                if(this.pageNo === 1) {
                     this.groupsData = res.data || [];
                     this.currentId = this.groupsData[0] && this.groupsData[0].groupId;
                     this.$emit("getDaily", this.currentId);
@@ -107,12 +112,13 @@ export default {
                 let scrollTop = $target.scrollTop;
                 let offsetHeight = $target.offsetHeight;
                 if (offsetHeight == (scrollHeight - scrollTop)) {
-                    this.pageNum++;
+                    this.pageNo++;
                 }
             }
         },
         getDaily(params) {
             this.currentId = params.groupId;
+            params.hasNoRead = 0;
             this.$emit("getDaily", this.currentId);
         },
         handleReload() {
@@ -139,10 +145,22 @@ export default {
         background-color: @white-color;
         border-right: 1px solid @border-color;
         .group-item {
+            position: relative;
             padding: 10px;            
             cursor: pointer;
             &.active {
                 background-color: @white-color-light;
+            }
+            .hasNoRead {
+                display: inline-block;
+                position: absolute;
+                top: 10px;
+                left: 40px;
+                content: "";
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background-color: #fa4f52;
             }
         }
         .group-row-right{

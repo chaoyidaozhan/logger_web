@@ -140,7 +140,8 @@
                 loadError: false,
                 hasMore: true,
                 loadMore: false,
-                timer: null,
+                loadTimer: null,
+                commitTimer: null,
                 replyData: {
                     diaryId: this.dailyId,
                     replySource: 3
@@ -245,8 +246,8 @@
             loadCommentData() { // 获取回复列表
                 this.loading = true;
                 this.loadMore = false;
-                clearTimeout(this.timer);
-                this.timer = setTimeout(() => {
+                clearTimeout(this.loadTimer);
+                this.loadTimer = setTimeout(() => {
                     this.$ajax({
                         url: `/logger/diaryComment/${this.dailyId}/reply`,
                         type: 'get',
@@ -272,25 +273,28 @@
             },
             commitComment() { // 提交回复
                 this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
-                this.$ajax({
-                    url: '/logger/diaryComment/reply',
-                    type: 'post',
-                    data: this.replyData,
-                    success: (res)=>{
-                        if(res && res.code === 0) {
-                            this.commentListData = [];
-                            this.pageNo = 1;
-                            this.loadCommentData();
-                            this.value = "";
-                            this.$emit('handleReplyNum', true);
-                        } else {
+                clearTimeout(this.commitTimer);
+                this.commitTimer = setTimeout(() => {
+                    this.$ajax({
+                        url: '/logger/diaryComment/reply',
+                        type: 'post',
+                        data: this.replyData,
+                        success: (res)=>{
+                            if(res && res.code === 0) {
+                                this.commentListData = [];
+                                this.pageNo = 1;
+                                this.loadCommentData();
+                                this.value = "";
+                                this.$emit('handleReplyNum', true);
+                            } else {
+                                this.$Message.error((res && res.msg) || '网络错误');
+                            }
+                        },
+                        error: (res)=>{
                             this.$Message.error((res && res.msg) || '网络错误');
                         }
-                    },
-                    error: (res)=>{
-                        this.$Message.error((res && res.msg) || '网络错误');
-                    }
-                })
+                    })
+                }, 200);
             },
             handleLoadMore() { // 加载更多
                 this.pageNo++;
