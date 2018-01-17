@@ -423,7 +423,7 @@ export default {
                         content: this.templateContentClone
                     }
                 });
-                this.submitData = {
+                let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
                     diaryTime: FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
                     templateName: this.templateItemData.title || this.templateItemData.templateName,
@@ -438,27 +438,28 @@ export default {
                     content: JSON.stringify(this.templateContentClone),
                     atStr: JSON.stringify(this.atStr)
                 };
-                console.log(this.submitData)
-                this.editFlag ? this.submitData.id = this.templateItemData.id || 0 : '';
+                this.editFlag ? submitData.id = this.templateItemData.id || 0 : '';
                 let uri = `/logger/diary/diaryCommit`;
 
                 if(this.saveDraft && this.editFlag) { // 即为草稿又为编辑
                     uri = `/logger/diary/edit`;
                 } else if (this.saveDraft) { // 草稿 新增草稿情况下删除id
                     uri = `/logger/diary/diaryCommitDraft`
-                    delete this.submitData.id;
+                    delete submitData.id;
                 } else if (this.editFlag) { // 编辑
                     uri = `/logger/diary/edit`;
                     if(this.$route.params.loggertype == 'draft') { // 草稿编辑保存时需要多加一个字段dataStatus
-                        this.submitData.dataStatus = 1;
+                        submitData.dataStatus = 1;
                     }
                 } else { // 其他 新增情况下删除id
                     uri = `/logger/diary/diaryCommit`;
-                    delete this.submitData.id;
+                    delete submitData.id;
                 }
+                console.log(submitData)
+                console.log(JSON.parse(JSON.stringify(submitData)))
                 this.$ajax({
                     url: uri,
-                    data: this.submitData,
+                    data: submitData,
                     type: 'post',
                     config: {
                          headers: {
