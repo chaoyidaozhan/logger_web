@@ -70,7 +70,7 @@
 				}
 				this.ajaxStatus = 'loading' ;
             	this.$ajax({
-	                url: '/logger/group/authMe' ,
+	                url: '/logger/group/me' ,
 	                data:{
 	                	pageSize : this.pageSize,
 	                	pageNum  : this.pageNum,
