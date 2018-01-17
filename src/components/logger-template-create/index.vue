@@ -35,7 +35,7 @@
                     <div class="ivu-input-wrapper ivu-input-type">
                         <input autocomplete="off" spellcheck="false" type="number" 
                         v-model="item.valueNum"
-                        placeholder="33333333333333222222(单位：2222)" number="true" class="ivu-input">
+                        :placeholder="`${item.deion}${item.unit?`(单位：${item.unit})`:''}`" number="true" class="ivu-input">
                     </div>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
