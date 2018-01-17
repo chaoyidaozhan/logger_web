@@ -318,13 +318,13 @@ export default {
                 title: '取消编辑',
                 content: '您的日志还没提交，确定要放弃编辑吗？',
                 onOk: () => {
+                    window.createComplete = true;
                     this.$router.push({
                         path: '/LoggerQueryAll',
                         query: {
                             token: this.$store.state.userInfo.token
                         }
                     });
-
                 }
             });
         },
@@ -562,7 +562,6 @@ export default {
         margin: 0 5px 0 0;
     }
     .cancel-btn{
-        margin: 0 10px;
     }
     .draft-btn{
         margin: 0 5px;

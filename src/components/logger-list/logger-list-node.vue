@@ -4,6 +4,7 @@
         <div class="logger-list-row clearfix logger-list-user">
             <fs-avatar
                 class="avatar"
+                size="40px"
                 :avatar="loggerItemData.avatar" 
                 :name="loggerItemData.userName"
                 :fontSize="loggerItemData.userName ? '14px' : '20px'" 
