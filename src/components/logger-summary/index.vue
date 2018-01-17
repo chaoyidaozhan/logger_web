@@ -18,8 +18,7 @@
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
         <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
-        <span class="nodata" v-if="!list.length&&iconFlag">只能查询到最新模板的数据，模板修改前的数据
-            <br> 可以导出EXCEL，切换到sheet进行查看</span>
+        <span class="nodata" v-if="!list.length&&iconFlag">选择提交人查询需要汇总的数据 ，可导出Excel</span>
     </div>
 </template>
 <script>
@@ -45,7 +44,7 @@ export default {
             range: 0,
             totalCount: 0,
             iconType: 'member',
-            emptyMsg: '请选择提交人',
+            emptyMsg: '',
             columnsData: [], //表头
             listTemplate: [], //表bod
             templateContent:[],

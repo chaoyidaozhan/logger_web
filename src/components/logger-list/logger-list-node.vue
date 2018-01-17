@@ -285,14 +285,18 @@ export default {
         },
         handleLike(e) { // 点赞
             e.stopPropagation();
+            this.loggerItemData.like.isLike = !!this.loggerItemData.like.isLike?0:1;
+            if(this.loggerItemData.like.isLike) {
+                this.loggerItemData.like.likeNum += 1;
+            } else {
+                this.loggerItemData.like.likeNum -= 1;
+            }
+
             this.$ajax({
                 url: `/logger/diaryLike/${this.loggerItemData.id}`,
                 type: 'post',
                 success: (res)=>{
-                    if(res && res.code == 0) {
-                        this.loggerItemData.like.likeNum = res.data.likeTotal;
-                        this.loggerItemData.like.isLike = !!this.loggerItemData.like.isLike?0:1;
-                    } 
+
                 },
                 error: (res)=>{
                     this.$Message.warning('操作失败');
