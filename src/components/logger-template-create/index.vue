@@ -462,7 +462,7 @@ export default {
                     type: 'post',
                     config: {
                          headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                         }
                     },
                     success: (res) => {
