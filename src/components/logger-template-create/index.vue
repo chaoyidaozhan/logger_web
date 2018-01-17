@@ -460,6 +460,11 @@ export default {
                     data: this.submitData,
                     type: 'post',
                     requestBody: false,
+                    config: {
+                         headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    },
                     success: (res) => {
                         if (res && res.code === 0) {
                             this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
