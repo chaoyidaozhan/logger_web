@@ -6,6 +6,7 @@
             :data="list"
             :type="type"
             :title="title"
+            :emptyData="emptyData"
             v-loading="{loading: loaded, text: '加载中...'}"
             v-if="params.orderType == 0"/>
         <!--季度统计-->
@@ -13,6 +14,7 @@
             :data="list"
             :type="type"
             :title="title"
+            :emptyData="emptyData"
             v-loading="{loading: loaded, text: '加载中...'}"
             v-if="params.orderType == 1"/>
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
@@ -50,7 +52,8 @@ export default {
             pageSize: 20,
             pageNo: 1,
             totalCount: 0,
-            loaded: true
+            loaded: true,
+            emptyData: false
         }
     },
     components: {
@@ -96,6 +99,9 @@ export default {
                         this.list = res.data;
                         if(res.data && res.data.length) {
                             this.totalCount = res.data[0].totalCount || 0
+                            this.emptyData = false;
+                        } else {
+                            this.emptyData = true;
                         }
                     }
                     this.loaded = true;

@@ -16,6 +16,9 @@ export default {
         },
         title: {
             type: String
+        },
+        emptyData: {
+            type: Boolean
         }
     },
     data() {

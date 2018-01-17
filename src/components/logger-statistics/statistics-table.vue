@@ -76,8 +76,8 @@
                 {{totalMap.total ? `${totalMap.total}篇` : ''}}
             </div>
         </div>
-        <fs-empty-tips v-if="!data.length" :iconType="type"
-           :emptyMsg="getEmptyMsg()" />  
+        <fs-empty-tips v-if="!data.length" :iconType="emptyData ? '' : type"
+           :emptyMsg="emptyData ? '暂无数据' : getEmptyMsg()" />  
     </div>
 </template>
 <script>
@@ -97,6 +97,9 @@ export default {
         },
         totalMap: {
             type: Object
+        },
+        emptyData: {
+            type: Boolean
         }
     },
     data() {

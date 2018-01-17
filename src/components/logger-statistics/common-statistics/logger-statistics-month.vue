@@ -1,6 +1,6 @@
 <template>
     <div class="logger-statistics-content">
-        <fs-table :columns="columns" :data="list" :type="type"></fs-table>
+        <fs-table :emptyData="emptyData" :columns="columns" :data="list" :type="type"></fs-table>
     </div>
 </template>
 <script>
@@ -16,6 +16,9 @@ export default {
         },
         title: {
             type: String
+        },
+        emptyData: {
+            type: Boolean
         }
     },
     data() {

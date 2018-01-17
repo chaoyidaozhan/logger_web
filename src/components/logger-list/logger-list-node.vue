@@ -11,7 +11,7 @@
             <div class="logger-list-col clearfix">
                 <span class="username">{{loggerItemData.userName}}</span>
                 <span class="template-name" v-if="loggerItemData.templateName">
-                    <i>{{loggerItemData.templateName}}</i>
+                    <i>{{filterEncode(loggerItemData.templateName)}}</i>
                 </span>
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
@@ -28,7 +28,11 @@
                                 v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
                                 删除
                             </li>
-                            <li class="cursor-pointer" @click="handlePrint">打印</li>
+                            <li class="cursor-pointer" 
+                                @click="handlePrint"
+                                v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
+                                打印
+                            </li>
                             <li class="cursor-pointer" @click="handleOperate">操作记录</li>
                         </ul>
                         <span class="operate cursor-pointer"><i class="icon-more"></i></span>
@@ -64,7 +68,7 @@
                 v-for="(item, index) in JSON.parse(loggerItemData.content)"
                 :key="index">
                 <div class="logger-list-col">
-                    <div class="title">{{item.title}}</div>
+                    <div class="title">{{filterEncode(item.title)}}</div>
                     <div class="caption" v-html="filterEncode(item.content || item.value)"></div>
                 </div>
             </div>
@@ -173,7 +177,8 @@ export default {
             operateModal: false,
             operateModalData: [],
 
-            showReply: false
+            showReply: false,
+            editTimer: null
         }
     },
     components: {
@@ -261,7 +266,14 @@ export default {
         handleCollect(e) { // 收藏
             e.stopPropagation();
             let uri = this.loggerItemData.favorite.isFavorite ? 
-                    '/logger/favorite/delete' : '/logger/favorite/add'
+                    '/logger/favorite/delete' : '/logger/favorite/add';
+                    
+            this.loggerItemData.favorite.isFavorite = !!this.loggerItemData.favorite.isFavorite?0:1;
+            if(this.loggerItemData.favorite.isFavorite) {
+                this.loggerItemData.favorite.favoriteNum += 1;
+            } else {
+                this.loggerItemData.favorite.favoriteNum -= 1;
+            }
             this.$ajax({
                 url: uri,
                 type: 'post',
@@ -270,12 +282,12 @@ export default {
                 },
                 success: (res)=>{
                     if(res && res.code == 0) {
-                        this.loggerItemData.favorite = res.data;
-                        if(this.loggerItemData.favorite) {
-                            if(this.$parent.$parent.isFavorite) {
-                                this.$parent.$parent.list.splice(this.index ,1);
-                            }
-                        }
+                        // this.loggerItemData.favorite = res.data;
+                        // if(this.loggerItemData.favorite) {
+                        //     if(this.$parent.$parent.isFavorite) {
+                        //         this.$parent.$parent.list.splice(this.index ,1);
+                        //     }
+                        // }
                     }
                 },
                 error: (res)=>{
@@ -285,14 +297,18 @@ export default {
         },
         handleLike(e) { // 点赞
             e.stopPropagation();
+            this.loggerItemData.like.isLike = !!this.loggerItemData.like.isLike?0:1;
+            if(this.loggerItemData.like.isLike) {
+                this.loggerItemData.like.likeNum += 1;
+            } else {
+                this.loggerItemData.like.likeNum -= 1;
+            }
+
             this.$ajax({
                 url: `/logger/diaryLike/${this.loggerItemData.id}`,
                 type: 'post',
                 success: (res)=>{
-                    if(res && res.code == 0) {
-                        this.loggerItemData.like.likeNum = res.data.likeTotal;
-                        this.loggerItemData.like.isLike = !!this.loggerItemData.like.isLike?0:1;
-                    } 
+
                 },
                 error: (res)=>{
                     this.$Message.warning('操作失败');
@@ -315,17 +331,20 @@ export default {
                 this.contentHeight = this.contentDefaultHeight;
             }
         },
-        handleEdit(){
-            this.$store.dispatch('update_template_content', { //登录成功更新store
-                content: this.loggerItemData
-            }).then(()=>{
-                this.$router.push({
-                    path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${this.loggerItemData.id}`,
-                    query:{
-                        token:this.$store.state.userInfo.token
-                    }
+        handleEdit() {
+            clearTimeout(this.editTimer);
+            this.editTimer = setTimeout(()=>{
+                this.$store.dispatch('update_template_content', { //登录成功更新store
+                    content: this.loggerItemData
+                }).then(()=>{
+                    this.$router.push({
+                        path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${this.loggerItemData.id}`,
+                        query:{
+                            token:this.$store.state.userInfo.token
+                        }
+                    });
                 });
-            });
+            }, 400)
         },
         handleDelete() { // 删除
             this.$Modal.confirm({
@@ -430,7 +449,8 @@ export default {
                 font-style: normal;
                 padding: 1px 0;
                 line-height: 12px;
-                transform: scale(0.8);
+                zoom: .8;
+                padding: 4px 8px;
                 display: block;
             }
         }
@@ -482,6 +502,7 @@ export default {
         .logger-list-col {
             padding: 1px 0;
             transition: .2s ease height;
+            overflow: hidden;
         }
         .expand {
             font-size: 12px;
@@ -532,7 +553,7 @@ export default {
             padding: 0 34px;
             border-right: 1px solid @border-color;
             i {
-                font-size: 14px;
+                font-size: 16px;
             }
             &.reply {
                 i {

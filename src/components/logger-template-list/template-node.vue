@@ -1,8 +1,8 @@
 <template>
     <div class="template-item cursor-pointer" @click="goToDetail">
         <div class="template-item-content">
-            <div class="template-item-title ellipsis">{{ data.title }}</div>
-            <div v-if="!showEdit" class="template-item-describe ellipsis">{{ data.describe }}</div>
+            <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
+            <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
             <template v-if="showEdit">
                 <div class="template-item-time ellipsis">更新于{{ data.createTime | filterTime }}</div>
                 <div v-if="!data.dataStatus" class="template-item-status ellipsis">已停用</div>
@@ -11,21 +11,23 @@
         <div class="template-operate-modal" v-if="showEdit">
             <!--启用， 停用-->
             <template v-if="!data.dataStatus">
-                <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
+                <span title="启用" @click="handleSwitch('start')"><i class="icon-play"></i></span>
                  <!--停用显示编辑和删除-->
-                <span @click="goToTemplate"><i class="icon-edit"></i></span>
-                <span><i class="icon-delete" @click="handleDelete"></i></span>
+                <span title="编辑" @click="goToTemplate"><i class="icon-edit"></i></span>
+                <span title="删除"><i class="icon-delete" @click="handleDelete"></i></span>
             </template>
             <template v-else>
                 <!--启用显示查看-->
-                <span @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
-                <span @click="goToTemplate"><i class="icon-check"></i></span>
+                <span title="停用" @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
+                <span title="查看" @click="goToTemplate"><i class="icon-check"></i></span>
             </template>
         </div>
     </div>
 </template>
 <script>
 import FormatTime from 'app_src/filters/format-time';
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+
 import { mapActions } from 'vuex';
 export default {
     props: {
@@ -51,6 +53,9 @@ export default {
         ...mapActions({
             updateTemplateContent: 'update_template_content'
         }),
+        filterHtml(val) {
+            return HTMLDeCode(val)
+        },
         handleSwitch(name) {
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
@@ -70,17 +75,24 @@ export default {
             }, 200);
         },
         handleDelete() {
-            this.$ajax({
-                url: `/logger/template/delete/${this.data.id}`,
-                success: (res)=>{
-                    if(res && res.code == 0) {
-                        this.$emit('deleteData', this.data);
-                    }
-                },
-                error: (res)=>{
-                    this.$Message.error(res && res.msg || '网络错误');
+            this.$Modal.confirm({
+                title: '删除模板提醒',
+                content: '点击确定删除模板',
+                onOk:()=>{
+                    this.$ajax({
+                        url: `/logger/template/delete/${this.data.id}`,
+                        success: (res)=>{
+                            if(res && res.code == 0) {
+                                this.$emit('deleteData', this.data);
+                            }
+                        },
+                        error: (res)=>{
+                            this.$Message.error(res && res.msg || '网络错误');
+                        }
+                    });
                 }
-            });
+            })
+           
         },
         goToDetail() {
             this.updateTemplateContent({
@@ -145,14 +157,17 @@ export default {
             color: @gray-color-dark;
             margin-top: 26px;
             margin-bottom: 8px;
+            padding: 2px 0;
         }        
         .template-item-describe {
             font-size: 12px;
             color: @gray-color-light;
+            padding: 2px 0;
         }   
         .template-item-time {
             font-size: 12px;
             color: @gray-color-light;
+            padding: 2px 0;
         }  
         .template-item-status {
             color: @gray-color-light;
