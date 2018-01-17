@@ -430,7 +430,8 @@ export default {
                 font-style: normal;
                 padding: 1px 0;
                 line-height: 12px;
-                transform: scale(0.8);
+                zoom: .8;
+                padding: 4px 8px;
                 display: block;
             }
         }
@@ -482,6 +483,7 @@ export default {
         .logger-list-col {
             padding: 1px 0;
             transition: .2s ease height;
+            overflow: hidden;
         }
         .expand {
             font-size: 12px;
@@ -532,7 +534,7 @@ export default {
             padding: 0 34px;
             border-right: 1px solid @border-color;
             i {
-                font-size: 14px;
+                font-size: 16px;
             }
             &.reply {
                 i {

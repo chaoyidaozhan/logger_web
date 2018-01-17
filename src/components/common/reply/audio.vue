@@ -2,11 +2,12 @@
     <div class="audio-list">
         <div class="audio-item" 
             :style="{width: `${item.timeLength*20}px`}"
-            v-for="item in audios" :key="item.fid">
-            <audio :src="item.fileUrl" preload="auto">您的浏览器不支持html5的audio标签</audio>
+            @click="playAudio(item, index)"
+            v-for="(item, index) in audios" :key="item.fid">
+            <audio ref="audio" :src="item.fileUrl" preload="auto">您的浏览器不支持html5的audio标签</audio>
             <span class="audio-icon"
                  :class="item.audioClass"
-                 @click="playAudio(item, $event)">
+                 >
             </span>
             <span class="audio-time">{{item.timeLength}} ''</span>
         </div>
@@ -22,8 +23,8 @@
             }
         },
         methods: {
-            playAudio(itemData, event) { // 播放音频           
-                let audioDom =  event.target.previousElementSibling;
+            playAudio(itemData, index) { // 播放音频           
+                let audioDom =  this.$refs.audio[index];
                 audioDom.play();
                 this.playAudioAnimate(itemData, "start");
                 this.checkAudioState && window.clearInterval(this.checkAudioState);

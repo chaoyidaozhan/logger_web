@@ -30,7 +30,8 @@ export default {
                 shareEl: false,
                 barsSize: {top:0,bottom:0},
                 captionEl: false,
-                showAnimationDuration: 200
+                showAnimationDuration: 200,
+                fullscreenEl: false
             },
             loadTimer: null
         }
@@ -49,7 +50,28 @@ export default {
                             src: imagesList.fileUrl,
                             w: w,
                             h: h,
-                        })
+                        });
+                        let pswpBtns = document.querySelectorAll('.pswp__button');
+                        if(pswpBtns && pswpBtns.length) {
+                            pswpBtns.forEach(e => {
+                                switch (e.title) {
+                                    case 'Zoom in/out':
+                                        e.title = '放大/缩小'
+                                        break;
+                                    case 'Close (Esc)':
+                                        e.title = '关闭 （ESC）'
+                                        break;
+                                    case 'Previous (arrow left)':
+                                        e.title = '上一张'
+                                        break;
+                                    case 'Next (arrow right)':
+                                        e.title = '下一张'
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            });
+                        }
                 });
             })
         },

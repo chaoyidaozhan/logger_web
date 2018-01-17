@@ -100,7 +100,7 @@ export default {
             end: '',  // 结束时间,
             timer: null,
             totalCount: 0,
-            pageSize: 20,
+            pageSize: 50,
             pageNo: 1,
             loaded: true
         }
