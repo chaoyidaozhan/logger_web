@@ -97,7 +97,7 @@
                 </span>
                 <span class="cursor-pointer reply" :class="{active: showReply}"  @click="handleReply">
                     <i class="icon-chat-normal"></i>
-                    {{loggerItemData.commentNum}}
+                    {{loggerItemData.commentNum | filterCommentNum}}
                 </span>
                 <span class="cursor-pointer collect" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
                     <i class="icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
@@ -193,6 +193,10 @@ export default {
         },
         filterDiaryUserTime(val) { // 格式化日志日期
             return FormatTime(new Date(val), 'YYYY-MM-DD HH:mm')
+        },
+        filterCommentNum(val) { // 回复数量小于0
+            let num = val < 0 ? 0: val;
+            return num;
         }
     },
     computed: {
