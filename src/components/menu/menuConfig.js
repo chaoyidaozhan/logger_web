@@ -6,7 +6,6 @@ const menus = [
         subMenu: [
             {
                 name: '所有日志',
-                type: ['admin', 'diary_examer', 'deptManager'],
                 path: '/LoggerQueryAll'
             },
             {

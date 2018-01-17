@@ -28,7 +28,11 @@
                                 v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
                                 删除
                             </li>
-                            <li class="cursor-pointer" @click="handlePrint">打印</li>
+                            <li class="cursor-pointer" 
+                                @click="handlePrint"
+                                v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
+                                打印
+                            </li>
                             <li class="cursor-pointer" @click="handleOperate">操作记录</li>
                         </ul>
                         <span class="operate cursor-pointer"><i class="icon-more"></i></span>

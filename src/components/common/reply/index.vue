@@ -102,6 +102,8 @@
     import FsFile from './file.vue';
     import FsImage from './image.vue';
     import FsFileUpload from './file_upload.vue';
+    import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+
     const FACE_ARR = ['[龇牙]', '[哈哈]', '[色]', '[可怜]', '[晕]', '[汗]', '[害羞]', 
                     '[调皮]', '[疑问]', '[闭嘴]', '[得意]', '[流泪]', '[愉快]', '[难过]', '[困]', 
                     '[生病]', '[笑cry]', '[尴尬]', '[偷笑]', '[奋斗]', '[赞]', '[握手]', '[OK]', 
@@ -229,7 +231,7 @@
                 commentData.forEach((item) => {
                     item.createTime = formatTime(item.createTime);
                     item.isMyself = item.memberId === +this.$store.state.userInfo.member_id;
-                    item.content = this.filterContent(item.content);
+                    item.content = HTMLDeCode(this.filterContent(item.content).replace(/\n/g, '<br>'));
                     item.attachList = this.filterContentAttach(item.replyCommentFileList);
                 });
                 this.pageNo === 1
