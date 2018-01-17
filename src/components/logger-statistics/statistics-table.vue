@@ -77,7 +77,7 @@
             </div>
         </div>
         <fs-empty-tips v-if="!data.length" :iconType="emptyData ? '' : type"
-           :emptyMsg="getEmptyMsg()" />  
+           :emptyMsg="emptyData ? '暂无数据' : getEmptyMsg()" />  
     </div>
 </template>
 <script>
