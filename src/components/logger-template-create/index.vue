@@ -26,7 +26,7 @@
                     ref="selectDept"
                     />
             </FormItem>
-            <FormItem v-for="(item, index) in templateContent" :key="index" 
+            <FormItem v-if="templateContent.length" v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title | filterHtml" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
                     <Input :placeholder="item.deion" v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
@@ -184,28 +184,30 @@ export default {
             this.member = atMember;
         },
         initTemplateContent(templateContent) { //初始化可变表单
-            templateContent && templateContent.forEach((v, k) => {
-                switch (v.type) {
-                    case 'InputText':
-                        v.value = HTMLDeCode(v.value)
-                        this.inputTextValue[k] = v.value;
-                        break;
-                    case 'InputRadio':
-                        v.content = v.content ? v.content : v.options[0].string;
-                        break;
-                    case 'InputCheckbox':
-                        v.content = v.value ? v.content.split(',') : [];
-                        break;
-                    case 'InputTextNum':
-                        v.valueNum = parseInt(v.value) || null;
-                        break;
-                    case 'InputDate':
-                        v.dateValueSec = v.value ? new Date(v.value) : new Date();
-                        break;
-                    default:
-                        break;
-                }
-            })
+            if(typeof templateContent == 'object') {
+                templateContent && templateContent.forEach((v, k) => {
+                    switch (v.type) {
+                        case 'InputText':
+                            v.value = HTMLDeCode(v.value)
+                            this.inputTextValue[k] = v.value;
+                            break;
+                        case 'InputRadio':
+                            v.content = v.content ? v.content : v.options[0].string;
+                            break;
+                        case 'InputCheckbox':
+                            v.content = v.value ? v.content.split(',') : [];
+                            break;
+                        case 'InputTextNum':
+                            v.valueNum = parseInt(v.value) || null;
+                            break;
+                        case 'InputDate':
+                            v.dateValueSec = v.value ? new Date(v.value) : new Date();
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            }
         },
         initDefaultFile(templateItemData) { //初始化文件列表
             let fileArr = templateItemData.fileStr || [];
@@ -421,7 +423,7 @@ export default {
                         content: this.templateContentClone
                     }
                 });
-                this.submitData = {
+                let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
                     diaryTime: FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
                     templateName: this.templateItemData.title || this.templateItemData.templateName,
@@ -436,27 +438,28 @@ export default {
                     content: JSON.stringify(this.templateContentClone),
                     atStr: JSON.stringify(this.atStr)
                 };
-                this.editFlag ? this.submitData.id = this.templateItemData.id || 0 : '';
+                this.editFlag ? submitData.id = this.templateItemData.id || 0 : '';
                 let uri = `/logger/diary/diaryCommit`;
 
                 if(this.saveDraft && this.editFlag) { // 即为草稿又为编辑
                     uri = `/logger/diary/edit`;
                 } else if (this.saveDraft) { // 草稿 新增草稿情况下删除id
                     uri = `/logger/diary/diaryCommitDraft`
-                    delete this.submitData.id;
+                    delete submitData.id;
                 } else if (this.editFlag) { // 编辑
                     uri = `/logger/diary/edit`;
                     if(this.$route.params.loggertype == 'draft') { // 草稿编辑保存时需要多加一个字段dataStatus
-                        this.submitData.dataStatus = 1;
+                        submitData.dataStatus = 1;
                     }
                 } else { // 其他 新增情况下删除id
                     uri = `/logger/diary/diaryCommit`;
-                    delete this.submitData.id;
+                    delete submitData.id;
                 }
                 this.$ajax({
                     url: uri,
-                    data: this.submitData,
+                    data: submitData,
                     type: 'post',
+                    requestBody: true,
                     success: (res) => {
                         if (res && res.code === 0) {
                             this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));

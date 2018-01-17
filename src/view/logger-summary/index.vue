@@ -7,7 +7,8 @@
                 :showTemplate="true" 
                 :showTemplateCheck="true" 
                 :showDatePicker="true" 
-                templateType="select"
+                :templateType="templateType"
+                @handleTemplateType="handleTemplateType"
                 @handleQuery="handleQuery" 
                 :timeArr="timeArr"
                 ref="queryForm"/>
@@ -27,7 +28,8 @@ export default {
     data() {
         return {
             params: {}, 
-            timeArr: []
+            timeArr: [],
+            templateType: 'select'
         }
     },
     components: {
@@ -38,6 +40,9 @@ export default {
     methods: {
         handleQuery(params) {
             this.params = params;
+        },
+        handleTemplateType(type) {
+            this.templateType = type || 'select'
         },
         init() {
             let now = (new Date()).valueOf();

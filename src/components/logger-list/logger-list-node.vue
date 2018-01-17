@@ -284,6 +284,7 @@ export default {
                 data: {
                     diaryId: this.loggerItemData.id
                 },
+                requestBody: true,
                 success: (res)=>{
                     if(res && res.code == 0) {
                         // this.loggerItemData.favorite = res.data;
@@ -311,6 +312,7 @@ export default {
             this.$ajax({
                 url: `/logger/diaryLike/${this.loggerItemData.id}`,
                 type: 'post',
+                requestBody: true,
                 success: (res)=>{
 
                 },

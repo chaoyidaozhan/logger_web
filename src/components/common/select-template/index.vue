@@ -57,7 +57,6 @@ export default {
                 this.getTemplateWeb();
             }
             let templateType = this.templateType != 'web' ? 'app' : 'web';
-            console.log(this.tempListData)
             if(this.hasDefaultTemplate) {
                 this.tempListData = [
                     {

@@ -62,6 +62,7 @@ export default {
                 this.$ajax({
                     url: `/logger/template/${name}`,
                     type: 'post',
+                    requestBody: true,
                     data: {
                         id: this.data.id
                     },

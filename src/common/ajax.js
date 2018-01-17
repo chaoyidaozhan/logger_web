@@ -2,7 +2,7 @@ import URLSearchParams from 'url-search-params';
 import axios from 'axios';
 import md5 from './md5';
 import config from '../config/config';
-
+var qs = require('qs');
 URLSearchParams.prototype.add = function (para) { // axios post请求必须使用URLSearchParams
     if (para instanceof Object) {
         for (let k in para) {
@@ -58,7 +58,7 @@ export default function ajax(opt) { //公用的ajax方法
         params = new URLSearchParams();
         params.add(opt.data);
     } else {
-        params = opt.data
+        params = qs.stringify(opt.data)
     }
     
     let uri = initParams(opt.url, opt.data || {}, opt.type || null);
