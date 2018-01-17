@@ -462,7 +462,8 @@ export default {
                     data: submitData,
                     type: 'post',
                     config: {
-                         headers: {
+                        headers: {
+                            'Accept': '*/*',
                             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                         }
                     },
