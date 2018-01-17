@@ -459,7 +459,9 @@ export default {
                 console.log(JSON.parse(JSON.stringify(submitData)))
                 this.$ajax({
                     url: uri,
-                    data: submitData,
+                    data: {
+                        ...submitData
+                    },
                     type: 'post',
                     config: {
                         headers: {
