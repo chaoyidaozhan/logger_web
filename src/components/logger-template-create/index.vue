@@ -469,9 +469,6 @@ export default {
                                     token: this.$store.state.userInfo.token
                                 }
                             });
-                            console.log(this.saveDraft)
-                            console.log(this.saveDraft ? '/DraftOfMine' : '/LoggerQueryAll')
-                            console.log(this.$store.state.userInfo.token);
                         } else {
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
