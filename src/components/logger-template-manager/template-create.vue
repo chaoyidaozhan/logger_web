@@ -66,7 +66,7 @@
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputTextNum'">
                             <label class="extra-label">单位</label>
-                            <Input placeholder="请输入单位比如元" :maxlength="10" v-model="currentItem.unit" type="text"/>
+                            <Input placeholder="请输入单位比如（元）" :maxlength="10" v-model="currentItem.unit" type="text"/>
                         </div>
 
                         <div class="extra-item" v-if="currentItem.type == 'InputRadio' || currentItem.type == 'InputCheckbox'">
