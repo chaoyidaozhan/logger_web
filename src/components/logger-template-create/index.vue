@@ -455,20 +455,11 @@ export default {
                     uri = `/logger/diary/diaryCommit`;
                     delete submitData.id;
                 }
-                console.log(submitData)
-                console.log(JSON.parse(JSON.stringify(submitData)))
                 this.$ajax({
                     url: uri,
-                    data: {
-                        ...submitData
-                    },
+                    data: submitData,
                     type: 'post',
-                    config: {
-                        headers: {
-                            'Accept': '*/*',
-                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                        }
-                    },
+                    requestBody: true,
                     success: (res) => {
                         if (res && res.code === 0) {
                             this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));

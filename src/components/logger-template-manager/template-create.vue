@@ -395,6 +395,7 @@ export default {
                 data: { 
                     id: templateId
                 },
+                requestBody: true,
                 success: (res)=>{
                     if(res && res.code == 0) {
                         this.data.dataStatus = 0;
@@ -430,6 +431,7 @@ export default {
                     url: '/logger/template/edit',
                     type: 'post',
                     data: { ...params },
+                    requestBody: true,
                     success: (res)=>{
                         if(res && res.code == 0) {
                             this.currentItem = null;
@@ -448,6 +450,7 @@ export default {
                     url: '/logger/template/add',
                     type: 'post',
                     data: { ...params },
+                    requestBody: true,
                     success: (res)=>{
                         if(res && res.code == 0) {
                             this.currentItem = null;

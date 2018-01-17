@@ -281,6 +281,7 @@
                         url: '/logger/diaryComment/reply',
                         type: 'post',
                         data: this.replyData,
+                        requestBody: true,
                         success: (res)=>{
                             if(res && res.code === 0) {
                                 this.commentListData = [];
