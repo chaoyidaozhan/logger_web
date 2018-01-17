@@ -1,8 +1,8 @@
 <template>
     <div class="template-item cursor-pointer" @click="goToDetail">
         <div class="template-item-content">
-            <div class="template-item-title ellipsis">{{ data.title }}</div>
-            <div v-if="!showEdit" class="template-item-describe ellipsis">{{ data.describe }}</div>
+            <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
+            <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
             <template v-if="showEdit">
                 <div class="template-item-time ellipsis">更新于{{ data.createTime | filterTime }}</div>
                 <div v-if="!data.dataStatus" class="template-item-status ellipsis">已停用</div>
@@ -26,6 +26,8 @@
 </template>
 <script>
 import FormatTime from 'app_src/filters/format-time';
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+
 import { mapActions } from 'vuex';
 export default {
     props: {
@@ -51,6 +53,9 @@ export default {
         ...mapActions({
             updateTemplateContent: 'update_template_content'
         }),
+        filterHtml(val) {
+            return HTMLDeCode(val)
+        },
         handleSwitch(name) {
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
@@ -152,14 +157,17 @@ export default {
             color: @gray-color-dark;
             margin-top: 26px;
             margin-bottom: 8px;
+            padding: 2px 0;
         }        
         .template-item-describe {
             font-size: 12px;
             color: @gray-color-light;
+            padding: 2px 0;
         }   
         .template-item-time {
             font-size: 12px;
             color: @gray-color-light;
+            padding: 2px 0;
         }  
         .template-item-status {
             color: @gray-color-light;

@@ -27,7 +27,7 @@
                     />
             </FormItem>
             <FormItem v-for="(item, index) in templateContent" :key="index" 
-                :label="item.title" :class="item.isRequired==1?'required-icon':''">
+                :label="item.title | filterHtml" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
                     <Input :placeholder="item.deion" v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
                 </template>
@@ -97,6 +97,8 @@
 import SelectMemberInput from '../common/select-member-input/';
 import config from 'app_src/config/config';
 import FormatTime  from 'app_src/filters/format-time';
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+
 export default {
     data() {
         return {
@@ -129,6 +131,11 @@ export default {
     },
     components: {
         SelectMemberInput
+    },
+    filters: {
+        filterHtml(val) {
+            return HTMLDeCode(val);
+        }
     },
     methods: {
         initData(templateItemData, templateContent) {
@@ -180,6 +187,7 @@ export default {
             templateContent && templateContent.forEach((v, k) => {
                 switch (v.type) {
                     case 'InputText':
+                        v.value = HTMLDeCode(v.value)
                         this.inputTextValue[k] = v.value;
                         break;
                     case 'InputRadio':

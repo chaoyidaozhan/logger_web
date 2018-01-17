@@ -2,7 +2,7 @@
     <div class="logger-detail">
         <div class="title">
             <div v-if="this.$route.params.loggertype=='create'">
-                <span>2</span>创建日志-{{this.$route.query.templateName}}
+                <span>2</span>创建日志-{{this.$route.query.templateName | filterHtml}}
             </div>
         </div>
         <fs-template-create/>
@@ -10,9 +10,16 @@
 </template>
 <script>
 import FsTemplateCreate from 'app_component/logger-template-create/';
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+
 export default {
     components: {
         FsTemplateCreate
+    },
+    filters: {
+        filterHtml(val) {
+            return HTMLDeCode(val)
+        }
     }
 }
 </script>

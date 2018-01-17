@@ -11,7 +11,7 @@
             <div class="logger-list-col clearfix">
                 <span class="username">{{loggerItemData.userName}}</span>
                 <span class="template-name" v-if="loggerItemData.templateName">
-                    <i>{{loggerItemData.templateName}}</i>
+                    <i>{{filterEncode(loggerItemData.templateName)}}</i>
                 </span>
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
@@ -64,7 +64,7 @@
                 v-for="(item, index) in JSON.parse(loggerItemData.content)"
                 :key="index">
                 <div class="logger-list-col">
-                    <div class="title">{{item.title}}</div>
+                    <div class="title">{{filterEncode(item.title)}}</div>
                     <div class="caption" v-html="filterEncode(item.content || item.value)"></div>
                 </div>
             </div>

@@ -154,6 +154,7 @@
 import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 
 export default {
     data() {
@@ -497,15 +498,17 @@ export default {
             if(res && res.code == 0) {
                 this.pushList = JSON.parse(res.data && res.data.content);
                 this.pushList.length && this.pushList.forEach((item)=>{
-                    if(item.description) {
+                    item.title = HTMLDeCode(item.title);
+                    if(item.description || item.desc) {
                         item.deion = item.description;
                     }
+                    item.deion = HTMLDeCode(item.deion);
                 })
                 let resData = res.data && res.data;
                 this.initRange(resData.templateVisibleRange)
                 this.data = { // 当前模板对应数据
-                    title: resData.title,
-                    describe: resData.describe,
+                    title: HTMLDeCode(resData.title),
+                    describe: HTMLDeCode(resData.describe),
                     dataType: resData.dataType,
                     visibleRange: resData.visibleRange,
                     visibleRangeStr: resData.templateVisibleRange,

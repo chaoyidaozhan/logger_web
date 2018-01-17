@@ -3,76 +3,83 @@
         <Select v-model="templateId" placeholder="请选择模板">
             <Option v-for="(item, index) in tempListData"
                 :value="item.id"
-                :key="index">{{ item.title }}
+                :key="index">{{ item.title | filterHtml  }}
             </Option>
         </Select>
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            hasDefaultTemplate: {
-                type: Boolean,
-                default: true
-            },
-            templateType: {
-                type: String,
-                default: 'app'
-            }
+import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+
+export default {
+    props: {
+        hasDefaultTemplate: {
+            type: Boolean,
+            default: true
         },
-        data() {
-            return {
-                tempListData: [
+        templateType: {
+            type: String,
+            default: 'app'
+        }
+    },
+    data() {
+        return {
+            tempListData: [
+                {
+                    id: 0,
+                    title: '全部模板'
+                }
+            ],
+            templateId: 0,
+        }
+    },
+    watch: {
+        templateType: 'setTempListData'  
+    },
+    filters: {
+        filterHtml(val) {
+            return HTMLDeCode(val)
+        }
+    },
+    methods: {
+        getTemplateApp(call) {
+            this.$store.dispatch('update_template_app', {templateType:this.templateType}).then(()=>{
+                this.setTempListData();
+            })
+        },
+        getTemplateWeb(call) {
+            this.$store.dispatch('update_template_web').then(()=>{
+                this.setTempListData();
+            })
+        },
+        setTempListData() { // 设置当前模板数据
+            if(!this.$store.state.template.web.length && this.templateType == 'web') {
+                this.getTemplateWeb();
+            }
+            let templateType = this.templateType != 'web' ? 'app' : 'web';
+            console.log(this.tempListData)
+            if(this.hasDefaultTemplate) {
+                this.tempListData = [
                     {
                         id: 0,
                         title: '全部模板'
                     }
-                ],
-                templateId: 0,
+                ]
+                this.tempListData = this.tempListData.concat(this.$store.state.template[templateType])
+            } else {
+                this.tempListData = this.$store.state.template[templateType]
+                this.templateId = null
             }
         },
-        watch: {
-            templateType: 'setTempListData'  
-        },
-        methods: {
-            getTemplateApp(call) {
-                this.$store.dispatch('update_template_app', {templateType:this.templateType}).then(()=>{
-                    this.setTempListData();
-                })
-            },
-            getTemplateWeb(call) {
-                this.$store.dispatch('update_template_web').then(()=>{
-                    this.setTempListData();
-                })
-            },
-            setTempListData() { // 设置当前模板数据
-                if(!this.$store.state.template.web.length && this.templateType == 'web') {
-                    this.getTemplateWeb();
-                }
-                let templateType = this.templateType != 'web' ? 'app' : 'web';
-                console.log(this.tempListData)
-                if(this.hasDefaultTemplate) {
-                    this.tempListData = [
-                        {
-                            id: 0,
-                            title: '全部模板'
-                        }
-                    ]
-                    this.tempListData = this.tempListData.concat(this.$store.state.template[templateType])
-                } else {
-                    this.tempListData = this.$store.state.template[templateType]
-                    this.templateId = null
-                }
-            },
-            loadData() { // 默认优先获取数据保存到store
-                this.getTemplateApp();
-                if(this.tempListData.length < 2) {
-                    this.setTempListData();
-                }
+        loadData() { // 默认优先获取数据保存到store
+            this.getTemplateApp();
+            if(this.tempListData.length < 2) {
+                this.setTempListData();
             }
-        },
-        created() {
-            this.loadData();
         }
+    },
+    created() {
+        this.loadData();
     }
+}
 </script>
