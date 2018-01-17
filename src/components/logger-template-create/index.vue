@@ -457,6 +457,7 @@ export default {
                     url: uri,
                     data: this.submitData,
                     type: 'post',
+                    requestBody: false,
                     success: (res) => {
                         if (res && res.code === 0) {
                             this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
@@ -466,6 +467,9 @@ export default {
                                     token: this.$store.state.userInfo.token
                                 }
                             });
+                            console.log(this.saveDraft)
+                            console.log(this.saveDraft ? '/DraftOfMine' : '/LoggerQueryAll')
+                            console.log(this.$store.state.userInfo.token);
                         } else {
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
