@@ -438,6 +438,7 @@ export default {
                     content: JSON.stringify(this.templateContentClone),
                     atStr: JSON.stringify(this.atStr)
                 };
+                console.log(this.submitData)
                 this.editFlag ? this.submitData.id = this.templateItemData.id || 0 : '';
                 let uri = `/logger/diary/diaryCommit`;
 
@@ -459,7 +460,6 @@ export default {
                     url: uri,
                     data: this.submitData,
                     type: 'post',
-                    requestBody: false,
                     config: {
                          headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
