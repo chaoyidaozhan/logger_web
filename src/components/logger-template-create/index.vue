@@ -29,10 +29,14 @@
             <FormItem v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title" :class="item.isRequired==1?'required-icon':''">
                 <template v-if="item.type == 'InputText'">
-                    <Input v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
+                    <Input :placeholder="item.deion" v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
                 </template>
                 <template v-if="item.type == 'InputTextNum'">
-                    <InputNumber  v-model="item.valueNum" ></InputNumber>
+                    <div class="ivu-input-wrapper ivu-input-type">
+                        <input autocomplete="off" spellcheck="false" type="number" 
+                        v-model="item.valueNum"
+                        placeholder="33333333333333222222(单位：2222)" number="true" class="ivu-input">
+                    </div>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
                     <RadioGroup v-model="item.content">
@@ -120,7 +124,7 @@ export default {
             submitData: {},
             saveDraft: false,
             editFlag: 0,
-            summaryFlag: 0
+            summaryFlag: 0,
         }
     },
     components: {
@@ -185,7 +189,7 @@ export default {
                         v.content = v.value ? v.content.split(',') : [];
                         break;
                     case 'InputTextNum':
-                        v.valueNum = parseInt(v.value) || 0;
+                        v.valueNum = parseInt(v.value) || null;
                         break;
                     case 'InputDate':
                         v.dateValueSec = v.value ? new Date(v.value) : new Date();
@@ -493,6 +497,7 @@ export default {
 }
 </script>
 <style lang="less">
+@import '../../assets/css/var.less';
 .logger-create {
     .required-icon .ivu-form-item-label::before{
         content: '*';

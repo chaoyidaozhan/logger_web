@@ -6,10 +6,10 @@
                 <div class="drag-item" @click="handleChangeCurrentItem($event, item)" v-for="(item, index) in pushList" :key="index">
                     <label class="drag-label"><i v-if="item.isRequired != '0'">*</i>{{item.title}}</label>
                     <template v-if="item.type == 'InputText'">
-                        <Input :placeholder="item.description" type="textarea" :autosize="{ minRows: 5}"/>
+                        <Input :placeholder="item.deion" type="textarea" :autosize="{ minRows: 5}"/>
                     </template>
                     <template v-if="item.type == 'InputTextNum'">
-                        <Input :placeholder="item.description" type="text"/>
+                        <Input :placeholder="`${item.deion}${item.unit ? `(单位：${item.unit})` : ''}`" type="text"/>
                     </template>
                     <template v-if="item.type == 'InputRadio'">
                         <RadioGroup>
@@ -62,8 +62,13 @@
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
                             <label class="extra-label">提示文字</label>
-                            <Input placeholder="不超过50个字" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.description" type="textarea"/>
+                            <Input placeholder="不超过50个字" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.deion" type="textarea"/>
                         </div>
+                        <div class="extra-item" v-if="currentItem.type == 'InputTextNum'">
+                            <label class="extra-label">单位</label>
+                            <Input placeholder="请输入单位比如元" :maxlength="10" v-model="currentItem.unit" type="text"/>
+                        </div>
+
                         <div class="extra-item" v-if="currentItem.type == 'InputRadio' || currentItem.type == 'InputCheckbox'">
                             <label class="extra-label">选项<span>(至少2项至多10项)</span></label>
                             <ul class="extra-group-check">
@@ -103,7 +108,7 @@
                                 :group="groupRange"
                                 :member="memberRange"
                                 title="选择可见范围"
-                                placeholder="所有人可见"
+                                placeholder="本部门可见"
                                 :ellipsis="false" 
                                 :showDept="true" 
                                 :showGroup="true" 
@@ -165,7 +170,7 @@ export default {
             pullList: [ // 默认数据
                 {
                     "size": 0,
-                    "description": "请输入",
+                    "deion": "请输入",
                     "title": "文本输入框",
                     "isRequired": "0",
                     "value": "",
@@ -173,7 +178,7 @@ export default {
                     "type": "InputText"
                 }, {
                     "type": "InputTextNum",
-                    "description": "请输入",
+                    "deion": "请输入",
                     "unit": "",
                     "size": 0,
                     "title": "数字输入框",
@@ -491,6 +496,11 @@ export default {
         initData(res) { // 初始化模板对应数据
             if(res && res.code == 0) {
                 this.pushList = JSON.parse(res.data && res.data.content);
+                this.pushList.length && this.pushList.forEach((item)=>{
+                    if(item.description) {
+                        item.deion = item.description;
+                    }
+                })
                 let resData = res.data && res.data;
                 this.initRange(resData.templateVisibleRange)
                 this.data = { // 当前模板对应数据

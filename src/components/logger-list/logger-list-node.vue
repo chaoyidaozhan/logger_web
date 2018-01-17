@@ -173,7 +173,8 @@ export default {
             operateModal: false,
             operateModalData: [],
 
-            showReply: false
+            showReply: false,
+            editTimer: null
         }
     },
     components: {
@@ -326,17 +327,20 @@ export default {
                 this.contentHeight = this.contentDefaultHeight;
             }
         },
-        handleEdit(){
-            this.$store.dispatch('update_template_content', { //登录成功更新store
-                content: this.loggerItemData
-            }).then(()=>{
-                this.$router.push({
-                    path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${this.loggerItemData.id}`,
-                    query:{
-                        token:this.$store.state.userInfo.token
-                    }
+        handleEdit() {
+            clearTimeout(this.editTimer);
+            this.editTimer = setTimeout(()=>{
+                this.$store.dispatch('update_template_content', { //登录成功更新store
+                    content: this.loggerItemData
+                }).then(()=>{
+                    this.$router.push({
+                        path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${this.loggerItemData.id}`,
+                        query:{
+                            token:this.$store.state.userInfo.token
+                        }
+                    });
                 });
-            });
+            }, 400)
         },
         handleDelete() { // 删除
             this.$Modal.confirm({
