@@ -18,6 +18,13 @@
             v-loading="{loading: loaded, text: '加载中...'}"
             v-if="params.orderType == 1"/>
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
+        <fs-modal-table 
+            @handleCancel="handleCancel"
+            :orderType="params.orderType"
+            :years="years"
+            :templateId="params.templateId"
+            :modalParams="modalParams"
+            :showModal="showModal" />
     </div>
 </template>
 <script>
@@ -25,7 +32,7 @@ import FsYearPicker from 'app_component/common/picker/year';
 import FsLoggerStatisticsMonth from './logger-statistics-month';
 import FsLoggerStatisticsSeason from './logger-statistics-season';
 import Pagination from 'app_component/common/pagination';
-
+import FsModalTable from '../modal-table';
 export default {
     props: {
         params: { // 暴露的对象字段
@@ -53,14 +60,17 @@ export default {
             pageNo: 1,
             totalCount: 0,
             loaded: true,
-            emptyData: false
+            emptyData: false,
+            showModal: false,
+            modalParams: {}
         }
     },
     components: {
         FsYearPicker,
         FsLoggerStatisticsMonth,
         FsLoggerStatisticsSeason,
-        Pagination
+        Pagination,
+        FsModalTable
     },
     watch: {
         params: 'handleChangeDate'
@@ -101,6 +111,7 @@ export default {
                             this.totalCount = res.data[0].totalCount || 0
                             this.emptyData = false;
                         } else {
+                            this.totalCount = 0;
                             this.emptyData = true;
                         }
                     }
@@ -111,9 +122,21 @@ export default {
                     this.$Message.error(res && res.msg || '网络错误');
                 }
             })
+        },
+        handleCancel() {
+            this.modalParams = {}
+            this.showModal = false
         }
     },
+    mounted () {
+        this.$eventbus.$off('handleModal').$on('handleModal', (data)=>{
+            console.log(data)
+            this.modalParams = data;
+            this.showModal = true
+        })  
+    },
     destroyed () {
+        this.$eventbus.$off('handleModal');
         clearTimeout(this.timer);
     }
 }

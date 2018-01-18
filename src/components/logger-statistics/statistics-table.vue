@@ -25,13 +25,19 @@
         <div class="table-body" v-if="!!data.length" ref="vertical" :style="{'max-height': `${height}px`}">
             <div class="fixed-left">
                 <ul class="fixed-left-content">
-                    <li class="table-cell ellipsis" v-for="(item, index) in data" :key="index">
+                    <li class="table-cell ellipsis" 
+                        v-for="(item, index) in data" 
+                        @click="handleModal(item)"
+                        :key="index">
                         {{item[`${type == 'member' ? 'user' : type}Name`]}}
                     </li>
                 </ul>
             </div>
             <div class="table-body-content" @scroll="onScroll" ref="bodyHorizonal">
-                <ul class="table-content" v-for="(item, index) in data" :key="index">
+                <ul class="table-content" 
+                    v-for="(item, index) in data" 
+                    @click="handleModal(item)"
+                    :key="index">
                     <li class="table-cell" 
                         :class="{nodata: !val}"
                         v-for="(val, index) in item.array" 
@@ -45,6 +51,7 @@
                 <ul class="fixed-right-content">
                     <li class="table-cell"
                         :class="{nodata: !item.totalCount}"
+                        @click="handleModal(item)"
                         v-for="(item, index) in data" :key="index">
                         {{item.totalCount ? item.totalCount : ''}}
                     </li>
@@ -99,7 +106,8 @@ export default {
             type: Object
         },
         emptyData: {
-            type: Boolean
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -117,6 +125,9 @@ export default {
         }
     },
     methods: {
+        handleModal(data) {
+            this.$eventbus.$emit('handleModal', data);
+        },
         initScroll() {
             let scrollArr = ['vertical'];
             if(this.columns.array.length > this.minLen) {

@@ -1,64 +1,101 @@
 <template>
     <div>
-        <fs-table :emptyData="emptyData" :columns="columns" :data="list" :type="type"></fs-table>
-        <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
+        <Modal 
+            class-name="modal-table"
+            :width="800"
+            :mask-closable="false"
+            v-model="openModal"
+            @on-cancel="handleCancel">
+            <div class="modal-table-header clearfix" slot="header">
+                <div class="pull-left">
+                    <fs-select-order-type v-if="showModal" :defaultType="type" @handleSelectOrderType="handleSelectOrderType"></fs-select-order-type>
+                </div>
+                <div class="middle">
+                    {{modalParams.groupId ? '团队统计' : '部门统计'}}
+                </div>
+                <div class="pull-right">
+                    <Button type="primary">导出</Button>
+                </div>
+            </div>
+            <div>
+                <fs-table :emptyData="emptyData" :columns="columns" :data="list" :type="typeName"></fs-table>
+                <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
+            </div>
+            <div slot="footer"></div>
+        </Modal>
     </div>
 </template>
 <script>
 import FsTable from './statistics-table';
 import Pagination from 'app_component/common/pagination';
+import FsSelectOrderType from 'app_component/common/select-order-type/';
+
 
 export default {
     props: {
+        showModal: {
+            type: Boolean
+        },
+        modalParams: {
+            type: Object
+        },
         templateId: {
-            type: String
+            type: String | Number
         },
-        groupId: {
-            type: String
-        },
-        deptId: {
-            type: String
-        },
-        year: {
-            type: String
+        years: {
+            type: String | Number
         },
         orderType: {
-            type: String
+            type: Number | String
         },
     },
     data() {
         return {
             data: [],
             columns: {
-                title: this.title,
-                key: 'deptName',
+                title: '人员名称',
                 array: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
                 caption: '汇总'
             },
             mArray: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
             sArray: ['一季度','二季度','三季度','四季度'],
-            type: '0',
+            type: 0,
+            typeName: 'member',
             totalCount: 0,
-            pageSize: 20,
-            pageNo: 1
+            pageSize: 7,
+            pageNo: 1,
+            openModal: false,
+            emptyData: false,
         }
     },
+    components: {
+        FsTable,
+        Pagination,
+        FsSelectOrderType
+    },
     computed: {
-        list: function () {
+        list: function () { // 数据处理
             let list = [];
             list = this.data;
             this.data.forEach(item => {
                 item.totalCount = 0;
                 item.array = [];
-                item.array.length = 12;
 
-                let userInfo = item.userName;
-                item.userName = userInfo.userName;
-                item.memberId = userInfo.memberId;
+                item.array.length = this.type == 1 ? 4 : 12;
+
+                if(item.userName && typeof item.userName == 'object') {
+                    let userInfo = item.userName;
+                    item.userName = userInfo.userName;
+                    item.memberId = userInfo.memberId;
+                }
 
                 if(item.resultList && item.resultList.length) {
                     item.resultList.forEach(val=>{
-                        item.array[val.MONTH - 1] = val;
+                        if(this.type == 1) {
+                            item.array[val.quarter - 1] = val;
+                        } else {
+                            item.array[val.MONTH - 1] = val;
+                        }
                         item.totalCount += val.num
                     })
                 }
@@ -66,44 +103,108 @@ export default {
             return list;
         }
     },
+    watch: {
+        showModal: 'watchShowModal'
+    },
     methods: {
-        handleChangePage(index) {
-
+        setColumnsArray() { // 当前属于季度月份
+            if(this.type == 1) {
+                this.columns.array=this.sArray;
+            } else {
+                this.columns.array=this.mArray;
+            }
         },
-        loadData() {
+        handleSelectOrderType(orderType) { // 切换季度
+            this.type = orderType;
+            this.setColumnsArray();
+            this.loadData();
+        },
+        handleChangePage(index) { // 分页
+            this.pageNo = index;
+            this.loadData();
+        },
+        watchShowModal() { // 打开关闭弹出框
+            this.openModal = this.showModal;
+            this.type = +this.orderType;
+            if(this.showModal) {
+                this.loadData();
+            }
+        },
+        handleCancel() { // 关闭弹窗
+            this.$emit('handleCancel')
+        },
+        loadData() { // 加载数据
+            this.setColumnsArray();
             let params = {
-
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                years: this.years,
+                orderType: this.type,
+                
+            }
+            params.templateId = this.templateId || 0;
+            if(this.modalParams.groupId) {
+                params.groupId = this.modalParams.groupId;
+            }
+            if(this.modalParams.deptId != undefined) {
+                params.deptId = this.modalParams.deptId;
             }
             this.$ajax({
                 url: '/logger/diaryQuery/getUserStatisticsByCondition',
                 data: params,
                 success: (res)=>{
                     if(res && res.code === 0) {
-                        this.list = res.data.resultList || [];
-                        let keys = Object.keys(res.data.totalMap || {});
-                        this.totalCount = res.data.totalCount || 0;
-                        if(keys && keys.length) {
-                            res.data.totalMap.total = 0
-                            keys.forEach(key=>{
-                                res.data.totalMap.total += res.data.totalMap[key];
-                            })
+                        this.data = res.data.resultList || [];
+                        this.totalCount = res.data.totalRows || 0;
+                        if(res.data && res.data.length) {
+                            this.emptyData = false;
+                        } else {
+                            this.emptyData = true;
                         }
-                        this.totalMap = res.data.totalMap || {};
                     }
-                    this.loaded = true;
                 },
                 error: (res)=>{
                     this.$Message.error(res && res.msg || '网络错误');
-                    this.loaded = true;
                 }
             })
         }
     },
-    created () {
-        
-    }
 }
 </script>
 <style lang="less">
-
+.modal-table {
+    .ivu-modal-close {
+        z-index: 20;
+    }
+    .ivu-modal-body {
+        padding: 0 0 40px 0;
+        min-height: 360px;
+    }
+    .ivu-modal-footer {
+        display: none;
+    }
+    .ivu-modal-header {
+        padding: 6px;
+    }
+    .modal-table-header {
+        position: relative;
+        .pull-left {
+            width: 200px;
+        }
+        .middle {
+            font-size: 14px;
+            width: 200px;
+            position: absolute;
+            left: 50%;
+            line-height: 32px;
+            margin-left: -100px;
+            text-align: center;
+        }
+        .pull-right {
+            width: 200px;
+            text-align: right;
+            padding-right: 30px;
+        }
+    }
+}
 </style>

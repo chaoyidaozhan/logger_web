@@ -5,6 +5,7 @@
                 :showTemplate="true"
                 :showGroup="true"
                 :showOrderType="true"
+                groupApiUri="authMe"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">

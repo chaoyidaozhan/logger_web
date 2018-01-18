@@ -5,6 +5,7 @@
                 :showTemplate="true"
                 :showDept="true"
                 :showOrderType="true"
+                deptApiUri="getAuthDepts"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">

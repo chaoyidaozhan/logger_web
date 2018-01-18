@@ -33,6 +33,9 @@ export default {
         multi: {
             type: Boolean,
             default: false
+        },
+        defaultType: {
+            type: Number | String,
         }
     },
     data() {
@@ -96,6 +99,7 @@ export default {
                 e.stopPropagation();
             } else {
                 this.orderType = data.id;
+                this.$emit('handleSelectOrderType', this.orderType)
             }
         },
         init() {
@@ -105,6 +109,9 @@ export default {
             } else {
                 this.orderData = this.normalOrderData;
                 this.orderType = 0
+            }
+            if(this.defaultType) {
+                this.orderType = this.defaultType;
             }
             document.onclick = (e)=>{
                 this.expand = false;
