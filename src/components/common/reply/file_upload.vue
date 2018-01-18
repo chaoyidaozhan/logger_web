@@ -57,7 +57,10 @@
 
 <style lang="less">
     .file-upload {
-        line-height: 0;
+        .ivu-upload-select {
+            display: block;
+            padding: 2px;
+        }
         .ivu-upload-list-file {
             padding: 8px;
             background-color: #f5f5f5;

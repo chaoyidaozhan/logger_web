@@ -29,8 +29,7 @@
                        @handleFace="handleFace"></emoji>            
             </div>
 
-            <fs-file-upload ref="fileUpload"
-                            @sendFileData="getUploadFile"></fs-file-upload>
+            <fs-file-upload ref="fileUpload" @sendFileData="getUploadFile"/>
 
             <div class="comment-list">
                 <transition-group name="fade-list" tag="div">
@@ -189,7 +188,7 @@
                 return content;
             },
             getUploadFile(fileData) { // 获取上传附件
-                this.replyData.fileStr = fileData;
+                this.replyData.fileStr = JSON.stringify(fileData);
             },
             replySomebody(commentItem) {
                 this.replyData.replyCommentId = commentItem.memberId;
