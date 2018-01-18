@@ -292,6 +292,7 @@
                                 this.loadCommentData();
                                 this.value = "";
                                 this.$emit('handleReplyNum', true);
+                                this.$refs.fileUpload.uploadFilesArr = [];
                             } else {
                                 this.$Message.error((res && res.msg) || '网络错误');
                             }
