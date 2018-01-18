@@ -146,7 +146,7 @@ export default {
         width: 100%;
     }
     .col {
-        width: 33.33333333333%;
+        width: 220px;
         display: inline-block;
         padding: 0 10px 20px;
         font-size: 14px;
@@ -168,21 +168,21 @@ export default {
             opacity: 1;
         }
     }
-    @media (min-width: 1280px) {
-        .col {
-            width: 25%;
-        }
-    }
-    @media (min-width: 1680px) {
-        .col {
-            width: 20%;
-        }
-    }
-    @media (min-width: 1920px) {
-        .col {
-            width: 16.666666666%;
-        }
-    }
+    // @media (min-width: 1280px) {
+    //     .col {
+    //         width: 25%;
+    //     }
+    // }
+    // @media (min-width: 1680px) {
+    //     .col {
+    //         width: 20%;
+    //     }
+    // }
+    // @media (min-width: 1920px) {
+    //     .col {
+    //         width: 16.666666666%;
+    //     }
+    // }
     
     
 }

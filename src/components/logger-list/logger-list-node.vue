@@ -453,7 +453,7 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
-                color: @gray-color-light;
+                color: @gray-color-medium;
             }
             .at {
                 color: rgb(41, 182, 246);
