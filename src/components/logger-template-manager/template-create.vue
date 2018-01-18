@@ -499,19 +499,17 @@ export default {
         },
         initData(res) { // 初始化模板对应数据
             if(res && res.code == 0) {
-                this.pushList = JSON.parse(res.data && res.data.content);
+                this.pushList = JSON.parse(res && res.data && res.data.content);
                 this.pushList.length && this.pushList.forEach((item)=>{
-                    item.title = HTMLDeCode(item.title);
-                    if(item.description || item.desc) {
-                        item.deion = item.description;
-                    }
-                    item.deion = HTMLDeCode(item.deion);
+                    item.title && (item.title = HTMLDeCode(item.title));
+                    item.deion && (item.deion = HTMLDeCode(item.deion));
+                    item.description && (item.deion = HTMLDeCode(item.deion));
                 })
-                let resData = res.data && res.data;
+                let resData = res && res.data;
                 this.initRange(resData.templateVisibleRange)
                 this.data = { // 当前模板对应数据
-                    title: HTMLDeCode(resData.title),
-                    describe: HTMLDeCode(resData.describe),
+                    title: HTMLDeCode(resData.title || ''),
+                    describe: HTMLDeCode(resData.describe || ''),
                     dataType: resData.dataType,
                     visibleRange: resData.visibleRange,
                     visibleRangeStr: resData.templateVisibleRange,

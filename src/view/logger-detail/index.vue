@@ -13,7 +13,9 @@
             </div>
         </template>
         <template slot="body">
-            <router-view></router-view>
+            <transition :name="transitionName"> 
+                <router-view class="child-view"></router-view>
+            </transition> 
         </template>
     </fs-frame>
 </template>
@@ -23,7 +25,8 @@ import FsFrame from '../frame/';
 export default {
     data() {
         return {
-            params: {}, 
+            params: {},
+            transitionName: ''
         }
     },
     components: {
@@ -35,6 +38,13 @@ export default {
         },
         saveDraftFun() {
             this.$eventbus.$emit('saveDraftFun');
+        }
+    },
+    watch: {　
+        '$route' (to, from) {　　
+            const toDepth = to.path.split('/').length　　　　
+            const fromDepth = from.path.split('/').length　　　　 
+            this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'　　
         }
     }
 }
@@ -73,6 +83,21 @@ export default {
             margin-right: 8px;
         }
     }
+}
+.child-view {
+    transition: all .5s ease;
+}
+
+.slide-left-enter,
+.slide-right-leave-to {
+    -webkit-transform: translate(50%, 0);
+    transform: translate(50%, 0);
+}
+
+.slide-left-leave-to,
+.slide-right-enter {
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
 }
 </style>
 

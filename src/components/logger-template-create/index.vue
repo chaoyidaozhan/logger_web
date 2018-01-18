@@ -319,12 +319,7 @@ export default {
                 content: '您的日志还没提交，确定要放弃编辑吗？',
                 onOk: () => {
                     window.createComplete = true;
-                    this.$router.push({
-                        path: '/LoggerQueryAll',
-                        query: {
-                            token: this.$store.state.userInfo.token
-                        }
-                    });
+                    this.$router.go(-1);
                 }
             });
         },
