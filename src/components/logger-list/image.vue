@@ -88,11 +88,13 @@
 
 <style lang="less" scoped>
     .img-list {
+        max-width: 370px;
+        margin-top: 5px;
         .img-item {
             float: left;
             height: 110px;
             width: 110px;
-            margin: 0 10px 10px 54px;
+            margin: 0 10px 10px 0;
             cursor: pointer;
             img {
                 width: 100%;

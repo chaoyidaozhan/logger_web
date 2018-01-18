@@ -86,6 +86,8 @@ export default {
 </script>
 <style lang="less" scoped>
     .img-list {
+        max-width: 370px;
+        margin-top: 5px;
         .img-item {
             float: left;
             height: 110px;

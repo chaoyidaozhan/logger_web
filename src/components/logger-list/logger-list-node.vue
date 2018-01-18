@@ -85,10 +85,12 @@
 
             <!-- 附件 -->
             <div class="logger-list-row logger-list-attach">
-                <fs-images :images="loggerItemAttachs.imgs"
-                           v-if="loggerItemAttachs.imgs && loggerItemAttachs.imgs.length"></fs-images>
-                <fs-files :files="loggerItemAttachs.files"
-                          v-if="loggerItemAttachs.files && loggerItemAttachs.files.length"></fs-files>
+                <div class="logger-list-col">
+                    <fs-images :images="loggerItemAttachs.imgs"
+                            v-if="loggerItemAttachs.imgs && loggerItemAttachs.imgs.length"></fs-images>
+                    <fs-files :files="loggerItemAttachs.files"
+                            v-if="loggerItemAttachs.files && loggerItemAttachs.files.length"></fs-files>
+                </div>
             </div>
         </div>
         <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
