@@ -15,35 +15,38 @@ export default {
             dom.id = 'selectMember';
             body.appendChild( dom );
 
-        const DEFAULT_INFO = {
-            title:'选择可见范围',  
-            dep:false,
-            team:false,
-            man:false,    
-            // 所有选中内容 ( 添加用的 );  
-            selected:{ 
-                dep :[] ,
-                team:[] ,
-                man :[]
-            },
-            // 上限
-            limit:{
-                count:500,
-                showAll:false, //当limit为1时 可选择是否全选 ;
-                warning:'超出选择范围'
-            },
-        }
+        const DEFAULT_INFO = ()=>{
+            return{
+                title:'选择可见范围',  
+                dep:false,
+                team:false,
+                man:false,    
+                // 所有选中内容 ( 添加用的 );  
+                selected:{ 
+                    dep :[] ,
+                    team:[] ,
+                    man :[]
+                },
+                // 上限
+                limit:{
+                    count:500,
+                    showAll:false, //当limit为1时 可选择是否全选 ;
+                    warning:'超出选择范围'
+                },
+            }
+        };
+
         Vue.prototype.$selectMember = window.ok = new Vue({
-            template:`<div id="selectMember"> 
+            template:`<div id="selectMember" v-if="info.open">
                         <selectMemberBody :info="info" @submit="submit" @cancel="cancel"/> 
-                    </div>`,  
+                      </div>`,  
             components:{
                 selectMemberBody
             },
             data:()=>{
                 return {
                     // 配置选项 ;
-                    info:{...JSON.parse(JSON.stringify(DEFAULT_INFO)),open:false},
+                    info:{ ...DEFAULT_INFO() ,open:false},
                     // 储存所有的部门,团队,人团 ( 右侧点击 删除用的 )
                     saveAjaxDep : [],
                     saveAjaxTeam: [],
@@ -66,7 +69,7 @@ export default {
                 show( config={} , callback ){
                     callback ? this.getSelectedCallback = callback : null ;
                     let info = {
-                        ...JSON.parse(JSON.stringify(DEFAULT_INFO)),
+                        ...DEFAULT_INFO() ,
                         ...config,
                         open:true,
                     };
@@ -75,11 +78,6 @@ export default {
                     !info.selected.man  ? info.selected.man =[]  : null ; 
                     // 赋值
                     this.info = info ;
-
-                    //重置默认设置 
-                    this.info.dep  ? this.setDefaultTure('dep') : null ;
-                    this.info.team ? this.setDefaultTure('team'): null ;
-                    this.info.man  ? this.setDefaultTure('man') : null ;
                 },
                 // 设置传进来的为true 
                 setDefaultTure( type ){
@@ -110,21 +108,10 @@ export default {
                     }
                 },
                 resetInfo(){
-                    this.info = {...DEFAULT_INFO,open:false} ;
-                    this.saveAjaxDep.map( v=>{
-                        v.checked = false ;
-                        // 部门全部折叠
-                        v.openChild = false ;
-                        v.open      = false ;
-                    });
-                    this.saveAjaxTeam.map( v=>{
-                        v.checked = false ;
-                    });
-                    this.saveAjaxMan.map( v=>{
-                        v.checked = false ;
-                    });
-                    // 重置关键字
-                    this.$selectMember.$emit('resetKeyWord');
+                    this.info = { ...DEFAULT_INFO() ,open:false} ;
+                    this.saveAjaxDep  = [] ;
+                    this.saveAjaxTeam = [] ;
+                    this.saveAjaxMan  = [] ;
                 },
                 resetAllSelected(){
                     this.info.selected.dep   =[];

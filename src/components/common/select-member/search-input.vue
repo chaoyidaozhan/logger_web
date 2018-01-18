@@ -12,14 +12,6 @@
 				timer:null,
 			}
 		},
-		mounted(){
-			setTimeout(()=>{
-				this.$selectMember.$on('resetKeyWord',()=>{ 
-					this.kw = '' ;
-					this.$emit( 'change',this.kw );
-				});
-			},500);
-		},
 		methods:{
 			change(){
 				clearTimeout(this.timer);

@@ -1,0 +1,135 @@
+<template>
+	<ul>
+		<li v-for="each in list" class="li cp" @click="checkEach(each)">
+			<div class="head-wrap l">
+				<avatar :name="each.deptName" type="dept" :size="'28px'"/>
+			</div>
+			<div class="deptName l">
+				{{each.deptName}}
+			</div>
+			<div class="r">
+				<!-- Checkbox阻止事件 -->
+				<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
+			</div>
+		</li>
+		<li class="ajaxStatus">
+			<Spin class="auto" v-if="ajaxStatus=='loading'"/>
+			<span v-if="ajaxStatus=='over'">已加载全部</span>
+			<span class="cp" v-if="ajaxStatus=='success'">加载更多</span>
+			<span class="cp" v-if="ajaxStatus=='error'">加载失败 <span class="cp" style="color:#1FDA9A" @click="getDepTypesList">重新加载</span></span>
+		</li>
+	</ul>
+</template>
+<script type="text/javascript">
+	import avatar from '../avatar';
+	export default{
+		props:['info'],
+		components:{
+			avatar
+		},
+
+		data(){
+			return {
+				list:[],
+				ajaxStatus:'loading'
+			}
+		},
+		watch:{
+			// 储存变量 , 设置默认值
+			list(){
+				this.$selectMember.saveAjaxDep = this.list ;
+				this.$selectMember.setDefaultTure('dep');
+			}
+		},
+		mounted(){
+			this.getDepTypesList();
+		},
+		methods:{
+			// 自定义部门接口
+			getDepTypesList(){
+				if( this.info.deptApiUri.includes('getDeptsWithPart') ){
+	            	this.$ajax({
+		                url: this.info.deptApiUri ,
+		                data: this.info.deptApiData ||{},
+		                success: (res)=>{
+		                	if( res.code==0 ){
+		                		let arr1 = res.data['0']||[] ;
+		                		let arr2 = res.data['1']||[] ;
+		                		let arr3 = res.data['2']||[] ;
+		                		let arr = arr1.concat(arr2,arr3);
+			                		arr.map(v=>{
+			                			v.checked=false ;
+			                		})
+		                		this.list = arr ;
+		                		this.ajaxStatus = 'over' ;
+		                	}else {
+		                		this.ajaxStatus = 'error' ;
+		                	}
+		                },
+		                error:(res)=>{
+		                	this.ajaxStatus = 'error' ;
+		                }
+		            });
+				}else if( this.info.deptApiUri.includes('getAuthDepts') ){
+	            	this.$ajax({
+		                url: this.info.deptApiUri ,
+		                data: this.info.deptApiData ||{},
+		                success: (res)=>{
+		                	if( res.code==0 ){
+		                		let arr = res.data.depts || [] ;
+			                		arr.map(v=>{
+			                			v.checked=false ;
+			                		})
+		                		this.list = arr ;
+		                		this.ajaxStatus = 'over' ;
+		                	}else {
+		                		this.ajaxStatus = 'error' ;
+		                	}
+		                },
+		                error:(res)=>{
+		                	this.ajaxStatus = 'error' ;
+		                }
+		            });
+				}else {
+	            	this.$ajax({
+		                url: this.info.deptApiUri ,
+		                data: this.info.deptApiData ||{},
+		                success: (res)=>{
+		                	if( res.code==0 ){
+		                		let arr = this.info.deptApiSuccess(res);
+			                		arr.map(v=>{
+			                			v.checked=false ;
+			                		})
+		                		this.list = arr ;
+		                		this.ajaxStatus = 'over' ;
+		                	}else {
+		                		this.ajaxStatus = 'error' ;
+		                	}
+		                },
+		                error:(res)=>{
+		                	this.ajaxStatus = 'error' ;
+		                }
+		            });					
+				}
+            },
+            checkEach( each ){
+            	// 限制 ;
+				let next = this.$selectMember.checkLimit(each , 'dep');
+				if( !next ){ return };
+
+            	// 正常选择 ;
+            	each.checked = !each.checked ;
+            	if( each.checked ){
+            		// 添加右侧
+            		this.$selectMember.right_add('dep',each);
+            	}else {
+            		// 删除右侧
+            		this.$selectMember.right_del('dep',each);
+            	};
+            }
+		}
+	}
+</script>
+<style lang="less">
+	
+</style>

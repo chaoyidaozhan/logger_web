@@ -62,15 +62,11 @@
 				this.getList();
 			},
 			getList(){
-				let url ;
-				if( this.keyWord=='' ){
-					url = '/logger/group/me' ;
-				}else {
-					url = '/logger/group/authMe' ;
-				}
+				// 请求部门地址可以自定义 ;
+				let url = this.info.groupApiUri ? this.info.groupApiUri : '/logger/group/me' ;
 				this.ajaxStatus = 'loading' ;
             	this.$ajax({
-	                url: '/logger/group/me' ,
+	                url: url ,
 	                data:{
 	                	pageSize : this.pageSize,
 	                	pageNum  : this.pageNum,

@@ -87,24 +87,26 @@
 				return obj ;
 			}
 		},
-		watch:{
-			activeIndex(){
-				this.$emit('changeTab',this.activeIndex);
-			}
-		},
 		
-		// 在updated监控open ; 如果打开请求数据 ;
+		mounted(){
+			this.trigger_v_if();
+		},
 		updated(){
-			let open = this.info.open ;
-			if( open ){
-				this.activeIndex==1 && !this.mountdDep  ? this.mountdDep=true  : null ;
-				this.activeIndex==2 && !this.mountdTeam ? this.mountdTeam=true : null ;
-				this.activeIndex==3 && !this.mountdMan  ? this.mountdMan=true  : null ;
-			}
+			this.trigger_v_if();
 		},
 		methods:{
 			changeTab( index ){
 				this.activeIndex = index ;
+				this.$emit('changeTab',this.activeIndex);
+			},
+			// 防止一次请求三个接口 ;	
+			trigger_v_if(){
+				let open = this.info.open ;
+				if( open ){
+					this.activeIndex==1 && !this.mountdDep  ? this.mountdDep=true  : null ;
+					this.activeIndex==2 && !this.mountdTeam ? this.mountdTeam=true : null ;
+					this.activeIndex==3 && !this.mountdMan  ? this.mountdMan=true  : null ;
+				}				
 			}
 		}
 	}

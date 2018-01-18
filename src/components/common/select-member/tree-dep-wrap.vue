@@ -1,40 +1,52 @@
 <template>
 	<div class="tree-dep-wrap">
 		<search-input @change="keyWordChange"/>
-		<!-- keyword不为空显示平级结构 -->
-		<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
-			<li v-for="each in list" class="li cp" @click="checkEach(each)">
-				<div class="head-wrap l">
-					<avatar :name="each.deptName" type="dept" :size="'28px'"/>
+
+			<!-- keyword不为空显示平级结构 -->
+			<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
+				<li v-for="each in list" class="li cp" @click="checkEach(each)">
+					<div class="head-wrap l">
+						<avatar :name="each.deptName" type="dept" :size="'28px'"/>
+					</div>
+					<div class="deptName l">
+						{{each.deptName}}
+					</div>
+					<div class="r">
+						<!-- Checkbox阻止事件 -->
+						<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
+					</div>
+				</li>
+				<li class="ajaxStatus">
+					<Spin class="auto" v-if="ajaxStatus=='loading'"/>
+					<span v-if="ajaxStatus=='over'">已加载全部</span>
+					<span class="cp" v-if="ajaxStatus=='success'">加载更多</span>
+					<span class="cp" v-if="ajaxStatus=='error'">加载失败 <span class="cp" style="color:#1FDA9A" @click="getList">重新加载</span></span>
+				</li>
+			</div>
+			<!-- keyword为空显示树形结构 -->
+			<div v-if=" keyWord=='' ">
+
+				<!-- 没有传 deptApiUri , 走默认接口 -->
+				<div class="tree-wrap man_scroll"   v-if="allowShowTree">
+					<tree-dep  :info="info"/>
 				</div>
-				<div class="deptName l">
-					{{each.deptName}}
+
+				<!-- 自定义了部门接口 树形结构不显示 -->
+				<div class="search-wrap man_scroll" v-if="!allowShowTree">
+					<other-dep :info="info"/>
 				</div>
-				<div class="r">
-					<!-- Checkbox阻止事件 -->
-					<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
-				</div>
-			</li>
-			<li class="ajaxStatus">
-				<Spin class="auto" v-if="ajaxStatus=='loading'"/>
-				<span v-if="ajaxStatus=='over'">已加载全部</span>
-				<span class="cp" v-if="ajaxStatus=='success'">加载更多</span>
-				<span class="cp" v-if="ajaxStatus=='error'">加载失败 <span class="cp" style="color:#1FDA9A" @click="getList">重新加载</span></span>
-			</li>
-		</div>
-		<!-- keyword为空显示树形结构 -->
-		<div class="tree-wrap man_scroll" v-if=" keyWord=='' ">
-			<tree-dep  :info="info"/>
-		</div>
+			</div>
+
 	</div>
 </template>
 <script type="text/javascript">
 	import avatar from '../avatar';
 	import searchInput from './search-input.vue';
+	import otherDep from './other-dep.vue';
 	export default{
 		props:['info'],
 		components:{
-			avatar , searchInput
+			avatar , searchInput , otherDep
 		},
 
 		data(){
@@ -42,6 +54,15 @@
 				ajaxStatus:'loading',  // loding---加载中 success---加载更多 error---加载失败 over--全部;
 				keyWord:'',
 				list:[]
+			}
+		},
+		computed:{
+			allowShowTree(){
+				if( this.info.deptApiUri ){
+					return false
+				}else {
+					return true
+				}
 			}
 		},
 		watch:{
@@ -52,23 +73,19 @@
 			}
 		},
 
-		mounted(){
-			window.ll = this ;
-		},
 		methods:{
 			keyWordChange( kw ){
 				this.keyWord = kw ;
 				if(kw){
-					this.getList();
+					this.keyWordChangeGetList();
 				} 
 			},
-			getList(){
-            	let data={ 
-            		keyWord : this.keyWord 
-            	};
+			keyWordChangeGetList(){
             	this.$ajax({
 	                url: '/logger/team/getDepts',
-	                data: data ,
+	                data: {
+	                	keyWord : this.keyWord 
+	                },
 	                success: (res)=>{
 	                	if( res.code==0 ){
 	                		let arr = res.data ;
@@ -84,8 +101,9 @@
 	                error:(res)=>{
 	                	this.ajaxStatus = 'error' ;
 	                }
-	            })
-            },
+	            });				
+			},
+
             checkEach( each ){
             	// 限制 ;
 				let next = this.$selectMember.checkLimit(each , 'dep');
