@@ -22,7 +22,8 @@ export default {
     data() {
         return {
             range: '3',
-            hasLoadedGroup: false
+            hasLoadedGroup: false,
+            groupId: ''
         }
     },
     components: {
@@ -31,11 +32,18 @@ export default {
     mixins: [query],
     methods: {
         getDaily(groupId) {
+            this.groupId = groupId;
             this.params = {
                 ...this.params,
                 groupId: groupId
             };
-            this.hasLoadedGroup = true
+            this.hasLoadedGroup = true;
+        },
+        handleQuery(params) {
+            if(this.groupId) {
+                params.groupId = this.groupId;
+            }
+            this.params = params;
         }
     }
 }
