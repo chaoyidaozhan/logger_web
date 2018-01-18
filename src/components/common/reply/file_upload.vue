@@ -43,6 +43,8 @@
                 this.$Message.error("网络错误, 文件上传失败!");
             },
             uploadSuccess(response, file, fileList) {
+                console.log(response)
+                console.log(file)
                 file && this.uploadFilesArr.push({
                     fid: file.fid,
                     fileName: file.fileName,
@@ -53,6 +55,7 @@
                 this.$emit("sendFileData", this.uploadFilesArr);
             },
             handleRemoveFile(file, fileList) { // 移除
+                console.log(fileList)
                 this.uploadFilesArr = [];
                 fileList && fileList.forEach((item)=>{
                     this.uploadFilesArr.push({
