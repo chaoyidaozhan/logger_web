@@ -90,26 +90,6 @@
 		                	this.ajaxStatus = 'error' ;
 		                }
 		            });
-				}else {
-	            	this.$ajax({
-		                url: this.info.deptApiUri ,
-		                data: this.info.deptApiData ||{},
-		                success: (res)=>{
-		                	if( res.code==0 ){
-		                		let arr = this.info.deptApiSuccess(res);
-			                		arr.map(v=>{
-			                			v.checked=false ;
-			                		})
-		                		this.list = arr ;
-		                		this.ajaxStatus = 'over' ;
-		                	}else {
-		                		this.ajaxStatus = 'error' ;
-		                	}
-		                },
-		                error:(res)=>{
-		                	this.ajaxStatus = 'error' ;
-		                }
-		            });					
 				}
             },
             checkEach( each ){

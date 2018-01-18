@@ -87,17 +87,16 @@
 				return obj ;
 			}
 		},
+		watch:{
+			activeIndex(i){
+				this.$emit('changeTab', i );
+				this.trigger_v_if();
+			}
+		},
 		
-		mounted(){
-			this.trigger_v_if();
-		},
-		updated(){
-			this.trigger_v_if();
-		},
 		methods:{
 			changeTab( index ){
 				this.activeIndex = index ;
-				this.$emit('changeTab',this.activeIndex);
 			},
 			// 防止一次请求三个接口 ;	
 			trigger_v_if(){

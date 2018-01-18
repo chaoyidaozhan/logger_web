@@ -81,27 +81,80 @@
 				} 
 			},
 			keyWordChangeGetList(){
-            	this.$ajax({
-	                url: '/logger/team/getDepts',
-	                data: {
-	                	keyWord : this.keyWord 
-	                },
-	                success: (res)=>{
-	                	if( res.code==0 ){
-	                		let arr = res.data ;
-		                		arr.map(v=>{
-		                			v.checked=false ;
-		                		})
-	                		this.list = arr ;
-	                		this.ajaxStatus = 'over' ;
-	                	}else {
-	                		this.ajaxStatus = 'error' ;
-	                	}
-	                },
-	                error:(res)=>{
-	                	this.ajaxStatus = 'error' ;
-	                }
-	            });				
+				if( this.info.deptApiUri ){
+					// 自定义地址
+					if( this.info.deptApiUri.includes('getDeptsWithPart') ){
+						let data = this.info.deptApiData ||{} ;
+							data.keyWord = this.keyWord ;
+		            	this.$ajax({
+			                url: this.info.deptApiUri ,
+			                data: data ,
+			                success: (res)=>{
+			                	if( res.code==0 ){
+			                		let arr1 = res.data['0']||[] ;
+			                		let arr2 = res.data['1']||[] ;
+			                		let arr3 = res.data['2']||[] ;
+			                		let arr = arr1.concat(arr2,arr3);
+				                		arr.map(v=>{
+				                			v.checked=false ;
+				                		})
+			                		this.list = arr ;
+			                		this.ajaxStatus = 'over' ;
+			                	}else {
+			                		this.ajaxStatus = 'error' ;
+			                	}
+			                },
+			                error:(res)=>{
+			                	this.ajaxStatus = 'error' ;
+			                }
+			            });
+					}else if( this.info.deptApiUri.includes('getAuthDepts') ){
+						let data = this.info.deptApiData ||{} ;
+							data.keyWord = this.keyWord ;						
+		            	this.$ajax({
+			                url: this.info.deptApiUri ,
+			                data: data ,
+			                success: (res)=>{
+			                	if( res.code==0 ){
+			                		let arr = res.data.depts || [] ;
+				                		arr.map(v=>{
+				                			v.checked=false ;
+				                		})
+			                		this.list = arr ;
+			                		this.ajaxStatus = 'over' ;
+			                	}else {
+			                		this.ajaxStatus = 'error' ;
+			                	}
+			                },
+			                error:(res)=>{
+			                	this.ajaxStatus = 'error' ;
+			                }
+			            });
+					}
+				}else {
+					// 默认地址
+	            	this.$ajax({
+		                url: '/logger/team/getDepts',
+		                data: {
+		                	keyWord : this.keyWord 
+		                },
+		                success: (res)=>{
+		                	if( res.code==0 ){
+		                		let arr = res.data ;
+			                		arr.map(v=>{
+			                			v.checked=false ;
+			                		})
+		                		this.list = arr ;
+		                		this.ajaxStatus = 'over' ;
+		                	}else {
+		                		this.ajaxStatus = 'error' ;
+		                	}
+		                },
+		                error:(res)=>{
+		                	this.ajaxStatus = 'error' ;
+		                }
+		            });		
+				}			
 			},
 
             checkEach( each ){
