@@ -13,9 +13,9 @@
             </div>
         </template>
         <template slot="body">
-            <transition :name="transitionName"> 
-                <router-view class="child-view"></router-view>
-            </transition> 
+            <!-- <transition :name="transitionName">  -->
+                <router-view></router-view>
+            <!-- </transition>  -->
         </template>
     </fs-frame>
 </template>
@@ -41,11 +41,11 @@ export default {
         }
     },
     watch: {　
-        '$route' (to, from) {　　
-            const toDepth = to.path.split('/').length　　　　
-            const fromDepth = from.path.split('/').length　　　　 
-            this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'　　
-        }
+        // '$route' (to, from) {　　
+        //     const toDepth = to.path.split('/').length　　　　
+        //     const fromDepth = from.path.split('/').length　　　　 
+        //     this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'　　
+        // }
     }
 }
 </script>
@@ -64,6 +64,11 @@ export default {
     height: 100%;
     overflow: auto;
     padding: 0 10px 60px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    transition: all .4s ease;
     .title {
         padding: 10px;
         color: @gray-color-medium;
@@ -83,21 +88,6 @@ export default {
             margin-right: 8px;
         }
     }
-}
-.child-view {
-    transition: all .5s ease;
-}
-
-.slide-left-enter,
-.slide-right-leave-to {
-    -webkit-transform: translate(50%, 0);
-    transform: translate(50%, 0);
-}
-
-.slide-left-leave-to,
-.slide-right-enter {
-    -webkit-transform: translate(-50%, 0);
-    transform: translate(-50%, 0);
 }
 </style>
 
