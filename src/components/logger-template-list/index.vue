@@ -41,6 +41,7 @@ export default {
             loaded: false,
             animate: 'fade',
             timer: null,
+            contentWidth: 0
         }
     },
     components: {
@@ -113,7 +114,7 @@ export default {
     },
     created () {
         this.loadData('fade');
-    }
+    },
 }
 </script>
 <style lang="less" scoped>
@@ -136,11 +137,11 @@ export default {
                 font-size: 24px;
             }
         }
-        &:hover {
-            i {
-                transform: rotateX(180deg);
-            }
-        }
+        // &:hover {
+        //     i {
+        //         transform: rotateX(180deg);
+        //     }
+        // }
     }
     .page {
         width: 100%;

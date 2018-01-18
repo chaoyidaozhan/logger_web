@@ -41,6 +41,7 @@ export default {
 .logger-frame {
 	width: 100%;
 	height: 100%;
+	min-width: 1000px;
 	padding-top: 60px;
 	position: relative;
 	.logger-frame-header {

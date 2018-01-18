@@ -128,7 +128,7 @@ export default {
 @import '../../assets/css/var.less';
 .template-item {
     width: 100%;
-    padding-bottom: 45%;
+    padding-bottom: 47%;
     position: relative;
     .template-item-content {
         position: absolute;
@@ -156,8 +156,8 @@ export default {
         .template-item-title {
             font-size: 14px;
             color: @gray-color-dark;
-            margin-top: 26px;
-            margin-bottom: 8px;
+            margin-top: 22px;
+            margin-bottom: 2px;
             padding: 2px 0;
         }        
         .template-item-describe {
@@ -174,11 +174,11 @@ export default {
             color: @gray-color-light;
             font-size: 20px;
             padding: 4px 10px;
+            margin-top: 4px;
             border-radius: 20px;
             display: inline-block;
-            margin-top: 2px;
             transform: scale(0.5);
-            transform-origin: left;
+            transform-origin: left top;
             border: 2px solid @gray-color-elip;
         } 
         &:hover {
