@@ -132,7 +132,7 @@
         data() {
             return {
                 value: '',
-                maxLength: 200,
+                maxLength: 1000,
                 showFace: false,
                 pageNo: 1,
                 pageSize: 10,

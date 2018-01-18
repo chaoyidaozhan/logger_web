@@ -1,7 +1,6 @@
 <template>
     <Upload class="file-upload"
             ref="upload"
-            multiple
             :max-size="102400"
             name="fileData"
             :on-exceeded-size="exceededSize"
