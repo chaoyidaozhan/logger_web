@@ -73,6 +73,16 @@
                     <div class="caption" v-html="filterEncode(item.content || item.value)"></div>
                 </div>
             </div>
+            
+            <!--具体内容-->
+            <div class="logger-list-row logger-list-content">
+                <div class="logger-list-col">
+                    <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
+                        @{{item.replayUserName}}
+                    </span>
+                </div>
+            </div>
+
             <!-- 附件 -->
             <div class="logger-list-row logger-list-attach">
                 <fs-images :images="loggerItemAttachs.imgs"
@@ -442,6 +452,11 @@ export default {
             margin-left: 54px;
             .title {
                 color: @gray-color-light;
+            }
+            .at {
+                color: rgb(41, 182, 246);
+                display: inline-block;
+                margin-right: 4px;
             }
         }
     }
