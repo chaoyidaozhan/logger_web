@@ -21,9 +21,6 @@
                 uploadFilesArr: []
             }
         },
-        watch: {
-            uploadFilesArr: 'clearFiles'
-        },
         methods: {
             clearFiles() {
                 if(!!this.uploadFilesArr.length) {
