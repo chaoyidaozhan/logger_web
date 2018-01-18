@@ -161,7 +161,11 @@
                 this.showFace = !this.showFace;
             },
             uploadFile() { // 上传附件
-                this.$refs.fileUpload.$el.getElementsByClassName("ivu-upload-input")[0].click();
+                if(this.$refs.fileUpload.uploadFilesArr && this.$refs.fileUpload.uploadFilesArr.length < 9) {
+                    this.$refs.fileUpload.$el.getElementsByClassName("ivu-upload-input")[0].click();
+                } else {
+                    this.$Message.warning('单次上传不大于9个附件');
+                }
             },
             handleFace(faceItem) { // 表情点击
                 this.value += "[" + faceItem + "]";             

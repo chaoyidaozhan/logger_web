@@ -6,6 +6,7 @@
             :on-exceeded-size="exceededSize"
             :on-error="uploadError"
             :on-success="uploadSuccess"
+            :on-remove="handleRemoveFile"
             :action="uploadUrl">
     </Upload>
 </template>
@@ -49,6 +50,19 @@
                     fileUrl: file.img,
                     type: this.getFileType(file.fileExtension)
                 });
+                this.$emit("sendFileData", this.uploadFilesArr);
+            },
+            handleRemoveFile(file, fileList) { // 移除
+                this.uploadFilesArr = [];
+                fileList && fileList.forEach((item)=>{
+                    this.uploadFilesArr.push({
+                        fid: item.fid,
+                        fileName: item.fileName,
+                        fileSize: item.fileSize,
+                        fileUrl: item.img,
+                        type: this.getFileType(item.fileExtension)
+                    });
+                })
                 this.$emit("sendFileData", this.uploadFilesArr);
             }
         }
