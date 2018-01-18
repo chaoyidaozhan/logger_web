@@ -22,7 +22,7 @@
         },
         methods: {
             getFileType(fileext) {
-                filext = fileext.substring(fileext.lastIndexOf('.')+1).toLowerCase();
+                fileext = fileext.substring(fileext.lastIndexOf('.')+1).toLowerCase();
                 let type = "file";
                 let fileTypeObj = {
                     video: ['mp4', 'ogg', 'webm'],
