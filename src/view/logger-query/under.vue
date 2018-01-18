@@ -4,6 +4,8 @@
             <fs-query-form 
                 :showTemplate="true"
                 :showDatePicker="true"
+                :showDept="true"
+                deptApiUri="/logger/team/getDeptsWithPart"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >

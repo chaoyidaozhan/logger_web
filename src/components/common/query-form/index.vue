@@ -50,6 +50,7 @@
                     :dept="dept"
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     title="选择部门"
+                    :deptApiUri="deptApiUri"
                     placeholder="选择部门"/>
             </FormItem> 
             <FormItem :label-width="40" label="团队"  v-if="showGroup">
@@ -60,6 +61,7 @@
                     :group="group"
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     title="选择团队"
+                    :groupApiUri="groupApiUri"
                     placeholder="选择团队"/>
             </FormItem> 
             <FormItem :label-width="40" label="日期"  v-if="showOrderType || showOrderTypeMulti">
@@ -141,6 +143,12 @@ export default {
             default: function () {
                 return []
             }
+        },
+        deptApiUri: {
+            type: String
+        },
+        groupApiUri: {
+            type: String
         }
     },
     components: {

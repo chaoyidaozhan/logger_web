@@ -94,6 +94,12 @@ export default {
                     count: 500
                 }
             }            
+        },
+        deptApiUri: {
+            type: String
+        },
+        groupApiUri: {
+            type: String
         }
     },
     data() {
@@ -141,6 +147,18 @@ export default {
                     team: this.group
                 }
             };
+            if(this.deptApiUri) {
+                info.deptApiUri = this.deptApiUri;
+                if(this.deptApiUri == '/logger/team/getDeptsWithPart') {
+                    info.deptApiData = {
+                        pid:this.$store.state.userInfo.deptId
+                    }
+                }
+            }
+            if(this.groupApiUri) {
+                info.groupApiUri = this.groupApiUri
+            }
+            console.log(info)
             this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
                 let params = {};
                 params.dept = res.dep;

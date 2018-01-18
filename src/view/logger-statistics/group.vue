@@ -5,7 +5,7 @@
                 :showTemplate="true"
                 :showGroup="true"
                 :showOrderType="true"
-                groupApiUri="authMe"
+                groupApiUri="/logger/group/authMe"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">

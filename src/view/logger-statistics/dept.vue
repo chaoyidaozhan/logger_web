@@ -5,7 +5,7 @@
                 :showTemplate="true"
                 :showDept="true"
                 :showOrderType="true"
-                deptApiUri="getAuthDepts"
+                deptApiUri="/logger/team/getAuthDepts"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">
