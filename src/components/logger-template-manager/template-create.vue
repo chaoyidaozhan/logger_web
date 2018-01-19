@@ -108,7 +108,7 @@
                                 :group="groupRange"
                                 :member="memberRange"
                                 title="选择可见范围"
-                                placeholder="本部门可见"
+                                placeholder="所有人可见"
                                 :ellipsis="false" 
                                 :showDept="true" 
                                 :showGroup="true" 
