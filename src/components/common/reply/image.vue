@@ -62,7 +62,8 @@ export default {
                 }
                 let pswpBtns = document.querySelectorAll('.pswp__button');
                 if(pswpBtns && pswpBtns.length) {
-                    pswpBtns.forEach(e => {
+                    for(let i = 0; i < pswpBtns.length; i++) {
+                        let e = pswpBtns[i]
                         switch (e.title) {
                             case 'Zoom in/out':
                                 e.title = '放大/缩小'
@@ -79,7 +80,7 @@ export default {
                             default:
                                 break;
                         }
-                    });
+                    }
                 }
             })
         },

@@ -46,7 +46,6 @@
                 this.list = [];
                 this.$nextTick(()=>{
                     let images = this.$refs.previewImg;     
-                    console.log(images);
                     if(images && images.length) {
                         for(let i = 0; i < images.length; i++) {
                             let item = images[i];
@@ -63,7 +62,8 @@
                     }
                     let pswpBtns = document.querySelectorAll('.pswp__button');
                     if(pswpBtns && pswpBtns.length) {
-                        pswpBtns.forEach(e => {
+                        for(let i = 0; i < pswpBtns.length; i++) {
+                            let e = pswpBtns[i]
                             switch (e.title) {
                                 case 'Zoom in/out':
                                     e.title = '放大/缩小'
@@ -80,7 +80,7 @@
                                 default:
                                     break;
                             }
-                        });
+                        }
                     }
                 })
             },

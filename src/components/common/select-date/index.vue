@@ -46,7 +46,7 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .select-date {
     // margin-right: 15px;
     .date-wrap {
