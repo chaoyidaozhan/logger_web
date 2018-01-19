@@ -52,6 +52,9 @@ export default {
     .date-wrap {
         width: 100%;
     }
+    .ivu-input-icon-normal + .ivu-input {
+        padding-right: 28px;
+    }
 }
 </style>
 

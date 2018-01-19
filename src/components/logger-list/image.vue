@@ -41,7 +41,8 @@
             setList() { // 设置list
                 this.list = [];
                 this.$nextTick(()=>{
-                    let images = this.$refs.previewImg;                
+                    let images = this.$refs.previewImg;     
+                    console.log(images);
                     images && images.forEach((item, index) => {
                         let w = item.naturalWidth && item.naturalWidth || 600,
                             h = item.naturalHeight && item.naturalHeight || 400,
