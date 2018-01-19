@@ -48,38 +48,39 @@
                     let images = this.$refs.previewImg;     
                     console.log(images);
                     if(images && images.length) {
-                        images.forEach((item, index) => {
+                        for(let i = 0; i < images.length; i++) {
+                            let item = images[i];
                             let w = item.naturalWidth && item.naturalWidth || 600,
                                 h = item.naturalHeight && item.naturalHeight || 400,
-                                imagesList = this.images[index];
-                                (w < 100 && h < 100) && (w = w * 10, h = h * 10);
-                                this.list.push({
-                                    src: imagesList.fileKey,
-                                    w: w,
-                                    h: h,
-                                })
-                                let pswpBtns = document.querySelectorAll('.pswp__button');
-                                if(pswpBtns && pswpBtns.length) {
-                                    pswpBtns.forEach(e => {
-                                        switch (e.title) {
-                                            case 'Zoom in/out':
-                                                e.title = '放大/缩小'
-                                                break;
-                                            case 'Close (Esc)':
-                                                e.title = '关闭 （ESC）'
-                                                break;
-                                            case 'Previous (arrow left)':
-                                                e.title = '上一张'
-                                                break;
-                                            case 'Next (arrow right)':
-                                                e.title = '下一张'
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                    });
-                                }
-                        })
+                            imagesList = this.images[i];
+                            (w < 100 && h < 100) && (w = w * 10, h = h * 10);
+                            this.list.push({
+                                src: imagesList.fileKey,
+                                w: w,
+                                h: h,
+                            })
+                        }
+                    }
+                    let pswpBtns = document.querySelectorAll('.pswp__button');
+                    if(pswpBtns && pswpBtns.length) {
+                        pswpBtns.forEach(e => {
+                            switch (e.title) {
+                                case 'Zoom in/out':
+                                    e.title = '放大/缩小'
+                                    break;
+                                case 'Close (Esc)':
+                                    e.title = '关闭 （ESC）'
+                                    break;
+                                case 'Previous (arrow left)':
+                                    e.title = '上一张'
+                                    break;
+                                case 'Next (arrow right)':
+                                    e.title = '下一张'
+                                    break;
+                                default:
+                                    break;
+                            }
+                        });
                     }
                 })
             },
