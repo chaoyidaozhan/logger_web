@@ -24,11 +24,15 @@ export default {
         return {
             list: [],
             options: {
+                history: false,
                 bgOpacity: .6,
                 closeOnScroll: false,
                 closeOnVerticalDrag: false,
                 shareEl: false,
                 barsSize: {top:0,bottom:0},
+                showHideOpacity: true,
+                showAnimationDuration: 300,
+                hideAnimationDuration: 300,
                 captionEl: false,
                 showAnimationDuration: 200,
                 fullscreenEl: false
@@ -42,38 +46,40 @@ export default {
             this.$nextTick(()=>{
                 let images = this.$refs.previewImg;
                 console.log(images);
-                images && images.forEach((item, index) => {
-                    let w = item.naturalWidth && item.naturalWidth || 600,
-                        h = item.naturalHeight && item.naturalHeight || 400,
-                        imagesList = this.images[index];
-                        (w < 100 && h < 100) && (w = w * 10, h = h * 10);
-                        this.list.push({
-                            src: imagesList.fileUrl,
-                            w: w,
-                            h: h,
-                        });
-                        let pswpBtns = document.querySelectorAll('.pswp__button');
-                        if(pswpBtns && pswpBtns.length) {
-                            pswpBtns.forEach(e => {
-                                switch (e.title) {
-                                    case 'Zoom in/out':
-                                        e.title = '放大/缩小'
-                                        break;
-                                    case 'Close (Esc)':
-                                        e.title = '关闭 （ESC）'
-                                        break;
-                                    case 'Previous (arrow left)':
-                                        e.title = '上一张'
-                                        break;
-                                    case 'Next (arrow right)':
-                                        e.title = '下一张'
-                                        break;
-                                    default:
-                                        break;
-                                }
+                if(images && images.length) {
+                    images.forEach((item, index) => {
+                        let w = item.naturalWidth && item.naturalWidth || 600,
+                            h = item.naturalHeight && item.naturalHeight || 400,
+                            imagesList = this.images[index];
+                            (w < 100 && h < 100) && (w = w * 10, h = h * 10);
+                            this.list.push({
+                                src: imagesList.fileUrl,
+                                w: w,
+                                h: h,
                             });
-                        }
-                });
+                            let pswpBtns = document.querySelectorAll('.pswp__button');
+                            if(pswpBtns && pswpBtns.length) {
+                                pswpBtns.forEach(e => {
+                                    switch (e.title) {
+                                        case 'Zoom in/out':
+                                            e.title = '放大/缩小'
+                                            break;
+                                        case 'Close (Esc)':
+                                            e.title = '关闭 （ESC）'
+                                            break;
+                                        case 'Previous (arrow left)':
+                                            e.title = '上一张'
+                                            break;
+                                        case 'Next (arrow right)':
+                                            e.title = '下一张'
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                });
+                            }
+                    })
+                }
             })
         },
         onLoad(e) { // 加载成功
