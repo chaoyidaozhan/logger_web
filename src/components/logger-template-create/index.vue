@@ -141,7 +141,7 @@ export default {
         initData(templateItemData, templateContent) {
             window.createComplete = false;
             this.dateValue = templateItemData.diaryTime || new Date(); // 初始化日志日期
-            this.initRange(templateItemData.range || []); // 初始化可选范围
+            this.initRange(templateItemData.range || templateItemData.diaryVisibleRanges || []); // 初始化可选范围
             this.initAtMember(templateItemData); // 初始化at人 
             this.initDefaultFile(templateItemData) // 初始化文件
             this.initTemplateContent(templateContent) // 初始化可变表单
@@ -248,6 +248,7 @@ export default {
             if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'edit' || this.$route.params.loggertype == 'draft')) {
                 this.getTemplateApp();
             } else if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'create' || this.$route.params.loggertype == 'summary')) {
+                window.createComplete = true;
                 this.$router.go(-1);
             } else {
                 this.setTempListData();
@@ -350,14 +351,14 @@ export default {
             });
             this.rangeArr = visibleRangeStr;
             this.templateContentClone = JSON.parse(JSON.stringify(this.templateContent));
-            this.templateContentClone.forEach((v, k) => {
+            typeof this.templateContentClone == 'object' && this.templateContentClone.forEach((v, k) => {
                 if (v.type == 'InputText') {
                     v.value = this.inputTextValue[k];
                     v.content = this.inputTextValue[k];
                 } else if (v.type == 'InputTextNum') {
                     v.content = v.valueNum;
                     v.value = v.valueNum;
-                    if (v.valueNum) {
+                    if (v.valueNum != undefined) {
                         delete v.valueNum;
                     }
                 } else if (v.type == 'InputRadio') {
@@ -488,7 +489,9 @@ export default {
     },
     created() {
         if (this.$route.params.loggertype != 'edit') { // 非编辑情况
-            this.getVisibleRange();
+            if(this.$route.params.loggertype != 'draft') {
+                this.getVisibleRange();
+            }
             if (this.$route.params.loggertype == 'draft') { // 草稿
                 this.editFlag = 1;
             }

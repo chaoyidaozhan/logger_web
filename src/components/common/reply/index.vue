@@ -80,11 +80,12 @@
                     </div>
                 </transition-group>
                 <loading :loading="loading"
-                         :loadError="loadError"
-                         :hasMore="hasMore"
-                         :loadMore="loadMore"
-                         @handleLoadMore="handleLoadMore"
-                         @handleReload="handleReload">
+                        v-if="hasMore"
+                        :loadError="loadError"
+                        :hasMore="hasMore"
+                        :loadMore="loadMore"
+                        @handleLoadMore="handleLoadMore"
+                        @handleReload="handleReload">
                 </loading>
             </div>
         </div>
@@ -251,6 +252,7 @@
             loadCommentData() { // 获取回复列表
                 this.loading = true;
                 this.loadMore = false;
+                this.hasMore = true;
                 clearTimeout(this.loadTimer);
                 this.loadTimer = setTimeout(() => {
                     this.$ajax({

@@ -6,10 +6,10 @@
             {{placeholder}}
         </template>
         <template v-else-if="ellipsis">
-            <span v-for="item in dept" :key="item.deptId">
+            <span v-for="item in dept">
                 {{item.deptName}}
             </span>
-            <span v-for="item in group" :key="item.groupId">
+            <span v-for="item in group">
                 {{item.groupName}}
             </span>
             <span v-for="item in member" :key="item.memberId">
@@ -17,11 +17,11 @@
             </span>
         </template>
         <template v-else>
-            <span class="tag" v-for="item in dept" :key="item.deptId" @click="handleClearMember($event, item, 'dept')">
+            <span class="tag" v-for="item in dept" @click="handleClearMember($event, item, 'dept')">
                 {{item.deptName}}
                 <i class="icon-delete-userlist"></i>
             </span>
-            <span class="tag" v-for="item in group" :key="item.groupId" @click="handleClearMember($event, item, 'group')">
+            <span class="tag" v-for="item in group" @click="handleClearMember($event, item, 'group')">
                 {{item.groupName}}
                 <i class="icon-delete-userlist"></i>
             </span>
