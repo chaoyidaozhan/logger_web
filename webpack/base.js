@@ -26,7 +26,7 @@ module.exports = {
     output: {
         // publicPath: './',
         path: APP_DIST,
-        filename: '[name].[hash].js',
+        filename: '[name].js',
     },
     resolve: {
         alias: {
@@ -91,7 +91,7 @@ module.exports = {
         new ExtractTextPlugin('style.css'),
         new webpack.optimize.CommonsChunkPlugin({
             name: "vendors",
-            filename: 'vendors.[hash].js',
+            filename: 'vendors.js',
         }),
         new htmlWebpackPlugin({
             hash: true,
