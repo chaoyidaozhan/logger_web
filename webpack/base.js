@@ -100,8 +100,6 @@ module.exports = {
                 collapseWhitespace: true,
                 removeAttributeQuotes: true
             },
-            chunks: ['manifest', 'vendor', 'app'],
-            chunksSortMode: 'dependncy',
             favicon: path.join(APP_SRC, '/assets/images/dailyrecord.png'),
             template: path.join(APP_SRC, '/template/index.html'),
         }),
