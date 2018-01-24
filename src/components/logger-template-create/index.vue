@@ -458,7 +458,7 @@ export default {
                     requestBody: true,
                     success: (res) => {
                         if (res && res.code === 0) {
-                            this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
+                            this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag && !submitData.dataStatus ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
                             this.$router.push({
                                 path:  this.saveDraft ? '/DraftOfMine' : '/LoggerQueryAll',
                                 query: {

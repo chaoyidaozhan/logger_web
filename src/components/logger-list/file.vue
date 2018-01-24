@@ -73,7 +73,7 @@
     .file-list {
         .file-item {
             padding: 5px 20px 5px 6px;
-            margin: 0 0 6px 54px;
+            margin: 0 0 6px 0;
             line-height: 30px;
             background-color: #f5f5f5;
             & > span {

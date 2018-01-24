@@ -31,10 +31,10 @@
                             </li>
                             <li class="cursor-pointer" 
                                 @click="handlePrint"
-                                v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
+                                v-if="((userInfo.member_id == loggerItemData.memberId) || userInfo.admin) && (this.$route.path != '/DraftOfMine')">
                                 打印
                             </li>
-                            <li class="cursor-pointer" @click="handleOperate">操作记录</li>
+                            <li class="cursor-pointer" v-if="this.$route.path != '/DraftOfMine'" @click="handleOperate">操作记录</li>
                         </ul>
                         <span class="operate cursor-pointer"><i class="icon-more"></i></span>
                     </Poptip>
@@ -97,6 +97,12 @@
             <div class="logger-list-col">
                 <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">展开全文</span>
                 <span class="cursor-pointer" @click="handleContentExpand" v-else>收起全文</span>
+            </div>
+        </div>
+        <div class="logger-list-row" v-if="!!loggerItemData.location">
+            <div class="logger-list-col logger-list-location">
+                <Icon type="ios-location"></Icon>
+                {{loggerItemData.location}}
             </div>
         </div>
         <div class="lat"></div>
@@ -516,6 +522,10 @@ export default {
                 }
             }
         }
+    }
+    .logger-list-location {
+        font-size: 12px;
+        color: @gray-color-light;
     }
     .logger-list-range {
         font-size: 12px;

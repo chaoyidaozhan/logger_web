@@ -9,6 +9,7 @@
             <div class="table-header-content" @scroll="onScroll" ref="headerHorizonal">
                 <ul class="table-content">
                     <li class="table-cell" 
+                        ref="tableWidth"
                         v-for="(val, index) in columns.array" 
                         :style="{'width': `${100/(columns.array.length > minLen ? minLen : columns.array.length)}%`}"
                         :key="index">
@@ -170,10 +171,12 @@ export default {
             let headerHorizonal = this.$refs.headerHorizonal;
             let bodyHorizonal = this.$refs.bodyHorizonal;
             let scrollLeft = headerHorizonal && headerHorizonal.scrollLeft;
+
+            let tableWidth = this.$refs.tableWidth && this.$refs.tableWidth[0] && this.$refs.tableWidth[0].offsetWidth || 200;
             if(dir == 'right') {
-                scrollLeft += 200
+                scrollLeft += tableWidth
             } else {
-                scrollLeft -= 200
+                scrollLeft -= tableWidth
             }
             headerHorizonal && (headerHorizonal.scrollLeft = scrollLeft);
             bodyHorizonal && (bodyHorizonal.scrollLeft = scrollLeft);
