@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div>
-                <fs-table :emptyData="emptyData" :columns="columns" :data="list" :type="typeName"></fs-table>
+                <fs-table :emptyData="emptyData" :refuse="true" :columns="columns" :data="list" :type="typeName"></fs-table>
                 <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
             </div>
             <div slot="footer"></div>

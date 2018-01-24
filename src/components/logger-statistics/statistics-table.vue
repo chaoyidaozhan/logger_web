@@ -43,6 +43,7 @@
                         :class="{nodata: !val}"
                         v-for="(val, index) in item.array" 
                         :style="{'width': `${100/(item.array.length > minLen ? minLen : item.array.length)}%`}"
+                        :title="val ? val.num : ''"
                         :key="index">
                         {{val ? val.num : ''}}
                     </li>
@@ -54,7 +55,7 @@
                         :class="{nodata: !item.totalCount}"
                         @click="handleModal(item)"
                         v-for="(item, index) in data" :key="index">
-                        {{item.totalCount ? item.totalCount : ''}}
+                        {{item.totalCount ? `${item.totalCount}篇` : ''}}
                     </li>
                 </ul>
             </div>
@@ -73,6 +74,7 @@
                         :class="{nodata: !totalMap[`${index+1}`]}"
                         v-for="(val, index) in columns.array" 
                         :style="{'width': `${100/(columns.array.length > minLen ? minLen : columns.array.length)}%`}"
+                        :title="totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}篇` : ''"
                         :key="index">
                         {{totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}篇` : ''}}
                     </li>
@@ -80,6 +82,7 @@
             </div>
             <div class="fixed-right table-cell"
                 :class="{nodata: !totalMap.total}"
+                :title="totalMap.total ? `${totalMap.total}篇` : ''"
                 >
                 {{totalMap.total ? `${totalMap.total}篇` : ''}}
             </div>
@@ -109,6 +112,10 @@ export default {
         emptyData: {
             type: Boolean,
             default: false
+        },
+        refuse: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -127,7 +134,9 @@ export default {
     },
     methods: {
         handleModal(data) {
-            this.$eventbus.$emit('handleModal', data);
+            if(!this.refuse) {
+                this.$eventbus.$emit('handleModal', data);
+            }
         },
         initScroll() {
             let scrollArr = ['vertical'];
@@ -261,6 +270,8 @@ export default {
         background-color: @white-color;
         color: @gray-color-dark;
         overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         &.nodata {
             background-color: @white-color-light;
         }
