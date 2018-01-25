@@ -7,9 +7,9 @@
     "dev": "cross-env NODE_ENV=development node ./webpack/dev.js",
     "prevdev": "cross-env NODE_ENV=prevdev node ./webpack/dev.js",
     "buildev": "cross-env NODE_ENV=buildev node ./webpack/dev.js",
-    "test": "clean ./web && cross-env NODE_ENV=test webpack --config ./webpack/test.js",
-    "prev": "clean ./web && cross-env NODE_ENV=prev webpack --config ./webpack/prev.js",
-    "build": "clean && cross-env NODE_ENV=production webpack --config ./webpack/build.js",
+    "test": "npm run clean && cross-env NODE_ENV=test webpack --config ./webpack/test.js",
+    "prev": "npm run clean && cross-env NODE_ENV=prev webpack --config ./webpack/prev.js",
+    "build": "npm run clean && cross-env NODE_ENV=production webpack --config ./webpack/build.js",
     "clean": "rm -rf ./web && npm install"
   },
   "author": "",
