@@ -41,7 +41,7 @@ module.exports = {
         extensions: ['.js', '.json', '.vue', '.scss', '.css']
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -76,7 +76,11 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                include: APP_SRC,
+                include: [
+                    APP_SRC,
+                    path.resolve('/node_modules/iview/src'),
+                    path.resolve('/node_modules/iview/dist'),
+                ],
                 use: [{
                     loader: 'babel-loader',
                     options: {
