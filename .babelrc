@@ -4,5 +4,9 @@
         "vue",
         "stage-2"
     ],
-    "ignore": []
+    "ignore": [],
+    "plugins": [
+        "transform-es2015-destructuring",
+        "transform-remove-strict-mode"
+    ]
 }

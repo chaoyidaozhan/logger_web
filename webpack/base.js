@@ -15,7 +15,10 @@ const APP_DIST = path.join(APP_PATH, isProduction ? './web' : 'web');
 module.exports = {
     devtool: '#eval-source-map',
     entry: {
-        app: [path.join(APP_SRC, "/main.js")],
+        app: [
+            path.join(APP_PATH, "/node_modules/babel-polyfill/dist/polyfill.js"),
+            path.join(APP_SRC, "/main.js")
+        ],
         vendors: [
             'vue',
             'vuex',
