@@ -16,7 +16,7 @@ module.exports = {
     devtool: '#eval-source-map',
     entry: {
         app: [
-            "babel-polyfill",,
+            "babel-polyfill",
             path.join(APP_SRC, "/main.js")
         ],
         vendors: [
