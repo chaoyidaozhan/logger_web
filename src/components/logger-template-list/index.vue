@@ -96,7 +96,7 @@ export default {
                     success: (res)=>{
                         if(res && res.code == 0) {
                             this.list = res.data.list || []
-                            this.totalCount = res.data.pages
+                            this.totalCount = res.data.totalCount || 0
                         }
                         clearTimeout(this.timer);
                         this.timer = setTimeout(() => {
