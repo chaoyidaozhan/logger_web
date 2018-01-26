@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import 'core-js/fn/date/now'; 
 import iView from 'iview'; // 引入ui库
 import store from './store/';
 import routes from './router/';
