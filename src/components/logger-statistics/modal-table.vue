@@ -150,7 +150,7 @@ export default {
                 params.deptId = this.modalParams.deptId;
             }
             this.$ajax({
-                url: '/logger/diaryQuery/getUserStatisticsByCondition',
+                url: '/diaryQuery/getUserStatisticsByCondition',
                 data: params,
                 success: (res)=>{
                     if(res && res.code === 0) {

@@ -65,7 +65,7 @@
 			getList(){
 				this.ajaxStatus = 'loading' ;
             	this.$ajax({
-	                url: '/logger/user/getUsersBySpace',
+	                url: '/user/getUsersBySpace',
 	                data:{
 	                	pageSize : this.pageSize,
 	                	pageNum  : this.pageNum,

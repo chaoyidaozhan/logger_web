@@ -27,7 +27,7 @@ export default {
     methods: {
         loadData() {
             this.$ajax({
-                url: '/logger/group/authMe',
+                url: '/group/authMe',
                 type: 'get',
                 data: {
                     pageNum: this.pageNum,

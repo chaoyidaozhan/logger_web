@@ -60,7 +60,7 @@
             	let data={ pid : this.pid };
             	!this.pid ? delete data.pid : null ;
             	this.$ajax({
-	                url: '/logger/team/getDepts',
+	                url: '/team/getDepts',
 	                data: data ,
 	                success: (res)=>{
 	                	this.loading=false;

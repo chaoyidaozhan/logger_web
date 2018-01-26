@@ -60,7 +60,7 @@ export default {
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 this.$ajax({
-                    url: `/logger/template/${name}`,
+                    url: `/template/${name}`,
                     type: 'post',
                     requestBody: true,
                     data: {
@@ -81,7 +81,7 @@ export default {
                 content: '点击确定删除模板',
                 onOk:()=>{
                     this.$ajax({
-                        url: `/logger/template/delete/${this.data.id}`,
+                        url: `/template/delete/${this.data.id}`,
                         success: (res)=>{
                             if(res && res.code == 0) {
                                 this.$emit('deleteData', this.data);

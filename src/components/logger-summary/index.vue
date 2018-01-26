@@ -122,7 +122,7 @@ export default {
         },
         exportECL() { // 导出
             let templateId = this.params.templateId == null ? 0 : this.params.templateId;
-            let url = `${config[__ENV__].apiHost}/logger/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}
+            let url = `${config[__ENV__].apiHost}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}
             &endDate=${this.params.endDate}&token=${this.$store.state.userInfo.token}&templateId=${templateId}` 
             window.open(url, '_blank');
         },
@@ -241,7 +241,7 @@ export default {
             } else {
                 this.loading = true;
                 this.$ajax({
-                    url: '/logger/diaryQuery/getDiaryStatistics',
+                    url: '/diaryQuery/getDiaryStatistics',
                     data: data,
                     success: (res) => {
                         this.updateList(res);

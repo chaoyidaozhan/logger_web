@@ -5,9 +5,9 @@ import ajax from '../../common/ajax';
 
 function getTemplateApp(call, type) {
     ajax({
-        url: '/logger/template/list',
+        url: '/template/list',
         data: {
-            pageNumber: 1,
+            pageNo: 1,
             pageSize: 1000,
             client: type || 'app'
         },
@@ -20,9 +20,9 @@ function getTemplateApp(call, type) {
 }
 function getTemplateWeb(call) {
     ajax({
-        url: '/logger/template/list',
+        url: '/template/list',
         data: {
-            pageNumber: 1,
+            pageNo: 1,
             pageSize: 1000,
             client: 'web'
         },

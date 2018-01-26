@@ -119,7 +119,7 @@ export default {
                     return date && date.valueOf() > Date.now();
                 }
             },
-            uploadFile: `${config[__ENV__].apiHost}/logger/diaryFile/?token=` + this.$store.state.userInfo.token,
+            uploadFile: `${config[__ENV__].apiHost}/diaryFile/?token=` + this.$store.state.userInfo.token,
             fileStr: [],
             atStr: [],
             defaultFileList: [], //默认上传的文件
@@ -224,7 +224,7 @@ export default {
         },
         getTemplateApp() { //获取编辑数据
             this.$ajax({
-                url: `/logger/diary/detail/${this.$route.params.id}`,
+                url: `/diary/detail/${this.$route.params.id}`,
                 success: (res) => {
                     if (res && res.code === 0) {
                         this.templateItemData = res.data || {};
@@ -256,7 +256,7 @@ export default {
         },
         getVisibleRange() { //可见范围
             this.$ajax({
-                url: '/logger/diary/lastVisibleRange',
+                url: '/diary/lastVisibleRange',
                 data: {
                     templateId: this.$route.params.id || 0
                 },
@@ -435,20 +435,20 @@ export default {
                     atStr: JSON.stringify(this.atStr)
                 };
                 this.editFlag ? submitData.id = this.templateItemData.id || 0 : '';
-                let uri = `/logger/diary/diaryCommit`;
+                let uri = `/diary/diaryCommit`;
 
                 if(this.saveDraft && this.editFlag) { // 即为草稿又为编辑
-                    uri = `/logger/diary/edit`;
+                    uri = `/diary/edit`;
                 } else if (this.saveDraft) { // 草稿 新增草稿情况下删除id
-                    uri = `/logger/diary/diaryCommitDraft`
+                    uri = `/diary/diaryCommitDraft`
                     delete submitData.id;
                 } else if (this.editFlag) { // 编辑
-                    uri = `/logger/diary/edit`;
+                    uri = `/diary/edit`;
                     if(this.$route.params.loggertype == 'draft') { // 草稿编辑保存时需要多加一个字段dataStatus
                         submitData.dataStatus = 1;
                     }
                 } else { // 其他 新增情况下删除id
-                    uri = `/logger/diary/diaryCommit`;
+                    uri = `/diary/diaryCommit`;
                     delete submitData.id;
                 }
                 this.$ajax({

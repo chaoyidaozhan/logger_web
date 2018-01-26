@@ -152,7 +152,7 @@ export default {
         loadData() {
             this.loaded = false;
             this.$ajax({
-                url: '/logger/diaryQuery/getUsersStatisticsByCondition',
+                url: '/diaryQuery/getUsersStatisticsByCondition',
                 data: this.getParams(),
                 success: (res)=>{
                     if(res && res.code === 0) {

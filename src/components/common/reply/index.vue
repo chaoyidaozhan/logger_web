@@ -256,7 +256,7 @@
                 clearTimeout(this.loadTimer);
                 this.loadTimer = setTimeout(() => {
                     this.$ajax({
-                        url: `/logger/diaryComment/${this.dailyId}/reply`,
+                        url: `/diaryComment/${this.dailyId}/reply`,
                         type: 'get',
                         data: {
                             pageNo: this.pageNo,
@@ -283,7 +283,7 @@
                 clearTimeout(this.commitTimer);
                 this.commitTimer = setTimeout(() => {
                     this.$ajax({
-                        url: '/logger/diaryComment/reply',
+                        url: '/diaryComment/reply',
                         type: 'post',
                         data: this.replyData,
                         requestBody: true,
@@ -320,7 +320,7 @@
                     content: '点击确定删除该回复',
                     onOk: () =>{
                         this.$ajax({
-                            url: "/logger/diaryComment/delete/" + commentItemId,
+                            url: "/diaryComment/delete/" + commentItemId,
                             type: 'delete',
                             success: (res)=>{
                                 if(res && res.code === 0) {

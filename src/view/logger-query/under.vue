@@ -5,7 +5,7 @@
                 :showTemplate="true"
                 :showDatePicker="true"
                 :showDept="true"
-                deptApiUri="/logger/team/getDeptsWithPart"
+                deptApiUri="/team/getDeptsWithPart"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >

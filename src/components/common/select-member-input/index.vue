@@ -149,7 +149,7 @@ export default {
             };
             if(this.deptApiUri) {
                 info.deptApiUri = this.deptApiUri;
-                if(this.deptApiUri == '/logger/team/getDeptsWithPart') {
+                if(this.deptApiUri == '/team/getDeptsWithPart') {
                     info.deptApiData = {
                         pid:this.$store.state.userInfo.deptId
                     }

@@ -289,7 +289,7 @@ export default {
         handleCollect(e) { // 收藏
             e.stopPropagation();
             let uri = this.loggerItemData.favorite.isFavorite ? 
-                    '/logger/favorite/delete' : '/logger/favorite/add';
+                    '/favorite/delete' : '/favorite/add';
                     
             this.loggerItemData.favorite.isFavorite = !!this.loggerItemData.favorite.isFavorite?0:1;
             if(this.loggerItemData.favorite.isFavorite) {
@@ -329,7 +329,7 @@ export default {
             }
 
             this.$ajax({
-                url: `/logger/diaryLike/${this.loggerItemData.id}`,
+                url: `/diaryLike/${this.loggerItemData.id}`,
                 type: 'post',
                 requestBody: true,
                 success: (res)=>{
@@ -377,7 +377,7 @@ export default {
                 content: '点击确定删除该日志',
                 onOk: (res)=>{
                     this.$ajax({
-                        url: `/logger/diary/${this.loggerItemData.id}`,
+                        url: `/diary/${this.loggerItemData.id}`,
                         type: 'delete',
                         success: (res)=>{
                             if(res && res.code == 0) {
@@ -398,7 +398,7 @@ export default {
         },
         handleOperate() { // 操作记录
             this.$ajax({
-                url: `/logger/diaryOpeationLoggers/${this.loggerItemData.id}`,
+                url: `/diaryOpeationLoggers/${this.loggerItemData.id}`,
                 success: (res)=>{
                     if(res && res.code == 0) {
                         this.operateModalData = res.data || [];

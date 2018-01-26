@@ -134,7 +134,7 @@
 				}else {
 					// 默认地址
 	            	this.$ajax({
-		                url: '/logger/team/getDepts',
+		                url: '/team/getDepts',
 		                data: {
 		                	keyWord : this.keyWord 
 		                },

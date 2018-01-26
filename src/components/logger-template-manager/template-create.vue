@@ -390,7 +390,7 @@ export default {
         handleStop() {  // 停用模板
             let templateId = this.$route.params.id || 0;
             this.$ajax({
-                url: '/logger/template/stop',
+                url: '/template/stop',
                 type: 'post',
                 data: { 
                     id: templateId
@@ -428,7 +428,7 @@ export default {
             call && call();
             if(templateId != -1) {
                 this.$ajax({
-                    url: '/logger/template/edit',
+                    url: '/template/edit',
                     type: 'post',
                     data: { ...params },
                     requestBody: true,
@@ -447,7 +447,7 @@ export default {
                 })
             } else {
                 this.$ajax({
-                    url: '/logger/template/add',
+                    url: '/template/add',
                     type: 'post',
                     data: { ...params },
                     requestBody: true,
@@ -528,7 +528,7 @@ export default {
             let templateId = this.$route.params.id;
             if(templateId != -1) { // 当为编辑时请求接口初始化数据
                 this.$ajax({
-                    url: `/logger/template/detail/${templateId}`,
+                    url: `/template/detail/${templateId}`,
                     success: (res)=>{
                         this.initData(res);
                     },

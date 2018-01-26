@@ -53,7 +53,7 @@ export default {
         loadData() {
             this.loading = true;
             this.$ajax({
-                url: '/logger/diaryQuery/getGeneralGroupDiary',
+                url: '/diaryQuery/getGeneralGroupDiary',
                 type: 'get',
                 data: {
                     pageNo: this.pageNo,

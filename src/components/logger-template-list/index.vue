@@ -88,7 +88,7 @@ export default {
             if(this.showEdit) { // 编辑页面分页进行请求
                 this.list = [];
                 this.$ajax({
-                    url: '/logger/template/list',
+                    url: '/template/list',
                     data: {
                         pageSize: this.pageSize,
                         pageNo: this.pageNo,

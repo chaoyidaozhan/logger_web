@@ -47,7 +47,7 @@ export default {
         },
         url: {
             type: String,
-            default: '/logger/diaryQuery/getAllDiary'
+            default: '/diaryQuery/getAllDiary'
         },
         isCollect: {
             type: Boolean,

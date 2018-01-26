@@ -33,7 +33,7 @@ export default {
         },
         getUserInfo() { // 获取用户信息
             this.$ajax({
-                url: '/logger/main/getUserInfo',
+                url: '/main/getUserInfo',
                 type: 'get',
                 success: (res)=>{
                     if(res && res.code === 0) {

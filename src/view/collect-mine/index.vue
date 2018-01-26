@@ -8,7 +8,7 @@
         </template>
         <template slot="body" >
             <fs-logger-list 
-                url="/logger/favorite/getMyFavorite"
+                url="/favorite/getMyFavorite"
                 :isCollect="true"
                 :range="range" :dataStatus="0" :params="params" ref="loggerList"/>
         </template>
