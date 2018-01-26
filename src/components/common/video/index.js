@@ -1,5 +1,5 @@
 import videoComponent from './video';
-let $vm
+var $vm
 export default {
     install(Vue) {
         let Video = Vue.extend(videoComponent)

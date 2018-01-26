@@ -28,7 +28,7 @@ import VuePreview from 'vue-preview';
 Vue.use(VuePreview);
 
 // 视频组件
-import FsVueVideo from './components/common/video/index';
+import FsVueVideo from './components/common/video/';
 Vue.use(FsVueVideo);
 
 // 选人组件依赖 iview 和 ajax.js ;

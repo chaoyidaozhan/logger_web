@@ -13,7 +13,7 @@ isProduction = env === 'production' || 'test' || 'prev';
 
 const APP_DIST = path.join(APP_PATH, isProduction ? './web' : 'web');
 module.exports = {
-    devtool: '#eval-source-map',
+    devtool: '#cheap-module-eval-source-map',
     entry: {
         app: [
             "babel-polyfill",
@@ -75,11 +75,25 @@ module.exports = {
                 test: /iview.src.*?js$/, loader: 'babel-loader' 
             },
             {
+                test: /vue-preview.src.*?js$/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            ['es2015', {
+                                modules: false
+                            }]
+                        ]
+                    }
+                }]
+            },
+            {
                 test: /\.js$/,
                 include: [
                     APP_SRC,
                     path.resolve('/node_modules/iview/src'),
                     path.resolve('/node_modules/iview/dist'),
+                    path.resolve('/node_modules/vue-preview/src/plugins/preview'),
                 ],
                 use: [{
                     loader: 'babel-loader',
