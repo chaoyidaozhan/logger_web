@@ -45,7 +45,6 @@ export default {
             this.list = [];
             this.$nextTick(()=>{
                 let images = this.$refs.previewImg;
-                console.log(images);
                 if(images && images.length) {
                     for(let i = 0; i < images.length; i++) {
                         let item = images[i];
@@ -54,12 +53,13 @@ export default {
                         imagesList = this.images[i];
                         (w < 100 && h < 100) && (w = w * 10, h = h * 10);
                         this.list.push({
-                            src: imagesList.fileKey,
+                            src: imagesList.fileKey || imagesList.fileUrl,
                             w: w,
                             h: h,
                         })
                     }
                 }
+                console.log(this.list);
                 let pswpBtns = document.querySelectorAll('.pswp__button');
                 if(pswpBtns && pswpBtns.length) {
                     for(let i = 0; i < pswpBtns.length; i++) {

@@ -22,9 +22,7 @@
         },
         methods: {
             clearFiles() {
-                if(!!this.uploadFilesArr.length) {
-                    this.$refs.upload.clearFiles();
-                }
+                this.$refs.upload.clearFiles();
             },
             getFileType(fileext) {
                 fileext = fileext.substring(fileext.lastIndexOf('.')+1).toLowerCase();
