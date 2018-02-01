@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import 'es6-promise/auto';
 import VueRouter from 'vue-router';
 import 'core-js/fn/date/now'; 
 import iView from 'iview'; // 引入ui库

@@ -99,6 +99,13 @@ export default {
                                 contentArr[index].value += `\n${item.value}`;
                             }
                         }
+                        if(item.type == 'InputTextNum') {
+                            if(!!item.content && typeof +item.content == 'number') {
+                                contentArr[index].content += (+item.content);
+                                contentArr[index].value += (+item.value);
+                            }
+                        }
+
                     })
                 }
             });
@@ -109,6 +116,7 @@ export default {
                 this.$Message.warning('请选择汇总的日志');
             } else {
                 this.handleSummaryData();
+                console.log()
                 this.$store.dispatch('update_template_content', {
                     content: this.templateItemData
                 });
@@ -155,7 +163,6 @@ export default {
                         {
                             title: '提交人',
                             key: 'column2',
-                            ellipsis: true,
                             width: 80
                         }
                     ];

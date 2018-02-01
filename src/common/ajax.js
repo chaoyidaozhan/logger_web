@@ -58,7 +58,7 @@ export default function ajax(opt) { //公用的ajax方法
         params = new URLSearchParams();
         params.add(opt.data);
     } else {
-        params = qs.stringify(opt.data)
+        params = qs.stringify(opt.data);
     }
     
     let uri = initParams(opt.url, opt.data || {}, opt.type || null);

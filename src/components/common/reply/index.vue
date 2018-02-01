@@ -20,7 +20,7 @@
                 <i class="file-btn icon-enclosure" @click="uploadFile"></i>
                 <Button class="ok-btn" 
                         type="primary" 
-                        :disabled="!value.trim().length"
+                        :disabled="btnloading"
                         @click="commitComment">
                     回复
                 </Button>
@@ -147,7 +147,8 @@
                 replyData: {
                     diaryId: this.dailyId,
                     replySource: 3
-                }
+                },
+                btnloading: true
             }
         },
         methods: {
@@ -156,6 +157,7 @@
                 if(inputContent.length >= this.maxLength) {
                     this.value = inputContent.substring(0, this.maxLength);
                 }
+                this.btnloading = !!inputContent ? false : true;
             },
             chooseFace(e) { // 表情展开
                 e.stopPropagation();
@@ -282,6 +284,7 @@
                 this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
                 clearTimeout(this.commitTimer);
                 this.commitTimer = setTimeout(() => {
+                    this.btnloading = true;
                     this.$ajax({
                         url: '/diaryComment/reply',
                         type: 'post',

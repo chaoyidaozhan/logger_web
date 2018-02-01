@@ -35,6 +35,7 @@
                     <div class="ivu-input-wrapper ivu-input-type">
                         <input autocomplete="off" spellcheck="false" type="number" 
                         v-model="item.valueNum"
+                        max="100000000"
                         :placeholder="`${item.deion}${item.unit?`(单位：${item.unit})`:''}`" number="true" class="ivu-input">
                     </div>
                 </template>
@@ -83,7 +84,7 @@
             </FormItem>
            
             <FormItem>
-                <Button type="primary" class="submit-btn" @click="handleSubmit">
+                <Button type="primary" class="submit-btn" @click="handleSubmit" :loading="btnloading">
                     提交
                 </Button>
                 <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
@@ -127,6 +128,7 @@ export default {
             saveDraft: false,
             editFlag: 0,
             summaryFlag: 0,
+            btnloading: false
         }
     },
     components: {
@@ -451,6 +453,7 @@ export default {
                     uri = `/diary/diaryCommit`;
                     delete submitData.id;
                 }
+                this.btnloading = true;
                 this.$ajax({
                     url: uri,
                     data: submitData,
@@ -468,9 +471,11 @@ export default {
                         } else {
                             this.$Message.warning((res && res.msg) || '网络错误');
                         }
+                        this.btnloading = false;
                     },
                     error: (res) => {
                         this.$Message.warning((res && res.msg) || '网络错误');
+                        this.btnloading = false;
                     }
 
                 })
