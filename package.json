@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "babel-polyfill": "^6.26.0",
+    "es6-promise": "^4.2.4",
     "g2": "^2.3.7",
     "iview": "^2.8.0",
     "perfect-scrollbar": "^0.7.1",
