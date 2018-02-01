@@ -16,7 +16,7 @@
     export default {
         data() {
             return {
-                uploadUrl: `${config[__ENV__].apiHost.replace("logger_new","")}/doc/doc/upload?token=${this.$store.state.userInfo.token}`,
+                uploadUrl: `${config[__ENV__].apiHost.replace("logger_new/","")}/doc/doc/upload?token=${this.$store.state.userInfo.token}`,
                 uploadFilesArr: []
             }
         },
