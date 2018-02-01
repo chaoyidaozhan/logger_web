@@ -71,6 +71,14 @@
                 <Button :disabled="loading" type="primary" @click="handleQuery">
                     查询
                 </Button>
+                <FormItem :label-width="10" class="export-btn" v-if="showExportExcel">
+                    <fs-export-excel
+                    @handleExportExcel="handleExportExcel"
+                    @handlePersonData="handlePersonData"
+                    :isGroupOrDeptSelectedAll="isGroupOrDeptSelectedAll"
+                    :showGroupExcelBtn="showGroupExcelBtn"
+                    :showDeptExcelBtn="showDeptExcelBtn"></fs-export-excel>
+                </FormItem>
             </FormItem>
         </Form>
     </div>
@@ -86,12 +94,15 @@
  * showMember 是否显示选择提交人组件
  * showOrderType 是否显示选择日期类型组件
  * showOrderTypeMulti 选择日期类型是否支持选择日期
+ * showExportExcel 是否显示日志统计导出按钮
  **/
 import FsSelectMember from '../select-member-input/';
 import FsSelectTemplate from '../select-template/';
 import FsSelectDate from '../select-date/';
 import FsSelectGroup from '../select-group/';
 import FsSelectOrderType from '../select-order-type/';
+import FsExportExcel from '../export-excel';
+import config from 'app_src/config/config';
 export default {
     props: {
         showTemplate: { // 是否显示模板
@@ -149,6 +160,18 @@ export default {
         },
         groupApiUri: {
             type: String
+        },
+        showExportExcel: {
+            type: Boolean,
+            default: false
+        },
+        showGroupExcelBtn: {
+            type: Boolean,
+            default: false
+        },
+        showDeptExcelBtn: {
+            type: Boolean,
+            default: true
         }
     },
     components: {
@@ -156,6 +179,7 @@ export default {
         FsSelectTemplate,
         FsSelectDate,
         FsSelectOrderType,
+        FsExportExcel
     },
     data() {
         return {
@@ -163,7 +187,8 @@ export default {
             group: [], // 团队
             member: [], // 提交人
             queryTimer: null,
-            loading: false
+            loading: false,
+            isGroupOrDeptSelectedAll: false
         }
     },
     methods: {
@@ -230,10 +255,58 @@ export default {
            
         },
         handleSelectMember(res) {
+            res && res.group && res.group.forEach((item) => {
+                if(item.gid === 0) {
+                    this.isGroupOrDeptSelectedAll = true;
+                }
+            });
+            res && res.dept && res.dept.forEach((item) => {
+                if(item.deptId === 0) {
+                    this.isGroupOrDeptSelectedAll = true;
+                }
+            });
             let keys = Object.keys(res);
             keys.forEach(key=>{
                 this[key] = res[key]
             })
+        },
+        handleExportExcel(params) {
+            let data = {
+                templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
+                orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.getParams().orderType,
+                years: this.years
+            };
+            this.trimIds(data);
+            let isDept = params === 0 || params == 1 ? true : false;
+            if((isDept && data.deptId === undefined) || (!isDept && data.groupId === undefined)) {
+                var errorMsg = isDept ? "请先选择部门": "请先选择团队";
+                this.$Message.warning(errorMsg);
+                return;
+            }
+            let path = (params === 1 || params === 3) 
+                     ? "exportExcelStatisticsByCondition"
+                     : "exportExcelIncludeUserStatisticsByCondition";
+            let deptOrGroupId = data.deptId !== undefined
+                              ? `deptId=${data.deptId}`
+                              : `groupId=${data.groupId}`;
+            let url = `${config[__ENV__].apiHost}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}`;
+            window.open(url);
+            
+        },
+        handlePersonData() {
+            let data = {
+                templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
+                orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.getParams().orderType,
+                start: this.startEndData.start || "",
+                end: this.startEndData.end || ""
+            };
+            this.trimIds(data);
+            if(!data.memberIds) {
+                this.$Message.warning("请先选择提交人");
+                return;
+            }
+            let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}`;
+            window.open(url);
         },
         handleChange(value) {
             let templateType;
@@ -259,7 +332,13 @@ export default {
     mounted () {
         this.$eventbus.$on('setBtnLoading', (data)=>{
             this.loading = data;
-        })
+        });
+        this.$eventbus.$on('getYear', (data) => {
+            this.years = data;
+        });
+        this.$eventbus.$on('getStartEndTime', (data) => {
+            this.startEndData = data;
+        });
     },
     destroyed () {
         this.$eventbus.$off('setBtnLoading')
@@ -273,7 +352,7 @@ export default {
     line-height: 56px;
     .ivu-form-inline .ivu-form-item {
         vertical-align: middle;
-        margin: 0 10px 0 0;
+        margin: 0 0 0 5px;
         max-width: 360px;
         min-width: 226px;
         &.form-item-checkbox {
@@ -282,6 +361,9 @@ export default {
         }
         .ivu-form-item-label {
             padding-top: 11px;
+        }
+        .ivu-form-item-content {
+            line-height: 30px;
         }
         &.search-btn {
             position: absolute;
@@ -294,6 +376,9 @@ export default {
             button {
                 margin-left: 10px;
             }
+        }
+        &.export-btn {
+            min-width: 60px;
         }
     }
     .select-date {

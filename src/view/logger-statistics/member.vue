@@ -5,6 +5,9 @@
                 :showTemplate="true"
                 :showMember="true"
                 :showOrderTypeMulti="true"
+                :showExportExcel="true"
+                :showGroupExcelBtn="false"
+                :showDeptExcelBtn="false"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">

@@ -5,6 +5,9 @@
                 :showTemplate="true"
                 :showGroup="true"
                 :showOrderType="true"
+                :showExportExcel="true"
+                :showGroupExcelBtn="true"
+                :showDeptExcelBtn="false"
                 groupApiUri="/group/authMe"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>

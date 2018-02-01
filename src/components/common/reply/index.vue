@@ -399,9 +399,9 @@
                 padding: 10px;
                 font-size: 14px;
                 line-height: 18px;
-                border-color: @border-color;
                 border-bottom: 0;
-                outline: 0px;
+                outline: none;
+                border: 1px solid @border-color;
                 word-wrap: break-word;
                 word-break: break-all;
                 color: @gray-color-dark;

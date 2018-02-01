@@ -13,7 +13,7 @@
                 <div class="middle">
                     {{modalParams.groupId ? '团队统计' : '部门统计'}}
                 </div>
-                <div class="pull-right">
+                <div class="pull-right" @click="exportExcel">
                     <Button type="primary">导出</Button>
                 </div>
             </div>
@@ -29,7 +29,7 @@
 import FsTable from './statistics-table';
 import Pagination from 'app_component/common/pagination';
 import FsSelectOrderType from 'app_component/common/select-order-type/';
-
+import config from 'app_src/config/config';
 
 export default {
     props: {
@@ -167,6 +167,20 @@ export default {
                     this.$Message.error(res && res.msg || '网络错误');
                 }
             })
+        },
+        exportExcel() { // 导出数据
+            let data = {
+                templateId: this.templateId || 0,
+                orderType: this.type,
+                years: this.years,
+                deptId: this.modalParams.deptId,
+                groupId: this.modalParams.groupId
+            };
+            let deptOrGroupId = data.deptId !== undefined
+                              ? `deptId=${data.deptId}`
+                              : `groupId=${data.groupId}`;
+            let url = `${config[__ENV__].apiHost}/diaryQuery/exportExcelIncludeUserStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}`;
+            window.open(url);
         }
     },
 }

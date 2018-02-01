@@ -86,6 +86,7 @@ export default {
                 if(this.params.deptId || this.params.groupId) {
                     this.loadData();
                 } 
+                this.$eventbus.$emit('getYear', this.years);
             }, 200);
         },
         handleChangePage(index) {
@@ -137,6 +138,7 @@ export default {
     },
     destroyed () {
         this.$eventbus.$off('handleModal');
+        this.$eventbus.$off('getYear');
         clearTimeout(this.timer);
     }
 }

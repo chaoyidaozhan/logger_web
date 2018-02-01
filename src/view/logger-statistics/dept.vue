@@ -5,6 +5,7 @@
                 :showTemplate="true"
                 :showDept="true"
                 :showOrderType="true"
+                :showExportExcel="true"
                 deptApiUri="/team/getAuthDepts"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>

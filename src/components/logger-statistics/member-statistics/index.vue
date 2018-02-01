@@ -135,6 +135,10 @@ export default {
                 if(this.params.memberIds) {
                     this.loadData();
                 } 
+                this.$eventbus.$emit('getStartEndTime', {
+                    start: this.start,
+                    end: this.end
+                });
             }, 200);
         },
         handleChangePage(index) {
@@ -178,6 +182,7 @@ export default {
     },
     destroyed () {
         clearTimeout(this.timer);
+        this.$eventbus.$off('getStartEndTime');
     }
 }
 </script>
