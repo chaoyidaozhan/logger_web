@@ -1,0 +1,186 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('fonts/icomoon.eot?ojyqum');
+  src: url('fonts/icomoon.eot?ojyqum#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?ojyqum') format('truetype'), url('fonts/icomoon.woff?ojyqum') format('woff'), url('fonts/icomoon.svg?ojyqum#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-control-checkbox:before {
+  content: "\e90c";
+}
+
+.icon-control-date:before {
+  content: "\e923";
+}
+
+.icon-control-radiobutton:before {
+  content: "\e924";
+}
+
+.icon-control-text:before {
+  content: "\e925";
+}
+
+.icon-control-textfield:before {
+  content: "\e926";
+}
+
+.icon-enclosure:before {
+  content: "\e927";
+}
+
+.icon-expression:before {
+  content: "\e928";
+}
+
+.icon-add-big:before {
+  content: "\e900";
+}
+
+.icon-add-template:before {
+  content: "\e901";
+}
+
+.icon-add:before {
+  content: "\e902";
+}
+
+.icon-arrow-down:before {
+  content: "\e903";
+}
+
+.icon-arrow-left:before {
+  content: "\e904";
+}
+
+.icon-arrow-right:before {
+  content: "\e905";
+}
+
+.icon-arrow-up:before {
+  content: "\e906";
+}
+
+.icon-chat-normal:before {
+  content: "\e907";
+}
+
+.icon-chat-selected:before {
+  content: "\e908";
+}
+
+.icon-check:before {
+  content: "\e909";
+}
+
+.icon-collect-normal:before {
+  content: "\e90a";
+}
+
+.icon-collect-selected:before {
+  content: "\e90b";
+}
+
+.icon-collect:before {
+  content: "\e90d";
+}
+
+.icon-delete-userlist:before {
+  content: "\e90e";
+}
+
+.icon-delete:before {
+  content: "\e90f";
+}
+
+.icon-department:before {
+  content: "\e910";
+}
+
+.icon-details:before {
+  content: "\e911";
+}
+
+.icon-draft:before {
+  content: "\e912";
+}
+
+.icon-edit:before {
+  content: "\e913";
+}
+
+.icon-fullarrow-down:before {
+  content: "\e914";
+}
+
+.icon-fullarrow-left:before {
+  content: "\e915";
+}
+
+.icon-fullarrow-right:before {
+  content: "\e916";
+}
+
+.icon-fullarrow-up:before {
+  content: "\e917";
+}
+
+.icon-good-normal:before {
+  content: "\e918";
+}
+
+.icon-good-selected:before {
+  content: "\e919";
+}
+
+.icon-more:before {
+  content: "\e91a";
+}
+
+.icon-none-department:before {
+  content: "\e91b";
+}
+
+.icon-none-team:before {
+  content: "\e91c";
+}
+
+.icon-none-user:before {
+  content: "\e91d";
+}
+
+.icon-play:before {
+  content: "\e91e";
+}
+
+.icon-search:before {
+  content: "\e91f";
+}
+
+.icon-statistics:before {
+  content: "\e920";
+}
+
+.icon-stop:before {
+  content: "\e921";
+}
+
+.icon-template:before {
+  content: "\e922";
+}

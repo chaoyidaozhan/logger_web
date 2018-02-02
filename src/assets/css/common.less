@@ -1,0 +1,32 @@
+@import '~iview/src/styles/index.less'; // 引入ui库样式表
+
+@import './var.less';
+@import './reset.less';
+@import './fonts.css';
+
+@import './frame.less';
+@import './clearfix.less';
+@import './cursor.less';
+@import './float.less';
+@import './ellipsis.less';
+@import './face.less';
+
+@import './picker.less';
+
+.logger-statistics {
+    padding: 0 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.ivu-modal-confirm {
+    .ivu-icon-help-circled {
+        color: #ffc000;
+        &:before {
+            content: "\F35B"
+        }
+    }
+    .ivu-btn-text {
+        border: 1px solid @border-color-base;
+    }
+}
