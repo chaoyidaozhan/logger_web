@@ -16,7 +16,7 @@
     export default {
         data() {
             return {
-                uploadUrl: `${config[__ENV__].apiHost}/doc/doc/upload?token=${this.$store.state.userInfo.token}`,
+                uploadUrl: '',
                 uploadFilesArr: []
             }
         },
@@ -72,7 +72,10 @@
             }
         },
         mounted () {
-            this.uploadUrl = this.uploadUrl.replace("logger_new/","");
+            let apiHost = `${config[__ENV__].apiHost}`;
+            apiHost.indexOf('')
+            apiHost = apiHost.replace(/['logger_new' | 'logger']/gi, '')
+            this.uploadUrl = `${apiHost}doc/doc/upload?token=${this.$store.state.userInfo.token}`;
         }
     }
 </script>
