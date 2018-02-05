@@ -393,7 +393,7 @@ export default {
                 memberArr.push({
                     userName: v.userName,
                     memberId: v.memberId,
-                    szId: v.szId || ''
+                    szId: v.szId || v.spaceId || ''
                 })
             })
             this.atStr = memberArr;
