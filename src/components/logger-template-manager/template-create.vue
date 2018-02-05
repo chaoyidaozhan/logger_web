@@ -503,7 +503,7 @@ export default {
                 this.pushList.length && this.pushList.forEach((item)=>{
                     item.title && (item.title = HTMLDeCode(item.title));
                     item.deion && (item.deion = HTMLDeCode(item.deion));
-                    item.description && (item.deion = HTMLDeCode(item.deion));
+                    item.description && (item.deion = HTMLDeCode(item.deion | item.description));
                 })
                 let resData = res && res.data;
                 this.initRange(resData.templateVisibleRange)
