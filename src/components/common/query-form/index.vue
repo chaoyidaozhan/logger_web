@@ -271,6 +271,7 @@ export default {
             })
         },
         handleExportExcel(params) {
+            this.handleQuery();
             let data = {
                 templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                 orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.getParams().orderType,
@@ -279,8 +280,6 @@ export default {
             this.trimIds(data);
             let isDept = params === 0 || params == 1 ? true : false;
             if((isDept && data.deptId === undefined) || (!isDept && data.groupId === undefined)) {
-                var errorMsg = isDept ? "请先选择部门": "请先选择团队";
-                this.$Message.warning(errorMsg);
                 return;
             }
             let path = (params === 1 || params === 3) 
@@ -294,6 +293,7 @@ export default {
             
         },
         handlePersonData() {
+            this.handleQuery();
             let data = {
                 templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                 orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.getParams().orderType,
@@ -302,7 +302,6 @@ export default {
             };
             this.trimIds(data);
             if(!data.memberIds) {
-                this.$Message.warning("请先选择提交人");
                 return;
             }
             let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}`;

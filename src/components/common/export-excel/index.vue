@@ -1,6 +1,6 @@
 <template>
     <div class="excel-btn-wrap">
-        <Dropdown placement="bottom" @on-click="handleExportExcel">
+        <Dropdown placement="bottom-end" @on-click="handleExportExcel">
             <a href="javascript:void(0)" v-if="showDeptExcelBtn || showGroupExcelBtn">导出</a>
             <a href="javascript:void(0)" @click="handlePersonData" v-else>导出</a>
             <DropdownMenu slot="list" v-if="showDeptExcelBtn">
@@ -57,6 +57,10 @@
             &:hover {
                 color: @primary-color;
             }
+        }
+        .ivu-select-dropdown {
+            right: 0;
+            left: auto!important;
         }
     }
 </style>
