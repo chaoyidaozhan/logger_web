@@ -6,8 +6,7 @@
                     ref="replyWrapper" 
                     type="textarea" 
                     v-model="value" 
-                    placeholder="发表您的评论" 
-                    @keyup="handleKeyUp"/>
+                    placeholder="发表您的评论"/>
                 <p class="input-number">
                     <span :class="{exceed: value.length >= 200}">{{value.trim().length}}</span>
                     <span>/{{maxLength}}</span>
@@ -150,6 +149,10 @@
                 },
                 btnloading: true
             }
+        },
+        watch: {
+            "value": "handleKeyUp",
+            "pageNo": "loadCommentData"
         },
         methods: {
             handleKeyUp() { // 键盘监听
@@ -299,6 +302,7 @@
                                 this.$emit('handleReplyNum', true);
                                 this.$refs.fileUpload.uploadFilesArr = [];
                                 this.$refs.fileUpload.clearFiles();
+                                this.getUploadFile([]);
                             } else {
                                 this.$Message.error((res && res.msg) || '网络错误');
                             }
@@ -346,9 +350,6 @@
                     }
                 })
             }
-        },
-        watch: {
-            "pageNo": "loadCommentData"
         },
         created() {
             this.loadCommentData();

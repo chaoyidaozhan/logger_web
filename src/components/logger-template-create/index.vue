@@ -180,7 +180,8 @@ export default {
             atArr.forEach((v, k) => {
                 atMember.push({
                     'memberId': v.memberId,
-                    'userName': v.replayUserName
+                    'userName': v.replayUserName,
+                    'szId': v.szId || v.spaceId || v.qzId || ''
                 })
             })
             this.member = atMember;
@@ -393,7 +394,7 @@ export default {
                 memberArr.push({
                     userName: v.userName,
                     memberId: v.memberId,
-                    szId: v.szId || v.spaceId || ''
+                    szId: v.szId || v.spaceId || v.qzId || ''
                 })
             })
             this.atStr = memberArr;
