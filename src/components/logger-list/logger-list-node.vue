@@ -70,7 +70,10 @@
                 :key="index">
                 <div class="logger-list-col">
                     <div class="title">{{filterEncode(item.title)}}</div>
-                    <div class="caption" v-html="filterEncode(item.content || item.value)"></div>
+                    <div class="caption" >
+                        <span v-html="filterEncode(item.content || item.value)"></span>
+                        <span v-if="item.type=='InputTextNum'&&item.unit">{{item.unit}}</span>
+                    </div>
                 </div>
             </div>
             
