@@ -78,7 +78,7 @@ export default {
                 if(this.pageNo === 1) {
                     this.groupsData = res.data || [];
                     this.currentId = this.groupsData[0] && this.groupsData[0].groupId;
-                    this.$emit("getDaily", this.currentId);
+                    this.$emit("getDaily", typeof this.currentId === "undefined" ? "" : this.currentId);
                 }else {
                     this.groupsData = this.groupsData.concat(res.data || []);
                 }
@@ -119,7 +119,7 @@ export default {
         getDaily(params) {
             this.currentId = params.groupId;
             params.hasNoRead = 0;
-            this.$emit("getDaily", this.currentId);
+            this.$emit("getDaily", typeof this.currentId === "undefined" ? "" : this.currentId);
         },
         handleReload() {
             this.loaderror = false;            
