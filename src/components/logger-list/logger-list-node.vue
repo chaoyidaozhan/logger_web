@@ -118,7 +118,8 @@
                     {{loggerItemData.like && loggerItemData.like.likeNum}}
                 </span>
                 <span class="cursor-pointer reply" :class="{active: showReply}"  @click="handleReply">
-                    <i class="icon-chat-normal"></i>
+                    <i class="icon-chat-normal" v-if="!showReply"></i>
+                    <i class="icon-chat-selected" v-else></i>
                     {{loggerItemData.commentNum | filterCommentNum}}
                 </span>
                 <span class="cursor-pointer collect" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
@@ -509,6 +510,7 @@ export default {
                 min-width: auto;
                 left: -45px!important;
                 top: 17px!important;
+                width: 70px!important;
                 .ivu-poptip-arrow {
                     right: 6px;
                 }
@@ -602,20 +604,13 @@ export default {
                     position: relative;
                     top: 2px;
                 }
-                &.active {
-                    color: @primary-color;
-                }
+               
             }
             &.collect {
                 border-right: 0;
-                &.active {
-                    color: @collect-color;
-                }
             }
-            &.like {
-                &.active {
-                    color: @like-color;
-                }
+            &.active {
+                color: @primary-color;
             }
         }
     }
@@ -630,7 +625,7 @@ export default {
             position: absolute;
             left: 26px;
             content: '';
-            top: 0;
+            top: -8px;
             bottom: 0;
             width: 1px;
             background-color: @border-color;

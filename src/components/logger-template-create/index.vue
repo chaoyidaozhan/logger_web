@@ -543,7 +543,8 @@ export default {
     }
 }
 </style>
-<style lang="less" scoped>
+<style lang="less">
+@import '../../assets/css/var.less';
 .logger-create{
     // max-width: 900px;
     width:100%;
@@ -567,9 +568,6 @@ export default {
         margin: 0 5px 0 0;
     }
     .cancel-btn{
-    }
-    .draft-btn{
-        margin: 0 5px;
     }
 }
 </style>

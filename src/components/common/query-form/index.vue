@@ -345,6 +345,7 @@ export default {
 }
 </script>
 <style lang="less">
+@import '../../../assets/css/var.less';
 .search-form {
     position: relative;
     font-size: 0;
@@ -360,6 +361,7 @@ export default {
         }
         .ivu-form-item-label {
             padding-top: 11px;
+            color: @gray-color-light;
         }
         .ivu-form-item-content {
             line-height: 30px;
