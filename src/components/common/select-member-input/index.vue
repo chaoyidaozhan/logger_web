@@ -213,6 +213,7 @@ export default {
         display: inline-block;
         position: relative;
         i {
+            display: none;
             color: @error-color;
             position: absolute;
             right: -6px;
@@ -222,6 +223,9 @@ export default {
             border-radius: 50%;
             padding: 1px;
             font-size: 12px;
+        }
+        &:hover > i {
+            display: block;
         }
     }
 }

@@ -462,7 +462,7 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
-                color: @gray-color-medium;
+                color: @gray-color-light;
             }
             .at {
                 color: rgb(41, 182, 246);
@@ -499,6 +499,11 @@ export default {
             }
             .ivu-poptip {
                 position: relative;
+            }
+            .ivu-poptip-rel {
+                .icon-more {
+                    vertical-align: middle;
+                }
             }
             .ivu-poptip-popper {
                 min-width: auto;

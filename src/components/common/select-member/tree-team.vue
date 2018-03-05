@@ -1,6 +1,6 @@
 <template>
 	<div class="tree_team">
-		<search-input @change="keyWordChange"/>
+		<search-input @change="keyWordChange" style="display:none"/>
 
 		<ul class="man_scroll">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
@@ -118,7 +118,7 @@
 		}
 		.man_scroll{
 			position: absolute;
-			top: 47px;bottom: 0px;
+			top: 0;bottom: 0px;
 			left: 0px;right: 0px;
 			overflow-y: auto;
 		}

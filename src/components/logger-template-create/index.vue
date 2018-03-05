@@ -538,7 +538,8 @@ export default {
     }
     textarea.ivu-input {
         resize: none;
-        font-size: 12px;
+        font-size: 14px;
+        line-height: 22px;
     }
 }
 </style>
