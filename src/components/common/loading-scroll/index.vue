@@ -60,7 +60,7 @@ export default {
         line-height: 60px;
         text-align: center;
         color: @gray-color-light;        
-        font-size: 14px;
+        font-size: 12px;
         position: relative;
         overflow: hidden;
         & > div {
