@@ -12,7 +12,7 @@ import FsMemberStatistics from 'app_component/logger-statistics/member-statistic
 
 const validateMsg = {
     deptId: '请先选择部门',
-    groupId: '请先选择团队',
+    groupId: '请先选择内部群',
     memberIds: '请先选择提交人',
 }
 

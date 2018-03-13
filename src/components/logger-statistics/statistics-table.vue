@@ -198,7 +198,7 @@ export default {
                     break;
 
                 case 'group':
-                    tips = '团队'
+                    tips = '内部群'
                     break;
             
                 default:

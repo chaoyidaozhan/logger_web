@@ -17,7 +17,7 @@ const menus = [
                 path: '/LoggerQueryMy'
             },
             {
-                name: '团队日志',
+                name: '内部群日志',
                 path: '/LoggerQueryGroup'
             },
             {
@@ -46,7 +46,7 @@ const menus = [
                 path: '/StatisticsOfDept'
             },
             {
-                name: '按团队统计',
+                name: '按内部群统计',
                 path: '/StatisticsOfGroup'
             },
             {

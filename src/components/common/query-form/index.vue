@@ -53,16 +53,16 @@
                     :deptApiUri="deptApiUri"
                     placeholder="选择部门"/>
             </FormItem> 
-            <FormItem :label-width="40" label="团队"  v-if="showGroup">
+            <FormItem :label-width="40" label="内部群"  v-if="showGroup">
                 <fs-select-member ref="selectGroup" 
                     @handleSelectMember="handleSelectMember" 
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
                     :limit="{ showAll: true, warning: '', count: 1 }"
-                    title="选择团队"
+                    title="选择内部群"
                     :groupApiUri="groupApiUri"
-                    placeholder="选择团队"/>
+                    placeholder="选择内部群"/>
             </FormItem> 
             <FormItem :label-width="40" label="日期"  v-if="showOrderType || showOrderTypeMulti">
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
@@ -90,7 +90,7 @@
  * hasDefaultTemplate 是否显示默认全部模板
  * showDatePicker 是否显示日期组件
  * showDept 是否显示选择组织组件
- * showGroup 是否显示选择团队组件
+ * showGroup 是否显示选择内部群组件
  * showMember 是否显示选择提交人组件
  * showOrderType 是否显示选择日期类型组件
  * showOrderTypeMulti 选择日期类型是否支持选择日期
@@ -184,7 +184,7 @@ export default {
     data() {
         return {
             dept: [], // 组织
-            group: [], // 团队
+            group: [], // 内部群
             member: [], // 提交人
             queryTimer: null,
             loading: false,
@@ -207,7 +207,7 @@ export default {
                 })
                 params.deptId = deptId.join(',');
             }
-            if(this.group && !!this.group.length) { // 整理团队
+            if(this.group && !!this.group.length) { // 整理内部群
                 let groupId = []
                 this.group.forEach(item=>{
                     groupId.push(item.gid);
@@ -320,7 +320,7 @@ export default {
             if(this.$refs.selectTemplate) { // 重置模板
                 this.$refs.selectTemplate.templateId = 0;
             }
-            if(this.$refs.selectGroup) { // 重置团队
+            if(this.$refs.selectGroup) { // 重置内部群
                 this.$refs.selectGroup.groupId = '';
             }
             if(this.$refs.selectDept) { // 重置部门

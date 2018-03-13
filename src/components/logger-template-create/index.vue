@@ -158,7 +158,7 @@ export default {
                         'deptId': v.teamId,
                         'deptName': v.teamName
                     });
-                } else if (v.dataType == 3) { //团队
+                } else if (v.dataType == 3) { //内部群
                     teamArray.push({
                         'groupId': v.teamId,
                         'groupName': v.teamName

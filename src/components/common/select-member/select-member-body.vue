@@ -18,7 +18,7 @@
         	</p>
         	<div class="show-all-wrap" v-show="info.limit.showAll && info.limit.count==1">
         		<Button class="btn" type="ghost" v-show="showAllIndex==1" @click="chooseAll('dep')" >全部部门</Button>
-        		<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="chooseAll('team')">全部团队</Button>
+        		<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="chooseAll('team')">全部内部群</Button>
         		<Button class="btn" type="ghost" v-show="showAllIndex==3" @click="chooseAll('man')" >全部成员</Button>
         	</div>
             <Button class="btn" type="ghost" @click="cancel">取消</Button>
