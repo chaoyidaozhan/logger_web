@@ -26,9 +26,9 @@
 					</div>
 				</li>	
 			</ul>
-			<!-- 团队 -->	
+			<!-- 内部群 -->	
 			<div class="tit cp" @click="openTeam=!openTeam" v-show="info.team">
-				团队
+				内部群
 				<Icon type="chevron-up" class="r" v-show="openTeam"></Icon>
 				<Icon type="chevron-down" class="r" v-show="!openTeam"></Icon>
 			</div>

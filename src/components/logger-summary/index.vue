@@ -349,7 +349,7 @@ export default {
     }
     .nodata {
         display: block;
-        color: @gray-color-light;
+        color: #adadad;
         font-size: 14px;
         text-align: center;
         line-height: 1.6;

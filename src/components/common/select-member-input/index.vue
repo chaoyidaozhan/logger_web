@@ -36,7 +36,7 @@
 <script>
 /**
  * showDept 是否显示选择组织组件
- * showGroup 是否显示选择团队组件
+ * showGroup 是否显示选择内部群组件
  * showMember 是否显示选择提交人组件
  * ellipsis 是否强制换行, 不换行时可以删除单个选择 
  * limit showAll 是否添加全选 count 最大数量限制 warning 超过选择提示信息
@@ -49,7 +49,7 @@ export default {
                 return []
             }
         },
-        group: { // 团队数据
+        group: { // 内部群数据
             type: Array,
             default() {
                 return []
@@ -213,6 +213,7 @@ export default {
         display: inline-block;
         position: relative;
         i {
+            display: none;
             color: @error-color;
             position: absolute;
             right: -6px;
@@ -222,6 +223,9 @@ export default {
             border-radius: 50%;
             padding: 1px;
             font-size: 12px;
+        }
+        &:hover > i {
+            display: block;
         }
     }
 }

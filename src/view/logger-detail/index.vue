@@ -59,6 +59,11 @@ export default {
             margin-right: 5px;
         }
     }
+    .draft-btn{
+        margin: 0 5px;
+        border-color: @primary-color;
+        color: @primary-color;
+    }
 }
 .logger-detail {
     height: 100%;

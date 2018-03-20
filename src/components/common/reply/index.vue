@@ -408,7 +408,7 @@
                 border: 1px solid @border-color;
                 word-wrap: break-word;
                 word-break: break-all;
-                color: @gray-color-dark;
+                color: @gray-color-normal;
                 resize: none;
             }
             .input-number {
@@ -426,9 +426,9 @@
             position: relative;
             width: 100%;
             padding: 13px;
-            border: 1px solid @border-color;
+            // border: 1px solid @border-color;
             border-top: 0;
-            background-color: #f5f5f5;
+            // background-color: #f5f5f5;
             .face-btn,
             .file-btn {
                 font-size: 20px;

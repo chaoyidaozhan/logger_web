@@ -15,7 +15,7 @@
             <fs-logger-statistics 
                 :params="params"
                 type="group"
-                title="团队名称"
+                title="内部群名称"
                 ref="LoggerLoggerStatistics"/>
         </template>
     </fs-frame>

@@ -29,7 +29,7 @@ import FsEmptyTips from 'app_component/common/empty-tips/';
     0  所有日志
     4  @我的
     -1 我的日志
-    3  团队日志
+    3  内部群日志
     1  下属日志
 **/
 export default {

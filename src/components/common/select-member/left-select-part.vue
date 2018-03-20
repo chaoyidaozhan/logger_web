@@ -33,7 +33,7 @@
 			},
 			team:{
 				show:false,
-				value:'团队',
+				value:'内部群',
 				index:2
 			},
 			man :{
