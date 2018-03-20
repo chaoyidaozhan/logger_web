@@ -47,7 +47,7 @@ export default {
                 return {
                     // 配置选项 ;
                     info:{ ...DEFAULT_INFO() ,open:false},
-                    // 储存所有的部门,团队,人团 ( 右侧点击 删除用的 )
+                    // 储存所有的部门,内部群,人团 ( 右侧点击 删除用的 )
                     saveAjaxDep : [],
                     saveAjaxTeam: [],
                     saveAjaxMan : []
@@ -200,7 +200,7 @@ export default {
                         if( k=='team' ){
                             this.info.selected.team = [{
                                 gid:0,
-                                groupName:'全部团队'                           
+                                groupName:'全部内部群'                           
                             }]
                         };
                         if( k=='man' ){

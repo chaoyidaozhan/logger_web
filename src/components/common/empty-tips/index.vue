@@ -63,7 +63,7 @@ export default {
         }
         .empty-msg {
             margin-top: 16px;
-            color: @gray-color-light;
+            color: #adadad;
         }
         .error-msg {
             color: @gray-color-medium;

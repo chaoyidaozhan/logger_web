@@ -1,6 +1,6 @@
 <template>
 	<div class="sm-search-inp-wrap">
-		<Input class="search-inp" v-model="kw" placeholder="请输入姓名进行搜索" @on-change="change"/>
+		<Input class="search-inp" v-model="kw" placeholder="请输入关键字进行搜索" @on-change="change"/>
 	</div>		
 </template>
 <script type="text/javascript">

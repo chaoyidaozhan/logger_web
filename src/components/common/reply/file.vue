@@ -114,13 +114,12 @@ export default {
             .file-download {
                 float: right;
                 font-size: 12px;
+                color: #9e9e9e;
             }
             .file-size {
-                color: #9e9e9e;
                 margin-right: 20px;
             }
             .file-download {
-                color: @primary-color;
                 cursor: pointer;
             }
         }

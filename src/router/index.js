@@ -6,7 +6,7 @@ import LoggerDetailOperate from '../view/logger-detail/logger-detail-operate'; /
 
 import LoggerQueryAll from '../view/logger-query/all'; // 日志查询 --所有
 import LoggerQueryAtme from '../view/logger-query/atme'; // 日志查询 --@我的
-import LoggerQueryGroup from '../view/logger-query/group'; // 日志查询 --团队
+import LoggerQueryGroup from '../view/logger-query/group'; // 日志查询 --内部群
 import LoggerQueryMy from '../view/logger-query/my'; // 日志查询 --我的
 import LoggerQueryUnder from '../view/logger-query/under'; // 日志查询 --下属
 
@@ -21,7 +21,7 @@ import LoggerTemplateList from '../view/logger-template-manager/logger-template-
 import LoggerTemplateOperate from '../view/logger-template-manager/logger-template-operate'; // 日志模板 --新建编辑
 
 import StatisticsOfDept from '../view/logger-statistics/dept'; // 日志统计 --部门
-import StatisticsOfGroup from '../view/logger-statistics/group';  // 日志统计 --团队
+import StatisticsOfGroup from '../view/logger-statistics/group';  // 日志统计 --内部群
 import StatisticsOfMember from '../view/logger-statistics/member'; // 日志统计 --成员
 
 export default [

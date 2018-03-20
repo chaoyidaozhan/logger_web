@@ -8,8 +8,8 @@
                 <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="1">部门和人员数据</DropdownItem>
             </DropdownMenu>
             <DropdownMenu slot="list" v-if="showGroupExcelBtn">
-                <DropdownItem :name="2">仅团队数据</DropdownItem>
-                <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="3">团队和人员数据</DropdownItem>
+                <DropdownItem :name="2">仅内部群数据</DropdownItem>
+                <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="3">内部群和人员数据</DropdownItem>
             </DropdownMenu>
         </Dropdown>
     </div>

@@ -11,7 +11,7 @@
                     <fs-select-order-type v-if="showModal" :defaultType="type" @handleSelectOrderType="handleSelectOrderType"></fs-select-order-type>
                 </div>
                 <div class="middle">
-                    {{modalParams.groupId ? '团队统计' : '部门统计'}}
+                    {{modalParams.groupId ? '内部群统计' : '部门统计'}}
                 </div>
                 <div class="pull-right" @click="exportExcel">
                     <Button type="primary">导出</Button>

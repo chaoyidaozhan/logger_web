@@ -1,6 +1,6 @@
 <template>
 	<div class="tree-dep-wrap">
-		<search-input @change="keyWordChange"/>
+		<search-input @change="keyWordChange" style="display:none"/>
 
 			<!-- keyword不为空显示平级结构 -->
 			<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
@@ -218,7 +218,7 @@
 		}
 		.man_scroll{
 			position: absolute;
-			top: 47px;bottom: 0px;
+			top: 0;bottom: 0px;
 			left: 0px;right: 0px;
 			overflow-y: auto;
 		}

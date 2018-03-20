@@ -158,7 +158,7 @@ export default {
                         'deptId': v.teamId,
                         'deptName': v.teamName
                     });
-                } else if (v.dataType == 3) { //团队
+                } else if (v.dataType == 3) { //内部群
                     teamArray.push({
                         'groupId': v.teamId,
                         'groupName': v.teamName
@@ -538,11 +538,13 @@ export default {
     }
     textarea.ivu-input {
         resize: none;
-        font-size: 12px;
+        font-size: 14px;
+        line-height: 22px;
     }
 }
 </style>
-<style lang="less" scoped>
+<style lang="less">
+@import '../../assets/css/var.less';
 .logger-create{
     // max-width: 900px;
     width:100%;
@@ -566,9 +568,6 @@ export default {
         margin: 0 5px 0 0;
     }
     .cancel-btn{
-    }
-    .draft-btn{
-        margin: 0 5px;
     }
 }
 </style>

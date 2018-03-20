@@ -66,7 +66,7 @@
         font-size: 0;
         .audio-item {
             position: relative;
-            min-width: 100px;
+            min-width: 204px;
             max-width: 100%;
             padding: 6px 10px;
             margin-bottom: 6px;
