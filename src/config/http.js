@@ -8,7 +8,11 @@ export default {
             reqConfig => {
                 let url = reqConfig.url;
                 if (!/[http|https]:\/\//gi.test(url)) { // 全局拦截，传入api地址若不是全路径默认
-                    reqConfig.url = config[__ENV__].apiHost + url;
+                    if (__ENV__ === 'development') {
+                        reqConfig.url = config[__ENV__].apiHost + url;
+                    } else {
+                        reqConfig.url = window.location.origin + '/logger' + url;
+                    }
                 }
                 return reqConfig;
             },
