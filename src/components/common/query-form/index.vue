@@ -53,7 +53,7 @@
                     :deptApiUri="deptApiUri"
                     placeholder="选择部门"/>
             </FormItem> 
-            <FormItem :label-width="40" label="内部群"  v-if="showGroup">
+            <FormItem :label-width="50" label="内部群"  v-if="showGroup">
                 <fs-select-member ref="selectGroup" 
                     @handleSelectMember="handleSelectMember" 
                     :showMember="false" 

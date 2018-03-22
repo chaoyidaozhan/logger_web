@@ -46,12 +46,12 @@ const menus = [
                 path: '/StatisticsOfDept'
             },
             {
-                name: '按内部群统计',
-                path: '/StatisticsOfGroup'
-            },
-            {
                 name: '按人员统计',
                 path: '/StatisticsOfMember'
+            },
+            {
+                name: '按内部群统计',
+                path: '/StatisticsOfGroup'
             },
         ]
     },
