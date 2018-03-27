@@ -11,7 +11,7 @@ export default {
                     if (__ENV__ === 'development') {
                         reqConfig.url = config[__ENV__].apiHost + url;
                     } else {
-                        reqConfig.url = window.location.origin + '/logger' + url;
+                        reqConfig.url = window.location.protocol + '//' + window.location.host + '/logger' + url;
                     }
                 }
                 return reqConfig;
