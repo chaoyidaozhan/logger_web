@@ -109,15 +109,6 @@
 			}
 		}
 	}
-
-
-	// ok.show({
-	// 	dep:true,man:true,team:true,limit:{count:2},
-	// 	selected:{
-	// 		team:[
-	// 			{"szId":null,"gid":555,"groupName":"上的风景束带结发手机","groupLogo":"http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/","pub":null,"memberId":null,"groupMemberCount":2,"newFeedCount":null,"status":null,"createTime":null,"updateTime":null,"checked":true}]
-	// 	}
-	// },(res)=>{console.log(JSON.stringify(res))});
 </script>
 <style lang="less">
 @import '../../../assets/css/var.less';

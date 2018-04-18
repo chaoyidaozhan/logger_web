@@ -158,7 +158,6 @@ export default {
             if(this.groupApiUri) {
                 info.groupApiUri = this.groupApiUri
             }
-            console.log(info)
             this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
                 let params = {};
                 params.dept = res.dep;

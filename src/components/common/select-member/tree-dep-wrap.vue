@@ -91,9 +91,14 @@
 			                data: data ,
 			                success: (res)=>{
 			                	if( res.code==0 ){
-			                		let arr1 = res.data['0']||[] ;
-			                		let arr2 = res.data['1']||[] ;
-			                		let arr3 = res.data['2']||[] ;
+									let arr1 = []; // 主岗
+									res.data['0'] ? arr1.push(res.data['0']) : "";
+									let arr2 = res.data['1'] || []; // 兼职
+									let arr3 = res.data['2'] || []; // 其它
+									arr1[0] && arr1[0].deptName && (arr1[0].deptName += `（主岗）`);
+									arr2.forEach(item => {
+										item.deptName += `（兼职）`;
+									});
 			                		let arr = arr1.concat(arr2,arr3);
 				                		arr.map(v=>{
 				                			v.checked=false ;
