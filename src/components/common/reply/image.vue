@@ -59,7 +59,6 @@ export default {
                         })
                     }
                 }
-                console.log(this.list);
                 let pswpBtns = document.querySelectorAll('.pswp__button');
                 if(pswpBtns && pswpBtns.length) {
                     for(let i = 0; i < pswpBtns.length; i++) {
