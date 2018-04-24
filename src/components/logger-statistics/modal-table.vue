@@ -8,7 +8,10 @@
             @on-cancel="handleCancel">
             <div class="modal-table-header clearfix" slot="header">
                 <div class="pull-left">
-                    <fs-select-order-type v-if="showModal" :defaultType="type" @handleSelectOrderType="handleSelectOrderType"></fs-select-order-type>
+                    <fs-select-order-type 
+                        v-if="showModal" 
+                        :defaultType="type" 
+                        @handleSelectOrderType="handleSelectOrderType"/>
                 </div>
                 <div class="middle">
                     {{modalParams.groupId ? '内部群统计' : '部门统计'}}
@@ -59,7 +62,7 @@ export default {
             },
             mArray: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
             sArray: ['一季度','二季度','三季度','四季度'],
-            type: 0,
+            type: '0',
             typeName: 'member',
             totalCount: 0,
             pageSize: 7,

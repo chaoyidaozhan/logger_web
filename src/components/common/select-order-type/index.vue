@@ -31,7 +31,7 @@
 export default {
     props: {
         multi: {
-            type: Boolean,
+            type: Boolean | String,
             default: false
         },
         defaultType: {
@@ -47,7 +47,7 @@ export default {
                 3: '自定义',
                 4: '按日统计',
             },
-            normalOrderData: [
+            deptOrderData: [ // dept
                 {
                     name: "按月统计",
                     id: 0
@@ -57,7 +57,21 @@ export default {
                     id: 1
                 },
             ],
-            multiOrderData: [
+            groupOrderData: [ // group
+                {
+                    name: "按日统计",
+                    id: 4
+                }, 
+                {
+                    name: "按月统计",
+                    id: 0
+                },
+                {
+                    name: "按季度统计",
+                    id: 1
+                },
+            ],
+            memberOrderData: [ // member
                 {
                     name: "按日统计",
                     id: 4
@@ -103,14 +117,18 @@ export default {
             }
         },
         init() {
-            if(this.multi) {
-                this.orderData = this.multiOrderData;
-                this.orderType = 4;
-            } else {
-                this.orderData = this.normalOrderData;
-                this.orderType = 0
+            this.orderData = this.multi ? this[`${this.multi}OrderData`] : this.deptOrderData;
+            switch (this.multi) {
+                case 'dept':
+                    this.orderType = 0;
+                    break;
+                case 'group':
+                case 'member':
+                default:
+                    this.orderType = 4;
+                    break;
             }
-            if(this.defaultType) {
+            if(this.defaultType != undefined && this.defaultType != null) {
                 this.orderType = this.defaultType;
             }
             document.onclick = (e)=>{

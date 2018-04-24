@@ -142,7 +142,7 @@ export default {
             default: false
         },
         showOrderTypeMulti: {
-            type: Boolean,
+            type: Boolean | String,
             default: false
         },
         templateType: {
