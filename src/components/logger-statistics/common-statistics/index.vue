@@ -131,7 +131,6 @@ export default {
     },
     mounted () {
         this.$eventbus.$off('handleModal').$on('handleModal', (data)=>{
-            console.log(data)
             this.modalParams = data;
             this.showModal = true
         })  

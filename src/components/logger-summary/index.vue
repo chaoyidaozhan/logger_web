@@ -116,7 +116,6 @@ export default {
                 this.$Message.warning('请选择汇总的日志');
             } else {
                 this.handleSummaryData();
-                console.log()
                 this.$store.dispatch('update_template_content', {
                     content: this.templateItemData
                 });
