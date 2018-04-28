@@ -120,11 +120,12 @@ export default {
             this.orderData = this.multi ? this[`${this.multi}OrderData`] : this.deptOrderData;
             switch (this.multi) {
                 case 'dept':
-                    this.orderType = 0;
+                    this.orderType = 0;  // 按月
                     break;
                 case 'group':
+                    this.orderType = 4; // 按人员
+                    break;
                 case 'member':
-                default:
                     this.orderType = 4;
                     break;
             }

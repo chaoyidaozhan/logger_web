@@ -275,7 +275,8 @@ export default {
             let data = {
                 templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                 orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.getParams().orderType,
-                years: this.years
+                years: this.years,
+                start: this.startEndData && this.startEndData.start || ""
             };
             this.trimIds(data);
             let isDept = params === 0 || params == 1 ? true : false;
@@ -283,14 +284,13 @@ export default {
                 return;
             }
             let path = (params === 1 || params === 3) 
-                     ? "exportExcelStatisticsByCondition"
-                     : "exportExcelIncludeUserStatisticsByCondition";
+                     ? "exportExcelIncludeUserStatisticsByCondition"
+                     : "exportExcelStatisticsByCondition";
             let deptOrGroupId = data.deptId !== undefined
                               ? `deptId=${data.deptId}`
                               : `groupId=${data.groupId}`;
-            let url = `${config[__ENV__].apiHost}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}`;
+            let url = `${config[__ENV__].apiHost}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}&start=${data.start}`;
             window.open(url);
-            
         },
         handlePersonData() {
             this.handleQuery();

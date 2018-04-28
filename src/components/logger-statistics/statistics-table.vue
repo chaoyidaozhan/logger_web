@@ -139,10 +139,7 @@ export default {
             }
         },
         initScroll() {
-            let scrollArr = ['vertical'];
-            if(this.columns.array.length > this.minLen) {
-                scrollArr = ['headerHorizonal', 'footerHorizonal', 'vertical', 'bodyHorizonal'];
-            }
+            let scrollArr = ['headerHorizonal', 'footerHorizonal', 'vertical', 'bodyHorizonal'];
             scrollArr.forEach(el=>{
                 this.initPs(el);
             });
