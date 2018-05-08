@@ -31,7 +31,7 @@ export default {
 			clearTimeout(this.timer);
 			this.timer = setTimeout(() => {
 				this.$emit('change', this.kw);
-			}, 300)
+			}, 800)
 		},
 		setChara(chara) { // 按字母搜索
 			this.curActiveChara = chara;

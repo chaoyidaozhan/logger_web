@@ -37,6 +37,8 @@
 			return {
 				ajaxStatus:'loading',  // loding---加载中 success---加载更多 error---加载失败 over--全部;
 				keyWord:'',
+				initial: "",
+				isSort: false,
 				chara:'',
 				pageSize:40,
 				pageNum:1,
@@ -57,16 +59,20 @@
 			this.getList();
 		},
 		methods:{
-			keyWordChange( kw ){
-			  if( this.keyWord==kw ){ return };
-				this.keyWord = kw ;
-				this.list    = [];
+			keyWordChange(kw) {
+				if (this.keyWord == kw) {
+					return
+				};
+				this.keyWord = kw;
+				this.isSort = false;
+				this.list = [];
 				this.pageNum = 1;
 				this.getList();
 			},
 			setChara(chara) {
-				console.log(chara)
-				if(this.chara !== chara) {
+				if (this.chara !== chara) {
+					this.initial = chara;
+					this.isSort = chara ? true : false;
 					this.chara = chara;
 					this.list = [];
 					this.pageNum = 1;
@@ -80,7 +86,9 @@
 	                data:{
 	                	pageSize : this.pageSize,
 	                	pageNum  : this.pageNum,
-	                	keyWord  : this.keyWord,
+						keyWord  : this.keyWord,
+						initial: this.initial,
+						isSort: this.isSort // 是否按首字母排序 0否, 1是
 	                },
 	                success: (res)=>{
 	                	if( res.code==0 ){
