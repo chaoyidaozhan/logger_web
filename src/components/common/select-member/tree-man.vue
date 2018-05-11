@@ -38,7 +38,7 @@
 				ajaxStatus:'loading',  // loding---加载中 success---加载更多 error---加载失败 over--全部;
 				keyWord:'',
 				initial: "",
-				isSort: false,
+				isSort: 0,
 				chara:'',
 				pageSize:40,
 				pageNum:1,
@@ -64,7 +64,7 @@
 					return
 				};
 				this.keyWord = kw;
-				this.isSort = false;
+				this.isSort = 0;
 				this.list = [];
 				this.pageNum = 1;
 				this.getList();
@@ -72,7 +72,7 @@
 			setChara(chara) {
 				if (this.chara !== chara) {
 					this.initial = chara;
-					this.isSort = chara ? true : false;
+					this.isSort = chara ? 1 : 0;
 					this.chara = chara;
 					this.list = [];
 					this.pageNum = 1;
