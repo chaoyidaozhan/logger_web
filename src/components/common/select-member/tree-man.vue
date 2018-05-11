@@ -38,7 +38,7 @@
 				ajaxStatus:'loading',  // loding---加载中 success---加载更多 error---加载失败 over--全部;
 				keyWord:'',
 				initial: "",
-				isSort: 0,
+				isSort: 1,
 				chara:'',
 				pageSize:40,
 				pageNum:1,
