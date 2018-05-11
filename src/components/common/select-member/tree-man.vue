@@ -72,7 +72,7 @@
 			setChara(chara) {
 				if (this.chara !== chara) {
 					this.initial = chara;
-					this.isSort = chara ? 1 : 0;
+					this.isSort = 1;
 					this.chara = chara;
 					this.list = [];
 					this.pageNum = 1;
