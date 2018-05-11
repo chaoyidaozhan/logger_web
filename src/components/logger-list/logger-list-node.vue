@@ -610,7 +610,7 @@ export default {
                 border-right: 0;
             }
             &.active {
-                color: @primary-color;
+                color: #FFC400;
             }
         }
     }

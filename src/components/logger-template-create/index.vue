@@ -368,6 +368,7 @@ export default {
                     v.options && v.options.forEach((value, key) => {
                         if (value.string == v.content) {
                             v.value = key;
+                            v.checked= "" + key;
                         }
                     })
                 } else if (v.type == 'InputCheckbox') {
@@ -381,6 +382,7 @@ export default {
                     })
                     v.content = v.content && v.content.join(',');
                     v.value = valueArr.join(',');
+                    v.checked = valueArr.join(',');
                 } else if (v.type == 'InputDate') {
                     v.value = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
                     v.content = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
@@ -478,7 +480,6 @@ export default {
                         this.$Message.warning((res && res.msg) || '网络错误');
                         this.btnloading = false;
                     }
-
                 })
             }
 
