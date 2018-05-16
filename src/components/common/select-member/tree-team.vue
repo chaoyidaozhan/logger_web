@@ -1,6 +1,6 @@
 <template>
 	<div class="tree_team">
-		<search-input @change="keyWordChange" style="display:none"/>
+		<search-input @change="keyWordChange"/>
 
 		<ul class="man_scroll">
 			<li v-for="each in list" class="li cp" @click="checkEach(each)">
@@ -54,10 +54,12 @@
 			this.getList();
 		},
 		methods:{
-			keyWordChange( kw ){
-			  if( this.keyWord==kw ){ return };
-				this.keyWord = kw ;
-				this.list    = [];
+			keyWordChange(kw) {
+				if (this.keyWord == kw) {
+					return
+				};
+				this.keyWord = kw;
+				this.list = [];
 				this.pageNum = 1;
 				this.getList();
 			},
@@ -116,10 +118,12 @@
 		.avatar-wrapper .name{
 			font-size: 12px;
 		}
-		.man_scroll{
+		.man_scroll {
 			position: absolute;
-			top: 0;bottom: 0px;
-			left: 0px;right: 0px;
+			top: 47px;
+			bottom: 0px;
+			left: 0px;
+			right: 0px;
 			overflow-y: auto;
 		}
 		.ajaxStatus{

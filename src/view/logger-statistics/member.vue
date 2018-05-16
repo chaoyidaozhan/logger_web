@@ -4,7 +4,7 @@
             <fs-query-form 
                 :showTemplate="true"
                 :showMember="true"
-                :showOrderTypeMulti="true"
+                showOrderTypeMulti="member"
                 :showExportExcel="true"
                 :showGroupExcelBtn="false"
                 :showDeptExcelBtn="false"

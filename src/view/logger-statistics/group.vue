@@ -5,6 +5,7 @@
                 :showTemplate="true"
                 :showGroup="true"
                 :showOrderType="true"
+                showOrderTypeMulti="group"
                 :showExportExcel="true"
                 :showGroupExcelBtn="true"
                 :showDeptExcelBtn="false"
@@ -25,6 +26,9 @@ import statistics from 'app_src/mixins/statistics';
 export default {
     data() {
         return {
+            params: {
+                orderType: '4'
+            },
             groupId: 0,
             validateString: 'groupId',
         }

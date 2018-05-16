@@ -1,14 +1,14 @@
 <template>
 	<div class="tree_man">
-		<search-input @change="keyWordChange"/>
-
-		<ul class="man_scroll">
-			<li class="li cp" v-for="each in list" @click="checkEach(each)">
+		<search-input :showCharCode="showCharCode" @change="keyWordChange" @setChara="setChara"/>
+		<ul class="man_scroll" :class="showCharCode ? 'showCharCode' : ''">
+			<li class="li cp" v-for="(each, index) in list" :key="index" @click="checkEach(each)">
 				<div class="head-wrap l">
 					<avatar :avatar="each.avatar" :name="each.userName" fontSize="12px" :size="'28px'"/>
 				</div>
 				<div class="userName l">
-					{{each.userName}}
+					<div class="user-name">{{each.userName}}</div>
+					<div class="dept-name">{{each.deptName}}</div>
 				</div>
 				<div class="r">
 					<!-- Checkbox阻止事件 -->
@@ -37,9 +37,13 @@
 			return {
 				ajaxStatus:'loading',  // loding---加载中 success---加载更多 error---加载失败 over--全部;
 				keyWord:'',
+				initial: "",
+				isSort: 1,
+				chara:'',
 				pageSize:40,
 				pageNum:1,
 				list:[],
+				showCharCode: true
 			}
 		},
 		watch:{
@@ -55,12 +59,25 @@
 			this.getList();
 		},
 		methods:{
-			keyWordChange( kw ){
-			  if( this.keyWord==kw ){ return };
-				this.keyWord = kw ;
-				this.list    = [];
+			keyWordChange(kw) {
+				if (this.keyWord == kw) {
+					return
+				};
+				this.keyWord = kw;
+				this.isSort = 0;
+				this.list = [];
 				this.pageNum = 1;
 				this.getList();
+			},
+			setChara(chara) {
+				if (this.chara !== chara) {
+					this.initial = chara;
+					this.isSort = 1;
+					this.chara = chara;
+					this.list = [];
+					this.pageNum = 1;
+					this.getList();
+				}
 			},
 			getList(){
 				this.ajaxStatus = 'loading' ;
@@ -69,7 +86,9 @@
 	                data:{
 	                	pageSize : this.pageSize,
 	                	pageNum  : this.pageNum,
-	                	keyWord  : this.keyWord
+						keyWord  : this.keyWord,
+						initial: this.initial,
+						isSort: this.isSort // 是否按首字母排序 0否, 1是
 	                },
 	                success: (res)=>{
 	                	if( res.code==0 ){
@@ -121,6 +140,9 @@
 			top: 47px;bottom: 0px;
 			left: 0px;right: 0px;
 			overflow-y: auto;
+			&.showCharCode {
+				top: 97px;
+			}
 		}
 		.ajaxStatus{
 			text-align: center;
@@ -136,11 +158,21 @@
 			line-height: 28px;
 			overflow: hidden;
 			.head-wrap{
-				width: 28px;height: 28px;
+				width: 28px;
+				height: 28px;
 				font-size: 0;
+				position: relative;
+				top: 4px;
 			}
 			.userName{
 				margin-left: 8px;
+				line-height: 18px;
+				.dept-name {
+					color: #999;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
 			}
 			&:hover{
 				background:rgba(126,231,192,0.1);
