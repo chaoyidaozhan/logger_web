@@ -160,8 +160,13 @@ export default {
                             width: 150
                         },
                         {
-                            title: '提交人',
+                            title: '日志日期',
                             key: 'column2',
+                            width: 150
+                        },
+                        {
+                            title: '提交人',
+                            key: 'column3',
                             width: 80
                         }
                     ];
@@ -186,8 +191,9 @@ export default {
                         let contentObj = [];
                         let columnLength = this.columnsData.length; //总列数
                         let data = {
-                            column1: this.resetTime(item.createTime),
-                            column2: item.userName,
+                            column1: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm'),
+                            column2: formatTime(new Date(item.diaryTime), 'YYYY-MM-DD'),
+                            column3: item.userName
                         };
                         try {
                             contentObj = JSON.parse(item.content);
@@ -207,21 +213,6 @@ export default {
             } else {
                 this.$Message.warning((res && res.msg) || '网络错误');
             }
-        },
-        resetTime(time) {
-            var date = new Date(time);
-            var y = date.getFullYear();
-            var m = date.getMonth() + 1;
-            m = m < 10 ? ('0' + m) : m;
-            var d = date.getDate();
-            d = d < 10 ? ('0' + d) : d;
-            var h = date.getHours();
-            h = h < 10 ? ('0' + h) : h;
-            var minute = date.getMinutes();
-            var second = date.getSeconds();
-            minute = minute < 10 ? ('0' + minute) : minute;
-            second = second < 10 ? ('0' + second) : second;
-            return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
         },
         getParams() { // 合并参数
             let data = Object.assign({

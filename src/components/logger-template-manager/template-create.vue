@@ -194,7 +194,6 @@ export default {
                     }, {
                         "string": "选项3"
                     }],
-                    "checked": 0,
                     "type": "InputRadio",
                     "title": "单选框",
                     "isRequired": "0",

@@ -1,10 +1,11 @@
 <template>
     <div class="logger-statistics-content">
-        <fs-table :emptyData="emptyData" :columns="columns" :data="list" :type="type"></fs-table>
+        <fs-table :emptyData="emptyData" :columns="columns" :data="list" :totalMap="totalMap" :type="type"></fs-table>
     </div>
 </template>
 <script>
 import FsTable from '../statistics-table';
+import {getMonthNum, getWeek} from 'app_src/filters/date-utils';
 export default {
     props: {
         data: {
@@ -17,6 +18,12 @@ export default {
         title: {
             type: String
         },
+        start: {
+            type: String
+        },
+        totalMap: {
+            type: Object
+        },
         emptyData: {
             type: Boolean
         }
@@ -25,9 +32,10 @@ export default {
         return {
             columns: {
                 title: this.title,
-                array: ['一季度','二季度','三季度','四季度'],
+                key: 'deptName',
+                array: [],
                 caption: '汇总'
-            }
+            },
         }
     },
     components: {
@@ -40,24 +48,33 @@ export default {
             this.data.forEach(item => {
                 item.totalCount = 0;
                 item.array = [];
-                item.array.length = 4;
+                item.array.length = getMonthNum(new Date(this.start.replace('-', '/')));
                 if(item.resultList && item.resultList.length) {
                     item.resultList.forEach(val=>{
-                        item.array[val.quarter - 1] = val
+                        item.array[val.days - 1] = val;
                         item.totalCount += val.num
                     })
                 }
             });
             return list;
-        },
+        }
+    },
+    watch: {
+        start: 'initData',
     },
     methods: {
-        init() {
+        initData() {
             this.columns.title = this.title;
+            let date = this.start.replace(/[\-*]/g, '/');
+            let yearMonth = date.substring(0, date.lastIndexOf('/'));
+            this.columns.array = [];
+            for(let i = 0; i < getMonthNum(new Date(date)); i++) {
+                this.columns.array.push(`${i+1} 周${getWeek(new Date(`${yearMonth}/${i+1}`))}`)
+            }
         }
     },
     created () {
-        this.init()
+        this.initData();
     }
 }
 </script>
