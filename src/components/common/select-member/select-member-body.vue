@@ -102,7 +102,7 @@ li {
 
 .l {
 	float: left;
-	width: 260px;
+	width: 240px;
 }
 
 .show-all-wrap {
