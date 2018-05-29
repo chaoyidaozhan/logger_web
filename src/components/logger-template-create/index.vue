@@ -201,7 +201,7 @@ export default {
                             v.content = v.value ? v.content.split(',') : [];
                             break;
                         case 'InputTextNum':
-                            v.valueNum = parseInt(v.value) || null;
+                            v.valueNum = +v.value || null;
                             break;
                         case 'InputDate':
                             v.dateValueSec = v.value ? new Date(v.value) : new Date();
@@ -335,21 +335,33 @@ export default {
                 visibleRangeStr.push({
                     'teamId': v.deptId,
                     'teamName': v.deptName,
-                    'dataType': 1
+                    'dataType': 1,
+                    'visibleType': 0
                 })
             });
             this.groupRange.forEach((v, k) => {
                 visibleRangeStr.push({
                     'teamId': v.groupId || v.gid,
                     'teamName': v.groupName,
-                    'dataType': 3
+                    'dataType': 3,
+                    'visibleType': 0
                 })
             });
             this.memberRange.forEach((v, k) => {
                 visibleRangeStr.push({
                     'memberId': v.memberId,
                     'userName': v.userName,
-                    'dataType': 4
+                    'dataType': 4,
+                    'visibleType': 0
+                })
+            });
+            // @人范围加入可见范围
+            this.member.forEach((item) => {
+                visibleRangeStr.push({
+                    'memberId': item.memberId,
+                    'userName': item.userName,
+                    'dataType': 4,
+                    'visibleType': 1
                 })
             });
             this.rangeArr = visibleRangeStr;
