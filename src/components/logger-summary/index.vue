@@ -2,7 +2,7 @@
     <div class="logger-summary-content">
         <div class="content-bar" v-if="list.length">
             <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
-            <Table :columns="footerData" border :show-header="false" :data="countData"></Table>
+            <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table>
         </div>
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom" v-if="list.length">
@@ -327,6 +327,9 @@ export default {
     height: 100%;
     background: #fff;
     padding: 20px 20px 150px 20px;
+    .table-count {
+        border-top: none;
+    }
     .note {
         font-size: 12px;
         padding: 20px 0px;
