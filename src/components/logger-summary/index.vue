@@ -202,8 +202,7 @@ export default {
                         })
                     });
 
-                    let inputTextNumKey,
-                        countNum = 0;
+                    let countNumArr = [];
                     this.list.forEach((item, key) => { //循环构建表body
                         let contentObj = JSON.parse(item.content) || [];
                         let data = {
@@ -217,9 +216,11 @@ export default {
                             let i = columnLength - contentLength - 1 + k;
                             data['column' + i] = v.value || '';
                             if(v.type === 'InputTextNum') {
-                                inputTextNumKey = k;
                                 if(!isNaN(+v.value)) {
-                                    countNum += +v.value;
+                                    if(countNumArr[k] === undefined) {
+                                        countNumArr[k] = [];
+                                    }
+                                    countNumArr[k].push(+v.value);
                                 }
                             }
                         });
@@ -229,9 +230,11 @@ export default {
                     let tmp = {
                         column1: "总计"
                     };
-                    if(inputTextNumKey >= 0) {
-                        tmp['column' + (5 + inputTextNumKey)] = countNum;
-                    }
+                    countNumArr.forEach((item, index) => {
+                        tmp['column' + (5 + index)] = item.reduce((prev, curr) => {
+                            return prev + curr;
+                        });
+                    });
                     this.countData.push(tmp);
                 }
 
