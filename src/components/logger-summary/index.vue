@@ -2,6 +2,7 @@
     <div class="logger-summary-content">
         <div class="content-bar" v-if="list.length">
             <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
+            <Table :columns="footerData" border :show-header="false" :data="countData"></Table>
         </div>
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom" v-if="list.length">
@@ -47,6 +48,8 @@ export default {
             emptyMsg: '',
             columnsData: [], //表头
             listTemplate: [], //表bod
+            footerData:[], // 表foot
+            countData: [], // 总计
             templateContent:[],
             templateItemData:[],
             selectList:[],
@@ -101,11 +104,10 @@ export default {
                         }
                         if(item.type == 'InputTextNum') {
                             if(!!item.content && typeof +item.content == 'number') {
-                                contentArr[index].content += (+item.content);
-                                contentArr[index].value += (+item.value);
+                                contentArr[index].content = (+contentArr[index].content) + (+item.content);
+                                contentArr[index].value = (+contentArr[index].value) + (+item.value);
                             }
                         }
-
                     })
                 }
             });
@@ -143,6 +145,7 @@ export default {
                     this.emptyMsg = '没有相关数据';
                 } else {
                     this.listTemplate = [];
+                    this.countData = [];
                     this.columnsData = [{ //固定的前三列
                             type: 'selection',
                             width: 60,
@@ -152,7 +155,6 @@ export default {
                             title: 'id',
                             key: 'id',
                             className:'id-column',
-
                         },
                         {
                             title: '提交时间',
@@ -170,44 +172,67 @@ export default {
                             width: 80
                         }
                     ];
+                    this.footerData = [{
+                        title: '',
+                        key: 'column1',
+                        width: 60
+                    }, {
+                        title: '',
+                        key: 'column2',
+                        width: 150
+                    }, {
+                        title: '',
+                        key: 'column3',
+                        width: 150
+                    }, {
+                        title: '',
+                        key: 'column4',
+                        width: 80
+                    }];
 
-                    let columnArr = [];
-                    try {
-                        columnArr = JSON.parse(this.list[0].content)
-                    } catch (e) {
-
-                    }
-                    columnArr.forEach((item, key) => { //循环构建表头
-                        let length = this.columnsData.length,
-                            columnKey = 'column' + length;
-                        let headerColumn = {
+                    let columnArr = JSON.parse(this.list[0].content) || [];
+                    columnArr && columnArr.forEach((item, key) => { //循环构建表头
+                        this.columnsData.push({
                             title: columnArr[key].title || '',
-                            key: columnKey
-                        }
-                        this.columnsData.push(headerColumn);
+                            key: 'column' + (this.columnsData.length - 1)
+                        });
+                        this.footerData.push({ //循环构建表foot
+                            title: '',
+                            key: 'column' + (this.footerData.length + 1)
+                        })
                     });
 
+                    let inputTextNumKey,
+                        countNum = 0;
                     this.list.forEach((item, key) => { //循环构建表body
-                        let contentObj = [];
-                        let columnLength = this.columnsData.length; //总列数
+                        let contentObj = JSON.parse(item.content) || [];
                         let data = {
                             column1: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm'),
                             column2: formatTime(new Date(item.diaryTime), 'YYYY-MM-DD'),
                             column3: item.userName
                         };
-                        try {
-                            contentObj = JSON.parse(item.content);
-                        } catch (e) {
-
-                        }
+                        let columnLength = this.columnsData.length; //总列数
                         let contentLength = contentObj.length; //返回的列数
-                        contentObj.forEach((v, k) => {
-                            let i = columnLength - contentLength + k;
+                        contentObj && contentObj.forEach((v, k) => {
+                            let i = columnLength - contentLength - 1 + k;
                             data['column' + i] = v.value || '';
+                            if(v.type === 'InputTextNum') {
+                                inputTextNumKey = k;
+                                if(!isNaN(+v.value)) {
+                                    countNum += +v.value;
+                                }
+                            }
                         });
                         data.id = item.id;
                         this.listTemplate.push(data);
                     });
+                    let tmp = {
+                        column1: "总计"
+                    };
+                    if(inputTextNumKey >= 0) {
+                        tmp['column' + (5 + inputTextNumKey)] = countNum;
+                    }
+                    this.countData.push(tmp);
                 }
 
             } else {
