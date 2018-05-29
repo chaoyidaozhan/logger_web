@@ -408,8 +408,11 @@
                 border: 1px solid @border-color;
                 word-wrap: break-word;
                 word-break: break-all;
-                color: @gray-color-normal;
+                color: @gray-color-dark;
                 resize: none;
+                &::-webkit-input-placeholder {
+                    color: @gray-color-normal;
+                }
             }
             .input-number {
                 position: absolute;
