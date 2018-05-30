@@ -201,7 +201,7 @@
 	.groupName,
 	.userName {
 		margin-left: 8px;
-		max-width: 150px;
+		max-width: 130px;
 	}
 	.scroll>div:nth-child(1) {
 		border: none;
