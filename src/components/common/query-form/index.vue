@@ -298,13 +298,15 @@ export default {
                 templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                 orderType: this.$refs.selectOrderType && this.$refs.selectOrderType.getParams().orderType,
                 start: this.startEndData.start || "",
-                end: this.startEndData.end || ""
+                end: this.startEndData.end || "",
+                pageNo: 1,
+                pageSize: 9999
             };
             this.trimIds(data);
             if(!data.memberIds) {
                 return;
             }
-            let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}`;
+            let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}&pageNo=${data.pageNo}&pageSize=${data.pageSize}`;
             window.open(url);
         },
         handleChange(value) {
