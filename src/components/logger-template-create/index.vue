@@ -114,7 +114,7 @@ export default {
             dateValue: new Date(),
             dateValueSec: new Date(),
             inputTextValue: [],
-            valueNum: 0,
+            valueNum: "",
             dateOption: {
                 disabledDate(date) {
                     return date && date.valueOf() > Date.now();
@@ -201,7 +201,7 @@ export default {
                             v.content = v.value ? v.content.split(',') : [];
                             break;
                         case 'InputTextNum':
-                            v.valueNum = +v.value || null;
+                            v.valueNum = typeof +v.value === 'number' ? v.value : "";
                             break;
                         case 'InputDate':
                             v.dateValueSec = v.value ? new Date(v.value) : new Date();
