@@ -41,7 +41,7 @@ export default {
             iconFlag: 1,
             list: [],
             pageNo: 1,
-            pageSize: 20,
+            pageSize: 9999,
             range: 0,
             totalCount: 0,
             iconType: 'member',
@@ -214,7 +214,7 @@ export default {
                         let contentLength = contentObj.length; //返回的列数
                         contentObj && contentObj.forEach((v, k) => {
                             let i = columnLength - contentLength - 1 + k;
-                            data['column' + i] = v.value || '';
+                            data['column' + i] = ['number', 'string'].indexOf(typeof v.value) !== -1 ? v.value: "";
                             if(v.type === 'InputTextNum') {
                                 if(!isNaN(+v.value)) {
                                     if(countNumArr[k] === undefined) {
