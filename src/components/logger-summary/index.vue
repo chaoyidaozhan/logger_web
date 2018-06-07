@@ -214,7 +214,11 @@ export default {
                         let contentLength = contentObj.length; //返回的列数
                         contentObj && contentObj.forEach((v, k) => {
                             let i = columnLength - contentLength - 1 + k;
-                            data['column' + i] = ['number', 'string'].indexOf(typeof v.value) !== -1 ? v.value: "";
+                            if (v.type === 'InputRadio' || v.type === 'InputCheckbox') {
+                                data['column' + i] = ['number', 'string'].indexOf(typeof v.content) !== -1 ? v.content: "";
+                            } else {
+                                data['column' + i] = ['number', 'string'].indexOf(typeof v.value) !== -1 ? v.value: "";
+                            }
                             if(v.type === 'InputTextNum') {
                                 if(!isNaN(+v.value)) {
                                     if(countNumArr[k] === undefined) {
