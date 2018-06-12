@@ -438,7 +438,7 @@ export default {
                 });
                 let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
-                    diaryTime: this.dateValue.getTime() || "",
+                    diaryTime: FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
                     templateName: this.templateItemData.title || this.templateItemData.templateName,
                     version: this.templateItemData.version,
                     source: 3, //1 安卓   2 ios    3web    4微信
