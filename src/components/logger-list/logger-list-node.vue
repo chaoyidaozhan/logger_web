@@ -212,7 +212,11 @@ export default {
     },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期
-            return FormatTime(new Date(val), 'YYYY-MM-DD')
+            let timezone = 8, // 东八区
+                offsetGMT = new Date().getTimezoneOffset(), // 本地时间和格林威治的时间差，单位为分钟
+                nowDate = new Date(val).getTime(), // 日志时间距 1970 年 1 月 1 日午夜（GMT 时间）之间的毫秒数
+                targetDate = new Date(nowDate + offsetGMT * 60 * 1000 + timezone * 60 * 60 * 1000);
+            return FormatTime(new Date(targetDate), 'YYYY-MM-DD')
         },
         filterDiaryUserTime(val) { // 格式化日志日期
             return FormatTime(new Date(val), 'YYYY-MM-DD HH:mm')
