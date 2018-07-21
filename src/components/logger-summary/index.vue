@@ -253,7 +253,7 @@ export default {
                 range: this.range,
                 memberIds: this.params.memberIds || '',
                 deptIds: this.params.deptId || '',
-                teamIds: this.params.groupId || '',
+                groupIds: this.params.groupId || '',
             }, this.params);
             delete data.deptId;
             delete data.groupId;
