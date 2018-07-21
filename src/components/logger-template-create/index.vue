@@ -178,7 +178,7 @@ export default {
                 atMember = [];
             atArr.forEach((v, k) => {
                 atMember.push({
-                    'memberId': v.memberId,
+                    'memberId': v.replyMemberId,
                     'userName': v.replayUserName,
                     'szId': v.szId || v.spaceId || v.qzId || ''
                 })
