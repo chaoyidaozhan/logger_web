@@ -4,7 +4,7 @@
 			<span class="l">已选择
 				<span v-show="all">{{all}}</span>
 			</span>
-			<span class="r cp" @click="clearAll">清空</span>
+			<span class="r cp clear" @click="clearAll">清空</span>
 		</div>
 		<div class="sm_scroll scroll">
 			<!-- 部门 -->	
@@ -137,7 +137,12 @@
 		box-sizing: border-box;
 		border-bottom: 1px solid @border-color;
 		.r {
-			color: @error-color
+			color: @error-color;
+			&.clear {
+				position: absolute;
+				top: 0;
+				right: 10px;
+			}
 		}
 	}
 	.tit {

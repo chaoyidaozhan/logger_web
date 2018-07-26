@@ -77,7 +77,7 @@
             </FormItem>
             <FormItem label="附件">
                 <template>
-                    <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="defaultFileList" :on-remove="handleRemoveFile">
+                    <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="fileStr" :on-remove="handleRemoveFile">
                         <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
                     </Upload>
                 </template>
@@ -123,7 +123,6 @@ export default {
             uploadFile: `${config[__ENV__].apiHost}/diaryFile/?token=` + this.$store.state.userInfo.token,
             fileStr: [],
             atStr: [],
-            defaultFileList: [], //默认上传的文件
             submitData: {},
             saveDraft: false,
             editFlag: 0,
@@ -179,7 +178,7 @@ export default {
                 atMember = [];
             atArr.forEach((v, k) => {
                 atMember.push({
-                    'memberId': v.memberId,
+                    'memberId': v.replyMemberId,
                     'userName': v.replayUserName,
                     'szId': v.szId || v.spaceId || v.qzId || ''
                 })
@@ -213,9 +212,9 @@ export default {
             }
         },
         initDefaultFile(templateItemData) { //初始化文件列表
-            let fileArr = templateItemData.fileStr || [];
-            fileArr.forEach((v, k) => {
-                this.defaultFileList.push({
+            templateItemData.fileStr && 
+            templateItemData.fileStr.forEach((v, k) => {
+                this.fileStr.push({
                     'name': `${v.fileName}${v.fileExtension}`,
                     'url': v.fileKey,
                     'fileName': `${v.fileName}${v.fileExtension}`,
@@ -289,33 +288,20 @@ export default {
             })
         },
         handleFileSuccess(res, file) { //处理上传的文件数据
-            let fileData = res.data[0] || [],
-                defaultList = [];
-            this.defaultFileList && this.defaultFileList.forEach((v, k) => {
-                defaultList.push({
-                    fileName: v.fileName,
-                    fileSize: v.fileSize,
-                    fileExtension: v.fileExtension,
-                    fileKey: v.fileKey
-                })
-            });
+            let fileData = res.data[0] || [];
             this.fileStr.push({
+                name: file.name,
+                url: fileData.fileKey,
                 fileName: file.name,
                 fileSize: fileData.fileSize,
                 fileExtension: fileData.fileExtension,
                 fileKey: fileData.fileKey
             });
-            this.fileStr = this.fileStr.concat(defaultList);
         },
         handleRemoveFile(file, fileList) { //处理移除文件
-            fileList && fileList.forEach((v, k) => {
-                this.fileStr.push({
-                    fileName: v.fileName,
-                    fileSize: v.fileSize,
-                    fileExtension: v.fileExtension,
-                    fileKey: v.fileKey
-                })
-            })
+            this.fileStr = this.fileStr.filter((item) => {
+                return item.fileName !== file.fileName;
+            });
         },
         cancleSubmit() { //取消编辑
             this.$Modal.confirm({
@@ -584,5 +570,3 @@ export default {
     }
 }
 </style>
-
-
