@@ -58,7 +58,7 @@
         <div class="handle-content-expand" 
             ref="contentHeight" 
             :style="{'height': `${contentHeight}px` }">
-            <div class="logger-list-row logger-list-time">
+            <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
                 <div class="logger-list-col">
                     <div class="title">日志日期</div>
                     <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
