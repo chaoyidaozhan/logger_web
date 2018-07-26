@@ -94,6 +94,7 @@ export default {
 </script>
 <style lang="less" scoped>
     .img-list {
+        display: inline-block;
         max-width: 370px;
         margin-top: 5px;
         .img-item {
