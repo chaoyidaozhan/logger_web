@@ -1,7 +1,7 @@
 <template>
     <div class="logger-create">
         <Form :label-width="110" >
-            <FormItem label="日志日期">
+            <FormItem label="日志日期" v-if="templateItemData.diaryTimeStatus">
                  <DatePicker type="date"
                     placement="bottom-start"
                     placeholder="日期" 
