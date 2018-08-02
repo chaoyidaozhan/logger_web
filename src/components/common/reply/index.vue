@@ -285,10 +285,13 @@
                 }, 200);
             },
             commitComment() { // 提交回复
-                this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
-                this.replyData.replyCommentId = '';
-                this.replyData.replyMemberId = '';
-                this.replyData.replyUserName = '';
+                let exp = /^回复[^:]+?:/
+                if(!exp.test(this.value)) {
+                    this.replyData.replyCommentId = '';
+                    this.replyData.replyMemberId = '';
+                    this.replyData.replyUserName = '';
+                }
+                this.replyData.content = this.value.replace(exp, "");
                 clearTimeout(this.commitTimer);
                 this.commitTimer = setTimeout(() => {
                     this.btnloading = true;
@@ -303,6 +306,9 @@
                                 this.pageNo = 1;
                                 this.loadCommentData();
                                 this.value = "";
+                                this.replyData.replyCommentId = '';
+                                this.replyData.replyMemberId = '';
+                                this.replyData.replyUserName = '';
                                 this.$emit('handleReplyNum', true);
                                 this.$refs.fileUpload.uploadFilesArr = [];
                                 this.$refs.fileUpload.clearFiles();
