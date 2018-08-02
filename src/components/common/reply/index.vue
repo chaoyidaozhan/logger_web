@@ -201,7 +201,8 @@
                 this.replyData.fileStr = JSON.stringify(fileData);
             },
             replySomebody(commentItem) {
-                this.replyData.replyCommentId = commentItem.memberId;
+                this.replyData.replyCommentId = commentItem.id;
+                this.replyData.replyMemberId = commentItem.memberId;
                 this.replyData.replyUserName = commentItem.userName;
                 this.$refs.replyWrapper.focus();
                 this.value = `回复${commentItem.userName}:`;
@@ -285,6 +286,9 @@
             },
             commitComment() { // 提交回复
                 this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
+                this.replyData.replyCommentId = '';
+                this.replyData.replyMemberId = '';
+                this.replyData.replyUserName = '';
                 clearTimeout(this.commitTimer);
                 this.commitTimer = setTimeout(() => {
                     this.btnloading = true;
