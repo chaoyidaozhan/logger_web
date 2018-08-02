@@ -286,6 +286,9 @@
             },
             commitComment() { // 提交回复
                 this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
+                this.replyData.replyCommentId = '';
+                this.replyData.replyMemberId = '';
+                this.replyData.replyUserName = '';
                 clearTimeout(this.commitTimer);
                 this.commitTimer = setTimeout(() => {
                     this.btnloading = true;
