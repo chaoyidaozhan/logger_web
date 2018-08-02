@@ -201,7 +201,8 @@
                 this.replyData.fileStr = JSON.stringify(fileData);
             },
             replySomebody(commentItem) {
-                this.replyData.replyCommentId = commentItem.memberId;
+                this.replyData.replyCommentId = commentItem.id;
+                this.replyData.replyMemberId = commentItem.memberId;
                 this.replyData.replyUserName = commentItem.userName;
                 this.$refs.replyWrapper.focus();
                 this.value = `回复${commentItem.userName}:`;
