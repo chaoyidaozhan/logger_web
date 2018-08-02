@@ -2,39 +2,54 @@
     <div class="logger-template-create" :class="{disabled: editDisable}">
         <!-- 控件列表 -->
         <div class="main pull-left">
-            <div class="main-inner" ref="advacedPush">
-                <div class="drag-item" @click="handleChangeCurrentItem($event, item)" v-for="(item, index) in pushList" :key="index">
-                    <label class="drag-label"><i v-if="item.isRequired != '0'">*</i>{{item.title}}</label>
-                    <template v-if="item.type == 'InputText'">
-                        <Input :placeholder="item.deion" type="textarea" :autosize="{ minRows: 5}"/>
-                    </template>
-                    <template v-if="item.type == 'InputTextNum'">
-                        <Input :placeholder="`${item.deion}${item.unit ? `(单位：${item.unit})` : ''}`" type="text"/>
-                    </template>
-                    <template v-if="item.type == 'InputRadio'">
-                        <RadioGroup>
-                            <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
-                        </RadioGroup>
-                    </template>
-                    <template v-if="item.type == 'InputCheckbox'">
-                        <CheckboxGroup>
-                            <Checkbox v-for="(val, key) in item.options" :key="key">
-                                {{val.string}}
-                            </Checkbox>
-                        </CheckboxGroup>
-                    </template>
-                    <template v-if="item.type == 'InputDate'">
-                        <DatePicker type="date"
-                            placement="bottom-start"
-                            placeholder="请选择日期" 
-                            class="date-wrap"
-                            :clearable="false">
-                        </DatePicker>
-                    </template>
-                    <div class="mask" v-if="(currentItem && currentItem.id) == item.id">
-                        <Icon type="close" @click.native="handleDelete($event, item, index)"></Icon>
+            <div class="main-inner">
+                <div class="date-item" @click="handleChangeCurrentItem($event, dateOptions)">
+                    <label class="drag-label">日志日期</label>
+                    <DatePicker type="date"
+                        placement="bottom-start"
+                        placeholder="请选择日期" 
+                        class="date-wrap"
+                        :clearable="false">
+                    </DatePicker>
+                    <div class="mask" v-if="(currentItem && currentItem.id) == dateOptions.id">
+                        
                     </div>
                 </div>
+                <div class="inner-push" ref="advacedPush">
+                    <div class="drag-item" @click="handleChangeCurrentItem($event, item)" v-for="(item, index) in pushList" :key="index">
+                        <label class="drag-label"><i v-if="item.isRequired != '0'">*</i>{{item.title}}</label>
+                        <template v-if="item.type == 'InputText'">
+                            <Input :placeholder="item.deion" type="textarea" :autosize="{ minRows: 5}"/>
+                        </template>
+                        <template v-if="item.type == 'InputTextNum'">
+                            <Input :placeholder="`${item.deion}${item.unit ? `(单位：${item.unit})` : ''}`" type="text"/>
+                        </template>
+                        <template v-if="item.type == 'InputRadio'">
+                            <RadioGroup>
+                                <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
+                            </RadioGroup>
+                        </template>
+                        <template v-if="item.type == 'InputCheckbox'">
+                            <CheckboxGroup>
+                                <Checkbox v-for="(val, key) in item.options" :key="key">
+                                    {{val.string}}
+                                </Checkbox>
+                            </CheckboxGroup>
+                        </template>
+                        <template v-if="item.type == 'InputDate'">
+                            <DatePicker type="date"
+                                placement="bottom-start"
+                                placeholder="请选择日期" 
+                                class="date-wrap"
+                                :clearable="false">
+                            </DatePicker>
+                        </template>
+                        <div class="mask" v-if="(currentItem && currentItem.id) == item.id">
+                            <Icon type="close" @click.native="handleDelete($event, item, index)"></Icon>
+                        </div>
+                    </div>
+                </div>
+             
             </div>
         </div>
         <!-- 控件菜单 -->
@@ -55,7 +70,7 @@
         <div class="extra pull-left">
             <Tabs>
                 <TabPane label="控件设置">
-                    <div v-if="currentItem">
+                    <div v-if="currentItem && currentItem.id != 'dateOptions'">
                         <div class="extra-item">
                             <label class="extra-label">标题</label>
                             <Input placeholder="不超过10个字" :maxlength="10" v-model="currentItem.title" type="text"/>
@@ -86,6 +101,14 @@
                         <div class="extra-item">
                             <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
                                 必填
+                            </Checkbox>
+                        </div>
+                    </div>
+                    <div v-else-if="currentItem && currentItem.id == 'dateOptions'">
+                        <div class="extra-item"></div>
+                        <div class="extra-item">
+                            <Checkbox v-model="dateOptions.diaryTimeStatus">
+                                是否显示日志日期
                             </Checkbox>
                         </div>
                     </div>
@@ -159,6 +182,10 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 export default {
     data() {
         return {
+            dateOptions: {
+                "id": 'dateOptions',
+                "diaryTimeStatus": true
+            },
             data: {
                 title: '',
                 describe: '',
@@ -290,6 +317,8 @@ export default {
             this.currentItem.isRequired = this.isRequired ? '1' : '0';
         },
         handleChangeCurrentItem(evt, item) { // 更改当前Item
+        console.log(item);
+        
             evt.stopPropagation();
             if(item.isRequired != '0') {
                 this.isRequired = true;
@@ -421,6 +450,8 @@ export default {
                 content: JSON.stringify(this.pushList),
                 ...this.data
             }
+            // 日志日期
+            params.diaryTimeStatus = +this.dateOptions.diaryTimeStatus
             if(!params.title.trim()) {
                 return this.$Message.error('请输入模板名称');
             }
@@ -519,6 +550,10 @@ export default {
                 if(this.data.dataStatus) { // 如果dataStatus为1模板禁用
                     this.editDisable = true;
                 }
+                // 是否显示日志日期
+                this.dateOptions.diaryTimeStatus = !!resData.diaryTimeStatus
+                console.log(this.dateOptions);
+                
                 this.$emit('handleDataStatus', resData.dataStatus);
             }
             this.$emit('handleLoading');
@@ -717,7 +752,10 @@ export default {
     overflow: auto;
     padding-bottom: 20px;
     .box-shadow;
-    .drag-item {
+    .inner-push {
+        min-height: 80%;
+    }
+    .drag-item, .date-item {
         position: relative;
         cursor: pointer;
         padding: 0 10px 10px;
