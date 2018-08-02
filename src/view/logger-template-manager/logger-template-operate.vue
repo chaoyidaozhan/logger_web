@@ -3,26 +3,30 @@
         <template slot="head">
             <div class="logger-template-header clearfix">
                 <div class="pull-left">
-                    <span class="first-name cursor-pointer" @click="goToTemplate">日志模板</span>
-                    <span><i class="icon-arrow-right"></i>设置日志模板</span>
+                    <span class="first-name cursor-pointer" @click="goToTemplate">
+                        {{$t('title.logTemplate')}}
+                    </span>
+                    <span><i class="icon-arrow-right"></i>
+                        {{$t('title.logTemplateSettings')}}
+                    </span>
                 </div>
                 <div class="pull-right">
                     <!--启用， 停用-->
                     <Button type="ghost" @click="handlePreview">
-                        预览
+                        {{$t('operate.preview')}}
                     </Button>
                     <template v-if="!dataStatus">
                         <Button type="ghost" @click="handleSubmit('1')">
-                            保存并启用
+                            {{$t('operate.saveAndEnable')}}
                         </Button>
                         <Button type="primary" @click="handleSubmit(null)">
-                            保存
+                            {{$t('operate.save')}}
                         </Button>
                     </template>
                     <template v-else>
                         <!--启用-->
                         <Button type="ghost" @click="handleStop">
-                            停用
+                            {{$t('operate.disable')}}
                         </Button>
                     </template>
                 </div>

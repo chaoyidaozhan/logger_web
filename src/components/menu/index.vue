@@ -1,26 +1,28 @@
 <template>
     <div class="logger-menu">
         <div class="logger-menu-logo">
-            <Button type="primary" @click="goLoggerDetail" :style="{width: '100px'}">创建日志</Button>
+            <Button type="primary" @click="goLoggerDetail" :style="{width: '100px'}">
+                {{$t('operate.createLog')}}
+            </Button>
         </div>
         <div class="logger-menu-layout" ref="loggerMenuLayout">
             <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
                 <div v-for="(item, index) in menus" :key="index">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
                         <i v-if="item.icon" :class="`${item.icon}`"></i>
-                        <span>{{item.name}}</span>
+                        <span>{{$t(item.name)}}</span>
                     </Menu-Item>
                     <Submenu :name="item.name" v-if="item.subMenu && !!item.subMenu.length">
                             <template slot="title">
                                 <i v-if="item.icon" :class="`${item.icon}`"></i>
-                                <span>{{item.name}}</span>
+                                <span>{{$t(item.name)}}</span>
                             </template>
 
                             <Menu-Item 
                                 v-for="(val, index) in item.subMenu" 
                                 :name="val.path" 
                                 :key="index">
-                                {{val.name}}
+                                {{$t(val.name)}}
                             </Menu-Item>
                     </Submenu>
                 </div>
@@ -246,6 +248,8 @@ export default {
             &>span {
                 vertical-align: middle;
                 display: inline-block;
+                width: 65%;
+                word-break: break-word;
             }
             &:hover {
                 background-color: @menu-hover-color;

@@ -16,14 +16,14 @@ import storage from './common/store.js-master/dist/store.legacy.min';
 import 'video.js/dist/video-js.min.css';
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.css';
 import './assets/css/common.less';
-
+// 多语
+import i18n from './common/language/'
 
 Vue.prototype.$eventbus = new Vue(); // 建立组件全局通信的钩子
 Vue.prototype.$ajax = ajax; // 将ajax挂在到vue实例
 window.storage = storage; // 建立全局的storage
 
 Vue.use(VueRouter);
-Vue.use(iView);
 
 // 图片预览组件
 import VuePreview from 'vue-preview';
@@ -80,6 +80,7 @@ router.afterEach((to, from, next) => { // 路由切换之后
 
 new Vue({
     mixins: [http],
+    i18n,
     store,
     router,
     ajax

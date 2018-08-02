@@ -1,10 +1,10 @@
 <template>
     <div class="search-form">
         <Form inline>
-            <FormItem :label-width="50" label="提交人"  v-if="showAllMember && !showTemplateCheck">
+            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
                 <fs-select-member ref="selectMember" 
-                    title="选择提交人"
-                    placeholder="选择提交人"
+                    :title="`${$t('operate.select')}${$t('noun.author')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :showDept="true"
                     :showGroup="true" 
                     :member="member"
@@ -12,29 +12,29 @@
                     :group="group"
                     @handleSelectMember="handleSelectMember"/>
             </FormItem> 
-            <FormItem :label-width="50" label="提交人"  v-if="showMember">
+            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
                 <fs-select-member ref="selectMember" 
-                    title="选择提交人"
-                    placeholder="选择提交人"
+                    :title="`${$t('operate.select')}${$t('noun.author')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :member="member"
                     @handleSelectMember="handleSelectMember"/>
             </FormItem> 
-            <FormItem :label-width="40" label="模板"  v-if="showTemplate">
+            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
                 <fs-select-template 
                     :hasDefaultTemplate="hasDefaultTemplate" 
                     :templateType="templateType" 
                     ref="selectTemplate"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
-                <Checkbox @on-change="handleChange">停用/删除</Checkbox>
+                <Checkbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</Checkbox>
             </FormItem> 
-            <FormItem :label-width="40" label="日期"  v-if="showDatePicker">
+            <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate" :timeArr="timeArr"/>
             </FormItem> 
-            <FormItem :label-width="50" label="提交人"  v-if="showAllMember && showTemplateCheck">
+            <FormItem :label-width="50" :label="$t('noun.author')"  v-if="showAllMember && showTemplateCheck">
                 <fs-select-member ref="selectMember" 
-                    title="选择提交人"
-                    placeholder="选择提交人"
+                    :title="`${$t('operate.select')}${$t('noun.author')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :showDept="true"
                     :showGroup="true" 
                     :member="member"
@@ -42,34 +42,34 @@
                     :group="group"
                     @handleSelectMember="handleSelectMember"/>
             </FormItem> 
-            <FormItem :label-width="40" label="部门"  v-if="showDept">
+            <FormItem :label-width="lang === 'en' ? 76 : 40" :label="$t('noun.department')"  v-if="showDept">
                 <fs-select-member ref="selectDept" 
+                    :title="`${$t('operate.select')}${$t('noun.department')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.department')}`"
                     @handleSelectMember="handleSelectMember" 
                     :showMember="false" 
                     :showDept="true"
                     :dept="dept"
                     :limit="{ showAll: true, warning: '', count: 1 }"
-                    title="选择部门"
-                    :deptApiUri="deptApiUri"
-                    placeholder="选择部门"/>
+                    :deptApiUri="deptApiUri"/>
             </FormItem> 
-            <FormItem :label-width="50" label="内部群"  v-if="showGroup">
+            <FormItem :label-width="lang === 'en' ? 98 : 40" :label="$t('noun.internalGroup')"  v-if="showGroup">
                 <fs-select-member ref="selectGroup" 
+                    :title="`${$t('operate.select')}${$t('noun.internalGroup')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.internalGroup')}`"
                     @handleSelectMember="handleSelectMember" 
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
                     :limit="{ showAll: true, warning: '', count: 1 }"
-                    title="选择内部群"
-                    :groupApiUri="groupApiUri"
-                    placeholder="选择内部群"/>
+                    :groupApiUri="groupApiUri"/>
             </FormItem> 
-            <FormItem :label-width="40" label="日期"  v-if="showOrderType || showOrderTypeMulti">
+            <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
             <FormItem class="search-btn">
                 <Button :disabled="loading" type="primary" @click="handleQuery">
-                    查询
+                    {{$t('operate.search')}}
                 </Button>
                 <FormItem :label-width="10" class="export-btn" v-if="showExportExcel">
                     <fs-export-excel
