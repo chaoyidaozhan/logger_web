@@ -13,10 +13,10 @@
             <div class="loading-content" v-if='loading'>
                 <Spin>
                     <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-                    <span>正在加载中...</span>
+                    <span>{{$t('status.loading')}}</span>
                 </Spin>
             </div>
-            <div class="loading-content" v-if="!hasMore && !loading && list.length">已加载全部数据</div>
+            <div class="loading-content" v-if="!hasMore && !loading && list.length">{{$t('status.loadedAllData')}}</div>
         </div>
         <fs-empty-tips v-if="!list.length && !loading"/>
     </div>
@@ -112,7 +112,7 @@ export default {
                 }
             } else {
                 this.list = [];
-                this.$Message.warning((res && res.msg) || '网络错误');
+                this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
             }
         },
         handleDelete(id) {

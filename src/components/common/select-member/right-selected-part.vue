@@ -1,15 +1,18 @@
 <template>
 	<div class="right_selected_part">
 		<div class="title">
-			<span class="l">已选择
+			<span class="l">
+				{{$t('operate.selected')}}
 				<span v-show="all">{{all}}</span>
 			</span>
-			<span class="r cp clear" @click="clearAll">清空</span>
+			<span class="r cp clear" @click="clearAll">
+				{{$t('operate.clear')}}
+			</span>
 		</div>
 		<div class="sm_scroll scroll">
 			<!-- 部门 -->	
 			<div class="tit cp" @click="openDep=!openDep" v-show="info.dep">
-				部门
+				{{$t('noun.department')}}
 				<Icon type="chevron-up" class="r" v-show="openDep"></Icon>
 				<Icon type="chevron-down" class="r" v-show="!openDep"></Icon>
 			</div>
@@ -28,7 +31,7 @@
 			</ul>
 			<!-- 内部群 -->	
 			<div class="tit cp" @click="openTeam=!openTeam" v-show="info.team">
-				内部群
+				{{$t('noun.internalGroup')}}
 				<Icon type="chevron-up" class="r" v-show="openTeam"></Icon>
 				<Icon type="chevron-down" class="r" v-show="!openTeam"></Icon>
 			</div>
@@ -47,7 +50,7 @@
 			</ul>
 			<!-- 人员 -->		
 			<div class="tit cp" @click="openMan=!openMan" v-show="info.man">
-				人员
+				{{$t('noun.personnel')}}
 				<Icon type="chevron-up" class="r" v-show="openMan"></Icon>
 				<Icon type="chevron-down" class="r" v-show="!openMan"></Icon>
 			</div>

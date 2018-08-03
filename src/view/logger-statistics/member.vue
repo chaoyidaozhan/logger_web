@@ -14,7 +14,7 @@
             <fs-member-statistics 
                 :params="params"
                 type="member"
-                title="人员名称"
+                :title="`${$t('noun.personnel')} ${$t('noun.name')}`"
                 :minDate="minDate"
                 :maxDate="maxDate"
                 ref="LoggerLoggerStatistics"/>

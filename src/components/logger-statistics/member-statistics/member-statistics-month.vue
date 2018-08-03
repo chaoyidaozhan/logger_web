@@ -26,8 +26,21 @@ export default {
             columns: {
                 title: this.title,
                 key: 'deptName',
-                array: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-                caption: '汇总'
+                array: [
+                    this.$t('date.january'),
+                    this.$t('date.february'),
+                    this.$t('date.march'),
+                    this.$t('date.april'),
+                    this.$t('date.may'),
+                    this.$t('date.june'),
+                    this.$t('date.july'),
+                    this.$t('date.august'),
+                    this.$t('date.september'),
+                    this.$t('date.october'),
+                    this.$t('date.november'),
+                    this.$t('date.december'),
+                ],
+                caption: this.$t('noun.summary')
             }
         }
     },

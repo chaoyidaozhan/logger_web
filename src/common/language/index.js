@@ -15,7 +15,7 @@ import locale_en from 'iview/dist/locale/en-US';
 // zh-sg 中文（新加坡）
 let lang = navigator.language || navigator.userLanguage;
 lang = lang.toLocaleLowerCase();
-if (lang.indexOf('zh-') != -1) {
+if (lang.indexOf('zh') != -1) {
     if (lang.indexOf('cn') != -1) {
         lang = 'cn'
     } else {
@@ -24,7 +24,7 @@ if (lang.indexOf('zh-') != -1) {
 } else {
     lang = 'en'
 }
-lang = 'en'
+window.lang = lang
 let locale
 switch (lang) {
     case 'en':

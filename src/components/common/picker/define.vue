@@ -1,7 +1,7 @@
 <template>
 	<div class="picker">
 		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delDate"></div>
-        <div class="date-range">{{beginDate}} 至 {{endDate}}</div>
+        <div class="date-range">{{beginDate}} - {{endDate}}</div>
 		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addDate"></div>
 	</div>
 </template>

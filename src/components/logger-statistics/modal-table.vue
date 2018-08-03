@@ -15,10 +15,10 @@
                         @handleSelectOrderType="handleSelectOrderType"/>
                 </div>
                 <div class="middle">
-                    {{modalParams.groupId ? '内部群统计' : '部门统计'}}
+                    {{modalParams.groupId ? $t('noun.internalGroup') : $t('noun.department')}}
                 </div>
                 <div class="pull-right" @click="exportExcel">
-                    <Button type="primary">导出</Button>
+                    <Button type="primary">{{$t('operate.export')}}</Button>
                 </div>
             </div>
             <div>
@@ -61,12 +61,41 @@ export default {
         return {
             data: [],
             columns: {
-                title: '人员名称',
-                array: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-                caption: '汇总'
+                title: `${this.$t('noun.personnel')} ${this.$t('noun.name')}`,
+                array: [
+                    this.$t('date.january'),
+                    this.$t('date.february'),
+                    this.$t('date.march'),
+                    this.$t('date.april'),
+                    this.$t('date.may'),
+                    this.$t('date.june'),
+                    this.$t('date.july'),
+                    this.$t('date.august'),
+                    this.$t('date.september'),
+                    this.$t('date.october'),
+                    this.$t('date.november'),
+                    this.$t('date.december'),
+                ],
+                caption: this.$t('noun.summary')
             },
-            mArray: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-            sArray: ['一季度','二季度','三季度','四季度'],
+            mArray: [
+                this.$t('date.january'),
+                this.$t('date.february'),
+                this.$t('date.march'),
+                this.$t('date.april'),
+                this.$t('date.may'),
+                this.$t('date.june'),
+                this.$t('date.july'),
+                this.$t('date.august'),
+                this.$t('date.september'),
+                this.$t('date.october'),
+                this.$t('date.november'),
+                this.$t('date.december'),
+            ],
+            sArray: [this.$t('date.firstQuarter'),
+            this.$t('date.secondQuarter'),
+            this.$t('date.thirdQuarter'),
+            this.$t('date.fourthQuarter')],
             type: '0',
             typeName: 'member',
             totalCount: 0,
@@ -195,7 +224,7 @@ export default {
                     }
                 },
                 error: (res)=>{
-                    this.$Message.error(res && res.msg || '网络错误');
+                    this.$Message.error(res && res.msg || this.$t('status.networkError'));
                 }
             })
         },

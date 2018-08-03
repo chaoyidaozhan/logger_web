@@ -1,11 +1,11 @@
 <template>
-    <div class="content" v-loading="{loading: loaded, text: '加载中...'}">
+    <div class="content" v-loading="{loading: loaded, text: $t('status.loading')}">
         <div class="col" v-if="showEdit" @click="goToTemplate">
             <div class="template-item cursor-pointer">
                 <div class="template-item-content template-item-content-create">
                     <span>
                         <i class="icon-add-template"></i>
-                        创建模板
+                        {{$t('operate.createLog')}}
                     </span>
                 </div>
             </div>
@@ -104,7 +104,7 @@ export default {
                         }, 400);
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || '网络错误')
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'))
                     }
                 })
             } else {

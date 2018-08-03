@@ -16,7 +16,7 @@
                     <DatePicker type="daterange" v-if="item.id == 3"
                         placement="bottom-end"
                         v-model="pickerValue"
-                        placeholder="日期" 
+                        :placeholder="$t('noun.date')" 
                         :options="options"
                         :editable="false"
                         @on-change="change"
@@ -28,6 +28,11 @@
     </div>
 </template>
 <script>
+// daily: '按日统计',
+// weekly: '按周统计',
+// monthly: '按月统计',
+// quarterly: '按季度统计',
+// custom: '自定义
 export default {
     props: {
         multi: {
@@ -41,51 +46,51 @@ export default {
     data() {
         return {
             orderNameObj: {
-                0: '按月统计',
-                1: '按季度统计',
-                2: '按周统计',
-                3: '自定义',
-                4: '按日统计',
+                0: this.$t('noun.monthly'),
+                1: this.$t('noun.quarterly'),
+                2: this.$t('noun.weekly'),
+                3: this.$t('noun.custom'),
+                4: this.$t('noun.daily'),
             },
             deptOrderData: [ // dept
                 {
-                    name: "按月统计",
+                    name: this.$t('noun.monthly'),
                     id: 0
                 },
                 {
-                    name: "按季度统计",
+                    name: this.$t('noun.quarterly'),
                     id: 1
                 },
             ],
             groupOrderData: [ // group
                 {
-                    name: "按日统计",
+                    name: this.$t('noun.daily'),
                     id: 4
                 }, 
                 {
-                    name: "按月统计",
+                    name: this.$t('noun.monthly'),
                     id: 0
                 },
                 {
-                    name: "按季度统计",
+                    name: this.$t('noun.quarterly'),
                     id: 1
                 },
             ],
             memberOrderData: [ // member
                 {
-                    name: "按日统计",
+                    name: this.$t('noun.daily'),
                     id: 4
                 }, 
                 {
-                    name: "按周统计",
+                    name: this.$t('noun.weekly'),
                     id: 2
                 },
                 {
-                    name: "按月统计",
+                    name: this.$t('noun.monthly'),
                     id: 0
                 },
                 {
-                    name: "自定义",
+                    name: this.$t('noun.custom'),
                     id: 3
                 }
             ],

@@ -53,7 +53,7 @@
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     :deptApiUri="deptApiUri"/>
             </FormItem> 
-            <FormItem :label-width="lang === 'en' ? 98 : 40" :label="$t('noun.internalGroup')"  v-if="showGroup">
+            <FormItem :label-width="lang === 'en' ? 98 : 50" :label="$t('noun.internalGroup')"  v-if="showGroup">
                 <fs-select-member ref="selectGroup" 
                     :title="`${$t('operate.select')}${$t('noun.internalGroup')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.internalGroup')}`"
