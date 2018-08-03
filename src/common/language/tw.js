@@ -40,6 +40,7 @@ module.exports = {
         edit: '編輯',
         disable: '停用',
         print: '打印',
+        download: '下載',
         operationRecord: '操作記錄'
     },
     status: { // 狀態

@@ -18,7 +18,7 @@ export default {
             groupListData: [
                 {
                     gid: 0,
-                    groupName: '全部内部群'
+                    groupName: `${this.$t('operate.all')}${this.$t('noun.internalGroup')}`
                 }
             ],
             groupId: 0
