@@ -1,7 +1,7 @@
 <template>
     <div class="logger-create">
         <Form :label-width="110" >
-            <FormItem label="日志日期">
+            <FormItem label="日志日期" v-if="templateItemData.diaryTimeStatus">
                  <DatePicker type="date"
                     placement="bottom-start"
                     placeholder="日期" 
@@ -442,19 +442,21 @@ export default {
 
                 if(this.saveDraft && this.editFlag) { // 即为草稿又为编辑
                     uri = `/diary/edit`;
+                    submitData.dataStatus = 0
                 } else if (this.saveDraft) { // 草稿 新增草稿情况下删除id
                     uri = `/diary/diaryCommitDraft`
-                    delete submitData.id;
+                    delete submitData.id
                 } else if (this.editFlag) { // 编辑
-                    uri = `/diary/edit`;
+                    uri = `/diary/edit`
                     if(this.$route.params.loggertype == 'draft') { // 草稿编辑保存时需要多加一个字段dataStatus
-                        submitData.dataStatus = 1;
+                        submitData.dataStatus = 1
                     }
                 } else { // 其他 新增情况下删除id
                     uri = `/diary/diaryCommit`;
                     delete submitData.id;
                 }
                 this.btnloading = true;
+
                 this.$ajax({
                     url: uri,
                     data: submitData,

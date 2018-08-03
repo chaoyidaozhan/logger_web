@@ -201,7 +201,8 @@
                 this.replyData.fileStr = JSON.stringify(fileData);
             },
             replySomebody(commentItem) {
-                this.replyData.replyCommentId = commentItem.memberId;
+                this.replyData.replyCommentId = commentItem.id;
+                this.replyData.replyMemberId = commentItem.memberId;
                 this.replyData.replyUserName = commentItem.userName;
                 this.$refs.replyWrapper.focus();
                 this.value = `回复${commentItem.userName}:`;
@@ -284,7 +285,13 @@
                 }, 200);
             },
             commitComment() { // 提交回复
-                this.replyData.content = this.value.replace(/^回复[^:]+?:/, "");
+                let exp = /^回复[^:]+?:/
+                if(!exp.test(this.value)) {
+                    this.replyData.replyCommentId = '';
+                    this.replyData.replyMemberId = '';
+                    this.replyData.replyUserName = '';
+                }
+                this.replyData.content = this.value.replace(exp, "");
                 clearTimeout(this.commitTimer);
                 this.commitTimer = setTimeout(() => {
                     this.btnloading = true;
@@ -299,6 +306,9 @@
                                 this.pageNo = 1;
                                 this.loadCommentData();
                                 this.value = "";
+                                this.replyData.replyCommentId = '';
+                                this.replyData.replyMemberId = '';
+                                this.replyData.replyUserName = '';
                                 this.$emit('handleReplyNum', true);
                                 this.$refs.fileUpload.uploadFilesArr = [];
                                 this.$refs.fileUpload.clearFiles();
