@@ -18,6 +18,8 @@ module.exports = {
     operate: { // 操作
         createLog: 'Create Log',
         createTemplate: 'Create Template',
+        update: 'Update',
+        discontinued: 'Discontinued',
         search: 'Search',
         export: 'Export',
         expand: 'Expand',

@@ -18,6 +18,8 @@ module.exports = {
     operate: { // 操作
         createLog: '創建日誌',
         createTemplate: '創建模板',
+        update: '更新於',
+        discontinued: '已停用',
         search: '查詢',
         export: '導出',
         expand: '展開全文',

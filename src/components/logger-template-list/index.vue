@@ -5,7 +5,7 @@
                 <div class="template-item-content template-item-content-create">
                     <span>
                         <i class="icon-add-template"></i>
-                        {{$t('operate.createLog')}}
+                        {{$t('operate.createTemplate')}}
                     </span>
                 </div>
             </div>
