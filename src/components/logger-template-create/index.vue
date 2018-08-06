@@ -233,11 +233,11 @@ export default {
                         this.templateContent = JSON.parse(res.data.content) || [];
                         this.initData(this.templateItemData, this.templateContent);
                     } else {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || '网络错误');
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                 }
             })
         },
@@ -267,11 +267,11 @@ export default {
                         let datalist = res.data.ranges || [];
                         this.initRange(datalist);
                     } else {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || '网络错误');
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                 }
             })
         },
@@ -472,12 +472,12 @@ export default {
                                 }
                             });
                         } else {
-                            this.$Message.warning((res && res.msg) || '网络错误');
+                            this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                         }
                         this.btnloading = false;
                     },
                     error: (res) => {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                         this.btnloading = false;
                     }
                 })

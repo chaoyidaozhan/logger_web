@@ -17,9 +17,9 @@
 			</li>
 			<li class="ajaxStatus">
 				<Spin class="auto" v-if="ajaxStatus=='loading'"/>
-				<span v-if="ajaxStatus=='over'">已加载全部</span>
-				<span class="cp" v-if="ajaxStatus=='success'" @click="add">加载更多</span>
-				<span class="cp" v-if="ajaxStatus=='error'">加载失败 <span class="cp" style="color:#1FDA9A" @click="getList">重新加载</span></span>
+				<span v-if="ajaxStatus=='over'">{{$t('status.loadedAllData')}}</span>
+				<span class="cp" v-if="ajaxStatus=='success'" @click="add">{{$t('status.loadMore')}}</span>
+				<span class="cp" v-if="ajaxStatus=='error'">{{$t('status.networkError')}} <span class="cp" style="color:#1FDA9A" @click="getList">{{$t('status.clickToReload')}}</span></span>
 			</li>
 		</ul>
 	</div>

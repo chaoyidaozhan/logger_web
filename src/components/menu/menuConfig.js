@@ -1,67 +1,67 @@
 const menus = [
     {
-        name: '日志查询',
+        name: 'menus.logQuery',
         icon: 'icon-search',
         checkChilren: true,
         subMenu: [
             {
-                name: '所有日志',
+                name: 'menus.all',
                 path: '/LoggerQueryAll'
             },
             {
-                name: '@我的',
+                name: 'menus.atMe',
                 path: '/LoggerQueryAtme'
             },
             {
-                name: '我的日志',
+                name: 'menus.myLogs',
                 path: '/LoggerQueryMy'
             },
             {
-                name: '内部群日志',
+                name: 'menus.internalGroupLog',
                 path: '/LoggerQueryGroup'
             },
             {
-                name: '下属日志',
+                name: 'menus.subordinateLog',
                 type: ['deptManager'],
                 path: '/LoggerQueryUnder'
             },
         ]
     },
     {
-        name: '我的草稿',
+        name: 'menus.myDraft',
         path: '/DraftOfMine',
         icon: 'icon-draft'
     },
     {
-        name: '我的收藏',
+        name: 'menus.myFavorite',
         path: '/CollectOfMine',
         icon: 'icon-collect-normal'
     },
     {
-        name: '日志统计',
+        name: 'menus.logStatistic',
         icon: 'icon-statistics',
         subMenu: [
             {
-                name: '按部门统计',
+                name: 'menus.department',
                 path: '/StatisticsOfDept'
             },
             {
-                name: '按人员统计',
+                name: 'menus.employee',
                 path: '/StatisticsOfMember'
             },
             {
-                name: '按内部群统计',
+                name: 'menus.internalGroupReport',
                 path: '/StatisticsOfGroup'
             },
         ]
     },
     {
-        name: '日志汇总',
+        name: 'menus.summary',
         path: '/LoggerSummary',
         icon: 'icon-collect',
     },
     {
-        name: '模板管理',
+        name: 'menus.templateManagement',
         path: '/LoggerTemplate/manager',
         icon: 'icon-template',
         type: ['admin ','diary_examer'],

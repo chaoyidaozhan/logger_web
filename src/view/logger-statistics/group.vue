@@ -16,7 +16,7 @@
             <fs-logger-statistics 
                 :params="params"
                 type="group"
-                title="内部群名称"
+                :title="`${$t('noun.internalGroup')} ${$t('noun.name')}`"
                 ref="LoggerLoggerStatistics"/>
         </template>
     </fs-frame>

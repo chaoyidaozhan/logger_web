@@ -22,19 +22,21 @@
                             <li class="cursor-pointer" 
                                 @click="handleEdit"
                                 v-if="userInfo.member_id == loggerItemData.memberId">
-                                编辑
+                                {{$t('operate.edit')}}
                             </li>
                             <li class="cursor-pointer"
                                 @click="handleDelete"
                                 v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
-                                删除
+                                {{$t('operate.delete')}}
                             </li>
                             <li class="cursor-pointer" 
                                 @click="handlePrint"
                                 v-if="((userInfo.member_id == loggerItemData.memberId) || userInfo.admin) && (this.$route.path != '/DraftOfMine')">
-                                打印
+                                {{$t('operate.print')}}
                             </li>
-                            <li class="cursor-pointer" v-if="this.$route.path != '/DraftOfMine'" @click="handleOperate">操作记录</li>
+                            <li class="cursor-pointer" v-if="this.$route.path != '/DraftOfMine'" @click="handleOperate">
+                                {{$t('operate.operationRecord')}}
+                            </li>
                         </ul>
                         <span class="operate cursor-pointer"><i class="icon-more"></i></span>
                     </Poptip>
@@ -60,7 +62,9 @@
             :style="{'height': `${contentHeight}px` }">
             <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
                 <div class="logger-list-col">
-                    <div class="title">日志日期</div>
+                    <div class="title">
+                        {{$t('noun.logDate')}}
+                    </div>
                     <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
                 </div>
             </div>
@@ -98,8 +102,12 @@
         </div>
         <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
             <div class="logger-list-col">
-                <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">展开全文</span>
-                <span class="cursor-pointer" @click="handleContentExpand" v-else>收起全文</span>
+                <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">
+                    {{$t('operate.expand')}}
+                </span>
+                <span class="cursor-pointer" @click="handleContentExpand" v-else>
+                    {{$t('operate.collapse')}}
+                </span>
             </div>
         </div>
         <div class="logger-list-row" v-if="!!loggerItemData.location">
@@ -184,7 +192,8 @@ export default {
     },
     data() {
         return {
-            dataSource: ["其他", "日报", "周报", "月报", "其他"],
+            dataSource: [this.$t('noun.other'), 
+            this.$t('noun.dailyReport'), this.$t('noun.weeklyReport'), this.$t('noun.monthlyReport'), this.$t('noun.other')],
 
             rangeHeight: '',
             rangeRealHeight: '',
@@ -258,12 +267,12 @@ export default {
         },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;
-            let str = '可见范围：'
+            let str = `${this.$t('noun.visibleTo')}：`
             if(!range.length) {
                 if(loggerItemData.visibleRange === 0) {
-                    str += '所有人可见';
+                    str += `${this.$t('noun.public')}：`
                 } else if (loggerItemData.visibleRange === 2) {
-                    str += '仅自己可见';
+                    str += `${this.$t('noun.private')}：`
                 } else {
                     str = '';
                 }
@@ -323,7 +332,7 @@ export default {
                     }
                 },
                 error: (res)=>{
-                    this.$Message.warning('操作失败');
+                    this.$Message.warning(this.$t('toast.operationFailed'));
                 }
             })
         },
@@ -344,7 +353,7 @@ export default {
 
                 },
                 error: (res)=>{
-                    this.$Message.warning('操作失败');
+                    this.$Message.warning(this.$t('toast.operationFailed'));
                 }
             })
         },
@@ -381,20 +390,20 @@ export default {
         },
         handleDelete() { // 删除
             this.$Modal.confirm({
-                title: '删除日志提示',
-                content: '点击确定删除该日志',
+                title: this.$t('toast.deleteLogPrompt'),
+                content: this.$t('toast.clickOKToDeleteTheLog'),
                 onOk: (res)=>{
                     this.$ajax({
                         url: `/diary/${this.loggerItemData.id}`,
                         type: 'delete',
                         success: (res)=>{
                             if(res && res.code == 0) {
-                                this.$Message.success('删除成功！');
+                                this.$Message.success(this.$t('toast.successfullyDeleted'));
                                 this.$emit('handleDelete', this.loggerItemData.id);
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error(res && res.msg || '网络错误')
+                            this.$Message.error(res && res.msg || this.$t('status.networkError'))
                         }
                     })
                 }
@@ -414,7 +423,7 @@ export default {
                     }
                 },
                 error: (res)=>{
-                    this.$Message.error(res && res.msg || '网络错误')
+                    this.$Message.error(res && res.msg || this.$t('status.networkError'))
                 }
             })
         },
@@ -512,9 +521,10 @@ export default {
             }
             .ivu-poptip-popper {
                 min-width: auto;
-                left: -45px!important;
+                left: auto!important;
                 top: 17px!important;
-                width: 70px!important;
+                width: auto!important;
+                right: -4px;
                 .ivu-poptip-arrow {
                     right: 6px;
                 }

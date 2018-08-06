@@ -55,7 +55,7 @@
                         :class="{nodata: !item.totalCount}"
                         @click="handleModal(item)"
                         v-for="(item, index) in data" :key="index">
-                        {{item.totalCount ? `${item.totalCount}篇` : ''}}
+                        {{item.totalCount ? `${item.totalCount}${$t('noun.article')}` : ''}}
                     </li>
                 </ul>
             </div>
@@ -64,7 +64,7 @@
             <div class="fixed-left">
                 <ul class="fixed-left-content">
                     <li class="table-cell ellipsis">
-                        统计
+                        {{$t('noun.statistics')}}
                     </li>
                 </ul>
             </div>
@@ -74,21 +74,21 @@
                         :class="{nodata: !totalMap[`${index+1}`]}"
                         v-for="(val, index) in columns.array" 
                         :style="{'width': `${100/(columns.array.length > minLen ? minLen : columns.array.length)}%`}"
-                        :title="totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}篇` : ''"
+                        :title="totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}${$t('noun.article')}` : ''"
                         :key="index">
-                        {{totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}篇` : ''}}
+                        {{totalMap[`${index+1}`] ? `${totalMap[`${index+1}`]}${$t('noun.article')}` : ''}}
                     </li>
                 </ul>
             </div>
             <div class="fixed-right table-cell"
                 :class="{nodata: !totalMap.total}"
-                :title="totalMap.total ? `${totalMap.total}篇` : ''"
+                :title="totalMap.total ? `${totalMap.total}${$t('noun.article')}` : ''"
                 >
-                {{totalMap.total ? `${totalMap.total}篇` : ''}}
+                {{totalMap.total ? `${totalMap.total}${$t('noun.article')}` : ''}}
             </div>
         </div>
         <fs-empty-tips v-if="!data.length" :iconType="emptyData ? '' : type"
-           :emptyMsg="emptyData ? '暂无数据' : getEmptyMsg()" />  
+           :emptyMsg="emptyData ? $t('status.noRelevantData') : getEmptyMsg()" />  
     </div>
 </template>
 <script>
@@ -191,19 +191,19 @@ export default {
             let tips = '';
             switch (this.type) {
                 case 'dept':
-                    tips = '部门'
+                    tips = this.$t('noun.department')
                     break;
 
                 case 'group':
-                    tips = '内部群'
+                    tips = this.$t('noun.internalGroup')
                     break;
             
                 default:
-                    tips = '提交人'
+                    tips = this.$t('noun.personnel')
                     break;
             }
            
-            return `请先选择${tips}`
+            return `${this.$t('operate.please')}${this.$t('operate.select')}${tips}`
         }
     },
     mounted () {
@@ -235,7 +235,7 @@ export default {
         height: 7px!important;
     }
     .table-header-content, .table-body-content {
-        width: 76%;
+        width: 72%;
         display: inline-block;
         overflow: hidden;
         white-space: nowrap;
@@ -289,7 +289,7 @@ export default {
         }
     }
     .fixed-right {
-        width: 6%;
+        width: 10%;
         display: inline-block;
         vertical-align: top;
         position: relative;

@@ -10,12 +10,6 @@ import FsQueryForm from 'app_component/common/query-form/';
 import FsLoggerStatistics from 'app_component/logger-statistics/common-statistics/';
 import FsMemberStatistics from 'app_component/logger-statistics/member-statistics/';
 
-const validateMsg = {
-    deptId: '请先选择部门',
-    groupId: '请先选择内部群',
-    memberIds: '请先选择提交人',
-}
-
 export default {
     data() {
         return {
@@ -24,7 +18,12 @@ export default {
             },
             minDate: '',
             maxDate: '',
-            validateString: null
+            validateString: null,
+            validateMsg: {
+                deptId: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.department')}`,
+                groupId: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.internalGroup')}`,
+                memberIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.author')}`,
+            }
         }
     },
     components: {
@@ -37,7 +36,7 @@ export default {
         handleQuery(params) {
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
-                return this.$Message.warning(validateMsg[this.validateString]);
+                return this.$Message.warning(this.validateMsg[this.validateString]);
             } 
             this.minDate = params.minDate || '';
             this.maxDate = params.maxDate || '';

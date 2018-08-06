@@ -2,7 +2,7 @@
     <fs-frame>
         <template slot="head">
             <div class="logger-detail-header clearfix">
-                <span>日志模板</span>
+                <span>{{$t('title.logTemplate')}}</span>
                 <div class="pull-right">
 
                 </div>

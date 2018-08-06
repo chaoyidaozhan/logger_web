@@ -14,7 +14,7 @@
             <fs-logger-statistics 
                 :params="params"
                 type="dept"
-                title="部门名称"
+                :title="`${$t('noun.department')} ${$t('noun.name')}`"
                 ref="loggerStatistics"/>
         </template>
     </fs-frame>

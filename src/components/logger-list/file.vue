@@ -5,7 +5,9 @@
              :key="key">
             <span class="file-icon" :class="classMap[getFileTypePath(item.fileExtension)]"></span>
             <span class="file-name">{{item.fileName}}{{item.fileExtension}}</span>
-            <span class="file-download" @click="downloadReplyFile(item.fileKey)">下载</span>
+            <span class="file-download" @click="downloadReplyFile(item.fileKey)">
+                {{$t('operate.download')}}
+            </span>
             <span class="file-size">{{item.fileSize | formatFileSize}}</span>
         </div>
     </div>

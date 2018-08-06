@@ -25,8 +25,11 @@ export default {
         return {
             columns: {
                 title: this.title,
-                array: ['一季度','二季度','三季度','四季度'],
-                caption: '汇总'
+                array: [this.$t('date.firstQuarter'),
+                        this.$t('date.secondQuarter'),
+                        this.$t('date.thirdQuarter'),
+                        this.$t('date.fourthQuarter')],
+                caption: this.$t('noun.summary')
             }
         }
     },
