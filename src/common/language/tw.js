@@ -161,7 +161,9 @@ module.exports = {
         promptText: '提示文字',
         unit: '單位',
         addOption: '添加選項',
-        required: '必填'
+        required: '必填',
+        peopleHaveSeen: '人看過',
+        viewAll: '查看全部'
     },
     title: {
         logTemplate: '日誌模板',

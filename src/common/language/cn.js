@@ -72,7 +72,7 @@ module.exports = {
         allTemplate: '全部模板',
         maximum10Chars: '不超过10个字',
         maximum20Chars: '不超过20个字',
-        maximum20Chars: '不超过50个字',
+        maximum50Chars: '不超过50个字',
         enterUnit: '请输入单位比如（元）',
         leastItems: '至少2项至多10项',
         whetherDisplayDate: '是否显示日志日期',
@@ -161,7 +161,9 @@ module.exports = {
         promptText: '提示文字',
         unit: '单位',
         addOption:'添加选项',
-        required: '必填'
+        required: '必填',
+        peopleHaveSeen: '人看过',
+        viewAll: '查看全部'
     },
     title: {
         logTemplate: '日志模板',
