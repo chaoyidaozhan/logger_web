@@ -110,6 +110,11 @@
                 </span>
             </div>
         </div>
+        <div class="logger-list-row" v-if="loggerItemData.readCount">
+            <div class="logger-list-col logger-list-location">
+                <div class="count">{{loggerItemData.readCount}}人看过</div>
+            </div>
+        </div>
         <div class="logger-list-row" v-if="!!loggerItemData.location">
             <div class="logger-list-col logger-list-location">
                 <Icon type="ios-location"></Icon>
@@ -329,6 +334,7 @@ export default {
                         //         this.$parent.$parent.list.splice(this.index ,1);
                         //     }
                         // }
+                        this.sendHasReadBrand()
                     }
                 },
                 error: (res)=>{
@@ -350,12 +356,30 @@ export default {
                 type: 'post',
                 requestBody: true,
                 success: (res)=>{
-
+                    this.sendHasReadBrand()
                 },
                 error: (res)=>{
                     this.$Message.warning(this.$t('toast.operationFailed'));
                 }
             })
+        },
+        sendHasReadBrand() { // 未读情况发送已读标记
+            if(!this.loggerItemData.isRead) {
+                this.$ajax({
+                    url: `/diaryReadLog/add`,
+                    type: 'post',
+                    requestBody: 1,
+                    data: {
+                        diaryId: this.loggerItemData.id
+                    },
+                    success: (res)=>{
+                        if(res && res.code == 0) {
+                            this.loggerItemData.readCount++
+                            this.loggerItemData.isRead = 1
+                        }
+                    }
+                })
+            }
         },
         handleRangeExpand() { // 范围展开操作
             this.rangeExpand = !this.rangeExpand;
@@ -367,6 +391,9 @@ export default {
         },
         handleContentExpand() { // 全文展开操作
             this.contentExpand = !this.contentExpand;
+            if(this.contentExpand) {
+                this.sendHasReadBrand()
+            }
             if(this.contentExpand) {
                 this.contentHeight = this.contentRealHeight;
             } else {
@@ -423,6 +450,7 @@ export default {
                     }
                 },
                 error: (res)=>{
+                    this.sendHasReadBrand()
                     this.$Message.error(res && res.msg || this.$t('status.networkError'))
                 }
             })
