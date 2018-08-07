@@ -110,9 +110,9 @@
                 </span>
             </div>
         </div>
-        <div class="logger-list-row" v-if="loggerItemData.readCount">
+        <div class="logger-list-row">
             <div class="logger-list-col logger-list-location">
-                <div class="count">{{loggerItemData.readCount}}人看过</div>
+                <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
             </div>
         </div>
         <div class="logger-list-row" v-if="!!loggerItemData.location">

@@ -161,7 +161,9 @@ module.exports = {
         promptText: 'Prompt text',
         unit: 'unit',
         addOption:'Add Option',
-        required: 'Required'
+        required: 'Required',
+        peopleHaveSeen: 'people have seen',
+        viewAll: 'view all'
     },
     title: {
         logTemplate: 'Log Template',
