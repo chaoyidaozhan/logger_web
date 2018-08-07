@@ -275,9 +275,9 @@ export default {
             let str = `${this.$t('noun.visibleTo')}：`
             if(!range.length) {
                 if(loggerItemData.visibleRange === 0) {
-                    str += `${this.$t('noun.public')}：`
+                    str += `${this.$t('noun.public')}`
                 } else if (loggerItemData.visibleRange === 2) {
-                    str += `${this.$t('noun.private')}：`
+                    str += `${this.$t('noun.private')}`
                 } else {
                     str = '';
                 }
