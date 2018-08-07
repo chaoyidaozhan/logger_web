@@ -186,6 +186,7 @@ export default {
                 atMember.push({
                     'memberId': v.replyMemberId,
                     'userName': v.replayUserName,
+                    'avatar': v.avatar,
                     'szId': v.szId || v.spaceId || v.qzId || ''
                 })
             })
