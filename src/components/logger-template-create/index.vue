@@ -36,6 +36,7 @@
                         <input autocomplete="off" spellcheck="false" type="number" 
                         v-model="item.valueNum"
                         max="100000000"
+                        @keypress='keypress($event)'
                         :placeholder="`${item.deion}${item.unit?`(单位：${item.unit})`:''}`" number="true" class="ivu-input">
                     </div>
                 </template>
@@ -139,6 +140,11 @@ export default {
         }
     },
     methods: {
+        keypress(e) {
+            if (!String.fromCharCode(e.keyCode).match(/[0-9\.]/)) {
+                e.preventDefault();
+            }
+        },
         initData(templateItemData, templateContent) {
             window.createComplete = false;
             this.dateValue = templateItemData.diaryTime || new Date(); // 初始化日志日期
