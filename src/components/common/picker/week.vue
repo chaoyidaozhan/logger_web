@@ -1,8 +1,8 @@
 <template>
 	<div class="picker">
 		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delWeek"></div>
-		<div>{{nowYear}}年{{(nowWeek < 10) ? `0${nowWeek}` : nowWeek}}周</div>
-        <div class="date-range">{{beginDate}} 至 {{endDate}}</div>
+		<div>{{nowYear}}/{{(nowWeek < 10) ? `0${nowWeek}` : nowWeek}}</div>
+        <div class="date-range">{{beginDate}} - {{endDate}}</div>
 		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addWeek"></div>
 	</div>
 </template>

@@ -1,7 +1,7 @@
 <template>
 	<div class="picker">
 		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delMonth"></div>
-		<div>{{nowYear}}年{{(nowMonth < 10) ? `0${nowMonth}` : nowMonth}}月</div>
+		<div>{{nowYear}}/{{(nowMonth < 10) ? `0${nowMonth}` : nowMonth}}</div>
 		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addMonth"></div>
 	</div>
 </template>

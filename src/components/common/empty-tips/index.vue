@@ -12,7 +12,7 @@
         </div>
         <div class="error" v-if="showError">
             <span class="error-msg">{{errorMsg}}</span>,
-            <span class="reload" @click="handleReload"> 点击重新加载</span>
+            <span class="reload" @click="handleReload">{{$t('status.clickToReload')}}</span>
         </div>
     </div>
 </template>
@@ -32,11 +32,15 @@ export default {
         },
         emptyMsg: {
             type: String,
-            default: "没有相关数据"
+            default: function() {
+                return this.$t('status.noRelevantData')
+            }
         },
         errorMsg: {
             type: String,
-            default: "网络异常"
+            default: function() {
+                return this.$t('status.networkError')
+            }
         },
         position: {
             type: String,
@@ -64,6 +68,7 @@ export default {
         .empty-msg {
             margin-top: 16px;
             color: #adadad;
+            line-height: 20px;
         }
         .error-msg {
             color: @gray-color-medium;

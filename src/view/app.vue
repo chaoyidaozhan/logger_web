@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-container" v-loading="{loading: loaded, text: '加载中...'}">
+    <div class="logger-container" v-loading="{loading: loaded, text: $t('status.loading')}">
         <fs-sign-menu ref="menu" v-if="loaded"></fs-sign-menu>
         <router-view v-if="hasGetUserInfo"></router-view>
     </div>
@@ -45,13 +45,13 @@ export default {
                         this.$eventbus.$emit('checkLimit');
                     } else {
                         this.$eventbus.$emit('checkLimit');
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                     this.loaded = true;
                 },
                 error: (res)=>{
                     this.loaded = true;
-                    this.$Message.error((res && res.msg) || '网络错误');
+                    this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                 }
             });
         },

@@ -10,7 +10,7 @@
             :emptyData="emptyData"
             :start="start"
             :totalMap="totalMap"
-            v-loading="{loading: loaded, text: '加载中...'}"
+            v-loading="{loading: loaded, text: $t('status.loading')}"
             v-if="start && params.orderType == 4"/>
         <!--月份统计-->
         <fs-logger-statistics-month 
@@ -18,7 +18,7 @@
             :type="type"
             :title="title"
             :emptyData="emptyData"
-            v-loading="{loading: loaded, text: '加载中...'}"
+            v-loading="{loading: loaded, text: $t('status.loading')}"
             v-if="params.orderType == 0"/>
         <!--季度统计-->
         <fs-logger-statistics-season  
@@ -26,7 +26,7 @@
             :type="type"
             :title="title"
             :emptyData="emptyData"
-            v-loading="{loading: loaded, text: '加载中...'}"
+            v-loading="{loading: loaded, text: $t('status.loading')}"
             v-if="params.orderType == 1"/>
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         <fs-modal-table 
@@ -167,7 +167,7 @@ export default {
                 error: (res)=>{
                     this.loaded = true;
                     this.list = [];
-                    this.$Message.error(res && res.msg || '网络错误');
+                    this.$Message.error(res && res.msg || this.$t('status.networkError'));
                 }
             })
         },

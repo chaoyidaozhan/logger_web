@@ -6,7 +6,7 @@
             :editable="false"
             :options="options"
             @on-change="change"
-            placeholder="日期" class="date-wrap">
+            :placeholder="$t('noun.date')" class="date-wrap">
         </DatePicker>
     </div>
 </template>

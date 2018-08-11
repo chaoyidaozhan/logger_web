@@ -36,6 +36,7 @@
                         <input autocomplete="off" spellcheck="false" type="number" 
                         v-model="item.valueNum"
                         max="100000000"
+                        @keypress='keypress($event)'
                         :placeholder="`${item.deion}${item.unit?`(单位：${item.unit})`:''}`" number="true" class="ivu-input">
                     </div>
                 </template>
@@ -139,6 +140,11 @@ export default {
         }
     },
     methods: {
+        keypress(e) {
+            if (!String.fromCharCode(e.keyCode).match(/[0-9\.]/)) {
+                e.preventDefault();
+            }
+        },
         initData(templateItemData, templateContent) {
             window.createComplete = false;
             this.dateValue = templateItemData.diaryTime || new Date(); // 初始化日志日期
@@ -180,6 +186,7 @@ export default {
                 atMember.push({
                     'memberId': v.replyMemberId,
                     'userName': v.replayUserName,
+                    'avatar': v.avatar,
                     'szId': v.szId || v.spaceId || v.qzId || ''
                 })
             })
@@ -233,11 +240,11 @@ export default {
                         this.templateContent = JSON.parse(res.data.content) || [];
                         this.initData(this.templateItemData, this.templateContent);
                     } else {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || '网络错误');
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                 }
             })
         },
@@ -267,11 +274,11 @@ export default {
                         let datalist = res.data.ranges || [];
                         this.initRange(datalist);
                     } else {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || '网络错误');
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                 }
             })
         },
@@ -472,12 +479,12 @@ export default {
                                 }
                             });
                         } else {
-                            this.$Message.warning((res && res.msg) || '网络错误');
+                            this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                         }
                         this.btnloading = false;
                     },
                     error: (res) => {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                         this.btnloading = false;
                     }
                 })

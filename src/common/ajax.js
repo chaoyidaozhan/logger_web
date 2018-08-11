@@ -57,8 +57,10 @@ export default function ajax(opt) { //公用的ajax方法
     if (type === 'post' && !opt.requestBody) {
         params = new URLSearchParams();
         params.add(opt.data);
-    } else {
+    } else if (opt.requestBody === true) { // form data
         params = qs.stringify(opt.data);
+    } else { // payload
+        params = opt.data
     }
     
     let uri = initParams(opt.url, opt.data || {}, opt.type || null);
