@@ -16,6 +16,7 @@ module.exports = {
         templateManagement: '模板管理',
     },
     operate: { // 操作
+        back: '返回',
         createLog: '創建日誌',
         createTemplate: '創建模板',
         update: '更新於',
@@ -39,11 +40,15 @@ module.exports = {
         preview: '預覽',
         reply: '回復',
         delete: '刪除',
+
         edit: '編輯',
         disable: '停用',
         print: '打印',
         download: '下載',
-        operationRecord: '操作記錄'
+        operationRecord: '操作記錄',
+        saveAsDraft: '存為草稿',
+        file: '附件',
+        upload: '上傳'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -65,19 +70,36 @@ module.exports = {
         pleaseSelectTheSummaryLog: '請選擇匯總的日誌',
         thereIsNoControl: '還沒有控件哦～請選擇控件',
         pagePrompt: '頁面提示',
-        confirmToLeaveCurrentPage: '妳確定離開當前頁面嗎？'
+        confirmToLeaveCurrentPage: '妳確定離開當前頁面嗎？',
+        departmentalDataOnly: '僅部門數據',
+        internalGroupDataOnly: '僅內部群數據',
+        departmentAndPersonnelData: '部門和人員數據',
+        internalGroupAndPersonnelData: '內部群和人員數據',
+        savedSuccessfully: '保存成功',
+        returnToTemplateManagement: '返回模板管理',
+        continueEditing: '繼續編輯',
+        deleteTemplateReminder: '刪除模板提醒',
+        clickOKToDeleteTheTemplate: '點擊確定刪除模板',
+        cancelEditing: '取消編輯',
+        cancelEditingConfirm: '您的日誌還沒提交，確定要放棄編輯嗎？',
+        theLogWasSuccessfullyModified: '日誌修改成功',
+        theDraftOfTheLogWasSavedSuccessfully: '日誌草稿保存成功',
+        theLogWasCreatedSuccessfully: '日誌創建成功',
+        canNotBeEmpty: '不能為空'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',
         allTemplate: '全部模板',
         maximum10Chars: '不超過10個字',
         maximum20Chars: '不超過20個字',
-        maximum20Chars: '不超過50個字',
+        maximum50Chars: '不超過50個字',
         enterUnit: '請輸入單位比如（元）',
         leastItems: '至少2項至多10項',
         whetherDisplayDate: '是否顯示日誌日期',
         enterKeyword: '請輸入關鍵字進行搜索',
-        noMore: '每次選擇不可超過500人，請分批選擇'
+        noMore: '每次選擇不可超過500人，請分批選擇',
+        remindkeyPeopleToViewYourLog: '提醒關鍵人員查看您的日誌',
+        visibleToThisDepartment: '本部門可見'
     },
     date: { // 時間
         mon: '周壹',
@@ -116,6 +138,8 @@ module.exports = {
         lastDayOfTheMonth: '每月最後壹天',
     },
     noun: { // 固有名詞
+        web: 'web端',
+        mobile: '移動端',
         log: '日誌',
         uLog: '日誌',
         logs: '日誌',
@@ -163,7 +187,9 @@ module.exports = {
         addOption: '添加選項',
         required: '必填',
         peopleHaveSeen: '人看過',
-        viewAll: '查看全部'
+        viewAll: '查看全部',
+        someoneChecked: 'TA查看',
+        operationRecord: '操作記錄'
     },
     title: {
         logTemplate: '日誌模板',
