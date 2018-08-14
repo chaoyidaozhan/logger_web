@@ -269,10 +269,10 @@ export default {
         loadData() { // 加载数据
             let data = this.getParams();
             if (!data.templateId) {
-                this.$Message.warning('请选择模版');
+                this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`);
                 return false;
             } else if (!data.beginDate || !data.endDate) {
-                this.$Message.warning('请选择日期');
+                this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`);
                 return false;
             } else {
                 this.loading = true;

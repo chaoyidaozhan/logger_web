@@ -2,7 +2,7 @@
     <div class="logger-detail">
         <div class="title">
             <div v-if="this.$route.params.loggertype=='create'">
-                <span>2</span>创建日志-{{this.$route.query.templateName | filterHtml}}
+                <span>2</span>{{$t('operate.createLog')}}-{{this.$route.query.templateName | filterHtml}}
             </div>
         </div>
         <fs-template-create/>

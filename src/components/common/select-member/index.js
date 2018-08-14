@@ -195,19 +195,19 @@ export default {
                         if( k=='dep' ){
                             this.info.selected.dep = [{
                                 deptId:0,
-                                deptName:'全部部门'
+                                deptName: `${this.$t('operate.all')}${this.$t('noun.department')}`
                             }]
                         };
                         if( k=='team' ){
                             this.info.selected.team = [{
                                 gid:0,
-                                groupName:'全部内部群'                           
+                                groupName: `${this.$t('operate.all')}${this.$t('noun.internalGroup')}`
                             }]
                         };
                         if( k=='man' ){
                             this.info.selected.man = [{
                                 memberId:0,
-                                userName:'全部成员'
+                                userName: `${this.$t('operate.all')}${this.$t('noun.personnel')}`
                             }]
                         };
                     }
