@@ -1,7 +1,7 @@
 <template>
     <div class="logger-detail">
         <div class="title">
-            <div><span>1</span>选择模板</div>
+            <div><span>1</span>{{$t('operate.select')}}{{$t('noun.template')}}</div>
         </div>
         <fs-template-list/>
     </div>

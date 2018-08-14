@@ -20,6 +20,7 @@ module.exports = {
         createLog: '創建日誌',
         createTemplate: '創建模板',
         update: '更新於',
+        updated: '更新',
         discontinued: '已停用',
         search: '查詢',
         export: '導出',
