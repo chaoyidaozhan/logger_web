@@ -20,6 +20,7 @@ module.exports = {
         createLog: 'Create Log',
         createTemplate: 'Create Template',
         update: 'Update',
+        updated: 'Update',
         discontinued: 'Discontinued',
         search: 'Search',
         export: 'Export',
