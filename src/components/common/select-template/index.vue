@@ -1,6 +1,7 @@
 <template>
     <div class="select-template">
-        <Select v-model="templateId" placeholder="请选择模板">
+        <Select v-model="templateId" 
+            :placeholder="`${$t('operate.select')}${$t('noun.template')}`">
             <Option v-for="(item, index) in tempListData"
                 :value="item.id"
                 :key="index">{{ item.title | filterHtml  }}
@@ -27,7 +28,7 @@ export default {
             tempListData: [
                 {
                     id: 0,
-                    title: '全部模板'
+                    title: this.$t('placeholder.allTemplate')
                 }
             ],
             templateId: 0,
@@ -61,7 +62,7 @@ export default {
                 this.tempListData = [
                     {
                         id: 0,
-                        title: '全部模板'
+                        title: this.$t('placeholder.allTemplate')
                     }
                 ]
                 this.tempListData = this.tempListData.concat(this.$store.state.template[templateType])

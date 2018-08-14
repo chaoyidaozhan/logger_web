@@ -33,7 +33,7 @@ export default {
                 title: this.title,
                 key: 'deptName',
                 array: ['一','二','三','四','五','六','七','八','九','十','十一','十二'],
-                caption: '汇总'
+                caption: this.$t('noun.summary')
             },
             point: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30 ,31], // 对应每月天数,
             month: 11,
@@ -79,7 +79,13 @@ export default {
             let len = (end - start)/86400000 < 6 ? 6 : (end - start)/86400000;
             for(let i = 0; i <= len; i++) {
                 let day = start + 86400000 * i;
-                this.columns.array.push(`${new Date(day).getDate()} 周${this.getWeek(day)}`)
+                if(this.lang === 'en') {
+                    let sArr = [ 'date.sun', 'date.mon', 'date.tue', 'date.wed', 'date.thu', 'date.fri', 'date.sat']
+                    let date = new Date(day)
+                    this.columns.array.push(`${date.getDate()} ${this.$t(sArr[date.getDay()])}`)
+                } else {
+                    this.columns.array.push(`${new Date(day).getDate()} 周${this.getWeek(day)}`)
+                }
             }
         }
     }

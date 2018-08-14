@@ -4,10 +4,12 @@
         <div class="main pull-left">
             <div class="main-inner">
                 <div class="date-item" @click="handleChangeCurrentItem($event, dateOptions)">
-                    <label class="drag-label">日志日期</label>
+                    <label class="drag-label">
+                        {{$t('noun.logDate')}}
+                    </label>
                     <DatePicker type="date"
                         placement="bottom-start"
-                        placeholder="请选择日期" 
+                        :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
                         class="date-wrap"
                         :clearable="false">
                     </DatePicker>
@@ -39,7 +41,7 @@
                         <template v-if="item.type == 'InputDate'">
                             <DatePicker type="date"
                                 placement="bottom-start"
-                                placeholder="请选择日期" 
+                                :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
                                 class="date-wrap"
                                 :clearable="false">
                             </DatePicker>
@@ -54,7 +56,7 @@
         </div>
         <!-- 控件菜单 -->
         <div class="sub pull-left">
-            <span class="title">控件</span>
+            <span class="title">{{$t('noun.control')}}</span>
             <div class="nav" ref="advacedPull">
                 <div class="drag-item" v-for="(item, index) in pullList" :key="index">
                     <i class="icon-control-text" v-if="item.type == 'InputText'"></i>
@@ -62,45 +64,45 @@
                     <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
                     <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
                     <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
-                    {{item.title.substring(0, 4)}}
+                    {{item.title}}
                 </div>
             </div>
         </div>
         <!-- 控件设置-->
         <div class="extra pull-left">
             <Tabs>
-                <TabPane label="控件设置">
+                <TabPane :label="`${$t('noun.controlSettings')}`">
                     <div v-if="currentItem && currentItem.id != 'dateOptions'">
                         <div class="extra-item">
-                            <label class="extra-label">标题</label>
-                            <Input placeholder="不超过10个字" :maxlength="10" v-model="currentItem.title" type="text"/>
+                            <label class="extra-label">{{$t('noun.title')}}</label>
+                            <Input :placeholder="$t('placeholder.maximum10Chars')" :maxlength="10" v-model="currentItem.title" type="text"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
-                            <label class="extra-label">提示文字</label>
-                            <Input placeholder="不超过50个字" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.deion" type="textarea"/>
+                            <label class="extra-label">{{$t('noun.promptText')}}</label>
+                            <Input :placeholder="$t('placeholder.maximum50Chars')" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.deion" type="textarea"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputTextNum'">
-                            <label class="extra-label">单位</label>
-                            <Input placeholder="请输入单位比如（元）" :maxlength="10" v-model="currentItem.unit" type="text"/>
+                            <label class="extra-label">{{$t('noun.unit')}}</label>
+                            <Input :placeholder="$t('placeholder.enterUnit')" :maxlength="10" v-model="currentItem.unit" type="text"/>
                         </div>
 
                         <div class="extra-item" v-if="currentItem.type == 'InputRadio' || currentItem.type == 'InputCheckbox'">
-                            <label class="extra-label">选项<span>(至少2项至多10项)</span></label>
+                            <label class="extra-label">{{$t('noun.option')}}<span>({{$t('placeholder.leastItems')}})</span></label>
                             <ul class="extra-group-check">
                                 <li v-for="(item, index) in currentItem.options" :key="index">
-                                    <Input :maxlength="20" placeholder="请填写选项名" v-model="item.string" type="text"/>
+                                    <Input :maxlength="20" :placeholder="`${$t('operate.please')}${$t('operate.enter')}${$t('noun.option')}${$t('noun.name')}`" v-model="item.string" type="text"/>
                                     <Icon v-if="currentItem.options.length > 2" 
                                         type="ios-minus-outline" 
                                         @click.native="handleDeleteOptions(index)" />
                                 </li>
                             </ul>
                             <Button type="ghost" long :disabled="!(currentItem.options.length < 10)" @click="handleAddOptions">
-                                添加选项
+                                {{$t('noun.addOption')}}
                             </Button>
                         </div>
                         <div class="extra-item">
                             <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
-                                必填
+                                {{$t('noun.required')}}
                             </Checkbox>
                         </div>
                     </div>
@@ -108,30 +110,35 @@
                         <div class="extra-item"></div>
                         <div class="extra-item">
                             <Checkbox v-model="dateOptions.diaryTimeStatus">
-                                是否显示日志日期
+                                {{$t('placeholder.whetherDisplayDate')}}
                             </Checkbox>
                         </div>
                     </div>
-                    <fs-empty-tips v-else emptyMsg="还没有控件哦～请选择控件" iconType="template"/>
+                    <fs-empty-tips v-else :emptyMsg="$t('toast.thereIsNoControl')" iconType="template"/>
                 </TabPane>
-                <TabPane label="模板设置">
+                <TabPane :label="`${$t('noun.templateSettings')}`">
                     <div>
                         <div class="extra-item">
-                            <label class="extra-label"><i>*</i>模板名称</label>
-                            <Input placeholder="不超过10个字" :maxlength="10" v-model="data.title" type="text"/>
+                            <label class="extra-label"><i>*</i>
+                                {{$t('noun.template')}}{{$t('noun.uName')}}
+                            </label>
+                            <Input :placeholder="$t('placeholder.maximum10Chars')" 
+                                    :maxlength="10" v-model="data.title" type="text"/>
                         </div>
                         <div class="extra-item">
-                            <label class="extra-label">模板说明</label>
-                            <Input placeholder="不超过20个字" :maxlength="20" v-model="data.describe" type="text"/>
+                            <label class="extra-label">
+                                {{$t('noun.template')}}{{$t('noun.description')}}
+                            </label>
+                            <Input :placeholder="$t('placeholder.maximum20Chars')"  :maxlength="20" v-model="data.describe" type="text"/>
                         </div>
                         <div class="extra-item">
-                            <label class="extra-label">可见范围</label>
+                            <label class="extra-label">{{$t('noun.visibleTo')}}</label>
                             <select-member-input 
                                 :dept="deptRange"
                                 :group="groupRange"
                                 :member="memberRange"
-                                title="选择可见范围"
-                                placeholder="所有人可见"
+                                :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
+                                :placeholder="$t('noun.public')"
                                 :ellipsis="false" 
                                 :showDept="true" 
                                 :showGroup="true" 
@@ -140,8 +147,10 @@
                                 />
                         </div>
                         <div class="extra-item">
-                            <label class="extra-label">模板类型</label>
-                            <RadioGroup v-model="data.dataType">
+                            <label class="extra-label">
+                                {{$t('noun.template')}}{{$t('noun.category')}}
+                            </label>
+                            <RadioGroup v-model="data.dataType" style="line-height: 20px">
                                 <Radio v-for="(val, key) in options" :key="key" :label="val.dataType" >{{val.string}}</Radio>
                             </RadioGroup>
                         </div>
@@ -198,51 +207,51 @@ export default {
             pullList: [ // 默认数据
                 {
                     "size": 0,
-                    "deion": "请输入",
-                    "title": "文本输入框",
+                    "deion": `${this.$t('operate.please')}${this.$t('operate.enter')}`,
+                    "title": this.$t('noun.textBox'),
                     "isRequired": "0",
                     "value": "",
                     "content": "",
                     "type": "InputText"
                 }, {
                     "type": "InputTextNum",
-                    "deion": "请输入",
+                    "deion": `${this.$t('operate.please')}${this.$t('operate.enter')}`,
                     "unit": "",
                     "size": 0,
-                    "title": "数字输入框",
+                    "title": this.$t('noun.numberBox'),
                     "isRequired": "0",
                     "value": "",
                     "content": ""
                 }, {
                     "options": [{
-                        "string": "选项1"
+                        "string": `${this.$t('noun.option')}1`
                     }, {
-                        "string": "选项2"
+                        "string": `${this.$t('noun.option')}2`
                     }, {
-                        "string": "选项3"
+                        "string": `${this.$t('noun.option')}3`
                     }],
                     "type": "InputRadio",
-                    "title": "单选框",
+                    "title": this.$t('noun.radioBox'),
                     "isRequired": "0",
                     "value": "",
                     "content": ""
                 }, {
                     "options": [{
-                        "string": "选项1"
+                        "string": `${this.$t('noun.option')}1`
                     }, {
-                        "string": "选项2"
+                        "string": `${this.$t('noun.option')}2`
                     }, {
-                        "string": "选项3"
+                        "string": `${this.$t('noun.option')}3`
                     }],
                     "type": "InputCheckbox",
-                    "title": "复选框",
+                    "title": this.$t('noun.checkBox'),
                     "isRequired": "0",
                     "value": "",
                     "content": ""
                 }, {
                     "dateType": "1",
                     "type": "InputDate",
-                    "title": "日期",
+                    "title": this.$t('noun.date'),
                     "isRequired": "0",
                     "value": "",
                     "content": ""
@@ -253,19 +262,19 @@ export default {
             isRequired: false,
             options: [
                 {
-                    string: '日报',
+                    string: this.$t('noun.dailyReport'),
                     dataType: 1
                 },
                 {
-                    string: '周报',
+                    string: this.$t('noun.weeklyReport'),
                     dataType: 2
                 },
                 {
-                    string: '月报',
+                    string: this.$t('noun.monthlyReport'),
                     dataType: 3
                 },
                 {
-                    string: '其他',
+                    string: this.$t('noun.other'),
                     dataType: 4
                 },
             ],
@@ -310,7 +319,7 @@ export default {
         },
         handleAddOptions() { // 添加选项
             this.currentItem.options.push({
-                string: '选项'
+                string: this.$t('noun.option')
             })
         },
         handleChangeRequired() { // 是否必填
@@ -431,11 +440,11 @@ export default {
                         this.$emit('handleLoading');
                         this.$emit('handleDataStatus', this.data.dataStatus);
                     } else {
-                        this.$Message.error(res && res.msg || '网络错误');
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
                     }
                 },
                 error: (res)=>{
-                    this.$Message.error(res && res.msg || '网络错误');
+                    this.$Message.error(res && res.msg || this.$t('status.networkError'));
                 }
             })
            
@@ -453,7 +462,7 @@ export default {
             // 日志日期
             params.diaryTimeStatus = +this.dateOptions.diaryTimeStatus
             if(!params.title.trim()) {
-                return this.$Message.error('请输入模板名称');
+                return this.$Message.error(`${this.$t('operate.please')}${this.$t('operate.enter')}${this.$t('noun.template')}${this.$t('noun.name')}`);
             }
             call && call();
             if(templateId != -1) {
@@ -467,12 +476,12 @@ export default {
                             this.currentItem = null;
                             this.showSuccessModal = true;
                         } else {
-                            this.$Message.error(res && res.msg || '网络错误');
+                            this.$Message.error(res && res.msg || this.$t('status.networkError'));
                         }
                         this.$emit('handleLoading');
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || '网络错误');
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
                     }
                 })
             } else {
@@ -493,12 +502,12 @@ export default {
                             });
                             this.initData(res);
                         } else {
-                            this.$Message.error(res && res.msg || '网络错误');
+                            this.$Message.error(res && res.msg || this.$t('status.networkError'));
                         }
                         this.$emit('handleLoading');
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || '网络错误');
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
                     }
                 })
             }
@@ -567,7 +576,7 @@ export default {
                         this.initData(res);
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || '网络错误');
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
                     }
                 })
             } else {
@@ -669,7 +678,7 @@ export default {
             .extra-label {
                 display: block;
                 font-size: 14px;
-                padding: 10px 12px 10px 0;
+                padding: 10px 0 10px 0;
                 span {
                     color: @gray-color-light;
                     font-size: 12px;
@@ -681,6 +690,7 @@ export default {
             }
             .ivu-checkbox-wrapper {
                 font-size: 14px;
+                line-height: 20px;
             }
             .extra-group-check {
                 li {

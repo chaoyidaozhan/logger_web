@@ -14,15 +14,29 @@
         </div>
         <div slot="footer">
         	<p class="l maxCount" v-show=" maxCount>1 ">
-        		每次选择不可超过{{maxCount}}人，请分批选择
+				<span v-if="lang == 'en'">
+					No more than {{maxCount}} people per selection, please select in batches
+				</span>
+				<span v-else-if="lang == 'tw'">
+        			每次选择不可超过{{maxCount}}人，请分批选择
+				</span>
+				<span v-else>
+        			每次选择不可超过{{maxCount}}人，请分批选择
+				</span>
         	</p>
         	<div class="show-all-wrap" v-show="info.limit.showAll && info.limit.count==1">
-        		<Button class="btn" type="ghost" v-show="showAllIndex==1" @click="chooseAll('dep')" >全部部门</Button>
-        		<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="chooseAll('team')">全部内部群</Button>
-        		<Button class="btn" type="ghost" v-show="showAllIndex==3" @click="chooseAll('man')" >全部成员</Button>
+        		<Button class="btn" type="ghost" v-show="showAllIndex==1" @click="chooseAll('dep')" >
+					{{$t('operate.all')}}{{$t('noun.department')}}
+				</Button>
+        		<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="chooseAll('team')">
+					{{$t('operate.all')}}{{$t('noun.internalGroup')}}
+				</Button>
+        		<Button class="btn" type="ghost" v-show="showAllIndex==3" @click="chooseAll('man')" >
+					{{$t('operate.all')}}{{$t('noun.personnel')}}
+				</Button>
         	</div>
-            <Button class="btn" type="ghost" @click="cancel">取消</Button>
-            <Button class="btn success" type="success" @click="submit">确定</Button>
+            <Button class="btn" type="ghost" @click="cancel">{{$t('operate.cancel')}}</Button>
+            <Button class="btn success" type="success" @click="submit">{{$t('operate.ok')}}</Button>
         </div>
     </Modal>
 
@@ -146,7 +160,7 @@ li {
 		}
 	}
 	.btn {
-		width: 90px;
+		min-width: 90px;
 	}
 	.success {
 		background: @primary-color;
@@ -154,8 +168,9 @@ li {
 	}
 	.maxCount {
 		font-size: 12px;
-		line-height: 26px;
 		color: @error-color;
+		line-height: 14px;
+		text-align: left;
 	}
 }
 </style>

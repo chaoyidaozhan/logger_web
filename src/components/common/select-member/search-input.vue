@@ -1,8 +1,11 @@
 <template>
 	<div class="sm-search-inp-wrap" :class="showCharCode ? 'showCharCode' : ''">
-		<Input class="search-inp" v-model="kw" placeholder="请输入关键字进行搜索" @on-change="change"/>
+		<Input class="search-inp" v-model="kw" 
+		:placeholder="$t('placeholder.enterKeyword')" @on-change="change"/>
 		<div class="chara-filter" v-if="showCharCode">
-			<a href="javascript:void(0)" :class="{'active':curActiveChara==''}" @click="setChara('')">全部</a>
+			<a href="javascript:void(0)" :class="{'active':curActiveChara==''}" @click="setChara('')">
+				{{$t('operate.all')}}
+			</a>
 			<a href="javascript:void(0)" 
 				:class="{'active':curActiveChara==String.fromCharCode(64+num)}" 
 				@click="setChara(String.fromCharCode(64+num))"

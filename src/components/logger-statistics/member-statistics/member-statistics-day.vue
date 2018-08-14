@@ -31,7 +31,7 @@ export default {
                 title: this.title,
                 key: 'deptName',
                 array: [],
-                caption: '汇总'
+                caption: this.$t('noun.summary')
             },
         }
     },
@@ -66,7 +66,13 @@ export default {
             let yearMonth = date.substring(0, date.lastIndexOf('/'));
             this.columns.array = [];
             for(let i = 0; i < getMonthNum(new Date(date)); i++) {
-                this.columns.array.push(`${i+1} 周${getWeek(new Date(`${yearMonth}/${i+1}`))}`)
+                if(this.lang === 'en') {
+                    let sArr = [ 'date.sun', 'date.mon', 'date.tue', 'date.wed', 'date.thu', 'date.fri', 'date.sat']
+                    let date = new Date(`${yearMonth}/${i+1}`)
+                    this.columns.array.push(`${i+1} ${this.$t(sArr[date.getDay()])}`)
+                } else {
+                    this.columns.array.push(`${i+1} 周${getWeek(new Date(`${yearMonth}/${i+1}`))}`)
+                }
             }
         }
     },

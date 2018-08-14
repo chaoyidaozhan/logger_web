@@ -6,7 +6,7 @@
                     ref="replyWrapper" 
                     type="textarea" 
                     v-model="value" 
-                    placeholder="发表您的评论"/>
+                    :placeholder="$t('placeholder.postYourComment')"/>
                 <p class="input-number">
                     <span :class="{exceed: value.length >= 200}">{{value.trim().length}}</span>
                     <span>/{{maxLength}}</span>
@@ -21,7 +21,7 @@
                         type="primary" 
                         :disabled="btnloading"
                         @click="commitComment">
-                    回复
+                    {{$t('operate.reply')}}
                 </Button>
                 <emoji class="emoji" 
                        v-if="showFace"
@@ -43,7 +43,7 @@
                             <p class="names">
                                 <span class="username">{{commentItem.userName}}</span>
                                 <span class="text"
-                                    v-if="commentItem.replyUserName">回复</span>
+                                    v-if="commentItem.replyUserName">{{$t('operate.reply')}}</span>
                                 <span class="reply-username"
                                     v-if="commentItem.replyUserName">{{commentItem.replyUserName}}</span>
                             </p>
@@ -70,10 +70,10 @@
                                 <span>{{commentItem.createTime}}</span>
                                 <span class="reply"
                                     v-show="!commentItem.isMyself"
-                                    @click="replySomebody(commentItem)">回复</span>
+                                    @click="replySomebody(commentItem)">{{$t('operate.reply')}}</span>
                                 <span class="del"
                                     v-show="commentItem.isMyself"
-                                    @click="deleteSingleComment(commentItem)">删除</span>
+                                    @click="deleteSingleComment(commentItem)">{{$t('operate.delete')}}</span>
                             </p>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
                 if(this.$refs.fileUpload.uploadFilesArr && this.$refs.fileUpload.uploadFilesArr.length < 9) {
                     this.$refs.fileUpload.$el.getElementsByClassName("ivu-upload-input")[0].click();
                 } else {
-                    this.$Message.warning('单次上传不大于9个附件');
+                    this.$Message.warning($t('toast.singleUploadIsNoMoreThanAttachments'));
                 }
             },
             handleFace(faceItem) { // 表情点击
@@ -205,7 +205,7 @@
                 this.replyData.replyMemberId = commentItem.memberId;
                 this.replyData.replyUserName = commentItem.userName;
                 this.$refs.replyWrapper.focus();
-                this.value = `回复${commentItem.userName}:`;
+                this.value = `${$t('operate.reply')}${commentItem.userName}:`;
             },
             filterContentAttach(attachs) { // 过滤附件
                 let attachList = {
@@ -240,7 +240,7 @@
             },
             updateList(commentData) {
                 commentData.forEach((item) => {
-                    item.createTime = formatTime(item.createTime);
+                    item.createTime = formatTime(item.createTime, 'en');
                     item.isMyself = item.memberId === +this.$store.state.userInfo.member_id;
                     item.content = HTMLDeCode(this.filterContent(item.content).replace(/\n/g, '<br>'));
                     item.attachList = this.filterContentAttach(item.replyCommentFileList);
@@ -285,7 +285,7 @@
                 }, 200);
             },
             commitComment() { // 提交回复
-                let exp = /^回复[^:]+?:/
+                let exp = /^回复|Reply[^:]+?:/
                 if(!exp.test(this.value)) {
                     this.replyData.replyCommentId = '';
                     this.replyData.replyMemberId = '';
@@ -314,11 +314,11 @@
                                 this.$refs.fileUpload.clearFiles();
                                 this.getUploadFile([]);
                             } else {
-                                this.$Message.error((res && res.msg) || '网络错误');
+                                this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error((res && res.msg) || '网络错误');
+                            this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                         }
                     })
                 }, 200);
@@ -333,8 +333,8 @@
             deleteSingleComment(commentItem) { // 删除某条评论(仅自己)
                 let commentItemId = commentItem.id;
                 this.$Modal.confirm({
-                    title: '删除回复提示',
-                    content: '点击确定删除该回复',
+                    title: this.$t('toast.deleteReplyPrompt'),
+                    content: this.$t('toast.clickOKToDeleteTheReply'),
                     onOk: () =>{
                         this.$ajax({
                             url: "/diaryComment/delete/" + commentItemId,
@@ -350,11 +350,11 @@
                                     this.commentListData.splice(index, 1);
                                     this.$emit('handleReplyNum');
                                 } else {
-                                    this.$Message.error((res && res.msg) || '网络错误');
+                                    this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                                 }
                             },
                             error: (res)=>{
-                                this.$Message.error((res && res.msg) || '网络错误');
+                                this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                             }
                         })
                     }

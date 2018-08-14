@@ -7,14 +7,14 @@
             </Spin>
         </div>
         <div class="error-item" v-if="loadError && !loading">
-            <span class="error-text">网络异常,</span>
-            <span class="error-reload" @click="handleReload"> 点击重新加载</span>
+            <span class="error-text">{{$t('status.networkError')}},</span>
+            <span class="error-reload" @click="handleReload">{{$t('status.clickToReload')}}</span>
         </div>
         <div class="loaded-all" v-if="!hasMore && !loadError && !loading">
-            <p>已加载全部数据</p>
+            <p>{{$t('status.loadedAllData')}}</p>
         </div>
         <div class="load-more" v-if="hasMore && !loadError && !loading && loadMore">
-            <p @click="handleLoadMore">加载更多</p>
+            <p @click="handleLoadMore">{{$t('status.loadMore')}}</p>
         </div>
     </div>
 </template>
@@ -27,7 +27,7 @@ export default {
         },
         loadingMsg: {
             type: String,
-            default: "正在加载中..."
+            default: `123`
         },
         loadError: {
             type: Boolean,

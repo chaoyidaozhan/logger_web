@@ -18,7 +18,7 @@ export default {
             groupListData: [
                 {
                     gid: 0,
-                    groupName: '全部内部群'
+                    groupName: `${this.$t('operate.all')}${this.$t('noun.internalGroup')}`
                 }
             ],
             groupId: 0
@@ -38,11 +38,11 @@ export default {
                     if(res && res.code === 0) {
                         this.groupListData = this.groupListData.concat(res.data || []);
                     } else {
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 },
                 error: (res)=>{
-                    this.$Message.error((res && res.msg) || '网络错误');
+                    this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                 }
             });
         }

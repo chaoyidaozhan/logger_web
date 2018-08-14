@@ -1,6 +1,7 @@
 
 import selectMemberBody from './select-member-body';
 import treeDep from './tree-dep.vue';
+import i18n from '../../../common/language/'
 
 export default {
     install(Vue, options) {
@@ -8,7 +9,6 @@ export default {
         Vue.component('tree-dep',{
             mixins:[treeDep]
         });
-
         // 挂载实例
         let body   = document.body;
         let dom    = document.createElement('div');
@@ -37,6 +37,7 @@ export default {
         };
 
         Vue.prototype.$selectMember = window.ok = new Vue({
+            i18n,
             template:`<div id="selectMember" v-if="info.open">
                         <selectMemberBody :info="info" @submit="submit" @cancel="cancel"/> 
                       </div>`,  

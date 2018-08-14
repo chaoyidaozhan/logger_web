@@ -7,19 +7,26 @@
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
-                    <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">全选</Checkbox>
-                    <span class="checkout-note">已选中
-                        <span class="check-num">{{checkNum}}</span>日志</span>
+                    <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">
+                        {{$t('operate.checkAll')}}
+                    </Checkbox>
+                    <span class="checkout-note">
+                        {{$t('operate.selected')}}
+                        <span class="check-num">{{checkNum}}</span>
+                        {{$t('noun.uLog')}}
+                    </span>
                 </span>
                 <span class="bottom-right">
-                    <Button type="success" @click="loggerSummary">汇总日志</Button>
-                    <Button type="ghost" @click="exportECL">导出EXCEL</Button>
+                    <Button type="success" @click="loggerSummary">
+                        {{$t('noun.summary')}}{{$t('noun.log')}}
+                    </Button>
+                    <Button type="ghost" @click="exportECL">{{$t('operate.export')}} EXCEL</Button>
                 </span>
             </div>
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
         <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
-        <span class="nodata" v-if="!list.length&&iconFlag">选择提交人查询需要汇总的数据 ，可导出Excel</span>
+        <span class="nodata" v-if="!list.length&&iconFlag">{{$t('toast.selectTheDataThatExport')}}</span>
     </div>
 </template>
 <script>
@@ -115,7 +122,7 @@ export default {
         },
         loggerSummary() { // 日志汇总
             if (this.checkNum <= 0) {
-                this.$Message.warning('请选择汇总的日志');
+                this.$Message.warning(this.$t('noun.pleaseSelectTheSummaryLog'));
             } else {
                 this.handleSummaryData();
                 this.$store.dispatch('update_template_content', {
@@ -142,13 +149,13 @@ export default {
                 if (this.list.length <= 0) {
                     this.iconFlag = 0;
                     this.iconType = '';
-                    this.emptyMsg = '没有相关数据';
+                    this.emptyMsg = this.$t('status.noRelevantData');
                 } else {
                     this.listTemplate = [];
                     this.countData = [];
                     this.columnsData = [{ //固定的前三列
                             type: 'selection',
-                            width: 60,
+                            width: this.lang == 'en' ? 100 : 60,
                             align: 'center'
                         },
                         {
@@ -157,17 +164,17 @@ export default {
                             className:'id-column',
                         },
                         {
-                            title: '提交时间',
+                            title: this.$t('noun.submitTime'),
                             key: 'column1',
                             width: 150
                         },
                         {
-                            title: '日志日期',
+                            title: this.$t('noun.logDate'),
                             key: 'column2',
                             width: 150
                         },
                         {
-                            title: '提交人',
+                            title: this.$t('noun.author'),
                             key: 'column3',
                             width: 80
                         }
@@ -175,7 +182,7 @@ export default {
                     this.footerData = [{
                         title: '',
                         key: 'column1',
-                        width: 60
+                        width: this.lang == 'en' ? 100 : 60
                     }, {
                         title: '',
                         key: 'column2',
@@ -232,7 +239,7 @@ export default {
                         this.listTemplate.push(data);
                     });
                     let tmp = {
-                        column1: "总计"
+                        column1: this.$t('noun.summary')
                     };
                     countNumArr.forEach((item, index) => {
                         tmp['column' + (5 + index)] = item.reduce((prev, curr) => {
@@ -243,7 +250,7 @@ export default {
                 }
 
             } else {
-                this.$Message.warning((res && res.msg) || '网络错误');
+                this.$Message.warning((res && res.msg) || this.$t('noun.networkError'));
             }
         },
         getParams() { // 合并参数
@@ -278,7 +285,7 @@ export default {
                     },
                     error: (res) => {
                         this.loading = false;
-                        this.$Message.warning((res && res.msg) || '网络错误');
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 })
             }

@@ -8,7 +8,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
-                v-loading="{loading: loaded, text: '加载中...'}"
+                v-loading="{loading: loaded, text: $t('status.loading')}"
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
@@ -20,7 +20,7 @@
                 :data="list"
                 :type="type"
                 :start="start"
-                v-loading="{loading: loaded, text: '加载中...'}"
+                v-loading="{loading: loaded, text: $t('status.loading')}"
                 :totalMap="totalMap"
                 :title="title"/>
         </template>
@@ -33,7 +33,7 @@
                 :type="type"
                 :start="start"
                 :totalMap="totalMap"
-                v-loading="{loading: loaded, text: '加载中...'}"
+                v-loading="{loading: loaded, text: $t('status.loading')}"
                 :title="title"/>
         </template>
         <!--自定义统计-->
@@ -49,7 +49,7 @@
                 :start="start"
                 :end="end"
                 :totalMap="totalMap"
-                v-loading="{loading: loaded, text: '加载中...'}"
+                v-loading="{loading: loaded, text: $t('status.loading')}"
                 :title="title"/>
         </template>
         <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
@@ -89,7 +89,9 @@ export default {
         },
         title: {
             type: String,
-            default: '名称'
+            default: function() {
+                return this.$t('noun.name')
+            }
         }
     },
     data() {
@@ -174,7 +176,7 @@ export default {
                     this.loaded = true;
                 },
                 error: (res)=>{
-                    this.$Message.error(res && res.msg || '网络错误');
+                    this.$Message.error(res && res.msg || $t('status.networkError'));
                     this.loaded = true;
                 }
             })

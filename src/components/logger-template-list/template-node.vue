@@ -4,8 +4,8 @@
             <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
             <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
             <template v-if="showEdit">
-                <div class="template-item-time ellipsis">更新于{{ data.createTime | filterTime }}</div>
-                <div v-if="!data.dataStatus" class="template-item-status ellipsis">已停用</div>
+                <div class="template-item-time ellipsis">{{$t('operate.update')}}{{ data.createTime | filterTime }}</div>
+                <div v-if="!data.dataStatus" class="template-item-status ellipsis">{{$t('operate.discontinued')}}</div>
             </template>
         </div>
         <div class="template-operate-modal" v-if="showEdit">
@@ -70,7 +70,7 @@ export default {
                         this.data.dataStatus = name == 'start' ? 1 : 0
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || '网络错误');
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
                     }
                 });
             }, 200);
@@ -88,7 +88,7 @@ export default {
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error(res && res.msg || '网络错误');
+                            this.$Message.error(res && res.msg || this.$t('status.networkError'));
                         }
                     });
                 }
