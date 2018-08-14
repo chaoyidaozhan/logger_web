@@ -1,10 +1,10 @@
 <template>
     <div class="logger-create">
-        <Form :label-width="110" >
-            <FormItem label="日志日期" v-if="templateItemData.diaryTimeStatus">
+        <Form :label-width="lang == 'en' ? 120 : 110" >
+            <FormItem :label="$t('noun.logDate')" v-if="templateItemData.diaryTimeStatus">
                  <DatePicker type="date"
                     placement="bottom-start"
-                    placeholder="日期" 
+                    :placeholder="$t('noun.date')" 
                     class="date-wrap"
                     :options="dateOption"
                     v-model="dateValue"
@@ -12,13 +12,13 @@
                     >
                 </DatePicker>
             </FormItem>
-            <FormItem label="可见范围" class="required-icon">
+            <FormItem :label="$t('noun.visibleRange')" class="required-icon">
                 <select-member-input 
                     :dept="deptRange"
                     :group="groupRange"
                     :member="memberRange"
-                    title="选择可见范围"
-                    placeholder="本部门可见"
+                    :title="`${$t('noun.select')}${$t('noun.visibleRange')}`"
+                    :placeholder="$t('placeholder.visibleToThisDepartment')"
                     @handleSelectMember="handleSelectRange"
                     :ellipsis="false" 
                     :showDept="true" 
@@ -37,7 +37,7 @@
                         v-model="item.valueNum"
                         max="100000000"
                         @keypress='keypress($event)'
-                        :placeholder="`${item.deion}${item.unit?`(单位：${item.unit})`:''}`" number="true" class="ivu-input">
+                        :placeholder="`${item.deion}${item.unit?`(${$t('noun.unit')}：${item.unit})`:''}`" number="true" class="ivu-input">
                     </div>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
@@ -56,7 +56,7 @@
                 <template v-if="item.type == 'InputDate'">
                     <DatePicker type="date"
                         placement="bottom-start"
-                        placeholder="日期" 
+                        :placeholder="$t('noun.date')" 
                         class="date-wrap"
                         v-model="item.dateValueSec"
                         :clearable="false"
@@ -66,30 +66,30 @@
             </FormItem>
 
            
-            <FormItem label="@TA查看">
+            <FormItem :label="`@${$t('noun.someoneChecked')}`">
                 <select-member-input 
                     :member="member"
-                    title="@TA查看"
-                    placeholder="提醒关键人员查看您的日志"
+                    :title="`@${$t('noun.someoneChecked')}`"
+                    :placeholder="$t('noun.remindkeyPeopleToViewYourLog')"
                     @handleSelectMember="handleSelectMember"
                     :ellipsis="false" 
                     ref="selectMember"
                     />
             </FormItem>
-            <FormItem label="附件">
+            <FormItem :label="$t('operate.file')">
                 <template>
                     <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="fileStr" :on-remove="handleRemoveFile">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
+                        <Button type="ghost" icon="ios-cloud-upload-outline">{{$t('operate.upload')}}</Button>
                     </Upload>
                 </template>
             </FormItem>
            
             <FormItem>
                 <Button type="primary" class="submit-btn" @click="handleSubmit" :loading="btnloading">
-                    提交
+                    {{$t('operate.submit')}}
                 </Button>
                 <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
-                    取消
+                    {{$t('operate.cancel')}}
                 </Button>
             </FormItem>
         </Form>
@@ -312,8 +312,8 @@ export default {
         },
         cancleSubmit() { //取消编辑
             this.$Modal.confirm({
-                title: '取消编辑',
-                content: '您的日志还没提交，确定要放弃编辑吗？',
+                title: this.$t('toast.cancelEditing'),
+                content: this.$t('toast.cancelEditingConfirm'),
                 onOk: () => {
                     window.createComplete = true;
                     this.$router.go(-1);
@@ -411,7 +411,7 @@ export default {
                 if (templateContent[i].isRequired == 1) {
                     if ((templateContent[i].type != 'InputRadio' && templateContent[i].type != 'InputTextNum' && !templateContent[i].value) ||
                         ((templateContent[i].type == 'InputRadio' && templateContent[i].type == 'InputTextNum' && templateContent[i].value == ''))) {
-                        this.$Message.warning(templateContent[i].title + '不能为空');
+                        this.$Message.warning(templateContent[i].title + this.$t('toast.canNotBeEmpty'));
                         return false;
                     }
                 }
@@ -471,7 +471,7 @@ export default {
                     requestBody: true,
                     success: (res) => {
                         if (res && res.code === 0) {
-                            this.saveDraft ? this.$Message.success('日志草稿保存成功') : (this.editFlag && !submitData.dataStatus ? this.$Message.success('日志修改成功') : this.$Message.success('日志创建成功'));
+                            this.saveDraft ? this.$Message.success(this.$t('toast.theDraftOfTheLogWasSavedSuccessfully')) : (this.editFlag && !submitData.dataStatus ? this.$Message.success(this.$t('toast.theLogWasSuccessfullyModified')) : this.$Message.success(this.$t('toast.theLogWasCreatedSuccessfully')));
                             this.$router.push({
                                 path:  this.saveDraft ? '/DraftOfMine' : '/LoggerQueryAll',
                                 query: {

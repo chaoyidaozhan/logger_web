@@ -4,12 +4,12 @@
             <a href="javascript:void(0)" v-if="showDeptExcelBtn || showGroupExcelBtn">{{$t('operate.export')}}</a>
             <a href="javascript:void(0)" @click="handlePersonData" v-else>{{$t('operate.export')}}</a>
             <DropdownMenu slot="list" v-if="showDeptExcelBtn">
-                <DropdownItem :name="0">仅部门数据</DropdownItem>
-                <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="1">部门和人员数据</DropdownItem>
+                <DropdownItem :name="0">{{$t('toast.departmentalDataOnly')}}</DropdownItem>
+                <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="1">{{$t('toast.departmentAndPersonnelData')}}</DropdownItem>
             </DropdownMenu>
             <DropdownMenu slot="list" v-if="showGroupExcelBtn">
-                <DropdownItem :name="2">仅内部群数据</DropdownItem>
-                <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="3">内部群和人员数据</DropdownItem>
+                <DropdownItem :name="2">{{$t('toast.internalGroupDataOnly')}}</DropdownItem>
+                <DropdownItem v-if="!isGroupOrDeptSelectedAll" :name="3">{{$t('toast.internalGroupAndPersonnelData')}}</DropdownItem>
             </DropdownMenu>
         </Dropdown>
     </div>

@@ -16,6 +16,7 @@ module.exports = {
         templateManagement: 'Template Management',
     },
     operate: { // 操作
+        back: 'Back',
         createLog: 'Create Log',
         createTemplate: 'Create Template',
         update: 'Update',
@@ -43,7 +44,10 @@ module.exports = {
         disable: 'Disable',
         print: 'Print',
         download: 'Download',
-        operationRecord: 'Operation record'
+        operationRecord: 'Operation record',
+        saveAsDraft: 'Save as draft',
+        file: 'File',
+        upload: 'Upload'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -65,7 +69,22 @@ module.exports = {
         pleaseSelectTheSummaryLog: 'Please select the summary log',
         thereIsNoControl: 'There is no control.Please select',
         pagePrompt: 'Page prompt',
-        confirmToLeaveCurrentPage: 'Confirm to leave current page?'
+        confirmToLeaveCurrentPage: 'Confirm to leave current page?',
+        departmentalDataOnly: 'Departmental data only',
+        internalGroupDataOnly: 'Internal group data only',
+        departmentAndPersonnelData: 'Department and personnel data',
+        internalGroupAndPersonnelData: 'Internal group and personnel data',
+        savedSuccessfully: 'Saved successfully',
+        returnToTemplateManagement: 'Return to template management',
+        continueEditing: 'Continue editing',
+        deleteTemplateReminder: 'Delete template reminder',
+        clickOKToDeleteTheTemplate: 'Click OK to delete the template',
+        cancelEditing: 'Cancel editing',
+        cancelEditingConfirm: 'Your log has not been submitted yet. Are you sure you want to abandon the edit?',
+        theLogWasSuccessfullyModified: 'The log was successfully modified.',
+        theDraftOfTheLogWasSavedSuccessfully: 'The draft of the log was saved successfully.',
+        theLogWasCreatedSuccessfully: 'The log was created successfully.',
+        canNotBeEmpty: 'Can not be empty'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Post your comment',
@@ -78,6 +97,8 @@ module.exports = {
         whetherDisplayDate: 'Whether to display the log date',
         enterKeyword: 'Please enter a keyword to search',
         noMore: 'No more than 500 people per selection, please select in batches',
+        remindkeyPeopleToViewYourLog: 'Remind key people to view your log',
+        visibleToThisDepartment: 'Visible to this department'
     },
     date: { // 时间
         mon: 'Mon',
@@ -116,6 +137,8 @@ module.exports = {
         lastDayOfTheMonth: 'Last day of the month'
     },
     noun: { // 固有名词
+        web: 'Web',
+        mobile: 'Mobile',
         log: ' log',
         uLog: 'Log',
         logs: 'Logs',
@@ -163,7 +186,9 @@ module.exports = {
         addOption:'Add Option',
         required: 'Required',
         peopleHaveSeen: 'people have seen',
-        viewAll: 'view all'
+        viewAll: 'view all',
+        someoneChecked: 'Someone',
+        operationRecord: 'Operation record'
     },
     title: {
         logTemplate: 'Log Template',
