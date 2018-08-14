@@ -11,7 +11,7 @@ module.exports = {
         logStatistic: '日志统计',
         department: '按部门统计',
         employee: '按人员统计',
-        internalGroupReport: '按内总群统计',
+        internalGroupReport: '按内部群统计',
         summary: '日志汇总',
         templateManagement: '模板管理',
     },
