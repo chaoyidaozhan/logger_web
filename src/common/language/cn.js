@@ -16,6 +16,7 @@ module.exports = {
         templateManagement: '模板管理',
     },
     operate: { // 操作
+        back: '返回',
         createLog: '创建日志',
         createTemplate: '创建模板',
         update: '更新于',
@@ -39,11 +40,15 @@ module.exports = {
         preview: '预览',
         reply: '回复',
         delete: '删除',
+
         edit: '编辑',
         disable: '停用',
         print: '打印',
         download: '下载',
-        operationRecord: '操作记录'
+        operationRecord: '操作记录',
+        saveAsDraft: '存为草稿',
+        file: '附件',
+        upload: '上传'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -65,7 +70,22 @@ module.exports = {
         pleaseSelectTheSummaryLog: '请选择汇总的日志',
         thereIsNoControl: '还没有控件哦～请选择控件',
         pagePrompt: '页面提示',
-        confirmToLeaveCurrentPage: '你确定离开当前页面吗？'
+        confirmToLeaveCurrentPage: '你确定离开当前页面吗？',
+        departmentalDataOnly: '仅部门数据',
+        internalGroupDataOnly: '仅内部群数据',
+        departmentAndPersonnelData: '部门和人员数据',
+        internalGroupAndPersonnelData: '内部群和人员数据',
+        savedSuccessfully: '保存成功',
+        returnToTemplateManagement: '返回模板管理',
+        continueEditing: '继续编辑',
+        deleteTemplateReminder: '删除模板提醒',
+        clickOKToDeleteTheTemplate: '点击确定删除模板',
+        cancelEditing: '取消编辑',
+        cancelEditingConfirm: '您的日志还没提交，确定要放弃编辑吗？',
+        theLogWasSuccessfullyModified: '日志修改成功',
+        theDraftOfTheLogWasSavedSuccessfully: '日志草稿保存成功',
+        theLogWasCreatedSuccessfully: '日志创建成功',
+        canNotBeEmpty: '不能为空'
     },
     placeholder: { // 输入框提示文字
         postYourComment: '发表您的评论',
@@ -77,7 +97,9 @@ module.exports = {
         leastItems: '至少2项至多10项',
         whetherDisplayDate: '是否显示日志日期',
         enterKeyword: '请输入关键字进行搜索',
-        noMore: '每次选择不可超过500人，请分批选择'
+        noMore: '每次选择不可超过500人，请分批选择',
+        remindkeyPeopleToViewYourLog: '提醒关键人员查看您的日志',
+        visibleToThisDepartment: '本部门可见'
     },
     date: { // 时间
         mon: '周一',
@@ -116,6 +138,8 @@ module.exports = {
         lastDayOfTheMonth: '每月最后一天',
     },
     noun: { // 固有名词
+        web: 'web端',
+        mobile: '移动端',
         log: '日志',
         uLog: '日志',
         logs: '日志',
@@ -163,7 +187,9 @@ module.exports = {
         addOption:'添加选项',
         required: '必填',
         peopleHaveSeen: '人看过',
-        viewAll: '查看全部'
+        viewAll: '查看全部',
+        someoneChecked: 'TA查看',
+        operationRecord: '操作记录'
     },
     title: {
         logTemplate: '日志模板',

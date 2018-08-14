@@ -24,6 +24,7 @@ if (lang.indexOf('zh') != -1) {
 } else {
     lang = 'en'
 }
+lang = 'en'
 window.lang = lang
 let locale
 switch (lang) {

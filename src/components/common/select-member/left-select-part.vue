@@ -25,24 +25,6 @@
 	import TreeTeam from './tree-team.vue';
 	import TreeMan from './tree-man.vue';
 	import TreeDepWrap from './tree-dep-wrap.vue';
-	const DEFAULT_LIST = {
-			dep :{
-				show:false,
-				value:'部门',
-				index:1
-			},
-			team:{
-				show:false,
-				value:'内部群',
-				index:2
-			},
-			man :{
-				show:false,
-				value:'成员',
-				index:3
-			} 
-		};
-
 	export default{
 		props:['info'],
 		components:{
@@ -56,11 +38,28 @@
 				mountdDep  : false ,
 				mountdTeam : false ,
 				mountdMan  : false ,
+				DEFAULT_LIST: {
+					dep :{
+						show:false,
+						value: this.$t('noun.department'),
+						index:1
+					},
+					team:{
+						show:false,
+						value:this.$t('noun.internalGroup'),
+						index:2
+					},
+					man :{
+						show:false,
+						value:this.$t('noun.personnel'),
+						index:3
+					} 
+				}
 			}
 		},
 		computed:{
 			tabInfo(){
-				let list = JSON.parse( JSON.stringify(DEFAULT_LIST));
+				let list = JSON.parse( JSON.stringify(this.DEFAULT_LIST));
 				!this.info.dep  ? delete list.dep  : null ;
 				!this.info.team ? delete list.team : null ;
 				!this.info.man  ? delete list.man  : null ;
@@ -76,7 +75,7 @@
 				// 默认第一个li添加active
 					if( length>0 ){
 						let key = Object.keys(list)[0];
-						this.activeIndex = DEFAULT_LIST[key].index ;
+						this.activeIndex = this.DEFAULT_LIST[key].index ;
 					}
 				let obj = {
 					list,

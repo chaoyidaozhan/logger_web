@@ -153,7 +153,7 @@
         <Modal
             v-model="operateModal"
             class="operate-modal"
-            title="操作记录">   
+            :title="$t('noun.operationRecord')">   
             <div class="operate-row" v-for="item in operateModalData" :key="item.id">
                 <fs-avatar class="operate-avatar" 
                     size="31px" 

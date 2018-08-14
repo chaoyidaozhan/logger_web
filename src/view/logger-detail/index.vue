@@ -2,12 +2,12 @@
     <fs-frame>
         <template slot="head">
             <div class="logger-detail-header clearfix">
-                <span class="back cursor-pointer pull-left" @click="handleBack"><Icon type="chevron-left"></Icon>返回</span>
+                <span class="back cursor-pointer pull-left" @click="handleBack"><Icon type="chevron-left"></Icon>{{$t('operate.back')}}</span>
                 <span v-if="this.$route.params.loggertype=='create'
                     || this.$route.params.loggertype=='summary' 
                     || this.$route.params.loggertype=='draft'" class="back pull-right" >
                     <Button  type="ghost"  class="draft-btn" @click="saveDraftFun">
-                        存为草稿
+                        {{$t('operate.saveAsDraft')}}
                     </Button>
                 </span>
             </div>
