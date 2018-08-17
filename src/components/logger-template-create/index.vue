@@ -70,7 +70,7 @@
                 <select-member-input 
                     :member="member"
                     :title="`@${$t('noun.someoneChecked')}`"
-                    :placeholder="$t('noun.remindkeyPeopleToViewYourLog')"
+                    :placeholder="$t('placeholder.remindkeyPeopleToViewYourLog')"
                     @handleSelectMember="handleSelectMember"
                     :ellipsis="false" 
                     ref="selectMember"
