@@ -240,7 +240,7 @@
             },
             updateList(commentData) {
                 commentData.forEach((item) => {
-                    item.createTime = formatTime(item.createTime, 'en');
+                    item.createTime = formatTime(item.createTime, window.lang);
                     item.isMyself = item.memberId === +this.$store.state.userInfo.member_id;
                     item.content = HTMLDeCode(this.filterContent(item.content).replace(/\n/g, '<br>'));
                     item.attachList = this.filterContentAttach(item.replyCommentFileList);

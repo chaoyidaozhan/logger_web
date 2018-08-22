@@ -45,7 +45,6 @@ const router = new VueRouter({ // 创建路由
 iView.LoadingBar.config({ // 配置loadingbar
     height: 2
 })
-console.log(i18n);
 
 // 用于创建日志的通信
 window.createComplete = false;

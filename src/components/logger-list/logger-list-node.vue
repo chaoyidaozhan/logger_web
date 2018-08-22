@@ -112,7 +112,24 @@
         </div>
         <div class="logger-list-row">
             <div class="logger-list-col logger-list-location">
-                <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
+                <Poptip
+                    v-if="loggerItemData.readCount"
+                    @on-popper-show="getAllMembers"
+                    placement="right-end">
+                    <div slot="content">
+                        <fs-avatar
+                            v-for="(item, index) in members"
+                            :key="index"
+                            class="avatar member-card"
+                            size="40px"
+                            :avatar="item.avatar" 
+                            :name="item.userName"
+                            :fontSize="item.userName ? '14px' : '20px'" 
+                        />
+                    </div>
+                    <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
+                </Poptip>
+                <div class="count" v-else>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
             </div>
         </div>
         <div class="logger-list-row" v-if="!!loggerItemData.location">
@@ -215,7 +232,8 @@ export default {
             operateModalData: [],
 
             showReply: false,
-            editTimer: null
+            editTimer: null,
+            members: null
         }
     },
     components: {
@@ -256,6 +274,16 @@ export default {
         }
     },
     methods: {
+        getAllMembers() {
+            this.$ajax({
+                url: `/diaryReadLog/getDiaryReadLogList/${this.loggerItemData.id}`,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.members = res.data || []
+                    }
+                }
+            })
+        },
         setRangeHeight() { // 设置可展开的高度
             this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight;
             this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight;
@@ -500,6 +528,9 @@ export default {
         word-break: break-all;
         .avatar {
             float: left;
+            &.member-card {
+                margin: 5px;
+            }
         }
         .logger-list-col {
             margin-left: 54px;
@@ -578,6 +609,16 @@ export default {
     .logger-list-location {
         font-size: 12px;
         color: @gray-color-light;
+        position: relative;
+        .ivu-poptip-popper {
+            top: auto!important;
+            bottom: 0;
+        }
+        .ivu-poptip {
+            .count {
+                cursor: pointer;
+            }
+        }
     }
     .logger-list-range {
         font-size: 12px;
@@ -658,6 +699,7 @@ export default {
     }
     
 }
+
 .operate-modal {
     .ivu-modal-body {
         padding: 0 50px 10px;
