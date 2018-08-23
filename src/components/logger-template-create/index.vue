@@ -17,7 +17,7 @@
                     :dept="deptRange"
                     :group="groupRange"
                     :member="memberRange"
-                    :title="`${$t('noun.select')}${$t('noun.visibleRange')}`"
+                    :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
                     :placeholder="$t('placeholder.visibleToThisDepartment')"
                     @handleSelectMember="handleSelectRange"
                     :ellipsis="false" 
