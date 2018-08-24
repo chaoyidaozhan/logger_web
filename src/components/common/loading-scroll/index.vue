@@ -27,7 +27,9 @@ export default {
         },
         loadingMsg: {
             type: String,
-            default: `123`
+            default: function() {
+                return this.$t('status.loading')
+            }
         },
         loadError: {
             type: Boolean,

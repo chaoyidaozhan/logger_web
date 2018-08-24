@@ -158,7 +158,7 @@
                 </TabPane>
             </Tabs>
         </div>
-        <Modal :width="lang == 'en' ? 400 : 300" class-name="template-modal" :mask-closable="false" :closable="false" v-model="showSuccessModal">
+        <Modal :width="lang == 'en' ? 420 : 300" class-name="template-modal" :mask-closable="false" :closable="false" v-model="showSuccessModal">
             <p>{{$t('toast.savedSuccessfully')}}</p>
             <div slot="footer">
                 <Button type="primary" @click="onOk">{{$t('toast.returnToTemplateManagement')}}</Button>
