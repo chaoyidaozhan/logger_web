@@ -377,6 +377,10 @@ export default {
         }
         .bottom-right {
             float: right;
+            .ivu-btn-success {
+                border-color: @primary-color;
+                background-color: @primary-color;
+            }
         }
     }
     .nodata {

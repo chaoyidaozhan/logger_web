@@ -260,6 +260,7 @@ export default {
 }
 </script>
 <style lang="less">
+@import '../../assets/css/var.less';
 .modal-table {
     .ivu-modal-close {
         z-index: 20;
@@ -293,6 +294,13 @@ export default {
             width: 200px;
             text-align: right;
             padding-right: 60px;
+            .ivu-btn-primary {
+                background-color: @select-item-bg;
+                border-color: @select-item-bg;
+                span {
+                    color: @gray-color-medium;
+                }
+            }
         }
     }
 }

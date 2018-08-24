@@ -824,7 +824,7 @@ export default {
                 height: 20px;
                 text-align: center;
                 line-height: 20px;
-                background: @drag-close-color;
+                background: @primary-color;
                 color: @white-color;
                 cursor: pointer;
             }
