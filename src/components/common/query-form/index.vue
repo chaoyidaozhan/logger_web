@@ -283,7 +283,7 @@ export default {
             if((isDept && data.deptId === undefined) || (!isDept && data.groupId === undefined)) {
                 return;
             }
-            let path = (params === 1 || params === 3) 
+            let path = (params === 1 || params === 3)
                      ? "exportExcelIncludeUserStatisticsByCondition"
                      : "exportExcelStatisticsByCondition";
             let deptOrGroupId = data.deptId !== undefined
