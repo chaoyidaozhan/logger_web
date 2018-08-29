@@ -181,6 +181,10 @@ export default {
         background-image: none;
         position: relative;
         line-height: 22px;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+            border-color: @input-select-border-color;
+        }
         &.expand {
             .ivu-icon {
                 transform: rotate(180deg);
@@ -213,8 +217,8 @@ export default {
                     background-color: #f3f3f3;
                 }
                 &.selected {
-                    span { color: @white-color; }
-                    background-color: @primary-color;
+                    span { color: @gray-color-dark; }
+                    background-color: @select-item-bg;
                 }
             }
         }

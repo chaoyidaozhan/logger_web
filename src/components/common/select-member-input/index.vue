@@ -184,6 +184,10 @@ export default {
     background-image: none;
     position: relative;
     line-height: 22px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        border-color: @input-select-border-color;
+    }
     &.ellipsis {
         height: 32px;
     }

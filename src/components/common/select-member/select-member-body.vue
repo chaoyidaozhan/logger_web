@@ -168,7 +168,7 @@ li {
 	}
 	.maxCount {
 		font-size: 12px;
-		color: @error-color;
+		color: @primary-color;
 		line-height: 14px;
 		text-align: left;
 	}
