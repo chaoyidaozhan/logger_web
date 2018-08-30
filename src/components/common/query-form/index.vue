@@ -306,7 +306,7 @@ export default {
             if(!data.memberIds) {
                 return;
             }
-            let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}&pageNo=${data.pageNo}&pageSize=${data.pageSize}`;
+            let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&language=${window.lang}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}&pageNo=${data.pageNo}&pageSize=${data.pageSize}`;
             window.open(url);
         },
         handleChange(value) {
