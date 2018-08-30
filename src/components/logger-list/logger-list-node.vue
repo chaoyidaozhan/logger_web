@@ -102,10 +102,10 @@
         </div>
         <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
             <div class="logger-list-col">
-                <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">
+                <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
                     {{$t('operate.expand')}}
                 </span>
-                <span class="cursor-pointer" @click="handleContentExpand" v-else>
+                <span class="cursor-pointer more" @click="handleContentExpand" v-else>
                     {{$t('operate.collapse')}}
                 </span>
             </div>
@@ -538,9 +538,12 @@ export default {
                 color: @gray-color-light;
             }
             .at {
-                color: rgb(41, 182, 246);
+                color: #289CF2;
                 display: inline-block;
                 margin-right: 4px;
+            }
+            .more {
+                color: #289CF2;
             }
         }
     }

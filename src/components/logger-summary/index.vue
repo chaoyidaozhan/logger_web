@@ -138,7 +138,7 @@ export default {
         },
         exportECL() { // 导出
             let templateId = this.params.templateId == null ? 0 : this.params.templateId;
-            let url = `${config[__ENV__].apiHost}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}
+            let url = `${config[__ENV__].apiHost}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}&language=${window.lang}
             &endDate=${this.params.endDate}&token=${this.$store.state.userInfo.token}&templateId=${templateId}&memberIds=${this.params.memberIds || ""}&groupIds=${this.params.groupId || ""}&deptIds=${this.params.deptId || ""}`;
             window.open(url, '_blank');
         },
@@ -377,6 +377,10 @@ export default {
         }
         .bottom-right {
             float: right;
+            .ivu-btn-success {
+                border-color: @primary-color;
+                background-color: @primary-color;
+            }
         }
     }
     .nodata {

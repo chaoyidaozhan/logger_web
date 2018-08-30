@@ -47,15 +47,16 @@
     .excel-btn-wrap {
         text-align: center;
         margin-right: 0;
-        border: 1px solid @primary-color;
+        border: 1px solid @select-item-bg;
+        background-color: @select-item-bg;
         border-radius: 4px;
         .ivu-dropdown-item:hover {
-            background: @primary-color;
+            background: @select-item-bg;
         }
         a {
-            color: @primary-color;
+            color: @gray-color-medium;
             &:hover {
-                color: @primary-color;
+                color: @gray-color-medium;
             }
         }
         .ivu-select-dropdown {

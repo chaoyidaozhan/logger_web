@@ -21,6 +21,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-collect-2018:before {
+  content: "\e929";
+}
+
+.icon-collect-normal-2018:before {
+  content: "\e92a";
+}
+
+.icon-draft-2018:before {
+  content: "\e92b";
+}
+
+.icon-search-2018:before {
+  content: "\e92c";
+}
+
+.icon-statistics-2018:before {
+  content: "\e92d";
+}
+
+.icon-template-2018:before {
+  content: "\e92e";
+}
+
 .icon-control-checkbox:before {
   content: "\e90c";
 }

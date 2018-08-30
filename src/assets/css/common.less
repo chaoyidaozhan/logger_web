@@ -30,3 +30,15 @@
         border: 1px solid @border-color-base;
     }
 }
+.ivu-input:hover {
+    border-color: @input-select-border-color;
+}
+
+.ivu-select-selection:hover {
+    border-color: @input-select-border-color;
+}
+.ivu-select-visible .ivu-select-selection,
+.ivu-input:focus {
+    border-color: @input-select-border-color;
+    box-shadow: unset;
+}

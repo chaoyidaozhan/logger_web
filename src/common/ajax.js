@@ -33,7 +33,7 @@ function initParams(uri, newParams, type) {
         timestamp: (new Date).valueOf(),
         // version: config.v || '1.0',
         token: (storage.get('$sign') && storage.get('$sign').token) || config.token,
-        lang: window.lang
+        language: window.lang
     }
     let signParams = { // 用于签名的对象
         ...getParams,
