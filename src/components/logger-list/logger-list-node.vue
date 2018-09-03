@@ -119,15 +119,19 @@
                     @on-popper-show="getAllMembers"
                     placement="right-end">
                     <div slot="content">
-                        <fs-avatar
+                        <div 
+                            class="avatar-container"
                             v-for="(item, index) in members"
-                            :key="index"
-                            class="avatar member-card"
-                            size="40px"
-                            :avatar="item.avatar" 
-                            :name="item.userName"
-                            :fontSize="item.userName ? '14px' : '20px'" 
-                        />
+                            :key="index">
+                            <fs-avatar
+                                class="avatar member-card"
+                                size="40px"
+                                :avatar="item.avatar" 
+                                :name="item.userName"
+                                :fontSize="item.userName ? '14px' : '20px'" 
+                            />
+                            <span class="username">{{item.userName || ''}}</span>
+                        </div>
                     </div>
                     <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
                 </Poptip>
@@ -532,6 +536,20 @@ export default {
             float: left;
             &.member-card {
                 margin: 5px;
+            }
+        }
+        .avatar-container {
+            float: left;
+            text-align: center;
+            width: 50px;
+            .avatar {
+                float: none;
+            }
+            .username {
+                display: block;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         .logger-list-col {
