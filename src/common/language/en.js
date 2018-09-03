@@ -48,7 +48,8 @@ module.exports = {
         operationRecord: 'Operation Record',
         saveAsDraft: 'Save as Draft',
         file: 'File',
-        upload: 'Upload'
+        upload: 'Upload',
+        fill: 'Fill'
     },
     status: { // 状态
         loading: 'Loading...',
