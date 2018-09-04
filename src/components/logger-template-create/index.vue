@@ -121,7 +121,7 @@ export default {
                     return date && date.valueOf() > Date.now();
                 }
             },
-            uploadFile: `${config[__ENV__].apiHost}/diaryFile/?token=` + this.$store.state.userInfo.token,
+            uploadFile: null,
             fileStr: [],
             atStr: [],
             submitData: {},
@@ -500,6 +500,9 @@ export default {
         },
     },
     mounted() {
+        let host = `${window.location.protocol}//${window.location.host}/logger`
+        this.uploadFile = `${host}/diaryFile/?token=` + this.$store.state.userInfo.token
+
         this.$eventbus.$on('saveDraftFun', () => { // 保存草稿
             this.saveDraft = true;
             this.handleSubmit();
