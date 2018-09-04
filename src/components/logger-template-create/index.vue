@@ -77,7 +77,7 @@
                     />
             </FormItem>
             <FormItem :label="$t('operate.file')">
-                <template>
+                <template v-if="uploadFile">
                     <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="fileStr" :on-remove="handleRemoveFile">
                         <Button type="ghost" icon="ios-cloud-upload-outline">{{$t('operate.upload')}}</Button>
                     </Upload>
