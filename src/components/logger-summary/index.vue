@@ -122,7 +122,7 @@ export default {
         },
         loggerSummary() { // 日志汇总
             if (this.checkNum <= 0) {
-                this.$Message.warning(this.$t('noun.pleaseSelectTheSummaryLog'));
+                this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'));
             } else {
                 this.handleSummaryData();
                 this.$store.dispatch('update_template_content', {

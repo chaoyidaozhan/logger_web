@@ -43,7 +43,6 @@ switch (lang) {
 Vue.use(iView, {
     locale: locale
 });
-
 Vue.prototype.lang = lang || 'zhs'
 
 Vue.use(VueI18n)

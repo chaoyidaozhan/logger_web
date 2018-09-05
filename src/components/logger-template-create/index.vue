@@ -1,7 +1,7 @@
 <template>
     <div class="logger-create">
         <Form :label-width="lang == 'en' ? 120 : 110" >
-            <FormItem :label="$t('noun.logDate')" v-if="templateItemData.diaryTimeStatus">
+            <FormItem :label="`${$t('noun.logDate')}${isFill}`" v-if="templateItemData.diaryTimeStatus">
                  <DatePicker type="date"
                     placement="bottom-start"
                     :placeholder="$t('noun.date')" 
@@ -133,6 +133,13 @@ export default {
     },
     components: {
         SelectMemberInput
+    },
+    computed: {
+        isFill() {
+            let now = (new Date()).valueOf()
+            let selectTime = this.dateValue.valueOf()
+            return Math.abs(now - selectTime) > 86400000 ? `(${this.$t('operate.fill')})` : ''
+        }
     },
     filters: {
         filterHtml(val) {

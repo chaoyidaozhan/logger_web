@@ -49,7 +49,8 @@ module.exports = {
         operationRecord: '操作記錄',
         saveAsDraft: '存為草稿',
         file: '附件',
-        upload: '上傳'
+        upload: '上傳',
+        fill: '补'
     },
     status: { // 狀態
         loading: '正在加載...',
