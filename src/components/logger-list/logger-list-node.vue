@@ -14,7 +14,7 @@
                 <span class="template-name" v-if="loggerItemData.templateName">
                     <i>{{filterEncode(loggerItemData.templateName)}}</i>
                 </span>
-                <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 86400000"><i>补</i></span>
+                <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 86400000"><i>{{$t('operate.fill')}}</i></span>
 
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
