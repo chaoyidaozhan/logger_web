@@ -140,7 +140,7 @@
 		box-sizing: border-box;
 		border-bottom: 1px solid @border-color;
 		.r {
-			color: @error-color;
+			color: @primary-color;
 			&.clear {
 				position: absolute;
 				top: 0;

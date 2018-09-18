@@ -283,13 +283,14 @@ export default {
             if((isDept && data.deptId === undefined) || (!isDept && data.groupId === undefined)) {
                 return;
             }
-            let path = (params === 1 || params === 3) 
+            let path = (params === 1 || params === 3)
                      ? "exportExcelIncludeUserStatisticsByCondition"
                      : "exportExcelStatisticsByCondition";
             let deptOrGroupId = data.deptId !== undefined
                               ? `deptId=${data.deptId}`
                               : `groupId=${data.groupId}`;
-            let url = `${config[__ENV__].apiHost}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}&start=${data.start}`;
+            let host = `${window.location.protocol}//${window.location.host}/logger`
+            let url = `${host}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&language=${window.lang}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}&start=${data.start}`;
             window.open(url);
         },
         handlePersonData() {
@@ -306,7 +307,8 @@ export default {
             if(!data.memberIds) {
                 return;
             }
-            let url = `${config[__ENV__].apiHost}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}&pageNo=${data.pageNo}&pageSize=${data.pageSize}`;
+            let host = `${window.location.protocol}//${window.location.host}/logger`
+            let url = `${host}/diaryQuery/exportUsersStatisticsByCondition?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&language=${window.lang}&orderType=${data.orderType}&templateId=${data.templateId}&start=${data.start}&end=${data.end}&memberIds=${data.memberIds}&pageNo=${data.pageNo}&pageSize=${data.pageSize}`;
             window.open(url);
         },
         handleChange(value) {

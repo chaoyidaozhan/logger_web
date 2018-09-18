@@ -13,8 +13,8 @@
                     type="group"></avatar>
             <div class="group-row-right">
                 <p class="ellipsis group-name">{{groupItem.groupName}} ({{groupItem.groupMemberCount}})人</p>
-                <p class="ellipsis">{{groupItem.diaryNum}}篇日志</p>
-                <p class="ellipsis">{{groupItem.lastUpdateTime}}更新</p>
+                <p class="ellipsis">{{groupItem.diaryNum}}{{$t('noun.article')}}{{$t('noun.log')}}</p>
+                <p class="ellipsis">{{groupItem.lastUpdateTime}}{{$t('operate.updated')}}</p>
             </div>
         </div>
         <loading :loading="loading"

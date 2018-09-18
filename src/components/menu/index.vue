@@ -192,7 +192,7 @@ export default {
     top: 0;
     bottom: 0;
     width: 200px;
-    border-right: 1px solid @border-color;
+    border-right: 1px solid #d0d0d0;
     background-color: @white-color;
         ::selection {
         background-color: transparent!important;
@@ -235,7 +235,11 @@ export default {
             color: @menu-title-color;
             border-right: 0!important;
           
-          
+            .icon-collect-normal-2018,
+            .icon-statistics-2018,
+            .icon-template-2018 {
+                font-size: 17px;
+            }
             &>i {
                 font-size: 16px;
                 margin-right: 4px;
@@ -253,10 +257,10 @@ export default {
             }
             &:hover {
                 background-color: @menu-hover-color;
-                color: @primary-color;
+                color: @gray-color-dark;
                 border-right: 0!important;
                 &>i {
-                    color: @primary-color;
+                    color: @gray-color-dark;
                 }
             }
             &.ivu-menu-item-active,
@@ -265,6 +269,15 @@ export default {
                 border-right: 0!important;
                 &>i {
                     color: @primary-color;
+                }
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 3px;
+                    height: 100%;
+                    background-color: @primary-color
                 }
             }
         }

@@ -59,7 +59,7 @@ export default {
 				display: inline-block;
 				color: #999;
 				&.active {
-					color: #18d085;
+					color: #E14C46;
 				}
 			}
 		}

@@ -33,6 +33,7 @@ function initParams(uri, newParams, type) {
         timestamp: (new Date).valueOf(),
         // version: config.v || '1.0',
         token: (storage.get('$sign') && storage.get('$sign').token) || config.token,
+        language: window.lang
     }
     let signParams = { // 用于签名的对象
         ...getParams,
@@ -57,8 +58,10 @@ export default function ajax(opt) { //公用的ajax方法
     if (type === 'post' && !opt.requestBody) {
         params = new URLSearchParams();
         params.add(opt.data);
-    } else {
+    } else if (opt.requestBody === true) { // form data
         params = qs.stringify(opt.data);
+    } else { // payload
+        params = opt.data
     }
     
     let uri = initParams(opt.url, opt.data || {}, opt.type || null);

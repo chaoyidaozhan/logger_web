@@ -158,17 +158,17 @@
                 </TabPane>
             </Tabs>
         </div>
-        <Modal :width="300" class-name="template-modal" :mask-closable="false" :closable="false" v-model="showSuccessModal">
-            <p>保存成功</p>
+        <Modal :width="lang == 'en' ? 420 : 300" class-name="template-modal" :mask-closable="false" :closable="false" v-model="showSuccessModal">
+            <p>{{$t('toast.savedSuccessfully')}}</p>
             <div slot="footer">
-                <Button type="primary" @click="onOk">返回模板管理</Button>
-                <Button type="ghost" @click="onCancel">继续编辑</Button>
+                <Button type="primary" @click="onOk">{{$t('toast.returnToTemplateManagement')}}</Button>
+                <Button type="ghost" @click="onCancel">{{$t('toast.continueEditing')}}</Button>
             </div>
         </Modal>
         <Modal :width="580" class-name="preview-modal" v-model="showPreviewModal">
             <RadioGroup class="tab-radio" v-model="previeWeb" type="button">
-                <Radio label="0">web端</Radio>
-                <Radio label="1">移动端</Radio>
+                <Radio label="0">{{$t('noun.web')}}</Radio>
+                <Radio label="1">{{$t('noun.mobile')}}</Radio>
             </RadioGroup>
             <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
                 <div class="mobile-title" v-if="previeWeb != '0'">
@@ -824,7 +824,7 @@ export default {
                 height: 20px;
                 text-align: center;
                 line-height: 20px;
-                background: @drag-close-color;
+                background: @primary-color;
                 color: @white-color;
                 cursor: pointer;
             }

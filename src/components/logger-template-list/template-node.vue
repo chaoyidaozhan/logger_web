@@ -11,15 +11,15 @@
         <div class="template-operate-modal" v-if="showEdit">
             <!--启用， 停用-->
             <template v-if="!data.dataStatus">
-                <span title="启用" @click="handleSwitch('start')"><i class="icon-play"></i></span>
+                <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
                  <!--停用显示编辑和删除-->
-                <span title="编辑" @click="goToTemplate"><i class="icon-edit"></i></span>
-                <span title="删除"><i class="icon-delete" @click="handleDelete"></i></span>
+                <span @click="goToTemplate"><i class="icon-edit"></i></span>
+                <span><i class="icon-delete" @click="handleDelete"></i></span>
             </template>
             <template v-else>
                 <!--启用显示查看-->
-                <span title="停用" @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
-                <span title="查看" @click="goToTemplate"><i class="icon-check"></i></span>
+                <span @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
+                <span @click="goToTemplate"><i class="icon-check"></i></span>
             </template>
         </div>
     </div>
@@ -77,8 +77,8 @@ export default {
         },
         handleDelete() {
             this.$Modal.confirm({
-                title: '删除模板提醒',
-                content: '点击确定删除模板',
+                title: this.$t('toast.deleteTemplateReminder'),
+                content: this.$t('toast.clickOKToDeleteTheTemplate'),
                 onOk:()=>{
                     this.$ajax({
                         url: `/template/delete/${this.data.id}`,

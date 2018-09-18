@@ -122,7 +122,7 @@ export default {
         },
         loggerSummary() { // 日志汇总
             if (this.checkNum <= 0) {
-                this.$Message.warning(this.$t('noun.pleaseSelectTheSummaryLog'));
+                this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'));
             } else {
                 this.handleSummaryData();
                 this.$store.dispatch('update_template_content', {
@@ -138,7 +138,8 @@ export default {
         },
         exportECL() { // 导出
             let templateId = this.params.templateId == null ? 0 : this.params.templateId;
-            let url = `${config[__ENV__].apiHost}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}
+            let host = `${window.location.protocol}//${window.location.host}/logger`
+            let url = `${host}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}&beginDate=${this.params.beginDate}&language=${window.lang}
             &endDate=${this.params.endDate}&token=${this.$store.state.userInfo.token}&templateId=${templateId}&memberIds=${this.params.memberIds || ""}&groupIds=${this.params.groupId || ""}&deptIds=${this.params.deptId || ""}`;
             window.open(url, '_blank');
         },
@@ -269,10 +270,10 @@ export default {
         loadData() { // 加载数据
             let data = this.getParams();
             if (!data.templateId) {
-                this.$Message.warning('请选择模版');
+                this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`);
                 return false;
             } else if (!data.beginDate || !data.endDate) {
-                this.$Message.warning('请选择日期');
+                this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`);
                 return false;
             } else {
                 this.loading = true;
@@ -377,6 +378,10 @@ export default {
         }
         .bottom-right {
             float: right;
+            .ivu-btn-success {
+                border-color: @primary-color;
+                background-color: @primary-color;
+            }
         }
     }
     .nodata {

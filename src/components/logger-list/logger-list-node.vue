@@ -14,6 +14,8 @@
                 <span class="template-name" v-if="loggerItemData.templateName">
                     <i>{{filterEncode(loggerItemData.templateName)}}</i>
                 </span>
+                <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 86400000"><i>{{$t('operate.fill')}}</i></span>
+
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
                     <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
@@ -102,12 +104,38 @@
         </div>
         <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
             <div class="logger-list-col">
-                <span class="cursor-pointer" @click="handleContentExpand" v-if="!contentExpand">
+                <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
                     {{$t('operate.expand')}}
                 </span>
-                <span class="cursor-pointer" @click="handleContentExpand" v-else>
+                <span class="cursor-pointer more" @click="handleContentExpand" v-else>
                     {{$t('operate.collapse')}}
                 </span>
+            </div>
+        </div>
+        <div class="logger-list-row">
+            <div class="logger-list-col logger-list-location">
+                <Poptip
+                    v-if="loggerItemData.readCount"
+                    @on-popper-show="getAllMembers"
+                    placement="right-end">
+                    <div slot="content">
+                        <div 
+                            class="avatar-container"
+                            v-for="(item, index) in members"
+                            :key="index">
+                            <fs-avatar
+                                class="avatar member-card"
+                                size="40px"
+                                :avatar="item.avatar" 
+                                :name="item.userName"
+                                :fontSize="item.userName ? '14px' : '20px'" 
+                            />
+                            <span class="username">{{item.userName || ''}}</span>
+                        </div>
+                    </div>
+                    <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
+                </Poptip>
+                <div class="count" v-else>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
             </div>
         </div>
         <div class="logger-list-row" v-if="!!loggerItemData.location">
@@ -148,7 +176,7 @@
         <Modal
             v-model="operateModal"
             class="operate-modal"
-            title="操作记录">   
+            :title="$t('noun.operationRecord')">   
             <div class="operate-row" v-for="item in operateModalData" :key="item.id">
                 <fs-avatar class="operate-avatar" 
                     size="31px" 
@@ -210,7 +238,8 @@ export default {
             operateModalData: [],
 
             showReply: false,
-            editTimer: null
+            editTimer: null,
+            members: null
         }
     },
     components: {
@@ -251,6 +280,16 @@ export default {
         }
     },
     methods: {
+        getAllMembers() {
+            this.$ajax({
+                url: `/diaryReadLog/getDiaryReadLogList/${this.loggerItemData.id}`,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.members = res.data || []
+                    }
+                }
+            })
+        },
         setRangeHeight() { // 设置可展开的高度
             this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight;
             this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight;
@@ -270,9 +309,9 @@ export default {
             let str = `${this.$t('noun.visibleTo')}：`
             if(!range.length) {
                 if(loggerItemData.visibleRange === 0) {
-                    str += `${this.$t('noun.public')}：`
+                    str += `${this.$t('noun.public')}`
                 } else if (loggerItemData.visibleRange === 2) {
-                    str += `${this.$t('noun.private')}：`
+                    str += `${this.$t('noun.private')}`
                 } else {
                     str = '';
                 }
@@ -329,6 +368,7 @@ export default {
                         //         this.$parent.$parent.list.splice(this.index ,1);
                         //     }
                         // }
+                        this.sendHasReadBrand()
                     }
                 },
                 error: (res)=>{
@@ -350,12 +390,30 @@ export default {
                 type: 'post',
                 requestBody: true,
                 success: (res)=>{
-
+                    this.sendHasReadBrand()
                 },
                 error: (res)=>{
                     this.$Message.warning(this.$t('toast.operationFailed'));
                 }
             })
+        },
+        sendHasReadBrand() { // 未读情况发送已读标记
+            if(!this.loggerItemData.isRead) {
+                this.$ajax({
+                    url: `/diaryReadLog/add`,
+                    type: 'post',
+                    requestBody: 1,
+                    data: {
+                        diaryId: this.loggerItemData.id
+                    },
+                    success: (res)=>{
+                        if(res && res.code == 0) {
+                            this.loggerItemData.readCount++
+                            this.loggerItemData.isRead = 1
+                        }
+                    }
+                })
+            }
         },
         handleRangeExpand() { // 范围展开操作
             this.rangeExpand = !this.rangeExpand;
@@ -367,6 +425,9 @@ export default {
         },
         handleContentExpand() { // 全文展开操作
             this.contentExpand = !this.contentExpand;
+            if(this.contentExpand) {
+                this.sendHasReadBrand()
+            }
             if(this.contentExpand) {
                 this.contentHeight = this.contentRealHeight;
             } else {
@@ -423,6 +484,7 @@ export default {
                     }
                 },
                 error: (res)=>{
+                    this.sendHasReadBrand()
                     this.$Message.error(res && res.msg || this.$t('status.networkError'))
                 }
             })
@@ -472,6 +534,23 @@ export default {
         word-break: break-all;
         .avatar {
             float: left;
+            &.member-card {
+                margin: 5px;
+            }
+        }
+        .avatar-container {
+            float: left;
+            text-align: center;
+            width: 50px;
+            .avatar {
+                float: none;
+            }
+            .username {
+                display: block;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
         }
         .logger-list-col {
             margin-left: 54px;
@@ -479,9 +558,12 @@ export default {
                 color: @gray-color-light;
             }
             .at {
-                color: rgb(41, 182, 246);
+                color: #289CF2;
                 display: inline-block;
                 margin-right: 4px;
+            }
+            .more {
+                color: #289CF2;
             }
         }
     }
@@ -550,6 +632,16 @@ export default {
     .logger-list-location {
         font-size: 12px;
         color: @gray-color-light;
+        position: relative;
+        .ivu-poptip-popper {
+            top: auto!important;
+            bottom: 0;
+        }
+        .ivu-poptip {
+            .count {
+                cursor: pointer;
+            }
+        }
     }
     .logger-list-range {
         font-size: 12px;
@@ -630,6 +722,7 @@ export default {
     }
     
 }
+
 .operate-modal {
     .ivu-modal-body {
         padding: 0 50px 10px;
