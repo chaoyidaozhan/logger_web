@@ -15,7 +15,11 @@
                     <i>{{filterEncode(loggerItemData.templateName)}}</i>
                 </span>
                 <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 86400000"><i>{{$t('operate.fill')}}</i></span>
-
+                <i class="view-lower-level" 
+                    v-if="isLowerLevel"
+                    @click="handleViewLowerLevel">
+                    {{$t('operate.viewLowerLevelLog')}}
+                </i>
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
                     <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
@@ -216,6 +220,10 @@ export default {
         isDraft: {
             type: Boolean,
             default: false
+        },
+        isLowerLevel: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -303,6 +311,9 @@ export default {
         },
         filterEncode(val) {
             return typeof val == 'string' ? (val ? HTMLDeCode(val.replace(/\n/g, '<br>')) : ''): val
+        },
+        handleViewLowerLevel() {
+            this.$emit('handleViewLowerLevel', this.loggerItemData.memberId)
         },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;
@@ -511,7 +522,7 @@ export default {
     padding: 20px 20px 0;
     position: relative;
     background-color: @white-color;
-    color: @gray-color-dark;
+    color: @gray-color-light;
     font-size: 14px;
     &.fade-enter {
         transition: .2s ease opacity;
@@ -555,7 +566,11 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
-                color: @gray-color-light;
+                color: @gray-color-dark;
+            }
+            .caption {
+                font-size: 13px;
+                margin-bottom: 10px;
             }
             .at {
                 color: #289CF2;
@@ -582,6 +597,13 @@ export default {
                 padding: 4px 8px;
                 display: block;
             }
+        }
+        .view-lower-level {
+            font-size: 12px;
+            padding: 0 12px 0 8px;
+            cursor: pointer;
+            background: url('../../assets/images/view-lower-level.png') no-repeat right center;
+            background-size: 12px;
         }
         .pull-right {
             color: @gray-color-light;
@@ -685,7 +707,7 @@ export default {
         }
     }
     .lat {
-        height: 20px;
+        height: 10px;
     }
     .logger-list-operate {
         font-size: 0;
@@ -702,6 +724,7 @@ export default {
             line-height: 20px;
             padding: 0 34px;
             border-right: 1px solid @border-color;
+            vertical-align: middle;
             i {
                 font-size: 16px;
             }

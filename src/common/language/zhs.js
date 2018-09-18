@@ -51,7 +51,8 @@ module.exports = {
         saveAsDraft: '存为草稿',
         file: '附件',
         upload: '上传',
-        fill: '补'
+        fill: '补',
+        viewLowerLevelLog: '查看下级日志'
     },
     status: { // 状态
         loading: '正在加载...',

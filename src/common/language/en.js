@@ -50,7 +50,8 @@ module.exports = {
         saveAsDraft: 'Save as Draft',
         file: 'File',
         upload: 'Upload',
-        fill: 'Fill'
+        fill: 'Fill',
+        viewLowerLevelLog: 'View lower lever log'
     },
     status: { // 状态
         loading: 'Loading...',
