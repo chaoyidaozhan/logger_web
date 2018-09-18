@@ -6,6 +6,7 @@ module.exports = {
         myLogs: '我的日志',
         internalGroupLog: '内部群日志',
         subordinateLog: '下属日志',
+        lowerLevelLog: '下级日志',
         myDraft: '我的草稿',
         myFavorite: '我的收藏',
         logStatistic: '日志统计',

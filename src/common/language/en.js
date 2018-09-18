@@ -6,6 +6,7 @@ module.exports = {
         myLogs: 'My Logs',
         internalGroupLog: 'Internal Group Log',
         subordinateLog: 'Subordinate Log',
+        lowerLevelLog: 'Lower Level Log',
         myDraft: 'My Draft',
         myFavorite: 'My Favorite',
         logStatistic: 'Log Statistic',

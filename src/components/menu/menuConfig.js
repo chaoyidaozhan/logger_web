@@ -21,6 +21,10 @@ const menus = [
                 path: '/LoggerQueryGroup'
             },
             {
+                name: 'menus.lowerLevelLog',
+                path: '/LoggerQueryLowerLevel'
+            },
+            {
                 name: 'menus.subordinateLog',
                 type: ['deptManager'],
                 path: '/LoggerQueryUnder'
