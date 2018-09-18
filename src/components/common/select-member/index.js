@@ -1,8 +1,15 @@
 
 import selectMemberBody from './select-member-body';
 import treeDep from './tree-dep.vue';
-import i18n from '../../../common/language/'
-
+import { i18n, setLocale } from '../../../common/language/'
+import { getLang } from 'yyzone'
+getLang({
+    source: 'web',
+    callback(lang) {
+        setLocale(lang)
+        i18n.locale = lang
+    }
+})
 export default {
     install(Vue, options) {
         // 生成部门递归组件 ;
