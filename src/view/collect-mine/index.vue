@@ -10,7 +10,10 @@
             <fs-logger-list 
                 url="/favorite/getMyFavorite"
                 :isCollect="true"
-                :range="range" :dataStatus="0" :params="params" ref="loggerList"/>
+                :range="range" 
+                :dataStatus="0" 
+                :params="params" 
+                ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
