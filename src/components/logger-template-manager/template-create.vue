@@ -3,55 +3,31 @@
         <!-- 控件列表 -->
         <div class="main pull-left">
             <div class="main-inner">
-                <div class="date-item" @click="handleChangeCurrentItem($event, dateOptions)">
+                <!-- 日志日期 -->
+                <div class="date-item dragable" @click="handleChangeCurrentItem($event, dateOptions)">
                     <label class="drag-label">
                         {{$t('noun.logDate')}}
                     </label>
-                    <DatePicker type="date"
-                        placement="bottom-start"
-                        :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
-                        class="date-wrap"
-                        :clearable="false">
-                    </DatePicker>
+                    <div class="input-type-wrapper">
+                        <DatePicker type="date"
+                            placement="bottom-start"
+                            :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
+                            class="date-wrap"
+                            :clearable="false">
+                        </DatePicker>
+                    </div>
                     <div class="mask" v-if="(currentItem && currentItem.id) == dateOptions.id">
-                        
                     </div>
                 </div>
                 <div class="inner-push" ref="advacedPush">
-                    <div class="drag-item" @click="handleChangeCurrentItem($event, item)" v-for="(item, index) in pushList" :key="index">
-                        <label class="drag-label"><i v-if="item.isRequired != '0'">*</i>{{item.title}}</label>
-                        <template v-if="item.type == 'InputText'">
-                            <Input :placeholder="item.deion" type="textarea" :autosize="{ minRows: 5}"/>
-                        </template>
-                        <template v-if="item.type == 'InputTextNum'">
-                            <Input :placeholder="`${item.deion}${item.unit ? `(单位：${item.unit})` : ''}`" type="text"/>
-                        </template>
-                        <template v-if="item.type == 'InputRadio'">
-                            <RadioGroup>
-                                <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
-                            </RadioGroup>
-                        </template>
-                        <template v-if="item.type == 'InputCheckbox'">
-                            <CheckboxGroup>
-                                <Checkbox v-for="(val, key) in item.options" :key="key">
-                                    {{val.string}}
-                                </Checkbox>
-                            </CheckboxGroup>
-                        </template>
-                        <template v-if="item.type == 'InputDate'">
-                            <DatePicker type="date"
-                                placement="bottom-start"
-                                :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
-                                class="date-wrap"
-                                :clearable="false">
-                            </DatePicker>
-                        </template>
-                        <div class="mask" v-if="(currentItem && currentItem.id) == item.id">
-                            <Icon type="close" @click.native="handleDelete($event, item, index)"></Icon>
-                        </div>
-                    </div>
+                    <fs-drag-item 
+                        v-for="(item, index) in pushList" 
+                        @handleChangeCurrentItem="handleChangeCurrentItem"
+                        @handleDelete="handleDelete"
+                        :item="item"
+                        :currentItem="currentItem"
+                        :key="index" />
                 </div>
-             
             </div>
         </div>
         <!-- 控件菜单 -->
@@ -64,6 +40,7 @@
                     <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
                     <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
                     <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
+                    <i class="icon-control-date" v-if="item.type == 'InputContainer'"></i>
                     {{item.title}}
                 </div>
             </div>
@@ -187,7 +164,7 @@ import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
-
+import FsDragItem from './drag-item'
 export default {
     data() {
         return {
@@ -255,6 +232,10 @@ export default {
                     "isRequired": "0",
                     "value": "",
                     "content": ""
+                }, {
+                    "type": "InputContainer",
+                    "title": '容器',
+                    "isRequired": "0",
                 }
             ],
             pushList: [],
@@ -290,7 +271,8 @@ export default {
     },
     components: {
         FsEmptyTips,
-        SelectMemberInput
+        SelectMemberInput,
+        FsDragItem
     },
     methods: {
         removeNode(node) { // 移除节点
@@ -326,8 +308,6 @@ export default {
             this.currentItem.isRequired = this.isRequired ? '1' : '0';
         },
         handleChangeCurrentItem(evt, item) { // 更改当前Item
-        console.log(item);
-        
             evt.stopPropagation();
             if(item.isRequired != '0') {
                 this.isRequired = true;
@@ -359,6 +339,7 @@ export default {
                     pull: false,
                     put: true
                 },
+                handle: '.dragable',
                 onUpdate: function (evt) {
                     _this.handleDragUpdate(evt);
                 },
@@ -765,8 +746,10 @@ export default {
     .inner-push {
         min-height: 80%;
     }
-    .drag-item, .date-item {
+    .dragable {
         position: relative;
+    }
+    .drag-item, .date-item {
         cursor: pointer;
         padding: 0 10px 10px;
         margin-bottom: 5px;
@@ -795,15 +778,18 @@ export default {
         .ivu-date-picker {
             width: 100%;
         }
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0);
-            z-index: 90;
+        .input-type-wrapper {
+            position: relative;
+            &:after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background-color: rgba(0, 0, 0, 0);
+                z-index: 90;
+            }
         }
         .mask {
             position: absolute;

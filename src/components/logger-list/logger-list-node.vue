@@ -162,7 +162,9 @@
                     <i class="icon-chat-selected" v-else></i>
                     {{loggerItemData.commentNum | filterCommentNum}}
                 </span>
-                <span class="cursor-pointer collect" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                <span class="cursor-pointer collect" 
+                    :class="{active: loggerItemData.favorite.isFavorite}"
+                    @click="handleCollect">
                     <i class="icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
                     <i class="icon-collect-selected" v-else></i>
                     {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}
