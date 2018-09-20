@@ -62,7 +62,6 @@ export default {
     },
     created() {
         this.init();
-        console.log(window.jDiwork.getContext && window.jDiwork.getContext() || 0)
     }
 }
 </script>
