@@ -16,7 +16,7 @@
                 </span>
                 <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 86400000"><i>{{$t('operate.fill')}}</i></span>
                 <i class="view-lower-level" 
-                    v-if="isLowerLevel"
+                    v-if="isLowerLevel && !!loggerItemData.hasSubordinate"
                     @click="handleViewLowerLevel">
                     {{$t('operate.viewLowerLevelLog')}}
                 </i>
