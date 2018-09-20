@@ -1,8 +1,7 @@
 
 import selectMemberBody from './select-member-body';
 import treeDep from './tree-dep.vue';
-import i18n from '../../../common/language/'
-
+import { i18n } from '../../../common/language/'
 export default {
     install(Vue, options) {
         // 生成部门递归组件 ;
