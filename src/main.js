@@ -35,11 +35,10 @@ Vue.use(selectMember);
 
 // 多语
 import { i18n, setLocale } from './common/language/'
-// import { getLang } from 'yyzone'
-var lang = 'zhs'
-// getLang({
-//     source: 'web',
-//     callback(lang) {
+import { getLang } from 'yyzone'
+getLang({
+    source: 'web',
+    callback(lang) {
         setLocale(lang)
         i18n.locale = lang
 
@@ -97,5 +96,5 @@ var lang = 'zhs'
             router,
             ajax
         }).$mount('#app');
-//     }
-// })
+    }
+})
