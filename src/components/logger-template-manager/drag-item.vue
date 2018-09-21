@@ -54,6 +54,10 @@
         <div class="drag-item-children" ref="advacedPush" v-if="item.type === 'InputContainer'">
             <drag-item
                 v-for="(val, index) in item.children"
+                @handleChangeCurrentItem="handleChangeCurrentItem"
+                @handleDelete="handleDelete"
+                :handleDragUpdate="handleDragUpdate"
+                :handleDragAdd="handleDragAdd"
                 :key="index"
                 :item="val"
                 :currentItem="currentItem">
@@ -72,6 +76,12 @@ export default {
         },
         currentItem: {
             type: Object
+        },
+        handleDragUpdate: {
+            type: Function
+        },
+        handleDragAdd: {
+            type: Function
         }
     },
     methods: {
@@ -84,21 +94,25 @@ export default {
     },
     mounted () {
         const _this = this
-        Sortable.create(this.$refs.advacedPush, {
-            group: {
-                name: 'advanced',
-                pull: false,
-                put: true
-            },
-            handle: '.dragable',
-            onUpdate: function (evt) {
-                // _this.handleDragUpdate(evt, item);
-            },
-            onAdd: function (evt) {
-                // _this.handleDragAdd(evt, item);
-            },
-            animation: 150
-        })
+        if(this.$refs.advacedPush) {
+            Sortable.create(this.$refs.advacedPush, {
+                group: {
+                    name: 'advanced',
+                    pull: false,
+                    put: true
+                },
+                handle: '.dragable',
+                onUpdate: function (evt) {
+                    console.log(12321);
+                    
+                    _this.handleDragUpdate(evt, _this.item)
+                },
+                onAdd: function (evt) {
+                    _this.handleDragAdd(evt, _this.item)
+                },
+                animation: 150
+            })
+        }
     }
 }
 </script>

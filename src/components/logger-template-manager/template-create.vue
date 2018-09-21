@@ -24,6 +24,8 @@
                         v-for="(item, index) in pushList" 
                         @handleChangeCurrentItem="handleChangeCurrentItem"
                         @handleDelete="handleDelete"
+                        :handleDragUpdate="handleDragUpdate"
+                        :handleDragAdd="handleDragAdd"
                         :item="item"
                         :currentItem="currentItem"
                         :key="index" />
@@ -236,6 +238,7 @@ export default {
                     "type": "InputContainer",
                     "title": '容器',
                     "isRequired": "0",
+                    "children": []
                 }
             ],
             pushList: [],
@@ -282,13 +285,19 @@ export default {
             let refNode = position === 0 ? fatherNode.children[0] : fatherNode.children[position - 1].nextSibling;
             fatherNode.insertBefore(node, refNode);
         },
-        handleDragAdd(evt) { // 新增数据的时候
+        handleDragAdd(evt, data) { // 新增数据的时候
             this.removeNode(evt.item);
             let timesmap = (new Date()).valueOf();
+            console.log(this.pullList);
             let newItem = JSON.parse(JSON.stringify(this.pullList[evt.oldIndex]))
             newItem.id = timesmap;
             this.currentItem = newItem;
-            this.pushList.splice(evt.newIndex, 0, newItem);
+
+            if(data) {
+                data.children.splice(evt.newIndex, 0, newItem)
+            } else {
+                this.pushList.splice(evt.newIndex, 0, newItem);
+            }
         },
         handleDelete(evt, item, index) { // 删除节点
             evt.preventDefault();
@@ -316,10 +325,15 @@ export default {
             }
             this.currentItem = item;
         },
-        handleDragUpdate(evt) { // 更新数据的时候
+        handleDragUpdate(evt, data) { // 更新数据的时候
             this.removeNode(evt.item);
             this.insertNodeAt(evt.from, evt.item, evt.oldIndex);
-            this.pushList.splice(evt.newIndex, 0, this.pushList.splice(evt.oldIndex, 1)[0]);
+            
+            if(data) {
+                data.children.splice(evt.newIndex, 0, data.children.splice(evt.oldIndex, 1)[0]);
+            } else {
+                this.pushList.splice(evt.newIndex, 0, this.pushList.splice(evt.oldIndex, 1)[0]);
+            }
         },
         initDragItem() { // 拖拽初始化
             let _this = this;
