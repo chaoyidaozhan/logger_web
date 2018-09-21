@@ -5,6 +5,8 @@ import store from './store/';
 import routes from './router/';
 import axios from 'axios';
 import http from './config/http';
+
+
 // 工具类
 import ajax from './common/ajax'; // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min';
@@ -33,10 +35,11 @@ Vue.use(selectMember);
 
 // 多语
 import { i18n, setLocale } from './common/language/'
-import { getLang } from 'yyzone'
-getLang({
-    source: 'web',
-    callback(lang) {
+// import { getLang } from 'yyzone'
+var lang = 'zhs'
+// getLang({
+//     source: 'web',
+//     callback(lang) {
         setLocale(lang)
         i18n.locale = lang
 
@@ -94,5 +97,5 @@ getLang({
             router,
             ajax
         }).$mount('#app');
-    }
-})
+//     }
+// })
