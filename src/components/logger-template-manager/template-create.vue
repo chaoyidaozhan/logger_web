@@ -80,7 +80,7 @@
                                 {{$t('noun.addOption')}}
                             </Button>
                         </div>
-                        <div class="extra-item">
+                        <div class="extra-item" v-if="currentItem.type !== 'InputContainer'">
                             <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
                                 {{$t('noun.required')}}
                             </Checkbox>
@@ -238,7 +238,6 @@ export default {
                 }, {
                     "type": "InputContainer",
                     "title": '容器',
-                    "isRequired": "0",
                     "children": []
                 }
             ],
