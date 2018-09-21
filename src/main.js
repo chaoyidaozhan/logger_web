@@ -5,6 +5,8 @@ import store from './store/';
 import routes from './router/';
 import axios from 'axios';
 import http from './config/http';
+
+
 // 工具类
 import ajax from './common/ajax'; // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min';
