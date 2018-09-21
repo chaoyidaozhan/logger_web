@@ -545,6 +545,9 @@ export default {
     .logger-list-row {
         line-height: 24px;
         word-break: break-all;
+        .username {
+            color: #111;
+        }
         .avatar {
             float: left;
             &.member-card {

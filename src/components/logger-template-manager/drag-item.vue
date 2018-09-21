@@ -10,7 +10,7 @@
             <div class="mask" 
                 style="margin: 0 -10px"
                 v-if="(currentItem && currentItem.id) == item.id && item.type === 'InputContainer'">
-                <Icon type="close" @click.native="handleDelete($event, item, index)"></Icon>
+                <Icon type="close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
             </div>
         </div>
 
@@ -47,19 +47,21 @@
             <!-- 蒙版 -->
             <div class="mask" 
                 v-if="(currentItem && currentItem.id) == item.id">
-                <Icon type="close" @click.native="handleDelete($event, item)"></Icon>
+                <Icon type="close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
             </div>
         </template>
         <!-- 子节点 -->
         <div class="drag-item-children" ref="advacedPush" v-if="item.type === 'InputContainer'">
             <drag-item
                 v-for="(val, index) in item.children"
-                @handleChangeCurrentItem="handleChangeCurrentItem"
-                @handleDelete="handleDelete"
+                :handleChangeCurrentItem="handleChangeCurrentItem"
+                :handleDelete="handleDelete"
                 :handleDragUpdate="handleDragUpdate"
                 :handleDragAdd="handleDragAdd"
+                :zIndex="index"
                 :key="index"
                 :item="val"
+                :isChildren="true"
                 :currentItem="currentItem">
             </drag-item>
         </div>
@@ -77,20 +79,21 @@ export default {
         currentItem: {
             type: Object
         },
+        zIndex: {
+            type: Number
+        },
         handleDragUpdate: {
             type: Function
         },
         handleDragAdd: {
             type: Function
-        }
-    },
-    methods: {
-        handleChangeCurrentItem($event, item) {
-            this.$emit('handleChangeCurrentItem', $event, item)
         },
-        handleDelete($event, item) {
-            this.$emit('handleDelete', $event, item)
-        }
+        handleChangeCurrentItem: {
+            type: Function
+        },
+        handleDelete: {
+            type: Function
+        },
     },
     mounted () {
         const _this = this
@@ -103,12 +106,10 @@ export default {
                 },
                 handle: '.dragable',
                 onUpdate: function (evt) {
-                    console.log(12321);
-                    
                     _this.handleDragUpdate(evt, _this.item)
                 },
                 onAdd: function (evt) {
-                    _this.handleDragAdd(evt, _this.item)
+                    _this.handleDragAdd(evt, _this.item,)
                 },
                 animation: 150
             })
@@ -120,5 +121,6 @@ export default {
 .drag-item-children {
     min-height: 200px;
     border: 1px solid #ededed;
+    margin-top: 10px;
 }
 </style>

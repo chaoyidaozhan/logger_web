@@ -22,12 +22,13 @@
                 <div class="inner-push" ref="advacedPush">
                     <fs-drag-item 
                         v-for="(item, index) in pushList" 
-                        @handleChangeCurrentItem="handleChangeCurrentItem"
-                        @handleDelete="handleDelete"
+                        :handleChangeCurrentItem="handleChangeCurrentItem"
+                        :handleDelete="handleDelete"
                         :handleDragUpdate="handleDragUpdate"
                         :handleDragAdd="handleDragAdd"
                         :item="item"
                         :currentItem="currentItem"
+                        :zIndex="index"
                         :key="index" />
                 </div>
             </div>
@@ -288,22 +289,28 @@ export default {
         handleDragAdd(evt, data) { // 新增数据的时候
             this.removeNode(evt.item);
             let timesmap = (new Date()).valueOf();
-            console.log(this.pullList);
             let newItem = JSON.parse(JSON.stringify(this.pullList[evt.oldIndex]))
             newItem.id = timesmap;
-            this.currentItem = newItem;
-
             if(data) {
-                data.children.splice(evt.newIndex, 0, newItem)
+                if(newItem.type != 'InputContainer') {
+                    data.children.splice(evt.newIndex, 0, newItem)
+                    this.currentItem = newItem;
+                }
             } else {
                 this.pushList.splice(evt.newIndex, 0, newItem);
+                this.currentItem = newItem;
             }
         },
-        handleDelete(evt, item, index) { // 删除节点
+        handleDelete(evt, index, data, parent) { // 删除节点
             evt.preventDefault();
             evt.stopPropagation();
-            this.currentItem = this.pushList[index + 1] ? this.pushList[index + 1] : this.pushList[index - 1];
-            this.pushList.splice(index, 1);
+            if(parent && parent.children) {
+                this.currentItem = parent.children[index + 1] ? parent.children[index + 1] : parent.children[index - 1];
+                parent.children.splice(index, 1);
+            } else {
+                this.currentItem = this.pushList[index + 1] ? this.pushList[index + 1] : this.pushList[index - 1];
+                this.pushList.splice(index, 1);
+            }
         },
         handleDeleteOptions(index) { // 删除选项
             this.currentItem.options.splice(index, 1);
@@ -328,7 +335,7 @@ export default {
         handleDragUpdate(evt, data) { // 更新数据的时候
             this.removeNode(evt.item);
             this.insertNodeAt(evt.from, evt.item, evt.oldIndex);
-            
+            console.log(data);
             if(data) {
                 data.children.splice(evt.newIndex, 0, data.children.splice(evt.oldIndex, 1)[0]);
             } else {
