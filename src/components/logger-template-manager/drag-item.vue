@@ -164,7 +164,8 @@ export default {
             z-index: 90;
         }
     }
-    .ivu-radio-group {
+    .ivu-radio-group, .ivu-checkbox-group {
+        line-height: 20px;
         .drag-item-children & {
             padding: 10px;
         }

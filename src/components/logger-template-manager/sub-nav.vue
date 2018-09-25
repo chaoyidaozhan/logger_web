@@ -5,7 +5,7 @@
         <i class="icon-control-radiobutton" v-if="data.type == 'InputRadio'"></i>
         <i class="icon-control-checkbox" v-if="data.type == 'InputCheckbox'"></i>
         <i class="icon-control-date" v-if="data.type == 'InputDate'"></i>
-        <i class="icon-control-date" v-if="data.type == 'InputContainer'"></i>
+        <i class="icon-content" v-if="data.type == 'InputContainer'"></i>
         {{data.title}}
     </div>
 </template>
