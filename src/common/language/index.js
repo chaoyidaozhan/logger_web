@@ -1,6 +1,9 @@
 import Vue from 'vue'
-import iView from 'iview';
+import { locale } from 'iview';
+
 import VueI18n from 'vue-i18n'
+Vue.use(VueI18n)
+
 import zhs from './zhs'
 import zht from './zht'
 import en from './en'
@@ -13,44 +16,33 @@ import locale_en from 'iview/dist/locale/en-US';
 // zh-hk 中文（香港特区）
 // zh-cn 中文（中华人民共和国）
 // zh-sg 中文（新加坡）
-let lang = navigator.language || navigator.userLanguage;
-lang = lang.toLocaleLowerCase();
-if (lang.indexOf('zh') != -1) {
-    if (lang.indexOf('cn') != -1) {
-        lang = 'zhs'
-    } else {
-        lang = 'zht'
-    }
-} else {
-    lang = 'en'
-}
-window.lang = lang
-let locale
-switch (lang) {
-    case 'en':
-        locale = locale_en
-        document.title = 'Log'
-        break;
-    case 'zht':
-        locale = locale_tw
-        document.title = '日誌2.0'
-        break;
-    default:
-        locale = locale_cn
-        document.title = '日志2.0'
-        break;
-}
-Vue.use(iView, {
-    locale: locale
-});
-Vue.prototype.lang = lang || 'zhs'
 
-Vue.use(VueI18n)
-export default new VueI18n({
-    locale: lang,
+export function setLocale(lang = 'zhs') {
+    const iviewLang = {
+        'zhs': locale_cn,
+        'zht': locale_tw,
+        'en': locale_en,
+    }
+    const title = {
+        'zhs': '日志',
+        'zht': '日誌',
+        'en': 'Log',
+    }
+    window.lang = lang
+    Vue.prototype.lang = lang
+    document.title = title[lang]
+    locale(iviewLang[lang])
+}
+
+export const i18n = new VueI18n({
+    locale: 'zhs',
     messages: {
         zhs: zhs,
         zht: zht,
         en: en
     }
 })
+export default {
+    setLocale,
+    i18n
+}

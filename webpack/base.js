@@ -74,6 +74,9 @@ module.exports = {
             {   
                 test: /iview.src.*?js$/, loader: 'babel-loader' 
             },
+            {   
+                test: /yyzone.src.*?js$/, loader: 'babel-loader' 
+            },
             {
                 test: /vue-preview.src.*?js$/,
                 use: [{
@@ -91,6 +94,7 @@ module.exports = {
                 test: /\.js$/,
                 include: [
                     APP_SRC,
+                    path.resolve('/node_modules/yyzone/src'),
                     path.resolve('/node_modules/iview/src'),
                     path.resolve('/node_modules/iview/dist'),
                     path.resolve('/node_modules/vue-preview/src/plugins/preview'),
