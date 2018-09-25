@@ -1,6 +1,7 @@
 module.exports = {
     menus: { // 导航
         logQuery: '日志查询',
+        workLog: '写日志',
         all: '所有日志',
         atMe: '@我的',
         myLogs: '我的日志',

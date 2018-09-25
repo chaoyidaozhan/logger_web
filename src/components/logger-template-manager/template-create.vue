@@ -148,7 +148,7 @@
             <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
                 <div class="mobile-title" v-if="previeWeb != '0'">
                     <i class="icon-arrow-left"></i>
-                    写日志
+                    {{$t('menus.workLog')}}
                 </div>
                 <div v-html="previewHtml"></div>
                 <img v-if="previeWeb != '0'" src="../../assets/images/preview-mobile.png">

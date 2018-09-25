@@ -1,6 +1,7 @@
 module.exports = {
     menus: { // 导航
         logQuery: 'Query',
+        workLog: 'Work Log',
         all: 'All',
         atMe: '@Me',
         myLogs: 'My Logs',

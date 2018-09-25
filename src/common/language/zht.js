@@ -1,6 +1,7 @@
 module.exports = {
     menus: { // 導航
         logQuery: '日誌查詢',
+        workLog: '寫日誌',
         all: '所有日誌',
         atMe: '@我的',
         myLogs: '我的日誌',
