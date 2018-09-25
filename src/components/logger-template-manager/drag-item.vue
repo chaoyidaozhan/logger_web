@@ -229,6 +229,7 @@ export default {
 .drag-item-children {
     position: relative;
     padding: 0 10px 20px;
+    min-height: 150px;
     &:after {
         content: '';
         position: absolute;
@@ -239,13 +240,16 @@ export default {
         background-color: @select-item-bg;
     }
     .drag-item-children-tips {
-        margin: 10px 0 0;
         border : 1px dashed @border-color-dark;
         height: 130px;
         line-height: 130px;
         text-align: center;
         font-size: 14px;
         color: @btn-disable-color;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        right: 10px;
     }
 }
 </style>
