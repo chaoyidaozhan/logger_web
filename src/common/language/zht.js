@@ -179,6 +179,7 @@ module.exports = {
         numberBox: '數字輸入',
         radioBox: '單選框',
         checkBox: '復選框',
+        content: '內容',
         option: '選項',
         control: '控件',
         description: '說明',

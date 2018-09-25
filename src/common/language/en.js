@@ -178,6 +178,7 @@ module.exports = {
         numberBox: 'Number Box',
         radioBox: 'Radio Button',
         checkBox: 'Check Box',
+        content: 'content',
         option: 'Option',
         control: 'Control',
         description: ' Description',

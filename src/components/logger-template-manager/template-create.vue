@@ -43,7 +43,7 @@
                     <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
                     <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
                     <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
-                    <i class="icon-control-date" v-if="item.type == 'InputContainer'"></i>
+                    <i class="icon-content" v-if="item.type == 'InputContainer'"></i>
                     {{item.title}}
                 </div>
             </div>
@@ -237,7 +237,7 @@ export default {
                     "content": ""
                 }, {
                     "type": "InputContainer",
-                    "title": '容器',
+                    "title": this.$t('noun.content'),
                     "children": []
                 }
             ],
