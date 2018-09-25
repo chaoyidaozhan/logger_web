@@ -8,7 +8,6 @@
                 <i v-if="item.isRequired != '0'">*</i>{{item.title}}
             </label>
             <div class="mask" 
-                style="margin: 0 -10px"
                 v-if="(currentItem && currentItem.id) == item.id && item.type === 'InputContainer'">
                 <Icon type="close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
             </div>
@@ -52,18 +51,23 @@
         </template>
         <!-- 子节点 -->
         <div class="drag-item-children" ref="advacedPush" v-if="item.type === 'InputContainer'">
-            <drag-item
-                v-for="(val, index) in item.children"
-                :handleChangeCurrentItem="handleChangeCurrentItem"
-                :handleDelete="handleDelete"
-                :handleDragUpdate="handleDragUpdate"
-                :handleDragAdd="handleDragAdd"
-                :zIndex="index"
-                :key="index"
-                :item="val"
-                :isChildren="true"
-                :currentItem="currentItem">
-            </drag-item>
+            <div class="drag-item-children-tips" v-if="!item.children.length">
+                请拖入内容
+            </div>
+            <template v-else>
+                <drag-item
+                    v-for="(val, index) in item.children"
+                    :handleChangeCurrentItem="handleChangeCurrentItem"
+                    :handleDelete="handleDelete"
+                    :handleDragUpdate="handleDragUpdate"
+                    :handleDragAdd="handleDragAdd"
+                    :zIndex="index"
+                    :key="index"
+                    :item="val"
+                    :isChildren="true"
+                    :currentItem="currentItem">
+                </drag-item>
+            </template>
         </div>
     </div>
 </template>
@@ -117,10 +121,130 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
+@import '../../assets/css/var.less';
+.drag-item, .date-item {
+    cursor: pointer;
+    padding: 0 0 10px;
+    .drag-item-children & {
+        border: 1px solid @border-color-base;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        padding: 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    .drag-label {
+        display: block;
+        font-size: 14px;
+        padding: 10px;
+        .drag-item-children & {
+            background-color: @white-color-title;
+        }
+        i {
+            vertical-align: middle;
+            color: @drag-close-color;
+        }
+    }
+    .input-type-wrapper {
+        position: relative;
+        padding: 0 10px;
+        .drag-item-children & {
+            padding: 0;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0);
+            z-index: 90;
+        }
+    }
+    .ivu-radio-group {
+        .drag-item-children & {
+            padding: 10px;
+        }
+    }
+    .ivu-radio-wrapper, .ivu-checkbox-wrapper {
+        margin-right: 20px;
+        font-size: 14px;
+    }
+    textarea {
+        min-height: 115px;
+        resize: none;
+    }
+    textarea, input {
+        .drag-item-children & {
+            border: none;
+        }
+    }
+    .ivu-input-number {
+        width: 100%;
+    }
+    .ivu-date-picker {
+        width: 100%;
+    }
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        text-align: right;
+        bottom: 0;
+        border: 1px dashed @drag-border-color;
+        background-color: @drag-bg-color;
+        z-index: 1000;
+        i {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            background: @primary-color;
+            color: @white-color;
+            cursor: pointer;
+        }
+    }
+    &.sortable-chosen-nav {
+        opacity: .4;
+        text-align: center;
+        padding: 20px 0;
+        border: 1px dashed @drag-border-color;
+        background-color: @drag-bg-color;
+        i {
+            display: block;
+            font-size: 25px;
+            margin-bottom: 3px;
+        }
+    }
+}
 .drag-item-children {
-    min-height: 200px;
-    border: 1px solid #ededed;
-    margin-top: 10px;
+    position: relative;
+    padding: 0 10px 20px;
+    &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        bottom: 0;
+        background-color: @select-item-bg;
+    }
+    .drag-item-children-tips {
+        margin: 10px 0 0;
+        border : 1px dashed @border-color-dark;
+        height: 130px;
+        line-height: 130px;
+        text-align: center;
+        font-size: 14px;
+        color: @btn-disable-color;
+    }
 }
 </style>

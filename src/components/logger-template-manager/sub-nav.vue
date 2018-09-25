@@ -1,13 +1,20 @@
 <template>
-    <div>
-        <div class="drag-item" v-for="(item, index) in pullList" :key="index">
-            <i class="icon-control-text" v-if="item.type == 'InputText'"></i>
-            <i class="icon-control-textfield" v-if="item.type == 'InputTextNum'"></i>
-            <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
-            <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
-            <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
-            <i class="icon-control-date" v-if="item.type == 'InputContainer'"></i>
-            {{item.title}}
-        </div>
+    <div class="drag-item">
+        <i class="icon-control-text" v-if="data.type == 'InputText'"></i>
+        <i class="icon-control-textfield" v-if="data.type == 'InputTextNum'"></i>
+        <i class="icon-control-radiobutton" v-if="data.type == 'InputRadio'"></i>
+        <i class="icon-control-checkbox" v-if="data.type == 'InputCheckbox'"></i>
+        <i class="icon-control-date" v-if="data.type == 'InputDate'"></i>
+        <i class="icon-control-date" v-if="data.type == 'InputContainer'"></i>
+        {{data.title}}
     </div>
 </template>
+<script>
+export default {
+    props: {
+        data: {
+            type: Object
+        }
+    }
+}
+</script>

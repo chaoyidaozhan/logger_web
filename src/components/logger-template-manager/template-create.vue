@@ -19,6 +19,7 @@
                     <div class="mask" v-if="(currentItem && currentItem.id) == dateOptions.id">
                     </div>
                 </div>
+                <!-- 拖拽控件 -->
                 <div class="inner-push" ref="advacedPush">
                     <fs-drag-item 
                         v-for="(item, index) in pushList" 
@@ -37,20 +38,13 @@
         <div class="sub pull-left">
             <span class="title">{{$t('noun.control')}}</span>
             <div class="nav" ref="advacedPull">
-                <div class="drag-item" v-for="(item, index) in pullList" :key="index">
-                    <i class="icon-control-text" v-if="item.type == 'InputText'"></i>
-                    <i class="icon-control-textfield" v-if="item.type == 'InputTextNum'"></i>
-                    <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
-                    <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
-                    <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
-                    <i class="icon-content" v-if="item.type == 'InputContainer'"></i>
-                    {{item.title}}
-                </div>
+                <fs-sub-nav v-for="(item, index) in pullList" :data="item" :key="index"></fs-sub-nav>
             </div>
         </div>
         <!-- 控件设置-->
         <div class="extra pull-left">
             <Tabs>
+                <!-- 控件设置 -->
                 <TabPane :label="`${$t('noun.controlSettings')}`">
                     <div v-if="currentItem && currentItem.id != 'dateOptions'">
                         <div class="extra-item">
@@ -96,6 +90,7 @@
                     </div>
                     <fs-empty-tips v-else :emptyMsg="$t('toast.thereIsNoControl')" iconType="template"/>
                 </TabPane>
+                <!-- 模板设置 -->
                 <TabPane :label="`${$t('noun.templateSettings')}`">
                     <div>
                         <div class="extra-item">
@@ -168,6 +163,7 @@ import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 import FsDragItem from './drag-item'
+import FsSubNav from './sub-nav'
 export default {
     data() {
         return {
@@ -238,6 +234,7 @@ export default {
                 }, {
                     "type": "InputContainer",
                     "title": this.$t('noun.content'),
+                    "isRequired": "0",
                     "children": []
                 }
             ],
@@ -275,7 +272,8 @@ export default {
     components: {
         FsEmptyTips,
         SelectMemberInput,
-        FsDragItem
+        FsDragItem,
+        FsSubNav
     },
     methods: {
         removeNode(node) { // 移除节点
@@ -769,85 +767,7 @@ export default {
     .dragable {
         position: relative;
     }
-    .drag-item, .date-item {
-        cursor: pointer;
-        padding: 0 10px 10px;
-        margin-bottom: 5px;
-        .drag-label {
-            display: block;
-            font-size: 14px;
-            padding: 10px 12px 10px 0;
-            i {
-                vertical-align: middle;
-                color: @drag-close-color;
-            }
-        }
-        .ivu-radio-wrapper, .ivu-checkbox-wrapper {
-            margin-right: 20px;
-            margin-bottom: 2px;
-            font-size: 14px;
-        }
-        textarea {
-            height: 115px; 
-            min-height: 115px;
-            resize: none;
-        }
-        .ivu-input-number {
-            width: 100%;
-        }
-        .ivu-date-picker {
-            width: 100%;
-        }
-        .input-type-wrapper {
-            position: relative;
-            &:after {
-                content: '';
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background-color: rgba(0, 0, 0, 0);
-                z-index: 90;
-            }
-        }
-        .mask {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            text-align: right;
-            bottom: 0;
-            border: 1px dashed @drag-border-color;
-            background-color: @drag-bg-color;
-            z-index: 1000;
-            i {
-                position: absolute;
-                right: 0;
-                top: 0;
-                font-size: 12px;
-                width: 20px;
-                height: 20px;
-                text-align: center;
-                line-height: 20px;
-                background: @primary-color;
-                color: @white-color;
-                cursor: pointer;
-            }
-        }
-        &.sortable-chosen-nav {
-            opacity: .4;
-            text-align: center;
-            padding: 20px 0;
-            border: 1px dashed @drag-border-color;
-            background-color: @drag-bg-color;
-            i {
-                display: block;
-                font-size: 25px;
-                margin-bottom: 3px;
-            }
-        }
-    }
+    
 }
 .template-modal {
     p {
