@@ -156,6 +156,8 @@ export default {
         }
         input, textarea {
             border: none!important;
+            color: @gray-color-medium;
+            font-size: 13px;
         }
     }
 }

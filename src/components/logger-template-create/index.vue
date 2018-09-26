@@ -565,6 +565,7 @@ export default {
         resize: none;
         font-size: 14px;
         line-height: 22px;
+        padding: 4px 40px 4px 7px;
     }
 }
 </style>
