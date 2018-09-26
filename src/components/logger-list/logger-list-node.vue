@@ -541,6 +541,12 @@ export default {
     .logger-list-row {
         line-height: 24px;
         word-break: break-all;
+        &.logger-list-time {
+            margin-bottom: 26px;
+            .title {
+                margin-bottom: 6px;
+            }
+        }
         .username {
             color: #111;
         }
@@ -567,11 +573,12 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
+                margin-bottom: 8px;
                 color: @gray-color-dark;
             }
             .caption {
                 font-size: 13px;
-                margin-bottom: 10px;
+                color: @gray-color-medium;
             }
             .at {
                 color: #289CF2;

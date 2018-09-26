@@ -31,15 +31,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import '../../assets/css/var.less';
+.logger-list-row {
+    margin-bottom: 26px;
+}
 .logger-list-content-children {
     .logger-list-row {
+        margin-bottom: 10px;
         .logger-list-col {
             .title {
-                color: #888888;
-            }
-            .caption {
-                color: #555555;
-                font-size: 12px;
+                color: @gray-color-light;
+                margin-bottom: 0;
             }
         }
     }

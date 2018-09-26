@@ -1,7 +1,8 @@
 <template>
     <div class="work-log-node">
         <template v-if="data.type == 'InputText'">
-            <div class="transfrom-wrapper">
+            <div class="transfrom-wrapper"
+                :style="{'z-index': isDisableTrasnformList ? 30 : 20}">
                 <span class="transform-icon" @click="handleTransformList"></span>
                 <div class="transform-list" v-if="isDisableTrasnformList">
 
