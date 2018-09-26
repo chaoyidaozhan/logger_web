@@ -75,17 +75,11 @@
                 </div>
             </div>
             <!--具体内容-->
-            <div class="logger-list-row logger-list-content"
+            <logger-list-content-node
                 v-for="(item, index) in JSON.parse(loggerItemData.content)"
-                :key="index">
-                <div class="logger-list-col">
-                    <div class="title">{{filterEncode(item.title)}}</div>
-                    <div class="caption" >
-                        <span v-html="filterEncode(item.content || item.value)"></span>
-                        <span v-if="item.type=='InputTextNum'&&item.unit">{{item.unit}}</span>
-                    </div>
-                </div>
-            </div>
+                :data="item"
+                :key="index"
+                :filterEncode="filterEncode" />
             
             <!--具体内容-->
             <div class="logger-list-row logger-list-content">
@@ -210,6 +204,7 @@ import FsReply from 'app_component/common/reply/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 import FsFiles from './file';
 import FsImages from './image';
+import LoggerListContentNode from './logger-list-content-node';
 const rowHeight = 24;
 export default {
     props: {
@@ -256,7 +251,8 @@ export default {
         FsAvatar,
         FsReply,
         FsFiles,
-        FsImages
+        FsImages,
+        LoggerListContentNode
     },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期
