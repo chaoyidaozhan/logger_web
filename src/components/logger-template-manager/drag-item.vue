@@ -62,7 +62,7 @@
                     :handleDragUpdate="handleDragUpdate"
                     :handleDragAdd="handleDragAdd"
                     :zIndex="index"
-                    :key="index"
+                    :key="val.id"
                     :item="val"
                     :isChildren="true"
                     :currentItem="currentItem">

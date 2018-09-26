@@ -28,7 +28,7 @@
             </FormItem>
             <FormItem v-if="templateContent.length" v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title | filterHtml" :class="item.isRequired==1?'required-icon':''">
-                <work-log-node :data="item"></work-log-node>
+                <work-log-node :data="item" :transformList="transformList"></work-log-node>
             </FormItem>
             <FormItem :label="`@${$t('noun.someoneChecked')}`">
                 <select-member-input 
@@ -92,7 +92,8 @@ export default {
             saveDraft: false,
             editFlag: 0,
             summaryFlag: 0,
-            btnloading: false
+            btnloading: false,
+            transformList: null
         }
     },
     components: {
@@ -232,6 +233,7 @@ export default {
             this.initData(this.templateItemData, this.templateContent);
         },
         loadData() {
+            this.getTransformList();
             if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'edit' || this.$route.params.loggertype == 'draft')) {
                 this.getTemplateApp();
             } else if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'create' || this.$route.params.loggertype == 'summary')) {
@@ -240,6 +242,25 @@ export default {
             } else {
                 this.setTempListData();
             }
+        },
+        getTransformList() {
+            this.$ajax({
+                url: '/diaryQuery/getTransformList',
+                data: {
+                    pageSize: 10,
+                    pageNo: 1
+                },
+                success: (res) => {
+                    if (res && res.code === 0) {
+                        this.transformList = res.data
+                    } else {
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
+                    }
+                },
+                error: (res) => {
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
+                }
+            })
         },
         getVisibleRange() { //可见范围
             this.$ajax({

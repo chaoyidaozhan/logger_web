@@ -19,8 +19,8 @@
                     <div class="mask" v-if="(currentItem && currentItem.id) == dateOptions.id">
                     </div>
                 </div>
-                <!-- 拖拽控件 -->
                 <div class="inner-push" ref="advacedPush">
+                    <!-- 拖拽控件 -->
                     <fs-drag-item 
                         v-for="(item, index) in pushList" 
                         :handleChangeCurrentItem="handleChangeCurrentItem"
@@ -30,7 +30,7 @@
                         :item="item"
                         :currentItem="currentItem"
                         :zIndex="index"
-                        :key="index" />
+                        :key="item.id" />
                 </div>
             </div>
         </div>
@@ -302,11 +302,11 @@ export default {
             evt.preventDefault();
             evt.stopPropagation();
             if(parent && parent.children) {
-                this.currentItem = parent.children[index + 1] ? parent.children[index + 1] : parent.children[index - 1];
                 parent.children.splice(index, 1);
+                this.currentItem = parent.children[index] ? parent.children[index] : parent.children[index - 1];
             } else {
-                this.currentItem = this.pushList[index + 1] ? this.pushList[index + 1] : this.pushList[index - 1];
                 this.pushList.splice(index, 1);
+                this.currentItem = this.pushList[index] ? this.pushList[index] : this.pushList[index - 1];
             }
         },
         handleDeleteOptions(index) { // 删除选项
@@ -332,7 +332,6 @@ export default {
         handleDragUpdate(evt, data) { // 更新数据的时候
             this.removeNode(evt.item);
             this.insertNodeAt(evt.from, evt.item, evt.oldIndex);
-            console.log(data);
             if(data) {
                 data.children.splice(evt.newIndex, 0, data.children.splice(evt.oldIndex, 1)[0]);
             } else {
