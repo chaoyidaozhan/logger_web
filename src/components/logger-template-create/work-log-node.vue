@@ -3,9 +3,39 @@
         <template v-if="data.type == 'InputText'">
             <div class="transfrom-wrapper"
                 :style="{'z-index': isDisableTrasnformList ? 30 : 20}">
-                <span class="transform-icon" @click="handleTransformList"></span>
+                <span class="transform-icon" @click="handleTransformList(undefined)"></span>
                 <div class="transform-list" v-if="isDisableTrasnformList">
+                    <div class="transform-list-header">
+                        <div class="btn" 
+                            @click="handleTransform('task')" 
+                            :class="transformType === 'task' ? 'active' : ''">任务</div>
+                        <div class="btn" 
+                            @click="handleTransform('schedule')" 
+                            :class="transformType === 'schedule' ? 'active' : ''">日程</div>
+                    </div>
+                    <div class="transform-list-body">
+                        <template v-if="transformType === 'task'">
+                            <template v-if="transformList.taskNames.length">
+                                <div v-for="(item, index) in transformList.taskNames"
+                                    :key="index">
 
+                                </div>
+                            </template>
+                            <div v-else class="empty">暂无数据</div>
+                        </template>
+                        <template v-if="transformType === 'schedule'">
+                            <template v-if="transformList.scheduleNames.length">
+                                <div v-for="(item, index) in transformList.scheduleNames"
+                                    :key="index">
+                                </div>
+                            </template>
+                            <div v-else class="empty">暂无数据</div>
+                        </template>
+                    </div>
+                    <div class="transform-list-footer">
+                        <div class="btn" @click="handleTransformList(false)">取消</div>
+                        <div class="btn">确定</div>
+                    </div>
                 </div>
             </div>
             <Input 
@@ -90,7 +120,8 @@ export default {
     },
     data() {
         return {
-            isDisableTrasnformList: false
+            isDisableTrasnformList: false,
+            transformType: 'task' // task 任务 schedule 日程
         }
     },
     filters: {
@@ -104,8 +135,15 @@ export default {
                 e.preventDefault();
             }
         },
-        handleTransformList() {
-            this.isDisableTrasnformList = !this.isDisableTrasnformList
+        handleTransform(type) {
+            this.transformType = type
+        },
+        handleTransformList(isDisable) {
+            if(typeof isDisable != 'undefined') {
+                this.isDisableTrasnformList = isDisable
+            } else {
+                this.isDisableTrasnformList = !this.isDisableTrasnformList
+            }
         }
     },
     mounted () {
@@ -140,8 +178,65 @@ export default {
             width: 270px;
             height: 368px;
             border-radius: 5px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(41, 42, 45, .28)
+            background-color: @white-color;
+            box-shadow: 0 4px 8px rgba(41, 42, 45, .28);
+            .transform-list-header {
+                margin: 18px auto;
+                width: 160px;
+                height: 30px;
+                line-height: 28px;
+                text-align: center;
+                border: 1px solid @border-color-base;
+                border-radius: 4px;
+                font-size: 0;
+                .btn {
+                    display: inline-block;
+                    width: 50%;
+                    height: 100%;
+                    color: @gray-color-simple;
+                    font-size: 12px;
+                    cursor: pointer;
+                    &:first-child {
+                        border-right: 1px solid @border-color-base;
+                    }
+                    &.active {
+                        background-color: @white-color-light;
+                        color: @primary-color;
+                    }
+                }
+            }
+            .transform-list-body {
+                height: 260px;
+                overflow: auto;
+                padding-bottom: 18px;
+                .empty {
+                    text-align: center;
+                    color: @gray-color-simple;
+                }
+            }
+            .transform-list-footer {
+                text-align: right;
+                padding-right: 30px;
+                .btn {
+                    display: inline-block;
+                    width: 68px;
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 14px; 
+                    text-align: center;
+                    border-radius: 3px;
+                    &:first-child {
+                        color: #474D54;
+                        background-color: @select-item-bg;
+                    }
+                    &:last-child {
+                        margin-left: 5px;
+                        color: @white-color;
+                        background-color: @primary-color;
+                    }
+                }
+
+            }
         }
     }
     .input-container {
