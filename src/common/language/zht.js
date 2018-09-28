@@ -195,7 +195,9 @@ module.exports = {
         peopleHaveSeen: '人看過',
         viewAll: '查看全部',
         someoneChecked: 'TA查看',
-        operationRecord: '操作記錄'
+        operationRecord: '操作記錄',
+        task: '任務',
+        schedule: '日程'
     },
     title: {
         logTemplate: '日誌模板',

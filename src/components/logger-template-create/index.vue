@@ -246,10 +246,6 @@ export default {
         getTransformList() {
             this.$ajax({
                 url: '/diaryQuery/getTransformList',
-                data: {
-                    pageSize: 10,
-                    pageNo: 1
-                },
                 success: (res) => {
                     if (res && res.code === 0) {
                         this.transformList = res.data

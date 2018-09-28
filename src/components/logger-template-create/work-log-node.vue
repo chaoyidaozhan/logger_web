@@ -8,10 +8,10 @@
                     <div class="transform-list-header">
                         <div class="btn" 
                             @click="handleTransform('task')" 
-                            :class="transformType === 'task' ? 'active' : ''">任务</div>
+                            :class="transformType === 'task' ? 'active' : ''">{{$t('noun.task')}}</div>
                         <div class="btn" 
                             @click="handleTransform('schedule')" 
-                            :class="transformType === 'schedule' ? 'active' : ''">日程</div>
+                            :class="transformType === 'schedule' ? 'active' : ''">{{$t('noun.schedule')}}</div>
                     </div>
                     <div class="transform-list-body">
                         <template v-if="transformType === 'task'">
@@ -25,7 +25,7 @@
                                     </Checkbox>
                                 </CheckboxGroup>
                             </template>
-                            <div v-else class="empty">暂无数据</div>
+                            <div v-else class="empty">{{$t('status.noRelevantData')}}</div>
                         </template>
                         <template v-if="transformType === 'schedule'">
                             <template v-if="transformList.scheduleNames.length">
@@ -33,12 +33,16 @@
                                     :key="index">
                                 </div>
                             </template>
-                            <div v-else class="empty">暂无数据</div>
+                            <div v-else class="empty">{{$t('status.noRelevantData')}}</div>
                         </template>
                     </div>
                     <div class="transform-list-footer">
-                        <div class="btn" @click="handleTransformList(false)">取消</div>
-                        <div class="btn" @click="handleCheck">确定</div>
+                        <div class="btn" @click="handleTransformList(false)">
+                            {{$t('operate.cancel')}}
+                        </div>
+                        <div class="btn" @click="handleCheck">
+                            {{$t('operate.ok')}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -154,11 +158,11 @@ export default {
         handleCheck() {
             if(this.checkedTask.length || this.checkedSchedule.length) {
                 this.checkedTask.forEach(name=>{
-                    this.data.content += `\n${name}`
+                    this.data.content += this.data.content ? `\n${name}` : name
                 })
                 this.checkedTask = []
                 this.checkedSchedule.forEach(name=>{
-                    this.data.content += `\n${name}`
+                    this.data.content += this.data.content ? `\n${name}` : name
                 })
                 this.checkedSchedule = []
             }

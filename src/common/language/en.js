@@ -194,7 +194,9 @@ module.exports = {
         peopleHaveSeen: ' people read',
         viewAll: 'View All',
         someoneChecked: 'Someone',
-        operationRecord: 'Operation record'
+        operationRecord: 'Operation record',
+        task: 'Task',
+        schedule: 'Schedule'
     },
     title: {
         logTemplate: 'Log Template',
