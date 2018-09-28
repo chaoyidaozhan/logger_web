@@ -16,10 +16,14 @@
                     <div class="transform-list-body">
                         <template v-if="transformType === 'task'">
                             <template v-if="transformList.taskNames.length">
-                                <div v-for="(item, index) in transformList.taskNames"
-                                    :key="index">
-
-                                </div>
+                                <CheckboxGroup v-model="checkedTask">
+                                    <Checkbox 
+                                        v-for="(item, index) in transformList.taskNames" 
+                                        :key="index" 
+                                        :label="item">
+                                        <span class="checkbox-label">{{item}}</span>
+                                    </Checkbox>
+                                </CheckboxGroup>
                             </template>
                             <div v-else class="empty">暂无数据</div>
                         </template>
@@ -34,7 +38,7 @@
                     </div>
                     <div class="transform-list-footer">
                         <div class="btn" @click="handleTransformList(false)">取消</div>
-                        <div class="btn">确定</div>
+                        <div class="btn" @click="handleCheck">确定</div>
                     </div>
                 </div>
             </div>
@@ -121,7 +125,9 @@ export default {
     data() {
         return {
             isDisableTrasnformList: false,
-            transformType: 'task' // task 任务 schedule 日程
+            transformType: 'task', // task 任务 schedule 日程,
+            checkedTask: [],
+            checkedSchedule: []
         }
     },
     filters: {
@@ -144,6 +150,19 @@ export default {
             } else {
                 this.isDisableTrasnformList = !this.isDisableTrasnformList
             }
+        },
+        handleCheck() {
+            if(this.checkedTask.length || this.checkedSchedule.length) {
+                this.checkedTask.forEach(name=>{
+                    this.data.content += `\n${name}`
+                })
+                this.checkedTask = []
+                this.checkedSchedule.forEach(name=>{
+                    this.data.content += `\n${name}`
+                })
+                this.checkedSchedule = []
+            }
+            this.isDisableTrasnformList = false
         }
     },
     mounted () {
@@ -208,7 +227,31 @@ export default {
             .transform-list-body {
                 height: 260px;
                 overflow: auto;
-                padding-bottom: 18px;
+                padding: 0 10px 18px;
+                .ivu-checkbox-group {
+                    padding: 0!important;
+                }
+                .ivu-checkbox-wrapper {
+                    display: block;
+                    padding: 0 10px;
+                    border-radius: 2px;
+                    overflow: hidden;
+                    margin-right: 0;
+                    &:hover {
+                        background-color: @select-item-bg;
+                    }
+                    .checkbox-label {
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        float: left;
+                        width: 200px;
+                    }
+                    .ivu-checkbox {
+                        float: right;
+                        margin-top: 8px;
+                    }
+                }
                 .empty {
                     text-align: center;
                     color: @gray-color-simple;
