@@ -228,17 +228,8 @@ export default {
 }
 .drag-item-children {
     position: relative;
-    padding: 0 10px 20px;
+    padding: 0 10px;
     min-height: 150px;
-    &:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 1px;
-        bottom: 0;
-        background-color: @select-item-bg;
-    }
     .drag-item-children-tips {
         border : 1px dashed @border-color-dark;
         height: 130px;
