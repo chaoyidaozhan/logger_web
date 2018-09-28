@@ -1,11 +1,13 @@
 module.exports = {
     menus: { // 導航
         logQuery: '日誌查詢',
+        workLog: '寫日誌',
         all: '所有日誌',
         atMe: '@我的',
         myLogs: '我的日誌',
         internalGroupLog: '內部群日誌',
         subordinateLog: '下屬日誌',
+        lowerLevelLog: '下级日誌',
         myDraft: '我的草稿',
         myFavorite: '我的收藏',
         logStatistic: '日誌統計',
@@ -50,7 +52,8 @@ module.exports = {
         saveAsDraft: '存為草稿',
         file: '附件',
         upload: '上傳',
-        fill: '补'
+        fill: '补',
+        viewLowerLevelLog: '查看下级日誌'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -177,6 +180,7 @@ module.exports = {
         numberBox: '數字輸入',
         radioBox: '單選框',
         checkBox: '復選框',
+        content: '內容',
         option: '選項',
         control: '控件',
         description: '說明',
@@ -191,7 +195,9 @@ module.exports = {
         peopleHaveSeen: '人看過',
         viewAll: '查看全部',
         someoneChecked: 'TA查看',
-        operationRecord: '操作記錄'
+        operationRecord: '操作記錄',
+        task: '任務',
+        schedule: '日程'
     },
     title: {
         logTemplate: '日誌模板',

@@ -28,44 +28,8 @@
             </FormItem>
             <FormItem v-if="templateContent.length" v-for="(item, index) in templateContent" :key="index" 
                 :label="item.title | filterHtml" :class="item.isRequired==1?'required-icon':''">
-                <template v-if="item.type == 'InputText'">
-                    <Input :placeholder="item.deion" v-model="inputTextValue[index]" type="textarea" :autosize="{ minRows: 5, maxRows: 10}"/>
-                </template>
-                <template v-if="item.type == 'InputTextNum'">
-                    <div class="ivu-input-wrapper ivu-input-type">
-                        <input autocomplete="off" spellcheck="false" type="number" 
-                        v-model="item.valueNum"
-                        max="100000000"
-                        @keypress='keypress($event)'
-                        :placeholder="`${item.deion}${item.unit?`(${$t('noun.unit')}：${item.unit})`:''}`" number="true" class="ivu-input">
-                    </div>
-                </template>
-                <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup v-model="item.content">
-                        <Radio v-for="(val, key) in item.options" :label="`${val.string}`" :key="key">{{val.string}}</Radio>
-                    </RadioGroup>
-                </template>
-                <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup v-model="item.content">
-                        <Checkbox v-for="(val, key) in item.options" 
-                            :key="key"
-                            :label="val.string">
-                            </Checkbox>
-                    </CheckboxGroup>
-                </template>
-                <template v-if="item.type == 'InputDate'">
-                    <DatePicker type="date"
-                        placement="bottom-start"
-                        :placeholder="$t('noun.date')" 
-                        class="date-wrap"
-                        v-model="item.dateValueSec"
-                        :clearable="false"
-                    >
-                    </DatePicker>
-                </template>
+                <work-log-node :data="item" :transformList="transformList"></work-log-node>
             </FormItem>
-
-           
             <FormItem :label="`@${$t('noun.someoneChecked')}`">
                 <select-member-input 
                     :member="member"
@@ -97,6 +61,7 @@
 </template>
 <script>
 import SelectMemberInput from '../common/select-member-input/';
+import WorkLogNode from './work-log-node';
 import config from 'app_src/config/config';
 import FormatTime  from 'app_src/filters/format-time';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
@@ -114,7 +79,6 @@ export default {
             member: [],
             dateValue: new Date(),
             dateValueSec: new Date(),
-            inputTextValue: [],
             valueNum: "",
             dateOption: {
                 disabledDate(date) {
@@ -128,11 +92,13 @@ export default {
             saveDraft: false,
             editFlag: 0,
             summaryFlag: 0,
-            btnloading: false
+            btnloading: false,
+            transformList: null
         }
     },
     components: {
-        SelectMemberInput
+        SelectMemberInput,
+        WorkLogNode
     },
     computed: {
         isFill() {
@@ -201,28 +167,34 @@ export default {
         },
         initTemplateContent(templateContent) { //初始化可变表单
             if(typeof templateContent == 'object') {
-                templateContent && templateContent.forEach((v, k) => {
-                    switch (v.type) {
-                        case 'InputText':
-                            v.value = HTMLDeCode(v.value)
-                            this.inputTextValue[k] = v.value;
-                            break;
-                        case 'InputRadio':
-                            v.content = v.content ? v.content : v.options[0].string;
-                            break;
-                        case 'InputCheckbox':
-                            v.content = v.value ? v.content.split(',') : [];
-                            break;
-                        case 'InputTextNum':
-                            v.valueNum = typeof +v.value === 'number' ? v.value : "";
-                            break;
-                        case 'InputDate':
-                            v.dateValueSec = v.value ? new Date(v.value) : new Date();
-                            break;
-                        default:
-                            break;
-                    }
-                })
+                function trimContent(data) {
+                    data && data.forEach((v,k)=>{
+                        switch (v.type) {
+                            case 'InputText':
+                                v.value = HTMLDeCode(v.value)
+                                v.content = HTMLDeCode(v.value)
+                                break;
+                            case 'InputRadio':
+                                v.content = v.content ? v.content : v.options[0].string;
+                                break;
+                            case 'InputCheckbox':
+                                v.content = v.value ? v.content.split(',') : [];
+                                break;
+                            case 'InputTextNum':
+                                v.valueNum = typeof +v.value === 'number' ? v.value : "";
+                                break;
+                            case 'InputDate':
+                                v.dateValueSec = v.value ? new Date(v.value) : new Date();
+                                break;
+                            case 'InputContainer':
+                                trimContent(v.children)
+                                break;
+                            default:
+                                break;
+                        }
+                    })
+                }
+                trimContent(templateContent)
             }
         },
         initDefaultFile(templateItemData) { //初始化文件列表
@@ -261,6 +233,7 @@ export default {
             this.initData(this.templateItemData, this.templateContent);
         },
         loadData() {
+            this.getTransformList();
             if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'edit' || this.$route.params.loggertype == 'draft')) {
                 this.getTemplateApp();
             } else if (!this.$store.state.template.content.content && (this.$route.params.loggertype == 'create' || this.$route.params.loggertype == 'summary')) {
@@ -269,6 +242,21 @@ export default {
             } else {
                 this.setTempListData();
             }
+        },
+        getTransformList() {
+            this.$ajax({
+                url: '/diaryQuery/getTransformList',
+                success: (res) => {
+                    if (res && res.code === 0) {
+                        this.transformList = res.data
+                    } else {
+                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
+                    }
+                },
+                error: (res) => {
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
+                }
+            })
         },
         getVisibleRange() { //可见范围
             this.$ajax({
@@ -366,43 +354,58 @@ export default {
             });
             this.rangeArr = visibleRangeStr;
             this.templateContentClone = JSON.parse(JSON.stringify(this.templateContent));
-            typeof this.templateContentClone == 'object' && this.templateContentClone.forEach((v, k) => {
-                if (v.type == 'InputText') {
-                    v.value = this.inputTextValue[k];
-                    v.content = this.inputTextValue[k];
-                } else if (v.type == 'InputTextNum') {
-                    v.content = v.valueNum;
-                    v.value = v.valueNum;
-                    if (v.valueNum != undefined) {
-                        delete v.valueNum;
-                    }
-                } else if (v.type == 'InputRadio') {
-                    v.options && v.options.forEach((value, key) => {
-                        if (value.string == v.content) {
-                            v.value = key;
-                            v.checked= "" + key;
+            if(typeof this.templateContentClone == 'object') {
+                function trimContent(data) {
+                    data && data.forEach((v, k)=>{
+                        switch (v.type) {
+                            case 'InputText':
+                                v.value = v.content
+                                break;
+                            case 'InputTextNum':
+                                v.content = v.valueNum;
+                                v.value = v.valueNum;
+                                if (v.valueNum != undefined) {
+                                    delete v.valueNum;
+                                }
+                                break;
+                            case 'InputRadio':
+                                v.options && v.options.forEach((value, key) => {
+                                    if (value.string == v.content) {
+                                        v.value = key;
+                                        v.checked= "" + key;
+                                    }
+                                })
+                                break;
+                            case 'InputCheckbox':
+                                let valueArr = [];
+                                v.options && v.options.forEach((value, key) => {
+                                    v.content && v.content.forEach((item, index) => {
+                                        if (value.string == v.content[index]) {
+                                            valueArr.push(key)
+                                        }
+                                    })
+                                })
+                                v.content = v.content && v.content.join(',');
+                                v.value = valueArr.join(',');
+                                v.checked = valueArr.join(',');
+                                break;
+                            case 'InputDate':
+                                v.value = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
+                                v.content = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
+                                if (v.dateValueSec) {
+                                    delete v.dateValueSec
+                                }
+                                break;
+                            case 'InputContainer':
+                                trimContent(v.children)
+                                break;
+                            default:
+                                break;
                         }
                     })
-                } else if (v.type == 'InputCheckbox') {
-                    let valueArr = [];
-                    v.options && v.options.forEach((value, key) => {
-                        v.content && v.content.forEach((item, index) => {
-                            if (value.string == v.content[index]) {
-                                valueArr.push(key)
-                            }
-                        })
-                    })
-                    v.content = v.content && v.content.join(',');
-                    v.value = valueArr.join(',');
-                    v.checked = valueArr.join(',');
-                } else if (v.type == 'InputDate') {
-                    v.value = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
-                    v.content = FormatTime(new Date(v.dateValueSec), 'YYYY-MM-DD');
-                    if (v.dateValueSec) {
-                        delete v.dateValueSec
-                    }
                 }
-            })
+                trimContent(this.templateContentClone)
+            }
 
             this.member.forEach((v, k) => {
                 memberArr.push({
@@ -558,6 +561,7 @@ export default {
         resize: none;
         font-size: 14px;
         line-height: 22px;
+        padding: 4px 40px 4px 7px;
     }
 }
 </style>

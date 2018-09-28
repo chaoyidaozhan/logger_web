@@ -3,74 +3,48 @@
         <!-- 控件列表 -->
         <div class="main pull-left">
             <div class="main-inner">
-                <div class="date-item" @click="handleChangeCurrentItem($event, dateOptions)">
+                <!-- 日志日期 -->
+                <div class="date-item dragable" @click="handleChangeCurrentItem($event, dateOptions)">
                     <label class="drag-label">
                         {{$t('noun.logDate')}}
                     </label>
-                    <DatePicker type="date"
-                        placement="bottom-start"
-                        :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
-                        class="date-wrap"
-                        :clearable="false">
-                    </DatePicker>
+                    <div class="input-type-wrapper">
+                        <DatePicker type="date"
+                            placement="bottom-start"
+                            :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
+                            class="date-wrap"
+                            :clearable="false">
+                        </DatePicker>
+                    </div>
                     <div class="mask" v-if="(currentItem && currentItem.id) == dateOptions.id">
-                        
                     </div>
                 </div>
                 <div class="inner-push" ref="advacedPush">
-                    <div class="drag-item" @click="handleChangeCurrentItem($event, item)" v-for="(item, index) in pushList" :key="index">
-                        <label class="drag-label"><i v-if="item.isRequired != '0'">*</i>{{item.title}}</label>
-                        <template v-if="item.type == 'InputText'">
-                            <Input :placeholder="item.deion" type="textarea" :autosize="{ minRows: 5}"/>
-                        </template>
-                        <template v-if="item.type == 'InputTextNum'">
-                            <Input :placeholder="`${item.deion}${item.unit ? `(单位：${item.unit})` : ''}`" type="text"/>
-                        </template>
-                        <template v-if="item.type == 'InputRadio'">
-                            <RadioGroup>
-                                <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
-                            </RadioGroup>
-                        </template>
-                        <template v-if="item.type == 'InputCheckbox'">
-                            <CheckboxGroup>
-                                <Checkbox v-for="(val, key) in item.options" :key="key">
-                                    {{val.string}}
-                                </Checkbox>
-                            </CheckboxGroup>
-                        </template>
-                        <template v-if="item.type == 'InputDate'">
-                            <DatePicker type="date"
-                                placement="bottom-start"
-                                :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
-                                class="date-wrap"
-                                :clearable="false">
-                            </DatePicker>
-                        </template>
-                        <div class="mask" v-if="(currentItem && currentItem.id) == item.id">
-                            <Icon type="close" @click.native="handleDelete($event, item, index)"></Icon>
-                        </div>
-                    </div>
+                    <!-- 拖拽控件 -->
+                    <fs-drag-item 
+                        v-for="(item, index) in pushList" 
+                        :handleChangeCurrentItem="handleChangeCurrentItem"
+                        :handleDelete="handleDelete"
+                        :handleDragUpdate="handleDragUpdate"
+                        :handleDragAdd="handleDragAdd"
+                        :item="item"
+                        :currentItem="currentItem"
+                        :zIndex="index"
+                        :key="item.id" />
                 </div>
-             
             </div>
         </div>
         <!-- 控件菜单 -->
         <div class="sub pull-left">
             <span class="title">{{$t('noun.control')}}</span>
             <div class="nav" ref="advacedPull">
-                <div class="drag-item" v-for="(item, index) in pullList" :key="index">
-                    <i class="icon-control-text" v-if="item.type == 'InputText'"></i>
-                    <i class="icon-control-textfield" v-if="item.type == 'InputTextNum'"></i>
-                    <i class="icon-control-radiobutton" v-if="item.type == 'InputRadio'"></i>
-                    <i class="icon-control-checkbox" v-if="item.type == 'InputCheckbox'"></i>
-                    <i class="icon-control-date" v-if="item.type == 'InputDate'"></i>
-                    {{item.title}}
-                </div>
+                <fs-sub-nav v-for="(item, index) in pullList" :data="item" :key="index"></fs-sub-nav>
             </div>
         </div>
         <!-- 控件设置-->
         <div class="extra pull-left">
             <Tabs>
+                <!-- 控件设置 -->
                 <TabPane :label="`${$t('noun.controlSettings')}`">
                     <div v-if="currentItem && currentItem.id != 'dateOptions'">
                         <div class="extra-item">
@@ -100,7 +74,7 @@
                                 {{$t('noun.addOption')}}
                             </Button>
                         </div>
-                        <div class="extra-item">
+                        <div class="extra-item" v-if="currentItem.type !== 'InputContainer'">
                             <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
                                 {{$t('noun.required')}}
                             </Checkbox>
@@ -116,6 +90,7 @@
                     </div>
                     <fs-empty-tips v-else :emptyMsg="$t('toast.thereIsNoControl')" iconType="template"/>
                 </TabPane>
+                <!-- 模板设置 -->
                 <TabPane :label="`${$t('noun.templateSettings')}`">
                     <div>
                         <div class="extra-item">
@@ -173,7 +148,7 @@
             <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
                 <div class="mobile-title" v-if="previeWeb != '0'">
                     <i class="icon-arrow-left"></i>
-                    写日志
+                    {{$t('menus.workLog')}}
                 </div>
                 <div v-html="previewHtml"></div>
                 <img v-if="previeWeb != '0'" src="../../assets/images/preview-mobile.png">
@@ -187,7 +162,8 @@ import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
 import SelectMemberInput from 'app_component/common/select-member-input/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
-
+import FsDragItem from './drag-item'
+import FsSubNav from './sub-nav'
 export default {
     data() {
         return {
@@ -255,6 +231,11 @@ export default {
                     "isRequired": "0",
                     "value": "",
                     "content": ""
+                }, {
+                    "type": "InputContainer",
+                    "title": this.$t('noun.content'),
+                    "isRequired": "0",
+                    "children": []
                 }
             ],
             pushList: [],
@@ -290,7 +271,9 @@ export default {
     },
     components: {
         FsEmptyTips,
-        SelectMemberInput
+        SelectMemberInput,
+        FsDragItem,
+        FsSubNav
     },
     methods: {
         removeNode(node) { // 移除节点
@@ -300,19 +283,31 @@ export default {
             let refNode = position === 0 ? fatherNode.children[0] : fatherNode.children[position - 1].nextSibling;
             fatherNode.insertBefore(node, refNode);
         },
-        handleDragAdd(evt) { // 新增数据的时候
+        handleDragAdd(evt, data) { // 新增数据的时候
             this.removeNode(evt.item);
             let timesmap = (new Date()).valueOf();
             let newItem = JSON.parse(JSON.stringify(this.pullList[evt.oldIndex]))
             newItem.id = timesmap;
-            this.currentItem = newItem;
-            this.pushList.splice(evt.newIndex, 0, newItem);
+            if(data) {
+                if(newItem.type != 'InputContainer') {
+                    data.children.splice(evt.newIndex, 0, newItem)
+                    this.currentItem = newItem;
+                }
+            } else {
+                this.pushList.splice(evt.newIndex, 0, newItem);
+                this.currentItem = newItem;
+            }
         },
-        handleDelete(evt, item, index) { // 删除节点
+        handleDelete(evt, index, data, parent) { // 删除节点
             evt.preventDefault();
             evt.stopPropagation();
-            this.currentItem = this.pushList[index + 1] ? this.pushList[index + 1] : this.pushList[index - 1];
-            this.pushList.splice(index, 1);
+            if(parent && parent.children) {
+                parent.children.splice(index, 1);
+                this.currentItem = parent.children[index] ? parent.children[index] : parent.children[index - 1];
+            } else {
+                this.pushList.splice(index, 1);
+                this.currentItem = this.pushList[index] ? this.pushList[index] : this.pushList[index - 1];
+            }
         },
         handleDeleteOptions(index) { // 删除选项
             this.currentItem.options.splice(index, 1);
@@ -326,8 +321,6 @@ export default {
             this.currentItem.isRequired = this.isRequired ? '1' : '0';
         },
         handleChangeCurrentItem(evt, item) { // 更改当前Item
-        console.log(item);
-        
             evt.stopPropagation();
             if(item.isRequired != '0') {
                 this.isRequired = true;
@@ -336,10 +329,14 @@ export default {
             }
             this.currentItem = item;
         },
-        handleDragUpdate(evt) { // 更新数据的时候
+        handleDragUpdate(evt, data) { // 更新数据的时候
             this.removeNode(evt.item);
             this.insertNodeAt(evt.from, evt.item, evt.oldIndex);
-            this.pushList.splice(evt.newIndex, 0, this.pushList.splice(evt.oldIndex, 1)[0]);
+            if(data) {
+                data.children.splice(evt.newIndex, 0, data.children.splice(evt.oldIndex, 1)[0]);
+            } else {
+                this.pushList.splice(evt.newIndex, 0, this.pushList.splice(evt.oldIndex, 1)[0]);
+            }
         },
         initDragItem() { // 拖拽初始化
             let _this = this;
@@ -359,6 +356,7 @@ export default {
                     pull: false,
                     put: true
                 },
+                handle: '.dragable',
                 onUpdate: function (evt) {
                     _this.handleDragUpdate(evt);
                 },
@@ -765,83 +763,10 @@ export default {
     .inner-push {
         min-height: 80%;
     }
-    .drag-item, .date-item {
+    .dragable {
         position: relative;
-        cursor: pointer;
-        padding: 0 10px 10px;
-        margin-bottom: 5px;
-        .drag-label {
-            display: block;
-            font-size: 14px;
-            padding: 10px 12px 10px 0;
-            i {
-                vertical-align: middle;
-                color: @drag-close-color;
-            }
-        }
-        .ivu-radio-wrapper, .ivu-checkbox-wrapper {
-            margin-right: 20px;
-            margin-bottom: 2px;
-            font-size: 14px;
-        }
-        textarea {
-            height: 115px; 
-            min-height: 115px;
-            resize: none;
-        }
-        .ivu-input-number {
-            width: 100%;
-        }
-        .ivu-date-picker {
-            width: 100%;
-        }
-        &:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0);
-            z-index: 90;
-        }
-        .mask {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            text-align: right;
-            bottom: 0;
-            border: 1px dashed @drag-border-color;
-            background-color: @drag-bg-color;
-            z-index: 1000;
-            i {
-                position: absolute;
-                right: 0;
-                top: 0;
-                font-size: 12px;
-                width: 20px;
-                height: 20px;
-                text-align: center;
-                line-height: 20px;
-                background: @primary-color;
-                color: @white-color;
-                cursor: pointer;
-            }
-        }
-        &.sortable-chosen-nav {
-            opacity: .4;
-            text-align: center;
-            padding: 20px 0;
-            border: 1px dashed @drag-border-color;
-            background-color: @drag-bg-color;
-            i {
-                display: block;
-                font-size: 25px;
-                margin-bottom: 3px;
-            }
-        }
     }
+    
 }
 .template-modal {
     p {

@@ -15,7 +15,11 @@
                     <i>{{filterEncode(loggerItemData.templateName)}}</i>
                 </span>
                 <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 86400000"><i>{{$t('operate.fill')}}</i></span>
-
+                <i class="view-lower-level" 
+                    v-if="isLowerLevel && !!loggerItemData.hasSubordinate"
+                    @click="handleViewLowerLevel">
+                    {{$t('operate.viewLowerLevelLog')}}
+                </i>
                 <div class="pull-right">
                     <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
                     <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
@@ -71,17 +75,11 @@
                 </div>
             </div>
             <!--具体内容-->
-            <div class="logger-list-row logger-list-content"
+            <logger-list-content-node
                 v-for="(item, index) in JSON.parse(loggerItemData.content)"
-                :key="index">
-                <div class="logger-list-col">
-                    <div class="title">{{filterEncode(item.title)}}</div>
-                    <div class="caption" >
-                        <span v-html="filterEncode(item.content || item.value)"></span>
-                        <span v-if="item.type=='InputTextNum'&&item.unit">{{item.unit}}</span>
-                    </div>
-                </div>
-            </div>
+                :data="item"
+                :key="index"
+                :filterEncode="filterEncode" />
             
             <!--具体内容-->
             <div class="logger-list-row logger-list-content">
@@ -158,7 +156,9 @@
                     <i class="icon-chat-selected" v-else></i>
                     {{loggerItemData.commentNum | filterCommentNum}}
                 </span>
-                <span class="cursor-pointer collect" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                <span class="cursor-pointer collect" 
+                    :class="{active: loggerItemData.favorite.isFavorite}"
+                    @click="handleCollect">
                     <i class="icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
                     <i class="icon-collect-selected" v-else></i>
                     {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}
@@ -204,6 +204,7 @@ import FsReply from 'app_component/common/reply/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 import FsFiles from './file';
 import FsImages from './image';
+import LoggerListContentNode from './logger-list-content-node';
 const rowHeight = 24;
 export default {
     props: {
@@ -214,6 +215,10 @@ export default {
             type: Number
         },
         isDraft: {
+            type: Boolean,
+            default: false
+        },
+        isLowerLevel: {
             type: Boolean,
             default: false
         }
@@ -246,7 +251,8 @@ export default {
         FsAvatar,
         FsReply,
         FsFiles,
-        FsImages
+        FsImages,
+        LoggerListContentNode
     },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期
@@ -303,6 +309,9 @@ export default {
         },
         filterEncode(val) {
             return typeof val == 'string' ? (val ? HTMLDeCode(val.replace(/\n/g, '<br>')) : ''): val
+        },
+        handleViewLowerLevel() {
+            this.$emit('handleViewLowerLevel', this.loggerItemData.memberId)
         },
         renderRange(loggerItemData) { // 可见范围控制
             let range = loggerItemData.range;
@@ -511,7 +520,7 @@ export default {
     padding: 20px 20px 0;
     position: relative;
     background-color: @white-color;
-    color: @gray-color-dark;
+    color: @gray-color-light;
     font-size: 14px;
     &.fade-enter {
         transition: .2s ease opacity;
@@ -532,6 +541,15 @@ export default {
     .logger-list-row {
         line-height: 24px;
         word-break: break-all;
+        &.logger-list-time {
+            margin-bottom: 26px;
+            .title {
+                margin-bottom: 6px;
+            }
+        }
+        .username {
+            color: #111;
+        }
         .avatar {
             float: left;
             &.member-card {
@@ -555,7 +573,12 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
-                color: @gray-color-light;
+                margin-bottom: 8px;
+                color: @gray-color-dark;
+            }
+            .caption {
+                font-size: 13px;
+                color: @gray-color-medium;
             }
             .at {
                 color: #289CF2;
@@ -582,6 +605,13 @@ export default {
                 padding: 4px 8px;
                 display: block;
             }
+        }
+        .view-lower-level {
+            font-size: 12px;
+            padding: 0 12px 0 8px;
+            cursor: pointer;
+            background: url('../../assets/images/view-lower-level.png') no-repeat right center;
+            background-size: 12px;
         }
         .pull-right {
             color: @gray-color-light;
@@ -685,7 +715,7 @@ export default {
         }
     }
     .lat {
-        height: 20px;
+        height: 10px;
     }
     .logger-list-operate {
         font-size: 0;
@@ -702,6 +732,7 @@ export default {
             line-height: 20px;
             padding: 0 34px;
             border-right: 1px solid @border-color;
+            vertical-align: middle;
             i {
                 font-size: 16px;
             }
