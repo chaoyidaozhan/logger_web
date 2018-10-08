@@ -90,7 +90,8 @@ module.exports = {
         theLogWasSuccessfullyModified: '日誌修改成功',
         theDraftOfTheLogWasSavedSuccessfully: '日誌草稿保存成功',
         theLogWasCreatedSuccessfully: '日誌創建成功',
-        canNotBeEmpty: '不能為空'
+        canNotBeEmpty: '不能為空',
+        pleaseDragInTheContent: '請拖入內容'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',

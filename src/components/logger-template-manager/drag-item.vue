@@ -52,7 +52,7 @@
         <!-- 子节点 -->
         <div class="drag-item-children" ref="advacedPush" v-if="item.type === 'InputContainer'">
             <div class="drag-item-children-tips" v-if="!item.children.length">
-                请拖入内容
+                {{$t('toast.pleaseDragInTheContent')}}
             </div>
             <template v-else>
                 <drag-item
