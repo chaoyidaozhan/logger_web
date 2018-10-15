@@ -5,6 +5,7 @@
                 :showTemplate="true"
                 :showDatePicker="true"
                 :showDept="true"
+                deptApiUri="/team/getDeptsWithPart"
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
         </template>
