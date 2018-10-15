@@ -75,11 +75,18 @@
                 </div>
             </div>
             <!--具体内容-->
-            <logger-list-content-node
-                v-for="(item, index) in JSON.parse(loggerItemData.content)"
-                :data="item"
-                :key="index"
-                :filterEncode="filterEncode" />
+            <template v-if="typeof JSON.parse(loggerItemData.content) === 'object'">
+                <logger-list-content-node
+                    v-for="(item, index) in JSON.parse(loggerItemData.content)"
+                    :data="item"
+                    :key="index"
+                    :filterEncode="filterEncode" />
+            </template>
+            <template v-else>
+                <logger-list-content-node
+                    :data="JSON.parse(loggerItemData.content)"
+                    :filterEncode="filterEncode" />
+            </template>
             
             <!--具体内容-->
             <div class="logger-list-row logger-list-content">
