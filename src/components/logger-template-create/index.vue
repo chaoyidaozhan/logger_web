@@ -535,7 +535,8 @@ export default {
 <style lang="less">
 @import '../../assets/css/var.less';
 .logger-create {
-    .required-icon .ivu-form-item-label::before{
+    .required-icon .ivu-form-item-label::before, 
+    .required-icon .label::before {
         content: '*';
         display: inline-block;
         margin-right: 4px;

@@ -98,8 +98,8 @@
                 v-for="(item, index) in data.children"
                 class="input-container"
                 :key="index">
-                <div class="children-title">
-                    <span>
+                <div class="children-title" :class="item.isRequired==1?'required-icon':''">
+                    <span class="label">
                         {{item.title }}
                     </span>
                 </div>

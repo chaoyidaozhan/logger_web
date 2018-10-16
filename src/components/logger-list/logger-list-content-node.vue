@@ -37,9 +37,6 @@ export default {
         filterEncode: {
             type: Function
         }
-    },
-    created () {
-        console.log(this.data)
     }
 }
 </script>
