@@ -255,7 +255,7 @@ export default {
                         text-overflow: ellipsis;
                         overflow: hidden;
                         float: left;
-                        width: 200px;
+                        width: 90%;
                     }
                     .ivu-checkbox {
                         float: right;
