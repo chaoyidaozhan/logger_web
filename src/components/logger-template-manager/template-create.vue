@@ -762,6 +762,7 @@ export default {
     .box-shadow;
     .inner-push {
         min-height: 80%;
+        padding-bottom: 200px;
     }
     .dragable {
         position: relative;
