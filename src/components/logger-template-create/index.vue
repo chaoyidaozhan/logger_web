@@ -417,16 +417,27 @@ export default {
             this.atStr = memberArr;
         },
         handleValidate(templateContent) { //校验数据
-            for (let i = 0, l = templateContent.length; i < l; i++) {
-                if (templateContent[i].isRequired == 1) {
-                    if ((templateContent[i].type != 'InputRadio' && templateContent[i].type != 'InputTextNum' && !templateContent[i].value) ||
-                        ((templateContent[i].type == 'InputRadio' && templateContent[i].type == 'InputTextNum' && templateContent[i].value == ''))) {
-                        this.$Message.warning(templateContent[i].title + this.$t('toast.canNotBeEmpty'));
-                        return false;
+            const _this = this
+            function validate(content) {
+                if(content && content.length) {
+                    for (let i = 0, l = content.length; i < l; i++) {
+                        if (content[i].isRequired == 1) {
+                            if ((content[i].type != 'InputRadio' && content[i].type != 'InputTextNum' && !content[i].value) 
+                                || ((content[i].type == 'InputRadio' 
+                                    && content[i].type == 'InputTextNum' 
+                                    && content[i].value == ''))) {
+                                _this.$Message.warning(content[i].title + _this.$t('toast.canNotBeEmpty'))
+                                return false
+                            }
+                        }
+                        if(content[i].type === 'InputContainer') {
+                            return validate(content[i].children || [])
+                        }
                     }
                 }
+                return true
             }
-            return true;
+            return validate(templateContent)
         },
         handleSubmit() { // 提交
             this.handleSubmitData();
