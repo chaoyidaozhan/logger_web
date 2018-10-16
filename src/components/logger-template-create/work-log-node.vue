@@ -29,9 +29,14 @@
                         </template>
                         <template v-if="transformType === 'schedule'">
                             <template v-if="transformList.scheduleNames.length">
-                                <div v-for="(item, index) in transformList.scheduleNames"
-                                    :key="index">
-                                </div>
+                                <CheckboxGroup v-model="checkedSchedule">
+                                    <Checkbox 
+                                        v-for="(item, index) in transformList.scheduleNames" 
+                                        :key="index" 
+                                        :label="item">
+                                        <span class="checkbox-label">{{item}}</span>
+                                    </Checkbox>
+                                </CheckboxGroup>
                             </template>
                             <div v-else class="empty">{{$t('status.noRelevantData')}}</div>
                         </template>
@@ -196,6 +201,7 @@ export default {
         }
         .transform-list {
             position: absolute;
+            margin-bottom: 100px;
             top: 30px;
             right: 0;
             width: 270px;
