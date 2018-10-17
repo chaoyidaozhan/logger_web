@@ -2,6 +2,7 @@
     <div class="work-log-node">
         <template v-if="data.type == 'InputText'">
             <div class="transfrom-wrapper"
+                v-clickoutside="handleClose"
                 :style="{'z-index': isDisableTrasnformList ? 30 : 20}">
                 <span class="transform-icon" @click="handleTransformList(undefined)"></span>
                 <div class="transform-list" v-if="isDisableTrasnformList">
@@ -117,7 +118,8 @@
     </div>
 </template>
 <script>
-import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+import HTMLDeCode from 'app_src/filters/HTMLDeCode'
+import clickoutside from '../../directives/clickoutside'
 export default {
     name: 'workLogNode',
     props: {
@@ -138,6 +140,9 @@ export default {
             checkedTask: [],
             checkedSchedule: []
         }
+    },
+    directives: {
+        clickoutside
     },
     filters: {
         filterHtml(val) {
@@ -171,6 +176,9 @@ export default {
                 })
                 this.checkedSchedule = []
             }
+            this.isDisableTrasnformList = false
+        },
+        handleClose() {
             this.isDisableTrasnformList = false
         }
     },

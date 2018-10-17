@@ -421,14 +421,12 @@ export default {
             function validate(content) {
                 if(content && content.length) {
                     for (let i = 0, l = content.length; i < l; i++) {
-                        if (content[i].isRequired == 1) {
-                            if ((content[i].type != 'InputRadio' && content[i].type != 'InputTextNum' && !content[i].value) 
-                                || ((content[i].type == 'InputRadio' 
-                                    && content[i].type == 'InputTextNum' 
-                                    && content[i].value == ''))) {
-                                _this.$Message.warning(content[i].title + _this.$t('toast.canNotBeEmpty'))
-                                return false
-                            }
+                        if (content[i].isRequired == 1 
+                            && content[i].type !== 'InputContainer'
+                            && content[i].type !== 'InputRadio'
+                            && !content[i].value) {
+                            _this.$Message.warning(content[i].title + _this.$t('toast.canNotBeEmpty'))
+                            return false
                         }
                         if(content[i].type === 'InputContainer') {
                             return validate(content[i].children || [])
