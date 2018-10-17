@@ -288,6 +288,13 @@ export default {
             let timesmap = (new Date()).valueOf();
             let newItem = JSON.parse(JSON.stringify(this.pullList[evt.oldIndex]))
             newItem.id = timesmap;
+
+            if(newItem.isRequired != '0') {
+                this.isRequired = true;
+            } else {
+                this.isRequired = false;
+            }
+            
             if(data) {
                 if(newItem.type != 'InputContainer') {
                     data.children.splice(evt.newIndex, 0, newItem)

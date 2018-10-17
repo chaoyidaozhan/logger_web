@@ -5,7 +5,7 @@
         <!-- 标题 -->
         <div :class="item.type != 'InputContainer' ? '' : 'dragable'">
             <label class="drag-label">
-                <i v-if="item.isRequired != '0'">*</i>{{item.title}}
+                <i v-if="+item.isRequired">*</i>{{item.title}}
             </label>
             <div class="mask" 
                 v-if="(currentItem && currentItem.id) == item.id && item.type === 'InputContainer'">
