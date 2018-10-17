@@ -209,11 +209,10 @@ export default {
         }
         .transform-list {
             position: absolute;
-            margin-bottom: 100px;
             top: 30px;
             right: 0;
             width: 270px;
-            height: 368px;
+            height: 300px;
             border-radius: 5px;
             background-color: @white-color;
             box-shadow: 0 4px 8px rgba(41, 42, 45, .28);
@@ -243,9 +242,9 @@ export default {
                 }
             }
             .transform-list-body {
-                height: 260px;
+                height: 170px;
                 overflow: auto;
-                padding: 0 10px 18px;
+                margin: 0 10px 10px;
                 .ivu-checkbox-group {
                     padding: 0!important;
                 }
