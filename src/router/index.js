@@ -9,6 +9,7 @@ import LoggerQueryAtme from '../view/logger-query/atme'; // 日志查询 --@我�
 import LoggerQueryGroup from '../view/logger-query/group'; // 日志查询 --内部群
 import LoggerQueryMy from '../view/logger-query/my'; // 日志查询 --我的
 import LoggerQueryUnder from '../view/logger-query/under'; // 日志查询 --下属
+import LoggerQueryLowerLevel from '../view/logger-query/level'; // 日志查询 --下级
 
 import DraftOfMine from '../view/draft-mine/'; // 我的草稿
 import CollectOfMine from '../view/collect-mine/'; // 我的收藏
@@ -66,6 +67,10 @@ export default [
             {
                 path: 'LoggerQueryUnder',
                 component: LoggerQueryUnder
+            },
+            {
+                path: 'LoggerQueryLowerLevel',
+                component: LoggerQueryLowerLevel
             },
             {
                 path: 'CollectOfMine', 		    

@@ -1,11 +1,13 @@
 module.exports = {
     menus: { // 导航
         logQuery: 'Query',
+        workLog: 'Work Log',
         all: 'All',
         atMe: '@Me',
         myLogs: 'My Logs',
         internalGroupLog: 'Internal Group Log',
         subordinateLog: 'Subordinate Log',
+        lowerLevelLog: 'Lower Level Log',
         myDraft: 'My Draft',
         myFavorite: 'My Favorites',
         logStatistic: 'Log Statistic',
@@ -49,7 +51,8 @@ module.exports = {
         saveAsDraft: 'Save as Draft',
         file: 'File',
         upload: 'Upload',
-        fill: 'Fill'
+        fill: 'Fill',
+        viewLowerLevelLog: 'View lower lever log'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -86,7 +89,8 @@ module.exports = {
         theLogWasSuccessfullyModified: 'Log modified successfully',
         theDraftOfTheLogWasSavedSuccessfully: 'The draft of the log was saved successfully.',
         theLogWasCreatedSuccessfully: 'Log created successfully.',
-        canNotBeEmpty: 'Required'
+        canNotBeEmpty: 'Required',
+        pleaseDragInTheContent: 'Please drag in the content'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',
@@ -176,6 +180,7 @@ module.exports = {
         numberBox: 'Number Box',
         radioBox: 'Radio Button',
         checkBox: 'Check Box',
+        content: 'content',
         option: 'Option',
         control: 'Control',
         description: ' Description',
@@ -190,7 +195,9 @@ module.exports = {
         peopleHaveSeen: ' people read',
         viewAll: 'View All',
         someoneChecked: 'Someone',
-        operationRecord: 'Operation record'
+        operationRecord: 'Operation record',
+        task: 'Task',
+        schedule: 'Schedule'
     },
     title: {
         logTemplate: 'Log Template',

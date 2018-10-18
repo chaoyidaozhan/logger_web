@@ -1,11 +1,13 @@
 module.exports = {
     menus: { // 导航
         logQuery: '日志查询',
+        workLog: '写日志',
         all: '所有日志',
         atMe: '@我的',
         myLogs: '我的日志',
         internalGroupLog: '内部群日志',
         subordinateLog: '下属日志',
+        lowerLevelLog: '下级日志',
         myDraft: '我的草稿',
         myFavorite: '我的收藏',
         logStatistic: '日志统计',
@@ -50,7 +52,8 @@ module.exports = {
         saveAsDraft: '存为草稿',
         file: '附件',
         upload: '上传',
-        fill: '补'
+        fill: '补',
+        viewLowerLevelLog: '查看下级日志'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -87,7 +90,8 @@ module.exports = {
         theLogWasSuccessfullyModified: '日志修改成功',
         theDraftOfTheLogWasSavedSuccessfully: '日志草稿保存成功',
         theLogWasCreatedSuccessfully: '日志创建成功',
-        canNotBeEmpty: '不能为空'
+        canNotBeEmpty: '不能为空',
+        pleaseDragInTheContent: '请拖入内容'
     },
     placeholder: { // 输入框提示文字
         postYourComment: '发表您的评论',
@@ -177,6 +181,7 @@ module.exports = {
         numberBox: '数字输入',
         radioBox: '单选框',
         checkBox: '复选框',
+        content: '内容',
         option: '选项',
         control: '控件',
         description: '说明',
@@ -191,7 +196,9 @@ module.exports = {
         peopleHaveSeen: '人看过',
         viewAll: '查看全部',
         someoneChecked: 'TA查看',
-        operationRecord: '操作记录'
+        operationRecord: '操作记录',
+        task: '任务',
+        schedule: '日程'
     },
     title: {
         logTemplate: '日志模板',

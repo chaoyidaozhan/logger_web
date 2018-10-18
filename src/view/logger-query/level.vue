@@ -4,21 +4,23 @@
             <fs-query-form 
                 :showTemplate="true"
                 :showDatePicker="true"
-                @handleQuery="handleQuery" ref="queryForm"/>
+                :showDept="true"
+                deptApiUri="/team/getDeptsWithPart"
+                @handleQuery="handleQuery" 
+                ref="queryForm"/>
         </template>
         <template slot="body" >
             <fs-logger-list 
-                url="/favorite/getMyFavorite"
-                :isCollect="true"
+                url="/diaryQuery/getSubordinateDiary"
+                :isLowerLevel="true"
                 :range="range" 
-                :dataStatus="0" 
                 :params="params" 
                 ref="loggerList"/>
         </template>
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/query.js';
+import query from 'app_src/mixins/query';
 export default {
     data() {
         return {

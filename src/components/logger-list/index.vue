@@ -3,9 +3,11 @@
         <transition-group name="fade">
             <fs-logger-list-item 
                 v-for="(item, index) in list"
+                @handleDelete="handleDelete"
+                @handleViewLowerLevel="handleViewLowerLevel"
                 :index="index" 
                 :isDraft="isDraft"
-                @handleDelete="handleDelete"
+                :isLowerLevel="isLowerLevel"
                 :loggerItemData="item"
                 :key="item.id" />
         </transition-group>
@@ -53,6 +55,10 @@ export default {
             type: Boolean,
             default: false
         },
+        isLowerLevel: {
+            type: Boolean,
+            default: false
+        },
         isDraft: {
             type: Boolean,
             default: false
@@ -66,6 +72,7 @@ export default {
             loading: false,
             loaderror: false,
             hasMore: true,
+            queryMemberId: null
         }
     },
     components: {
@@ -85,6 +92,9 @@ export default {
             }
             if(!this.isCollect) {
                 data.dataStatus = this.dataStatus
+            }
+            if(this.isLowerLevel) {
+                data.memberId = this.queryMemberId
             }
             return Object.assign(data, this.params)
         },
@@ -126,6 +136,10 @@ export default {
                 this.list.splice(eq, 1);
             }
         },
+        handleViewLowerLevel(id) {
+            this.queryMemberId = id
+            this.initList()
+        },
         loadData() { // 请求接口
             this.loading = true;
             this.$eventbus.$emit('setBtnLoading', this.loading);
@@ -150,9 +164,10 @@ export default {
             this.loading = false;
             this.hasMore = true;
             this.loadData();
-        },
+        }
     },
     mounted () {
+        this.queryMemberId = this.$store.state.userInfo.member_id
         this.initList();
     }
 }
