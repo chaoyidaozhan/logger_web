@@ -14,7 +14,7 @@
 				<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
 			</div>
 			<div class="part2" v-show="each.openChild">
-				<tree-dep v-if="each.childMount" :pid="each.deptId"/>
+				<tree-dep v-if="each.childMount" :info="info" :pid="each.deptId"/>
 			</div>
 		</li>
 	</ul>	
@@ -60,13 +60,13 @@
             	let data={ pid : this.pid };
             	!this.pid ? delete data.pid : null ;
             	this.$ajax({
-	                url: '/team/getDepts',
+	                url: this.info.deptApiUri ? this.info.deptApiUri : '/team/getDepts',
 	                data: data ,
 	                success: (res)=>{
 	                	this.loading=false;
 	                    if( res.code==0 ){
 	                    	// 处理数据
-	                    	this.handleList( res.data );
+	                    	this.handleList(this.info.deptApiUri ? res.data.depts : res.data );
 	                    }
 	                },
 	                error:(res)=>{

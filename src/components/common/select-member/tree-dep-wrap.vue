@@ -62,9 +62,9 @@
 		},
 		computed:{
 			allowShowTree(){
-				if( this.info.deptApiUri ){
+				if( this.info.deptApiUri == '/team/getDeptsWithPart'){
 					return false
-				}else {
+				} else {
 					return true
 				}
 			}
