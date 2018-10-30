@@ -49,11 +49,11 @@
                     <div v-if="currentItem && currentItem.id != 'dateOptions'">
                         <div class="extra-item">
                             <label class="extra-label">{{$t('noun.title')}}</label>
-                            <Input :placeholder="$t('placeholder.maximum10Chars')" :maxlength="10" v-model="currentItem.title" type="text"/>
+                            <Input :placeholder="$t('placeholder.maximum100Chars')" :maxlength="100" v-model="currentItem.title" type="text"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
                             <label class="extra-label">{{$t('noun.promptText')}}</label>
-                            <Input :placeholder="$t('placeholder.maximum50Chars')" :autosize="{ minRows: 3}" :maxlength="50" v-model="currentItem.deion" type="textarea"/>
+                            <Input :placeholder="$t('placeholder.maximum100Chars')" :autosize="{ minRows: 3}" :maxlength="100" v-model="currentItem.deion" type="textarea"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputTextNum'">
                             <label class="extra-label">{{$t('noun.unit')}}</label>

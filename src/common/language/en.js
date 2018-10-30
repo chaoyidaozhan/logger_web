@@ -98,6 +98,7 @@ module.exports = {
         maximum10Chars: 'Maximum 10 Chars',
         maximum20Chars: 'Maximum 20 Chars',
         maximum50Chars: 'Maximum 50 Chars',
+        maximum100Chars: 'Maximum 100 Chars',
         enterUnit: 'Please enter a unit such as ($)',
         leastItems: 'Min 2 items; Max 10 items',
         whetherDisplayDate: 'Display Log Date',

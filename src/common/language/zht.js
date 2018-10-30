@@ -99,6 +99,7 @@ module.exports = {
         maximum10Chars: '不超過10個字',
         maximum20Chars: '不超過20個字',
         maximum50Chars: '不超過50個字',
+        maximum100Chars: '不超過100個字',
         enterUnit: '請輸入單位比如（元）',
         leastItems: '至少2項至多10項',
         whetherDisplayDate: '是否顯示日誌日期',
