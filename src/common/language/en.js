@@ -102,6 +102,7 @@ module.exports = {
         enterUnit: 'Please enter a unit such as ($)',
         leastItems: 'Min 2 items; Max 10 items',
         whetherDisplayDate: 'Display Log Date',
+        whetherDisplayDefaultValue: 'Display Default Value',
         enterKeyword: 'Please enter a keyword',
         noMore: 'No more than 500 people per time. Please select in batches',
         remindkeyPeopleToViewYourLog: 'Remind key people to view your log',

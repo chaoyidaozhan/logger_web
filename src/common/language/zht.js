@@ -103,6 +103,7 @@ module.exports = {
         enterUnit: '請輸入單位比如（元）',
         leastItems: '至少2項至多10項',
         whetherDisplayDate: '是否顯示日誌日期',
+        whetherDisplayDefaultValue: '是否顯示默认值',
         enterKeyword: '請輸入關鍵字進行搜索',
         noMore: '每次選擇不可超過500人，請分批選擇',
         remindkeyPeopleToViewYourLog: '提醒關鍵人員查看您的日誌',

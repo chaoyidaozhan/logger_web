@@ -87,6 +87,16 @@
                                 {{$t('placeholder.whetherDisplayDate')}}
                             </Checkbox>
                         </div>
+                        <div class="extra-item">
+                            <Checkbox v-model="dateOptions.isRequired">
+                                {{$t('noun.required')}}
+                            </Checkbox>
+                        </div>
+                        <div class="extra-item">
+                            <Checkbox v-model="dateOptions.isDefault">
+                                {{$t('placeholder.whetherDisplayDefaultValue')}}
+                            </Checkbox>
+                        </div>
                     </div>
                     <fs-empty-tips v-else :emptyMsg="$t('toast.thereIsNoControl')" iconType="template"/>
                 </TabPane>
@@ -169,7 +179,9 @@ export default {
         return {
             dateOptions: {
                 "id": 'dateOptions',
-                "diaryTimeStatus": true
+                "diaryTimeStatus": true,
+                "isRequired": true,
+                "isDefault": true
             },
             data: {
                 title: '',
@@ -466,6 +478,8 @@ export default {
             }
             // 日志日期
             params.diaryTimeStatus = +this.dateOptions.diaryTimeStatus
+            params.isRequired = +this.dateOptions.isRequired
+            params.isDefault = +this.dateOptions.isDefault
             if(!params.title.trim()) {
                 return this.$Message.error(`${this.$t('operate.please')}${this.$t('operate.enter')}${this.$t('noun.template')}${this.$t('noun.name')}`);
             }
@@ -566,6 +580,8 @@ export default {
                 }
                 // 是否显示日志日期
                 this.dateOptions.diaryTimeStatus = !!resData.diaryTimeStatus
+                this.dateOptions.isRequired = !!resData.isRequired
+                this.dateOptions.isDefault = !!resData.isDefault
                 console.log(this.dateOptions);
                 
                 this.$emit('handleDataStatus', resData.dataStatus);
