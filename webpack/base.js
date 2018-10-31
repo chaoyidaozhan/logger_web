@@ -1,17 +1,18 @@
-const path = require('path');
-const webpack = require("webpack");
-const autoprefixer = require('autoprefixer');
-const htmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const cssnext = require('postcss-cssnext');
+const path = require('path')
+const webpack = require("webpack")
+const htmlWebpackPlugin = require("html-webpack-plugin")
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const cssnext = require('postcss-cssnext')
 
-const APP_PATH = path.resolve(__dirname, '../');
-const APP_SRC = path.join(APP_PATH, '/src');
+const APP_PATH = path.resolve(__dirname, '../')
+const APP_SRC = path.join(APP_PATH, '/src')
+
 const env = process.env.NODE_ENV,
 // 是否是生产环境
-isProduction = env === 'production' || 'test' || 'prev';
+isProduction = env === 'production' || 'test' || 'prev'
 
-const APP_DIST = path.join(APP_PATH, isProduction ? './web' : 'web');
+const APP_DIST = path.join(APP_PATH, isProduction ? './web' : 'web')
+
 module.exports = {
     devtool: '#cheap-module-eval-source-map',
     entry: {
@@ -151,7 +152,7 @@ module.exports = {
                             "last 2 versions",
                             "not ie <= 8"
                         ]
-                    })];
+                    })]
                 },
             }
         }),
