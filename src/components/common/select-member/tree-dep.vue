@@ -11,7 +11,7 @@
 				</div>
 				<div class="depName inlb elli">{{each.deptName}}</div>
 				<!-- Checkbox阻止事件 -->
-				<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
+				<Checkbox v-if="info.deptApiUri && each.authDept" class="cbx" style="pointer-events:none" :value="each.checked"/>
 			</div>
 			<div class="part2" v-show="each.openChild">
 				<tree-dep v-if="each.childMount" :info="info" :pid="each.deptId"/>
@@ -58,7 +58,10 @@
 			},
 			getList(){
             	let data={ pid : this.pid };
-            	!this.pid ? delete data.pid : null ;
+				!this.pid ? delete data.pid : null;
+				if(this.info.deptApiUri) {
+					data.deptId = this.pid
+				}
             	this.$ajax({
 	                url: this.info.deptApiUri ? this.info.deptApiUri : '/team/getDepts',
 	                data: data ,
@@ -66,11 +69,11 @@
 	                	this.loading=false;
 	                    if( res.code==0 ){
 	                    	// 处理数据
-	                    	this.handleList(this.info.deptApiUri ? res.data.depts : res.data );
+	                    	this.handleList(res.data)
 	                    }
 	                },
 	                error:(res)=>{
-	                	this.loading=false;
+	                	this.loading=false
 	                }
 	            })
             },

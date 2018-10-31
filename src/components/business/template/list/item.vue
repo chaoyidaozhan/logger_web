@@ -117,7 +117,7 @@ export default {
                 content: this.data
             })
             this.$router.push({
-                path: `/template/operate/${this.data.id}`,
+                path: `/LoggerTemplate/operate/${this.data.id}`,
                 query: {
                     token: this.$store.state.userInfo.token
                 }

@@ -1,7 +1,9 @@
 <template>
     <div class="logger-create">
         <Form :label-width="lang == 'en' ? 120 : 110" >
-            <FormItem :label="`${$t('noun.logDate')}${isFill}`" v-if="templateItemData.diaryTimeStatus">
+            <FormItem :label="`${$t('noun.logDate')}${isFill}`"
+                :class="templateItemData.diaryTimeRequired===1?'required-icon':''"
+                v-if="templateItemData.diaryTimeStatus">
                  <DatePicker type="date"
                     placement="bottom-start"
                     :placeholder="$t('noun.date')" 
@@ -77,7 +79,7 @@ export default {
             memberRange: [],
             rangeArr: [],
             member: [],
-            dateValue: new Date(),
+            dateValue: null,
             dateValueSec: new Date(),
             valueNum: "",
             dateOption: {
@@ -102,6 +104,9 @@ export default {
     },
     computed: {
         isFill() {
+            if(!this.dateValue) {
+                return ''
+            }
             let now = (new Date()).valueOf()
             let selectTime = this.dateValue.valueOf()
             return Math.abs(now - selectTime) > (1000 * 60 * 60 * 48) ? `(${this.$t('operate.fill')})` : ''
@@ -120,7 +125,7 @@ export default {
         },
         initData(templateItemData, templateContent) {
             window.createComplete = false
-            this.dateValue = templateItemData.diaryTime || new Date() // 初始化日志日期
+            this.dateValue = templateItemData.diaryTimeDefault === 1 ? templateItemData.diaryTime || new Date() : ''
             this.initRange(templateItemData.range || templateItemData.diaryVisibleRanges || []) // 初始化可选范围
             this.initAtMember(templateItemData) // 初始化at人 
             this.initDefaultFile(templateItemData) // 初始化文件
