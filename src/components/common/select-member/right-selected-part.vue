@@ -17,7 +17,7 @@
 				<Icon type="chevron-down" class="r" v-show="!openDep"></Icon>
 			</div>
 			<ul v-show="openDep">
-				<li class="li" v-for="each in depList">
+				<li class="li" v-for="(each, index) in depList" :key="index">
 					<div class="head-wrap l">
 						<avatar :name="each.deptName" type="dept" :size="'28px'"/>
 					</div>
@@ -36,7 +36,7 @@
 				<Icon type="chevron-down" class="r" v-show="!openTeam"></Icon>
 			</div>
 			<ul v-show="openTeam">
-				<li class="li" v-for="each in teamList">
+				<li class="li" v-for="(each, index) in teamList" :key="index">
 					<div class="head-wrap l">
 						<avatar :avatar="each.groupLogo"  type="group" :name="each.groupName" :size="'28px'"/>
 					</div>
@@ -55,7 +55,7 @@
 				<Icon type="chevron-down" class="r" v-show="!openMan"></Icon>
 			</div>
 			<ul v-show="openMan">
-				<li class="li" v-for="each in manList">
+				<li class="li" v-for="(each, index) in manList" :key="index">
 					<div class="head-wrap elli l">
 						<avatar :avatar="each.avatar" :name="each.userName" fontSize="12px" :size="'28px'"/>
 					</div>
@@ -81,7 +81,7 @@
     */
 	import avatar from '../avatar';
 
-	export default{
+	export default {
 		props:["info"],
 		components:{
 			avatar

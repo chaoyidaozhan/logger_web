@@ -3,7 +3,7 @@
 		<search-input @change="keyWordChange"/>
 
 		<ul class="man_scroll">
-			<li v-for="each in list" class="li cp" @click="checkEach(each)">
+			<li v-for="(each, index) in list" :key="index" class="li cp" @click="checkEach(each)">
 				<div class="head-wrap l">
 					<avatar :avatar="each.groupLogo" type="group" :name="each.groupName" :size="'28px'"/>
 				</div>
@@ -27,7 +27,7 @@
 <script type="text/javascript">
 	import avatar from '../avatar';
 	import searchInput from './search-input.vue';
-	export default{
+	export default {
 		props:['info'],
 		components:{
 			avatar , searchInput

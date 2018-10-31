@@ -3,7 +3,7 @@
 		<li v-show="loading">
 			<Spin class="auto" style="margin-top:10px;"/>
 		</li>
-		<li v-for="each in list" class="li">
+		<li v-for="(each, index) in list" :key="index" class="li">
 			<div class="part1 cp" @click="checkEach(each)">
 				<!-- 阻止冒泡 -->
 				<div class="openIc-wrap inlb" @click.stop="autoExpand(each)" v-if="each.haveSub">
@@ -21,7 +21,7 @@
 </template>
 <script>
 
-	export default{
+	export default {
 		props:{
 			pid:{
 				default:'',

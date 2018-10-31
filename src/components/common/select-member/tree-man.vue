@@ -27,7 +27,7 @@
 <script type="text/javascript">
 	import avatar from '../avatar';
 	import searchInput from './search-input.vue';
-	export default{
+	export default {
 		props:['info'],
 		components:{
 			avatar , searchInput

@@ -4,7 +4,7 @@
 
 			<!-- keyword不为空显示平级结构 -->
 			<div class="search-wrap man_scroll" v-if=" keyWord!='' ">
-				<li v-for="each in list" class="li cp" @click="checkEach(each)">
+				<li v-for="(each, index) in list" :key="index" class="li cp" @click="checkEach(each)">
 					<div class="head-wrap l">
 						<avatar :name="each.deptName" type="dept" :size="'28px'"/>
 					</div>
@@ -47,7 +47,7 @@
 	import avatar from '../avatar';
 	import searchInput from './search-input.vue';
 	import otherDep from './other-dep.vue';
-	export default{
+	export default {
 		props:['info'],
 		components:{
 			avatar , searchInput , otherDep

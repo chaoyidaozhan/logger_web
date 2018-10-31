@@ -1,7 +1,8 @@
 <template>
 	<div class="left_select_part">
 		<ul class="tab" v-show="tabInfo.length>1">
-			<li v-for="item in tabInfo.list" class="cp"
+			<li v-for="(item, index) in tabInfo.list" class="cp"
+				:key="index"
 				:class="{active:activeIndex==item.index}"
 				:style="{width:tabInfo.width}"
 				@click="changeTab( item.index )">
@@ -25,7 +26,7 @@
 	import TreeTeam from './tree-team.vue';
 	import TreeMan from './tree-man.vue';
 	import TreeDepWrap from './tree-dep-wrap.vue';
-	export default{
+	export default {
 		props:['info'],
 		components:{
 			TreeTeam,TreeMan,TreeDepWrap
