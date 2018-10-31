@@ -24,9 +24,9 @@
     </div>
 </template>
 <script>
-import Avatar from '../avatar';
-import FormatTime  from 'app_src/filters/format-time';
-import Ps from 'perfect-scrollbar';
+import Avatar from '../avatar'
+import FormatTime  from 'app_src/filters/format-time'
+import Ps from 'perfect-scrollbar'
 import FsEmptyTips from 'app_component/common/empty-tips/'
 import Loading from 'app_component/common/loading-scroll/'
 export default {
@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         loadData() {
-            this.loading = true;
+            this.loading = true
             this.$ajax({
                 url: '/diaryQuery/getGeneralGroupDiary',
                 type: 'get',
@@ -60,41 +60,41 @@ export default {
                     pageSize: this.pageSize
                 },
                 success: (res)=>{
-                    this.updateList(res);
+                    this.updateList(res)
                 },
                 error: (res)=>{
-                    this.loading = false;
-                    this.loaderror = true;
+                    this.loading = false
+                    this.loaderror = true
                     
                 }
-            });
+            })
         },
         updateList(res) {
             if(res && res.code === 0) {
-                this.loading = false;
+                this.loading = false
                 res.data && res.data.forEach((item)=>{
-                    item.lastUpdateTime = FormatTime(new Date(item.lastUpdateTime || new Date()), "YYYY-MM-DD");
-                });
+                    item.lastUpdateTime = FormatTime(new Date(item.lastUpdateTime || new Date()), "YYYY-MM-DD")
+                })
                 if(this.pageNo === 1) {
-                    this.groupsData = res.data || [];
-                    this.currentId = this.groupsData[0] && this.groupsData[0].groupId;
-                    this.$emit("getDaily", typeof this.currentId === "undefined" ? "" : this.currentId);
+                    this.groupsData = res.data || []
+                    this.currentId = this.groupsData[0] && this.groupsData[0].groupId
+                    this.$emit("getDaily", typeof this.currentId === "undefined" ? "" : this.currentId)
                 }else {
-                    this.groupsData = this.groupsData.concat(res.data || []);
+                    this.groupsData = this.groupsData.concat(res.data || [])
                 }
                 if (res.data && res.data.length < this.pageSize) {
-                    this.hasMore = false;
+                    this.hasMore = false
                 }
-                this.initScroll();            
+                this.initScroll()            
             }else {
-                this.loading = false;
-                this.loaderror = true;
+                this.loading = false
+                this.loaderror = true
             }
         },
         initScroll() {
             this.$nextTick(()=>{
-                let container = this.$refs.groupWrap;
-                Ps.destroy(container);
+                let container = this.$refs.groupWrap
+                Ps.destroy(container)
                 Ps.initialize(container, {
                     wheelSpeed: 0.5,
                     wheelPropagation: false,
@@ -102,33 +102,33 @@ export default {
                     eventPassthrough : 'horizontal',
                     minScrollbarLength: 60,
                     maxScrollbarLength: 300
-                });
+                })
             })
         },
         onScroll(e) {
             if(!this.loading && this.hasMore) {
-                let $target = e && e.target;
-                let scrollHeight = $target.scrollHeight;
-                let scrollTop = $target.scrollTop;
-                let offsetHeight = $target.offsetHeight;
+                let $target = e && e.target
+                let scrollHeight = $target.scrollHeight
+                let scrollTop = $target.scrollTop
+                let offsetHeight = $target.offsetHeight
                 if (offsetHeight == (scrollHeight - scrollTop)) {
-                    this.pageNo++;
+                    this.pageNo++
                 }
             }
         },
         getDaily(params) {
-            this.currentId = params.groupId;
-            params.hasNoRead = 0;
-            this.$emit("getDaily", typeof this.currentId === "undefined" ? "" : this.currentId);
+            this.currentId = params.groupId
+            params.hasNoRead = 0
+            this.$emit("getDaily", typeof this.currentId === "undefined" ? "" : this.currentId)
         },
         handleReload() {
-            this.loaderror = false;            
-            this.loading = true;
-            this.loadData();
+            this.loaderror = false            
+            this.loading = true
+            this.loadData()
         }
     },
     created() {
-        this.loadData();  
+        this.loadData()  
     }
 }
 </script>

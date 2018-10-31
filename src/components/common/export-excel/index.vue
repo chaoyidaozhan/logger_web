@@ -33,10 +33,10 @@
         },
         methods: {
             handleExportExcel(params) {
-                this.$emit("handleExportExcel", params);
+                this.$emit("handleExportExcel", params)
             },
             handlePersonData() {
-                this.$emit("handlePersonData");
+                this.$emit("handlePersonData")
             }
         }
     }

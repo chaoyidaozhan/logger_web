@@ -40,9 +40,9 @@ export default {
             } 
             this.minDate = params.minDate || ''
             this.maxDate = params.maxDate || ''
-            delete params.minDate;
-            delete params.maxDate;
-            this.params = params;
+            delete params.minDate
+            delete params.maxDate
+            this.params = params
         }
     }
 }

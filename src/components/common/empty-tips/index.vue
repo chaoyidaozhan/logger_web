@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         handleReload() {
-            this.$emit('handleReload');
+            this.$emit('handleReload')
         }
     }
 }
