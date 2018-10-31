@@ -181,9 +181,6 @@ export default {
         handleClose() {
             this.isDisableTrasnformList = false
         }
-    },
-    mounted () {
-        console.log(this.data)
     }
 }
 </script>

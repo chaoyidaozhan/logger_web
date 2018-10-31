@@ -25,8 +25,8 @@
     </div>
 </template>
 <script>
-import FormatTime from 'app_src/filters/format-time';
-import HTMLDeCode from 'app_src/filters/HTMLDeCode';
+import FormatTime from 'app_src/filters/format-time'
+import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 
 import { mapActions } from 'vuex';
 export default {
@@ -70,7 +70,7 @@ export default {
                         this.data.dataStatus = name == 'start' ? 1 : 0
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                        this.$Message.error(res && res.msg || this.$t('status.networkError'))
                     }
                 });
             }, 200);
@@ -84,13 +84,13 @@ export default {
                         url: `/template/delete/${this.data.id}`,
                         success: (res)=>{
                             if(res && res.code == 0) {
-                                this.$emit('deleteData', this.data);
+                                this.$emit('deleteData', this.data)
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                            this.$Message.error(res && res.msg || this.$t('status.networkError'))
                         }
-                    });
+                    })
                 }
             })
            
@@ -106,13 +106,11 @@ export default {
                         token: this.$store.state.userInfo.token,
                         templateName: this.data.title||'' 
                     }
-                });
+                })
             } 
         },
         goToTemplate(e) {
-            console.log(e);
-            
-            e.stopPropagation();
+            e.stopPropagation()
             this.updateTemplateContent({
                 content: this.data
             })
