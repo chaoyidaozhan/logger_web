@@ -11,7 +11,7 @@
 				</div>
 				<div class="depName inlb elli">{{each.deptName}}</div>
 				<!-- Checkbox阻止事件 -->
-				<Checkbox v-if="info.deptApiUri && each.authDept" class="cbx" style="pointer-events:none" :value="each.checked"/>
+				<Checkbox v-if="each.authDept !== 0" class="cbx" style="pointer-events:none" :value="each.checked"/>
 			</div>
 			<div class="part2" v-show="each.openChild">
 				<tree-dep v-if="each.childMount" :info="info" :pid="each.deptId"/>
@@ -95,6 +95,9 @@
             	}
             },
             checkEach(each){
+				if(each.authDept === 0) {
+					return
+				}
             	// 限制 ;
 				let next = this.$selectMember.checkLimit(each ,'dep');
 				if( !next ){ return };
