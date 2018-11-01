@@ -198,7 +198,13 @@ export default {
                         width: 80
                     }];
 
-                    let columnArr = JSON.parse(this.list[0].content) || [];
+                    let columnArr = []
+                    this.list.forEach(l => {
+                        let curArr = (JSON.parse(l.content) || [])
+                        if(curArr.length > columnArr.length) {
+                            columnArr = curArr
+                        }
+                    })
                     columnArr && columnArr.forEach((item, key) => { //循环构建表头
                         this.columnsData.push({
                             title: columnArr[key].title || '',
@@ -228,7 +234,10 @@ export default {
                                 data['column' + i] = ['number', 'string'].indexOf(typeof v.value) !== -1 ? v.value: "";
                             }
                             if(v.type === 'InputContainer') {
-                                
+                                console.log(v);
+                                v.children.forEach(c=>{
+                                    data['column' + i] += `${c.content}\n`
+                                })
                             }
                             if(v.type === 'InputTextNum') {
                                 if(!isNaN(+v.value)) {
