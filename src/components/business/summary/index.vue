@@ -196,8 +196,9 @@ export default {
                         title: '',
                         key: 'column4',
                         width: 80
-                    }];
+                    }]
 
+                    // 获取当前表格最长的内容
                     let columnArr = []
                     this.list.forEach(l => {
                         let curArr = (JSON.parse(l.content) || [])
@@ -208,7 +209,8 @@ export default {
                     columnArr && columnArr.forEach((item, key) => { //循环构建表头
                         this.columnsData.push({
                             title: columnArr[key].title || '',
-                            key: 'column' + (this.columnsData.length - 1)
+                            key: 'column' + (this.columnsData.length - 1),
+                            type: 'html'
                         });
                         this.footerData.push({ //循环构建表foot
                             title: '',
@@ -236,7 +238,7 @@ export default {
                             if(v.type === 'InputContainer') {
                                 console.log(v);
                                 v.children.forEach(c=>{
-                                    data['column' + i] += `${c.content}\n`
+                                    data['column' + i] += `${c.title}:${c.content}<br>`
                                 })
                             }
                             if(v.type === 'InputTextNum') {
