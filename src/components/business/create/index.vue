@@ -423,6 +423,10 @@ export default {
         },
         handleValidate(templateContent) { //校验数据
             const _this = this
+            if(!this.dateValue && this.templateItemData.diaryTimeRequired == 1) {
+                _this.$Message.warning(this.$t('noun.date') + _this.$t('toast.canNotBeEmpty'))
+                return false
+            }
             function validate(content) {
                 if(content && content.length) {
                     for (let i = 0, l = content.length; i < l; i++) {
@@ -455,7 +459,7 @@ export default {
                 })
                 let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
-                    diaryTime: FormatTime(new Date(this.dateValue), "YYYY-MM-DD"),
+                    diaryTime: FormatTime(this.dateValue ? new Date(this.dateValue) : new Date(), "YYYY-MM-DD"),
                     templateName: this.templateItemData.title || this.templateItemData.templateName,
                     version: this.templateItemData.version,
                     source: 3, //1 安卓   2 ios    3web    4微信
