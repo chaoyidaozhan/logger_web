@@ -236,7 +236,6 @@ export default {
                                 data['column' + i] = ['number', 'string'].indexOf(typeof v.value) !== -1 ? v.value: "";
                             }
                             if(v.type === 'InputContainer') {
-                                console.log(v);
                                 v.children.forEach(c=>{
                                     data['column' + i] += `${c.title}:${c.content}<br>`
                                 })
