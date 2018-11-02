@@ -6,7 +6,7 @@
                 v-if="templateItemData.diaryTimeStatus">
                  <DatePicker type="date"
                     placement="bottom-start"
-                    :placeholder="`${$t('operate.please')}$t('operate.select')`" 
+                    :placeholder="`${$t('operate.please')}${$t('operate.select')}`" 
                     class="date-wrap"
                     :options="dateOption"
                     v-model="dateValue"
