@@ -125,7 +125,9 @@ export default {
         },
         initData(templateItemData, templateContent) {
             window.createComplete = false
-            this.dateValue = templateItemData.diaryTimeDefault === 1 ? templateItemData.diaryTime || new Date() : ''
+         
+            this.dateValue = templateItemData.diaryTime || (templateItemData.diaryTimeDefault === 1 ? templateItemData.diaryTime || new Date() : '')
+            
             this.initRange(templateItemData.range || templateItemData.diaryVisibleRanges || []) // 初始化可选范围
             this.initAtMember(templateItemData) // 初始化at人 
             this.initDefaultFile(templateItemData) // 初始化文件
