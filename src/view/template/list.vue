@@ -3,9 +3,7 @@
         <template slot="head">
             <div class="logger-detail-header clearfix">
                 <span>{{$t('title.logTemplate')}}</span>
-                <div class="pull-right">
-
-                </div>
+                <div class="pull-right"></div>
             </div>
         </template>
         <template slot="body">

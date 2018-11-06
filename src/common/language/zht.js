@@ -7,7 +7,7 @@ module.exports = {
         myLogs: '我的日誌',
         internalGroupLog: '內部群日誌',
         subordinateLog: '下屬日誌',
-        lowerLevelLog: '下级日誌',
+        lowerLevelLog: '下級日誌',
         myDraft: '我的草稿',
         myFavorite: '我的收藏',
         logStatistic: '日誌統計',
@@ -16,6 +16,7 @@ module.exports = {
         internalGroupReport: '按內總群統計',
         summary: '日誌匯總',
         templateManagement: '模板管理',
+        deploy: '配置'
     },
     operate: { // 操作
         back: '返回',
@@ -42,6 +43,7 @@ module.exports = {
         saveAndEnable: '保存並啟用',
         preview: '預覽',
         reply: '回復',
+        add: '添加',
         delete: '刪除',
 
         edit: '編輯',
@@ -52,13 +54,14 @@ module.exports = {
         saveAsDraft: '存為草稿',
         file: '附件',
         upload: '上傳',
-        fill: '补',
-        viewLowerLevelLog: '查看下级日誌'
+        fill: '補',
+        viewLowerLevelLog: '查看下級日誌',
+        addAdministrator: '添加管理員'
     },
     status: { // 狀態
         loading: '正在加載...',
         loadedAllData: '已加載全部數據',
-        networkError: '網絡錯誤',
+        networkError: '網酪錯誤',
         clickToReload: '點擊重新加載',
         loadMore: '加載更多',
         noRelevantData: '沒有相關數據'
@@ -103,7 +106,7 @@ module.exports = {
         enterUnit: '請輸入單位比如（元）',
         leastItems: '至少2項至多10項',
         whetherDisplayDate: '是否顯示日誌日期',
-        whetherDisplayDefaultValue: '是否顯示默认值',
+        whetherDisplayDefaultValue: '是否顯示默認值',
         enterKeyword: '請輸入關鍵字進行搜索',
         noMore: '每次選擇不可超過500人，請分批選擇',
         remindkeyPeopleToViewYourLog: '提醒關鍵人員查看您的日誌',
@@ -204,6 +207,8 @@ module.exports = {
     },
     title: {
         logTemplate: '日誌模板',
-        logTemplateSettings: '設置日誌模板'
+        logTemplateSettings: '設置日誌模板',
+        configureAdministratorAndStatisticsPermissions: '配置管理員及統計權限',
+        statisticalAuthority: "的統計權限"
     }
 }

@@ -96,31 +96,45 @@ export default {
             this.loadData();
         },
         handleSummaryData(){ // 汇总数据
-            let contentArr = [];
-            this.templateItemData = this.selectList[0]||{};
+            let contentArr = []
+            let maxContent = []
+            this.selectList.forEach(l => {
+                let curContent = (JSON.parse(l.content) || [])
+                if(curContent.length > maxContent.length) {
+                    maxContent = curContent
+                }
+            })
+
+            this.templateItemData = maxContent[0]||{}
+            this.selectContent.forEach(s => {
+                let curContent = s || []
+                if(curContent.length > contentArr.length) {
+                    contentArr = curContent
+                }
+            })
+            console.log(contentArr)
             this.selectContent.forEach((v,k)=>{
-                if(k == 0) {
-                    contentArr = v;
-                } else {
-                    v.forEach((item, index)=>{
+                v.forEach((item, index)=>{
+                    if(item.id != content[index].id) {
                         if(item.type == 'InputText') {
                             if(!!item.content.trim()) {
-                                contentArr[index].content += `\n${item.content}`;
-                                contentArr[index].value += `\n${item.value}`;
+                                contentArr[index].content += `\n${item.content}`
+                                contentArr[index].value += `\n${item.value}`
                             }
                         }
                         if(item.type == 'InputTextNum') {
                             if(!!item.content && typeof +item.content == 'number') {
-                                contentArr[index].content = (+contentArr[index].content) + (+item.content);
-                                contentArr[index].value = (+contentArr[index].value) + (+item.value);
+                                contentArr[index].content = (+contentArr[index].content) + (+item.content)
+                                contentArr[index].value = (+contentArr[index].value) + (+item.value)
                             }
                         }
-                    })
-                }
-            });
+                    }
+                })
+            })
             this.templateItemData.content = JSON.stringify(contentArr);
         },
         loggerSummary() { // 日志汇总
+            console.log(this.selectContent)
             if (this.checkNum <= 0) {
                 this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'));
             } else {

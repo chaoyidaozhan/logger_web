@@ -16,6 +16,7 @@ module.exports = {
         internalGroupReport: 'Internal Group',
         summary: 'Summary',
         templateManagement: 'Template Management',
+        deploy: 'Deploy'
     },
     operate: { // 操作
         back: 'Back',
@@ -42,6 +43,7 @@ module.exports = {
         saveAndEnable: 'Save and Enable',
         preview: 'Preview',
         reply: 'Reply',
+        add: 'Add',
         delete: 'Delete',
         edit: 'Edit',
         disable: 'Disable',
@@ -52,7 +54,8 @@ module.exports = {
         file: 'File',
         upload: 'Upload',
         fill: 'Fill',
-        viewLowerLevelLog: 'View lower lever log'
+        viewLowerLevelLog: 'View lower lever log',
+        addAdministrator: 'Add administrator'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -203,6 +206,8 @@ module.exports = {
     },
     title: {
         logTemplate: 'Log Template',
-        logTemplateSettings: 'Log Template Settings'
+        logTemplateSettings: 'Log Template Settings',
+        configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
+        statisticalAuthority: "'s statistical authority"
     }
 }

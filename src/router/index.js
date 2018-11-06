@@ -7,6 +7,7 @@ import collect from './collect'
 import statistics from './statistics'
 import summary from './summary'
 import template from './template'
+import deploy from './deploy'
 
 export default [{
     path: '/',
@@ -19,6 +20,7 @@ export default [{
         ...statistics,
         ...summary,
         ...template,
+        ...deploy,
         {
             path: '*',
             redirect: '/LoggerQueryAll'

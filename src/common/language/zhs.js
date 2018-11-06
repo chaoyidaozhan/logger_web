@@ -16,6 +16,7 @@ module.exports = {
         internalGroupReport: '按内部群统计',
         summary: '日志汇总',
         templateManagement: '模板管理',
+        deploy: '配置'
     },
     operate: { // 操作
         back: '返回',
@@ -42,6 +43,7 @@ module.exports = {
         saveAndEnable: '保存并启用',
         preview: '预览',
         reply: '回复',
+        add: '添加',
         delete: '删除',
 
         edit: '编辑',
@@ -53,7 +55,8 @@ module.exports = {
         file: '附件',
         upload: '上传',
         fill: '补',
-        viewLowerLevelLog: '查看下级日志'
+        viewLowerLevelLog: '查看下级日志',
+        addAdministrator: '添加管理员'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -204,6 +207,8 @@ module.exports = {
     },
     title: {
         logTemplate: '日志模板',
-        logTemplateSettings: '设置日志模板'
+        logTemplateSettings: '设置日志模板',
+        configureAdministratorAndStatisticsPermissions: '配置管理员及统计权限',
+        statisticalAuthority: "的统计权限"
     }
 }

@@ -68,8 +68,18 @@ const menus = [
     {
         name: 'menus.templateManagement',
         path: '/LoggerTemplate/manager',
-        icon: 'icon-template-2018',
+        icon: 'icon-manage',
         type: ['admin','diary_examer']
+    },
+    {
+        name: 'menus.summary',
+        path: '/LoggerSummary',
+        icon: 'icon-collect-2018'
+    },
+    {
+        name: 'menus.deploy',
+        path: '/Deploy',
+        icon: 'icon-template-2018',
     }
 ]
 export default menus;
