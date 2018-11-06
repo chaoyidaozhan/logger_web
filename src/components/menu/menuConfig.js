@@ -73,7 +73,7 @@ const menus = [
     },
     {
         name: 'menus.summary',
-        path: '/LoggerSummary',
+        path: '/LoggerSummaryNew',
         icon: 'icon-collect-2018'
     },
     {

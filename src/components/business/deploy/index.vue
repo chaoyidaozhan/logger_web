@@ -4,29 +4,31 @@
             <div class="deploy-title">{{$t('operate.addAdministrator')}}
                 <span>
                     <Button type="primary" @click="handleAddMember">{{$t('operate.add')}}</Button>
-                    <Button type="default">{{$t('operate.delete')}}</Button>
+                    <Button type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</Button>
                 </span>
             </div>
             <div class="deploy-member-content" 
                 v-if="deployMember && deployMember.length">
                 <div class="deploy-member-card" 
-                    v-for="(item, index) in deployMember"
+                    v-for="(item) in deployMember"
                     @click="handleChangeLimit(item)"
-                    :class="{'active':item.memberId === currentMemberId}"
-                    :key="index">
-                    <fs-avatar name="nizhja" size="50px"/>
-                    <span class="name">nizhja</span>
+                    :class="{'active':currentMember && (item.memberId === currentMember.memberId)}"
+                    :key="item.memberId">
+                    <fs-avatar :avatar="item.avatar" :name="item.userName" size="50px"/>
+                    <span class="name">{{item.userName}}</span>
                     <span class="ico"></span>
                 </div>
             </div>
         </div>
         <div class="deploy-limit">
-            <div class="deploy-title">
-                {{$t('title.statisticalAuthority')}}
-                <span><Button type="default">{{$t('operate.add')}}</Button></span>
+            <div class="deploy-title" v-if="currentMember">
+                {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
+                <span><Button type="default" @click="handleAddLimit">{{$t('operate.add')}}</Button></span>
             </div>
-            <div class="deploy-limit-content">
-                <span class="deploy-limit-scope">13232131<i class="icon-delete-userlist"></i></span>
+            <div class="deploy-limit-content" v-if="deployLimit">
+                <span class="deploy-limit-scope" v-for="item in deployLimit" :key="item.id">
+                    {{item[mapKey[item.dataType]] || '“'}}<i class="icon-delete-userlist"></i>
+                </span>
             </div>
         </div>
     </div>
@@ -36,9 +38,16 @@ import FsAvatar from 'app_component/common/avatar'
 export default {
     data() {
         return {
-            deployMember: [1,2,3,4,5,6,7],
+            deployMember: null,
             deployLimit: null,
-            currentMemberId: null
+            currentMember: null,
+            stashLimitData: {},
+            getLimitTime: null,
+            mapKey: {
+                2: 'userName',
+                1: 'deptName',
+                0: 'orgName'
+            }
         }
     },
     components: {
@@ -55,31 +64,129 @@ export default {
                     showAll: false,
                     warning: '',
                     count: 500
-                },
-                selected: {
-                    
                 }
             }
             this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
-                console.log(res)
-                
+                if(res && res.man.length) {
+                    const members = res.man.map(mem=>{
+                        return {
+                            memberId: mem.memberId
+                        }
+                    })
+                    this.$ajax({
+                        url: '/rest/v1/diaryStatistics/people',
+                        type: 'post',
+                        data: members,
+                        requestBody: 1,
+                        success: (res)=>{
+                            if(res && res.code == 0) {
+                                this.getDeployMember()
+                            }
+                        }
+                    })
+                }
             })
         },
         handleDeleteMember() {
-
+            const members = [this.currentMember.memberId]
+            this.$ajax({
+                url: '/rest/v1/diaryStatistics/people/delete',
+                type: 'post',
+                data: members,
+                requestBody: 1,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.handleInitData()
+                        this.getDeployMember()
+                    }
+                }
+            })
         },
         handleAddLimit() {
-
+            let info = {
+                title: this.$t('operate.addAdministrator'),
+                man: true,
+                dep: true,
+                team:  false,
+                limit: {
+                    showAll: false,
+                    warning: '',
+                    count: 500
+                }
+            }
+            this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
+                console.log(res);
+                
+                const memberIds = res.man.map(mem=>{
+                    return mem.memberId
+                }) || []
+                const deptIds = res.dep.map(dept=>{
+                    return dept.deptId
+                }) || []
+                const orgIds = res.dep.map(org=>{
+                    return org.orgId
+                }) || []
+                this.$ajax({
+                    url: '/rest/v1/diaryStatistics/acl',
+                    type: 'post',
+                    data: {
+                        memberId: this.currentMember.memberId,
+                        memberIds: memberIds,
+                        deptIds: deptIds,
+                        orgIds: orgIds,
+                    },
+                    requestBody: 1,
+                    success: (res)=>{
+                        if(res && res.code == 0) {
+                            this.getDeployLimit()
+                        }
+                    }
+                })
+            })
         },
         handleChangeLimit(param) {
-            console.log(param)
+            if(this.currentMember && param.memberId === this.currentMember.memberId) {
+                return this.handleInitData()
+            }
+            this.currentMember = param
+            if(this.stashLimitData[param.memberId]) {
+                return this.deployLimit = this.stashLimitData[param.memberId]
+            }
             this.getDeployLimit()
         },
+        handleInitData() {
+            this.currentMember = null
+            this.deployLimit = null
+        },
         getDeployMember() {
-
+            this.$ajax({
+                url: '/rest/v1/diaryStatistics/peoples',
+                data: {
+                    pageNo: 1,
+                    pageSize: 999
+                },
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.deployMember = res.data
+                    }
+                }
+            })
         },
         getDeployLimit() {
-
+            clearTimeout(this.getLimitTime)
+            this.getLimitTime = setTimeout(() => {
+                this.$ajax({
+                    url: '/rest/v1/diaryStatistics/acls',
+                    data: {
+                        memberId: this.currentMember.memberId
+                    },
+                    success: (res) =>{
+                        this.deployLimit = res.data
+                        this.stashLimitData[this.currentMember.memberId] = res.data
+                    }
+                })
+                
+            }, 300)
         }
     },
     created () {
