@@ -6,6 +6,7 @@ import draft from './draft'
 import collect from './collect'
 import statistics from './statistics'
 import summary from './summary'
+import summaryNew from './summary-new'
 import template from './template'
 import deploy from './deploy'
 
@@ -19,6 +20,7 @@ export default [{
         ...collect,
         ...statistics,
         ...summary,
+        ...summaryNew,
         ...template,
         ...deploy,
         {

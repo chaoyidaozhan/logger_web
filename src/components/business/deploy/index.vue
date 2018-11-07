@@ -215,6 +215,7 @@ export default {
         getDeployLimit() {
             clearTimeout(this.getLimitTime)
             this.getLimitTime = setTimeout(() => {
+                if(!this.currentMember) return
                 this.$ajax({
                     url: '/rest/v1/diaryStatistics/acls',
                     data: {

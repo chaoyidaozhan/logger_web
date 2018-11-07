@@ -65,6 +65,10 @@ export default {
             type: Boolean,
             default: false
         },
+        showOtherDept: {
+            type: Boolean,
+            default: false
+        },
         showGroup: {
             type: Boolean,
             default: false
@@ -138,6 +142,7 @@ export default {
                 man: this.showMember,
                 team:  this.showGroup,
                 dep: this.showDept,
+                showOtherDept: this.showOtherDept,
                 limit: { 
                     ...this.limit
                 },
@@ -149,9 +154,9 @@ export default {
             };
             if(this.deptApiUri) {
                 info.deptApiUri = this.deptApiUri;
-                if(this.deptApiUri == '/team/getDeptsWithPart') {
+                if(this.showOtherDept) {
                     info.deptApiData = {
-                        pid:this.$store.state.userInfo.deptId
+                        pid: this.$store.state.userInfo.deptId
                     }
                 }
             }

@@ -9,7 +9,9 @@
 				<div class="openIc-wrap inlb" @click.stop="autoExpand(each)" v-if="each.haveSub">
 					<Icon type="arrow-right-b openIc" :class="{rot:each.open}"></Icon>
 				</div>
-				<div class="depName inlb elli">{{each.deptName}}</div>
+				<div class="depName inlb elli">
+					{{each.deptName}}（{{each.type === 0 ? $t('noun.org') : $t('noun.dept')}}）
+				</div>
 				<!-- Checkbox阻止事件 -->
 				<Checkbox v-if="each.authDept !== 0" class="cbx" style="pointer-events:none" :value="each.checked"/>
 			</div>
@@ -20,7 +22,6 @@
 	</ul>	
 </template>
 <script>
-
 	export default {
 		props:{
 			pid:{
@@ -42,7 +43,6 @@
 				this.$selectMember.setDefaultTure('dep');
 			}
 		},
-
 		mounted(){
 			this.getList();
 		},
@@ -114,46 +114,54 @@
             }
 		}
 	}
-
 </script>
 <style lang="less">
-	.tree_dep{
-		.li{
-			font-size: 12px;
-			line-height: 25px;
-			padding: 5px 0;
-			transform:height .3s ;
-			.part1{
-				position: relative;
-				padding-left: 15px;
-				.openIc-wrap{
-					position: absolute;
-					left: 0;top: 0;
-					width: 15px;height: 100%;
-					.openIc{
-						line-height: 25px;
-						font-size: 12px;
-						transition:transform .3s;
-					}
-					.rot{
-						transform:rotate(90deg);
-					}
+.tree_dep {
+	.li {
+		font-size: 12px;
+		line-height: 25px;
+		padding: 5px 0;
+		transform: height .3s;
+
+		.part1 {
+			position: relative;
+			padding-left: 15px;
+
+			.openIc-wrap {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 15px;
+				height: 100%;
+
+				.openIc {
+					line-height: 25px;
+					font-size: 12px;
+					transition: transform .3s;
 				}
-				.depName{
-					max-width: 80%;
-				}
-				.cbx{
-					position: absolute;
-					right: 0
+
+				.rot {
+					transform: rotate(90deg);
 				}
 			}
-			.part2{
-				padding-left: 15px;
-				transition:height .4s ease-in-out;
-				overflow-y: hidden;
+
+			.depName {
+				max-width: 80%;
+			}
+
+			.cbx {
+				position: absolute;
+				right: 0
 			}
 		}
+
+		.part2 {
+			padding-left: 15px;
+			transition: height .4s ease-in-out;
+			overflow-y: hidden;
+		}
 	}
+}
 </style>
 
 

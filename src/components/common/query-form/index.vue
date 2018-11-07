@@ -47,7 +47,8 @@
                     :title="`${$t('operate.select')}${$t('noun.department')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.department')}`"
                     @handleSelectMember="handleSelectMember" 
-                    :showMember="false" 
+                    :showOtherDept="showOtherDept"
+                    :showMember="false"
                     :showDept="true"
                     :dept="dept"
                     :limit="{ showAll: true, warning: '', count: 1 }"
@@ -118,6 +119,10 @@ export default {
             default: true
         },
         showDatePicker: {
+            type: Boolean,
+            default: false
+        },
+        showOtherDept: {
             type: Boolean,
             default: false
         },

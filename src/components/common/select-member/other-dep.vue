@@ -29,7 +29,6 @@
 		components:{
 			avatar
 		},
-
 		data(){
 			return {
 				list:[],
@@ -49,54 +48,54 @@
 		methods:{
 			// 自定义部门接口
 			getDepTypesList(){
-				if( this.info.deptApiUri.includes('getDeptsWithPart') ){
-	            	this.$ajax({
-		                url: this.info.deptApiUri ,
-		                data: this.info.deptApiData ||{},
-		                success: (res)=>{
-		                	if( res.code==0 ){
-								let arr1 = []; // 主岗
-								res.data['0'] ? arr1.push(res.data['0']) : "";
-		                		let arr2 = res.data['1']||[] ; // 兼职
-								let arr3 = res.data['2']||[] ; // 其它
-								arr1[0] && arr1[0].deptName && (arr1[0].deptName += `（主岗）`);
+				if (this.info.showOtherDept) {
+					this.$ajax({
+						url: this.info.deptApiUri,
+						data: this.info.deptApiData || {},
+						success: (res) => {
+							if (res.code == 0) {
+								let arr1 = [] // 主岗
+								res.data['0'] ? arr1.push(res.data['0']) : ""
+								let arr2 = res.data['1'] || [] // 兼职
+								let arr3 = res.data['2'] || [] // 其它
+								arr1[0] && arr1[0].deptName && (arr1[0].deptName += `（主岗）`)
 								arr2.forEach(item => {
-									item.deptName += `（兼职）`;
+									item.deptName += `（兼职）`
 								});
-		                		let arr = arr1.concat(arr2,arr3);
-			                		arr.map(v=>{
-			                			v.checked=false ;
-									})
-		                		this.list = arr ;
-		                		this.ajaxStatus = 'over' ;
-		                	}else {
-		                		this.ajaxStatus = 'error' ;
-		                	}
-		                },
-		                error:(res)=>{
-		                	this.ajaxStatus = 'error' ;
-		                }
-		            });
-				}else if( this.info.deptApiUri.includes('getAuthDepts') ){
-	            	this.$ajax({
-		                url: this.info.deptApiUri ,
-		                data: this.info.deptApiData ||{},
-		                success: (res)=>{
-		                	if( res.code==0 ){
-		                		let arr = res.data.depts || [] ;
-			                		arr.map(v=>{
-			                			v.checked=false ;
-			                		})
-		                		this.list = arr ;
-		                		this.ajaxStatus = 'over' ;
-		                	}else {
-		                		this.ajaxStatus = 'error' ;
-		                	}
-		                },
-		                error:(res)=>{
-		                	this.ajaxStatus = 'error' ;
-		                }
-		            });
+								let arr = arr1.concat(arr2, arr3)
+								arr.map(v => {
+									v.checked = false
+								})
+								this.list = arr;
+								this.ajaxStatus = 'over'
+							} else {
+								this.ajaxStatus = 'error'
+							}
+						},
+						error: (res) => {
+							this.ajaxStatus = 'error'
+						}
+					})
+				} else if (this.info.deptApiUri.includes('getAuthDepts')) {
+					this.$ajax({
+						url: this.info.deptApiUri,
+						data: this.info.deptApiData || {},
+						success: (res) => {
+							if (res.code == 0) {
+								let arr = res.data.depts || []
+								arr.map(v => {
+									v.checked = false
+								})
+								this.list = arr;
+								this.ajaxStatus = 'over'
+							} else {
+								this.ajaxStatus = 'error'
+							}
+						},
+						error: (res) => {
+							this.ajaxStatus = 'error'
+						}
+					})
 				}
             },
             checkEach( each ){
@@ -117,6 +116,4 @@
 		}
 	}
 </script>
-<style lang="less">
-	
-</style>
+

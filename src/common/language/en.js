@@ -202,7 +202,9 @@ module.exports = {
         someoneChecked: 'Someone',
         operationRecord: 'Operation record',
         task: 'Task',
-        schedule: 'Schedule'
+        schedule: 'Schedule',
+        org: 'Organization',
+        dept: 'Department'
     },
     title: {
         logTemplate: 'Log Template',

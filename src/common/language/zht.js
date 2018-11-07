@@ -203,7 +203,9 @@ module.exports = {
         someoneChecked: 'TA查看',
         operationRecord: '操作記錄',
         task: '任務',
-        schedule: '日程'
+        schedule: '日程',
+        org: '组织',
+        dept: '部门'
     },
     title: {
         logTemplate: '日誌模板',

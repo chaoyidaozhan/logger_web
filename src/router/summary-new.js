@@ -1,7 +1,7 @@
 /**
  * 日志汇总
  */
-import Summary from 'app_view/summary'
+import Summary from 'app_view/summary-new'
 
 export default [{
     path: 'LoggerSummaryNew',
