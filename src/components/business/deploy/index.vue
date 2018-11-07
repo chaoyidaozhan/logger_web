@@ -26,9 +26,13 @@
                 <span><Button type="default" @click="handleAddLimit">{{$t('operate.add')}}</Button></span>
             </div>
             <div class="deploy-limit-content" v-if="deployLimit">
-                <span class="deploy-limit-scope" v-for="item in deployLimit" :key="item.id">
-                    {{item[mapKey[item.dataType]] || '“'}}<i class="icon-delete-userlist"></i>
-                </span>
+                <template v-if="deployLimit && deployLimit.length">
+                    <span class="deploy-limit-scope" v-for="item in deployLimit" :key="item.id">
+                        {{item[mapKey[item.dataType]] || '“'}}
+                        <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
+                    </span>
+                </template>
+                <div class="no-data" v-else>{{$t('status.noRelevantData')}}</div>
             </div>
         </div>
     </div>
@@ -115,17 +119,19 @@ export default {
                 }
             }
             this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
-                console.log(res);
-                
                 const memberIds = res.man.map(mem=>{
                     return mem.memberId
                 }) || []
-                const deptIds = res.dep.map(dept=>{
-                    return dept.deptId
-                }) || []
-                const orgIds = res.dep.map(org=>{
-                    return org.orgId
-                }) || []
+                let deptIds = [], orgIds = []
+                res.dep.forEach(dept=>{
+                    if(dept.type === 0) {
+                        orgIds.push(dept.deptId)
+                    }
+                    if(dept.type === 1) {
+                        deptIds.push(dept.deptId)
+                    }
+                }) 
+                
                 this.$ajax({
                     url: '/rest/v1/diaryStatistics/acl',
                     type: 'post',
@@ -142,6 +148,40 @@ export default {
                         }
                     }
                 })
+            })
+        },
+        handleDeleteLimit(param) {
+            let stashData = {
+                2: {
+                    key: 'memberId',
+                    value: []
+                },
+                1: {
+                    key: 'deptId',
+                    value: []
+                },
+                0: {
+                    key: 'orgId',
+                    value: []
+                }
+            }
+            stashData[param.dataType].value.push(param[stashData[param.dataType].key])
+            const memberIds = stashData[2].value
+            const deptIds = stashData[1].value
+            const orgIds = stashData[0].value
+            this.$ajax({
+                url: '/rest/v1/diaryStatistics/acls',
+                type: 'delete',
+                data: {
+                    memberId: this.currentMember.memberId,
+                    memberIds: memberIds,
+                    deptIds: deptIds,
+                    orgIds: orgIds
+                },
+                requestBody: 1,
+                success: (res) =>{
+                    this.getDeployLimit()
+                }
             })
         },
         handleChangeLimit(param) {
@@ -277,6 +317,12 @@ export default {
         padding: 10px;
         height: 130px;
         font-size: 0;
+        .no-data {
+            font-size: 14px;
+            line-height: 110px;
+            text-align: center;
+            color: @gray-color-dark;
+        }
         .deploy-limit-scope {
             background:rgba(243,243,243,1);
             border-radius:4px;

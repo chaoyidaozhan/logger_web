@@ -43,7 +43,7 @@ function initParams(uri, newParams, type) {
     let paramsString = initString(signParams);
     // let sign = md5((storage.get('$sign') && storage.get('$sign').sn || '') + uri + paramsString + config.salt); // 计算签名
 
-    if (type && type === 'post') { // post时只带固定的参数在url上面
+    if (type && type !== 'get') { // post时只带固定的参数在url上面
         paramsString = initString(getParams);
     }
 
@@ -66,9 +66,20 @@ export default function ajax(opt) { //公用的ajax方法
     
     let uri = initParams(opt.url, opt.data || {}, opt.type || null);
     // let uri = initParams(opt.url, opt.data || {});
-    axios[type](uri, params, opt.config || {}).then((res) => {
-        opt.success(res.data);
-    }).catch((error) => {
-        opt.error && opt.error(error);
-    });
+    if(type === 'delete') {
+        axios[type](uri, {
+            data: params,
+            ...opt.config
+        }).then((res) => {
+            opt.success(res.data);
+        }).catch((error) => {
+            opt.error && opt.error(error);
+        })
+    } else {
+        axios[type](uri, params, opt.config || {}).then((res) => {
+            opt.success(res.data);
+        }).catch((error) => {
+            opt.error && opt.error(error);
+        })
+    }
 }
