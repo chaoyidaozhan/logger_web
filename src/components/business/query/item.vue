@@ -179,29 +179,6 @@
                     :dailyId="loggerItemData.id"/>
             </div>
         </div>
-        <!--操作记录弹层-->
-        <Modal
-            v-model="operateModal"
-            class="operate-modal"
-            :title="$t('noun.operationRecord')">   
-            <div class="operate-row" v-for="item in operateModalData" :key="item.id">
-                <fs-avatar class="operate-avatar" 
-                    size="31px" 
-                    :avatar="item.avatar" 
-                    :fontSize="item.userName ? '12px' : '18px'" 
-                    :name="item.userName"></fs-avatar>
-                <div class="operate-content">
-                    <div class="clearfix">
-                        <span>{{item.userName}}</span>
-                        <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
-                    </div>
-                    <div>
-                        {{item.reason}}
-                    </div>
-                </div>
-            </div>
-            <p slot="footer"></p>
-        </Modal>
     </div>
 </template>
 <script>
@@ -246,8 +223,6 @@ export default {
             contentExpand: false,
 
             userInfo: this.$store.state.userInfo,
-            operateModal: false,
-            operateModalData: [],
 
             showReply: false,
             editTimer: null,
@@ -495,8 +470,7 @@ export default {
                 url: `/diaryOpeationLoggers/${this.loggerItemData.id}`,
                 success: (res)=>{
                     if(res && res.code == 0) {
-                        this.operateModalData = res.data || []
-                        this.operateModal = true
+                        this.$emit('handleOperateModal', res.data || [])
                     }
                 },
                 error: (res)=>{

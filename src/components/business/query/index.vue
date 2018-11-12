@@ -5,6 +5,7 @@
                 v-for="(item, index) in list"
                 @handleDelete="handleDelete"
                 @handleViewLowerLevel="handleViewLowerLevel"
+                @handleOperateModal="handleOperateModal"
                 :index="index" 
                 :isDraft="isDraft"
                 :isLowerLevel="isLowerLevel"
@@ -21,10 +22,34 @@
             <div class="loading-content" v-if="!hasMore && !loading && list.length">{{$t('status.loadedAllData')}}</div>
         </div>
         <fs-empty-tips v-if="!list.length && !loading"/>
+         <!--操作记录弹层-->
+        <Modal
+            v-model="operateModal"
+            class="operate-modal"
+            :title="$t('noun.operationRecord')">   
+            <div class="operate-row" v-for="item in operateModalData" :key="item.id">
+                <fs-avatar class="operate-avatar" 
+                    size="31px" 
+                    :avatar="item.avatar" 
+                    :fontSize="item.userName ? '12px' : '18px'" 
+                    :name="item.userName"></fs-avatar>
+                <div class="operate-content">
+                    <div class="clearfix">
+                        <span>{{item.userName}}</span>
+                        <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
+                    </div>
+                    <div>
+                        {{item.reason}}
+                    </div>
+                </div>
+            </div>
+            <p slot="footer"></p>
+        </Modal>
     </div>
 </template>
 <script>
 import FsLoggerListItem from './item'
+import FormatTime from 'app_src/filters/format-time'
 import FsEmptyTips from 'app_component/common/empty-tips/'
 /**
     range 
@@ -72,7 +97,9 @@ export default {
             loading: false,
             loaderror: false,
             hasMore: true,
-            queryMemberId: null
+            queryMemberId: null,
+            operateModal: false,
+            operateModalData: null
         }
     },
     components: {
@@ -83,7 +110,16 @@ export default {
         pageNo: 'loadData',
         params: 'initList' 
     },
+    filters: {
+        filterDiaryUserTime(val) { // 格式化日志日期
+            return FormatTime(new Date(val), 'YYYY-MM-DD HH:mm')
+        }
+    },
     methods: {
+        handleOperateModal(param) {
+            this.operateModal = true
+            this.operateModalData = param
+        },
         getParams() { // 获取参数
             let data = {
                 pageNo: this.pageNo,
