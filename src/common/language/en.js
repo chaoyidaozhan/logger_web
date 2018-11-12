@@ -204,7 +204,8 @@ module.exports = {
         task: 'Task',
         schedule: 'Schedule',
         org: 'Organization',
-        dept: 'Department'
+        dept: 'Department',
+        admin: 'Administrator'
     },
     title: {
         logTemplate: 'Log Template',

@@ -205,7 +205,8 @@ module.exports = {
         task: '任务',
         schedule: '日程',
         org: '组织',
-        dept: '部门'
+        dept: '部门',
+        admin: '管理员'
     },
     title: {
         logTemplate: '日志模板',

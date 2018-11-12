@@ -92,19 +92,26 @@ export default {
             })
         },
         handleDeleteMember() {
-            const members = [this.currentMember.memberId]
-            this.$ajax({
-                url: '/rest/v1/diaryStatistics/people/delete',
-                type: 'post',
-                data: members,
-                requestBody: 1,
-                success: (res)=>{
-                    if(res && res.code == 0) {
-                        this.handleInitData()
-                        this.getDeployMember()
-                    }
+            this.$Modal.confirm({
+                title: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
+                content: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
+                onOk: () => {
+                    const members = [this.currentMember.memberId]
+                    this.$ajax({
+                        url: '/rest/v1/diaryStatistics/people/delete',
+                        type: 'post',
+                        data: members,
+                        requestBody: 1,
+                        success: (res)=>{
+                            if(res && res.code == 0) {
+                                this.handleInitData()
+                                this.getDeployMember()
+                            }
+                        }
+                    })
                 }
             })
+
         },
         handleAddLimit() {
             let info = {

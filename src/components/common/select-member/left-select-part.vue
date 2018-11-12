@@ -59,32 +59,32 @@
 			}
 		},
 		computed:{
-			tabInfo(){
-				let list = JSON.parse( JSON.stringify(this.DEFAULT_LIST));
-				!this.info.dep  ? delete list.dep  : null ;
-				!this.info.team ? delete list.team : null ;
-				!this.info.man  ? delete list.man  : null ;
-				let length = Object.keys(list).length ;
-				let width , paddingTop ;
-					if( length>1 ){
-						width      = 100/length + '%';
-						paddingTop = '40px';
-					}else {
-						width      = '100%';
-						paddingTop = '0px';						
-					}
+			tabInfo() {
+				let list = JSON.parse(JSON.stringify(this.DEFAULT_LIST));
+				!this.info.dep ? delete list.dep : null;
+				!this.info.team ? delete list.team : null;
+				!this.info.man ? delete list.man : null;
+				let length = Object.keys(list).length;
+				let width, paddingTop;
+				if (length > 1) {
+					width = 100 / length + '%';
+					paddingTop = '40px';
+				} else {
+					width = '100%';
+					paddingTop = '0px';
+				}
 				// 默认第一个li添加active
-					if( length>0 ){
-						let key = Object.keys(list)[0];
-						this.activeIndex = this.DEFAULT_LIST[key].index ;
-					}
+				if (length > 0) {
+					let key = Object.keys(list)[0];
+					this.activeIndex = this.DEFAULT_LIST[key].index;
+				}
 				let obj = {
 					list,
 					length,
 					width,
 					paddingTop
 				}
-				return obj ;
+				return obj;
 			}
 		},
 		watch:{
