@@ -22,7 +22,7 @@ const menus = [
             },
             {
                 name: 'menus.lowerLevelLog',
-                type: ['deptManager'],
+                // type: ['deptManager'],
                 path: '/LoggerQueryLowerLevel'
             },
             {

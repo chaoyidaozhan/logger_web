@@ -104,10 +104,10 @@
             	each.checked = !each.checked ;
             	if( each.checked ){
             		// 添加右侧
-            		this.$selectTree.right_add('team',each);
+            		this.$selectTree.selected('team',each);
             	}else {
             		// 删除右侧
-            		this.$selectTree.right_del('team',each);
+            		this.$selectTree.removeSelected('team',each);
             	};
             }
 		}
