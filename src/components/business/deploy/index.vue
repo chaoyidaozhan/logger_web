@@ -70,7 +70,7 @@ export default {
                     count: 500
                 }
             }
-            this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
+            this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
                 if(res && res.man.length) {
                     const members = res.man.map(mem=>{
                         return {
@@ -125,7 +125,7 @@ export default {
                     count: 500
                 }
             }
-            this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
+            this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
                 const memberIds = res.man.map(mem=>{
                     return mem.memberId
                 }) || []

@@ -10,7 +10,7 @@
                 :templateType="templateType"
                 @handleTemplateType="handleTemplateType"
                 @handleQuery="handleQuery" 
-                :timeArr="timeArr"
+                :createDate="createDate"
                 ref="queryForm"/>
         </template>
         <template slot="body">
@@ -28,7 +28,7 @@ export default {
     data() {
         return {
             params: {}, 
-            timeArr: [],
+            createDate: [],
             templateType: 'select'
         }
     },
@@ -39,19 +39,19 @@ export default {
     },
     methods: {
         handleQuery(params) {
-            this.params = params;
+            this.params = params
         },
         handleTemplateType(type) {
             this.templateType = type || 'select'
         },
         init() {
-            let now = (new Date()).valueOf();
-            let beginDate = formatTime(new Date(now - 86400000 * 15), 'YYYY-MM-DD');
-            let endDate = formatTime(new Date(now), 'YYYY-MM-DD');
-            this.timeArr = [
+            let now = (new Date()).valueOf()
+            let beginDate = formatTime(new Date(now - 86400000 * 15), 'YYYY-MM-DD')
+            let endDate = formatTime(new Date(now), 'YYYY-MM-DD')
+            this.createDate = [
                 beginDate,
                 endDate
-            ];
+            ]
         }
     },
     created () {

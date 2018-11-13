@@ -118,7 +118,7 @@
                         </div>
                         <div class="extra-item">
                             <label class="extra-label">{{$t('noun.visibleTo')}}</label>
-                            <select-member-input 
+                            <fs-select-tree-input 
                                 :dept="deptRange"
                                 :group="groupRange"
                                 :member="memberRange"
@@ -170,7 +170,7 @@
 <script>
 import Sortable from 'sortablejs';
 import FsEmptyTips from 'app_component/common/empty-tips';
-import SelectMemberInput from 'app_component/common/select-member-input/';
+import FsSelectTreeInput from 'app_component/common/select-tree-input/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 import FsDragItem from './drag-item'
 import FsSubNav from './sub-nav'
@@ -283,7 +283,7 @@ export default {
     },
     components: {
         FsEmptyTips,
-        SelectMemberInput,
+        FsSelectTreeInput,
         FsDragItem,
         FsSubNav
     },

@@ -15,7 +15,7 @@
                 </DatePicker>
             </FormItem>
             <FormItem :label="$t('noun.visibleRange')" class="required-icon">
-                <select-member-input 
+                <fs-select-tree-input 
                     :dept="deptRange"
                     :group="groupRange"
                     :member="memberRange"
@@ -33,7 +33,7 @@
                 <work-log-node :data="item" :transformList="transformList"></work-log-node>
             </FormItem>
             <FormItem :label="`@${$t('noun.someoneChecked')}`">
-                <select-member-input 
+                <fs-select-tree-input 
                     :member="member"
                     :title="`@${$t('noun.someoneChecked')}`"
                     :placeholder="$t('placeholder.remindkeyPeopleToViewYourLog')"
@@ -62,7 +62,7 @@
     </div>
 </template>
 <script>
-import SelectMemberInput from 'app_component/common/select-member-input/'
+import FsSelectTreeInput from 'app_component/common/select-tree-input/'
 import WorkLogNode from './item'
 import config from 'app_src/config/config'
 import FormatTime  from 'app_src/filters/format-time'
@@ -99,7 +99,7 @@ export default {
         }
     },
     components: {
-        SelectMemberInput,
+        FsSelectTreeInput,
         WorkLogNode
     },
     computed: {

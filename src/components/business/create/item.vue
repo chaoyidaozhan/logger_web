@@ -69,7 +69,7 @@
                     max="100000000"
                     number="true" 
                     @keypress='keypress($event)'
-                    :placeholder="`${data.deion}${data.unit?`(${$t('noun.unit')}：${data.unit})`:''}`">
+                    :placeholder="`${data.deion || data.description}${data.unit?`(${$t('noun.unit')}：${data.unit})`:''}`">
             </div>
         </template>
         <template v-if="data.type == 'InputRadio'">

@@ -2,7 +2,7 @@
     <div class="search-form">
         <Form inline>
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
-                <fs-select-member ref="selectMember" 
+                <fs-select-tree-input ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :showDept="true"
@@ -10,14 +10,14 @@
                     :member="member"
                     :dept="dept"
                     :group="group"
-                    @handleSelectMember="handleSelectMember"/>
+                    @handleSelect="handleSelect"/>
             </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
-                <fs-select-member ref="selectMember" 
+                <fs-select-tree-input ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :member="member"
-                    @handleSelectMember="handleSelectMember"/>
+                    @handleSelect="handleSelect"/>
             </FormItem> 
             <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
                 <fs-select-template 
@@ -29,10 +29,10 @@
                 <Checkbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</Checkbox>
             </FormItem> 
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
-                <fs-select-date ref="selectDate" :timeArr="timeArr"/>
+                <fs-select-date ref="selectDate" :createDate="createDate"/>
             </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')"  v-if="showAllMember && showTemplateCheck">
-                <fs-select-member ref="selectMember" 
+                <fs-select-tree-input ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :showDept="true"
@@ -40,13 +40,13 @@
                     :member="member"
                     :dept="dept"
                     :group="group"
-                    @handleSelectMember="handleSelectMember"/>
+                    @handleSelect="handleSelect"/>
             </FormItem> 
             <FormItem :label-width="lang === 'en' ? 76 : 40" :label="$t('noun.department')"  v-if="showDept">
-                <fs-select-member ref="selectDept" 
+                <fs-select-tree-input ref="selectDept" 
                     :title="`${$t('operate.select')}${$t('noun.department')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.department')}`"
-                    @handleSelectMember="handleSelectMember" 
+                    @handleSelect="handleSelect" 
                     :showOtherDept="showOtherDept"
                     :showMember="false"
                     :showDept="true"
@@ -55,10 +55,10 @@
                     :deptApiUri="deptApiUri"/>
             </FormItem> 
             <FormItem :label-width="lang === 'en' ? 98 : 50" :label="$t('noun.internalGroup')"  v-if="showGroup">
-                <fs-select-member ref="selectGroup" 
+                <fs-select-tree-input ref="selectGroup" 
                     :title="`${$t('operate.select')}${$t('noun.internalGroup')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.internalGroup')}`"
-                    @handleSelectMember="handleSelectMember" 
+                    @handleSelect="handleSelect" 
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
@@ -97,7 +97,7 @@
  * showOrderTypeMulti 选择日期类型是否支持选择日期
  * showExportExcel 是否显示日志统计导出按钮
  **/
-import FsSelectMember from '../select-member-input/'
+import FsSelectTreeInput from '../select-tree-input/'
 import FsSelectTemplate from '../select-template/'
 import FsSelectDate from '../select-date/'
 import FsSelectGroup from '../select-group/'
@@ -154,7 +154,7 @@ export default {
             type: String,
             default: 'app'
         },
-        timeArr: {
+        createDate: {
             type: Array,
             default: function () {
                 return []
@@ -180,7 +180,7 @@ export default {
         }
     },
     components: {
-        FsSelectMember,
+        FsSelectTreeInput,
         FsSelectTemplate,
         FsSelectDate,
         FsSelectOrderType,
@@ -259,7 +259,7 @@ export default {
             }, 200)
            
         },
-        handleSelectMember(res) {
+        handleSelect(res) {
             res && res.group && res.group.forEach((item) => {
                 if(item.gid === 0) {
                     this.isGroupOrDeptSelectedAll = true
@@ -353,48 +353,5 @@ export default {
     }
 }
 </script>
-<style lang="less">
-@import '../../../assets/css/var.less';
-.search-form {
-    position: relative;
-    font-size: 0;
-    line-height: 56px;
-    .ivu-form-inline .ivu-form-item {
-        vertical-align: middle;
-        margin: 0 0 0 5px;
-        max-width: 360px;
-        min-width: 226px;
-        &.form-item-checkbox {
-            width: auto;
-            min-width: auto;
-        }
-        .ivu-form-item-label {
-            padding-top: 11px;
-            color: @gray-color-light;
-        }
-        .ivu-form-item-content {
-            line-height: 30px;
-        }
-        &.search-btn {
-            position: absolute;
-            right: 0;
-            width: auto;
-            min-width: auto;
-            top: 11px;
-            text-align: right;
-            margin-right: 0;
-            button {
-                margin-left: 10px;
-            }
-        }
-        &.export-btn {
-            min-width: 60px;
-        }
-    }
-    .select-date {
-        margin-right: 0;
-    }
-}
-</style>
 
 

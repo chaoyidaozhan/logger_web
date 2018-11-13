@@ -1,5 +1,5 @@
 <template>
-    <div class="select-member-input cursor-pointer" 
+    <div class="select-tree-input cursor-pointer" 
         @click="openSelectMember" 
         :class="{disabled: !dept.length && !group.length && !member.length, ellipsis: ellipsis}">
         <template v-if="!dept.length && !group.length && !member.length">
@@ -112,8 +112,8 @@ export default {
         }
     },
     methods: {
-        handleSelectMember(res) {
-            this.$emit('handleSelectMember', res);
+        handleSelect(res) {
+            this.$emit('handleSelect', res);
         },
         handleClearMember(e, item, name) {
             e.stopPropagation();
@@ -134,7 +134,7 @@ export default {
                 }
             });
             selected[name] = arr;
-            this.handleSelectMember(selected)
+            this.handleSelect(selected)
         },
         openSelectMember() {
             let info = {
@@ -163,12 +163,12 @@ export default {
             if(this.groupApiUri) {
                 info.groupApiUri = this.groupApiUri
             }
-            this.$selectMember.show(JSON.parse(JSON.stringify(info)), res=>{
+            this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
                 let params = {};
                 params.dept = res.dep;
                 params.member = res.man;
                 params.group = res.team;
-                this.handleSelectMember(JSON.parse(JSON.stringify(params)))
+                this.handleSelect(JSON.parse(JSON.stringify(params)))
             })
         }
     }
@@ -176,7 +176,7 @@ export default {
 </script>
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
-.select-member-input {
+.select-tree-input {
     display: inline-block;
     vertical-align: middle;
     width: 100%;

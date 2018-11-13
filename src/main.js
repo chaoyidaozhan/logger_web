@@ -29,8 +29,8 @@ import FsVueVideo from './components/common/video/'
 Vue.use(FsVueVideo)
 
 // 选人组件依赖 iview 和 ajax.js ;
-import selectMember from './components/common/select-member'
-Vue.use(selectMember)
+import selectTree from './components/common/select-tree'
+Vue.use(selectTree)
 
 // 多语
 import { i18n, setLocale } from './common/language/'
