@@ -16,16 +16,28 @@
                     </Checkbox>
                 </FormItem>
                 <!-- 组织 -->
-                <FormItem :label-width="40" :label="$t('noun.department')">
-                    
+                <FormItem :label-width="40" :label="$t('noun.org')">
+                    <fs-select-tree-input 
+                        ref="selectOrg"
+                        :title="`${$t('operate.select')}${$t('noun.org')}`"
+                        :placeholder="`${$t('operate.select')}${$t('noun.org')}`" 
+                        :org="org"/>
                 </FormItem> 
                 <!-- 部门 -->
                 <FormItem :label-width="40" :label="$t('noun.department')">
-                   
+                    <fs-select-tree-input 
+                        ref="selectDept"
+                        :title="`${$t('operate.select')}${$t('noun.dept')}`"
+                        :placeholder="`${$t('operate.select')}${$t('noun.dept')}`"
+                        :dept="dept"/>
                 </FormItem> 
                 <!-- 提交人 -->
                 <FormItem :label-width="50" :label="$t('noun.author')">
-                   
+                    <fs-select-tree-input 
+                        ref="selectMember"
+                        :title="`${$t('operate.select')}${$t('noun.author')}`"
+                        :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
+                        :member="member"/>
                 </FormItem> 
                 <!-- 日期 -->
                 <FormItem :label-width="40" :label="$t('noun.date')">
@@ -39,8 +51,19 @@
                         ref="selectDate" 
                         dateType="date"/>
                 </FormItem> 
+                <FormItem class="search-btn">
+                    <Button :disabled="loading" type="primary" @click="handleQuery">
+                        {{$t('operate.search')}}
+                    </Button>
+                </FormItem> 
             </Form>
-            <Button @click="console">打印测试数据</Button>
+        </div>
+        <div class="summary-page">
+             <Tabs :animated="false">
+                <TabPane label="标签一" name="name1">标签一的内容</TabPane>
+                <TabPane label="标签二" name="name2">标签二的内容</TabPane>
+                <TabPane label="标签三" name="name3">标签三的内容</TabPane>
+            </Tabs>
         </div>
     </div>
 </template>
@@ -54,7 +77,11 @@ export default {
     data() {
         return {
             templateType: 'select',
-            createDate: []
+            createDate: [],
+            org: [],
+            dept: [],
+            member: [],
+            loading: false
         }
     },
     components: {
@@ -90,6 +117,9 @@ export default {
         loadData() {
 
         },
+        handleQuery() { // 查询
+
+        },
         init() {
             let now = (new Date()).valueOf()
             let beginDate = formatTime(new Date(now - 86400000 * 15), 'YYYY-MM-DD')
@@ -112,8 +142,14 @@ export default {
     .search-form {
         line-height: normal;
         .ivu-form-item {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             margin-right: 10px;
+        }
+        .search-btn {
+            position: static!important;
+            button {
+                margin-left: 0!important;
+            }
         }
     }
 }

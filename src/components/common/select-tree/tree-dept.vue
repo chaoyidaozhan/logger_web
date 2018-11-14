@@ -10,13 +10,13 @@
 					<Icon type="arrow-right-b openIc" :class="{rot:each.open}"></Icon>
 				</div>
 				<div class="depName inlb elli">
-					{{each.deptName}}（{{each.type === 0 ? $t('noun.org') : $t('noun.dept')}}）
+					{{each.deptName}}（{{each.type === 1 ? $t('noun.org') : $t('noun.dept')}}）
 				</div>
 				<!-- Checkbox阻止事件 -->
 				<Checkbox v-if="each.authDept !== 0" class="cbx" style="pointer-events:none" :value="each.checked"/>
 			</div>
 			<div class="part2" v-show="each.openChild">
-				<tree-dep v-if="each.childMount" :info="info" :pid="each.deptId"/>
+				<tree-dept v-if="each.childMount" :info="info" :pid="each.deptId"/>
 			</div>
 		</li>
 	</ul>	

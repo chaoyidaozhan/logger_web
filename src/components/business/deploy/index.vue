@@ -85,6 +85,8 @@ export default {
                         success: (res)=>{
                             if(res && res.code == 0) {
                                 this.getDeployMember()
+                            } else {
+                                this.$Message.warning(res.msg)
                             }
                         }
                     })
@@ -131,10 +133,10 @@ export default {
                 }) || []
                 let deptIds = [], orgIds = []
                 res.dep.forEach(dept=>{
-                    if(dept.type === 0) {
+                    if(dept.type === 1) {
                         orgIds.push(dept.deptId)
                     }
-                    if(dept.type === 1) {
+                    if(dept.type === 0) {
                         deptIds.push(dept.deptId)
                     }
                 }) 
@@ -152,6 +154,8 @@ export default {
                     success: (res)=>{
                         if(res && res.code == 0) {
                             this.getDeployLimit()
+                        } else {
+                            this.$Message.warning(res.msg)
                         }
                     }
                 })
@@ -255,18 +259,7 @@ export default {
             margin-left: 10px;
         }
         .ivu-btn {
-            padding: 4px 15px;
             margin-right: 5px;
-            &.ivu-btn-default {
-                background-color: @select-item-bg;
-                color: @gray-color-medium;
-            }
-            &:hover {
-                border-color: @select-item-bg;
-            }
-            &:focus {
-                box-shadow: none;
-            }
         }
     }
     .deploy-member-content {
@@ -299,7 +292,8 @@ export default {
                 font-size: 12px;
                 display: inline-block;
                 color: @gray-color-medium;
-                margin-top: 10px;
+                margin-top: 8px;
+                line-height: 18px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;

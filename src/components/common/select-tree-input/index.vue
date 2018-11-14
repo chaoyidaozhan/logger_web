@@ -69,6 +69,10 @@ export default {
             type: Boolean,
             default: false
         },
+        showOrg: {
+            type: Boolean,
+            default: false
+        },
         showGroup: {
             type: Boolean,
             default: false

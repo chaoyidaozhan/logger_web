@@ -80,6 +80,7 @@ const menus = [
         name: 'menus.deploy',
         path: '/Deploy',
         icon: 'icon-template-2018',
+        type: ['admin', 'diary_examer']
     }
 ]
 export default menus;
