@@ -33,7 +33,6 @@ export default {
 		avatar,
 		searchInput
 	},
-
 	data() {
 		return {
 			ajaxStatus: 'loading', // loding---加载中 success---加载更多 error---加载失败 over--全部
@@ -55,7 +54,6 @@ export default {
 			this.$selectTree.setDefaultTure('man')
 		}
 	},
-
 	mounted() {
 		this.getList()
 	},
@@ -138,7 +136,6 @@ export default {
 	.avatar-wrapper .name {
 		font-size: 12px;
 	}
-
 	.man_scroll {
 		position: absolute;
 		top: 47px;

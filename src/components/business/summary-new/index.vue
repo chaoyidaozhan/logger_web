@@ -45,12 +45,6 @@
                         ref="createDate" 
                         :createDate="createDate"/>
                 </FormItem> 
-                <!-- 日志日期 -->
-                <FormItem :label-width="60" :label="`${$t('noun.log')}${$t('noun.date')}`">
-                    <fs-select-date 
-                        ref="selectDate" 
-                        dateType="date"/>
-                </FormItem> 
                 <FormItem class="search-btn">
                     <Button :disabled="loading" type="primary" @click="handleQuery">
                         {{$t('operate.search')}}
