@@ -49,8 +49,8 @@ export default {
             getLimitTime: null,
             mapKey: {
                 2: 'userName',
-                1: 'deptName',
-                0: 'orgName'
+                1: 'orgName',
+                0: 'deptName'
             }
         }
     },
@@ -168,11 +168,11 @@ export default {
                     value: []
                 },
                 1: {
-                    key: 'deptId',
+                    key: 'orgId',
                     value: []
                 },
                 0: {
-                    key: 'orgId',
+                    key: 'deptId',
                     value: []
                 }
             }
