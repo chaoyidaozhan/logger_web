@@ -339,7 +339,8 @@ export default {
             color:rgba(85,85,85,1);
             line-height: 16px;
             padding: 4px 10px;
-            margin-right: 10px;
+            margin: 0 10px 10px 0;
+
             font-size:12px;
             .icon-delete-userlist {
                 display: none;
