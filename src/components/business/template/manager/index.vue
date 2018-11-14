@@ -128,7 +128,7 @@
                                 :showDept="true" 
                                 :showGroup="true" 
                                 ref="selectDept"
-                                @handleSelectMember="handleSelectRange"
+                                @handleSelect="handleSelectRange"
                                 />
                         </div>
                         <div class="extra-item">

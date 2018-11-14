@@ -21,7 +21,7 @@
                     :member="memberRange"
                     :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
                     :placeholder="$t('placeholder.visibleToThisDepartment')"
-                    @handleSelectMember="handleSelectRange"
+                    @handleSelect="handleSelectRange"
                     :ellipsis="false" 
                     :showDept="true" 
                     :showGroup="true" 
@@ -37,7 +37,7 @@
                     :member="member"
                     :title="`@${$t('noun.someoneChecked')}`"
                     :placeholder="$t('placeholder.remindkeyPeopleToViewYourLog')"
-                    @handleSelectMember="handleSelectMember"
+                    @handleSelect="handleSelectMember"
                     :ellipsis="false" 
                     ref="selectMember"
                     />
