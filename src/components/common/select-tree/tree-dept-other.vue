@@ -48,7 +48,7 @@ export default {
 	methods: {
 		getDefineDepts() { // 获取其他部门
 			this.$ajax({
-				url: this.info.deptApiUri,
+				url: this.info.defineApiUri,
 				data: this.info.deptApiData || {},
 				success: (res) => {
 					if (res.code == 0) {
@@ -77,7 +77,7 @@ export default {
 		},
 		getAuthDepts() { // 获取按照部门统计下部门
 			this.$ajax({
-				url: this.info.deptApiUri,
+				url: this.info.defineApiUri,
 				data: this.info.deptApiData || {},
 				success: (res) => {
 					if (res.code == 0) {
@@ -100,7 +100,7 @@ export default {
 		getDepTypesList() {
 			if (this.info.showOtherDept) {
 				this.getDefineDepts()
-			} else if (this.info.deptApiUri.includes('getAuthDepts')) {
+			} else if (this.info.defineApiUri.includes('getAuthDepts')) {
 				this.getAuthDepts()
 			}
 		},

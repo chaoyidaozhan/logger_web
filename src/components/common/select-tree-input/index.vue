@@ -17,6 +17,10 @@
             </span>
         </template>
         <template v-else>
+            <span class="tag" v-for="(item, index) in org" :key="index" @click="handleClearMember($event, item, 'org')">
+                {{item.orgName}}
+                <i class="icon-delete-userlist"></i>
+            </span>
             <span class="tag" v-for="(item, index) in dept" :key="index" @click="handleClearMember($event, item, 'dept')">
                 {{item.deptName}}
                 <i class="icon-delete-userlist"></i>
@@ -103,7 +107,7 @@ export default {
                 }
             }            
         },
-        deptApiUri: {
+        defineApiUri: {
             type: String
         },
         groupApiUri: {
@@ -156,8 +160,8 @@ export default {
                     team: this.group
                 }
             };
-            if(this.deptApiUri) {
-                info.deptApiUri = this.deptApiUri;
+            if(this.defineApiUri) {
+                info.defineApiUri = this.defineApiUri;
                 if(this.showOtherDept) {
                     info.deptApiData = {
                         pid: this.$store.state.userInfo.deptId

@@ -61,11 +61,11 @@
 					pid: this.pid
 				}
 				!this.pid ? delete data.pid : null
-				if (this.info.deptApiUri) {
+				if (this.info.defineApiUri) {
 					data.deptId = this.pid
 				}
 				this.$ajax({
-					url: this.info.deptApiUri ? this.info.deptApiUri : '/team/getDepts',
+					url: this.info.defineApiUri ? this.info.defineApiUri : '/team/getDepts',
 					data: data,
 					success: (res) => {
 						this.loading = false

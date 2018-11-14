@@ -52,7 +52,7 @@
                     :showDept="true"
                     :dept="dept"
                     :limit="{ showAll: true, warning: '', count: 1 }"
-                    :deptApiUri="deptApiUri"/>
+                    :defineApiUri="defineApiUri"/>
             </FormItem> 
             <FormItem :label-width="lang === 'en' ? 98 : 50" :label="$t('noun.internalGroup')"  v-if="showGroup">
                 <fs-select-tree-input ref="selectGroup" 
@@ -160,7 +160,7 @@ export default {
                 return []
             }
         },
-        deptApiUri: {
+        defineApiUri: {
             type: String
         },
         groupApiUri: {

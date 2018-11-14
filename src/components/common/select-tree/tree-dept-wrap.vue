@@ -33,7 +33,7 @@
 	</div>
 	<!-- keyword为空显示树形结构 -->
 	<div v-if=" keyWord=='' ">
-		<!-- 没有传 deptApiUri , 走默认接口 -->
+		<!-- 没有传 defineApiUri , 走默认接口 -->
 		<div class="tree-wrap man_scroll" v-if="!info.showOtherDept">
 			<tree-dept :info="info" />
 		</div>
@@ -80,7 +80,7 @@ export default {
 			let data = this.info.deptApiData || {}
 			data.keyWord = this.keyWord
 			this.$ajax({
-				url: this.info.deptApiUri,
+				url: this.info.defineApiUri,
 				data: data,
 				success: (res) => {
 					if (res.code == 0) {
@@ -111,7 +111,7 @@ export default {
 			let data = this.info.deptApiData || {}
 			data.keyWord = this.keyWord
 			this.$ajax({
-				url: this.info.deptApiUri,
+				url: this.info.defineApiUri,
 				data: data,
 				success: (res) => {
 					if (res.code == 0) {
@@ -154,10 +154,10 @@ export default {
 			})
 		},
 		keyWordChangeGetList() {
-			if(this.info.deptApiUri && this.info.deptApiUri.includes('getDeptsWithPart')) {
+			if(this.info.defineApiUri && this.info.defineApiUri.includes('getDeptsWithPart')) {
 				return this.getgetDeptsWithPart()
 			}
-			if(this.info.deptApiUri && this.info.deptApiUri.includes('getAuthDepts')) {
+			if(this.info.defineApiUri && this.info.defineApiUri.includes('getAuthDepts')) {
 				return this.getAuthDepts()
 			}
 			this.getDepts()
