@@ -10,13 +10,14 @@
                     {{$t('operate.export')}}EXCEL
                 </Button>
                 <Button
+                    @click="handleSummary"
                     type="primary" >
                     {{$t('noun.summary')}}{{$t('noun.log')}}
                 </Button>
             </span>
         </template>
         <template slot="body">
-            <fs-summary-new />
+            <fs-summary-new ref="summary"/>
         </template>
     </fs-frame>
 </template>
@@ -46,6 +47,9 @@ export default {
             let host = `${window.location.protocol}//${window.location.host}/logger`
             let uri = `${host}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}`
             window.open(uri, '_blank')
+        },
+        handleSummary() { // 汇总日志
+            this.$refs.summary.handleSummary()
         }
     }
 }

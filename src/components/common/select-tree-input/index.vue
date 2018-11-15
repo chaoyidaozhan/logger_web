@@ -1,11 +1,14 @@
 <template>
     <div class="select-tree-input cursor-pointer" 
         @click="openSelectMember" 
-        :class="{disabled: !dept.length && !group.length && !member.length, ellipsis: ellipsis}">
-        <template v-if="!dept.length && !group.length && !member.length">
+        :class="{disabled: !org.length && !dept.length && !group.length && !member.length, ellipsis: ellipsis}">
+        <template v-if="!org.length && !dept.length && !group.length && !member.length">
             {{placeholder}}
         </template>
         <template v-else-if="ellipsis">
+            <span v-for="(item, index) in org" :key="index">
+                {{item.orgName}}
+            </span>
             <span v-for="(item, index) in dept" :key="index">
                 {{item.deptName}}
             </span>
@@ -17,19 +20,19 @@
             </span>
         </template>
         <template v-else>
-            <span class="tag" v-for="(item, index) in org" :key="index" @click="handleClearMember($event, item, 'org')">
+            <span class="tag" v-for="(item, index) in org" :key="index" @click="handleClear($event, item, 'org')">
                 {{item.orgName}}
                 <i class="icon-delete-userlist"></i>
             </span>
-            <span class="tag" v-for="(item, index) in dept" :key="index" @click="handleClearMember($event, item, 'dept')">
+            <span class="tag" v-for="(item, index) in dept" :key="index" @click="handleClear($event, item, 'dept')">
                 {{item.deptName}}
                 <i class="icon-delete-userlist"></i>
             </span>
-            <span class="tag" v-for="(item, index) in group" :key="index" @click="handleClearMember($event, item, 'group')">
+            <span class="tag" v-for="(item, index) in group" :key="index" @click="handleClear($event, item, 'group')">
                 {{item.groupName}}
                 <i class="icon-delete-userlist"></i>
             </span>
-            <span class="tag" v-for="item in member" :key="item.memberId" @click="handleClearMember($event, item, 'member')">
+            <span class="tag" v-for="item in member" :key="item.memberId" @click="handleClear($event, item, 'member')">
                 {{item.userName}}
                 <i class="icon-delete-userlist"></i>
             </span>
@@ -47,7 +50,13 @@
  **/
 export default {
     props: {
-        dept: { // 组织数据
+        org: { // 组织数据
+            type: Array,
+            default() {
+                return []
+            }
+        },
+        dept: { // 部门数据
             type: Array,
             default() {
                 return []
@@ -65,15 +74,15 @@ export default {
                 return []
             }
         },
+        showOrg: {
+            type: Boolean,
+            default: false
+        },
         showDept: {
             type: Boolean,
             default: false
         },
         showOtherDept: {
-            type: Boolean,
-            default: false
-        },
-        showOrg: {
             type: Boolean,
             default: false
         },
@@ -107,31 +116,34 @@ export default {
                 }
             }            
         },
-        defineApiUri: {
+        deptApiUri: {
             type: String
         },
         groupApiUri: {
             type: String
-        }
-    },
-    data() {
-        return {
-            
-        }
+        },
+        orgApiUri: {
+            type: String
+        },
+        memberApiUri: {
+            type: String
+        },
     },
     methods: {
         handleSelect(res) {
             this.$emit('handleSelect', res);
         },
-        handleClearMember(e, item, name) {
+        handleClear(e, item, name) {
             e.stopPropagation();
             let selected = {
+                org: JSON.parse(JSON.stringify(this.org)),
                 dept: JSON.parse(JSON.stringify(this.dept)),
                 member: JSON.parse(JSON.stringify(this.member)),
                 group: JSON.parse(JSON.stringify(this.group))
             }
             let arr = [];
             let id = {
+                org: 'orgId',
                 dept: 'deptId',
                 group: 'groupId',
                 member: 'memberId'
@@ -150,18 +162,20 @@ export default {
                 man: this.showMember,
                 team:  this.showGroup,
                 dep: this.showDept,
+                org: this.showOrg,
                 showOtherDept: this.showOtherDept,
                 limit: { 
                     ...this.limit
                 },
                 selected: {
+                    org: this.org,
                     dep: this.dept,
                     man: this.member,
                     team: this.group
                 }
             };
-            if(this.defineApiUri) {
-                info.defineApiUri = this.defineApiUri;
+            if(this.deptApiUri) {
+                info.deptApiUri = this.deptApiUri;
                 if(this.showOtherDept) {
                     info.deptApiData = {
                         pid: this.$store.state.userInfo.deptId
@@ -171,11 +185,18 @@ export default {
             if(this.groupApiUri) {
                 info.groupApiUri = this.groupApiUri
             }
+            if(this.orgApiUri) {
+                info.orgApiUri = this.orgApiUri
+            }
+            if(this.memberApiUri) {
+                info.memberApiUri = this.memberApiUri
+            }
             this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
-                let params = {};
-                params.dept = res.dep;
-                params.member = res.man;
-                params.group = res.team;
+                let params = {}
+                params.dept = res.dep
+                params.member = res.man
+                params.group = res.team
+                params.org = res.org
                 this.handleSelect(JSON.parse(JSON.stringify(params)))
             })
         }

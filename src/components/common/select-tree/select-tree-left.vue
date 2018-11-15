@@ -11,6 +11,9 @@
 		</li>
 	</ul>
 	<div class="tab-content-wrap" :style="{paddingTop:tabInfo.paddingTop}">
+		<div class="ud" v-show="activeIndex==0">
+			<tree-org v-if="mountdOrg" :info="info" />
+		</div>
 		<div class="ud" v-show="activeIndex==1">
 			<tree-dept-wrap v-if="mountdDep" :info="info" />
 		</div>
@@ -24,12 +27,14 @@
 </div>
 </template>
 <script>
+import TreeOrg from './tree-org.vue'
+import TreeDeptWrap from './tree-dept-wrap.vue'
 import TreeTeam from './tree-team.vue'
 import TreeMan from './tree-man.vue'
-import TreeDeptWrap from './tree-dept-wrap.vue'
 export default {
 	props: ['info'],
 	components: {
+		TreeOrg,
 		TreeTeam,
 		TreeMan,
 		TreeDeptWrap
@@ -38,10 +43,16 @@ export default {
 		return {
 			activeIndex: -1,
 			// 防止第一次请求三个接口 
+			mountdOrg: false,
 			mountdDep: false,
 			mountdTeam: false,
 			mountdMan: false,
 			DEFAULT_LIST: {
+				org: {
+					show: false,
+					value: this.$t('noun.org'),
+					index: 0
+				},
 				dep: {
 					show: false,
 					value: this.$t('noun.department'),
@@ -63,6 +74,7 @@ export default {
 	computed: {
 		tabInfo() {
 			let list = JSON.parse(JSON.stringify(this.DEFAULT_LIST))
+			!this.info.org ? delete list.org : null
 			!this.info.dep ? delete list.dep : null
 			!this.info.team ? delete list.team : null
 			!this.info.man ? delete list.man : null
@@ -101,6 +113,7 @@ export default {
 		},
 		triggerActive() { // 防止一次请求三个接口 	
 			if (this.info.open) {
+				this.activeIndex == 0 && !this.mountdOrg ? this.mountdOrg = true : null
 				this.activeIndex == 1 && !this.mountdDep ? this.mountdDep = true : null
 				this.activeIndex == 2 && !this.mountdTeam ? this.mountdTeam = true : null
 				this.activeIndex == 3 && !this.mountdMan ? this.mountdMan = true : null

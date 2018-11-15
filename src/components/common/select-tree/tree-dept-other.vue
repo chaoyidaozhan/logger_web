@@ -48,23 +48,30 @@ export default {
 	methods: {
 		getDefineDepts() { // 获取其他部门
 			this.$ajax({
-				url: this.info.defineApiUri,
+				url: this.info.deptApiUri,
 				data: this.info.deptApiData || {},
 				success: (res) => {
 					if (res.code == 0) {
-						let arr1 = [] // 主岗
-						res.data['0'] ? arr1.push(res.data['0']) : ""
-						let arr2 = res.data['1'] || [] // 兼职
-						let arr3 = res.data['2'] || [] // 其它
-						arr1[0] && arr1[0].deptName && (arr1[0].deptName += `（主岗）`)
-						arr2.forEach(item => {
-							item.deptName += `（兼职）`
-						})
-						let arr = arr1.concat(arr2, arr3)
-						arr.map(v => {
-							v.checked = false
-						})
-						this.list = arr
+						if(res.data instanceof Array) {
+							this.list = res.data.map((item)=>{
+								item.checked = false
+								return item
+							})
+						} else {
+							let arr1 = [] // 主岗
+							res.data['0'] ? arr1.push(res.data['0']) : ""
+							let arr2 = res.data['1'] || [] // 兼职
+							let arr3 = res.data['2'] || [] // 其它
+							arr1[0] && arr1[0].deptName && (arr1[0].deptName += `（主岗）`)
+							arr2.forEach(item => {
+								item.deptName += `（兼职）`
+							})
+							let arr = arr1.concat(arr2, arr3)
+							arr.map(v => {
+								v.checked = false
+							})
+							this.list = arr
+						}
 						this.ajaxStatus = 'over'
 					} else {
 						this.ajaxStatus = 'error'
@@ -77,7 +84,7 @@ export default {
 		},
 		getAuthDepts() { // 获取按照部门统计下部门
 			this.$ajax({
-				url: this.info.defineApiUri,
+				url: this.info.deptApiUri,
 				data: this.info.deptApiData || {},
 				success: (res) => {
 					if (res.code == 0) {
@@ -100,7 +107,7 @@ export default {
 		getDepTypesList() {
 			if (this.info.showOtherDept) {
 				this.getDefineDepts()
-			} else if (this.info.defineApiUri.includes('getAuthDepts')) {
+			} else if (this.info.deptApiUri.includes('getAuthDepts')) {
 				this.getAuthDepts()
 			}
 		},

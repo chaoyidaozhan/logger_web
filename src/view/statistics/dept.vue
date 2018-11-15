@@ -7,7 +7,7 @@
                 :showOrderType="true"
                 showOrderTypeMulti="dept"
                 :showExportExcel="true"
-                defineApiUri="/team/v2/getAuthDepts"
+                deptApiUri="/team/v2/getAuthDepts"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">

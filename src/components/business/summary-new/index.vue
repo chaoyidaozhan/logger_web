@@ -19,25 +19,37 @@
                 <FormItem :label-width="40" :label="$t('noun.org')">
                     <fs-select-tree-input 
                         ref="selectOrg"
+                        orgApiUri="/rest/v1/diaryStatistics/authPeoples/1"
+                        :showOrg="true"
+                        :showMember="false"
                         :title="`${$t('operate.select')}${$t('noun.org')}`"
                         :placeholder="`${$t('operate.select')}${$t('noun.org')}`" 
-                        :org="org"/>
+                        :org="org"
+                        @handleSelect="handleSelect"/>
                 </FormItem> 
                 <!-- 部门 -->
                 <FormItem :label-width="40" :label="$t('noun.department')">
                     <fs-select-tree-input 
                         ref="selectDept"
+                        deptApiUri="/rest/v1/diaryStatistics/authPeoples/0"
+                        :showDept="true"
+                        :showMember="false"
+                        :showOtherDept="true"
                         :title="`${$t('operate.select')}${$t('noun.dept')}`"
                         :placeholder="`${$t('operate.select')}${$t('noun.dept')}`"
-                        :dept="dept"/>
+                        :dept="dept"
+                        @handleSelect="handleSelect"/>
                 </FormItem> 
                 <!-- 提交人 -->
                 <FormItem :label-width="50" :label="$t('noun.author')">
                     <fs-select-tree-input 
                         ref="selectMember"
+                        memberApiUri="/rest/v1/diaryStatistics/authPeoples/2"
+                        :showMember="true"
                         :title="`${$t('operate.select')}${$t('noun.author')}`"
                         :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
-                        :member="member"/>
+                        :member="member"
+                        @handleSelect="handleSelect"/>
                 </FormItem> 
                 <!-- 日期 -->
                 <FormItem :label-width="40" :label="$t('noun.date')">
@@ -53,11 +65,47 @@
             </Form>
         </div>
         <div class="summary-page">
-             <Tabs :animated="false">
-                <TabPane label="标签一" name="name1">标签一的内容</TabPane>
-                <TabPane label="标签二" name="name2">标签二的内容</TabPane>
-                <TabPane label="标签三" name="name3">标签三的内容</TabPane>
+             <Tabs :animated="false" 
+                v-model="activeTable"
+                v-if="tables">
+                <TabPane 
+                    v-for="(table, index) in tables"
+                    :key="table.key"
+                    :label="table.title" 
+                    :name="table.key">
+                    <!--正常表体-->
+                    <Table 
+                        border
+                        :loading="loading" 
+                        :ref="`selection${index}`" 
+                        :columns="table.columns" 
+                        :data="table.data"
+                        @on-selection-change="handleSelectChange"/>
+                    <!--正常表foot-->
+                    <template v-if="table.data && table.data.length">
+                        <Table 
+                            border
+                            :columns="table.footColumns" 
+                            :show-header="false" 
+                            :data="table.footData" 
+                            class="table-count"/>
+                        <!--全选-->
+                        <div class="table-statistics" v-if="table.key === stashSelectionKey">
+                            <Checkbox v-model="table.dataType" @on-change="handleSelectAll(table.dataType, index)">
+                                {{$t('operate.checkAll')}}
+                                <span class="checkout-note">
+                                    {{$t('operate.selected')}}
+                                    <span class="check-num">{{table.checkNum}}</span>
+                                    {{$t('noun.uLog')}}
+                                </span>
+                            </Checkbox>
+                        </div>
+                    </template>
+                </TabPane>
             </Tabs>
+            <fs-empty-tips v-else 
+                iconType="member" 
+                :emptyMsg="hasQuery ? $t('status.noRelevantData') : $t('toast.selectTheDataThatExport')" />  
         </div>
     </div>
 </template>
@@ -65,6 +113,7 @@
 import FsSelectTemplate from 'app_component/common/select-template/'
 import FsSelectDate from 'app_component/common/select-date/'
 import FsSelectTreeInput from 'app_component/common/select-tree-input/'
+import FsEmptyTips from 'app_component/common/empty-tips'
 import formatTime from 'app_src/filters/format-time'
 
 export default {
@@ -75,46 +124,270 @@ export default {
             org: [],
             dept: [],
             member: [],
-            loading: false
+            loading: false,
+            tables: null,
+            stashSelectionKey: null,
+            activeTable: null,
+            hasQuery: false,
+            headerData: [
+                { name: 'template', width: 120, }, 
+                { name: 'org', width: 120 },
+                { name: 'dept', width: 120 },
+                { name: 'author', width: 80 },
+                { name: 'logDate', width: 120 },
+                { name: 'submitTime', width: 150 },
+            ] 
         }
     },
     components: {
         FsSelectTemplate,
         FsSelectDate,
-        FsSelectTreeInput
+        FsSelectTreeInput,
+        FsEmptyTips
     },
     methods: {
         handleTemplateType(value) { // 停用删除
             this.templateType = value ? 'web' : 'select'
         },
-        handleSelectOrg() { // 控制选组织
-
+        handleSelect(res) { // 选择组织 部门 人员
+            let keys = Object.keys(res)
+            keys.forEach(key=>{
+                this[key] = res[key]
+            })
         },
-        handleSelectDept() { // 控制选部门
-
+        handleSelectAll(dataType, index) { // 全选
+            this.$refs[`selection${index}`][0].selectAll(dataType)
         },
-        handleSelectMember() { // 控制选人
-
+        handleSelectChange(selection) { //选项发生变化
+            let stashIds = selection && selection.map((item) => {
+                return item.id
+            })
+            // 像tables中保存已选中的数据
+            let activeTableList = this.tables[this.activeTable]
+            // 是否全选
+            activeTableList.dataType = selection.length < activeTableList.list.length ? false : (selection.length == activeTableList.list.length ? true : activeTableList.dataType)
+            if(activeTableList && activeTableList.list) {
+                let stashSelection = activeTableList.list.map((item)=>{
+                    console.log(item);
+                    
+                    if(stashIds.includes(+item.id)){
+                        return JSON.parse(item.content)
+                    }
+                })
+                activeTableList.selection = stashSelection
+                activeTableList.checkNum = selection.length
+            }
         },
-        console() {
-            console.log(this.$refs.createDate.beginDate)
+        getSummaryData() { // 获取日志汇总数据
+    
         },
-        trimData() { // 整理数据
-
+        handleSummary() { // 日志汇总
+            let activeTableList = this.tables[this.activeTable]
+            console.log(activeTableList.selection)
+            
+            if (activeTableList.checkNum <= 0) {
+                this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'))
+            } else {
+                // this.handleSummaryData()
+                // this.$store.dispatch('update_template_content', {
+                //     content: this.templateItemData
+                // })
+                this.$router.push({
+                    path: `LoggerDetail/operate/summary/${this.params.templateId}`,
+                    query: {
+                        token: this.$store.state.userInfo.token
+                    }
+                })
+            }
         },
-        validate() { // 验证非空
-
+        createTableColumns(param, key) { // 创建表格colums
+            let columns = [ // body columns固定的前列
+                {
+                    type: key === this.stashSelectionKey ? 'selection' : '',
+                    width: this.lang == 'en' ? 100 : 60,
+                    align: 'center'
+                },
+                {
+                    title: 'id',
+                    key: 'id',
+                    className: 'id-column',
+                }
+            ]
+            let footColumns = [
+                {
+                    title: '',
+                    key: 'summary',
+                    width: this.lang == 'en' ? 100 : 60
+                }, 
+                {
+                    title: 'id',
+                    key: 'id',
+                    className: 'id-column'
+                }
+            ]
+            
+            this.headerData.forEach((head, index)=>{
+                columns.push({
+                    title: this.$t(`noun.${head.name}`),
+                    width: head.width,
+                    key: `column_${index+1}`
+                })
+                footColumns.push({
+                    title: this.$t(`noun.${head.name}`),
+                    width: head.width,
+                    key: `column_${index+1}`
+                })
+            })
+         
+            // 构建columns
+            if(param.length) {
+                const columnsContent = JSON.parse(param[0].content)
+                if(columnsContent) {
+                    columnsContent.forEach((column, index)=>{
+                        columns.push({
+                            title: column.title || '',
+                            key: `column_${columns.length - 1}`,
+                            type: 'html'
+                        })
+                        footColumns.push({
+                            title: column.title || '',
+                            key: `column_${columns.length - 1}`,
+                        })
+                    })
+                }
+            }
+            return {
+                columns: columns,
+                footColumns: footColumns
+            }
         },
-        getParams() {
-
+        createTableBody(param) { // 创建表体
+            // 构建data
+            let data = [], footState = {summary: this.$t('noun.summary')}
+            if(param.length) {
+                param.forEach(item=>{
+                    let column = {
+                        column_1: item.templateName,
+                        column_2: item.orgName,
+                        column_3: item.deptName,
+                        column_4: item.userName,
+                        column_5: formatTime(new Date(item.diaryTime), 'YYYY-MM-DD'),
+                        column_6: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm')
+                    }
+                    let content = JSON.parse(item.content) || []
+                    column.id = item.id
+                    const num = 7
+                    content.forEach((parent, pIndex) => {
+                        if (parent.type === 'InputRadio' || parent.type === 'InputCheckbox') {
+                            column[`column_${num + pIndex}`] = ['number', 'string'].includes(typeof parent.content) 
+                            ? parent.content: ""
+                        } else {
+                            column[`column_${num + pIndex}`] = ['number', 'string'].includes(typeof parent.value) 
+                            ? parent.value: ""
+                        }
+                        
+                        if(parent.type === 'InputContainer' && parent.children.length) {
+                            parent.children.forEach((child)=>{
+                                column[`column_${num + pIndex}`] += `${child.title}:${child.content}<br>`
+                            })
+                        }
+                        if(parent.type === 'InputTextNum') {
+                            if(!isNaN(+parent.value) && parent.value != 0) {
+                                const footKey = `column_${num + pIndex}`
+                                if(footState[footKey] === undefined) {
+                                    footState[footKey] = +parent.value
+                                } else {
+                                    footState[footKey] += +parent.value
+                                }
+                            }
+                        }
+                    })
+                    data.push(column)
+                })
+            }
+            return {
+                data: data,
+                footData: [footState]
+            }
         },
-        loadData() {
-
+        createTables(param) { // 创建表格
+            let tables = null
+            const keys = Object.keys(param).sort((a, b)=>{
+                return b - a
+            })
+            if(keys && keys.length) {
+                tables = {}
+                keys.forEach((key, index)=>{
+                    if (index === 0) {
+                        this.stashSelectionKey = key
+                        this.activeTable = key
+                    }
+                    const data = this.createTableBody(param[key], key)
+                    const columns = this.createTableColumns(param[key], key)
+                    tables[key] = {
+                        key: key,
+                        title: formatTime(new Date(+key), 'YYYY-MM-DD HH:mm:ss'),
+                        dataType: false,
+                        checkNum: 0,
+                        selection: [],
+                        list: param[key],
+                        ...columns,
+                        ...data
+                    }
+                })
+            }
+            this.tables = tables
+        },
+        getParams() { // 获取请求统计参数
+            let params = {}
+            const _this = this
+            function getIds(name) {
+                return _this[name].map((item)=>{
+                    return item[name + 'Id']
+                }).join(',') || ''
+            }
+            const ids = ['org', 'dept', 'member']
+            ids.forEach((id)=>{
+                const value = getIds(id)
+                if(value) {
+                    params[id + 'Ids'] = value
+                }
+            })
+            return {
+                templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
+                beginDate: this.$refs.createDate && this.$refs.createDate.beginDate,
+                endDate: this.$refs.createDate && this.$refs.createDate.endDate,
+                ...params
+            }
         },
         handleQuery() { // 查询
-
+            const data = this.getParams()
+            if (!data.templateId) {
+                return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
+            }
+            if (!data.beginDate || !data.endDate) {
+                return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`)
+            }
+            this.loading = true
+            this.$ajax({
+                url: '/rest/v1/diaryStatistics/diaryStatistics',
+                data: data,
+                success: (res) => {
+                    this.loading = false
+                    this.hasQuery = true
+                    if(res && res.code === 0) {
+                        this.createTables(res.data)
+                    } else {
+                        this.$Message.warning((res && res.msg) || this.$t('noun.networkError'));
+                    }
+                },
+                error: (res) => {
+                    this.loading = false
+                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                }
+            })
         },
-        init() {
+        init() { // 初始化
             let now = (new Date()).valueOf()
             let beginDate = formatTime(new Date(now - 86400000 * 15), 'YYYY-MM-DD')
             let endDate = formatTime(new Date(now), 'YYYY-MM-DD')
@@ -129,10 +402,57 @@ export default {
     }
 }
 </script>
-
+<style lang="less">
+@import '../../../assets/css/var.less';
+.summary-new {
+    .ivu-table{
+        overflow: auto;
+        .ivu-checkbox-wrapper {
+            margin-right: 0;
+        }
+    }
+    .ivu-table-cell{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        line-height: 1.3;
+    }
+    .ivu-table:before{
+        height: 0px;
+    }
+    .ivu-table:after{
+        width: 0px;
+    }
+    .ivu-table-row-hover td{
+        background-color:@white-color-light;
+    }
+    .ivu-table-header .ivu-checkbox{
+        display: none;
+    }
+    .id-column{
+       visibility: hidden;
+       width: 0;
+       overflow: hidden;
+       font-size: 0;
+    }
+    .table-count {
+        border-top: none;
+    }
+    .table-statistics {
+        height: 50px;
+        line-height: 50px;
+        .checkout-note {
+            font-size: 12px;
+            .check-num {
+                color: @primary-color
+            }
+        }
+    }
+}
+</style>
 <style lang="less" scoped>
 .summary-new {
     padding: 20px;
+   
     .search-form {
         line-height: normal;
         .ivu-form-item {

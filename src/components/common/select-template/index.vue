@@ -31,7 +31,7 @@ export default {
                     title: this.$t('placeholder.allTemplate')
                 }
             ],
-            templateId: 0,
+            templateId: 0
         }
     },
     watch: {

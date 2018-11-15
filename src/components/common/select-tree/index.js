@@ -21,11 +21,13 @@ export default {
                 dep: false,
                 team: false,
                 man: false,
+                org: false,
                 // 所有选中内容 ( 添加用的 )  
                 selected: {
                     dep: [],
                     team: [],
-                    man: []
+                    man: [],
+                    org: []
                 },
                 // 上限
                 limit: {
@@ -54,12 +56,16 @@ export default {
                     // 储存所有的部门,内部群,人团 ( 右侧点击 删除用的 )
                     saveAjaxDep: [],
                     saveAjaxTeam: [],
-                    saveAjaxMan: []
+                    saveAjaxMan: [],
+                    saveAjaxOrg: []
                 }
             },
             computed: {
                 allowCheck() {
-                    let all = this.info.selected.dep.length + this.info.selected.team.length + this.info.selected.man.length
+                    let all = this.info.selected.dep.length
+                     + this.info.selected.team.length 
+                     + this.info.selected.man.length
+                     + this.info.selected.org.length
                     let max = this.info.limit.count
                     if (all >= max) {
                         return false
@@ -79,6 +85,7 @@ export default {
                     !info.selected.dep ? info.selected.dep = [] : null
                     !info.selected.team ? info.selected.team = [] : null
                     !info.selected.man ? info.selected.man = [] : null
+                    !info.selected.org ? info.selected.org = [] : null
                     // 赋值
                     this.info = info
                 },
@@ -102,6 +109,11 @@ export default {
                         get = this.info.selected.man
                         save = this.saveAjaxMan
                     }
+                    if (type == 'org') {
+                        idtype = 'orgId'
+                        get = this.info.selected.org
+                        save = this.saveAjaxOrg
+                    }
                     for (let i = 0; i < get.length; i++) {
                         for (let j = 0; j < save.length; j++) {
                             if (get[i][idtype] == save[j][idtype]) {
@@ -117,14 +129,17 @@ export default {
                     this.saveAjaxDep = []
                     this.saveAjaxTeam = []
                     this.saveAjaxMan = []
+                    this.saveAjaxOrg = []
                 },
                 clearSelected() { // 清除全部
                     this.info.selected.dep = []
                     this.info.selected.team = []
                     this.info.selected.man = []
+                    this.info.selected.org = []
                     this.saveAjaxDep.map(v => v.checked = false)
                     this.saveAjaxTeam.map(v => v.checked = false)
                     this.saveAjaxMan.map(v => v.checked = false)
+                    this.saveAjaxOrg.map(v => v.checked = false)
                 },
                 resetScrollTop() {
                     let doms = document.querySelectorAll('.sm_scroll')
@@ -176,6 +191,11 @@ export default {
                                 isRadio = true
                                 type = 'man'
                             }
+                            if (info.selected.org.length > 0) {
+                                r_each = info.selected.org[0]
+                                isRadio = true
+                                type = 'org'
+                            }
                             // 单选已经选了              
                             if (isRadio) {
                                 this.removeSelected(type, r_each)
@@ -214,6 +234,12 @@ export default {
                                 userName: `${this.$t('operate.all')}${this.$t('noun.personnel')}`
                             }]
                         }
+                        if (k == 'org') {
+                            this.info.selected.org = [{
+                                orgId: 0,
+                                orgName: `${this.$t('operate.all')}${this.$t('noun.org')}`
+                            }]
+                        }
                     }
                 },
                 handleOk() { // 确定
@@ -243,6 +269,10 @@ export default {
                     if (name == 'man') {
                         idtype = 'memberId'
                         save = this.saveAjaxMan
+                    }
+                    if (name == 'org') {
+                        idtype = 'orgId'
+                        save = this.saveAjaxOrg
                     }
                     // modelEach可能为请求数据的 也可能为后传进来的 , 需要从储存数据中拿到真实值 
                     let each

@@ -1,7 +1,10 @@
 <template>
 	<div class="tree_man">
-		<search-input :showCharCode="showCharCode" @change="keyWordChange" @setChara="setChara"/>
-		<ul class="man_scroll" :class="showCharCode ? 'showCharCode' : ''">
+		<search-input v-if="!info.memberApiUri" :showCharCode="showCharCode" @change="keyWordChange" @setChara="setChara"/>
+		<ul class="man_scroll" :class="{
+			showCharCode: showCharCode,
+			defineApi: !!info.memberApiUri
+		}">
 			<li class="li cp" v-for="(each, index) in list" :key="index" @click="checkEach(each)">
 				<div class="head-wrap l">
 					<avatar :avatar="each.avatar" :name="each.userName" fontSize="12px" :size="'28px'"/>
@@ -81,7 +84,7 @@ export default {
 		getList() {
 			this.ajaxStatus = 'loading'
 			this.$ajax({
-				url: '/user/getUsersBySpace',
+				url: this.info.memberApiUri || '/user/getUsersBySpace',
 				data: {
 					pageSize: this.pageSize,
 					pageNum: this.pageNum,
@@ -146,6 +149,9 @@ export default {
 
 		&.showCharCode {
 			top: 97px;
+		}
+		&.defineApi {
+			top: 0;
 		}
 	}
 

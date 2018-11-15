@@ -10,6 +10,25 @@
 		</span>
 	</div>
 	<div class="sm_scroll scroll">
+		<!-- 组织 -->
+		<div class="tit cp" @click="openOrg=!openOrg" v-show="info.org">
+			{{$t('noun.org')}}
+			<Icon type="chevron-up" class="r" v-show="openOrg"></Icon>
+			<Icon type="chevron-down" class="r" v-show="!openOrg"></Icon>
+		</div>
+		<ul v-show="openOrg">
+			<li class="li" v-for="(each, index) in orgList" :key="index">
+				<div class="head-wrap l">
+					<avatar :name="each.orgName" type="dept" :size="'28px'" />
+				</div>
+				<div class="depName elli l">
+					{{each.orgName}}
+				</div>
+				<div class="r" @click="removeSelected('org',each)">
+					<Icon type="close-round" class="close cp"></Icon>
+				</div>
+			</li>
+		</ul>
 		<!-- 部门 -->
 		<div class="tit cp" @click="openDep=!openDep" v-show="info.dep">
 			{{$t('noun.department')}}
@@ -86,6 +105,9 @@ export default {
 		avatar
 	},
 	computed: {
+		orgList() {
+			return this.info.selected.org
+		},
 		depList() {
 			return this.info.selected.dep
 		},
@@ -96,11 +118,15 @@ export default {
 			return this.info.selected.man
 		},
 		all() {
-			return this.info.selected.dep.length + this.info.selected.team.length + this.info.selected.man.length
+			return this.info.selected.dep.length 
+				+ this.info.selected.team.length 
+				+ this.info.selected.man.length
+				+ this.info.selected.org.length
 		}
 	},
 	data() {
 		return {
+			openOrg: true,
 			openDep: true,
 			openTeam: true,
 			openMan: true
