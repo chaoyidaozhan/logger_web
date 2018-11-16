@@ -34,18 +34,14 @@ export default {
     },
     methods: {
         handleExport() { // 导出
-            let params = {
-                templateId: '',
-                beginDate: '',
-                endDate: '',
-                language: '',
-                token: this.$store.state.userInfo.token,
-                memberIds: '',
-                groupIds: '',
-                deptIds: ''
-            }
-            let host = `${window.location.protocol}//${window.location.host}/logger`
+            let params = this.$refs.summary.getExportParams()
+            let host = __ENV__ === 'development' ? `http://123.103.9.204:6058/logger` : `${window.location.protocol}//${window.location.host}/logger`
             let uri = `${host}/diaryQuery/exportDiaryStatistics?timestamp=${(new Date()).valueOf()}`
+            Object.keys(params).forEach((key)=>{
+                if(params[key]) {
+                    uri += `&${key}=${params[key]}`
+                }
+            })
             window.open(uri, '_blank')
         },
         handleSummary() { // 汇总日志

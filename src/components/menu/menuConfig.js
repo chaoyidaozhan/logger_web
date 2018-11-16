@@ -72,14 +72,17 @@ const menus = [
         type: ['admin','diary_examer']
     },
     {
-        name: 'menus.summary',
+        name: 'menus.statistics',
         path: '/LoggerSummaryNew',
-        icon: 'icon-collect-2018'
+        icon: 'icon-statistics-2018',
+        showStatistics: true,
+        type: ['admin', 'diary_examer']
     },
     {
         name: 'menus.deploy',
         path: '/Deploy',
         icon: 'icon-template-2018',
+        showStatistics: true,
         type: ['admin', 'diary_examer']
     }
 ]

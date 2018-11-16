@@ -48,7 +48,8 @@ export default {
             let menuLimits = {
                 admin:  userInfo && userInfo.admin, 
                 diary_examer:  userInfo && userInfo.diary_examer, 
-                deptManager:  userInfo && userInfo.deptManager
+                deptManager:  userInfo && userInfo.deptManager,
+                showStatistics: userInfo && userInfo.showStatistics
             }
             this.menus = []
             if(menus) {
@@ -56,9 +57,9 @@ export default {
                     // 验证一级菜单
                     if(item.type) {
                         for(let i = 0; i < item.type.length; i++) {
+                            if(item.showStatistics && !menuLimits.showStatistics) return
                             if(!!menuLimits[item.type[i]]) {
-                                this.menus.push(item)
-                                return false
+                                return this.menus.push(item)
                             }
                         }
                     } else {
@@ -71,8 +72,7 @@ export default {
                             if(val.type) {
                                 for(let i = 0; i < val.type.length; i++) {
                                     if(!!menuLimits[val.type[i]]) {
-                                        subMenu.push(val);
-                                        return false
+                                        return subMenu.push(val);
                                     }
                                 }
                             } else {

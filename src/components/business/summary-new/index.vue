@@ -167,37 +167,72 @@ export default {
             // 是否全选
             activeTableList.dataType = selection.length < activeTableList.list.length ? false : (selection.length == activeTableList.list.length ? true : activeTableList.dataType)
             if(activeTableList && activeTableList.list) {
-                let stashSelection = activeTableList.list.map((item)=>{
-                    console.log(item);
-                    
+                let stashSelection = []
+                activeTableList.list.forEach((item)=>{
                     if(stashIds.includes(+item.id)){
-                        return JSON.parse(item.content)
+                        stashSelection.push(JSON.parse(item.content))
                     }
                 })
+                
                 activeTableList.selection = stashSelection
                 activeTableList.checkNum = selection.length
             }
         },
-        getSummaryData() { // 获取日志汇总数据
-    
+        getSummaryData(param) { // 获取日志汇总数据
+            let summaryData = param[0]
+            console.log(param);
+            
+            param.forEach((parent, pIndex)=>{
+                if(pIndex != 0) {
+                    parent.forEach((child, cIndex)=>{
+                        if(child.type == 'InputText') {
+                            if(!!child.content.trim()) {
+                                summaryData[cIndex].content += `\n${child.content}`
+                                summaryData[cIndex].value += `\n${child.value}`
+                            }
+                        }
+                        if(child.type == 'InputTextNum') {
+                            if(!!child.content && typeof +child.content == 'number') {
+                                summaryData[cIndex].content = (+summaryData[cIndex].content) + (+child.content)
+                                summaryData[cIndex].value = (+summaryData[cIndex].value) + (+child.value)
+                            }
+                        }
+                    })
+                }
+            })
+            return summaryData
         },
         handleSummary() { // 日志汇总
+            if(!this.tables) {
+                return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
+            }
             let activeTableList = this.tables[this.activeTable]
-            console.log(activeTableList.selection)
-            
             if (activeTableList.checkNum <= 0) {
                 this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'))
             } else {
-                // this.handleSummaryData()
-                // this.$store.dispatch('update_template_content', {
-                //     content: this.templateItemData
-                // })
+                this.$store.dispatch('update_template_content', {
+                    content: {
+                        content: JSON.stringify(this.getSummaryData(activeTableList.selection))
+                    }
+                })
                 this.$router.push({
-                    path: `LoggerDetail/operate/summary/${this.params.templateId}`,
+                    path: `/LoggerDetail/operate/summary/${this.$refs.selectTemplate && this.$refs.selectTemplate.templateId}`,
                     query: {
                         token: this.$store.state.userInfo.token
                     }
                 })
+            }
+        },
+        getExportParams() {
+            return {
+                templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
+                beginDate: this.$refs.createDate && this.$refs.createDate.beginDate,
+                endDate: this.$refs.createDate && this.$refs.createDate.endDate,
+                language: window.lang,
+                token: this.$store.state.userInfo.token,
+                memberIds: this.member.map(m=> {return m.memberId}).join(','),
+                deptIds: this.dept.map(d=> {return d.deptId}).join(','),
+                orgIds: this.org.map(o=> {return o.orgId}).join(',')
             }
         },
         createTableColumns(param, key) { // 创建表格colums
@@ -230,12 +265,12 @@ export default {
                 columns.push({
                     title: this.$t(`noun.${head.name}`),
                     width: head.width,
-                    key: `column_${index+1}`
+                    key: `column_${index}`
                 })
                 footColumns.push({
                     title: this.$t(`noun.${head.name}`),
                     width: head.width,
-                    key: `column_${index+1}`
+                    key: `column_${index}`
                 })
             })
          
@@ -244,14 +279,15 @@ export default {
                 const columnsContent = JSON.parse(param[0].content)
                 if(columnsContent) {
                     columnsContent.forEach((column, index)=>{
+                        const len = columns.length
                         columns.push({
                             title: column.title || '',
-                            key: `column_${columns.length - 1}`,
+                            key: `column_${len}`,
                             type: 'html'
                         })
                         footColumns.push({
                             title: column.title || '',
-                            key: `column_${columns.length - 1}`,
+                            key: `column_${len}`,
                         })
                     })
                 }
@@ -263,37 +299,37 @@ export default {
         },
         createTableBody(param) { // 创建表体
             // 构建data
-            let data = [], footState = {summary: this.$t('noun.summary')}
+            let data = [], footState = {summary: this.$t('noun.summary'),}
             if(param.length) {
                 param.forEach(item=>{
                     let column = {
-                        column_1: item.templateName,
-                        column_2: item.orgName,
-                        column_3: item.deptName,
-                        column_4: item.userName,
-                        column_5: formatTime(new Date(item.diaryTime), 'YYYY-MM-DD'),
-                        column_6: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm')
+                        column_0: item.templateName,
+                        column_1: item.orgName,
+                        column_2: item.deptName,
+                        column_3: item.userName,
+                        column_4: formatTime(new Date(item.diaryTime), 'YYYY-MM-DD'),
+                        column_5: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm')
                     }
                     let content = JSON.parse(item.content) || []
                     column.id = item.id
-                    const num = 7
                     content.forEach((parent, pIndex) => {
+                        const num = Object.keys(column).length + 1
                         if (parent.type === 'InputRadio' || parent.type === 'InputCheckbox') {
-                            column[`column_${num + pIndex}`] = ['number', 'string'].includes(typeof parent.content) 
+                            column[`column_${num}`] = ['number', 'string'].includes(typeof parent.content) 
                             ? parent.content: ""
                         } else {
-                            column[`column_${num + pIndex}`] = ['number', 'string'].includes(typeof parent.value) 
+                            column[`column_${num}`] = ['number', 'string'].includes(typeof parent.value) 
                             ? parent.value: ""
                         }
                         
                         if(parent.type === 'InputContainer' && parent.children.length) {
                             parent.children.forEach((child)=>{
-                                column[`column_${num + pIndex}`] += `${child.title}:${child.content}<br>`
+                                column[`column_${num}`] += `${child.title}:${child.content}<br>`
                             })
                         }
                         if(parent.type === 'InputTextNum') {
                             if(!isNaN(+parent.value) && parent.value != 0) {
-                                const footKey = `column_${num + pIndex}`
+                                const footKey = `column_${num}`
                                 if(footState[footKey] === undefined) {
                                     footState[footKey] = +parent.value
                                 } else {

@@ -53,7 +53,7 @@ export default {
 @import '../../../assets/css/var.less';
     .empty-tips {
         position: relative;
-        width: 450px;
+        width: 100%;
         margin: 0 auto;
         font-size: 14px;
         text-align: center;

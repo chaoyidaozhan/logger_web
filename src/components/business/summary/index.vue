@@ -115,7 +115,7 @@ export default {
             console.log(contentArr)
             this.selectContent.forEach((v,k)=>{
                 v.forEach((item, index)=>{
-                    if(item.id != content[index].id) {
+                    if(item.id != contentArr[index].id) {
                         if(item.type == 'InputText') {
                             if(!!item.content.trim()) {
                                 contentArr[index].content += `\n${item.content}`
@@ -131,6 +131,8 @@ export default {
                     }
                 })
             })
+            console.log(contentArr);
+            
             this.templateItemData.content = JSON.stringify(contentArr);
         },
         loggerSummary() { // 日志汇总

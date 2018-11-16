@@ -15,6 +15,7 @@ module.exports = {
         employee: 'Employee',
         internalGroupReport: 'Internal Group',
         summary: 'Summary',
+        statistics: 'Statistics',
         templateManagement: 'Template Management',
         deploy: 'Deploy'
     },
