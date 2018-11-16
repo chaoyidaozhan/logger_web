@@ -149,6 +149,8 @@ module.exports = {
         lastDayOfTheMonth: 'Last day of the month'
     },
     noun: { // 固有名词
+        expand: 'Expand',
+        collapse: 'Collapse',
         web: 'Web',
         mobile: 'Mobile',
         log: ' log',

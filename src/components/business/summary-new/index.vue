@@ -65,15 +65,33 @@
             </Form>
         </div>
         <div class="summary-page">
-             <Tabs :animated="false" 
-                v-model="activeTable"
-                v-if="tables">
-                <TabPane 
-                    v-for="(table, index) in tables"
-                    :key="table.key"
-                    :label="table.title" 
-                    :name="table.key">
-                    <!--正常表体-->
+            <template v-if="tables">
+                <div class="tabs">
+                    <div class="tabs-nav-wrapper">
+                        <div class="tabs-nav-scroller">
+                            <div 
+                                class="tabs-nav"
+                                :class="{active: table.key === activeTable}"
+                                v-for="(table) in tables" :key="table.key"
+                                v-if="table.key === activeTable || isDisplayHistoryTemplate"
+                                @click="handleSwitchTab(table.key)">
+                                {{table.title}}
+                            </div>
+                        </div>
+                        <span
+                            @click="handleExpandTab"
+                            v-if="Object.keys(tables).length > 1" 
+                            class="tabs-bread">
+                            <i class="icon-arrow-left" v-if="isDisplayHistoryTemplate"></i>
+                            {{isDisplayHistoryTemplate ? '收起' : '展开'}}
+                            <i class="icon-arrow-right" v-if="!isDisplayHistoryTemplate"></i>
+                        </span>
+                    </div>
+                </div>
+                <!--正常表体-->
+                <div v-for="(table, index) in tables"
+                    v-if="activeTable === table.key"
+                    :key="table.key">
                     <Table 
                         border
                         :loading="loading" 
@@ -101,8 +119,8 @@
                             </Checkbox>
                         </div>
                     </template>
-                </TabPane>
-            </Tabs>
+                </div>
+            </template>
             <fs-empty-tips v-else 
                 iconType="member" 
                 :emptyMsg="hasQuery ? $t('status.noRelevantData') : $t('toast.selectTheDataThatExport')" />  
@@ -136,7 +154,8 @@ export default {
                 { name: 'author', width: 80 },
                 { name: 'logDate', width: 120 },
                 { name: 'submitTime', width: 150 },
-            ] 
+            ],
+            isDisplayHistoryTemplate: false
         }
     },
     components: {
@@ -154,6 +173,12 @@ export default {
             keys.forEach(key=>{
                 this[key] = res[key]
             })
+        },
+        handleSwitchTab(key) { // 展开收起
+            this.activeTable = key
+        },
+        handleExpandTab(key) { // 展开收起
+            this.isDisplayHistoryTemplate = !this.isDisplayHistoryTemplate
         },
         handleSelectAll(dataType, index) { // 全选
             this.$refs[`selection${index}`][0].selectAll(dataType)
@@ -443,6 +468,58 @@ export default {
 <style lang="less">
 @import '../../../assets/css/var.less';
 .summary-new {
+    .tabs {
+        padding: 0 0 20px;
+        .tabs-nav-wrapper {
+            display: inline-block;
+            max-width: 100%;
+            padding-right: 40px;
+            position: relative;
+            overflow: hidden;
+            height: 24px;
+            .tabs-nav-scroller {
+                width: 100%;
+                white-space: nowrap;
+                overflow: auto;
+                height: 60px;
+            }
+        }
+        .tabs-nav {
+            color: @text-color;
+            display: inline-block;
+            margin-right: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative;
+            &.active {
+                color: @primary-color;
+                &:after {
+                    position: absolute;
+                    content: '';
+                    left: 50%;
+                    margin-left: -35px;
+                    bottom: -8px;
+                    width: 70px;
+                    height: 3px;
+                    background: @primary-color;
+                    border-radius:2px;
+                }
+            }
+        }
+        .tabs-bread {
+            cursor: pointer;
+            color: @btn-disable-color;
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            i {
+                vertical-align: middle;
+                display: inline-block;
+                margin-top: -1px;
+            }
+        }
+    }
     .ivu-table{
         overflow: auto;
         .ivu-checkbox-wrapper {

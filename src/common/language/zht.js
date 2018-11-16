@@ -150,6 +150,8 @@ module.exports = {
         lastDayOfTheMonth: '每月最後壹天',
     },
     noun: { // 固有名詞
+        expand: '展開',
+        collapse: '收起',
         web: 'web端',
         mobile: '移動端',
         log: '日誌',
