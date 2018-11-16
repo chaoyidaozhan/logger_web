@@ -15,7 +15,7 @@ module.exports = {
         employee: 'Employee',
         internalGroupReport: 'Internal Group',
         summary: 'Summary',
-        statistics: 'Statistics',
+        statistics: 'Report Forms',
         templateManagement: 'Template Management',
         deploy: 'Deploy'
     },
