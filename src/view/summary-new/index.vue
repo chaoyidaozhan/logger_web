@@ -2,7 +2,8 @@
     <fs-frame>
         <template slot="head">
             日志汇总
-             <span 
+             <span
+                v-if="hasQuery"
                 class="pull-right" >
                 <Button
                     @click="handleExport"
@@ -17,7 +18,7 @@
             </span>
         </template>
         <template slot="body">
-            <fs-summary-new ref="summary"/>
+            <fs-summary-new @handleHasQuery="handleHasQuery" ref="summary"/>
         </template>
     </fs-frame>
 </template>
@@ -26,7 +27,9 @@ import FsFrame from 'app_view/frame/'
 import FsSummaryNew from 'app_component/business/summary-new'
 export default {
     data() {
-        return {}
+        return {
+            hasQuery: false
+        }
     },
     components: {
         FsFrame,
@@ -35,17 +38,22 @@ export default {
     methods: {
         handleExport() { // 导出
             let params = this.$refs.summary.getExportParams()
-            let host = __ENV__ === 'development' ? `http://123.103.9.204:6058/logger` : `${window.location.protocol}//${window.location.host}/logger`
-            let uri = `${host}/rest/v1/diaryStatistics/export?timestamp=${(new Date()).valueOf()}`
-            Object.keys(params).forEach((key)=>{
-                if(params[key]) {
-                    uri += `&${key}=${params[key]}`
-                }
-            })
-            window.open(uri, '_blank')
+            if(params) {
+                let host = __ENV__ === 'development' ? `http://123.103.9.204:6058/logger` : `${window.location.protocol}//${window.location.host}/logger`
+                let uri = `${host}/rest/v1/diaryStatistics/export?timestamp=${(new Date()).valueOf()}`
+                Object.keys(params).forEach((key)=>{
+                    if(params[key]) {
+                        uri += `&${key}=${params[key]}`
+                    }
+                })
+                window.open(uri, '_blank')
+            }
         },
         handleSummary() { // 汇总日志
             this.$refs.summary.handleSummary()
+        },
+        handleHasQuery(param) {
+            this.hasQuery = param
         }
     }
 }

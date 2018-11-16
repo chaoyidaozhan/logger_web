@@ -347,7 +347,7 @@ export default {
             }
         },
         createTables(param) { // 创建表格
-            let tables = null
+            let tables = null, hasQuery = false
             const keys = Object.keys(param).sort((a, b)=>{
                 return b - a
             })
@@ -360,6 +360,7 @@ export default {
                     }
                     const data = this.createTableBody(param[key], key)
                     const columns = this.createTableColumns(param[key], key)
+                    if(param[key] && param[key].length) hasQuery = true
                     tables[key] = {
                         key: key,
                         title: formatTime(new Date(+key), 'YYYY-MM-DD HH:mm:ss'),
@@ -371,7 +372,8 @@ export default {
                         ...data
                     }
                 })
-            }
+            } 
+            this.$emit('handleHasQuery', !!hasQuery)
             this.tables = tables
         },
         getParams() { // 获取请求统计参数
