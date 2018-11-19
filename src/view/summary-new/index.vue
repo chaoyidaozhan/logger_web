@@ -1,8 +1,8 @@
 <template>
     <fs-frame>
         <template slot="head">
-            日志汇总
-             <span
+            {{$t('menus.statistics')}}
+            <span
                 v-if="hasQuery"
                 class="pull-right" >
                 <Button

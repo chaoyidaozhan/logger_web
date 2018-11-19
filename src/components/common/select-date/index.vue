@@ -1,7 +1,7 @@
 <template>
     <div class="select-date">
         <DatePicker :type="dateType"
-            placement="bottom-start"
+            placement="bottom-end"
             :value="dateType === 'date' ? selectDate : createDate"
             :editable="false"
             :options="options"
