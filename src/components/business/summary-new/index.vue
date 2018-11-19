@@ -16,7 +16,7 @@
                     </Checkbox>
                 </FormItem>
                 <!-- 组织 -->
-                <FormItem :label-width="lang === 'en' ? 70 : 40" :label="$t('noun.org')">
+                <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.org')">
                     <fs-select-tree-input 
                         ref="selectOrg"
                         orgApiUri="/rest/v1/diaryStatistics/authPeoples/1"
@@ -28,7 +28,7 @@
                         @handleSelect="handleSelect"/>
                 </FormItem> 
                 <!-- 部门 -->
-                <FormItem :label-width="40" :label="$t('noun.department')">
+                <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.department')">
                     <fs-select-tree-input 
                         ref="selectDept"
                         deptApiUri="/rest/v1/diaryStatistics/authPeoples/0"
