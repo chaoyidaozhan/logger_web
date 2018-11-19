@@ -74,6 +74,10 @@ export default {
                 return []
             }
         },
+        showLoading: {
+            type: Boolean,
+            default: true
+        },
         showOrg: {
             type: Boolean,
             default: false
@@ -164,6 +168,7 @@ export default {
                 dep: this.showDept,
                 org: this.showOrg,
                 showOtherDept: this.showOtherDept,
+                showLoading: this.showLoading,
                 limit: { 
                     ...this.limit
                 },

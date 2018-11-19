@@ -18,7 +18,7 @@
 					<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
 				</div>				
 			</li>
-			<li class="ajaxStatus">
+			<li class="ajaxStatus" v-if="info.showLoading">
 				<Spin class="auto" v-if="ajaxStatus=='loading'"/>
 				<span v-if="ajaxStatus=='over'">{{$t('status.loadedAllData')}}</span>
 				<span class="cp" v-if="ajaxStatus=='success'" @click="add">{{$t('status.loadMore')}}</span>
