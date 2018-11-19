@@ -200,7 +200,13 @@ export default {
                         title: '',
                         key: 'column1',
                         width: this.lang == 'en' ? 100 : 60
-                    }, {
+                    }, 
+                    {
+                        title: 'id',
+                        key: 'id',
+                        className:'id-column',
+                    },
+                    {
                         title: '',
                         key: 'column2',
                         width: 150
