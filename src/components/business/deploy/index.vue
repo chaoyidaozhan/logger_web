@@ -178,8 +178,8 @@ export default {
             }
             stashData[param.dataType].value.push(param[stashData[param.dataType].key])
             const memberIds = stashData[2].value
-            const deptIds = stashData[1].value
-            const orgIds = stashData[0].value
+            const orgIds = stashData[1].value
+            const deptIds = stashData[0].value
             this.$ajax({
                 url: '/rest/v1/diaryStatistics/acls',
                 type: 'delete',
