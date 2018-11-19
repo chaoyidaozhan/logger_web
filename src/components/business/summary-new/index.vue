@@ -233,20 +233,19 @@ export default {
             }
             let activeTableList = this.tables[this.activeTable]
             if (activeTableList.checkNum <= 0) {
-                this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'))
-            } else {
-                this.$store.dispatch('update_template_content', {
-                    content: {
-                        content: JSON.stringify(this.getSummaryData(activeTableList.selection))
-                    }
-                })
-                this.$router.push({
-                    path: `/LoggerDetail/operate/summary/${this.$refs.selectTemplate && this.$refs.selectTemplate.templateId}`,
-                    query: {
-                        token: this.$store.state.userInfo.token
-                    }
-                })
-            }
+                return this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'))
+            } 
+            this.$store.dispatch('update_template_content', {
+                content: {
+                    content: JSON.stringify(this.getSummaryData(activeTableList.selection))
+                }
+            })
+            this.$router.push({
+                path: `/LoggerDetail/operate/summary/${this.$refs.selectTemplate && this.$refs.selectTemplate.templateId}`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            })
         },
         getExportParams() {
             return {
