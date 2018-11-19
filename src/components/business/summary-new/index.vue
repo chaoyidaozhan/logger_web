@@ -16,7 +16,7 @@
                     </Checkbox>
                 </FormItem>
                 <!-- 组织 -->
-                <FormItem :label-width="40" :label="$t('noun.org')">
+                <FormItem :label-width="lang === 'en' ? 70 : 40" :label="$t('noun.org')">
                     <fs-select-tree-input 
                         ref="selectOrg"
                         orgApiUri="/rest/v1/diaryStatistics/authPeoples/1"
@@ -262,7 +262,7 @@ export default {
         createTableColumns(param, key) { // 创建表格colums
             let columns = [ // body columns固定的前列
                 {
-                    type: key === this.stashSelectionKey ? 'selection' : '',
+                    type: key == this.stashSelectionKey ? 'selection' : '',
                     width: this.lang == 'en' ? 100 : 60,
                     align: 'center'
                 },
@@ -379,7 +379,6 @@ export default {
                 tables = {}
                 keys.forEach((key, index)=>{
                     if (index === 0) {
-                        this.stashSelectionKey = key
                         this.activeTable = key
                     }
                     const data = this.createTableBody(param[key], key)
@@ -424,6 +423,8 @@ export default {
         },
         handleQuery() { // 查询
             const data = this.getParams()
+            this.stashSelectionKey = this.$refs.selectTemplate.templateVersion
+            
             if (!data.templateId) {
                 return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
             }

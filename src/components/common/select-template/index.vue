@@ -31,11 +31,13 @@ export default {
                     title: this.$t('placeholder.allTemplate')
                 }
             ],
-            templateId: 0
+            templateId: 0,
+            templateVersion: null
         }
     },
     watch: {
-        templateType: 'setTempListData'  
+        templateType: 'setTempListData',
+        templateId: 'setTemplateVersion'
     },
     filters: {
         filterHtml(val) {
@@ -43,6 +45,13 @@ export default {
         }
     },
     methods: {
+        setTemplateVersion(value) {
+            this.tempListData.filter((item)=>{
+                if(item.id === this.templateId) {
+                    this.templateVersion = item.version
+                }
+            })
+        },
         getTemplateApp(call) {
             this.$store.dispatch('update_template_app', {templateType:this.templateType}).then(()=>{
                 this.setTempListData();
