@@ -215,7 +215,7 @@ export default {
                     let info = this.info
                     // limit为1 直接替换
                     if (info.limit.count == 1 && info.limit.showAll) {
-                        this.resetAllSelected()
+                        this.clearSelected()
                         if (k == 'dep') {
                             this.info.selected.dep = [{
                                 deptId: 0,
@@ -256,6 +256,7 @@ export default {
                     let arr = this.info.selected[name]
                     arr.push(each)
                 },
+
                 removeSelected(name, modelEach) { // 点击(左侧/右侧) 删除一个选中项目
                     let idtype, save
                     if (name == 'dep') {
