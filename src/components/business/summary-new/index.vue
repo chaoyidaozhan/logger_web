@@ -265,7 +265,7 @@ export default {
         createTableColumns(param, key) { // 创建表格colums
             let columns = [ // body columns固定的前列
                 {
-                    type: key == this.stashSelectionKey ? 'selection' : '',
+                    type: key == this.stashSelectionKey ? 'selection' : 'hide',
                     width: this.lang == 'en' ? 100 : 60,
                     align: 'center'
                 },
@@ -542,6 +542,13 @@ export default {
     }
     .ivu-table-row-hover td{
         background-color:@white-color-light;
+    }
+    .ivu-table-header {
+        th:first-child {
+            .ivu-table-cell {
+                display: none;
+            }
+        }
     }
     .ivu-table-header .ivu-checkbox{
         display: none;
