@@ -111,7 +111,7 @@
                             :data="table.footData" 
                             class="table-count"/>
                         <!--全选-->
-                        <div class="table-statistics" v-if="table.key === stashSelectionKey">
+                        <div class="table-statistics" v-if="table.key == stashSelectionKey">
                             <Checkbox v-model="table.dataType" @on-change="handleSelectAll(table.dataType, index)">
                                 {{$t('operate.checkAll')}}
                                 <span class="checkout-note">
