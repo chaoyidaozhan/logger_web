@@ -317,7 +317,7 @@ export default {
         border: 1px solid @border-color-dark;
         border-radius: 4px;
         padding: 10px;
-        height: 130px;
+        min-height: 130px;
         font-size: 0;
         .no-data {
             font-size: 14px;
