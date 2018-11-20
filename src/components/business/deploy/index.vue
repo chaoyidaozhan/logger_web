@@ -99,6 +99,7 @@ export default {
                 content: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
                 onOk: () => {
                     const members = [this.currentMember.memberId]
+                    this.stashLimitData[this.currentMember.memberId] = null
                     this.$ajax({
                         url: '/rest/v1/diaryStatistics/people/delete',
                         type: 'post',
