@@ -76,14 +76,14 @@ const menus = [
         path: '/LoggerSummaryNew',
         icon: 'icon-statistics-2018',
         showStatistics: true,
-        type: ['admin', 'diary_examer']
+        type: ['showStatistics']
     },
     {
         name: 'menus.deploy',
         path: '/Deploy',
         icon: 'icon-template-2018',
         showStatistics: true,
-        type: ['admin', 'diary_examer']
+        type: ['showStatistics']
     }
 ]
 export default menus;
