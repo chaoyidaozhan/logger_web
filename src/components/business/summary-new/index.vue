@@ -426,6 +426,8 @@ export default {
         },
         handleQuery() { // 查询
             const data = this.getParams()
+            console.log(data);
+            
             this.stashSelectionKey = this.$refs.selectTemplate.templateVersion
             
             if (!data.templateId) {
@@ -433,6 +435,14 @@ export default {
             }
             if (!data.beginDate || !data.endDate) {
                 return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`)
+            }
+            if(!data.orgIds && !data.deptIds && !data.memberIds) {
+                return this.$Message.warning(`
+                    ${this.$t('noun.org')},
+                    ${this.$t('noun.dept')},
+                    ${this.$t('noun.author')}
+                    ${this.$t('toast.selectAtLeastOne')}
+                `)
             }
             this.loading = true
             this.$ajax({

@@ -95,7 +95,8 @@ module.exports = {
         theDraftOfTheLogWasSavedSuccessfully: '日志草稿保存成功',
         theLogWasCreatedSuccessfully: '日志创建成功',
         canNotBeEmpty: '不能为空',
-        pleaseDragInTheContent: '请拖入内容'
+        pleaseDragInTheContent: '请拖入内容',
+        selectAtLeastOne: '最少选择一个'
     },
     placeholder: { // 输入框提示文字
         postYourComment: '发表您的评论',

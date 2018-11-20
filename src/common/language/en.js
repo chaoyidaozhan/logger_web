@@ -94,7 +94,8 @@ module.exports = {
         theDraftOfTheLogWasSavedSuccessfully: 'The draft of the log was saved successfully.',
         theLogWasCreatedSuccessfully: 'Log created successfully.',
         canNotBeEmpty: 'Required',
-        pleaseDragInTheContent: 'Please drag in the content'
+        pleaseDragInTheContent: 'Please drag in the content',
+        selectAtLeastOne: 'select at least one'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',

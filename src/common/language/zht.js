@@ -95,7 +95,8 @@ module.exports = {
         theDraftOfTheLogWasSavedSuccessfully: '日誌草稿保存成功',
         theLogWasCreatedSuccessfully: '日誌創建成功',
         canNotBeEmpty: '不能為空',
-        pleaseDragInTheContent: '請拖入內容'
+        pleaseDragInTheContent: '請拖入內容',
+        selectAtLeastOne: '最少選擇一個'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',
