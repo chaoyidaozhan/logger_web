@@ -34,9 +34,10 @@ Vue.use(selectTree)
 
 // 多语
 import { i18n, setLocale } from './common/language/'
-import { getLang } from 'yyzone'
-getLang({
-    source: 'web',
+import { getWebLang } from 'yyzone'
+console.log(getWebLang);
+
+getWebLang({
     callback(lang) {
         setLocale(lang)
         i18n.locale = lang
