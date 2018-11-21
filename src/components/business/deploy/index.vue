@@ -11,6 +11,7 @@
                 v-if="deployMember && deployMember.length">
                 <div class="deploy-member-card" 
                     v-for="(item) in deployMember"
+                    v-if="!item.status"
                     @click="handleChangeLimit(item)"
                     :class="{'active':currentMember && (item.memberId === currentMember.memberId)}"
                     :key="item.memberId">
@@ -27,7 +28,10 @@
             </div>
             <div class="deploy-limit-content" v-if="deployLimit">
                 <template v-if="deployLimit && deployLimit.length">
-                    <span class="deploy-limit-scope" v-for="item in deployLimit" :key="item.id">
+                    <span class="deploy-limit-scope" 
+                        v-for="item in deployLimit"
+                        v-if="!item.status"
+                        :key="item.id">
                         {{item[mapKey[item.dataType]] || '“'}}
                         <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
                     </span>
