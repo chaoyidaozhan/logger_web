@@ -49,7 +49,8 @@ export default {
                 admin:  userInfo && userInfo.admin, 
                 diary_examer:  userInfo && userInfo.diary_examer, 
                 deptManager:  userInfo && userInfo.deptManager,
-                showStatistics: userInfo && userInfo.showStatistics
+                showStatistics: userInfo && userInfo.showStatistics,
+                showConfig: userInfo && userInfo.showConfig,
             }
             this.menus = []
             if(menus) {
@@ -58,6 +59,7 @@ export default {
                     if(item.type) {
                         for(let i = 0; i < item.type.length; i++) {
                             if(item.showStatistics && !menuLimits.showStatistics) return
+                            if(item.showConfig && !menuLimits.showConfig) return
                             if(!!menuLimits[item.type[i]]) {
                                 return this.menus.push(item)
                             }

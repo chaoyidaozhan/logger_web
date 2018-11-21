@@ -26,7 +26,7 @@
                         :title="`${$t('operate.select')}${$t('noun.org')}`"
                         :placeholder="`${$t('operate.select')}${$t('noun.org')}`" 
                         :org="org"
-                        @handleSelect="handleSelect"/>
+                        @handleSelect="handleSelect($event, 'org')"/>
                 </FormItem> 
                 <!-- 部门 -->
                 <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.department')">
@@ -40,7 +40,7 @@
                         :title="`${$t('operate.select')}${$t('noun.dept')}`"
                         :placeholder="`${$t('operate.select')}${$t('noun.dept')}`"
                         :dept="dept"
-                        @handleSelect="handleSelect"/>
+                        @handleSelect="handleSelect($event, 'dept')"/>
                 </FormItem> 
                 <!-- 提交人 -->
                 <FormItem :label-width="50" :label="$t('noun.author')">
@@ -52,7 +52,7 @@
                         :title="`${$t('operate.select')}${$t('noun.author')}`"
                         :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                         :member="member"
-                        @handleSelect="handleSelect"/>
+                        @handleSelect="handleSelect($event, 'member')"/>
                 </FormItem> 
                 <!-- 日期 -->
                 <FormItem :label-width="40" :label="$t('noun.date')">
@@ -171,11 +171,9 @@ export default {
         handleTemplateType(value) { // 停用删除
             this.templateType = value ? 'web' : 'select'
         },
-        handleSelect(res) { // 选择组织 部门 人员
+        handleSelect(res, name) { // 选择组织 部门 人员
             let keys = Object.keys(res)
-            keys.forEach(key=>{
-                this[key] = res[key]
-            })
+            this[name] = res[name]
         },
         handleSwitchTab(key) { // 展开收起
             this.activeTable = key
@@ -417,6 +415,7 @@ export default {
                     params[id + 'Ids'] = value
                 }
             })
+            
             return {
                 templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                 beginDate: this.$refs.createDate && this.$refs.createDate.beginDate,
