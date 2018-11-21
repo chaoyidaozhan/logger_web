@@ -71,8 +71,8 @@
             <template v-if="tables">
                 <div class="tabs">
                     <div class="tabs-nav-wrapper">
-                        <div class="tabs-nav-scroller">
-                            <div 
+                        <div class="tabs-nav-scroller" ref="tab">
+                            <div
                                 class="tabs-nav"
                                 :class="{active: table.key === activeTable}"
                                 v-for="(table) in tables" :key="table.key"
@@ -136,6 +136,7 @@ import FsSelectDate from 'app_component/common/select-date/'
 import FsSelectTreeInput from 'app_component/common/select-tree-input/'
 import FsEmptyTips from 'app_component/common/empty-tips'
 import formatTime from 'app_src/filters/format-time'
+import Ps from 'perfect-scrollbar'
 
 export default {
     data() {
@@ -168,6 +169,20 @@ export default {
         FsEmptyTips
     },
     methods: {
+        initScroll() {
+            this.$nextTick(()=>{
+                let container = this.$refs.tab
+                Ps.destroy(container);
+                Ps.initialize(container, {
+                    wheelSpeed: 0.5,
+                    wheelPropagation: false,
+                    useBothWheelAxes: true,
+                    eventPassthrough : 'vertical',
+                    minScrollbarLength: 60,
+                    maxScrollbarLength: 300
+                })
+            })
+        },
         handleTemplateType(value) { // 停用删除
             this.templateType = value ? 'web' : 'select'
         },
@@ -175,11 +190,12 @@ export default {
             let keys = Object.keys(res)
             this[name] = res[name]
         },
-        handleSwitchTab(key) { // 展开收起
+        handleSwitchTab(key) { // 切换
             this.activeTable = key
         },
         handleExpandTab(key) { // 展开收起
             this.isDisplayHistoryTemplate = !this.isDisplayHistoryTemplate
+            this.initScroll()
         },
         handleSelectAll(dataType, index) { // 全选
             this.$refs[`selection${index}`][0].selectAll(dataType)
@@ -452,6 +468,7 @@ export default {
                     this.hasQuery = true
                     if(res && res.code === 0) {
                         this.createTables(res.data)
+                        this.initScroll()
                     } else {
                         this.$Message.warning((res && res.msg) || this.$t('noun.networkError'));
                     }
@@ -481,19 +498,20 @@ export default {
 @import '../../../assets/css/var.less';
 .summary-new {
     .tabs {
-        padding: 0 0 20px;
+        padding-bottom: 6px;
         .tabs-nav-wrapper {
             display: inline-block;
             max-width: 100%;
             padding-right: 40px;
             position: relative;
             overflow: hidden;
-            height: 24px;
+            height: 38px;
             .tabs-nav-scroller {
                 width: 100%;
-                white-space: nowrap;
-                overflow: auto;
-                height: 60px;
+                height: 100%;
+                overflow: hidden;     
+                position: relative;
+                white-space: nowrap;   
             }
         }
         .tabs-nav {
