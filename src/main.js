@@ -1,43 +1,43 @@
-import Vue from 'vue';
-import 'es6-promise/auto';
-import VueRouter from 'vue-router';
-import store from './store/';
-import routes from './router/';
-import axios from 'axios';
-import http from './config/http';
-
+import Vue from 'vue'
+import 'es6-promise/auto'
+import VueRouter from 'vue-router'
+import store from './store/'
+import routes from './router/'
+import http from './config/http'
 
 // 工具类
-import ajax from './common/ajax'; // 引入封装过后的ajax
-import storage from './common/store.js-master/dist/store.legacy.min';
-import 'core-js/fn/date/now'; 
+import ajax from './common/ajax' // 引入封装过后的ajax
+import storage from './common/store.js-master/dist/store.legacy.min'
+
 // 指令
-import 'app_src/directives/loading/';
+import 'app_src/directives/loading/'
+
 // css文件
-import 'video.js/dist/video-js.min.css';
-import 'perfect-scrollbar/dist/css/perfect-scrollbar.css';
-import './assets/css/common.less';
+import 'video.js/dist/video-js.min.css'
+import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
+import './assets/css/common.less'
 
 // 引入ui库
-import iView from 'iview'; 
-Vue.use(iView);
+import iView from 'iview'
+Vue.use(iView)
 // 图片预览组件
-import VuePreview from 'vue-preview';
-Vue.use(VuePreview);
+import VuePreview from 'vue-preview'
+Vue.use(VuePreview)
 
 // 视频组件
-import FsVueVideo from './components/common/video/';
-Vue.use(FsVueVideo);
+import FsVueVideo from './components/common/video/'
+Vue.use(FsVueVideo)
 
 // 选人组件依赖 iview 和 ajax.js ;
-import selectMember from './components/common/select-member';
-Vue.use(selectMember);
+import selectTree from './components/common/select-tree'
+Vue.use(selectTree)
 
 // 多语
 import { i18n, setLocale } from './common/language/'
-import { getLang } from 'yyzone'
-getLang({
-    source: 'web',
+import { getWebLang } from 'yyzone'
+console.log(getWebLang);
+
+getWebLang({
     callback(lang) {
         setLocale(lang)
         i18n.locale = lang

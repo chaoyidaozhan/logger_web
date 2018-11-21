@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         changePage(pageNo) {
-            this.$emit('handleChangePage', pageNo);
+            this.$emit('handleChangePage', pageNo)
         }
     }
 }

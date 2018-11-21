@@ -12,8 +12,8 @@ config.plugins.push(
             drop_console: true
         }
     })
-);
+)
 
 module.exports = merge(config, {
     devtool: false
-});
+})

@@ -63,13 +63,27 @@ const menus = [
     {
         name: 'menus.summary',
         path: '/LoggerSummary',
-        icon: 'icon-collect-2018',
+        icon: 'icon-collect-2018'
     },
     {
         name: 'menus.templateManagement',
         path: '/LoggerTemplate/manager',
-        icon: 'icon-template-2018',
-        type: ['admin','diary_examer'],
+        icon: 'icon-manage',
+        type: ['admin','diary_examer']
     },
+    {
+        name: 'menus.statistics',
+        path: '/LoggerSummaryNew',
+        icon: 'icon-statistics-2018',
+        showStatistics: true,
+        type: ['showStatistics']
+    },
+    {
+        name: 'menus.deploy',
+        path: '/Deploy',
+        icon: 'icon-template-2018',
+        showStatistics: true,
+        type: ['showConfig']
+    }
 ]
 export default menus;

@@ -4,7 +4,7 @@
 @import './reset.less';
 @import './fonts.css';
 
-@import './frame.less';
+@import './search-form.less';
 @import './clearfix.less';
 @import './cursor.less';
 @import './float.less';
@@ -41,4 +41,22 @@
 .ivu-input:focus {
     border-color: @input-select-border-color;
     box-shadow: unset;
+}
+
+.ivu-btn {
+    padding: 4px 15px;
+    &.ivu-btn-default {
+        background-color: @select-item-bg;
+        color: @gray-color-medium;
+        &:hover {
+            border-color: @select-item-bg;
+        }
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
+
+.ivu-tabs-nav .ivu-tabs-tab:hover {
+    color: @primary-color;
 }

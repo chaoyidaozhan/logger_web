@@ -2,12 +2,7 @@
     <div class="empty-tips" :class="`empty-${position}`">
         <div class="empty" v-if="!showError">
             <img v-if="!iconType" :src="imgSrc" class="empty-img">
-            <template v-else>
-                <i class="icon-none-department" v-if="iconType == 'dept'"></i>
-                <i class="icon-none-team" v-if="iconType == 'group'"></i>
-                <i class="icon-none-user" v-if="iconType == 'member'"></i>
-                <i class="icon-draft" v-if="iconType == 'template'"></i>
-            </template>
+            <i v-else class="icon-no-data"></i>
             <p class="empty-msg">{{emptyMsg}}</p>
         </div>
         <div class="error" v-if="showError">
@@ -28,7 +23,7 @@ export default {
         },
         imgSrc: {
             type: String,
-            default: require("./../../../assets/images/nodata.png")
+            default: require("./../../../assets/images/no-data-search.png")
         },
         emptyMsg: {
             type: String,
@@ -49,7 +44,7 @@ export default {
     },
     methods: {
         handleReload() {
-            this.$emit('handleReload');
+            this.$emit('handleReload')
         }
     }
 }
@@ -58,10 +53,21 @@ export default {
 @import '../../../assets/css/var.less';
     .empty-tips {
         position: relative;
-        width: 200px;
+        width: 100%;
         margin: 0 auto;
         font-size: 14px;
         text-align: center;
+        .empty-img, .icon-no-data {
+            width: 125px;
+            height: 125px;
+        }
+        .icon-no-data {
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('../../../assets/images/no-data-member.png');
+            background-size: contain;
+        }
         &.empty-middle {
            margin-top: 10%;
         }

@@ -46,10 +46,10 @@ export default {
     },
     methods: {
         handleReload() {
-            this.$emit("handleReload");
+            this.$emit("handleReload")
         },
         handleLoadMore() {
-            this.$emit("handleLoadMore");
+            this.$emit("handleLoadMore")
         }
     }
 }

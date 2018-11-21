@@ -35,10 +35,10 @@ module.exports = {
          */
         onScroll(e) {
             if(!this.loading && this.hasMore) {
-                let $target = e && e.target;
-                let scrollHeight = $target.scrollHeight;
-                let scrollTop = $target.scrollTop;
-                let offsetHeight = $target.offsetHeight;
+                let $target = e && e.target
+                let scrollHeight = $target.scrollHeight
+                let scrollTop = $target.scrollTop
+                let offsetHeight = $target.offsetHeight
                 if (offsetHeight == (scrollHeight - scrollTop)) {
                     this.pageNum++
                 }
@@ -51,30 +51,30 @@ module.exports = {
          */
         updateList(res) {
             if(res && res.code === 0) {
-                this.hasMore = true;
+                this.hasMore = true
                 if(this.pageNum == 1) {
-                    this.list = res.data || [];
+                    this.list = res.data || []
                 } else {
-                    this.list = this.list.concat(res.data || []);
+                    this.list = this.list.concat(res.data || [])
                 }
                 if (res.data && res.data.length < this.pageSize) {
-                    this.hasMore = false;
+                    this.hasMore = false
                 }
             } else {
-                this.list = [];
-                this.$Message.warning((res && res.msg) || '网络错误');
+                this.list = []
+                this.$Message.warning((res && res.msg) || '网络错误')
             }
         },
         /**
          * 初始化列表
          */
         initList() {
-            this.params.range = this.$route && this.$route.params && this.$route.params.range;
-            this.pageNum = 1;
-            this.list = [];
-            this.loading = false;
-            this.hasMore = true;
-            this.loadData();
+            this.params.range = this.$route && this.$route.params && this.$route.params.range
+            this.pageNum = 1
+            this.list = []
+            this.loading = false
+            this.hasMore = true
+            this.loadData()
         },
         /**
          * @overwrite

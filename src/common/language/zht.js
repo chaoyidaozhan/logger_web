@@ -7,7 +7,7 @@ module.exports = {
         myLogs: '我的日誌',
         internalGroupLog: '內部群日誌',
         subordinateLog: '下屬日誌',
-        lowerLevelLog: '下级日誌',
+        lowerLevelLog: '下級日誌',
         myDraft: '我的草稿',
         myFavorite: '我的收藏',
         logStatistic: '日誌統計',
@@ -15,7 +15,9 @@ module.exports = {
         employee: '按人員統計',
         internalGroupReport: '按內總群統計',
         summary: '日誌匯總',
+        statistics: '日誌報表',
         templateManagement: '模板管理',
+        deploy: '配置'
     },
     operate: { // 操作
         back: '返回',
@@ -42,6 +44,7 @@ module.exports = {
         saveAndEnable: '保存並啟用',
         preview: '預覽',
         reply: '回復',
+        add: '添加',
         delete: '刪除',
 
         edit: '編輯',
@@ -52,13 +55,14 @@ module.exports = {
         saveAsDraft: '存為草稿',
         file: '附件',
         upload: '上傳',
-        fill: '补',
-        viewLowerLevelLog: '查看下级日誌'
+        fill: '補',
+        viewLowerLevelLog: '查看下級日誌',
+        addAdministrator: '添加管理員'
     },
     status: { // 狀態
         loading: '正在加載...',
         loadedAllData: '已加載全部數據',
-        networkError: '網絡錯誤',
+        networkError: '網酪錯誤',
         clickToReload: '點擊重新加載',
         loadMore: '加載更多',
         noRelevantData: '沒有相關數據'
@@ -91,7 +95,8 @@ module.exports = {
         theDraftOfTheLogWasSavedSuccessfully: '日誌草稿保存成功',
         theLogWasCreatedSuccessfully: '日誌創建成功',
         canNotBeEmpty: '不能為空',
-        pleaseDragInTheContent: '請拖入內容'
+        pleaseDragInTheContent: '請拖入內容',
+        selectAtLeastOne: '最少選擇一個'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',
@@ -99,9 +104,11 @@ module.exports = {
         maximum10Chars: '不超過10個字',
         maximum20Chars: '不超過20個字',
         maximum50Chars: '不超過50個字',
+        maximum100Chars: '不超過100個字',
         enterUnit: '請輸入單位比如（元）',
         leastItems: '至少2項至多10項',
         whetherDisplayDate: '是否顯示日誌日期',
+        whetherDisplayDefaultValue: '是否顯示默認值',
         enterKeyword: '請輸入關鍵字進行搜索',
         noMore: '每次選擇不可超過500人，請分批選擇',
         remindkeyPeopleToViewYourLog: '提醒關鍵人員查看您的日誌',
@@ -144,6 +151,8 @@ module.exports = {
         lastDayOfTheMonth: '每月最後壹天',
     },
     noun: { // 固有名詞
+        expand: '展開',
+        collapse: '收起',
         web: 'web端',
         mobile: '移動端',
         log: '日誌',
@@ -198,10 +207,15 @@ module.exports = {
         someoneChecked: 'TA查看',
         operationRecord: '操作記錄',
         task: '任務',
-        schedule: '日程'
+        schedule: '日程',
+        org: '组织',
+        dept: '部门',
+        admin: '管理员'
     },
     title: {
         logTemplate: '日誌模板',
-        logTemplateSettings: '設置日誌模板'
+        logTemplateSettings: '設置日誌模板',
+        configureAdministratorAndStatisticsPermissions: '配置管理員及統計權限',
+        statisticalAuthority: "的統計權限"
     }
 }

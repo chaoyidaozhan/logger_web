@@ -29,7 +29,7 @@
 </template>
 <script>
 import encodeColor from 'app_src/filters/encode-color'
-export default{
+export default {
     props: {
         avatar: {
             type: String
@@ -63,26 +63,26 @@ export default{
         formatName: function() {
             return /[\u4e00-\u9fa5]/.test(this.name)
                   ? this.name.substr(-this.nameLength)
-                  : this.name.substr(0, this.nameLength);
+                  : this.name.substr(0, this.nameLength)
         }
     },
     methods: {
         isDefault() {
             let avatar = ''
             if(this.avatar && this.avatar.indexOf('default_avatar') != -1) {
-                avatar = '';
+                avatar = ''
             } else if(this.avatar && this.avatar.indexOf('defaultGroup') != -1) {
-                avatar = '';
+                avatar = ''
             }  else {
-                avatar = this.avatar;
+                avatar = this.avatar
             }
-            return avatar;
+            return avatar
         },
         onError(e) {
-            this.loadError = true;
+            this.loadError = true
         },
         getColors() {
-			return encodeColor(this.name);
+			return encodeColor(this.name)
 		}
     }
 };

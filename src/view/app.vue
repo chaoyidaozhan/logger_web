@@ -1,18 +1,23 @@
 <template>
-    <div class="logger-container" v-loading="{loading: loaded, text: $t('status.loading')}">
-        <fs-sign-menu ref="menu" v-if="loaded"></fs-sign-menu>
-        <router-view v-if="hasGetUserInfo"></router-view>
+    <div 
+        class="logger-container" 
+        v-loading="{
+            loading: loaded, 
+            text: $t('status.loading')
+        }">
+        <fs-sign-menu ref="menu" v-if="loaded"/>
+        <router-view v-if="hasGetUserInfo"/>
     </div>
 </template>
 <script>
-import FsSignMenu from 'app_component/menu';
+import FsSignMenu from 'app_component/menu'
 
 export default {
     data() {
         return {
             loaded: false, // 是否loading成功
             hasGetUserInfo: false, // 是否成功获取用户信息
-            token: '',
+            token: ''
         }
     },
     components: {
@@ -56,12 +61,12 @@ export default {
             });
         },
         init() {
-            this.setToken();
-            this.getUserInfo();
-        },
+            this.setToken()
+            this.getUserInfo()
+        }
     },
     created() {
-        this.init();
+        this.init()
     }
 }
 </script>
