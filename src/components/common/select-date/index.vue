@@ -1,23 +1,31 @@
 <template>
     <div class="select-date">
-        <DatePicker type="daterange"
-            placement="bottom-start"
-            :value="timeArr"
+        <DatePicker :type="dateType"
+            placement="bottom-end"
+            :value="dateType === 'date' ? selectDate : createDate"
             :editable="false"
             :options="options"
             @on-change="change"
-            :placeholder="$t('noun.date')" class="date-wrap">
+            :placeholder="`${$t('operate.please')}${$t('operate.select')}`" class="date-wrap">
         </DatePicker>
     </div>
 </template>
 <script>
 export default {
     props: {
-        timeArr: {
+        dateType: {
+            type: String,
+            default: 'daterange'
+        },
+        createDate: {
             type: Array,
             default: function () {
                 return []
             }
+        },
+        selectDate: {
+            type: String,
+            default: ''
         }
     },
     data() {
@@ -27,18 +35,25 @@ export default {
                     return date && date.valueOf() > Date.now();
                 }
             },
+            date: "",
             beginDate: "",
             endDate: "",
         }
     },
     methods: {
         change(params) {
+            if(this.dateType === 'date') {
+                return this.date = params
+            }
             this.beginDate = params[0] || "";
             this.endDate = params[1] || "";
         },
         init() {
-            this.beginDate = this.timeArr[0] || "";
-            this.endDate = this.timeArr[1] || "";
+            if(this.dateType === 'date') {
+                return this.date = this.selectDate
+            }
+            this.beginDate = this.createDate[0] || "";
+            this.endDate = this.createDate[1] || "";
         }
     },
     created () {

@@ -15,7 +15,9 @@ module.exports = {
         employee: '按人员统计',
         internalGroupReport: '按内部群统计',
         summary: '日志汇总',
+        statistics: '日志报表',
         templateManagement: '模板管理',
+        deploy: '配置'
     },
     operate: { // 操作
         back: '返回',
@@ -42,6 +44,7 @@ module.exports = {
         saveAndEnable: '保存并启用',
         preview: '预览',
         reply: '回复',
+        add: '添加',
         delete: '删除',
 
         edit: '编辑',
@@ -53,7 +56,8 @@ module.exports = {
         file: '附件',
         upload: '上传',
         fill: '补',
-        viewLowerLevelLog: '查看下级日志'
+        viewLowerLevelLog: '查看下级日志',
+        addAdministrator: '添加管理员'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -91,7 +95,8 @@ module.exports = {
         theDraftOfTheLogWasSavedSuccessfully: '日志草稿保存成功',
         theLogWasCreatedSuccessfully: '日志创建成功',
         canNotBeEmpty: '不能为空',
-        pleaseDragInTheContent: '请拖入内容'
+        pleaseDragInTheContent: '请拖入内容',
+        selectAtLeastOne: '最少选择一个'
     },
     placeholder: { // 输入框提示文字
         postYourComment: '发表您的评论',
@@ -99,9 +104,11 @@ module.exports = {
         maximum10Chars: '不超过10个字',
         maximum20Chars: '不超过20个字',
         maximum50Chars: '不超过50个字',
+        maximum100Chars: '不超过100个字',
         enterUnit: '请输入单位比如（元）',
         leastItems: '至少2项至多10项',
         whetherDisplayDate: '是否显示日志日期',
+        whetherDisplayDefaultValue: '是否显示默认值',
         enterKeyword: '请输入关键字进行搜索',
         noMore: '每次选择不可超过500人，请分批选择',
         remindkeyPeopleToViewYourLog: '提醒关键人员查看您的日志',
@@ -144,6 +151,8 @@ module.exports = {
         lastDayOfTheMonth: '每月最后一天',
     },
     noun: { // 固有名词
+        expand: '展开',
+        collapse: '收起',
         web: 'web端',
         mobile: '移动端',
         log: '日志',
@@ -198,10 +207,15 @@ module.exports = {
         someoneChecked: 'TA查看',
         operationRecord: '操作记录',
         task: '任务',
-        schedule: '日程'
+        schedule: '日程',
+        org: '组织',
+        dept: '部门',
+        admin: '管理员'
     },
     title: {
         logTemplate: '日志模板',
-        logTemplateSettings: '设置日志模板'
+        logTemplateSettings: '设置日志模板',
+        configureAdministratorAndStatisticsPermissions: '配置管理员及统计权限',
+        statisticalAuthority: "的统计权限"
     }
 }

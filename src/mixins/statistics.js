@@ -5,10 +5,10 @@
  * validateString查询验证字段
  * orderType时间类型 0:按月,1:按季度,2:按日,3:自定义,
  * **/
-import FsFrame from 'app_src/view/frame/';
-import FsQueryForm from 'app_component/common/query-form/';
-import FsLoggerStatistics from 'app_component/logger-statistics/common-statistics/';
-import FsMemberStatistics from 'app_component/logger-statistics/member-statistics/';
+import FsFrame from 'app_src/view/frame/'
+import FsQueryForm from 'app_component/common/query-form/'
+import FsCommonStatistics from 'app_component/business/statistics/common/'
+import FsMemberStatistics from 'app_component/business/statistics/member/'
 
 export default {
     data() {
@@ -29,20 +29,20 @@ export default {
     components: {
         FsFrame,
         FsQueryForm,
-        FsLoggerStatistics,
+        FsCommonStatistics,
         FsMemberStatistics
     },
     methods: {
         handleQuery(params) {
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
-                return this.$Message.warning(this.validateMsg[this.validateString]);
+                return this.$Message.warning(this.validateMsg[this.validateString])
             } 
-            this.minDate = params.minDate || '';
-            this.maxDate = params.maxDate || '';
-            delete params.minDate;
-            delete params.maxDate;
-            this.params = params;
+            this.minDate = params.minDate || ''
+            this.maxDate = params.maxDate || ''
+            delete params.minDate
+            delete params.maxDate
+            this.params = params
         }
     }
 }

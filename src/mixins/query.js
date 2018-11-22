@@ -4,9 +4,9 @@
  * handleQuery查询
  * range区分哪种查询列表
  * **/
-import FsFrame from 'app_src/view/frame/';
+import FsFrame from 'app_src/view/frame/'
+import FsQueryList from 'app_component/business/query/'
 import FsQueryForm from 'app_component/common/query-form/'
-import FsLoggerList from 'app_component/logger-list/';
 export default {
     data() {
         return {
@@ -16,12 +16,12 @@ export default {
     },
     components: {
         FsFrame,
-        FsLoggerList,
-        FsQueryForm,
+        FsQueryList,
+        FsQueryForm
     },
     methods: {
         handleQuery(params) {
-            this.params = params;
+            this.params = params
         }
-    },
+    }
 }

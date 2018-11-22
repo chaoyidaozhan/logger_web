@@ -15,7 +15,9 @@ module.exports = {
         employee: 'Employee',
         internalGroupReport: 'Internal Group',
         summary: 'Summary',
+        statistics: 'Report Forms',
         templateManagement: 'Template Management',
+        deploy: 'Deploy'
     },
     operate: { // 操作
         back: 'Back',
@@ -42,6 +44,7 @@ module.exports = {
         saveAndEnable: 'Save and Enable',
         preview: 'Preview',
         reply: 'Reply',
+        add: 'Add',
         delete: 'Delete',
         edit: 'Edit',
         disable: 'Disable',
@@ -52,7 +55,8 @@ module.exports = {
         file: 'File',
         upload: 'Upload',
         fill: 'Fill',
-        viewLowerLevelLog: 'View lower lever log'
+        viewLowerLevelLog: 'View lower lever log',
+        addAdministrator: 'Add administrator'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -90,7 +94,8 @@ module.exports = {
         theDraftOfTheLogWasSavedSuccessfully: 'The draft of the log was saved successfully.',
         theLogWasCreatedSuccessfully: 'Log created successfully.',
         canNotBeEmpty: 'Required',
-        pleaseDragInTheContent: 'Please drag in the content'
+        pleaseDragInTheContent: 'Please drag in the content',
+        selectAtLeastOne: 'select at least one'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',
@@ -98,9 +103,11 @@ module.exports = {
         maximum10Chars: 'Maximum 10 Chars',
         maximum20Chars: 'Maximum 20 Chars',
         maximum50Chars: 'Maximum 50 Chars',
+        maximum100Chars: 'Maximum 100 Chars',
         enterUnit: 'Please enter a unit such as ($)',
         leastItems: 'Min 2 items; Max 10 items',
         whetherDisplayDate: 'Display Log Date',
+        whetherDisplayDefaultValue: 'Display Default Value',
         enterKeyword: 'Please enter a keyword',
         noMore: 'No more than 500 people per time. Please select in batches',
         remindkeyPeopleToViewYourLog: 'Remind key people to view your log',
@@ -143,6 +150,8 @@ module.exports = {
         lastDayOfTheMonth: 'Last day of the month'
     },
     noun: { // 固有名词
+        expand: 'Expand',
+        collapse: 'Collapse',
         web: 'Web',
         mobile: 'Mobile',
         log: ' log',
@@ -197,10 +206,15 @@ module.exports = {
         someoneChecked: 'Someone',
         operationRecord: 'Operation record',
         task: 'Task',
-        schedule: 'Schedule'
+        schedule: 'Schedule',
+        org: 'Organization',
+        dept: 'Department',
+        admin: 'Administrator'
     },
     title: {
         logTemplate: 'Log Template',
-        logTemplateSettings: 'Log Template Settings'
+        logTemplateSettings: 'Log Template Settings',
+        configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
+        statisticalAuthority: "'s statistical authority"
     }
 }
