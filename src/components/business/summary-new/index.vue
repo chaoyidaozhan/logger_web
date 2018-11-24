@@ -16,7 +16,7 @@
                     </Checkbox>
                 </FormItem>
                 <!-- 组织 -->
-                <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.org')">
+<!--                 <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.org')">
                     <fs-select-tree-input 
                         ref="selectOrg"
                         orgApiUri="/rest/v1/diaryStatistics/authPeoples/1"
@@ -27,9 +27,9 @@
                         :placeholder="`${$t('operate.select')}${$t('noun.org')}`" 
                         :org="org"
                         @handleSelect="handleSelect($event, 'org')"/>
-                </FormItem> 
+                </FormItem>  -->
                 <!-- 部门 -->
-                <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.department')">
+<!--                 <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.department')">
                     <fs-select-tree-input 
                         ref="selectDept"
                         deptApiUri="/rest/v1/diaryStatistics/authPeoples/0"
@@ -41,9 +41,9 @@
                         :placeholder="`${$t('operate.select')}${$t('noun.dept')}`"
                         :dept="dept"
                         @handleSelect="handleSelect($event, 'dept')"/>
-                </FormItem> 
+                </FormItem> --> 
                 <!-- 提交人 -->
-                <FormItem :label-width="50" :label="$t('noun.author')">
+<!--                 <FormItem :label-width="50" :label="$t('noun.author')">
                     <fs-select-tree-input 
                         ref="selectMember"
                         memberApiUri="/rest/v1/diaryStatistics/authPeoples/2"
@@ -53,7 +53,35 @@
                         :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                         :member="member"
                         @handleSelect="handleSelect($event, 'member')"/>
+                </FormItem>  -->
+
+
+                <!-- 提交人 -->
+                <FormItem :label-width="50" :label="$t('noun.author')">
+                    <div 
+                        class="select-tree-input2 cursor-pointer" 
+                        @click="openSelectMember" 
+                        :class="{disabled: !org.length && !dept.length && !member.length}">
+                        <template v-if="!org.length && !dept.length && !member.length">
+                            {{$t('noun.author')}}
+                        </template>
+                        <template>
+                            <span v-for="(item, index) in org" :key="index">
+                                {{item.orgName}}
+                            </span>
+                            <span v-for="(item, index) in dept" :key="'index'+index">
+                                {{item.deptName}}
+                            </span>
+                            <span v-for="item in member" :key="item.memberId">
+                                {{item.userName}}
+                            </span>
+                        </template>
+                        <i class="icon-add"></i>
+                    </div>
                 </FormItem> 
+
+
+
                 <!-- 日期 -->
                 <FormItem :label-width="40" :label="$t('noun.date')">
                     <fs-select-date 
@@ -188,7 +216,50 @@ export default {
         },
         handleSelect(res, name) { // 选择组织 部门 人员
             let keys = Object.keys(res)
-            this[name] = res[name]
+            this[name] = res[name];
+        },
+// ************ 2018-11-24 ****************
+        openSelectMember(){
+            let s_mans = JSON.parse(JSON.stringify(this.member)) ;
+            let s_dept = JSON.parse(JSON.stringify(this.dept)) ;    
+            let s_org = JSON.parse(JSON.stringify(this.org)) ;  
+            let info = {
+                title: this.$t('operate.select')+this.$t('noun.author'),
+                man: true,
+                dep: true,
+                team:  false,
+                selected: {
+                    dep: [].concat(s_dept , s_org) ,
+                    man: s_mans,
+                },
+                limit: {
+                    showAll: false,
+                    warning: '',
+                    count: 500
+                }
+            }
+            this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
+                if(res.dep&&res.dep.length){
+                    let org=[];
+                    let dept=[];
+                    res.dep.map(v=>{
+                        if(v.type==0){
+                            dept.push(v)
+                        }else if(v.type==1){
+                            org.push({
+                                ...v ,
+                                orgId: v.deptId ,   
+                                orgName:v.deptName ,
+                            })
+                        }
+                    })
+                    this.org = org ;
+                    this.dept = dept ;
+                }
+                if(res.man&&res.man.length){
+                    this.member = res.man ;
+                }
+            })
         },
         handleSwitchTab(key) { // 切换
             this.activeTable = key
@@ -600,6 +671,69 @@ export default {
         }
     }
 }
+
+.select-tree-input2 {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    padding: 4px 35px 4px 7px;
+    font-size: 12px;
+    border: 1px solid @border-color;
+    border-radius: 4px;
+    color: @gray-color-dark;
+    background-color: @white-color;
+    background-image: none;
+    position: relative;
+    line-height: 22px;
+    transition: all 0.2s ease-in-out;
+    &:hover {
+        border-color: @input-select-border-color;
+    }
+    &.ellipsis {
+        height: 32px;
+    }
+    &.disabled {
+        color: @btn-disable-color;
+    }
+    .icon-add {
+        position: absolute;
+        height: 30px;
+        font-size: 14px;
+        line-height: 30px;
+        top: 50%;
+        margin-top: -15px;
+        width: 30px;
+        background-color: @white-color;
+        color: @gray-color-normal;
+        right: 1px;
+        text-align: center;
+    }
+    .tag {
+        padding: 0 10px 0 6px;
+        color: @gray-color-medium;
+        background-color: @white-color-dark;
+        margin:2px 10px 2px 2px;
+        line-height: 19px;
+        display: inline-block;
+        position: relative;
+        i {
+            display: none;
+            color: @error-color;
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            margin-top: -7px;
+            background: @white-color;
+            border-radius: 50%;
+            padding: 1px;
+            font-size: 12px;
+        }
+        &:hover > i {
+            display: block;
+        }
+    }
+}
+
 </style>
 <style lang="less" scoped>
 .summary-new {
