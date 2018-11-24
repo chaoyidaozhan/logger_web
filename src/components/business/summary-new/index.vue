@@ -59,7 +59,7 @@
                 <!-- 提交人 -->
                 <FormItem :label-width="50" :label="$t('noun.author')">
                     <div 
-                        class="select-tree-input2 cursor-pointer" 
+                        class="select-tree-input2 cursor-pointer ellipsis" 
                         @click="openSelectMember" 
                         :class="{disabled: !org.length && !dept.length && !member.length}">
                         <template v-if="!org.length && !dept.length && !member.length">
@@ -686,6 +686,7 @@ export default {
     position: relative;
     line-height: 22px;
     transition: all 0.2s ease-in-out;
+
     &:hover {
         border-color: @input-select-border-color;
     }
