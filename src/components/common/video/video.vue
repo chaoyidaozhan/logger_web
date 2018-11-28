@@ -16,8 +16,8 @@
 </template>
 <script>
 import videojs from 'video.js';
-import SWF_PATH from 'video.js/dist/video-js.swf';
-videojs.options.flash.swf = SWF_PATH;
+// import SWF_PATH from 'video.js/dist/video-js.swf';
+// videojs.options.flash.swf = SWF_PATH;
 
 export default {
     data() {

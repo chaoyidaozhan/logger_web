@@ -11,7 +11,7 @@
 </template>
 <script>
 import FsSignMenu from 'app_component/menu'
-
+console.log(123)
 export default {
     data() {
         return {
@@ -55,6 +55,7 @@ export default {
                     this.loaded = true;
                 },
                 error: (res)=>{
+                    console.log(res)
                     this.loaded = true;
                     this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                 }

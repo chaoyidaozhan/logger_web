@@ -4,6 +4,7 @@ import config from './config';
 export default {
     beforeCreate() {
         axios.defaults.timeout = 5000 * 4; // 默认放开到20s
+        console.log(__ENV__)
         axios.interceptors.request.use(
             reqConfig => {
                 let url = reqConfig.url;
