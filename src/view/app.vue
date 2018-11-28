@@ -11,7 +11,6 @@
 </template>
 <script>
 import FsSignMenu from 'app_component/menu'
-console.log(123)
 export default {
     data() {
         return {
