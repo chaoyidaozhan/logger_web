@@ -20,5 +20,5 @@ module.exports = {
     },
     production: { // 生产环境
         apiHost: '//ezone.yonyoucloud.com/logger'
-    },
+    }
 }

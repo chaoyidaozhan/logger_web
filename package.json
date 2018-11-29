@@ -8,7 +8,7 @@
 	"private": true,
 	"main": "main.js",
 	"scripts": {
-		"start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js",
+		"start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js --progress",
 		"test": "cross-env NODE_ENV=production webpack --config --progress ./webpack/webpack.prod.js --progress",
 		"prev": "cross-env NODE_ENV=production webpack --config --progress ./webpack/webpack.prod.js --progress",
 		"build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress"
@@ -38,6 +38,7 @@
 		"babel-loader": "^8.0.4",
 		"babel-plugin-import": "^1.11.0",
 		"clean-webpack-plugin": "^1.0.0",
+		"copy-webpack-plugin": "^4.6.0",
 		"cross-env": "^5.2.0",
 		"css-loader": "^1.0.1",
 		"file-loader": "^2.0.0",

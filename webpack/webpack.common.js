@@ -7,6 +7,7 @@
 const path = require('path')
 const webpack = require("webpack")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -34,8 +35,8 @@ module.exports = {
             __ENV__: JSON.stringify(process.env.NODE_ENV),
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].[chunkhash:8].css",
-            chunkFilename: "[id].css"
+            filename: "styles/[name].[chunkhash:8].css",
+            chunkFilename: "styles/[id].css"
         }),
         new HappyPack({
             id: 'happyBabel',
@@ -119,7 +120,12 @@ module.exports = {
             {
                 test: /\.(css|less)$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '../'
+                        }
+                    },
                     {
                         loader: "css-loader",
                         options: {
@@ -152,7 +158,13 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'file-loader'
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10000,
+                            name: 'images/[name].[hash].[ext]'
+                        }
+                    }
                 ],
                 include: APP_SRC
             }

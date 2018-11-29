@@ -34,7 +34,7 @@ module.exports = merge(common, {
                 secure: false, //是否验证SSl证书
                 changeOrigin: true //如果设置为true,那么本地会虚拟一个服务端接收你的请求并代你发送该请求，这样就不会有跨域问题了
             }
-        },
+        }
     }
 })
 
