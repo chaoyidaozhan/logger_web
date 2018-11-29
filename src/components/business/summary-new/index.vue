@@ -180,12 +180,10 @@ export default {
             activeTable: null,
             hasQuery: false,
             headerData: [
-                { name: 'template', width: 120, }, 
-                { name: 'org', width: 120 },
-                { name: 'dept', width: 120 },
+                { name: 'org', width: 100 },
+                { name: 'dept', width: 100 },
                 { name: 'author', width: 80 },
-                { name: 'logDate', width: 120 },
-                { name: 'submitTime', width: 150 },
+                { name: 'submitTime', width: 130},
             ],
             isDisplayHistoryTemplate: false
         }
@@ -199,6 +197,7 @@ export default {
     methods: {
         initScroll() {
             this.$nextTick(()=>{
+                if(!this.$refs.tab) return
                 let container = this.$refs.tab
                 Ps.destroy(container);
                 Ps.initialize(container, {
@@ -418,12 +417,10 @@ export default {
             if(param.length) {
                 param.forEach(item=>{
                     let column = {
-                        column_0: item.templateName,
-                        column_1: item.orgName,
-                        column_2: item.deptName,
-                        column_3: item.userName,
-                        column_4: formatTime(new Date(item.diaryTime), 'YYYY-MM-DD'),
-                        column_5: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm')
+                        column_0: item.orgName,
+                        column_1: item.deptName,
+                        column_2: item.userName,
+                        column_3: formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm')
                     }
                     let content = JSON.parse(item.content) || []
                     column.id = item.id
@@ -631,8 +628,7 @@ export default {
         }
     }
     .ivu-table-cell{
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding: 10px;
         line-height: 1.3;
     }
     .ivu-table:before{
@@ -655,10 +651,14 @@ export default {
         display: none;
     }
     .id-column{
-       visibility: hidden;
-       width: 0;
-       overflow: hidden;
-       font-size: 0;
+        visibility: hidden;
+        width: 0;
+        overflow: hidden;
+        font-size: 0;
+        display: table-cell;
+        .ivu-table-cell {
+            display: none;
+        }
     }
     .table-count {
         border-top: none;
