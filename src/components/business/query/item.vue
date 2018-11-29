@@ -189,7 +189,7 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 import FsFiles from './file'
 import FsImages from './image'
 import LoggerListContentNode from './content'
-const rowHeight = 24
+const rowHeight = 14
 export default {
     props: {
         loggerItemData: {
@@ -214,12 +214,12 @@ export default {
 
             rangeHeight: '',
             rangeRealHeight: '',
-            rangeDefaultHeight: rowHeight + 2,
+            rangeDefaultHeight: rowHeight + 12,
             rangeExpand: false,
 
             contentHeight: '',
             contentRealHeight: '',
-            contentDefaultHeight: rowHeight * 7,
+            contentDefaultHeight: rowHeight * 11,
             contentExpand: false,
 
             userInfo: this.$store.state.userInfo,
@@ -496,7 +496,9 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
+@rowMarginBottom: 14px;
+@titleMarginBottom: 4px;
 .logger-list-item {
     padding: 20px 20px 0;
     position: relative;
@@ -523,9 +525,9 @@ export default {
         line-height: 24px;
         word-break: break-all;
         &.logger-list-time {
-            margin-bottom: 26px;
+            margin-bottom: @rowMarginBottom;
             .title {
-                margin-bottom: 6px;
+                margin-bottom: @titleMarginBottom;
             }
         }
         .username {
@@ -554,7 +556,7 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
-                margin-bottom: 8px;
+                margin-bottom: @titleMarginBottom;
                 color: @gray-color-dark;
             }
             .caption {
@@ -565,9 +567,11 @@ export default {
                 color: #289CF2;
                 display: inline-block;
                 margin-right: 4px;
+                font-size: 13px;
             }
             .more {
                 color: #289CF2;
+                font-size: 13px;
             }
         }
     }
