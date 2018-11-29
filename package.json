@@ -8,10 +8,14 @@
 	"private": true,
 	"main": "main.js",
 	"scripts": {
-		"start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js --progress",
-		"test": "cross-env NODE_ENV=production webpack --config --progress ./webpack/webpack.prod.js --progress",
-		"prev": "cross-env NODE_ENV=production webpack --config --progress ./webpack/webpack.prod.js --progress",
-		"build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
+		"start": "webpack-dev-server --config ./webpack/webpack.dev.js --progress",
+		"dev": "cross-env NODE_ENV=development npm run start",
+		"dev:daily": "cross-env NODE_ENV=daily npm run start",
+		"dev:prev": "cross-env NODE_ENV=prev npm run start",
+		"dev:production": "cross-env NODE_ENV=production npm run start",
+		"test": "npm install && cross-env NODE_ENV=test webpack --config ./webpack/webpack.prod.js --progress",
+		"prev": "npm install && cross-env NODE_ENV=prev webpack --config ./webpack/webpack.prod.js --progress",
+		"build": "npm install && cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
 		"analyzer": "cross-env NODE_ENV=prod_build webpack --mode production --config ./webpack/webpack.analyzer.js --profile --json > compilation-stats.json"
 	},
 	"keywords": [],

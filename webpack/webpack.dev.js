@@ -4,18 +4,21 @@
 * @Last Modified by:   nizhanjun
 * @Last Modified time: 2018-11-27 15:32:41
 */
-
+const config = require('./config')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
 const common = require('./webpack.common.js')
+
+const NODE_ENV = process.env.NODE_ENV
+console.log(NODE_ENV);
 
 module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, '../dist')
+        path: path.resolve(__dirname, config[NODE_ENV].contentBase)
     },
     plugins: [
         new webpack.NamedModulesPlugin(),
@@ -23,14 +26,14 @@ module.exports = merge(common, {
     ],
     devServer: {
         quiet: false,
-        contentBase: '../dist',
-        publicPath: 'http://localhost:8082/',
+        contentBase: config[NODE_ENV].contentBase,
+        publicPath: 'http://localhost:8081/',
         historyApiFallback: true,
         hot: true,
-        port: 8082,
+        port: 8081,
         proxy: {
             '/': {
-                target: '//123.103.9.204:6058',
+                target: config[NODE_ENV].target,
                 secure: false, //是否验证SSl证书
                 changeOrigin: true //如果设置为true,那么本地会虚拟一个服务端接收你的请求并代你发送该请求，这样就不会有跨域问题了
             }

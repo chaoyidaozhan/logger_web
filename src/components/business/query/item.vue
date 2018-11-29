@@ -519,7 +519,7 @@ export default {
         right: 20px;
         bottom: 0;
         content: '';
-        background-color: @gray-color-elip;
+        background-color: @border-color-base;
     }
     .logger-list-row {
         line-height: 24px;

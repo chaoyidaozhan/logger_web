@@ -17,7 +17,7 @@ const happyThreadPool = HappyPack.ThreadPool({
 })
 
 const APP_ROOT = path.resolve(__dirname, '../')
-const APP_DIST = path.join(APP_ROOT, 'dist')
+const APP_DIST = path.join(APP_ROOT, 'web')
 const APP_SRC = path.join(APP_ROOT, '/src')
 
 module.exports = {
