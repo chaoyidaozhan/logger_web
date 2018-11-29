@@ -71,14 +71,17 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../assets/css/var.less';
+@import '~app_assets/css/var.less';
 .logger-container {
     width: 100%;
     height: 100%;
-    padding-left: 200px;
+    padding-left: @max-menu-width;
     position: relative;
     overflow: auto;
     background-color: @white-color;
+    @media screen and (max-width: 1399px) {
+        padding-left: @min-menu-width;
+    }
 }
 </style>
 

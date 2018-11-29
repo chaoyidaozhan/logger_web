@@ -12,8 +12,7 @@
                     v-if="type" 
                     class="back pull-right" >
                     <Button 
-                        type="ghost" 
-                        class="draft-btn" 
+                        type="primary" 
                         @click="saveDraftFun">
                         {{$t('operate.saveAsDraft')}}
                     </Button>

@@ -176,7 +176,7 @@ export default {
         font-size: 12px;
         border: 1px solid @border-color;
         border-radius: 4px;
-        color: @gray-color-dark;
+        color: @gray-color-medium;
         background-color: @white-color;
         background-image: none;
         position: relative;

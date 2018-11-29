@@ -45,7 +45,7 @@
             <FormItem :label="$t('operate.file')">
                 <template v-if="uploadFile">
                     <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="fileStr" :on-remove="handleRemoveFile">
-                        <Button type="ghost" icon="ios-cloud-upload-outline">{{$t('operate.upload')}}</Button>
+                        <Button type="default">{{$t('operate.upload')}}</Button>
                     </Upload>
                 </template>
             </FormItem>
@@ -54,7 +54,7 @@
                 <Button type="primary" class="submit-btn" @click="handleSubmit" :loading="btnloading">
                     {{$t('operate.submit')}}
                 </Button>
-                <Button type="ghost"  class="cancel-btn" @click="cancleSubmit">
+                <Button type="default" class="cancel-btn" @click="cancleSubmit">
                     {{$t('operate.cancel')}}
                 </Button>
             </FormItem>
@@ -587,7 +587,7 @@ export default {
 }
 </style>
 <style lang="less">
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
 .logger-create{
     // max-width: 900px;
     width:100%;
@@ -603,14 +603,8 @@ export default {
             line-height: 31px;
         }
     }
-    .ivu-btn {
-        min-width: 65px;
-        height: 31px;
-    }
     .submit-btn{
         margin: 0 5px 0 0;
-    }
-    .cancel-btn{
     }
 }
 </style>

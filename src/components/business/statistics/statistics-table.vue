@@ -219,11 +219,10 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
 
 .table {
     width: 100%;
-    border-top: 1px solid @border-color;
     font-size: 0;
     position: relative;
     .ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
@@ -231,8 +230,8 @@ export default {
     }
     .ps > .ps__scrollbar-x-rail > .ps__scrollbar-x {
         border-radius: 0!important;
-        background-color: @gray-color-normal!important;
-        height: 7px!important;
+        background-color: @border-color-base!important;
+        height: 4px!important;
     }
     .table-header-content, .table-body-content {
         width: 72%;
@@ -259,8 +258,8 @@ export default {
         display: inline-block;
         font-size: 12px;
         vertical-align: top;
-        height: 30px;
-        line-height: 30px;
+        height: 36px;
+        line-height: 36px;
         border-bottom: 1px solid @border-color;
         border-right: 1px solid @border-color;
         text-align: center;
@@ -302,7 +301,6 @@ export default {
     }
     .table-header {
         background-color: @white-color-dark;
-        border-right: 1px solid @border-color;
         .table-cell {
             background-color: @white-color-dark;
             color: @gray-color-light;
