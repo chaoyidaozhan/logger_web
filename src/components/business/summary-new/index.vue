@@ -239,6 +239,9 @@ export default {
                 }
             }
             this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
+                this.org=[];
+                this.dept=[];
+                this.member=[];
                 if(res.dep&&res.dep.length){
                     let org=[];
                     let dept=[];
