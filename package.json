@@ -11,7 +11,8 @@
 		"start": "cross-env NODE_ENV=development webpack-dev-server --config ./webpack/webpack.dev.js --progress",
 		"test": "cross-env NODE_ENV=production webpack --config --progress ./webpack/webpack.prod.js --progress",
 		"prev": "cross-env NODE_ENV=production webpack --config --progress ./webpack/webpack.prod.js --progress",
-		"build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress"
+		"build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
+		"analyzer": "cross-env NODE_ENV=prod_build webpack --mode production --config ./webpack/webpack.analyzer.js --profile --json > compilation-stats.json"
 	},
 	"keywords": [],
 	"author": "",
@@ -54,6 +55,7 @@
 		"vue-loader": "^15.4.2",
 		"vue-template-compiler": "^2.5.17",
 		"webpack": "^4.26.0",
+		"webpack-bundle-analyzer": "^3.0.3",
 		"webpack-cli": "^3.1.2",
 		"webpack-dev-server": "^3.1.10",
 		"webpack-merge": "^4.1.4",

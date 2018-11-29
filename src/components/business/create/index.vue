@@ -553,7 +553,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
 .logger-create {
     .required-icon .ivu-form-item-label::before, 
     .required-icon .label::before {

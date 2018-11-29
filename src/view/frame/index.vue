@@ -52,7 +52,7 @@ export default {
 		height: 60px;
 		line-height: 60px;
 		font-size: 14px;
-		border-bottom: 1px solid @gray-color-elip;
+		border-bottom: 1px solid @border-color-base;
 		padding: 0 20px;
 		background-color: #fff;
 	}

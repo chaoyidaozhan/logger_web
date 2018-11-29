@@ -195,8 +195,10 @@ export default {
     top: 0;
     bottom: 0;
     width: 200px;
-    border-right: 1px solid #d0d0d0;
+    border-right: 1px solid #dddddd;
     background-color: @white-color;
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+    z-index: 10;
 
     ::selection {
         background-color: transparent !important;
@@ -241,7 +243,7 @@ export default {
 
         .ivu-menu-item,
         .ivu-menu-submenu-title {
-            padding: 17px 20px;
+            padding: 12px 16px;
             font-size: 14px;
             line-height: 14px;
             color: @menu-title-color;
@@ -274,10 +276,6 @@ export default {
                 background-color: @menu-hover-color;
                 color: @gray-color-dark;
                 border-right: 0 !important;
-
-                &>i {
-                    color: @gray-color-dark;
-                }
             }
 
             &.ivu-menu-item-active,
@@ -300,13 +298,18 @@ export default {
                 }
             }
         }
-
+        .ivu-menu-submenu-title {
+            padding: 13px 16px;
+        }
         .ivu-menu-submenu .ivu-menu-item {
             padding-left: 48px;
         }
 
         .ivu-menu-submenu-title-icon {
             top: 0;
+            // position: absolute;
+            // right: 12px;
+            // margin: 0;
         }
     }
 }

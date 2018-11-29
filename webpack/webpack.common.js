@@ -7,7 +7,6 @@
 const path = require('path')
 const webpack = require("webpack")
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -47,6 +46,7 @@ module.exports = {
             verbose: true,
         }),
         new HtmlWebpackPlugin({
+            favicon: path.join(APP_SRC, '/assets/images/dailyrecord.png'),
             template: path.join(APP_SRC, '/template/index.html'),
         })
     ],
@@ -169,5 +169,13 @@ module.exports = {
                 include: APP_SRC
             }
         ]
+    },
+    performance: {
+        hints: 'warning', // 枚举
+        maxAssetSize: 20240000, // 整数类型（以字节为单位）
+        maxEntrypointSize: 202400000, // 整数类型（以字节为单位
+        assetFilter: function (assetFilename) {
+            return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
+        }
     }
 }
