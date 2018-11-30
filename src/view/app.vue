@@ -60,6 +60,40 @@ export default {
                 }
             });
         },
+        setPswpBtns() {
+            const titles = {
+                'Zoom in/out': {
+                    en: 'Zoom in/out',
+                    zhs: '放大/缩小',
+                    zht: '放大/縮小'
+                },
+                'Close (Esc)': {
+                    en: 'Close (Esc)',
+                    zhs: '关闭 （ESC）',
+                    zht: '關閉 （ESC）'
+                },
+                'Previous (arrow left)': {
+                    en: 'Previous (arrow left)',
+                    zhs: '上一张',
+                    zht: '上一張'
+                },
+                'Next (arrow right)': {
+                    en: 'Next (arrow right)',
+                    zhs: '下一张',
+                    zht: '下一張'
+                },
+                default: 'none'
+            }
+            let pswpBtns = document.querySelectorAll('.pswp__button')
+            if(pswpBtns && pswpBtns.length) {
+                pswpBtns.forEach(e=>{
+                    const key = e.title
+                    console.log(key);
+                    
+                    e.title = titles[key] && titles[key][this.lang] || titles.default
+                })
+            }
+        },
         init() {
             this.setToken()
             this.getUserInfo()
@@ -67,6 +101,9 @@ export default {
     },
     created() {
         this.init()
+    },
+    mounted () {
+        this.setPswpBtns()            
     }
 }
 </script>

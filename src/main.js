@@ -16,12 +16,35 @@ import 'app_src/directives/loading/'
 import 'video.js/dist/video-js.min.css'
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
 import './assets/css/common.less'
-
 // 引入ui库
 import iView from 'iview'
 Vue.use(iView)
+
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
+const options = {
+    history: false,
+    bgOpacity: .6,
+    closeOnScroll: false,
+    closeOnVerticalDrag: false,
+    shareEl: false,
+    barsSize: {
+        top: 0,
+        bottom: 0
+    },
+    showHideOpacity: true,
+    showAnimationDuration: 300,
+    hideAnimationDuration: 300,
+    captionEl: false,
+    showAnimationDuration: 200,
+    fullscreenEl: false,
+}
+Vue.use(preview, options)
+
 // 图片预览组件
 import VuePreview from 'vue-preview'
+console.log(VuePreview);
+
 Vue.use(VuePreview)
 
 // 视频组件

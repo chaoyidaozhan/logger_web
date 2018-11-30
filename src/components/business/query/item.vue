@@ -189,7 +189,7 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 import FsFiles from './file'
 import FsImages from './image'
 import LoggerListContentNode from './content'
-const rowHeight = 14
+const rowHeight = 16
 export default {
     props: {
         loggerItemData: {
@@ -214,7 +214,7 @@ export default {
 
             rangeHeight: '',
             rangeRealHeight: '',
-            rangeDefaultHeight: rowHeight + 12,
+            rangeDefaultHeight: rowHeight + 10,
             rangeExpand: false,
 
             contentHeight: '',
@@ -281,7 +281,6 @@ export default {
         setRangeHeight() { // 设置可展开的高度
             this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight
             this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight
-
             this.rangeHeight = this.rangeDefaultHeight
             if(this.contentRealHeight > this.contentDefaultHeight) {
                 this.contentHeight = this.contentDefaultHeight
@@ -491,7 +490,9 @@ export default {
         }
     },
     mounted () {
-        this.setRangeHeight()        
+        this.$nextTick(()=>{
+            this.setRangeHeight()        
+        })
     }
 }
 </script>

@@ -11,44 +11,61 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HappyPack = require('happypack')
-const os = require('os');
-const happyThreadPool = HappyPack.ThreadPool({
-    size: os.cpus().length
-})
+const utils = require('./utils')
+
 
 const APP_ROOT = path.resolve(__dirname, '../')
-const APP_DIST = path.join(APP_ROOT, 'web')
-const APP_SRC = path.join(APP_ROOT, '/src')
+
+function resolve(dir) {
+    return path.join(APP_ROOT, dir)
+}
+
+const APP_DIST = resolve('web')
+const APP_SRC = resolve('/src')
+
+const NODE_ENV = process.env.NODE_ENV
+
+// vue happypack loader
+const cssLoader = new MiniCssExtractPlugin({
+    use: [
+        'happypack/loader?id=happy-css'
+    ]
+})
+const vueLoaderConfig = {
+    loaders: utils.cssLoaders({
+        sourceMap: false,
+        extract: NODE_ENV !== 'development'
+    }),
+    js: 'happypack/loader?id=happy-babel-vue',
+    css: cssLoader
+}
+
+// css and less loader
+function createCssAndLessLoader() {
+    const loaders = [{
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+                publicPath: '../'
+            }
+        },
+        'css-loader?importLoaders=1',
+        {
+            loader: "postcss-loader",
+            options: {
+                plugins: [
+                    require("autoprefixer")
+                ]
+            }
+        },
+        'less-loader'
+    ]
+    return Object.assign([NODE_ENV === 'development' ? 'css-hot-loader' : ''], loaders)
+}
 
 module.exports = {
     entry: [
         '@babel/polyfill',
         path.join(APP_ROOT, 'src/main.js')
-    ],
-    plugins: [
-        new CleanWebpackPlugin([APP_DIST], {
-            allowExternal: true
-        }),
-        new VueLoaderPlugin(),
-        new webpack.DefinePlugin({
-            __ENV__: JSON.stringify(process.env.NODE_ENV),
-        }),
-        new MiniCssExtractPlugin({
-            filename: "styles/[name].[chunkhash:8].css",
-            chunkFilename: "styles/[id].css"
-        }),
-        new HappyPack({
-            id: 'happyBabel',
-            loaders: [{
-                loader: 'babel-loader?cacheDirectory=true',
-            }],
-            threadPool: happyThreadPool,
-            verbose: true,
-        }),
-        new HtmlWebpackPlugin({
-            favicon: path.join(APP_SRC, '/assets/images/dailyrecord.png'),
-            template: path.join(APP_SRC, '/template/index.html'),
-        })
     ],
     output: {
         filename: '[name].[chunkhash].js',
@@ -94,82 +111,85 @@ module.exports = {
     module: {
         rules: [{
                 test: /\.js$/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env']
-                        ]
-                    }
-                }],
+                loader: 'happypack/loader?id=happy-babel-js',
                 include: [
                     APP_SRC,
-                    path.join(APP_ROOT, '/node_modules/yyzone/src'),
+                    resolve('/node_modules/yyzone/src'),
+                    resolve('/node_modules/vue-photo-preview/src')
                 ]
             },
             {
                 test: /\.vue$/,
-                use: [
-                    'vue-loader'
-                ],
+                loader: 'vue-loader',
+                options: vueLoaderConfig,
                 include: [
-                    APP_SRC,
-                    path.join(APP_ROOT, '/node_modules/yyzone/src'),
+                    APP_SRC, 
+                    resolve('/node_modules/yyzone/src'), 
+                    resolve('/node_modules/vue-photo-preview/src')
                 ]
             },
             {
-                test: /\.(css|less)$/,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            publicPath: '../'
-                        }
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            importLoaders: 1
-                        }
-                    },
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            plugins: [
-                                require("autoprefixer")
-                            ]
-                        }
-                    },
-                    {
-                        loader: "less-loader"
-                    }
-                ]
+                test: /\.(c|le)ss$/,
+                use: createCssAndLessLoader(),
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 10000,
-                        name: 'fonts/[name].[hash].[ext]'
-                    }
-                }],
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: 'fonts/[name].[hash].[ext]'
+                }
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 10000,
-                            name: 'images/[name].[hash].[ext]'
-                        }
-                    }
-                ],
-                include: APP_SRC
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: 'images/[name].[hash].[ext]'
+                },
+                include: [
+                    APP_SRC,
+                    resolve('/node_modules/vue-photo-preview/dist')
+                ]
             }
         ]
     },
+    plugins: [
+        new CleanWebpackPlugin([APP_DIST], {
+            allowExternal: true
+        }),
+        new VueLoaderPlugin(),
+        new webpack.DefinePlugin({
+            __ENV__: JSON.stringify(NODE_ENV),
+        }),
+        utils.createHappyPlugin('happy-babel-js', [{
+            loader: 'babel-loader',
+            options: {
+                presets: ['@babel/preset-env'],
+                cacheDirectory: true
+            }
+        }]),
+        utils.createHappyPlugin('happy-babel-vue', ['babel-loader?cacheDirectory=true']),
+        utils.createHappyPlugin('happy-css', ['css-loader', 'vue-style-loader']),
+        new HappyPack({
+            loaders: [{
+                path: 'vue-loader',
+                query: {
+                    loaders: {
+                        scss: 'vue-style-loader!css-loader!less-loader?indentedSyntax'
+                    }
+                }
+            }]
+        }),
+        new MiniCssExtractPlugin({
+            filename: "styles/[name].[chunkhash:8].css",
+            chunkFilename: "styles/[id].css"
+        }),
+        new HtmlWebpackPlugin({
+            favicon: resolve('/src/assets/images/dailyrecord.png'),
+            template: resolve('/src/template/index.html'),
+        })
+    ],
     performance: {
         hints: 'warning', // 枚举
         maxAssetSize: 20240000, // 整数类型（以字节为单位）

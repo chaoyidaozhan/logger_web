@@ -11,8 +11,6 @@ const path = require('path')
 const common = require('./webpack.common.js')
 
 const NODE_ENV = process.env.NODE_ENV
-console.log(NODE_ENV);
-
 module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map',
@@ -26,14 +24,16 @@ module.exports = merge(common, {
     ],
     devServer: {
         quiet: false,
+        compress: true,
         contentBase: config[NODE_ENV].contentBase,
         publicPath: 'http://localhost:8081/',
         historyApiFallback: true,
         hot: true,
+        open: true,
         port: 8081,
         proxy: {
             '/': {
-                target: config[NODE_ENV].target,
+                target: config[NODE_ENV].proxyTarget,
                 secure: false, //是否验证SSl证书
                 changeOrigin: true //如果设置为true,那么本地会虚拟一个服务端接收你的请求并代你发送该请求，这样就不会有跨域问题了
             }
