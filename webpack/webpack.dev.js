@@ -13,7 +13,6 @@ const common = require('./webpack.common.js')
 const NODE_ENV = process.env.NODE_ENV
 module.exports = merge(common, {
     mode: 'development',
-    devtool: '#cheap-module-eval-source-map',
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, config[NODE_ENV].contentBase)
