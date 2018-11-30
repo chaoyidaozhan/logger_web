@@ -70,7 +70,7 @@ module.exports = {
     output: {
         path: APP_DIST,
         filename: 'static/js/[name].[contenthash:8].js',
-        publicPath: '/'
+        publicPath: '../'
     },
     resolve: {
         alias: {
