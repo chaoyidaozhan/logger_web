@@ -45,7 +45,7 @@ function createCssAndLessLoader() {
     const loaders = [{
             loader: MiniCssExtractPlugin.loader,
             options: {
-                publicPath: '../'
+                publicPath: '/'
             }
         },
         'css-loader?importLoaders=1',
@@ -68,8 +68,9 @@ module.exports = {
         path.join(APP_ROOT, 'src/main.js')
     ],
     output: {
-        filename: '[name].[chunkhash].js',
-        path: APP_DIST
+        path: APP_DIST,
+        filename: 'static/js/[name].[contenthash:8].js',
+        publicPath: '/'
     },
     resolve: {
         alias: {
@@ -92,15 +93,6 @@ module.exports = {
                     maxInitialRequests: 5,
                     minSize: 0,
                     priority: 1
-                },
-                common: {
-                    chunks: "all",
-                    test: /[\\/]src[\\/]js[\\/]/, //也可以值文件/[\\/]src[\\/]js[\\/].*\.js/,  
-                    name: "common", //生成文件名，依据output规则
-                    minChunks: 2,
-                    maxInitialRequests: 5,
-                    minSize: 0,
-                    priority: 1
                 }
             }
         },
@@ -109,6 +101,7 @@ module.exports = {
         }
     },
     module: {
+        noParse: /node_modules\/(iview\.js)/,
         rules: [{
                 test: /\.js$/,
                 loader: 'happypack/loader?id=happy-babel-js',
@@ -130,14 +123,14 @@ module.exports = {
             },
             {
                 test: /\.(c|le)ss$/,
-                use: createCssAndLessLoader(),
+                use: createCssAndLessLoader()
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: 'fonts/[name].[hash].[ext]'
+                    name: 'static/fonts/[name].[hash:8].[ext]'
                 }
             },
             {
@@ -145,10 +138,11 @@ module.exports = {
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: 'images/[name].[hash].[ext]'
+                    name: 'static/images/[name].[hash:8].[ext]'
                 },
                 include: [
                     APP_SRC,
+                    resolve('/node_modules/yyzone/src'),
                     resolve('/node_modules/vue-photo-preview/dist')
                 ]
             }
@@ -182,8 +176,8 @@ module.exports = {
             }]
         }),
         new MiniCssExtractPlugin({
-            filename: "styles/[name].[chunkhash:8].css",
-            chunkFilename: "styles/[id].css"
+            filename: "static/css/[name].[contenthash:8].css",
+            chunkFilename: "static/css/[id].css",
         }),
         new HtmlWebpackPlugin({
             favicon: resolve('/src/assets/images/dailyrecord.png'),
