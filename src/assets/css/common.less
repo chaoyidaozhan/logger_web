@@ -30,8 +30,12 @@
         border: 1px solid @border-color-base;
     }
 }
-.ivu-input:hover {
-    border-color: @input-select-border-color;
+
+.ivu-input,.ivu-select {
+    color: @gray-color-medium;
+    &:hover {
+        border-color:@border-color-base;
+    }
 }
 
 .ivu-select-selection:hover {
@@ -43,11 +47,22 @@
     box-shadow: unset;
 }
 
+.ivu-select-dropdown-list {
+    .ivu-select-item {
+        padding: 12px 15px;
+        color: @gray-color-medium;
+        &.ivu-select-item-selected, &:hover {
+            background-color: @white-color-dark;
+        }
+    }
+}
+
 .ivu-btn {
-    padding: 4px 15px;
+    padding: 5px 21px;
     &.ivu-btn-default {
         background-color: @select-item-bg;
         color: @gray-color-medium;
+        border-color: @select-item-bg;
         &:hover {
             border-color: @select-item-bg;
         }

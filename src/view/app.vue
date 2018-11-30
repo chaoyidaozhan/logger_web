@@ -11,7 +11,6 @@
 </template>
 <script>
 import FsSignMenu from 'app_component/menu'
-
 export default {
     data() {
         return {
@@ -55,10 +54,43 @@ export default {
                     this.loaded = true;
                 },
                 error: (res)=>{
+                    console.log(res)
                     this.loaded = true;
                     this.$Message.error((res && res.msg) || this.$t('status.networkError'));
                 }
             });
+        },
+        setPswpBtns() {
+            const titles = {
+                'Zoom in/out': {
+                    en: 'Zoom in/out',
+                    zhs: '放大/缩小',
+                    zht: '放大/縮小'
+                },
+                'Close (Esc)': {
+                    en: 'Close (Esc)',
+                    zhs: '关闭 （ESC）',
+                    zht: '關閉 （ESC）'
+                },
+                'Previous (arrow left)': {
+                    en: 'Previous (arrow left)',
+                    zhs: '上一张',
+                    zht: '上一張'
+                },
+                'Next (arrow right)': {
+                    en: 'Next (arrow right)',
+                    zhs: '下一张',
+                    zht: '下一張'
+                },
+                default: 'none'
+            }
+            let pswpBtns = document.querySelectorAll('.pswp__button')
+            if(pswpBtns && pswpBtns.length) {
+                pswpBtns.forEach(e=>{
+                    const key = e.title
+                    e.title = titles[key] && titles[key][this.lang] || titles.default
+                })
+            }
         },
         init() {
             this.setToken()
@@ -67,18 +99,24 @@ export default {
     },
     created() {
         this.init()
+    },
+    mounted () {
+        this.setPswpBtns()            
     }
 }
 </script>
 <style lang="less" scoped>
-@import '../assets/css/var.less';
+@import '~app_assets/css/var.less';
 .logger-container {
     width: 100%;
     height: 100%;
-    padding-left: 200px;
+    padding-left: @max-menu-width;
     position: relative;
     overflow: auto;
     background-color: @white-color;
+    @media screen and (max-width: 1399px) {
+        padding-left: @min-menu-width;
+    }
 }
 </style>
 

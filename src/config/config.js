@@ -6,12 +6,6 @@ module.exports = {
         host: '//123.103.9.204:93',
         apiHost: '//123.103.9.204:6058/logger',
     },
-    prevdev: { // 预发布开发环境
-        apiHost: '//ezone.esn.ren/logger',
-    },
-    buildev: { // 生产开发环境
-        apiHost: 'https://ezone.yonyoucloud.com/logger'
-    },
     test: {
         apiHost: '//123.103.9.204:6058/logger',
     },
@@ -20,5 +14,5 @@ module.exports = {
     },
     production: { // 生产环境
         apiHost: '//ezone.yonyoucloud.com/logger'
-    },
+    }
 }

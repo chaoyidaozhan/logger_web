@@ -40,13 +40,14 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
+@rowMarginBottom: 14px;
 .logger-list-row {
-    margin-bottom: 26px;
+    margin-bottom: @rowMarginBottom;
 }
 .logger-list-content-children {
     .logger-list-row {
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         .logger-list-col {
             .title {
                 color: @gray-color-light;

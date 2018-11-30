@@ -1,13 +1,15 @@
 <template>
 	<div class="logger-frame">
-		<slot name="othter"></slot>
-		<div class="logger-frame-header" :style="{'left': leftDistance}">
-			<!-- 放置头部 -->
-			<slot name="head"></slot>
-		</div>
-		<div class="logger-frame-body" :style="{'margin-left': leftDistance}" ref="loggerBody">
-			<!-- 放置内容 -->
-			<slot name="body" v-if="hasComputedHeight"></slot>
+		<div class="logger-frame-scroller">
+			<slot name="othter"></slot>
+			<div class="logger-frame-header" :style="{'left': leftDistance}">
+				<!-- 放置头部 -->
+				<slot name="head"></slot>
+			</div>
+			<div class="logger-frame-body" :style="{'margin-left': leftDistance}" ref="loggerBody">
+				<!-- 放置内容 -->
+				<slot name="body" v-if="hasComputedHeight"></slot>
+			</div>
 		</div>
 	</div>
 </template>
@@ -37,13 +39,17 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../assets/css/var.less';
+@import '~app_assets/css/var.less';
 .logger-frame {
 	width: 100%;
 	height: 100%;
-	min-width: 700px;
-	padding-top: 60px;
-	position: relative;
+	overflow: auto;
+	.logger-frame-scroller {
+		padding-top: 60px;
+		height: 100%;
+		min-width: @min-container-width;
+		position: relative;
+	}
 	.logger-frame-header {
 		position: absolute;
 		left: 0;
@@ -52,7 +58,7 @@ export default {
 		height: 60px;
 		line-height: 60px;
 		font-size: 14px;
-		border-bottom: 1px solid @gray-color-elip;
+		border-bottom: 1px solid @border-color-base;
 		padding: 0 20px;
 		background-color: #fff;
 	}
