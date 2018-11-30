@@ -32,7 +32,7 @@ const cssLoader = new MiniCssExtractPlugin({
     ]
 })
 const vueLoaderConfig = {
-    loaders: utils.cssLoaders({
+    ...utils.cssLoaders({
         sourceMap: false,
         extract: NODE_ENV !== 'development'
     }),

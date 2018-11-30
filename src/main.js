@@ -43,8 +43,6 @@ Vue.use(preview, options)
 
 // 图片预览组件
 import VuePreview from 'vue-preview'
-console.log(VuePreview);
-
 Vue.use(VuePreview)
 
 // 视频组件
