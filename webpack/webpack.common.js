@@ -45,7 +45,7 @@ function createCssAndLessLoader() {
     const loaders = [{
             loader: MiniCssExtractPlugin.loader,
             options: {
-                publicPath: '/'
+                publicPath: '../'
             }
         },
         'css-loader?importLoaders=1',
@@ -69,7 +69,7 @@ module.exports = {
     ],
     output: {
         path: APP_DIST,
-        filename: 'static/js/[name].[contenthash:8].js',
+        filename: 'js/[name].[contenthash:8].js',
         publicPath: './'
     },
     resolve: {
@@ -130,7 +130,7 @@ module.exports = {
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: 'static/fonts/[name].[hash:8].[ext]'
+                    name: 'fonts/[name].[hash:8].[ext]'
                 }
             },
             {
@@ -138,7 +138,7 @@ module.exports = {
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: 'static/images/[name].[hash:8].[ext]'
+                    name: 'images/[name].[hash:8].[ext]'
                 },
                 include: [
                     APP_SRC,
@@ -176,8 +176,8 @@ module.exports = {
             }]
         }),
         new MiniCssExtractPlugin({
-            filename: "static/css/[name].[contenthash:8].css",
-            chunkFilename: "static/css/[id].css",
+            filename: "css/[name].[contenthash:8].css",
+            chunkFilename: "css/[id].css",
         }),
         new HtmlWebpackPlugin({
             favicon: resolve('/src/assets/images/dailyrecord.png'),
