@@ -63,7 +63,6 @@ function createCssAndLessLoader() {
 }
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
     entry: [
         '@babel/polyfill',
         path.join(APP_ROOT, 'src/main.js')
