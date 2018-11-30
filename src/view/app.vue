@@ -88,8 +88,6 @@ export default {
             if(pswpBtns && pswpBtns.length) {
                 pswpBtns.forEach(e=>{
                     const key = e.title
-                    console.log(key);
-                    
                     e.title = titles[key] && titles[key][this.lang] || titles.default
                 })
             }
