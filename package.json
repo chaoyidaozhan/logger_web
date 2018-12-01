@@ -9,7 +9,7 @@
 		"dev": "cross-env NODE_ENV=development npm run start",
 		"test": "npm install && cross-env NODE_ENV=test webpack --config ./webpack/webpack.prod.js --progress",
 		"prev": "npm install && cross-env NODE_ENV=prev webpack --config ./webpack/webpack.prod.js --progress",
-		"build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
+		"build": "npm install && cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
 		"analyzer": "cross-env NODE_ENV=prod_build webpack --mode production --config ./webpack/webpack.analyzer.js --profile --json > compilation-stats.json"
 	},
 	"keywords": [],
@@ -53,7 +53,6 @@
 		"mini-css-extract-plugin": "^0.4.5",
 		"postcss-loader": "^3.0.0",
 		"style-loader": "^0.23.1",
-		"uglifyjs-webpack-plugin": "^2.0.1",
 		"url-loader": "^1.1.2",
 		"vue-loader": "^15.4.2",
 		"vue-style-loader": "^4.1.2",
@@ -62,8 +61,7 @@
 		"webpack-bundle-analyzer": "^3.0.3",
 		"webpack-cli": "^3.1.2",
 		"webpack-dev-server": "^3.1.10",
-		"webpack-merge": "^4.1.4",
-		"webpack-parallel-uglify-plugin": "^1.1.0"
+		"webpack-merge": "^4.1.4"
 	},
 	"dependencies": {
 		"@babel/polyfill": "^7.0.0",
