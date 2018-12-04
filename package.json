@@ -7,7 +7,7 @@
 	"scripts": {
 		"start": "webpack-dev-server --mode=development --config ./webpack/webpack.dev.js --progress",
 		"dev": "cross-env NODE_ENV=development npm run start",
-		"test": "npm run clean && cross-env NODE_ENV=test webpack --config ./webpack/webpack.prod.js --progress",
+		"test": "cross-env NODE_ENV=test webpack --config ./webpack/webpack.prod.js --progress",
 		"prev": "npm run clean && cross-env NODE_ENV=prev webpack --config ./webpack/webpack.prod.js --progress",
 		"build": "npm run clean && cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
 		"analyzer": "cross-env NODE_ENV=prod_build webpack --mode production --config ./webpack/webpack.analyzer.js --profile --json > compilation-stats.json",
