@@ -3,11 +3,13 @@
         <div class="img-item" 
             v-for="(item, index) in images" :key="item.fid">
             <img ref="previewImg" 
+                :key="index"
                 class="preview-img" 
-                :src="item.fileUrl" 
+                :src="item.fileKey" 
                 :alt="item.fileName" 
-                @load="onLoad"
-                @click="$preview.open(index, list, options)">
+                preview="reply"
+                :preview-text="item.fileName"
+            >
         </div>
     </div>
 </template>
@@ -18,76 +20,6 @@ export default {
         images: {
             type: Array,
             default: []
-        }
-    },
-    data() {
-        return {
-            list: [],
-            options: {
-                history: false,
-                bgOpacity: .6,
-                closeOnScroll: false,
-                closeOnVerticalDrag: false,
-                shareEl: false,
-                barsSize: {top:0,bottom:0},
-                showHideOpacity: true,
-                showAnimationDuration: 300,
-                hideAnimationDuration: 300,
-                captionEl: false,
-                showAnimationDuration: 200,
-                fullscreenEl: false
-            },
-            loadTimer: null
-        }
-    },
-    methods: {
-        setList() { // 设置list
-            this.list = [];
-            this.$nextTick(()=>{
-                let images = this.$refs.previewImg;
-                if(images && images.length) {
-                    for(let i = 0; i < images.length; i++) {
-                        let item = images[i];
-                        let w = item.naturalWidth && item.naturalWidth || 600,
-                            h = item.naturalHeight && item.naturalHeight || 400,
-                        imagesList = this.images[i];
-                        (w < 100 && h < 100) && (w = w * 10, h = h * 10);
-                        this.list.push({
-                            src: imagesList.fileKey || imagesList.fileUrl,
-                            w: w,
-                            h: h,
-                        })
-                    }
-                }
-                let pswpBtns = document.querySelectorAll('.pswp__button');
-                if(pswpBtns && pswpBtns.length) {
-                    for(let i = 0; i < pswpBtns.length; i++) {
-                        let e = pswpBtns[i]
-                        switch (e.title) {
-                            case 'Zoom in/out':
-                                e.title = '放大/缩小'
-                                break;
-                            case 'Close (Esc)':
-                                e.title = '关闭 （ESC）'
-                                break;
-                            case 'Previous (arrow left)':
-                                e.title = '上一张'
-                                break;
-                            case 'Next (arrow right)':
-                                e.title = '下一张'
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            })
-        },
-        onLoad(e) { // 加载成功
-            clearTimeout(this.loadTimer);
-            this.loadTimer = setTimeout(() => {
-                this.setList();
-            }, 300);
         }
     }
 }

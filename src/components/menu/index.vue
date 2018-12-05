@@ -1,12 +1,15 @@
 <template>
     <div class="logger-menu">
         <div class="logger-menu-logo">
-            <Button type="primary" @click="goLoggerDetail" :style="{width: '100px'}">
+            <Button type="primary" @click="goLoggerDetail">
                 {{$t('operate.createLog')}}
             </Button>
         </div>
         <div class="logger-menu-layout" ref="loggerMenuLayout">
-            <Menu ref="loggerMenu" :active-name="activeName" width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
+            <Menu ref="loggerMenu"
+                :active-name="activeName"
+                :class="lang"
+                width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
                 <div v-for="(item, index) in menus" :key="index">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
                         <i v-if="item.icon" :class="`${item.icon}`"></i>
@@ -187,17 +190,21 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../assets/css/var.less';
+@import '~app_assets/css/var.less';
 
 .logger-menu {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 200px;
-    border-right: 1px solid #d0d0d0;
+    width: @max-menu-width;
+    border-right: 1px solid #dddddd;
     background-color: @white-color;
-
+    box-shadow: 0 0 20px rgba(0,0,0,.1);
+    z-index: 10;
+    @media screen and (max-width: 1399px) {
+        width: @min-menu-width;
+    }
     ::selection {
         background-color: transparent !important;
     }
@@ -219,14 +226,10 @@ export default {
 
     .logger-menu-logo {
         color: @primary-color;
-        padding: 28px 0;
+        padding: 30px 0 20px;
         text-align: center;
-        height: 86px;
-
         span {
-            font-size: 14px;
-            display: inline-block;
-            vertical-align: middle;
+            font-size: 12px;
         }
     }
 
@@ -241,11 +244,13 @@ export default {
 
         .ivu-menu-item,
         .ivu-menu-submenu-title {
-            padding: 17px 20px;
+            padding: 12px 16px;
             font-size: 14px;
             line-height: 14px;
             color: @menu-title-color;
             border-right: 0 !important;
+
+            
 
             .icon-collect-normal-2018,
             .icon-statistics-2018,
@@ -274,10 +279,6 @@ export default {
                 background-color: @menu-hover-color;
                 color: @gray-color-dark;
                 border-right: 0 !important;
-
-                &>i {
-                    color: @gray-color-dark;
-                }
             }
 
             &.ivu-menu-item-active,
@@ -300,13 +301,24 @@ export default {
                 }
             }
         }
-
+        .ivu-menu-submenu-title {
+            padding: 13px 16px;
+        }
         .ivu-menu-submenu .ivu-menu-item {
             padding-left: 48px;
         }
 
         .ivu-menu-submenu-title-icon {
             top: 0;
+            text-align: center;
+            margin-right: -6px !important;
+        }
+        &.en {
+            .ivu-menu-item,
+            .ivu-menu-submenu-title {
+                line-height: 20px;
+                font-size: 13px;
+            }
         }
     }
 }

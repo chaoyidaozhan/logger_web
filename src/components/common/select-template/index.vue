@@ -96,10 +96,13 @@ export default {
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
 .select-template {
-    .ivu-select-item-selected,
-    .ivu-select-item-selected:hover {
-        background: @select-item-bg;
-        color: @gray-color-dark;
+    .ivu-select-dropdown-list {
+        .ivu-select-item {
+            padding: 12px 15px;
+            &.selected, &:hover {
+                background-color: @white-color-dark;
+            }
+        }
     }
 }
 </style>

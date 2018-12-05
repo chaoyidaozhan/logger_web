@@ -179,6 +179,7 @@ export default {
                             title: 'id',
                             key: 'id',
                             className:'id-column',
+                            width: 1
                         },
                         {
                             title: this.$t('noun.submitTime'),
@@ -205,6 +206,7 @@ export default {
                         title: 'id',
                         key: 'id',
                         className:'id-column',
+                        width: 1
                     },
                     {
                         title: '',
