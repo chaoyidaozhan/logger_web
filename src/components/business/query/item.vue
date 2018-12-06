@@ -403,9 +403,7 @@ export default {
                         if(res && res.code == 0) {
                             this.loggerItemData.readCount++
                             this.loggerItemData.isRead = 1
-                            if(root === '/LoggerQueryUnread') {
-                                this.$eventbus.$emit('getUnreadCount')
-                            }
+                            this.$eventbus.$emit('getUnreadCount')
                         }
                     }
                 })
