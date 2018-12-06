@@ -9,6 +9,10 @@ const menus = [
                 path: '/LoggerQueryAll'
             },
             {
+                name: 'menus.unread',
+                path: '/LoggerQueryUnread'
+            },
+            {
                 name: 'menus.atMe',
                 path: '/LoggerQueryAtme'
             },

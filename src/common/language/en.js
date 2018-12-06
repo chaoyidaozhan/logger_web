@@ -3,6 +3,7 @@ module.exports = {
         logQuery: 'Query',
         workLog: 'Work Log',
         all: 'All',
+        unread: 'UnRead',
         atMe: '@Me',
         myLogs: 'My Logs',
         internalGroupLog: 'Internal Group Log',
