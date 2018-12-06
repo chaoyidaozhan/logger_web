@@ -1,5 +1,5 @@
 <template>
-    <fs-frame leftDistance="200px">
+    <fs-frame leftDistance="260px">
         <template slot="othter">
             <fs-group-menu @getDaily="getDaily"></fs-group-menu>
         </template>

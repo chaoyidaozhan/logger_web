@@ -138,7 +138,7 @@ export default {
         position: absolute;
         left: 0;
         top: 0;        
-        width: 200px;
+        width: 260px;
         height: 100%;        
         font-size: 12px;
         line-height: 1.5;

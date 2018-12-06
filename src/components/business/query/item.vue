@@ -189,7 +189,7 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 import FsFiles from './file'
 import FsImages from './image'
 import LoggerListContentNode from './content'
-const rowHeight = 24
+const rowHeight = 16
 export default {
     props: {
         loggerItemData: {
@@ -214,12 +214,12 @@ export default {
 
             rangeHeight: '',
             rangeRealHeight: '',
-            rangeDefaultHeight: rowHeight + 2,
+            rangeDefaultHeight: rowHeight + 10,
             rangeExpand: false,
 
             contentHeight: '',
             contentRealHeight: '',
-            contentDefaultHeight: rowHeight * 7,
+            contentDefaultHeight: rowHeight * 11,
             contentExpand: false,
 
             userInfo: this.$store.state.userInfo,
@@ -281,7 +281,6 @@ export default {
         setRangeHeight() { // 设置可展开的高度
             this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight
             this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight
-
             this.rangeHeight = this.rangeDefaultHeight
             if(this.contentRealHeight > this.contentDefaultHeight) {
                 this.contentHeight = this.contentDefaultHeight
@@ -491,12 +490,16 @@ export default {
         }
     },
     mounted () {
-        this.setRangeHeight()        
+        this.$nextTick(()=>{
+            this.setRangeHeight()        
+        })
     }
 }
 </script>
 <style lang="less">
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
+@rowMarginBottom: 14px;
+@titleMarginBottom: 4px;
 .logger-list-item {
     padding: 20px 20px 0;
     position: relative;
@@ -517,15 +520,15 @@ export default {
         right: 20px;
         bottom: 0;
         content: '';
-        background-color: @gray-color-elip;
+        background-color: @border-color-base;
     }
     .logger-list-row {
         line-height: 24px;
         word-break: break-all;
         &.logger-list-time {
-            margin-bottom: 26px;
+            margin-bottom: @rowMarginBottom;
             .title {
-                margin-bottom: 6px;
+                margin-bottom: @titleMarginBottom;
             }
         }
         .username {
@@ -554,7 +557,7 @@ export default {
         .logger-list-col {
             margin-left: 54px;
             .title {
-                margin-bottom: 8px;
+                margin-bottom: @titleMarginBottom;
                 color: @gray-color-dark;
             }
             .caption {
@@ -565,9 +568,11 @@ export default {
                 color: #289CF2;
                 display: inline-block;
                 margin-right: 4px;
+                font-size: 13px;
             }
             .more {
                 color: #289CF2;
+                font-size: 13px;
             }
         }
     }

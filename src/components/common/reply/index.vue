@@ -455,7 +455,6 @@
                 float: right;
                 padding-top: 3px;
                 padding-bottom: 3px;
-                width: 56px;
             }
             .emoji {
                 position: absolute;

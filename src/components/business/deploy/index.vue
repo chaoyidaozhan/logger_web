@@ -26,17 +26,14 @@
                 {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
                 <span><Button type="default" @click="handleAddLimit">{{$t('operate.add')}}</Button></span>
             </div>
-            <div class="deploy-limit-content" v-if="deployLimit">
-                <template v-if="deployLimit && deployLimit.length">
-                    <span class="deploy-limit-scope" 
-                        v-for="item in deployLimit"
-                        v-if="!+item.status"
-                        :key="item.id">
-                        {{item[mapKey[item.dataType]] || '“'}}
-                        <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
-                    </span>
-                </template>
-                <div class="no-data" v-else>{{$t('status.noRelevantData')}}</div>
+            <div class="deploy-limit-content" v-if="deployLimit && deployLimit.length">
+                <span class="deploy-limit-scope" 
+                    v-for="item in deployLimit"
+                    v-if="!+item.status"
+                    :key="item.id">
+                    {{item[mapKey[item.dataType]] || '“'}}
+                    <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
+                </span>
             </div>
         </div>
     </div>
@@ -253,7 +250,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../../assets/css/var.less';
+@import '~app_assets/css/var.less';
 .deploy-container {
     padding: 20px;
     .deploy-title {
@@ -305,7 +302,7 @@ export default {
             }
             &:hover, &.active {
                 background-color: @white-color;
-                box-shadow: 0 5px 30px rgba(0,0,0,.15);
+                box-shadow: 0 0 16px rgba(0,0,0,.15);
             }
             &:hover .ico {
                 background-image: url('../../../assets/images/angle-normal.png');

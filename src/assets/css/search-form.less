@@ -4,19 +4,23 @@
     line-height: 56px;
     .ivu-form-inline .ivu-form-item {
         vertical-align: middle;
-        margin: 0 0 0 5px;
+        margin: 0 0 0 10px;
         max-width: 360px;
         min-width: 226px;
         &.form-item-checkbox {
             width: auto;
             min-width: auto;
+            color: @gray-color-medium;
+            .ivu-checkbox {
+                margin-right: 4px;
+            }
         }
         .ivu-form-item-label {
             padding-top: 11px;
             color: @gray-color-light;
         }
         .ivu-form-item-content {
-            line-height: 30px;
+            line-height: 28px;
         }
         &.search-btn {
             position: absolute;
@@ -31,7 +35,7 @@
             }
         }
         &.export-btn {
-            min-width: 60px;
+            min-width: 68px;
         }
     }
     .select-date {

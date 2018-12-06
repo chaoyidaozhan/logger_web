@@ -10,11 +10,11 @@
                         ref="selectTemplate"/>
                 </FormItem> 
                 <!-- 删除 -->
-                <FormItem class="form-item-checkbox">
+                <!-- <FormItem class="form-item-checkbox">
                     <Checkbox @on-change="handleTemplateType">
                         {{$t('operate.disable')}}/{{$t('operate.delete')}}
                     </Checkbox>
-                </FormItem>
+                </FormItem> -->
                 <!-- 组织 -->
 <!--                 <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.org')">
                     <fs-select-tree-input 
@@ -79,9 +79,6 @@
                         <i class="icon-add"></i>
                     </div>
                 </FormItem> 
-
-
-
                 <!-- 日期 -->
                 <FormItem :label-width="40" :label="$t('noun.date')">
                     <fs-select-date 
@@ -360,18 +357,20 @@ export default {
                     title: 'id',
                     key: 'id',
                     className: 'id-column',
+                    width: 1
                 }
             ]
             let footColumns = [
                 {
                     title: '',
                     key: 'summary',
-                    width: this.lang == 'en' ? 100 : 60
+                    width: this.lang == 'en' ? 10 : 60
                 }, 
                 {
                     title: 'id',
                     key: 'id',
-                    className: 'id-column'
+                    className: 'id-column',
+                    width: 1
                 }
             ]
             
@@ -394,15 +393,21 @@ export default {
                 if(columnsContent) {
                     columnsContent.forEach((column, index)=>{
                         const len = columns.length
-                        columns.push({
+                        let columnsParam = {
                             title: column.title || '',
                             key: `column_${len}`,
                             type: 'html'
-                        })
-                        footColumns.push({
+                        }
+                        let footParam = {
                             title: column.title || '',
                             key: `column_${len}`,
-                        })
+                        }
+                        if(column.type && (column.type != 'InputText' && column.type != 'InputContainer')) {
+                            columnsParam.width = 100
+                            footParam.width = 100
+                        }
+                        columns.push(columnsParam)
+                        footColumns.push(footParam)
                     })
                 }
             }
@@ -651,11 +656,10 @@ export default {
         display: none;
     }
     .id-column{
-        visibility: hidden;
-        width: 0;
+        // visibility: hidden;
+        // width: 0;
         overflow: hidden;
-        font-size: 0;
-        display: table-cell;
+        // font-size: 0;
         .ivu-table-cell {
             display: none;
         }
