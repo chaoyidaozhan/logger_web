@@ -13,6 +13,7 @@ import QueryGroup from 'app_view/query/group'
 import QueryMy from 'app_view/query/my'
 import QueryUnder from 'app_view/query/under'
 import QueryLevel from 'app_view/query/level'
+import QueryUnread from 'app_view/query/unread'
 
 export default [{
     path: 'LoggerQueryAll',
@@ -32,4 +33,7 @@ export default [{
 }, {
     path: 'LoggerQueryLowerLevel',
     component: QueryLevel
+}, {
+    path: 'LoggerQueryUnread',
+    component: QueryUnread
 }, ]

@@ -388,6 +388,9 @@ export default {
             })
         },
         sendHasReadBrand() { // 未读情况发送已读标记
+            let root = this.$route.path
+            console.log(root);
+            
             if(!this.loggerItemData.isRead) {
                 this.$ajax({
                     url: `/diaryReadLog/add`,
@@ -400,6 +403,7 @@ export default {
                         if(res && res.code == 0) {
                             this.loggerItemData.readCount++
                             this.loggerItemData.isRead = 1
+                            this.$eventbus.$emit('getUnreadCount')
                         }
                     }
                 })

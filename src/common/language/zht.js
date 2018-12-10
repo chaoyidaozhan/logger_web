@@ -3,6 +3,7 @@ module.exports = {
         logQuery: '日誌查詢',
         workLog: '寫日誌',
         all: '所有日誌',
+        unread: '未讀',
         atMe: '@我的',
         myLogs: '我的日誌',
         internalGroupLog: '內部群日誌',

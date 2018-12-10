@@ -9,53 +9,6 @@
                         :templateType="templateType" 
                         ref="selectTemplate"/>
                 </FormItem> 
-                <!-- 删除 -->
-                <!-- <FormItem class="form-item-checkbox">
-                    <Checkbox @on-change="handleTemplateType">
-                        {{$t('operate.disable')}}/{{$t('operate.delete')}}
-                    </Checkbox>
-                </FormItem> -->
-                <!-- 组织 -->
-<!--                 <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.org')">
-                    <fs-select-tree-input 
-                        ref="selectOrg"
-                        orgApiUri="/rest/v1/diaryStatistics/authPeoples/1"
-                        :showOrg="true"
-                        :showLoading="false"
-                        :showMember="false"
-                        :title="`${$t('operate.select')}${$t('noun.org')}`"
-                        :placeholder="`${$t('operate.select')}${$t('noun.org')}`" 
-                        :org="org"
-                        @handleSelect="handleSelect($event, 'org')"/>
-                </FormItem>  -->
-                <!-- 部门 -->
-<!--                 <FormItem :label-width="lang === 'en' ? 80 : 40" :label="$t('noun.department')">
-                    <fs-select-tree-input 
-                        ref="selectDept"
-                        deptApiUri="/rest/v1/diaryStatistics/authPeoples/0"
-                        :showDept="true"
-                        :showMember="false"
-                        :showLoading="false"
-                        :showOtherDept="true"
-                        :title="`${$t('operate.select')}${$t('noun.dept')}`"
-                        :placeholder="`${$t('operate.select')}${$t('noun.dept')}`"
-                        :dept="dept"
-                        @handleSelect="handleSelect($event, 'dept')"/>
-                </FormItem> --> 
-                <!-- 提交人 -->
-<!--                 <FormItem :label-width="50" :label="$t('noun.author')">
-                    <fs-select-tree-input 
-                        ref="selectMember"
-                        memberApiUri="/rest/v1/diaryStatistics/authPeoples/2"
-                        :showMember="true"
-                        :showLoading="false"
-                        :title="`${$t('operate.select')}${$t('noun.author')}`"
-                        :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
-                        :member="member"
-                        @handleSelect="handleSelect($event, 'member')"/>
-                </FormItem>  -->
-
-
                 <!-- 提交人 -->
                 <FormItem :label-width="50" :label="$t('noun.author')">
                     <div 
@@ -214,7 +167,7 @@ export default {
             let keys = Object.keys(res)
             this[name] = res[name];
         },
-// ************ 2018-11-24 ****************
+        // ************ 2018-11-24 ****************
         openSelectMember(){
             let s_mans = JSON.parse(JSON.stringify(this.member)) ;
             let s_dept = JSON.parse(JSON.stringify(this.dept)) ;    
@@ -224,6 +177,7 @@ export default {
                 man: true,
                 dep: true,
                 team:  false,
+                showLoading: true,
                 selected: {
                     dep: [].concat(s_dept , s_org) ,
                     man: s_mans,
