@@ -63,6 +63,7 @@ export default {
             let info = {
                 title: this.$t('operate.addAdministrator'),
                 man: true,
+                showLoading: true,
                 team:  false,
                 dep: false,
                 limit: {
@@ -123,6 +124,7 @@ export default {
                 man: true,
                 dep: true,
                 team:  false,
+                showLoading: true,
                 limit: {
                     showAll: false,
                     warning: '',
