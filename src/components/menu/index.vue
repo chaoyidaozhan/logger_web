@@ -26,7 +26,7 @@
                                 :name="val.path" 
                                 :key="index">
                                 {{$t(val.name)}}
-                                <span v-if="val.path == '/LoggerQueryUnread'">({{unreadCount}})</span>
+                                <span v-if="val.path == '/LoggerQueryUnread' && unreadCount">({{unreadCount}})</span>
                             </Menu-Item>
                     </Submenu>
                 </div>
