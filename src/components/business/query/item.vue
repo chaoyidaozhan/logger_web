@@ -189,7 +189,7 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 import FsFiles from './file'
 import FsImages from './image'
 import LoggerListContentNode from './content'
-const rowHeight = 16
+const contentHeight = 24
 export default {
     props: {
         loggerItemData: {
@@ -214,12 +214,12 @@ export default {
 
             rangeHeight: '',
             rangeRealHeight: '',
-            rangeDefaultHeight: rowHeight + 10,
+            rangeDefaultHeight: 26,
             rangeExpand: false,
 
             contentHeight: '',
             contentRealHeight: '',
-            contentDefaultHeight: rowHeight * 11,
+            contentDefaultHeight: contentHeight * 8,
             contentExpand: false,
 
             userInfo: this.$store.state.userInfo,
