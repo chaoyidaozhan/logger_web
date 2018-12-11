@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight">
+        <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
             <div class="logger-list-col">
                 <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
                     {{$t('operate.expand')}}
@@ -189,7 +189,7 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 import FsFiles from './file'
 import FsImages from './image'
 import LoggerListContentNode from './content'
-const rowHeight = 16
+const contentHeight = 24
 export default {
     props: {
         loggerItemData: {
@@ -214,12 +214,13 @@ export default {
 
             rangeHeight: '',
             rangeRealHeight: '',
-            rangeDefaultHeight: rowHeight + 10,
+            rangeDefaultHeight: 26,
             rangeExpand: false,
 
             contentHeight: '',
             contentRealHeight: '',
-            contentDefaultHeight: rowHeight * 11,
+            contentDefaultHeight: '',
+            contentHeightMark: contentHeight * 6,
             contentExpand: false,
 
             userInfo: this.$store.state.userInfo,
@@ -278,11 +279,30 @@ export default {
                 }
             })
         },
+        setContentHeight() {
+            let content = this.$refs.contentHeight
+            let rows = content.querySelectorAll('.logger-list-row')
+            let computeLen = 0, 
+                computeHeight = 0,
+                markHeight = 0
+            for(let i = 0; i < rows.length; i++) {
+                const row = rows[i]
+                markHeight += row.offsetHeight + 14
+                computeLen = i
+                if(markHeight > this.contentHeightMark) {
+                    computeHeight = markHeight - row.offsetHeight + 14
+                    break
+                }
+            }
+            
+            return computeHeight
+        },
         setRangeHeight() { // 设置可展开的高度
             this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight
             this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight
             this.rangeHeight = this.rangeDefaultHeight
-            if(this.contentRealHeight > this.contentDefaultHeight) {
+            if(this.contentRealHeight > this.contentHeightMark) {
+                this.contentDefaultHeight = this.setContentHeight()
                 this.contentHeight = this.contentDefaultHeight
             } else {
                 this.contentHeight = this.contentRealHeight

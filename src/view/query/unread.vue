@@ -22,6 +22,9 @@ export default {
             range: '0'
         }
     },
-    mixins: [query]
+    mixins: [query],
+    created () {
+        this.$eventbus.$emit('getUnreadCount')
+    }
 }
 </script>
