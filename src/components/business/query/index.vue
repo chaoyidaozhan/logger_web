@@ -144,7 +144,7 @@ export default {
                 let offsetHeight = $target.offsetHeight
                 console.log(offsetHeight, scrollHeight - scrollTop);
                 
-                if (offsetHeight == (scrollHeight - scrollTop)) {
+                if ((scrollHeight - scrollTop) - offsetHeight < 20) {
                     this.pageNo++
                 }
             }
