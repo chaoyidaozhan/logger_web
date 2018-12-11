@@ -135,14 +135,11 @@ export default {
             return Object.assign(data, this.params)
         },
         onScroll(e) { // 分页
-            console.log(this.loading, this.hasMore, 'fenye');
-            
             if(!this.loading && this.hasMore) {
                 let $target = e && e.target
                 let scrollHeight = $target.scrollHeight
                 let scrollTop = $target.scrollTop
                 let offsetHeight = $target.offsetHeight
-                console.log(offsetHeight, scrollHeight - scrollTop);
                 
                 if ((scrollHeight - scrollTop) - offsetHeight < 20) {
                     this.pageNo++
