@@ -710,7 +710,6 @@ export default {
     }
     .handle-content-expand {
         overflow: hidden;
-        transition: .2s ease height;
     }
     .handle-content-expand-btn {
         color: @primary-color;
