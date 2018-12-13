@@ -140,7 +140,8 @@ export default {
                 let scrollHeight = $target.scrollHeight
                 let scrollTop = $target.scrollTop
                 let offsetHeight = $target.offsetHeight
-                if (offsetHeight == (scrollHeight - scrollTop)) {
+                
+                if ((scrollHeight - scrollTop) - offsetHeight < 20) {
                     this.pageNo++
                 }
             }

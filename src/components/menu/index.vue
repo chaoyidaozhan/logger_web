@@ -26,6 +26,7 @@
                                 :name="val.path" 
                                 :key="index">
                                 {{$t(val.name)}}
+                                <span v-if="val.path == '/LoggerQueryUnread' && unreadCount">({{unreadCount}})</span>
                             </Menu-Item>
                     </Submenu>
                 </div>
@@ -42,7 +43,8 @@ export default {
         return {
             openNames: [],
             activeName: '',
-            menus: []
+            menus: [],
+            unreadCount: 0
         }
     },
     methods: {
@@ -170,14 +172,27 @@ export default {
                 }
             })
         },
+        getUnreadDiaryCount() {
+            this.$ajax({
+                url: '/diaryQuery/getUnreadDiaryCount',
+                success: (res)=>{
+                    this.unreadCount = res.data
+                }
+            })
+        },
         init() {
             this.initMenu()
             this.checkLimit()
             this.setActiveName()
+            this.getUnreadDiaryCount()
         }
     },
     created () {
         this.init()
+        const _this = this
+        this.$eventbus.$on('getUnreadCount', ()=>{
+            _this.getUnreadDiaryCount()
+        })
     },
     mounted () {
         this.$eventbus.$on('checkLimit', (to, from)=>{ // 定义全局
