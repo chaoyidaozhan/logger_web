@@ -119,12 +119,29 @@ export default {
 
         },
         handleAddLimit() {
+            let dept = [], man = [], org = []
+            this.stashLimitData[this.currentMember.memberId].forEach(item=>{
+                if(item.dataType === 1) {
+                    org.push(item)
+                }
+                if(item.dataType === 0) {
+                    dept.push(item)
+                }
+                if(item.dataType === 2) {
+                    man.push(item)
+                }
+            })
             let info = {
                 title: this.$t('operate.addAdministrator'),
                 man: true,
                 dep: true,
                 team:  false,
                 showLoading: true,
+                selected: {
+                    dep: dept,
+                    man: man,
+                    org: org
+                },
                 limit: {
                     showAll: false,
                     warning: '',
