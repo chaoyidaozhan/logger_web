@@ -121,11 +121,8 @@ export default {
         handleAddLimit() {
             let dept = [], man = [], org = []
             this.stashLimitData[this.currentMember.memberId].forEach(item=>{
-                if(item.dataType === 1) {
+                if(item.dataType === 1 || item.dataType === 0) {
                     org.push(item)
-                }
-                if(item.dataType === 0) {
-                    dept.push(item)
                 }
                 if(item.dataType === 2) {
                     man.push(item)
