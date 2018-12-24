@@ -121,8 +121,12 @@ export default {
         handleAddLimit() {
             let dept = [], man = [], org = []
             this.stashLimitData[this.currentMember.memberId].forEach(item=>{
+                if(item.dataType === 1) {
+                    item.deptId = item.orgId
+                    item.deptName = item.orgName
+                }
                 if(item.dataType === 1 || item.dataType === 0) {
-                    org.push(item)
+                    dept.push(item)
                 }
                 if(item.dataType === 2) {
                     man.push(item)
@@ -356,7 +360,7 @@ export default {
             font-size:12px;
             .icon-delete-userlist {
                 display: none;
-                color: @input-select-border-color;
+                color: @primary-color;
                 position: absolute;
                 right: -6px;
                 top: 50%;
