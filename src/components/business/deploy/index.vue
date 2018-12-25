@@ -155,10 +155,10 @@ export default {
                 }) || []
                 let deptIds = [], orgIds = []
                 res.dep.forEach(dept=>{
-                    if(dept.type === 1) {
+                    if(dept.type === 1 || dept.dataType === 1) {
                         orgIds.push(dept.deptId)
                     }
-                    if(dept.type === 0) {
+                    if(dept.type === 0 || dept.dataType === 0) {
                         deptIds.push(dept.deptId)
                     }
                 }) 
