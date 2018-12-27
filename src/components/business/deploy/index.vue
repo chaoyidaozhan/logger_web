@@ -122,9 +122,10 @@ export default {
             let dept = [], man = [], org = []
             this.stashLimitData[this.currentMember.memberId].forEach(item=>{
                 if(item.dataType === 1) {
-                    org.push(item)
+                    item.deptId = item.orgId
+                    item.deptName = item.orgName
                 }
-                if(item.dataType === 0) {
+                if(item.dataType === 1 || item.dataType === 0) {
                     dept.push(item)
                 }
                 if(item.dataType === 2) {
@@ -154,10 +155,10 @@ export default {
                 }) || []
                 let deptIds = [], orgIds = []
                 res.dep.forEach(dept=>{
-                    if(dept.type === 1) {
+                    if(dept.type === 1 || dept.dataType === 1) {
                         orgIds.push(dept.deptId)
                     }
-                    if(dept.type === 0) {
+                    if(dept.type === 0 || dept.dataType === 0) {
                         deptIds.push(dept.deptId)
                     }
                 }) 
@@ -359,7 +360,7 @@ export default {
             font-size:12px;
             .icon-delete-userlist {
                 display: none;
-                color: @input-select-border-color;
+                color: @primary-color;
                 position: absolute;
                 right: -6px;
                 top: 50%;

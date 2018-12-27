@@ -51,6 +51,8 @@
 import FsLoggerListItem from './item'
 import FormatTime from 'app_src/filters/format-time'
 import FsEmptyTips from 'app_component/common/empty-tips/'
+import FsAvatar from 'app_component/common/avatar'
+
 /**
     range 
     0  所有日志
@@ -104,7 +106,8 @@ export default {
     },
     components: {
         FsLoggerListItem,
-        FsEmptyTips
+        FsEmptyTips,
+        FsAvatar
     },
     watch: {
         pageNo: 'loadData',
