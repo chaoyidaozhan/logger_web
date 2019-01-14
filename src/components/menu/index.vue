@@ -24,9 +24,7 @@
                             <Menu-Item 
                                 v-for="(val, index) in item.subMenu" 
                                 :name="val.path" 
-                                :key="index">
-                                {{$t(val.name)}}
-                                <span v-if="val.path == '/LoggerQueryUnread' && unreadCount">({{unreadCount}})</span>
+                                :key="index">{{$t(val.name)}}<span v-if="val.path == '/LoggerQueryUnread' && unreadCount">({{unreadCount}})</span>
                             </Menu-Item>
                     </Submenu>
                 </div>
