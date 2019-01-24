@@ -101,10 +101,11 @@ export default {
             this.selectList.forEach(l => {
                 let curContent = (JSON.parse(l.content) || [])
                 if(curContent.length > maxContent.length) {
+                    curContent[0].version = l.version
+                    curContent[0].dataType = l.dataType
                     maxContent = curContent
                 }
             })
-
             this.templateItemData = maxContent[0]||{}
             this.selectContent.forEach(s => {
                 let curContent = s || []
