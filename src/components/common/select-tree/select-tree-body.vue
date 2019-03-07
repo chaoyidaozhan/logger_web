@@ -35,7 +35,7 @@
 			</Button>
 		</div>
 		<Button class="btn" type="ghost" @click="handleCancel">{{$t('operate.cancel')}}</Button>
-		<Button class="btn success" type="success" @click="handleOk">{{$t('operate.ok')}}</Button>
+		<Button class="btn" type="primary" @click="handleOk">{{$t('operate.ok')}}</Button>
 	</div>
 </Modal>
 </template>
