@@ -30,7 +30,7 @@ module.exports = merge(common, {
         historyApiFallback: true,
         hot: true,
         open: true,
-        port: 8081,
+        port: 8082,
         proxy: {
             '/': {
                 target: config[NODE_ENV].proxyTarget,
