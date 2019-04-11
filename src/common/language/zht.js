@@ -113,7 +113,8 @@ module.exports = {
         enterKeyword: '請輸入關鍵字進行搜索',
         noMore: '每次選擇不可超過500人，請分批選擇',
         remindkeyPeopleToViewYourLog: '提醒關鍵人員查看您的日誌',
-        visibleToThisDepartment: '本部門可見'
+        visibleToThisDepartment: '本部門可見',
+        enterTtheInternalGroupNameToSearch: '輸入內部群名稱進行搜索'
     },
     date: { // 時間
         mon: '周壹',

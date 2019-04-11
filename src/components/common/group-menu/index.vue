@@ -1,5 +1,11 @@
 <template>
     <div class="group-wrap" ref="groupWrap"  @scroll.stop="onScroll">
+        <div class="search" style="padding: 14px;">
+            <Input v-model="keyword"
+                :clearable="true"
+                @on-enter="handleSearch" 
+                :placeholder="$t('placeholder.enterTtheInternalGroupNameToSearch')"/>
+        </div>
         <div class="group-item clearfix"
             :class="{active: (currentId == groupItem.groupId)}"
             v-for="groupItem in groupsData"
@@ -38,7 +44,8 @@ export default {
             currentId: '',
             loading: false,
             loaderror: false,
-            hasMore: true
+            hasMore: true,
+            keyword: ''
         }
     },
     components: {
@@ -50,6 +57,10 @@ export default {
         pageNo: "loadData"
     },
     methods: {
+        handleSearch() {
+            this.pageNo = 1
+            this.loadData()
+        },
         loadData() {
             this.loading = true
             this.$ajax({
@@ -57,7 +68,8 @@ export default {
                 type: 'get',
                 data: {
                     pageNo: this.pageNo,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    keyword: this.keyword
                 },
                 success: (res)=>{
                     this.updateList(res)
