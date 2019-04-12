@@ -3,7 +3,7 @@
         <div class="search" style="padding: 14px;">
             <Input v-model="keyword"
                 :clearable="true"
-                @on-enter="handleSearch" 
+                @on-change="handleSearch" 
                 :placeholder="$t('placeholder.enterTtheInternalGroupNameToSearch')"/>
         </div>
         <div class="group-item clearfix"
@@ -45,7 +45,8 @@ export default {
             loading: false,
             loaderror: false,
             hasMore: true,
-            keyword: ''
+            keyword: '',
+            timer: null
         }
     },
     components: {
@@ -58,8 +59,11 @@ export default {
     },
     methods: {
         handleSearch() {
-            this.pageNo = 1
-            this.loadData()
+            clearTimeout(this.timer)
+            this.timer = setTimeout(()=>{
+                this.pageNo = 1
+                this.loadData()
+            }, 300)
         },
         loadData() {
             this.loading = true
