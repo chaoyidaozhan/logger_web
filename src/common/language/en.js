@@ -112,7 +112,8 @@ module.exports = {
         enterKeyword: 'Please enter a keyword',
         noMore: 'No more than 500 people per time. Please select in batches',
         remindkeyPeopleToViewYourLog: 'Remind key people to view your log',
-        visibleToThisDepartment: 'Visible to this department'
+        visibleToThisDepartment: 'Visible to this department',
+        enterTtheInternalGroupNameToSearch: 'Enter the internal group name to search'
     },
     date: { // 时间
         mon: 'Mon',
