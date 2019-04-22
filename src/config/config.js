@@ -16,6 +16,6 @@ module.exports = {
         apiHost: '//ezone.esn.ren/logger',
     },
     'production': { // 生产环境
-        apiHost: '//ezone.yonyoucloud.com/logger'
+        apiHost: '//ezone.diwork.com/logger'
     }
 }
