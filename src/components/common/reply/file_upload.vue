@@ -73,7 +73,7 @@
         },
         mounted () {
             let uploadHost = `${config[__ENV__].uploadHost}`;
-            this.uploadUrl = `${uploadHost}doc/upload`;
+            this.uploadUrl = `${uploadHost}/doc/upload?v=1.0`;
         }
     }
 </script>
