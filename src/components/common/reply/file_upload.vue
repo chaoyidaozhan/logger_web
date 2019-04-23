@@ -72,9 +72,8 @@
             }
         },
         mounted () {
-            let apiHost = `${config[__ENV__].apiHost}`;
-            apiHost = apiHost.replace('logger_new', '').replace('logger', '');
-            this.uploadUrl = `${apiHost}doc/doc/upload?token=${this.$store.state.userInfo.token}`;
+            let uploadHost = `${config[__ENV__].uploadHost}`;
+            this.uploadUrl = `${uploadHost}doc/upload`;
         }
     }
 </script>
