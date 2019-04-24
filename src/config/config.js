@@ -4,14 +4,14 @@ module.exports = {
     token: 'd12fdcc7-b9ac-48c4-adf6-5b1958e9afc4',
     'development': { // 开发环境
         host: '//123.103.9.204:93',
-        uploadHost: '//dwweb-api.yyuap.com',
+        uploadHost: '//web.api.chaoke.com:6062',
         apiHost: '//123.103.9.204:6058/logger',
     },
     'dev-prev': {
         apiHost: 'https://ezone.esn.ren/logger',
     },
     'test': {
-        uploadHost: '//dwweb-api.yyuap.com',
+        uploadHost: '//web.api.chaoke.com:6062',
         apiHost: '//123.103.9.204:6058/logger',
     },
     'daily': {

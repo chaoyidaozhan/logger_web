@@ -1,13 +1,14 @@
 <template>
     <Upload class="file-upload"
-            ref="upload"
-            :max-size="102400"
-            name="fileData"
-            :on-exceeded-size="exceededSize"
-            :on-error="uploadError"
-            :on-success="uploadSuccess"
-            :on-remove="handleRemoveFile"
-            :action="uploadUrl">
+        ref="upload"
+        :max-size="102400"
+        name="fileData"
+        :with-credentials="true"
+        :on-exceeded-size="exceededSize"
+        :on-error="uploadError"
+        :on-success="uploadSuccess"
+        :on-remove="handleRemoveFile"
+        :action="uploadUrl">
     </Upload>
 </template>
 
