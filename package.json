@@ -8,7 +8,7 @@
 		"start": "webpack-dev-server --mode=development --config ./webpack/webpack.dev.js --progress",
 		"dev": "cross-env NODE_ENV=development npm run start",
 		"dev-prev": "cross-env NODE_ENV=dev-prev npm run start",
-		"test": "cross-env NODE_ENV=test webpack --config ./webpack/webpack.prod.js --progress",
+		"test": "npm run clean && cross-env NODE_ENV=test webpack --config ./webpack/webpack.prod.js --progress",
 		"daily": "cross-env NODE_ENV=daily webpack --config ./webpack/webpack.prod.js --progress",
 		"prev": "cross-env NODE_ENV=prev webpack --config ./webpack/webpack.prod.js --progress",
 		"build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.prod.js --progress",
