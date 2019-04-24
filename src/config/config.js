@@ -11,12 +11,12 @@ module.exports = {
         apiHost: 'https://ezone.esn.ren/logger',
     },
     'test': {
-        uploadHost: '//web.api.chaoke.com:6062',
+        uploadHost: '//dwweb-api.yyuap.com',
         apiHost: '//123.103.9.204:6058/logger',
     },
     'daily': {
         uploadHost: '//dwweb-api.yyuap.com',
-        apiHost: '//123.103.9.204:6058/logger',
+        apiHost: '//ezone-daily.yyuap/logger',
     },
     'prev': {
         uploadHost: '//web-api.esn.ren',
