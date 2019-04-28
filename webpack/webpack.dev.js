@@ -31,6 +31,7 @@ module.exports = merge(common, {
         hot: true,
         open: true,
         port: 8082,
+        disableHostCheck: true,
         proxy: {
             '/': {
                 target: config[NODE_ENV].proxyTarget,

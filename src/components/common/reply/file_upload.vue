@@ -1,13 +1,14 @@
 <template>
     <Upload class="file-upload"
-            ref="upload"
-            :max-size="102400"
-            name="fileData"
-            :on-exceeded-size="exceededSize"
-            :on-error="uploadError"
-            :on-success="uploadSuccess"
-            :on-remove="handleRemoveFile"
-            :action="uploadUrl">
+        ref="upload"
+        :max-size="102400"
+        name="fileData"
+        :with-credentials="true"
+        :on-exceeded-size="exceededSize"
+        :on-error="uploadError"
+        :on-success="uploadSuccess"
+        :on-remove="handleRemoveFile"
+        :action="uploadUrl">
     </Upload>
 </template>
 
@@ -72,9 +73,8 @@
             }
         },
         mounted () {
-            let apiHost = `${config[__ENV__].apiHost}`;
-            apiHost = apiHost.replace('logger_new', '').replace('logger', '');
-            this.uploadUrl = `${apiHost}doc/doc/upload?token=${this.$store.state.userInfo.token}`;
+            let uploadHost = `${config[__ENV__].uploadHost}`;
+            this.uploadUrl = `${uploadHost}/doc/upload?v=1.0`;
         }
     }
 </script>
