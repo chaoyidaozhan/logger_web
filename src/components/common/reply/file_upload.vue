@@ -48,11 +48,12 @@
             },
             uploadSuccess(res, file, fileList) {
                 let data = res && res.data
+                console.log(data)
                 file && this.uploadFilesArr.push({
                     fid: data.fid,
                     fileName: data.fileName,
                     fileSize: data.fileSize,
-                    fileUrl: data.img,
+                    fileUrl: data.fileUrl,
                     type: this.getFileType(data.fileName)
                 });
                 this.$emit("sendFileData", this.uploadFilesArr);
@@ -65,7 +66,7 @@
                         fid: data.fid,
                         fileName: data.fileName,
                         fileSize: data.fileSize,
-                        fileUrl: data.img,
+                        fileUrl: data.fileUrl,
                         type: this.getFileType(data.fileName)
                     });
                 })
