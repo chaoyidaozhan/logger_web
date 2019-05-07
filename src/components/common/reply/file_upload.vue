@@ -52,7 +52,7 @@
                 file && this.uploadFilesArr.push({
                     fid: data.fid,
                     fileName: data.fileName,
-                    fileSize: data.fileSize || 0,
+                    fileSize: data.fileSize,
                     fileUrl: data.fileUrl,
                     type: this.getFileType(data.fileName)
                 });
