@@ -1,3 +1,12 @@
+function getCookie(name) {
+    var arr = window.document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null) {
+        return unescape(arr[2]);
+    } else {
+        return null;
+    }
+}
+const YKJ_IS_DIWORK = getCookie(YKJ_IS_DIWORK)
 module.exports = {
     v: '4.5',
     salt: 'BAN/+GGzUBtMW',
@@ -27,7 +36,7 @@ module.exports = {
         apiHost: '//ezone.esn.ren/logger'
     },
     'production': { // 生产环境
-        uploadHost: '//web-api.diwork.com',
+        uploadHost: `//${YKJ_IS_DIWORK === '1' ? 'dw' : ''}web-api.diwork.com`,
         apiHost: '//ezone.diwork.com/logger'
     }
 }
