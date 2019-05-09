@@ -27,7 +27,7 @@ module.exports = {
         apiHost: '//ezone.esn.ren/logger'
     },
     'production': { // 生产环境
-        uploadHost: '//web-api.diwork.com/',
+        uploadHost: '//web-api.diwork.com',
         apiHost: '//ezone.diwork.com/logger'
     }
 }
