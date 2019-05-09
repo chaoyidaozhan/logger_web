@@ -6,7 +6,7 @@ function getCookie(name) {
         return null;
     }
 }
-const YKJ_IS_DIWORK = getCookie(YKJ_IS_DIWORK)
+const YKJ_IS_DIWORK = getCookie('YKJ_IS_DIWORK')
 module.exports = {
     v: '4.5',
     salt: 'BAN/+GGzUBtMW',
