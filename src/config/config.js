@@ -16,20 +16,17 @@ module.exports = {
         uploadHost: '//web.api.chaoke.com:6062',
         apiHost: '//123.103.9.204:6058/logger',
     },
-    'dev-prev': {
-        apiHost: 'https://ezone.esn.ren/logger',
-    },
-    'test': {
+    'develop': { // 91
         uploadHost: '//web.api.chaoke.com:6062',
         apiHost: '//123.103.9.204:6058/logger',
     },
-    'u8c-daily': {
-        uploadHost: '//dwweb-api-u8c-daily.yyuap.com',
-        apiHost: '//ezone-u8c-daily.yyuap/logger',
-    },
-    'daily': {
+    'test': { // daily
         uploadHost: '//dwweb-api.yyuap.com',
         apiHost: '//ezone-daily.yyuap/logger',
+    },
+    'u8c_daily': { // u8c_daliy
+        uploadHost: '//dwweb-api-u8c-daily.yyuap.com',
+        apiHost: '//ezone-u8c-daily.yyuap/logger',
     },
     'prev': {
         uploadHost: '//web-api.esn.ren',
