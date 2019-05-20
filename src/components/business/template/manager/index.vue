@@ -139,6 +139,14 @@
                                 <Radio v-for="(val, key) in options" :key="key" :label="val.dataType" >{{val.string}}</Radio>
                             </RadioGroup>
                         </div>
+                        <div class="extra-item">
+                            <label class="extra-label">
+                                {{$t('placeholder.targetingSettings')}}
+                            </label>
+                            <Checkbox v-model="data.requiredLocation">
+                                {{$t('placeholder.whetherTheSelectedLocationIsRequired')}}
+                            </Checkbox>
+                        </div>
                     </div>
                 </TabPane>
             </Tabs>
@@ -190,7 +198,8 @@ export default {
                 visibleRange: 0,
                 visibleRangeStr: [],
                 source: 3,
-                id: ''
+                id: '',
+                requiredLocation: false
             },
             pullList: [ // 默认数据
                 {
@@ -472,6 +481,7 @@ export default {
             if(dataStatus) {
                 this.data.dataStatus = dataStatus || 0;
             }
+            this.data.requiredLocation = +this.data.requiredLocation
             let params = {
                 content: JSON.stringify(this.pushList),
                 ...this.data
@@ -573,7 +583,8 @@ export default {
                     visibleRangeStr: resData.templateVisibleRange,
                     source: resData.title,
                     id: resData.id,
-                    dataStatus: resData.dataStatus
+                    dataStatus: resData.dataStatus,
+                    requiredLocation: !!resData.requiredLocation
                 }
                 if(this.data.dataStatus) { // 如果dataStatus为1模板禁用
                     this.editDisable = true;

@@ -114,7 +114,9 @@ module.exports = {
         noMore: '每次選擇不可超過500人，請分批選擇',
         remindkeyPeopleToViewYourLog: '提醒關鍵人員查看您的匯報',
         visibleToThisDepartment: '本部門可見',
-        enterTtheInternalGroupNameToSearch: '輸入內部群名稱進行搜索'
+        enterTtheInternalGroupNameToSearch: '輸入內部群名稱進行搜索',
+        targetingSettings: '定位設置',
+        whetherTheSelectedLocationIsRequired: '所選位置是否必填'
     },
     date: { // 時間
         mon: '周壹',

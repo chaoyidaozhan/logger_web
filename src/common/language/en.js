@@ -113,7 +113,9 @@ module.exports = {
         noMore: 'No more than 500 people per time. Please select in batches',
         remindkeyPeopleToViewYourLog: 'Remind key people to view your report',
         visibleToThisDepartment: 'Visible to this department',
-        enterTtheInternalGroupNameToSearch: 'Enter the internal group name to search'
+        enterTtheInternalGroupNameToSearch: 'Enter the internal group name to search',
+        targetingSettings: 'Targeting settings',
+        whetherTheSelectedLocationIsRequired: 'Whether the selected location is required'
     },
     date: { // 时间
         mon: 'Mon',
