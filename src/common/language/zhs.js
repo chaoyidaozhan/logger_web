@@ -103,6 +103,7 @@ module.exports = {
         postYourComment: '发表您的评论',
         allTemplate: '全部模板',
         maximum10Chars: '不超过10个字',
+        maximum15Chars: '不超过15个字',
         maximum20Chars: '不超过20个字',
         maximum50Chars: '不超过50个字',
         maximum100Chars: '不超过100个字',
