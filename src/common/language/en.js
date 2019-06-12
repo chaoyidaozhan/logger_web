@@ -102,6 +102,7 @@ module.exports = {
         postYourComment: 'Publish Comment',
         allTemplate: 'All Templates',
         maximum10Chars: 'Maximum 10 Chars',
+        maximum15Chars: 'Maximum 15 Chars',
         maximum20Chars: 'Maximum 20 Chars',
         maximum50Chars: 'Maximum 50 Chars',
         maximum100Chars: 'Maximum 100 Chars',
