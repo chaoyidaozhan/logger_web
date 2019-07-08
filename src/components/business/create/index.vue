@@ -456,6 +456,7 @@ export default {
             return validate(templateContent)
         },
         handleSubmit() { // 提交
+            if(this.btnloading) return
             this.handleSubmitData()
             if (!this.handleValidate(this.templateContentClone)) {
                 return
