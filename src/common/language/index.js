@@ -24,9 +24,9 @@ export function setLocale(lang = 'zhs') {
         'en': locale_en,
     }
     const title = {
-        'zhs': '日志',
-        'zht': '日誌',
-        'en': 'Log',
+        'zhs': '汇报',
+        'zht': '匯報',
+        'en': 'Report'
     }
     window.lang = lang
     Vue.prototype.lang = lang
