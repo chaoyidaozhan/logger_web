@@ -45,7 +45,7 @@ export default {
             this.data.forEach(item => {
                 item.totalCount = 0;
                 item.array = [];
-                item.array.length = getMonthNum(new Date(this.start.replace('-', '/')));
+                item.array.length = getMonthNum(new Date(this.start.replace(/\-/g, '/')));
                 if(item.resultList && item.resultList.length) {
                     item.resultList.forEach(val=>{
                         item.array[val.days - 1] = val;
