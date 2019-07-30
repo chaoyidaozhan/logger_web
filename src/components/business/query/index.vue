@@ -89,7 +89,15 @@ export default {
         isDraft: {
             type: Boolean,
             default: false
-        }
+        },
+        isUnread: {
+            type: Boolean,
+            default: false
+        },
+        withPublic: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -101,7 +109,7 @@ export default {
             hasMore: true,
             queryMemberId: null,
             operateModal: false,
-            operateModalData: null
+            operateModalData: null,
         }
     },
     components: {
@@ -111,7 +119,8 @@ export default {
     },
     watch: {
         pageNo: 'loadData',
-        params: 'initList' 
+        params: 'initList',
+        withPublic: 'initList'
     },
     filters: {
         filterDiaryUserTime(val) { // 格式化日志日期
@@ -128,6 +137,10 @@ export default {
                 pageNo: this.pageNo,
                 pageSize: this.pageSize,
                 range: this.range,
+                withPublic: this.withPublic
+            }
+            if(this.isUnread) {
+                data.withPublic = this.withPublic
             }
             if(!this.isCollect) {
                 data.dataStatus = this.dataStatus

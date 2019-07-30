@@ -58,7 +58,8 @@ module.exports = {
         upload: '上传',
         fill: '补',
         viewLowerLevelLog: '查看下级汇报',
-        addAdministrator: '添加管理员'
+        addAdministrator: '添加管理员',
+        withPublic: '包含所有人可见'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -117,7 +118,7 @@ module.exports = {
         visibleToThisDepartment: '本部门可见',
         enterTtheInternalGroupNameToSearch: '输入内部群名称进行搜索',
         targetingSettings: '定位设置',
-        whetherTheSelectedLocationIsRequired: '所选位置是否必填'
+        whetherTheSelectedLocationIsRequired: '所选位置是否必填',
     },
     date: { // 时间
         mon: '周一',

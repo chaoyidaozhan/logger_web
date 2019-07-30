@@ -68,6 +68,9 @@
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
+            <FormItem class="form-item-checkbox" v-if="showWithPublic">
+                <Checkbox v-model="withPublic" @on-change="handleChangePublic">{{$t('operate.withPublic')}}</Checkbox>
+            </FormItem> 
             <FormItem class="search-btn">
                 <Button :disabled="loading" type="primary" @click="handleQuery">
                     {{$t('operate.search')}}
@@ -111,6 +114,10 @@ export default {
             default: false
         },
         showTemplateCheck: {
+            type: Boolean,
+            default: false
+        },
+        showWithPublic: {
             type: Boolean,
             default: false
         },
@@ -193,6 +200,7 @@ export default {
             member: [], // 提交人
             queryTimer: null,
             loading: false,
+            withPublic: false,
             isGroupOrDeptSelectedAll: false
         }
     },
@@ -248,6 +256,7 @@ export default {
             clearTimeout(this.queryTimer)
             this.queryTimer = setTimeout(() => {
                 let params = {
+                    withPublic: this.withPublic,
                     templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                     beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
                     endDate: this.$refs.selectDate && this.$refs.selectDate.endDate,
@@ -324,6 +333,9 @@ export default {
                 templateType = 'select'
             }
             this.$emit('handleTemplateType', templateType)
+        },
+        handleChangePublic() {
+            this.$emit('handleChangePublic', this.withPublic)
         },
         resetQuery() {
             if(this.$refs.selectTemplate) { // 重置模板

@@ -57,7 +57,8 @@ module.exports = {
         upload: 'Upload',
         fill: 'Fill',
         viewLowerLevelLog: 'View subordinates reports',
-        addAdministrator: 'Add administrator'
+        addAdministrator: 'Add administrator',
+        withPublic: 'Contains everyone visible'
     },
     status: { // 状态
         loading: 'Loading...',

@@ -58,7 +58,8 @@ module.exports = {
         upload: '上傳',
         fill: '補',
         viewLowerLevelLog: '查看下級匯報',
-        addAdministrator: '添加管理員'
+        addAdministrator: '添加管理員',
+        withPublic: '包含所有人可見'
     },
     status: { // 狀態
         loading: '正在加載...',
