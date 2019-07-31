@@ -87,8 +87,8 @@
                 {{totalMap.total ? `${totalMap.total}${$t('noun.article')}` : ''}}
             </div>
         </div>
-        <fs-empty-tips v-if="!data.length" :iconType="emptyData ? '' : type"
-           :emptyMsg="emptyData ? $t('status.noRelevantData') : getEmptyMsg()" />  
+        <YYEmpty v-if="!data.length" :iconType="emptyData ? '' : type"
+           :text="emptyData ? $t('status.noRelevantData') : getEmptyMsg()" />  
     </div>
 </template>
 <script>
@@ -225,6 +225,9 @@ export default {
     width: 100%;
     font-size: 0;
     position: relative;
+    .yy-empty {
+        margin-top: 10%;
+    }
     .ps.ps--active-x > .ps__scrollbar-x-rail, .ps.ps--active-y > .ps__scrollbar-y-rail {
         background-color: transparent!important;
     }

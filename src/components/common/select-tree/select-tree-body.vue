@@ -24,18 +24,18 @@
 			</span>
 		</p>
 		<div class="show-all-wrap" v-show="info.limit.showAll && info.limit.count==1">
-			<Button class="btn" type="ghost" v-show="showAllIndex==1" @click="selectAll('dep')" >
+			<YYButton class="btn" type="ghost" v-show="showAllIndex==1" @click="selectAll('dep')" >
 				{{$t('operate.all')}}{{$t('noun.department')}}
-			</Button>
-			<Button class="btn" type="ghost" v-show="showAllIndex==2" @click="selectAll('team')">
+			</YYButton>
+			<YYButton class="btn" type="ghost" v-show="showAllIndex==2" @click="selectAll('team')">
 				{{$t('operate.all')}}{{$t('noun.internalGroup')}}
-			</Button>
-			<Button class="btn" type="ghost" v-show="showAllIndex==3" @click="selectAll('man')" >
+			</YYButton>
+			<YYButton class="btn" type="ghost" v-show="showAllIndex==3" @click="selectAll('man')" >
 				{{$t('operate.all')}}{{$t('noun.personnel')}}
-			</Button>
+			</YYButton>
 		</div>
-		<Button class="btn" type="ghost" @click="handleCancel">{{$t('operate.cancel')}}</Button>
-		<Button class="btn" type="primary" @click="handleOk">{{$t('operate.ok')}}</Button>
+		<YYButton class="btn" type="ghost" @click="handleCancel">{{$t('operate.cancel')}}</YYButton>
+		<YYButton class="btn" type="primary" @click="handleOk">{{$t('operate.ok')}}</YYButton>
 	</div>
 </Modal>
 </template>

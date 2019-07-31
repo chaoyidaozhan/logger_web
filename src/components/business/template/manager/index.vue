@@ -70,9 +70,9 @@
                                         @click.native="handleDeleteOptions(index)" />
                                 </li>
                             </ul>
-                            <Button type="ghost" long :disabled="!(currentItem.options.length < 10)" @click="handleAddOptions">
+                            <YYButton type="ghost" long :disabled="!(currentItem.options.length < 10)" @click="handleAddOptions">
                                 {{$t('noun.addOption')}}
-                            </Button>
+                            </YYButton>
                         </div>
                         <div class="extra-item" v-if="currentItem.type !== 'InputContainer'">
                             <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
@@ -98,7 +98,7 @@
                             </Checkbox>
                         </div>
                     </div>
-                    <fs-empty-tips v-else :emptyMsg="$t('toast.thereIsNoControl')" iconType="template"/>
+                    <YYEmpty v-else :text="$t('toast.thereIsNoControl')" iconType="template"/>
                 </TabPane>
                 <!-- 模板设置 -->
                 <TabPane :label="`${$t('noun.templateSettings')}`">
@@ -154,8 +154,8 @@
         <Modal :width="lang == 'en' ? 420 : 300" class-name="template-modal" :mask-closable="false" :closable="false" v-model="showSuccessModal">
             <p>{{$t('toast.savedSuccessfully')}}</p>
             <div slot="footer">
-                <Button type="primary" @click="onOk">{{$t('toast.returnToTemplateManagement')}}</Button>
-                <Button type="ghost" @click="onCancel">{{$t('toast.continueEditing')}}</Button>
+                <YYButton type="primary" @click="onOk">{{$t('toast.returnToTemplateManagement')}}</YYButton>
+                <YYButton type="ghost" @click="onCancel">{{$t('toast.continueEditing')}}</YYButton>
             </div>
         </Modal>
         <Modal :width="580" class-name="preview-modal" v-model="showPreviewModal">

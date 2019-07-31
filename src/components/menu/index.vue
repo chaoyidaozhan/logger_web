@@ -1,9 +1,9 @@
 <template>
     <div class="logger-menu">
         <div class="logger-menu-logo">
-            <Button type="primary" @click="goLoggerDetail">
+            <YYButton type="primary" @click="goLoggerDetail">
                 {{$t('operate.createLog')}}
-            </Button>
+            </YYButton>
         </div>
         <div class="logger-menu-layout" ref="loggerMenuLayout">
             <Menu ref="loggerMenu"

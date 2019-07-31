@@ -76,7 +76,7 @@ export default {
             }, 200);
         },
         handleDelete() {
-            this.$Modal.confirm({
+            this.$YYModal.show({
                 title: this.$t('toast.deleteTemplateReminder'),
                 content: this.$t('toast.clickOKToDeleteTheTemplate'),
                 onOk:()=>{

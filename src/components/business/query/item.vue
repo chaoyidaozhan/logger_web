@@ -444,7 +444,7 @@ export default {
             }, 400)
         },
         handleDelete() { // 删除
-            this.$Modal.confirm({
+            this.$YYModal.show({
                 title: this.$t('toast.deleteLogPrompt'),
                 content: this.$t('toast.clickOKToDeleteTheLog'),
                 onOk: (res)=>{

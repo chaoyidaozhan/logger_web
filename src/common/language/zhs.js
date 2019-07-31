@@ -59,7 +59,7 @@ module.exports = {
         fill: '补',
         viewLowerLevelLog: '查看下级汇报',
         addAdministrator: '添加管理员',
-        withPublic: '包含所有人可见'
+        withPublic: '包含公开汇报'
     },
     status: { // 状态
         loading: '正在加载...',

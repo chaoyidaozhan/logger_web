@@ -5,16 +5,16 @@
             <span
                 v-if="hasQuery"
                 class="pull-right" >
-                <Button
+                <YYButton
                     @click="handleExport"
                     type="default">
                     {{$t('operate.export')}}EXCEL
-                </Button>
-                <Button
+                </YYButton>
+                <YYButton
                     @click="handleSummary"
                     type="primary" >
                     {{$t('noun.summary')}}{{$t('noun.log')}}
-                </Button>
+                </YYButton>
             </span>
         </template>
         <template slot="body">

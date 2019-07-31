@@ -18,7 +18,7 @@
                     {{modalParams.groupId ? $t('noun.internalGroup') : $t('noun.department')}}
                 </div>
                 <div class="pull-right" @click="exportExcel">
-                    <Button type="primary">{{$t('operate.export')}}</Button>
+                    <YYButton type="primary">{{$t('operate.export')}}</YYButton>
                 </div>
             </div>
             <div>

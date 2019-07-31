@@ -39,9 +39,9 @@
                         :createDate="createDate"/>
                 </FormItem> 
                 <FormItem class="search-btn">
-                    <Button :disabled="loading" type="primary" @click="handleQuery">
+                    <YYButton :disabled="loading" type="primary" @click="handleQuery">
                         {{$t('operate.search')}}
-                    </Button>
+                    </YYButton>
                 </FormItem> 
             </Form>
         </div>
@@ -102,9 +102,9 @@
                     </template>
                 </div>
             </template>
-            <fs-empty-tips v-else 
+            <YYEmpty v-else 
                 iconType="member" 
-                :emptyMsg="hasQuery ? $t('status.noRelevantData') : $t('toast.selectTheDataThatExport')" />  
+                :text="hasQuery ? $t('status.noRelevantData') : $t('toast.selectTheDataThatExport')" />  
         </div>
     </div>
 </template>
@@ -527,6 +527,9 @@ export default {
 <style lang="less">
 @import '../../../assets/css/var.less';
 .summary-new {
+    .yy-empty {
+        margin-top: 10%;
+    }
     .tabs {
         padding-bottom: 6px;
         .tabs-nav-wrapper {

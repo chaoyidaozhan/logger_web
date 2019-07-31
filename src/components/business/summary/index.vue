@@ -17,16 +17,15 @@
                     </span>
                 </span>
                 <span class="bottom-right">
-                    <Button type="success" @click="loggerSummary">
+                    <YYButton type="success" @click="loggerSummary">
                         {{$t('noun.summary')}}{{$t('noun.log')}}
-                    </Button>
-                    <Button type="ghost" @click="exportECL">{{$t('operate.export')}} EXCEL</Button>
+                    </YYButton>
+                    <YYButton type="ghost" @click="exportECL">{{$t('operate.export')}} EXCEL</YYButton>
                 </span>
             </div>
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
-        <fs-empty-tips v-else :iconType="iconType" :emptyMsg="emptyMsg" />
-        <span class="nodata" v-if="!list.length&&iconFlag">{{$t('toast.selectTheDataThatExport')}}</span>
+        <YYEmpty v-else vertical="top" :text="!list.length&&iconFlag ? $t('toast.selectTheDataThatExport') : emptyMsg" />
     </div>
 </template>
 <script>

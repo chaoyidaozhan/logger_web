@@ -17,12 +17,12 @@
                 <i class="icon-expression face-btn" 
                    @click="chooseFace"></i>
                 <i class="file-btn icon-enclosure" @click="uploadFile"></i>
-                <Button class="ok-btn" 
+                <YYButton class="ok-btn" 
                         type="primary" 
                         :disabled="btnloading"
                         @click="commitComment">
                     {{$t('operate.reply')}}
-                </Button>
+                </YYButton>
                 <emoji class="emoji" 
                        v-if="showFace"
                        @handleFace="handleFace"></emoji>            
@@ -333,7 +333,7 @@
             },
             deleteSingleComment(commentItem) { // 删除某条评论(仅自己)
                 let commentItemId = commentItem.id;
-                this.$Modal.confirm({
+                this.$YYModal.show({
                     title: this.$t('toast.deleteReplyPrompt'),
                     content: this.$t('toast.clickOKToDeleteTheReply'),
                     onOk: () =>{
@@ -439,7 +439,7 @@
         .comment-btn {
             position: relative;
             width: 100%;
-            padding: 13px;
+            padding: 13px 0;
             // border: 1px solid @border-color;
             border-top: 0;
             // background-color: #f5f5f5;
@@ -454,8 +454,6 @@
             }
             .ok-btn {
                 float: right;
-                padding-top: 3px;
-                padding-bottom: 3px;
             }
             .emoji {
                 position: absolute;

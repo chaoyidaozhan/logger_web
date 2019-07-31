@@ -45,18 +45,18 @@
             <FormItem :label="$t('operate.file')">
                 <template v-if="uploadFile">
                     <Upload :action="uploadFile" :on-success="handleFileSuccess" :default-file-list="fileStr" :on-remove="handleRemoveFile">
-                        <Button type="default">{{$t('operate.upload')}}</Button>
+                        <YYButton type="default">{{$t('operate.upload')}}</YYButton>
                     </Upload>
                 </template>
             </FormItem>
            
             <FormItem>
-                <Button type="primary" class="submit-btn" @click="handleSubmit" :loading="btnloading">
+                <YYButton type="primary" class="submit-btn" @click="handleSubmit" :loading="btnloading">
                     {{$t('operate.submit')}}
-                </Button>
-                <Button type="default" class="cancel-btn" @click="cancleSubmit">
+                </YYButton>
+                <YYButton type="default" class="cancel-btn" @click="cancleSubmit">
                     {{$t('operate.cancel')}}
-                </Button>
+                </YYButton>
             </FormItem>
         </Form>
     </div>
@@ -320,7 +320,7 @@ export default {
             })
         },
         cancleSubmit() { //取消编辑
-            this.$Modal.confirm({
+            this.$YYModal.show({
                 title: this.$t('toast.cancelEditing'),
                 content: this.$t('toast.cancelEditingConfirm'),
                 onOk: () => {

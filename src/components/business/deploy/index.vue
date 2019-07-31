@@ -3,8 +3,8 @@
         <div class="deploy-member">
             <div class="deploy-title">{{$t('operate.addAdministrator')}}
                 <span>
-                    <Button type="primary" @click="handleAddMember">{{$t('operate.add')}}</Button>
-                    <Button type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</Button>
+                    <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
+                    <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
                 </span>
             </div>
             <div class="deploy-member-content" 
@@ -24,7 +24,7 @@
         <div class="deploy-limit">
             <div class="deploy-title" v-if="currentMember">
                 {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
-                <span><Button type="default" @click="handleAddLimit">{{$t('operate.add')}}</Button></span>
+                <span><YYButton type="default" @click="handleAddLimit">{{$t('operate.add')}}</YYButton></span>
             </div>
             <div class="deploy-limit-content" v-if="deployLimit && deployLimit.length">
                 <span class="deploy-limit-scope" 
@@ -96,7 +96,7 @@ export default {
             })
         },
         handleDeleteMember() {
-            this.$Modal.confirm({
+            this.$YYModal.show({
                 title: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
                 content: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
                 onOk: () => {

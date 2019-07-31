@@ -11,11 +11,11 @@
                 <span 
                     v-if="type" 
                     class="back pull-right" >
-                    <Button 
+                    <YYButton 
                         type="primary" 
                         @click="saveDraftFun">
                         {{$t('operate.saveAsDraft')}}
-                    </Button>
+                    </YYButton>
                 </span>
             </div>
         </template>

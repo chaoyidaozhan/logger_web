@@ -12,22 +12,22 @@
                 </div>
                 <div class="pull-right">
                     <!--启用， 停用-->
-                    <Button type="ghost" @click="handlePreview">
+                    <YYButton type="ghost" @click="handlePreview">
                         {{$t('operate.preview')}}
-                    </Button>
+                    </YYButton>
                     <template v-if="!dataStatus">
-                        <Button type="ghost" @click="handleSubmit('1')">
+                        <YYButton type="ghost" @click="handleSubmit('1')">
                             {{$t('operate.saveAndEnable')}}
-                        </Button>
-                        <Button type="primary" @click="handleSubmit(null)">
+                        </YYButton>
+                        <YYButton type="primary" @click="handleSubmit(null)">
                             {{$t('operate.save')}}
-                        </Button>
+                        </YYButton>
                     </template>
                     <template v-else>
                         <!--启用-->
-                        <Button type="ghost" @click="handleStop">
+                        <YYButton type="ghost" @click="handleStop">
                             {{$t('operate.disable')}}
-                        </Button>
+                        </YYButton>
                     </template>
                 </div>
             </div>

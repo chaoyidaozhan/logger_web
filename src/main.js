@@ -16,8 +16,19 @@ import 'app_src/directives/loading/'
 // css文件
 import 'video.js/dist/video-js.min.css'
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
+import 'yyzone/dist/styles/yyzone.min.css'
 import './assets/css/common.less'
 import 'vue-photo-preview/dist/skin.css'
+
+import YYButton from 'yyzone/src/components/base/button/'
+import YYEmpty from 'yyzone/src/components/base/empty/'
+import YYLoadingH from 'yyzone/src/components/base/loading-h/'
+import YYModal from 'yyzone/src/components/base/modal/'
+
+Vue.component('YYButton', YYButton)
+Vue.component('YYEmpty', YYEmpty)
+Vue.component('YYLoadingH', YYLoadingH)
+Vue.component('YYModal', YYModal)
 
 const options = {
     history: false,
@@ -54,6 +65,7 @@ new Promise(function (resolve) {
 
     Vue.prototype.$eventbus = new Vue() // 建立组件全局通信的钩子
     Vue.prototype.$ajax = ajax // 将ajax挂在到vue实例
+    Vue.prototype.$YYModal = YYModal
     window.storage = storage // 建立全局的storage
 
     const router = new VueRouter({ // 创建路由
@@ -71,7 +83,7 @@ new Promise(function (resolve) {
         if ((from.path.indexOf('/LoggerTemplate/operate') != -1 &&
                 to.path.indexOf('/LoggerTemplate/operate') < 0) ||
             (from.path.indexOf('/LoggerDetail/operate/create') != -1 && !window.createComplete)) {
-            iView.Modal.confirm({
+            YYModal.show({
                 title: i18n.messages[lang].toast.pagePrompt,
                 content: i18n.messages[lang].toast.confirmToLeaveCurrentPage,
                 onOk: () => {

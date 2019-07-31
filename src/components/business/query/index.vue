@@ -12,16 +12,11 @@
                 :loggerItemData="item"
                 :key="item.id" />
         </transition-group>
+        <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
         <div class="loading">
-            <div class="loading-content" v-if='loading'>
-                <Spin>
-                    <Icon type="load-c" size=18 class="demo-spin-icon-load"></Icon>
-                    <span>{{$t('status.loading')}}</span>
-                </Spin>
-            </div>
             <div class="loading-content" v-if="!hasMore && !loading && list.length">{{$t('status.loadedAllData')}}</div>
         </div>
-        <fs-empty-tips v-if="!list.length && !loading"/>
+        <YYEmpty vertical="top" v-if="!list.length && !loading"/>
          <!--操作记录弹层-->
         <Modal
             v-model="operateModal"
