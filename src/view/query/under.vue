@@ -15,13 +15,13 @@
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/query';
-export default {
-    data() {
-        return {
-            range: '1'
-        }
-    },
-    mixins: [query]
-}
+    import query from 'app_src/mixins/query'
+    export default {
+        data() {
+            return {
+                range: '1'
+            }
+        },
+        mixins: [query]
+    }
 </script>

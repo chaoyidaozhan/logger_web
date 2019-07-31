@@ -167,7 +167,7 @@ export default {
                 error: (res)=>{
                     this.loaded = true;
                     this.list = [];
-                    this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                    this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                 }
             })
         },

@@ -1,6 +1,6 @@
 <template>
     <div class="logger-page" v-if="totalCount > pageSize">
-        <Page :total="totalCount" :page-size="pageSize" :current="pageNo" @on-change="changePage" show-elevator></Page>
+        <YYPagination :total="totalCount" :page-size="pageSize" :current="pageNo" @on-change="changePage" show-elevator/>
     </div>
 </template>
 <script>

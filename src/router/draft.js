@@ -1,7 +1,7 @@
 /**
  * 我的草稿
  */
-import Draft from 'app_view/draft'
+const Draft = () => import('app_view/draft')
 
 export default [{
     path: 'DraftOfMine',

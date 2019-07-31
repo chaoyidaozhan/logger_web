@@ -15,7 +15,7 @@
 				</div>
 				<div class="r">
 					<!-- Checkbox阻止事件 -->
-					<Checkbox class="cbx" style="pointer-events:none" :value="each.checked"/>
+					<YYCheckbox class="cbx" style="pointer-events:none" :value="each.checked"/>
 				</div>				
 			</li>
 			<li class="ajaxStatus" v-if="info.showLoading">

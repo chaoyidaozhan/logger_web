@@ -3,9 +3,9 @@
  * CreateList 创建日志列表
  * CreateOperate 创建日志操作
  */
-import Create from 'app_view/create'
-import CreateList from 'app_view/create/list'
-import CreateOperate from 'app_view/create/operate'
+const Create = () => import('app_view/create')
+const CreateList = () => import('app_view/create/list')
+const CreateOperate = () => import('app_view/create/operate')
 
 export default [{
     path: 'LoggerDetail',

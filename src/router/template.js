@@ -3,9 +3,9 @@
  * TemplateList 日志模板列表 --列表
  * TemplateOperate 日志模板 --新增编辑
  */
-import Template from 'app_view/template/'
-import TemplateList from 'app_view/template/list'
-import TemplateOperate from 'app_view/template/operate'
+const Template = () => import('app_view/template/')
+const TemplateList = () => import('app_view/template/list')
+const TemplateOperate = () => import('app_view/template/operate')
 
 export default [
     {

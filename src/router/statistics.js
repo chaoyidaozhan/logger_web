@@ -4,9 +4,9 @@
  * StatisticsGroup 内部群
  * StatisticsMember 成员
  */
-import StatisticsDept from 'app_view/statistics/dept'
-import StatisticsGroup from 'app_view/statistics/group'
-import StatisticsMember from 'app_view/statistics/member'
+const StatisticsDept = () => import('app_view/statistics/dept')
+const StatisticsGroup = () => import('app_view/statistics/group')
+const StatisticsMember = () => import('app_view/statistics/member')
 
 export default [{
     path: 'StatisticsOfDept',

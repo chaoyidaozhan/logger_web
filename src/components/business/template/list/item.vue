@@ -70,7 +70,7 @@ export default {
                         this.data.dataStatus = name == 'start' ? 1 : 0
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || this.$t('status.networkError'))
+                        this.$YYMessage.error(res && res.msg || this.$t('status.networkError'))
                     }
                 });
             }, 200);
@@ -88,7 +88,7 @@ export default {
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error(res && res.msg || this.$t('status.networkError'))
+                            this.$YYMessage.error(res && res.msg || this.$t('status.networkError'))
                         }
                     })
                 }

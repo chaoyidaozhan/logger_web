@@ -41,10 +41,10 @@
                 return type;
             },
             exceededSize() {
-                this.$Message.error("文件不能大于100M!");
+                this.$YYMessage.error("文件不能大于100M!");
             },
             uploadError() {
-                this.$Message.error("网络错误, 文件上传失败!");
+                this.$YYMessage.error("网络错误, 文件上传失败!");
             },
             uploadSuccess(res, file, fileList) {
                 let data = res && res.data

@@ -7,9 +7,9 @@
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom" v-if="list.length">
                 <span class="bottom-left">
-                    <Checkbox v-model="dataType" @on-change="handleSelectAll(dataType)">
+                    <YYCheckbox v-model="dataType" @on-change="handleSelectAll(dataType)">
                         {{$t('operate.checkAll')}}
-                    </Checkbox>
+                    </YYCheckbox>
                     <span class="checkout-note">
                         {{$t('operate.selected')}}
                         <span class="check-num">{{checkNum}}</span>
@@ -132,7 +132,7 @@ export default {
         },
         loggerSummary() { // 日志汇总
             if (this.checkNum <= 0) {
-                this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'));
+                this.$YYMessage.warning(this.$t('toast.pleaseSelectTheSummaryLog'));
             } else {
                 this.handleSummaryData();
                 this.$store.dispatch('update_template_content', {
@@ -282,7 +282,7 @@ export default {
                 }
 
             } else {
-                this.$Message.warning((res && res.msg) || this.$t('noun.networkError'));
+                this.$YYMessage.warning((res && res.msg) || this.$t('noun.networkError'));
             }
         },
         getParams() { // 合并参数
@@ -301,10 +301,10 @@ export default {
         loadData() { // 加载数据
             let data = this.getParams();
             if (!data.templateId) {
-                this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`);
+                this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`);
                 return false;
             } else if (!data.beginDate || !data.endDate) {
-                this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`);
+                this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`);
                 return false;
             } else {
                 this.loading = true;
@@ -317,7 +317,7 @@ export default {
                     },
                     error: (res) => {
                         this.loading = false;
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 })
             }

@@ -17,27 +17,27 @@
                     <div class="transform-list-body">
                         <template v-if="transformType === 'task'">
                             <template v-if="transformList.taskNames.length">
-                                <CheckboxGroup v-model="checkedTask">
-                                    <Checkbox 
+                                <YYCheckboxGroup v-model="checkedTask">
+                                    <YYCheckbox 
                                         v-for="(item, index) in transformList.taskNames" 
                                         :key="index" 
                                         :label="item">
                                         <span class="checkbox-label">{{item}}</span>
-                                    </Checkbox>
-                                </CheckboxGroup>
+                                    </YYCheckbox>
+                                </YYCheckboxGroup>
                             </template>
                             <div v-else class="empty">{{$t('status.noRelevantData')}}</div>
                         </template>
                         <template v-if="transformType === 'schedule'">
                             <template v-if="transformList.scheduleNames.length">
-                                <CheckboxGroup v-model="checkedSchedule">
-                                    <Checkbox 
+                                <YYCheckboxGroup v-model="checkedSchedule">
+                                    <YYCheckbox 
                                         v-for="(item, index) in transformList.scheduleNames" 
                                         :key="index" 
                                         :label="item">
                                         <span class="checkbox-label">{{item}}</span>
-                                    </Checkbox>
-                                </CheckboxGroup>
+                                    </YYCheckbox>
+                                </YYCheckboxGroup>
                             </template>
                             <div v-else class="empty">{{$t('status.noRelevantData')}}</div>
                         </template>
@@ -73,31 +73,32 @@
             </div>
         </template>
         <template v-if="data.type == 'InputRadio'">
-            <RadioGroup v-model="data.content">
-                <Radio v-for="(val, key) in data.options" 
-                    :label="`${val.string}`" 
+            <YYRadioGroup v-model="data.content">
+                <YYRadio v-for="(val, key) in data.options" 
+                    :label="`${val.string}`"
                     :key="key">
                     {{val.string}}
-                </Radio>
-            </RadioGroup>
+                </YYRadio>
+            </YYRadioGroup>
         </template>
         <template v-if="data.type == 'InputCheckbox'">
-            <CheckboxGroup v-model="data.content">
-                <Checkbox v-for="(val, key) in data.options" 
+            <YYCheckboxGroup v-model="data.content">
+                <YYCheckbox v-for="(val, key) in data.options" 
                     :key="key"
                     :label="val.string">
-                </Checkbox>
-            </CheckboxGroup>
+                    {{val.string}}
+                </YYCheckbox>
+            </YYCheckboxGroup>
         </template>
         <template v-if="data.type == 'InputDate'">
-            <DatePicker 
+            <YYDatePicker 
                 v-model="data.dateValueSec"
                 class="date-wrap"
                 type="date"
                 placement="bottom-start"
                 :placeholder="$t('noun.date')" 
                 :clearable="false">
-            </DatePicker>
+            </YYDatePicker>
         </template>
         <template v-if="data.type == 'InputContainer' && data.children.length">
             <div

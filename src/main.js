@@ -20,17 +20,35 @@ import 'yyzone/dist/styles/yyzone.min.css'
 import './assets/css/common.less'
 import 'vue-photo-preview/dist/skin.css'
 
+// 按需引入YYZone组件
 import YYButton from 'yyzone/src/components/base/button/'
 import YYEmpty from 'yyzone/src/components/base/empty/'
+import YYRadio from 'yyzone/src/components/base/radio/'
+import YYCheckbox from 'yyzone/src/components/base/checkbox/'
+import YYDatePicker from 'yyzone/src/components/base/date-picker/'
+import YYSelect from 'yyzone/src/components/base/select/'
+import YYPagination from 'yyzone/src/components/base/pagination/'
+import YYLoading from 'yyzone/src/components/base/loading/'
+import YYLoadingDirective from 'yyzone/src/directives/loading'
+import YYMessage from 'yyzone/src/components/base/message/'
 import YYLoadingH from 'yyzone/src/components/base/loading-h/'
 import YYModal from 'yyzone/src/components/base/modal/'
 
 Vue.component('YYButton', YYButton)
+Vue.component('YYDatePicker', YYDatePicker)
 Vue.component('YYEmpty', YYEmpty)
+Vue.component('YYLoading', YYLoading)
+Vue.component('YYRadio', YYRadio)
+Vue.component('YYRadioGroup', YYRadio.YYRadioGroup)
+Vue.component('YYCheckbox', YYCheckbox)
+Vue.component('YYCheckboxGroup', YYCheckbox.YYCheckboxGroup)
+Vue.component('YYPagination', YYPagination)
 Vue.component('YYLoadingH', YYLoadingH)
 Vue.component('YYModal', YYModal)
 
-const options = {
+Vue.directive('yyloading', YYLoadingDirective)
+
+const options = { // 图片预览插件配置
     history: false,
     bgOpacity: .6,
     closeOnScroll: false,
@@ -66,15 +84,13 @@ new Promise(function (resolve) {
     Vue.prototype.$eventbus = new Vue() // 建立组件全局通信的钩子
     Vue.prototype.$ajax = ajax // 将ajax挂在到vue实例
     Vue.prototype.$YYModal = YYModal
+    Vue.prototype.$YYLoading = YYLoading
+    Vue.prototype.$YYMessage = YYMessage
     window.storage = storage // 建立全局的storage
 
     const router = new VueRouter({ // 创建路由
         mode: 'hash',
         routes
-    })
-
-    iView.LoadingBar.config({ // 配置loadingbar
-        height: 2
     })
 
     // 用于创建日志的通信
@@ -87,7 +103,6 @@ new Promise(function (resolve) {
                 title: i18n.messages[lang].toast.pagePrompt,
                 content: i18n.messages[lang].toast.confirmToLeaveCurrentPage,
                 onOk: () => {
-                    iView.LoadingBar.start()
                     next()
                 },
                 onCancel: () => {
@@ -99,17 +114,9 @@ new Promise(function (resolve) {
                 }
             })
         } else {
-            iView.LoadingBar.start()
             next()
         }
     })
-
-    router.afterEach((to, from, next) => { // 路由切换之后
-        setTimeout(() => {
-            iView.LoadingBar.finish()
-        }, 200)
-    })
-
     new Vue({
         mixins: [http],
         i18n,

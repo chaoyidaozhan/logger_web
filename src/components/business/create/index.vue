@@ -4,7 +4,7 @@
             <FormItem :label="`${$t('noun.logDate')}${isFill}`"
                 :class="templateItemData.diaryTimeRequired===1?'required-icon':''"
                 v-if="templateItemData.diaryTimeStatus">
-                 <DatePicker type="date"
+                 <YYDatePicker type="date"
                     placement="bottom-start"
                     :placeholder="`${$t('operate.please')}${$t('operate.select')}`" 
                     class="date-wrap"
@@ -12,7 +12,7 @@
                     v-model="dateValue"
                     :clearable="false"
                     >
-                </DatePicker>
+                </YYDatePicker>
             </FormItem>
             <FormItem :label="$t('noun.visibleRange')" class="required-icon">
                 <fs-select-tree-input 
@@ -233,11 +233,11 @@ export default {
                         this.templateContent = JSON.parse(res.data.content) || []
                         this.initData(this.templateItemData, this.templateContent)
                     } else {
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                    this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                 }
             })
         },
@@ -264,11 +264,11 @@ export default {
                     if (res && res.code === 0) {
                         this.transformList = res.data
                     } else {
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                    this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                 }
             })
         },
@@ -283,11 +283,11 @@ export default {
                         let datalist = res.data.ranges || []
                         this.initRange(datalist)
                     } else {
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
                 },
                 error: (res) => {
-                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                    this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                 }
             })
         },
@@ -467,6 +467,7 @@ export default {
                         content: this.templateContentClone
                     }
                 })
+                console.log(this.templateContentClone)
                 let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
                     diaryTime: FormatTime(this.dateValue ? new Date(this.dateValue) : new Date(), "YYYY-MM-DD"),
@@ -509,7 +510,7 @@ export default {
                     requestBody: true,
                     success: (res) => {
                         if (res && res.code === 0) {
-                            this.saveDraft ? this.$Message.success(this.$t('toast.theDraftOfTheLogWasSavedSuccessfully')) : (this.editFlag && !submitData.dataStatus ? this.$Message.success(this.$t('toast.theLogWasSuccessfullyModified')) : this.$Message.success(this.$t('toast.theLogWasCreatedSuccessfully')))
+                            this.saveDraft ? this.$YYMessage.success(this.$t('toast.theDraftOfTheLogWasSavedSuccessfully')) : (this.editFlag && !submitData.dataStatus ? this.$YYMessage.success(this.$t('toast.theLogWasSuccessfullyModified')) : this.$YYMessage.success(this.$t('toast.theLogWasCreatedSuccessfully')))
                             this.$router.push({
                                 path:  this.saveDraft ? '/DraftOfMine' : '/LoggerQueryAll',
                                 query: {
@@ -517,12 +518,12 @@ export default {
                                 }
                             })
                         } else {
-                            this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                            this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                         }
                         this.btnloading = false
                     },
                     error: (res) => {
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                         this.btnloading = false
                     }
                 })

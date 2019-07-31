@@ -13,7 +13,7 @@
                     :class="(orderType == item.id) ?' selected': ''"
                     :key="item.id">
                     <span>{{item.name}}</span>
-                    <DatePicker type="daterange" v-if="item.id == 3"
+                    <YYDatePicker type="daterange" v-if="item.id == 3"
                         placement="bottom-end"
                         v-model="pickerValue"
                         :placeholder="$t('noun.date')" 
@@ -21,7 +21,7 @@
                         :editable="false"
                         @on-change="change"
                         :style="{'width': '190px'}">
-                    </DatePicker>
+                    </YYDatePicker>
                 </li>
             </ul>
         </div>

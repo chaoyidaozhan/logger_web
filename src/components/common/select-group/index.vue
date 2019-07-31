@@ -1,10 +1,10 @@
 <template>
     <div class="select-group">
         <Select v-model="groupId" filterable>
-                <Option v-for="item in groupListData"
-                    :value="item.gid"
-                    :key="item.gid">{{ item.groupName }}
-                </Option>
+            <Option v-for="item in groupListData"
+                :value="item.gid"
+                :key="item.gid">{{ item.groupName }}
+            </Option>
         </Select>
     </div>
 </template>
@@ -38,11 +38,11 @@ export default {
                     if(res && res.code === 0) {
                         this.groupListData = this.groupListData.concat(res.data || []);
                     } else {
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'));
                     }
                 },
                 error: (res)=>{
-                    this.$Message.error((res && res.msg) || this.$t('status.networkError'));
+                    this.$YYMessage.error((res && res.msg) || this.$t('status.networkError'));
                 }
             });
         }

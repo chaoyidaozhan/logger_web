@@ -1,7 +1,7 @@
 /**
  * 三湘配置
  */
-import Deploy from 'app_view/deploy'
+const Deploy = () => import('app_view/deploy')
 
 export default [{
     path: 'Deploy',

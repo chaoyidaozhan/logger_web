@@ -45,7 +45,6 @@
 <script>
 import FsLoggerListItem from './item'
 import FormatTime from 'app_src/filters/format-time'
-import FsEmptyTips from 'app_component/common/empty-tips/'
 import FsAvatar from 'app_component/common/avatar'
 
 /**
@@ -109,7 +108,6 @@ export default {
     },
     components: {
         FsLoggerListItem,
-        FsEmptyTips,
         FsAvatar
     },
     watch: {
@@ -170,7 +168,7 @@ export default {
                 }
             } else {
                 this.list = []
-                this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
             }
         },
         handleDelete(id) { // 删除

@@ -1,5 +1,5 @@
 <template>
-    <div class="deploy-container">
+    <div class="deploy-container" v-yyloading="!(deployMember && deployMember.length)">
         <div class="deploy-member">
             <div class="deploy-title">{{$t('operate.addAdministrator')}}
                 <span>
@@ -7,7 +7,7 @@
                     <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
                 </span>
             </div>
-            <div class="deploy-member-content" 
+            <div class="deploy-member-content"
                 v-if="deployMember && deployMember.length">
                 <div class="deploy-member-card" 
                     v-for="(item) in deployMember"
@@ -88,7 +88,7 @@ export default {
                             if(res && res.code == 0) {
                                 this.getDeployMember()
                             } else {
-                                this.$Message.warning(res.msg)
+                                this.$YYMessage.warning(res.msg)
                             }
                         }
                     })
@@ -177,7 +177,7 @@ export default {
                         if(res && res.code == 0) {
                             this.getDeployLimit()
                         } else {
-                            this.$Message.warning(res.msg)
+                            this.$YYMessage.warning(res.msg)
                         }
                     }
                 })
@@ -270,9 +270,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '~app_assets/css/var.less';
 .deploy-container {
     padding: 20px;
+    height: 100%;
+    position: relative;
     .deploy-title {
         color: @text-color;
         font-size: 14px;

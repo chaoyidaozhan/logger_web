@@ -7,13 +7,14 @@
  * QueryUnder 下属
  * QueryLevel 下级
  */
-import QueryAll from 'app_view/query/all'
-import QueryAtme from 'app_view/query/atme'
-import QueryGroup from 'app_view/query/group'
-import QueryMy from 'app_view/query/my'
-import QueryUnder from 'app_view/query/under'
-import QueryLevel from 'app_view/query/level'
-import QueryUnread from 'app_view/query/unread'
+
+const QueryAll = () => import('app_view/query/all')
+const QueryAtme = () => import('app_view/query/atme')
+const QueryGroup = () => import('app_view/query/group')
+const QueryMy = () => import('app_view/query/my')
+const QueryUnder = () => import('app_view/query/under')
+const QueryLevel = () => import('app_view/query/level')
+const QueryUnread = () => import('app_view/query/unread')
 
 export default [{
     path: 'LoggerQueryAll',

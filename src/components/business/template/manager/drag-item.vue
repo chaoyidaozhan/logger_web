@@ -23,24 +23,24 @@
                     <Input :placeholder="`${item.deion}${item.unit ? `(单位：${item.unit})` : ''}`" type="text"/>
                 </template>
                 <template v-if="item.type == 'InputRadio'">
-                    <RadioGroup>
-                        <Radio v-for="(val, key) in item.options" :key="key" :label="val.string" ></Radio>
-                    </RadioGroup>
+                    <YYRadioGroup>
+                        <YYRadio v-for="(val, key) in item.options" :key="key" :label="val.string" ></YYRadio>
+                    </YYRadioGroup>
                 </template>
                 <template v-if="item.type == 'InputCheckbox'">
-                    <CheckboxGroup>
-                        <Checkbox v-for="(val, key) in item.options" :key="key">
+                    <YYCheckboxGroup>
+                        <YYCheckbox v-for="(val, key) in item.options" :key="key">
                             {{val.string}}
-                        </Checkbox>
-                    </CheckboxGroup>
+                        </YYCheckbox>
+                    </YYCheckboxGroup>
                 </template>
                 <template v-if="item.type == 'InputDate'">
-                    <DatePicker type="date"
+                    <YYDatePicker type="date"
                         placement="bottom-start"
                         :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
                         class="date-wrap"
                         :clearable="false">
-                    </DatePicker>
+                    </YYDatePicker>
                 </template>
             </div>
             <!-- 蒙版 -->

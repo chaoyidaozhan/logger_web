@@ -1,123 +1,117 @@
 <template>
-    <div 
-        class="logger-container" 
-        v-loading="{
-            loading: loaded, 
-            text: $t('status.loading')
-        }">
-        <fs-sign-menu ref="menu" v-if="loaded"/>
+    <div class="logger-container">
+        <fs-sign-menu ref="menu" v-if="hasGetUserInfo"/>
         <router-view v-if="hasGetUserInfo"/>
     </div>
 </template>
 <script>
-import FsSignMenu from 'app_component/menu'
-export default {
-    data() {
-        return {
-            loaded: false, // 是否loading成功
-            hasGetUserInfo: false, // 是否成功获取用户信息
-            token: ''
-        }
-    },
-    components: {
-        FsSignMenu,
-    },
-    watch: {
-        '$route': function (to, from) { // 路由权限控制
-            this.$eventbus.$emit('checkLimit', to, from);
-        }
-    },
-    methods: {
-        setToken() { // 设置token
-            let $sign = {
-                token: this.$route && this.$route.query && this.$route.query.token
-            }
-            storage.set('$sign', $sign);
-            this.token = $sign.token;
+    import FsSignMenu from 'app_component/menu'
+    export default {
+        components: {
+            FsSignMenu,
         },
-        getUserInfo() { // 获取用户信息
-            this.$ajax({
-                url: '/main/getUserInfo',
-                type: 'get',
-                success: (res)=>{
-                    if(res && res.code === 0) {
-                        res.data.token = this.token;
-                        this.$store.dispatch('update_userinfo', { //登录成功更新store
-                            userInfo: res.data || {}
-                        });
-                        this.hasGetUserInfo = true;
-                        this.$eventbus.$emit('checkLimit');
-                    } else {
-                        this.$eventbus.$emit('checkLimit');
-                        this.$Message.warning((res && res.msg) || this.$t('status.networkError'));
-                    }
-                    this.loaded = true;
-                },
-                error: (res)=>{
-                    console.log(res)
-                    this.loaded = true;
-                    this.$Message.error((res && res.msg) || this.$t('status.networkError'));
+        data() {
+            return {
+                hasGetUserInfo: false, // 是否成功获取用户信息
+                token: ''
+            }
+        },
+        watch: {
+            '$route': function (to, from) { // 路由权限控制
+                this.$eventbus.$emit('checkLimit', to, from)
+            }
+        },
+        methods: {
+            setToken() { // 设置token
+                let $sign = {
+                    token: this.$route && this.$route.query && this.$route.query.token
                 }
-            });
-        },
-        setPswpBtns() {
-            const titles = {
-                'Zoom in/out': {
-                    en: 'Zoom in/out',
-                    zhs: '放大/缩小',
-                    zht: '放大/縮小'
-                },
-                'Close (Esc)': {
-                    en: 'Close (Esc)',
-                    zhs: '关闭 （ESC）',
-                    zht: '關閉 （ESC）'
-                },
-                'Previous (arrow left)': {
-                    en: 'Previous (arrow left)',
-                    zhs: '上一张',
-                    zht: '上一張'
-                },
-                'Next (arrow right)': {
-                    en: 'Next (arrow right)',
-                    zhs: '下一张',
-                    zht: '下一張'
-                },
-                default: 'none'
-            }
-            let pswpBtns = document.querySelectorAll('.pswp__button')
-            if(pswpBtns && pswpBtns.length) {
-                pswpBtns.forEach(e=>{
-                    const key = e.title
-                    e.title = titles[key] && titles[key][this.lang] || titles.default
+                storage.set('$sign', $sign)
+                this.token = $sign.token
+            },
+            getUserInfo() { // 获取用户信息
+                this.$YYLoading.show()
+                this.$ajax({
+                    url: '/main/getUserInfo',
+                    type: 'get',
+                    success: (res)=>{
+                        if(res && res.code === 0) {
+                            res.data.token = this.token
+                            this.$store.dispatch('update_userinfo', { //登录成功更新store
+                                userInfo: res.data || {}
+                            })
+                            this.hasGetUserInfo = true
+                            this.$eventbus.$emit('checkLimit')
+                        } else {
+                            this.$eventbus.$emit('checkLimit')
+                            this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
+                        }
+                        this.$YYLoading.hide()
+                    },
+                    error: (res)=>{
+                        this.$YYLoading.hide()
+                        this.$YYMessage.error((res && res.msg) || this.$t('status.networkError'))
+                    }
                 })
+            },
+            setPswpBtns() {
+                const titles = {
+                    'Zoom in/out': {
+                        en: 'Zoom in/out',
+                        zhs: '放大/缩小',
+                        zht: '放大/縮小'
+                    },
+                    'Close (Esc)': {
+                        en: 'Close (Esc)',
+                        zhs: '关闭 （ESC）',
+                        zht: '關閉 （ESC）'
+                    },
+                    'Previous (arrow left)': {
+                        en: 'Previous (arrow left)',
+                        zhs: '上一张',
+                        zht: '上一張'
+                    },
+                    'Next (arrow right)': {
+                        en: 'Next (arrow right)',
+                        zhs: '下一张',
+                        zht: '下一張'
+                    },
+                    default: 'none'
+                }
+                let pswpBtns = document.querySelectorAll('.pswp__button')
+                if(pswpBtns && pswpBtns.length) {
+                    pswpBtns.forEach(e=>{
+                        const key = e.title
+                        e.title = titles[key] && titles[key][this.lang] || titles.default
+                    })
+                }
+            },
+            init() {
+                this.setToken()
+                this.getUserInfo()
             }
         },
-        init() {
-            this.setToken()
-            this.getUserInfo()
+        created() {
+            this.init()
+        },
+        mounted () {
+            this.setPswpBtns()            
         }
-    },
-    created() {
-        this.init()
-    },
-    mounted () {
-        this.setPswpBtns()            
     }
-}
 </script>
 <style lang="less" scoped>
-@import '~app_assets/css/var.less';
-.logger-container {
-    width: 100%;
-    height: 100%;
-    padding-left: @max-menu-width;
-    position: relative;
-    overflow: auto;
-    background-color: @white-color;
-    @media screen and (max-width: 1399px) {
-        padding-left: @min-menu-width;
+    @import '~app_assets/css/var.less';
+    .logger-container {
+        width: 100%;
+        height: 100%;
+        padding-left: @max-menu-width;
+        position: relative;
+        overflow: auto;
+        background-color: @white-color;
+        @media screen and (max-width: 1399px) {
+            padding-left: @min-menu-width;
+        }
     }
-}
 </style>
 
 

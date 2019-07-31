@@ -20,22 +20,22 @@
     </fs-frame>
 </template>
 <script>
-import query from 'app_src/mixins/query'
-export default {
-    data() {
-        return {
-            range: '0',
-            withPublic: false
+    import query from 'app_src/mixins/query'
+    export default {
+        data() {
+            return {
+                range: '0',
+                withPublic: false
+            }
+        },
+        mixins: [query],
+        methods: {
+            handleChangePublic(value) {
+                this.withPublic = value
+            }
+        },
+        created () {
+            this.$eventbus.$emit('getUnreadCount')
         }
-    },
-    mixins: [query],
-    methods: {
-        handleChangePublic(value) {
-            this.withPublic = value
-        }
-    },
-    created () {
-        this.$eventbus.$emit('getUnreadCount')
     }
-}
 </script>

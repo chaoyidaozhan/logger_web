@@ -26,7 +26,7 @@
                     ref="selectTemplate"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
-                <Checkbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</Checkbox>
+                <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
             </FormItem> 
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate" :createDate="createDate"/>
@@ -69,7 +69,7 @@
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showWithPublic">
-                <Checkbox v-model="withPublic" @on-change="handleChangePublic">{{$t('operate.withPublic')}}</Checkbox>
+                <YYCheckbox v-model="withPublic" @on-change="handleChangePublic">{{$t('operate.withPublic')}}</YYCheckbox>
             </FormItem> 
             <FormItem class="search-btn">
                 <YYButton :disabled="loading" type="primary" @click="handleQuery">

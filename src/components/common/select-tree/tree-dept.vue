@@ -13,7 +13,7 @@
 					{{each.deptName}}（{{each.type === 1 ? $t('noun.org') : $t('noun.dept')}}）
 				</div>
 				<!-- Checkbox阻止事件 -->
-				<Checkbox v-if="each.authDept !== 0" class="cbx" style="pointer-events:none" :value="each.checked"/>
+				<YYCheckbox v-if="each.authDept !== 0" class="cbx" style="pointer-events:none" :value="each.checked"/>
 			</div>
 			<div class="part2" v-show="each.openChild">
 				<tree-dept v-if="each.childMount" :info="info" :pid="each.deptId"/>

@@ -90,14 +90,14 @@
                             class="table-count"/>
                         <!--全选-->
                         <div class="table-statistics" v-if="table.key == stashSelectionKey">
-                            <Checkbox v-model="table.dataType" @on-change="handleSelectAll(table.dataType, index)">
+                            <YYCheckbox v-model="table.dataType" @on-change="handleSelectAll(table.dataType, index)">
                                 {{$t('operate.checkAll')}}
                                 <span class="checkout-note">
                                     {{$t('operate.selected')}}
                                     <span class="check-num">{{table.checkNum}}</span>
                                     {{$t('noun.uLog')}}
                                 </span>
-                            </Checkbox>
+                            </YYCheckbox>
                         </div>
                     </template>
                 </div>
@@ -268,11 +268,11 @@ export default {
         },
         handleSummary() { // 日志汇总
             if(!this.tables) {
-                return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
+                return this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
             }
             let activeTableList = this.tables[this.activeTable]
             if (activeTableList.checkNum <= 0) {
-                return this.$Message.warning(this.$t('toast.pleaseSelectTheSummaryLog'))
+                return this.$YYMessage.warning(this.$t('toast.pleaseSelectTheSummaryLog'))
             } 
             this.$store.dispatch('update_template_content', {
                 content: {
@@ -474,13 +474,13 @@ export default {
             this.stashSelectionKey = this.$refs.selectTemplate.templateVersion
             
             if (!data.templateId) {
-                return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
+                return this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`)
             }
             if (!data.beginDate || !data.endDate) {
-                return this.$Message.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`)
+                return this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`)
             }
             if(!data.orgIds && !data.deptIds && !data.memberIds) {
-                return this.$Message.warning(`
+                return this.$YYMessage.warning(`
                     ${this.$t('noun.org')},
                     ${this.$t('noun.dept')},
                     ${this.$t('noun.author')}
@@ -498,12 +498,12 @@ export default {
                         this.createTables(res.data)
                         this.initScroll()
                     } else {
-                        this.$Message.warning((res && res.msg) || this.$t('noun.networkError'));
+                        this.$YYMessage.warning((res && res.msg) || this.$t('noun.networkError'));
                     }
                 },
                 error: (res) => {
                     this.loading = false
-                    this.$Message.warning((res && res.msg) || this.$t('status.networkError'))
+                    this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                 }
             })
         },

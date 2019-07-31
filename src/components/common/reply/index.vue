@@ -170,7 +170,7 @@
                 if(this.$refs.fileUpload.uploadFilesArr && this.$refs.fileUpload.uploadFilesArr.length < 9) {
                     this.$refs.fileUpload.$el.getElementsByClassName("ivu-upload-input")[0].click();
                 } else {
-                    this.$Message.warning($t('toast.singleUploadIsNoMoreThanAttachments'));
+                    this.$YYMessage.warning($t('toast.singleUploadIsNoMoreThanAttachments'));
                 }
             },
             handleFace(faceItem) { // 表情点击
@@ -315,11 +315,11 @@
                                 this.$refs.fileUpload.clearFiles();
                                 this.getUploadFile([]);
                             } else {
-                                this.$Message.error((res && res.msg) || this.$t('status.networkError'));
+                                this.$YYMessage.error((res && res.msg) || this.$t('status.networkError'));
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error((res && res.msg) || this.$t('status.networkError'));
+                            this.$YYMessage.error((res && res.msg) || this.$t('status.networkError'));
                         }
                     })
                 }, 200);
@@ -351,11 +351,11 @@
                                     this.commentListData.splice(index, 1);
                                     this.$emit('handleReplyNum');
                                 } else {
-                                    this.$Message.error((res && res.msg) || this.$t('status.networkError'));
+                                    this.$YYMessage.error((res && res.msg) || this.$t('status.networkError'));
                                 }
                             },
                             error: (res)=>{
-                                this.$Message.error((res && res.msg) || this.$t('status.networkError'));
+                                this.$YYMessage.error((res && res.msg) || this.$t('status.networkError'));
                             }
                         })
                     }

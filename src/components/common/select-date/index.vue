@@ -1,13 +1,13 @@
 <template>
     <div class="select-date">
-        <DatePicker :type="dateType"
+        <YYDatePicker :type="dateType"
             placement="bottom-end"
             :value="dateType === 'date' ? selectDate : createDate"
             :editable="false"
             :options="options"
             @on-change="change"
             :placeholder="`${$t('operate.please')}${$t('operate.select')}`" class="date-wrap">
-        </DatePicker>
+        </YYDatePicker>
     </div>
 </template>
 <script>

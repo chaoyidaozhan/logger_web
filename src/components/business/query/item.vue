@@ -362,7 +362,7 @@ export default {
                     }
                 },
                 error: (res)=>{
-                    this.$Message.warning(this.$t('toast.operationFailed'))
+                    this.$YYMessage.warning(this.$t('toast.operationFailed'))
                 }
             })
         },
@@ -383,7 +383,7 @@ export default {
                     this.sendHasReadBrand()
                 },
                 error: (res)=>{
-                    this.$Message.warning(this.$t('toast.operationFailed'))
+                    this.$YYMessage.warning(this.$t('toast.operationFailed'))
                 }
             })
         },
@@ -453,12 +453,12 @@ export default {
                         type: 'delete',
                         success: (res)=>{
                             if(res && res.code == 0) {
-                                this.$Message.success(this.$t('toast.successfullyDeleted'))
+                                this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
                                 this.$emit('handleDelete', this.loggerItemData.id)
                             }
                         },
                         error: (res)=>{
-                            this.$Message.error(res && res.msg || this.$t('status.networkError'))
+                            this.$YYMessage.error(res && res.msg || this.$t('status.networkError'))
                         }
                     })
                 }
@@ -478,7 +478,7 @@ export default {
                 },
                 error: (res)=>{
                     this.sendHasReadBrand()
-                    this.$Message.error(res && res.msg || this.$t('status.networkError'))
+                    this.$YYMessage.error(res && res.msg || this.$t('status.networkError'))
                 }
             })
         },

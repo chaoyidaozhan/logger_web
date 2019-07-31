@@ -57,7 +57,13 @@ function createCssAndLessLoader() {
                 ]
             }
         },
-        'less-loader'
+        'less-loader',
+        {
+            loader: 'style-resources-loader',
+            options: {
+                patterns: resolve(`/src/assets/css/var.less`)
+            }
+        }
     ]
     return Object.assign([NODE_ENV === 'development' ? 'css-hot-loader' : ''], loaders)
 }

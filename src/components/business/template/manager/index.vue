@@ -9,12 +9,12 @@
                         {{$t('noun.logDate')}}
                     </label>
                     <div class="input-type-wrapper">
-                        <DatePicker type="date"
+                        <YYDatePicker type="date"
                             placement="bottom-start"
                             :placeholder="`${$t('operate.please')}${$t('operate.select')}${$t('noun.date')}`" 
                             class="date-wrap"
                             :clearable="false">
-                        </DatePicker>
+                        </YYDatePicker>
                     </div>
                     <div class="mask" v-if="(currentItem && currentItem.id) == dateOptions.id">
                     </div>
@@ -75,27 +75,27 @@
                             </YYButton>
                         </div>
                         <div class="extra-item" v-if="currentItem.type !== 'InputContainer'">
-                            <Checkbox @on-change="handleChangeRequired" v-model="isRequired">
+                            <YYCheckbox @on-change="handleChangeRequired" v-model="isRequired">
                                 {{$t('noun.required')}}
-                            </Checkbox>
+                            </YYCheckbox>
                         </div>
                     </div>
                     <div v-else-if="currentItem && currentItem.id == 'dateOptions'">
                         <div class="extra-item"></div>
                         <div class="extra-item">
-                            <Checkbox v-model="dateOptions.diaryTimeStatus">
+                            <YYCheckbox v-model="dateOptions.diaryTimeStatus">
                                 {{$t('placeholder.whetherDisplayDate')}}
-                            </Checkbox>
+                            </YYCheckbox>
                         </div>
                         <div class="extra-item">
-                            <Checkbox v-model="dateOptions.diaryTimeRequired">
+                            <YYCheckbox v-model="dateOptions.diaryTimeRequired">
                                 {{$t('noun.required')}}
-                            </Checkbox>
+                            </YYCheckbox>
                         </div>
                         <div class="extra-item">
-                            <Checkbox v-model="dateOptions.diaryTimeDefault">
+                            <YYCheckbox v-model="dateOptions.diaryTimeDefault">
                                 {{$t('placeholder.whetherDisplayDefaultValue')}}
-                            </Checkbox>
+                            </YYCheckbox>
                         </div>
                     </div>
                     <YYEmpty v-else :text="$t('toast.thereIsNoControl')" iconType="template"/>
@@ -135,17 +135,17 @@
                             <label class="extra-label">
                                 {{$t('noun.template')}}{{$t('noun.category')}}
                             </label>
-                            <RadioGroup v-model="data.dataType" style="line-height: 20px">
-                                <Radio v-for="(val, key) in options" :key="key" :label="val.dataType" >{{val.string}}</Radio>
-                            </RadioGroup>
+                            <YYRadioGroup v-model="data.dataType" style="line-height: 20px">
+                                <YYRadio v-for="(val, key) in options" :key="key" :label="val.dataType" >{{val.string}}</YYRadio>
+                            </YYRadioGroup>
                         </div>
                         <div class="extra-item">
                             <label class="extra-label">
                                 {{$t('placeholder.targetingSettings')}}
                             </label>
-                            <Checkbox v-model="data.requiredLocation">
+                            <YYCheckbox v-model="data.requiredLocation">
                                 {{$t('placeholder.whetherTheSelectedLocationIsRequired')}}
-                            </Checkbox>
+                            </YYCheckbox>
                         </div>
                     </div>
                 </TabPane>
@@ -159,10 +159,10 @@
             </div>
         </Modal>
         <Modal :width="580" class-name="preview-modal" v-model="showPreviewModal">
-            <RadioGroup class="tab-radio" v-model="previeWeb" type="button">
-                <Radio label="0">{{$t('noun.web')}}</Radio>
-                <Radio label="1">{{$t('noun.mobile')}}</Radio>
-            </RadioGroup>
+            <YYRadioGroup class="tab-radio" v-model="previeWeb" type="button">
+                <YYRadio label="0">{{$t('noun.web')}}</YYRadio>
+                <YYRadio label="1">{{$t('noun.mobile')}}</YYRadio>
+            </YYRadioGroup>
             <div class="main-inner" :class="previeWeb == '0' ? 'web-inner' : 'mobile-inner'">
                 <div class="mobile-title" v-if="previeWeb != '0'">
                     <i class="icon-arrow-left"></i>
@@ -464,11 +464,11 @@ export default {
                         this.$emit('handleLoading');
                         this.$emit('handleDataStatus', this.data.dataStatus);
                     } else {
-                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                        this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                     }
                 },
                 error: (res)=>{
-                    this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                    this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                 }
             })
            
@@ -489,7 +489,7 @@ export default {
             params.diaryTimeRequired = +this.dateOptions.diaryTimeRequired
             params.diaryTimeDefault = +this.dateOptions.diaryTimeDefault
             if(!params.title.trim()) {
-                return this.$Message.error(`${this.$t('operate.please')}${this.$t('operate.enter')}${this.$t('noun.template')}${this.$t('noun.name')}`);
+                return this.$YYMessage.error(`${this.$t('operate.please')}${this.$t('operate.enter')}${this.$t('noun.template')}${this.$t('noun.name')}`);
             }
             call && call();
             if(templateId != -1) {
@@ -503,12 +503,12 @@ export default {
                             this.currentItem = null;
                             this.showSuccessModal = true;
                         } else {
-                            this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                            this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                         }
                         this.$emit('handleLoading');
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                        this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                     }
                 })
             } else {
@@ -529,12 +529,12 @@ export default {
                             });
                             this.initData(res);
                         } else {
-                            this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                            this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                         }
                         this.$emit('handleLoading');
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                        this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                     }
                 })
             }
@@ -606,7 +606,7 @@ export default {
                         this.initData(res);
                     },
                     error: (res)=>{
-                        this.$Message.error(res && res.msg || this.$t('status.networkError'));
+                        this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                     }
                 })
             } else {
