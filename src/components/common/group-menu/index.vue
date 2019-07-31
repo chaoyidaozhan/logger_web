@@ -33,7 +33,6 @@
 import Avatar from '../avatar'
 import FormatTime  from 'app_src/filters/format-time'
 import Ps from 'perfect-scrollbar'
-import FsEmptyTips from 'app_component/common/empty-tips/'
 import Loading from 'app_component/common/loading-scroll/'
 export default {
     data() {
@@ -51,7 +50,6 @@ export default {
     },
     components: {
         Avatar,
-        FsEmptyTips,
         Loading
     },
     watch: {

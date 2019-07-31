@@ -177,7 +177,6 @@
 </template>
 <script>
 import Sortable from 'sortablejs';
-import FsEmptyTips from 'app_component/common/empty-tips';
 import FsSelectTreeInput from 'app_component/common/select-tree-input/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 import FsDragItem from './drag-item'
@@ -291,7 +290,6 @@ export default {
         }
     },
     components: {
-        FsEmptyTips,
         FsSelectTreeInput,
         FsDragItem,
         FsSubNav

@@ -112,7 +112,6 @@
 import FsSelectTemplate from 'app_component/common/select-template/'
 import FsSelectDate from 'app_component/common/select-date/'
 import FsSelectTreeInput from 'app_component/common/select-tree-input/'
-import FsEmptyTips from 'app_component/common/empty-tips'
 import formatTime from 'app_src/filters/format-time'
 import Ps from 'perfect-scrollbar'
 
@@ -141,8 +140,7 @@ export default {
     components: {
         FsSelectTemplate,
         FsSelectDate,
-        FsSelectTreeInput,
-        FsEmptyTips
+        FsSelectTreeInput
     },
     methods: {
         initScroll() {

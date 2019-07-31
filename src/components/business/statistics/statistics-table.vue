@@ -93,7 +93,6 @@
 </template>
 <script>
 import Ps from 'perfect-scrollbar';
-import FsEmptyTips from 'app_component/common/empty-tips/';
 
 export default {
     props: {
@@ -123,9 +122,6 @@ export default {
             height: '',
             minLen: 14
         }
-    },
-    components: {
-        FsEmptyTips
     },
     watch: {
         data() { // 监听数据发生变化时滚动到头部

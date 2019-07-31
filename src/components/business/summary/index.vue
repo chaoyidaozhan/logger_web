@@ -30,7 +30,6 @@
 </template>
 <script>
 import Pagination from 'app_component/common/pagination'
-import FsEmptyTips from 'app_component/common/empty-tips'
 import config from 'app_src/config/config'
 import formatTime from'app_src/filters/format-time'
 export default {
@@ -64,8 +63,7 @@ export default {
         }
     },
     components: {
-        Pagination,
-        FsEmptyTips,
+        Pagination
     },
     watch: {
         params: 'initList',
