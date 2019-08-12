@@ -243,10 +243,10 @@ export default {
                 height: 170px;
                 overflow: auto;
                 margin: 0 10px 10px;
-                .ivu-checkbox-group {
+                .yy-checkbox-group {
                     padding: 0!important;
                 }
-                .ivu-checkbox-wrapper {
+                .yy-checkbox-wrapper {
                     display: block;
                     padding: 0 10px;
                     border-radius: 2px;
@@ -262,7 +262,7 @@ export default {
                         float: left;
                         width: 90%;
                     }
-                    .ivu-checkbox {
+                    .yy-checkbox {
                         float: right;
                         margin-top: 8px;
                     }

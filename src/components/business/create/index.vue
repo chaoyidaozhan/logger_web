@@ -67,6 +67,7 @@ import WorkLogNode from './item'
 import config from 'app_src/config/config'
 import FormatTime  from 'app_src/filters/format-time'
 import HTMLDeCode from 'app_src/filters/HTMLDeCode'
+import axios from 'axios';
 
 export default {
     data() {
@@ -257,12 +258,42 @@ export default {
                 this.setTempListData()
             }
         },
+        getMeetingList() {
+            function getCookie(name) {
+                let arr = window.document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+                if (arr != null) {
+                    return unescape(arr[2]);
+                } else {
+                    return null;
+                }
+            }
+            let uri, { protocol, host } = window.location
+            if (__ENV__ === 'development' || __ENV__ === 'dev-prev') {
+                uri = `${config[__ENV__].meetHost}`
+            } else {
+                uri = `${protocol}//${host}/meeting/thirdPart/all_meeting_list`
+            }
+            axios.get(uri, {
+                params: {
+                    sessionId: getCookie('PHPSESSID')
+                }
+            }).then(res => {
+                res = res.data
+                if(res && res.code === 0) {
+                    const meet = res.data.map((item) => {
+                        return item.subject
+                    })
+                    this.transformList.scheduleNames = this.transformList.scheduleNames.concat(meet)
+                }
+            })
+        },
         getTransformList() {
             this.$ajax({
                 url: '/diaryQuery/getTransformList',
                 success: (res) => {
                     if (res && res.code === 0) {
                         this.transformList = res.data
+                        this.getMeetingList()
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
