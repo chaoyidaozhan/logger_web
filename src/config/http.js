@@ -1,33 +1,34 @@
-import axios from 'axios';
-import config from './config';
+import axios from 'axios'
+import config from './config'
 
 export default {
     beforeCreate() {
-        axios.defaults.timeout = 5000 * 4; // 默认放开到20s
+        axios.defaults.timeout = 5000 * 4 // 默认放开到20s
         axios.interceptors.request.use(
             reqConfig => {
-                let url = reqConfig.url;
+                let url = reqConfig.url
                 if (!/[http|https]:\/\//gi.test(url)) { // 全局拦截，传入api地址若不是全路径默认
                     if (__ENV__ === 'development' || __ENV__ === 'dev-prev') {
-                        reqConfig.url = config[__ENV__].apiHost + url;
+                        reqConfig.url = config[__ENV__].host + url
                     } else {
-                        reqConfig.url = window.location.protocol + '//' + window.location.host + '/logger' + url;
+                        const { protocol, host } = window.location
+                        reqConfig.url = `${protocol}//${host}/logger${url}`
                     }
                 }
-                return reqConfig;
+                return reqConfig
             },
             error => {
-                return Promise.reject(error);
+                return Promise.reject(error)
             }
-        );
+        )
 
         axios.interceptors.response.use(
             response => {
-                return response;
+                return response
             },
             error => {
-                return Promise.reject(error);
+                return Promise.reject(error)
             }
-        );
+        )
     }
-};
+}
