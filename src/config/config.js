@@ -17,7 +17,7 @@ module.exports = {
         host: '//ezone.chaoke.com:6058/logger',
     },
     test: { // daily
-        uploadHost: '//DWWEB-API',
+        uploadHost: '//DWWEB',
         host: '//EZONE/logger',
     },
     prev: {
