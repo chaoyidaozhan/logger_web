@@ -12,17 +12,16 @@ module.exports = {
     salt: 'BAN/+GGzUBtMW',
     token: 'd12fdcc7-b9ac-48c4-adf6-5b1958e9afc4',
     'development': { // 开发环境
-        host: '//123.103.9.204:93',
         uploadHost: '//web.api.chaoke.com:6062',
-        apiHost: '//123.103.9.204:6058/logger',
+        apiHost: '//ezone.chaoke.com:6058/logger',
     },
     'develop': { // 91
         uploadHost: '//web.api.chaoke.com:6062',
-        apiHost: '//123.103.9.204:6058/logger',
+        apiHost: '//ezone.chaoke.com:6058/logger',
     },
     'test': { // daily
         uploadHost: '//dwweb-api.yyuap.com',
-        apiHost: '//ezone-daily.yyuap/logger',
+        apiHost: '//ezone-daily.yyuap.com/logger',
     },
     'u8c_daily': { // u8c_daliy
         uploadHost: '//dwweb-api-u8c-daily.yyuap.com',
