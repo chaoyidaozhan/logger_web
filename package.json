@@ -11,7 +11,7 @@
 		"develop": "cross-env NODE_ENV=develop npm run _build",
 		"test": "cross-env NODE_ENV=test npm run _build",
 		"prev": "cross-env NODE_ENV=prev npm run _build",
-		"build": "cross-env NODE_ENV=production npm run _build",
+		"build": "cross-env NODE_ENV=build npm run _build",
 		"analyzer": "cross-env NODE_ENV=prod_build webpack --mode production --config ./webpack/webpack.analyzer.js --profile --json > compilation-stats.json",
 		"clean": "rm -rf node_modules && npm install"
 	},

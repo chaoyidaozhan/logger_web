@@ -8,7 +8,7 @@ function getCookie(name) {
 }
 const YKJ_IS_DIWORK = getCookie('YKJ_IS_DIWORK')
 module.exports = {
-    development: { // 开发环境
+    dev: { // 开发环境
         uploadHost: '//web.api.chaoke.com:6062',
         host: '//ezone.chaoke.com:6058/logger',
     },
@@ -24,7 +24,7 @@ module.exports = {
         uploadHost: '//web-api.esn.ren',
         host: '//ezone.esn.ren/logger'
     },
-    production: { // 生产环境
+    build: { // 生产环境
         uploadHost: `//${YKJ_IS_DIWORK === '1' ? 'dw' : ''}web-api.diwork.com`,
         host: '//ezone.diwork.com/logger'
     }
