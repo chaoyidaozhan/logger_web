@@ -7,7 +7,7 @@
 	"scripts": {
 		"start": "webpack-dev-server --mode=development --config ./webpack/webpack.dev.js --progress",
 		"_build": "webpack --config ./webpack/webpack.prod.js --progress",
-		"dev": "cross-env NODE_ENV=development npm run start",
+		"dev": "cross-env NODE_ENV=dev npm run start",
 		"develop": "cross-env NODE_ENV=develop npm run _build",
 		"test": "cross-env NODE_ENV=test npm run _build",
 		"prev": "cross-env NODE_ENV=prev npm run _build",

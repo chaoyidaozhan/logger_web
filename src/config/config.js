@@ -10,22 +10,22 @@ const YKJ_IS_DIWORK = getCookie('YKJ_IS_DIWORK')
 module.exports = {
     development: { // 开发环境
         uploadHost: '//web.api.chaoke.com:6062',
-        apiHost: '//ezone.chaoke.com:6058/logger',
+        host: '//ezone.chaoke.com:6058/logger',
     },
     develop: { // 91
         uploadHost: '//web.api.chaoke.com:6062',
-        apiHost: '//ezone.chaoke.com:6058/logger',
+        host: '//ezone.chaoke.com:6058/logger',
     },
     test: { // daily
         uploadHost: '//DWWEB-API',
-        apiHost: '//EZONE/logger',
+        host: '//EZONE/logger',
     },
     prev: {
         uploadHost: '//web-api.esn.ren',
-        apiHost: '//ezone.esn.ren/logger'
+        host: '//ezone.esn.ren/logger'
     },
     production: { // 生产环境
         uploadHost: `//${YKJ_IS_DIWORK === '1' ? 'dw' : ''}web-api.diwork.com`,
-        apiHost: '//ezone.diwork.com/logger'
+        host: '//ezone.diwork.com/logger'
     }
 }
