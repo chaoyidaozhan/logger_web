@@ -34,7 +34,7 @@ const cssLoader = new MiniCssExtractPlugin({
 const vueLoaderConfig = {
     ...utils.cssLoaders({
         sourceMap: false,
-        extract: NODE_ENV !== 'development'
+        extract: NODE_ENV !== 'dev'
     }),
     js: 'happypack/loader?id=happy-babel-vue',
     css: cssLoader
@@ -65,7 +65,7 @@ function createCssAndLessLoader() {
             }
         }
     ]
-    return Object.assign([NODE_ENV === 'development' ? 'css-hot-loader' : ''], loaders)
+    return Object.assign([NODE_ENV === 'dev' ? 'css-hot-loader' : ''], loaders)
 }
 
 module.exports = {

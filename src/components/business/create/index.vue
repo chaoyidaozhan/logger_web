@@ -268,7 +268,7 @@ export default {
                 }
             }
             let uri, { protocol, host } = window.location
-            if (__ENV__ === 'development' || __ENV__ === 'dev-prev') {
+            if (__ENV__ === 'dev' || __ENV__ === 'dev-prev') {
                 uri = `${config[__ENV__].meetHost}`
             } else {
                 uri = `${protocol}//${host}/meeting/thirdPart/all_meeting_list`

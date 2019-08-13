@@ -39,7 +39,7 @@ export default {
         handleExport() { // 导出
             let params = this.$refs.summary.getExportParams()
             if(params) {
-                let host = __ENV__ === 'development' ? `http://123.103.9.204:6058/logger` : `${window.location.protocol}//${window.location.host}/logger`
+                let host = __ENV__ === 'dev' ? `http://123.103.9.204:6058/logger` : `${window.location.protocol}//${window.location.host}/logger`
                 let uri = `${host}/rest/v1/diaryStatistics/export?timestamp=${(new Date()).valueOf()}`
                 Object.keys(params).forEach((key)=>{
                     if(params[key]) {
