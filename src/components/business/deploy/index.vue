@@ -1,5 +1,5 @@
 <template>
-    <div class="deploy-container" v-yyloading="!(deployMember && deployMember.length)">
+    <div class="deploy-container" v-yyloading="!deployMember">
         <div class="deploy-member">
             <div class="deploy-title">{{$t('operate.addAdministrator')}}
                 <span>
