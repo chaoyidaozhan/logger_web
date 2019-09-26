@@ -49,7 +49,7 @@
                     <div v-if="currentItem && currentItem.id != 'dateOptions'">
                         <div class="extra-item">
                             <label class="extra-label">{{$t('noun.title')}}</label>
-                            <Input :placeholder="$t('placeholder.maximum10Chars')" :maxlength="10" v-model="currentItem.title" type="text"/>
+                            <Input :placeholder="$t('placeholder.maximum15Chars')" :maxlength="15" v-model="currentItem.title" type="text"/>
                         </div>
                         <div class="extra-item" v-if="currentItem.type == 'InputText' || currentItem.type == 'InputTextNum'">
                             <label class="extra-label">{{$t('noun.promptText')}}</label>
