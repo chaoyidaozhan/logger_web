@@ -9,7 +9,7 @@ import http from './config/http'
 import ajax from './common/ajax' // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min'
 import { i18n, setLocale } from './common/language/'
-import { getWebLang } from 'yyzone'
+import { getWebLang, locale } from 'yyzone'
 import FsVueVideo from './components/common/video/'
 import selectTree from './components/common/select-tree'
 import 'app_src/directives/loading/'
@@ -80,7 +80,7 @@ new Promise(function (resolve) {
 }).then((lang) => {
     setLocale(lang)
     i18n.locale = lang
-
+    locale(lang)
     Vue.prototype.$eventbus = new Vue() // 建立组件全局通信的钩子
     Vue.prototype.$ajax = ajax // 将ajax挂在到vue实例
     Vue.prototype.$YYModal = YYModal
