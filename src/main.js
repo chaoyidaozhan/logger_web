@@ -82,6 +82,7 @@ new Promise(function (resolve) {
         'zh-chs': 'zht',
         'zh-sg': 'zht',
         'zh-cht': 'zht',
+        'en-us': 'en',
         'default': 'en'
     }
     getWebLang({
