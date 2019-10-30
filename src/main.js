@@ -87,12 +87,8 @@ new Promise(function (resolve) {
     }
     getWebLang({
         callback(lang) {
-            if(YKJ_IS_DIWORK === '1') {
-                const lan =  (WEB_DIWORK_GLOBAL_CONFIG.lang || 'zh').toLocaleLowerCase()
-                resolve(navigatorLang[lan] || lang)
-            } else {
-                resolve(lang)
-            }
+            const diworkLang = window.diworkContext && window.diworkContext().locale.toLocaleLowerCase()
+            resolve(navigatorLang[diworkLang] || lang)
         }
     })
 }).then((lang) => {
