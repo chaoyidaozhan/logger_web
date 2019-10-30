@@ -85,7 +85,11 @@ new Promise(function (resolve) {
         callback: function (lang) {
             try {
                 jDiwork.getContext(function (res) {
-                    resolve(navigatorLang[res.locale.toLocaleLowerCase()] || lang)
+                    if(res) {
+                        resolve(navigatorLang[res.locale.toLocaleLowerCase()] || lang)
+                    } else {
+                        resolve(lang)
+                    }
                 })
             } catch (error) {
                 resolve(lang)
