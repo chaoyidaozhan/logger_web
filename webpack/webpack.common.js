@@ -12,7 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HappyPack = require('happypack')
 const utils = require('./utils')
-
+const config = require('./config/')
 
 const APP_ROOT = path.resolve(__dirname, '../')
 
@@ -67,7 +67,6 @@ function createCssAndLessLoader() {
     ]
     return Object.assign([NODE_ENV === 'dev' ? 'css-hot-loader' : ''], loaders)
 }
-
 module.exports = {
     entry: [
         '@babel/polyfill',
@@ -186,6 +185,7 @@ module.exports = {
             chunkFilename: "css/[id].css",
         }),
         new HtmlWebpackPlugin({
+            phpHost: (config[NODE_ENV] || config.build).phpHost,
             favicon: resolve('/src/assets/images/dailyrecord.png'),
             template: resolve('/src/template/index.html'),
         })

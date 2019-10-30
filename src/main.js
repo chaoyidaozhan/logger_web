@@ -9,7 +9,7 @@ import http from './config/http'
 import ajax from './common/ajax' // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min'
 import { i18n, setLocale } from './common/language/'
-import { getWebLang, locale } from 'yyzone'
+import { getWebLang, getCookie, locale } from 'yyzone'
 import FsVueVideo from './components/common/video/'
 import selectTree from './components/common/select-tree'
 import 'app_src/directives/loading/'
@@ -70,11 +70,29 @@ Vue.use(VueRouter)
 Vue.use(preview, options)
 Vue.use(FsVueVideo)
 Vue.use(selectTree)
+window.storage = storage // 建立全局的storage
 
 new Promise(function (resolve) {
+    const YKJ_IS_DIWORK = getCookie('YKJ_IS_DIWORK')
+    const navigatorLang = {
+        'zh': 'zhs',
+        'zh-cn': 'zhs',
+        'zh-tw': 'zht',
+        'zh-hk': 'zht',
+        'zh-mo': 'zht',
+        'zh-chs': 'zht',
+        'zh-sg': 'zht',
+        'zh-cht': 'zht',
+        'default': 'en'
+    }
     getWebLang({
         callback(lang) {
-            resolve(lang)
+            if(YKJ_IS_DIWORK === '1') {
+                const lan =  (WEB_DIWORK_GLOBAL_CONFIG.lang || 'zh').toLocaleLowerCase()
+                resolve(navigatorLang[lan] || lang)
+            } else {
+                resolve(lang)
+            }
         }
     })
 }).then((lang) => {
@@ -86,7 +104,6 @@ new Promise(function (resolve) {
     Vue.prototype.$YYModal = YYModal
     Vue.prototype.$YYLoading = YYLoading
     Vue.prototype.$YYMessage = YYMessage
-    window.storage = storage // 建立全局的storage
 
     const router = new VueRouter({ // 创建路由
         mode: 'hash',
