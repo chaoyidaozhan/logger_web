@@ -74,16 +74,11 @@ window.storage = storage // 建立全局的storage
 
 new Promise(function (resolve) {
     const navigatorLang = {
-        'zh': 'zhs',
-        'zh-cn': 'zhs',
-        'zh-tw': 'zht',
-        'zh-hk': 'zht',
-        'zh-mo': 'zht',
-        'zh-chs': 'zht',
-        'zh-sg': 'zht',
-        'zh-cht': 'zht',
-        'en-us': 'en',
-        'default': 'en'
+        'zh_tw': 'zht',
+        'zh_cn': 'zhs',
+        'en': 'en',
+        'en_us': 'en',
+        'default': 'zhs'
     }
     getWebLang({
         callback(lang) {
@@ -95,6 +90,7 @@ new Promise(function (resolve) {
         }
     })
 }).then((lang) => {
+    console.log(lang)
     setLocale(lang)
     i18n.locale = lang
     locale(lang)
