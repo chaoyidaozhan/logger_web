@@ -83,6 +83,8 @@ new Promise(function (resolve) {
     getWebLang({
         callback(lang) {
             const diworkLang = window.diworkContext && window.diworkContext().locale
+            console.log(diworkLang)
+            console.log(navigatorLang[diworkLang.toLocaleLowerCase()])
             if(diworkLang) {
                 resolve(navigatorLang[diworkLang.toLocaleLowerCase()] || lang)
             }
