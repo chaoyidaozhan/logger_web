@@ -86,8 +86,11 @@ new Promise(function (resolve) {
     }
     getWebLang({
         callback(lang) {
-            const diworkLang = getCookie('locale').toLocaleLowerCase()
-            resolve(navigatorLang[diworkLang] || lang)
+            const diworkLang = getCookie('locale')
+            if(diworkLang) {
+                resolve(navigatorLang[diworkLang.toLocaleLowerCase()] || lang)
+            }
+            resolve(lang)
         }
     })
 }).then((lang) => {
