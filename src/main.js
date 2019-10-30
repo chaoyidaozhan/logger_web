@@ -6,10 +6,11 @@ import preview from 'vue-photo-preview'
 import store from './store/'
 import routes from './router/'
 import http from './config/http'
+import './config/jDiwork'
 import ajax from './common/ajax' // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min'
 import { i18n, setLocale } from './common/language/'
-import { getWebLang, getCookie, locale } from 'yyzone'
+import { getWebLang, locale } from 'yyzone'
 import FsVueVideo from './components/common/video/'
 import selectTree from './components/common/select-tree'
 import 'app_src/directives/loading/'
@@ -72,16 +73,6 @@ Vue.use(FsVueVideo)
 Vue.use(selectTree)
 window.storage = storage // 建立全局的storage
 
-var postToDiwork = function (data) {
-    data.messType = 'JDIWORK';
-    window.top.postMessage(JSON.stringify(data), '*')
-};
-var getContext = function (callback) {
-    postToDiwork({
-      callbackId: reg('getContext', callback)
-    })
-}
-
 new Promise(function (resolve) {
     const navigatorLang = {
         'zh_tw': 'zht',
@@ -91,21 +82,18 @@ new Promise(function (resolve) {
         'default': 'zhs'
     }
     getWebLang({
-        callback(lang) {
-            getContext(function (res) {
-                console.log(res)
+        callback: function (lang) {
+            try {
+                jDiwork.getContext(function (res) {
+                    console.log(res)
+                    resolve(lang)
+                })
+            } catch (error) {
                 resolve(lang)
-            })
-            // const diworkLang = window.diworkContext && window.diworkContext().locale
-            // console.log(diworkLang)
-            // console.log(navigatorLang[diworkLang.toLocaleLowerCase()])
-            // if(diworkLang) {
-            //     resolve(navigatorLang[diworkLang.toLocaleLowerCase()] || lang)
-            // }
+            }
         }
     })
 }).then((lang) => {
-    console.log(lang)
     setLocale(lang)
     i18n.locale = lang
     locale(lang)
