@@ -73,7 +73,6 @@ Vue.use(selectTree)
 window.storage = storage // 建立全局的storage
 
 new Promise(function (resolve) {
-    const YKJ_IS_DIWORK = getCookie('YKJ_IS_DIWORK')
     const navigatorLang = {
         'zh': 'zhs',
         'zh-cn': 'zhs',
@@ -87,7 +86,7 @@ new Promise(function (resolve) {
     }
     getWebLang({
         callback(lang) {
-            const diworkLang = window.diworkContext && window.diworkContext().locale.toLocaleLowerCase()
+            const diworkLang = getCookie('locale').toLocaleLowerCase()
             resolve(navigatorLang[diworkLang] || lang)
         }
     })
