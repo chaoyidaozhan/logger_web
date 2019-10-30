@@ -82,7 +82,7 @@ new Promise(function (resolve) {
     }
     getWebLang({
         callback(lang) {
-            const diworkLang = getCookie('locale')
+            const diworkLang = window.diworkContext && window.diworkContext().locale
             if(diworkLang) {
                 resolve(navigatorLang[diworkLang.toLocaleLowerCase()] || lang)
             }
