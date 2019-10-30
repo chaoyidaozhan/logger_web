@@ -72,6 +72,16 @@ Vue.use(FsVueVideo)
 Vue.use(selectTree)
 window.storage = storage // 建立全局的storage
 
+var postToDiwork = function (data) {
+    data.messType = 'JDIWORK';
+    window.top.postMessage(JSON.stringify(data), '*')
+};
+var getContext = function (callback) {
+    postToDiwork({
+      callbackId: reg('getContext', callback)
+    })
+}
+
 new Promise(function (resolve) {
     const navigatorLang = {
         'zh_tw': 'zht',
@@ -82,13 +92,16 @@ new Promise(function (resolve) {
     }
     getWebLang({
         callback(lang) {
-            const diworkLang = window.diworkContext && window.diworkContext().locale
-            console.log(diworkLang)
-            console.log(navigatorLang[diworkLang.toLocaleLowerCase()])
-            if(diworkLang) {
-                resolve(navigatorLang[diworkLang.toLocaleLowerCase()] || lang)
-            }
-            resolve(lang)
+            getContext(function (res) {
+                console.log(res)
+                resolve(lang)
+            })
+            // const diworkLang = window.diworkContext && window.diworkContext().locale
+            // console.log(diworkLang)
+            // console.log(navigatorLang[diworkLang.toLocaleLowerCase()])
+            // if(diworkLang) {
+            //     resolve(navigatorLang[diworkLang.toLocaleLowerCase()] || lang)
+            // }
         }
     })
 }).then((lang) => {
