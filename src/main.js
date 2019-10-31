@@ -10,10 +10,13 @@ import './config/jDiwork'
 import ajax from './common/ajax' // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min'
 import { i18n, setLocale } from './common/language/'
-import { getWebLang, locale } from 'yyzone'
+import { locale } from 'yyzone/src/locale/'
+import { getWebLang } from 'yyzone/'
+import YYZone from 'yyzone'
 import FsVueVideo from './components/common/video/'
 import selectTree from './components/common/select-tree'
 import 'app_src/directives/loading/'
+
 // css文件
 import 'video.js/dist/video-js.min.css'
 import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
@@ -34,20 +37,6 @@ import YYLoadingDirective from 'yyzone/src/directives/loading'
 import YYMessage from 'yyzone/src/components/base/message/'
 import YYLoadingH from 'yyzone/src/components/base/loading-h/'
 import YYModal from 'yyzone/src/components/base/modal/'
-
-Vue.component('YYButton', YYButton)
-Vue.component('YYDatePicker', YYDatePicker)
-Vue.component('YYEmpty', YYEmpty)
-Vue.component('YYLoading', YYLoading)
-Vue.component('YYRadio', YYRadio)
-Vue.component('YYRadioGroup', YYRadio.YYRadioGroup)
-Vue.component('YYCheckbox', YYCheckbox)
-Vue.component('YYCheckboxGroup', YYCheckbox.YYCheckboxGroup)
-Vue.component('YYPagination', YYPagination)
-Vue.component('YYLoadingH', YYLoadingH)
-Vue.component('YYModal', YYModal)
-
-Vue.directive('yyloading', YYLoadingDirective)
 
 const options = { // 图片预览插件配置
     history: false,
@@ -97,9 +86,25 @@ new Promise(function (resolve) {
         }
     })
 }).then((lang) => {
+    console.log(lang)
     setLocale(lang)
     i18n.locale = lang
     locale(lang)
+
+    Vue.component('YYButton', YYButton)
+    Vue.component('YYDatePicker', YYDatePicker)
+    Vue.component('YYEmpty', YYEmpty)
+    Vue.component('YYLoading', YYLoading)
+    Vue.component('YYRadio', YYRadio)
+    Vue.component('YYRadioGroup', YYRadio.YYRadioGroup)
+    Vue.component('YYCheckbox', YYCheckbox)
+    Vue.component('YYCheckboxGroup', YYCheckbox.YYCheckboxGroup)
+    Vue.component('YYPagination', YYPagination)
+    Vue.component('YYLoadingH', YYLoadingH)
+    Vue.component('YYModal', YYModal)
+
+    Vue.directive('yyloading', YYLoadingDirective)
+
     Vue.prototype.$eventbus = new Vue() // 建立组件全局通信的钩子
     Vue.prototype.$ajax = ajax // 将ajax挂在到vue实例
     Vue.prototype.$YYModal = YYModal
