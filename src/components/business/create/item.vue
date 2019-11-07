@@ -55,7 +55,7 @@
             <Input 
                 v-model="data.content" 
                 type="textarea" 
-                :placeholder="data.deion" 
+                :placeholder="data.deion || ''" 
                 :autosize="{ minRows: 5, maxRows: 10}"/>
         </template>
         <template v-if="data.type == 'InputTextNum'">
@@ -69,7 +69,7 @@
                     max="100000000"
                     number="true" 
                     @keypress='keypress($event)'
-                    :placeholder="`${data.deion || data.description}${data.unit?`(${$t('noun.unit')}：${data.unit})`:''}`">
+                    :placeholder="`${data.deion || data.description || ''}${data.unit?`(${$t('noun.unit')}：${data.unit})`:''}`">
             </div>
         </template>
         <template v-if="data.type == 'InputRadio'">
