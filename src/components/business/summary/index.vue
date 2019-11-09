@@ -110,7 +110,6 @@ export default {
                     contentArr = curContent
                 }
             })
-            console.log(this.selectContent)
             this.selectContent.forEach((v,k)=>{
                 v.forEach((item, index)=>{
                     if(item.id == contentArr[index].id && k !== 0) {

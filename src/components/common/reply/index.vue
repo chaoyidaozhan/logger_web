@@ -195,7 +195,6 @@
                 finalFace.forEach((item) => {
                     content = content.replace(item, '<i exp="' + item.replace(/\[|\]/g,"") + '"></i>');
                 });
-                console.log(content)
                 return content;
             },
             getUploadFile(fileData) { // 获取上传附件

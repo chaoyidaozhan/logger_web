@@ -244,8 +244,6 @@ export default {
         },
         getSummaryData(param) { // 获取日志汇总数据
             let summaryData = param[0]
-            console.log(param);
-            
             param.forEach((parent, pIndex)=>{
                 if(pIndex != 0) {
                     parent.forEach((child, cIndex)=>{
@@ -469,8 +467,6 @@ export default {
         },
         handleQuery() { // 查询
             const data = this.getParams()
-            console.log(data);
-            
             this.stashSelectionKey = this.$refs.selectTemplate.templateVersion
             
             if (!data.templateId) {

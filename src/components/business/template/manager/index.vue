@@ -591,7 +591,6 @@ export default {
                 this.dateOptions.diaryTimeStatus = !!resData.diaryTimeStatus
                 this.dateOptions.diaryTimeRequired = !!resData.diaryTimeRequired
                 this.dateOptions.diaryTimeDefault = !!resData.diaryTimeDefault
-                console.log(this.dateOptions);
                 
                 this.$emit('handleDataStatus', resData.dataStatus);
             }
