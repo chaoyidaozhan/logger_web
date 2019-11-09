@@ -48,7 +48,6 @@
             },
             uploadSuccess(res, file, fileList) {
                 let data = res && res.data
-                console.log(data)
                 file && this.uploadFilesArr.push({
                     fid: data.fid,
                     fileName: data.fileName,
