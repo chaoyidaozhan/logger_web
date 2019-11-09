@@ -6,7 +6,7 @@
             <img ref="previewImg" 
                 :key="index"
                 class="preview-img" 
-                :src="item.fileKey" 
+                :src="item.fileUrl || item.fileKey" 
                 :alt="item.fileName" 
                 preview="query"
                 :preview-text="item.fileName"
@@ -14,7 +14,6 @@
         </div>
     </div>
 </template>
-
 <script>
     export default {
         props: {

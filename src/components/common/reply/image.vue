@@ -5,7 +5,7 @@
             <img ref="previewImg" 
                 :key="index"
                 class="preview-img" 
-                :src="item.fileKey" 
+                :src="item.fileUrl || item.fileKey" 
                 :alt="item.fileName" 
                 preview="reply"
                 :preview-text="item.fileName"
