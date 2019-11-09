@@ -110,9 +110,10 @@ export default {
                     contentArr = curContent
                 }
             })
+            console.log(this.selectContent)
             this.selectContent.forEach((v,k)=>{
                 v.forEach((item, index)=>{
-                    if(item.id == contentArr[index].id) {
+                    if(item.id == contentArr[index].id && k !== 0) {
                         if(item.type == 'InputText') {
                             if(!!item.content.trim()) {
                                 contentArr[index].content += `\n${item.content}`
