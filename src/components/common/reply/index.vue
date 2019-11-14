@@ -239,7 +239,6 @@
                 return attachList;
             },
             updateList(commentData) {
-                console.log(commentData)
                 commentData.forEach((item) => {
                     item.createTime = formatTime(item.createTime, window.lang);
                     item.isMyself = item.memberId === +this.$store.state.userInfo.member_id;

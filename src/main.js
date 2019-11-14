@@ -86,7 +86,6 @@ new Promise(function (resolve) {
         }
     })
 }).then((lang) => {
-    console.log(lang)
     setLocale(lang)
     i18n.locale = lang
     locale(lang)

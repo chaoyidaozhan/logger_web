@@ -487,6 +487,7 @@ export default {
             return validate(templateContent)
         },
         handleSubmit() { // 提交
+            console.log(this.templateItemData)
             if(this.btnloading) return
             this.handleSubmitData()
             if (!this.handleValidate(this.templateContentClone)) {
@@ -498,7 +499,6 @@ export default {
                         content: this.templateContentClone
                     }
                 })
-                console.log(this.templateContentClone)
                 let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
                     diaryTime: FormatTime(this.dateValue ? new Date(this.dateValue) : new Date(), "YYYY-MM-DD"),

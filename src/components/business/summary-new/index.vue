@@ -240,6 +240,9 @@ export default {
                 
                 activeTableList.selection = stashSelection
                 activeTableList.checkNum = selection.length
+                activeTableList.version = activeTableList.list[0].version
+                activeTableList.dataType = activeTableList.list[0].dataType
+                activeTableList.templateName = activeTableList.list[0].templateName
             }
         },
         getSummaryData(param) { // 获取日志汇总数据
@@ -274,6 +277,9 @@ export default {
             } 
             this.$store.dispatch('update_template_content', {
                 content: {
+                    version: activeTableList.version,
+                    dataType: activeTableList.dataType,
+                    templateName: activeTableList.templateName,
                     content: JSON.stringify(this.getSummaryData(activeTableList.selection))
                 }
             })
