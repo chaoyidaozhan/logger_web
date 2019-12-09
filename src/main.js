@@ -11,8 +11,7 @@ import ajax from './common/ajax' // 引入封装过后的ajax
 import storage from './common/store.js-master/dist/store.legacy.min'
 import { i18n, setLocale } from './common/language/'
 import { locale } from 'yyzone/src/locale/'
-import { getWebLang } from 'yyzone/'
-import YYZone from 'yyzone'
+import { getWebLang } from 'yyzone/src/utils/lang'
 import FsVueVideo from './components/common/video/'
 import selectTree from './components/common/select-tree'
 import 'app_src/directives/loading/'
@@ -25,6 +24,7 @@ import './assets/css/common.less'
 import 'vue-photo-preview/dist/skin.css'
 
 // 按需引入YYZone组件
+import YYAvatar from 'yyzone/src/components/base/avatar/'
 import YYButton from 'yyzone/src/components/base/button/'
 import YYEmpty from 'yyzone/src/components/base/empty/'
 import YYRadio from 'yyzone/src/components/base/radio/'
@@ -37,6 +37,7 @@ import YYLoadingDirective from 'yyzone/src/directives/loading'
 import YYMessage from 'yyzone/src/components/base/message/'
 import YYLoadingH from 'yyzone/src/components/base/loading-h/'
 import YYModal from 'yyzone/src/components/base/modal/'
+import YYDropdown from 'yyzone/src/components/base/dropdown/'
 
 const options = { // 图片预览插件配置
     history: false,
@@ -62,34 +63,12 @@ Vue.use(FsVueVideo)
 Vue.use(selectTree)
 window.storage = storage // 建立全局的storage
 
-new Promise(function (resolve) {
-    const navigatorLang = {
-        'zh_tw': 'zht',
-        'zh_cn': 'zhs',
-        'en': 'en',
-        'en_us': 'en',
-        'default': 'zhs'
-    }
-    getWebLang({
-        callback: function (lang) {
-            try {
-                jDiwork.getContext(function (res) {
-                    if(res) {
-                        resolve(navigatorLang[res.locale.toLocaleLowerCase()] || lang)
-                    } else {
-                        resolve(lang)
-                    }
-                })
-            } catch (error) {
-                resolve(lang)
-            }
-        }
-    })
-}).then((lang) => {
+getWebLang().then(lang => {
     setLocale(lang)
     i18n.locale = lang
     locale(lang)
 
+    Vue.component('YYAvatar', YYAvatar)
     Vue.component('YYButton', YYButton)
     Vue.component('YYDatePicker', YYDatePicker)
     Vue.component('YYEmpty', YYEmpty)
@@ -101,6 +80,11 @@ new Promise(function (resolve) {
     Vue.component('YYPagination', YYPagination)
     Vue.component('YYLoadingH', YYLoadingH)
     Vue.component('YYModal', YYModal)
+    Vue.component('YYSelect', YYSelect)
+    Vue.component('YYOption', YYSelect.YYOption)
+    Vue.component('YYDropdown', YYDropdown)
+    Vue.component('YYDropdownMenu', YYDropdown.YYDropdownMenu)
+    Vue.component('YYDropdownItem', YYDropdown.YYDropdownItem)
 
     Vue.directive('yyloading', YYLoadingDirective)
 

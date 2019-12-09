@@ -1,6 +1,5 @@
 <template>
     <div class="select-tree-input cursor-pointer" 
-        @click="openSelectMember" 
         :class="{disabled: !org.length && !dept.length && !group.length && !member.length, ellipsis: ellipsis}">
         <template v-if="!org.length && !dept.length && !group.length && !member.length">
             {{placeholder}}
@@ -37,7 +36,7 @@
                 <i class="icon-delete-userlist"></i>
             </span>
         </template>
-        <i class="icon-add"></i>
+        <i class="icon-add" @click="openSelectMember"></i>
     </div>
 </template>
 <script>

@@ -61,7 +61,7 @@ export default {
     },
     computed: {
         formatName: function() {
-            return /[\u4e00-\u9fa5]/.test(this.name)
+            return /[\u4e00-\u9fa5]/.test(this.name.trim(''))
                   ? this.name.substr(-this.nameLength)
                   : this.name.substr(0, this.nameLength)
         }

@@ -13,7 +13,7 @@
                     @handleSelect="handleSelect"/>
             </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
-                <fs-select-tree-input ref="selectMember" 
+                <fs-select-member ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :member="member"
@@ -23,13 +23,14 @@
                 <fs-select-template 
                     :hasDefaultTemplate="hasDefaultTemplate" 
                     :templateType="templateType" 
+                    @handleChange="handleQuery"
                     ref="selectTemplate"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
                 <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
             </FormItem> 
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
-                <fs-select-date ref="selectDate" :createDate="createDate"/>
+                <fs-select-date ref="selectDate" :createDate="createDate" @handleChange="handleQuery"/>
             </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')"  v-if="showAllMember && showTemplateCheck">
                 <fs-select-tree-input ref="selectMember" 
@@ -102,6 +103,7 @@
  **/
 import FsSelectTreeInput from '../select-tree-input/'
 import FsSelectTemplate from '../select-template/'
+import FsSelectMember from '../select-member/'
 import FsSelectDate from '../select-date/'
 import FsSelectGroup from '../select-group/'
 import FsSelectOrderType from '../select-order-type/'
@@ -191,7 +193,8 @@ export default {
         FsSelectTemplate,
         FsSelectDate,
         FsSelectOrderType,
-        FsExportExcel
+        FsExportExcel,
+        FsSelectMember
     },
     data() {
         return {
@@ -283,6 +286,7 @@ export default {
             keys.forEach(key=>{
                 this[key] = res[key]
             })
+            this.handleQuery()
         },
         handleExportExcel(params) {
             this.handleQuery()
@@ -333,6 +337,7 @@ export default {
                 templateType = 'select'
             }
             this.$emit('handleTemplateType', templateType)
+            this.handleQuery()
         },
         handleChangePublic() {
             this.$emit('handleChangePublic', this.withPublic)

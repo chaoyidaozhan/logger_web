@@ -47,6 +47,7 @@ export default {
             }
             this.beginDate = params[0] || "";
             this.endDate = params[1] || "";
+            this.$emit('handleChange')
         },
         init() {
             if(this.dateType === 'date') {

@@ -1,12 +1,13 @@
 <template>
     <div class="select-template">
-        <Select v-model="templateId" 
+        <YYSelect v-model="templateId" 
+            :invertable="false"
             :placeholder="`${$t('operate.select')}${$t('noun.template')}`">
-            <Option v-for="(item, index) in tempListData"
+            <YYOption v-for="(item, index) in tempListData"
                 :value="item.id"
                 :key="index">{{ item.title | filterHtml  }}
-            </Option>
-        </Select>
+            </YYOption>
+        </YYSelect>
     </div>
 </template>
 <script>
@@ -51,6 +52,9 @@ export default {
                     this.templateVersion = item.version
                 }
             })
+            if(value) {
+                this.$emit('handleChange')
+            }
         },
         getTemplateApp(call) {
             this.$store.dispatch('update_template_app', {templateType:this.templateType}).then(()=>{
