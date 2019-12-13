@@ -518,6 +518,8 @@ export default {
 
                 if(this.saveDraft && this.editFlag) { // 即为草稿又为编辑
                     uri = `/diary/edit`
+                    delete submitData.id
+                    submitData.draftId = this.$route.params.id
                     submitData.dataStatus = 0
                 } else if (this.saveDraft) { // 草稿 新增草稿情况下删除id
                     uri = `/diary/diaryCommitDraft`
@@ -525,7 +527,9 @@ export default {
                 } else if (this.editFlag) { // 编辑
                     uri = `/diary/edit`
                     if(this.$route.params.loggertype == 'draft') { // 草稿编辑保存时需要多加一个字段dataStatus
+                        delete submitData.id
                         submitData.dataStatus = 1
+                        submitData.draftId = this.$route.params.id
                     }
                 } else { // 其他 新增情况下删除id
                     uri = `/diary/diaryCommit`

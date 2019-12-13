@@ -10,7 +10,7 @@
                 :isDraft="isDraft"
                 :isLowerLevel="isLowerLevel"
                 :loggerItemData="item"
-                :key="item.id" />
+                :key="item.id || index" />
         </transition-group>
         <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
         <div class="loading">

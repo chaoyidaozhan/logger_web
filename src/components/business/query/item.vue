@@ -253,6 +253,9 @@ export default {
         }
     },
     computed: {
+        data() {
+            return this.loggerItemData
+        },
         loggerItemAttachs() { // 目前仅图片和文件类型
             let attachList = {
                 imgs: [],
@@ -429,11 +432,12 @@ export default {
         handleEdit() {
             clearTimeout(this.editTimer)
             this.editTimer = setTimeout(()=>{
+                const id = this.$route.path == '/DraftOfMine' ? this.loggerItemData.draftId : this.loggerItemData.id
                 this.$store.dispatch('update_template_content', { //登录成功更新store
                     content: this.loggerItemData
                 }).then(()=>{
                     this.$router.push({
-                        path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${this.loggerItemData.id}`,
+                        path: `LoggerDetail/operate/${this.$route.path == '/DraftOfMine' ? 'draft' : 'edit'}/${id}`,
                         query:{
                             token:this.$store.state.userInfo.token
                         }
@@ -446,9 +450,19 @@ export default {
                 title: this.$t('toast.deleteLogPrompt'),
                 content: this.$t('toast.clickOKToDeleteTheLog'),
                 onOk: (res)=>{
+                    let params = {
+                        id: this.loggerItemData.id || null,
+                    }
+                    if(this.loggerItemData.draftId) {
+                        params = {
+                            draftId: this.loggerItemData.draftId || null
+                        }
+                    }
                     this.$ajax({
-                        url: `/diary/${this.loggerItemData.id}`,
+                        url: `/diary/`,
                         type: 'delete',
+                        data: params,
+                        requestBody: 1,
                         success: (res)=>{
                             if(res && res.code == 0) {
                                 this.$YYMessage.success(this.$t('toast.successfullyDeleted'))

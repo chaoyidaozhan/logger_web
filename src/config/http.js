@@ -9,7 +9,7 @@ export default {
                 let url = reqConfig.url
                 if (!/[http|https]:\/\//gi.test(url)) { // 全局拦截，传入api地址若不是全路径默认
                     if (__ENV__ === 'dev' || __ENV__ === 'dev-prev') {
-                        reqConfig.url = `${config[__ENV__].host}/logger/${url}`
+                        reqConfig.url = `${config[__ENV__].host}/logger${url}`
                     } else {
                         const { protocol, host } = window.location
                         reqConfig.url = `${protocol}//${host}/logger${url}`
