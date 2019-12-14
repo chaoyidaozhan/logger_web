@@ -462,7 +462,6 @@ export default {
                         url: `/diary/`,
                         type: 'delete',
                         data: params,
-                        requestBody: 1,
                         success: (res)=>{
                             if(res && res.code == 0) {
                                 this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
