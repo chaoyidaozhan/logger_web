@@ -465,7 +465,7 @@ export default {
                         success: (res)=>{
                             if(res && res.code == 0) {
                                 this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
-                                this.$emit('handleDelete', this.loggerItemData.id)
+                                this.$emit('handleDelete', this.loggerItemData.draftId || this.loggerItemData.id)
                             }
                         },
                         error: (res)=>{
