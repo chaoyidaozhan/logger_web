@@ -6,3 +6,4 @@ npm-debug.log
 dist
 web
 .cache
+package-lock.json
