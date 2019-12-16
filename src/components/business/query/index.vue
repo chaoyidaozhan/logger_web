@@ -175,7 +175,7 @@ export default {
             if(id) {
                 let eq
                 this.list.forEach((item, index)=>{
-                    if(item.id == id) {
+                    if(item.id == id || item.draftId === id) {
                         eq = index
                     }
                 })
