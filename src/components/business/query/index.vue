@@ -156,6 +156,7 @@ export default {
             }
         },
         updateList(res) { // load成功之后更新数据
+            if(res.groupId && res.groupId !== this.getParams.groupId()) return
             if(res && res.code === 0) {
                 this.hasMore = true
                 if(this.pageNo == 1) {
@@ -187,12 +188,15 @@ export default {
             this.initList()
         },
         loadData() { // 请求接口
+            const id = (new Date).valueOf()
             this.loading = true
             this.$eventbus.$emit('setBtnLoading', this.loading)
+            const groupId = this.getParams().groupId || null
             this.$ajax({
                 url: this.url,
                 data: this.getParams(),
                 success: (res)=>{
+                    res.groupId = groupId
                     this.loading = false
                     this.$eventbus.$emit('setBtnLoading', this.loading)
                     this.updateList(res)
