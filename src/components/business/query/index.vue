@@ -156,7 +156,7 @@ export default {
             }
         },
         updateList(res) { // load成功之后更新数据
-            if(res.groupId && res.groupId !== this.getParams.groupId()) return
+            if(res.groupId && res.groupId !== this.getParams().groupId) return
             if(res && res.code === 0) {
                 this.hasMore = true
                 if(this.pageNo == 1) {
