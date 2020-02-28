@@ -33,6 +33,10 @@ export default {
                     align: 'center'
                 },
                 {
+                    title: '描述',
+                    align: 'center'
+                },
+                {
                     title: '状态',
                     align: 'center'
                 },
