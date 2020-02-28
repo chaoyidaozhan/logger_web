@@ -17,8 +17,9 @@ module.exports = {
         internalGroupReport: '按内部群统计',
         summary: '汇报汇总',
         statistics: '汇报报表',
-        templateManagement: '模板管理',
-        deploy: '配置'
+        templateManagement: '模版管理',
+        deploy: '配置',
+        groupTemplateManagement: '群模版管理'
     },
     operate: { // 操作
         back: '返回',

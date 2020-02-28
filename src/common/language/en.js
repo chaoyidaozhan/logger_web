@@ -18,7 +18,8 @@ module.exports = {
         summary: 'Summary',
         statistics: 'Report Forms',
         templateManagement: 'Template Management',
-        deploy: 'Deploy'
+        deploy: 'Deploy',
+        groupTemplateManagement: 'Group Template Management'
     },
     operate: { // 操作
         back: 'Back',
