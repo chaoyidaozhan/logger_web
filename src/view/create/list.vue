@@ -1,9 +1,18 @@
 <template>
     <div class="logger-detail">
-        <div class="title">
-            <div><span>1</span>{{$t('operate.select')}}{{$t('noun.template')}}</div>
+        <div v-if="recentlyTemplates.length">
+            <div class="title">
+                <div><span>1</span>常用模板{{$t('noun.template')}}</div>
+            </div>
+            <fs-template-list :list='recentlyTemplates'/>
         </div>
-        <fs-template-list />
+        <div v-if="template.length">
+            <div class="title">
+                <div><span>1</span>全部模板{{$t('noun.template')}}</div>
+            </div>
+            <fs-template-list :list='template'/>
+        </div>
+        
     </div>
 </template>
 <script>
@@ -13,7 +22,9 @@ export default {
     data() {
         return {
             params: {},
-            transitionName: ''
+            transitionName: '',
+            recentlyTemplates: [],// 常用模板
+            template: [] // 全部模板
         }
     },
     computed: {
@@ -27,20 +38,33 @@ export default {
     methods: {
         initListData () {
             let token = this.$store.state.userInfo.token
-            ajax({
-                // url: `/template/recentlyTemplates?token= ${token}`,
-                url: `/rest/v1/group/template?token${token}`,
-                data: {
-                    // pageNo: 1,
-                    // pageSize: 1000,
-                    // client: type || 'app'
-                },
+            let defineTemplate = []
+            // this.$vux.loading.show(this.$t('status.Loading'))
+            this.$ajax({
+                url: `/template/recentlyTemplates`,
                 success: (res) => {
-                    // if (res && res.code == 0) {
-                    //     call && call(res.data || []);
-                    // }
+                    console.log(res)
+                    this.recentlyTemplates = res.data.recentlyTemplates || defineTemplate
+                    this.template = res.data.templates || defineTemplate
+                    // setTimeout(() => {
+                    //     this.$vux.loading.hide()
+                    // }, 300)
                 }
             })
+            // ajax({
+            //     // url: `/template/recentlyTemplates?token= ${token}`,
+            //     url: `/rest/v1/group/template?token${token}`,
+            //     data: {
+            //         // pageNo: 1,
+            //         // pageSize: 1000,
+            //         // client: type || 'app'
+            //     },
+            //     success: (res) => {
+            //         // if (res && res.code == 0) {
+            //         //     call && call(res.data || []);
+            //         // }
+            //     }
+            // })
         }
     },
     watch: {　

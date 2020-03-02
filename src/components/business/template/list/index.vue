@@ -29,11 +29,15 @@ export default {
         showEdit: {
             type: Boolean,
             default: false,
+        },
+        list: {
+            type: Array,
+            default: ()=>([])
         }
     },
     data() {
         return {
-            list: [],
+            // list: [],
             show: true,
             totalCount: 0,
             pageSize: 19,
@@ -113,7 +117,7 @@ export default {
         },
     },
     created () {
-        this.loadData('fade');
+        // this.loadData('fade');
     },
 }
 </script>
