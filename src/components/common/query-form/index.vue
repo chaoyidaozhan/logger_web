@@ -12,6 +12,7 @@
                     :group="group"
                     @handleSelect="handleSelect"/>
             </FormItem> 
+            <!--  -->
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
                 <fs-select-member ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"

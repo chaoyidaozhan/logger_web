@@ -40,6 +40,8 @@ import YYModal from 'yyzone/src/components/base/modal/'
 import YYDropdown from 'yyzone/src/components/base/dropdown/'
 import YYTable from 'yyzone/src/components/base/table/'
 import YYDialog from 'yyzone/src/components/base/dialog/'
+import YYSwitch from 'yyzone/src/components/base/switch/'
+import YYInput from 'yyzone/src/components/base/input/'
 
 const options = { // 图片预览插件配置
     history: false,
@@ -89,6 +91,8 @@ getWebLang().then(lang => {
     Vue.component('YYDropdownMenu', YYDropdown.YYDropdownMenu)
     Vue.component('YYTable', YYTable)
     Vue.component('YYDialog', YYDialog)
+    Vue.component('YYSwitch', YYSwitch)
+    Vue.component('YYInput', YYInput)
 
     Vue.directive('yyloading', YYLoadingDirective)
 

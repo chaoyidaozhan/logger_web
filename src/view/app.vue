@@ -113,5 +113,10 @@
         }
     }
 </style>
+<style>
+.ivu-modal-wrap{
+    z-index: 9999!important;
+}
+</style>
 
 
