@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row">
-      <YYTable :columns="columns" :data="data" />
+      <YYTable :columns="columns" :data="tableListData" />
     </div>
     <YYDialog
         width='450px'
@@ -14,7 +14,7 @@
             <span class="title">内部群名称:</span>
             <span class="ctn">
                 <fs-select-tree-input
-                    :group="member1"
+                    :group="selectGroupData"
                     :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
                     :placeholder="$t('placeholder.visibleToThisDepartment')"
                     @handleSelect="handleSelectRange1"
@@ -51,13 +51,8 @@
         <div class="item">
             <span class="title">汇报人:</span>
             <span class="ctn">
-                <!-- <fs-select-member ref="selectMember" 
-                    :title="请选择汇报人"
-                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
-                    :member="member"
-                    @handleSelect="handleSelectRange2"/> -->
                     <fs-select-tree-input
-                        :member="member2"
+                        :member="selectMemberData"
                         :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
                         :placeholder="$t('placeholder.visibleToThisDepartment')"
                         @handleSelect="handleSelectRange2"
@@ -74,55 +69,58 @@
 </template>
 <script>
 import EditCancleButtons from './EditCancleButtons'
+import TableItemPerson from './tableItemPerson'
 import FsSelectMember from '../../common/select-member/'
 import FsSelectTreeInput from '../../common/select-tree-input/'
 import axios from 'axios'
+// axios.defaults.withCredentials = true
 import qs from 'qs'
 export default {
     data() {
         return {
-            data: [
-                {
-                    "createTime": "",
-                    "index": "1",
-                    "desc": "11111",
-                    "enable": 0,
-                    "groupId": "121",
-                    "id": 0,
-                    "reportUsers": [
-                        {
-                            "avatar": "",
-                            "memberId": "",
-                            "name": "",
-                            "qzId": ""
-                        }
-                    ],
-                    "reportedMembers": "wsdsdsd",
-                    "spaceId": "",
-                    "templateId": 0,
-                    "updateTime": ""
-                }
-            ],
+            tableListData: [],
             columns: [
-                {
-                    title: '序号',
-                    align: 'center',
-                    key: 'index'
-                },
+                // {
+                //     title: '序号',
+                //     align: 'center',
+                //     key: 'index'
+                // },
                 {
                     title: '内部群名称',
-                    align: 'center',
-                    key: 'groupId'
+                    align: 'left',
+                    key: 'groupName',
+                    render: (h, params) => {
+                        return h(
+                        TableItemPerson,
+                        {
+                            props: {
+                                personData: params.row.reportUsers[0]
+                            },
+                            on: {
+                            'BtnEdit': () => {
+                                setTimeout(() => {
+                                this.editBtnClick(params)
+                                }, 0)
+                            },
+                            'BtnCancle': () => {
+                                setTimeout(() => {
+                                this.cancleBtnClick(params)
+                                }, 0)
+                            }
+                            }
+                        },
+                        params)
+                    }
                 },
                 {
                     title: '模版名称',
-                    align: 'center',
-                    key: 'templateId'
+                    align: 'left',
+                    key: 'templateName'
                 },
                 {
-                    title: '汇报范围',
-                    align: 'center',
-                    key: 'reportedMembers'
+                    title: '汇报人',
+                    align: 'left',
+                    key: 'reportUsersStr'
                 },
                 {
                     title: '描述',
@@ -138,7 +136,7 @@ export default {
                         'y-y-switch',
                         {
                             props: {
-                            value: params.row.status
+                                value: params.row.status
                             },
                             on: {
                             'on-change': () => {
@@ -154,7 +152,7 @@ export default {
                 {
                     title: '操作',
                     align: 'center',
-                    key: 'enable',
+                    key: 'id',
                     render: (h, params) => {
                         return h(
                         EditCancleButtons,
@@ -177,8 +175,8 @@ export default {
                 }
             ],
             show: this.showDialog,
-            member1: [],
-            member2: [],
+            selectGroupData: [],
+            selectMemberData: [],
             deptRange: [],
             groupRange: [],
             memberRange: [],
@@ -192,7 +190,8 @@ export default {
     components : {
         EditCancleButtons,
         FsSelectMember,
-        FsSelectTreeInput
+        FsSelectTreeInput,
+        TableItemPerson
     },
     props: {
         showDialog: {
@@ -227,11 +226,10 @@ export default {
             // templateDesc
         },
         dialogConfirm () {
-            debugger
-            // let groupId = this.member1[0].gid
-            let groupId = '7112'
-            // let reportedMembers = this.member2[0].memberId
-            let reportedMembers = "182282"
+            let groupId = this.selectGroupData[0].gid
+            // let groupId = '7112'
+            let reportedMembers = this.selectMemberData[0].memberId
+            // let reportedMembers = "182282"
             let templateId = this.templateNameId
             let desc = this.templateDesc
             let obj = {
@@ -240,30 +238,22 @@ export default {
                 templateId,
                 desc
             }
-            axios({
-                url: '/rest/v1/template/customized/group_relation',
-                data: qs.stringify(obj),
-                method: 'post',
-                headers:{
-                    'Content-Type': 'application/json',
+            axios.defaults.withCredentials = true
+            axios.post(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
+                debugger
+                if(res && res.status == 200) {
+                    this.loadList()
+                } else {
+                    this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                 }
+            }).catch(function (err) {
+                console.log(err)
             })
-            // this.$ajax({
-            //     url: "/logger/rest/v1/template/customized/group_relation",
-            //     type: 'post',
-            //     data: obj,
-            //     success: (res) => {
-            //         debugger
-            //         // if (res && res.code == 0) {
-            //         //     call && call(res.data || []);
-            //         // }
-            //     }
-            // })
         },
         handleSelectRange1(res) { //内部群
             debugger
             let arr = res.group
-            this.member1 = arr
+            this.selectGroupData = arr
             // let keys = Object.keys(res)
             // keys.forEach(key => {
             //     this[`${key}Range`] && (this[`${key}Range`] = res[key])
@@ -271,26 +261,34 @@ export default {
         },
         handleSelectRange2(res) { //汇报人
             let arr = res.member
-            this.member2 = arr
+            this.selectMemberData = arr
             // let keys = Object.keys(res)
             // keys.forEach(key => {
             //     this[`${key}Range`] && (this[`${key}Range`] = res[key])
             // })
         },
-        initList () {
+        loadList (pageNo = 1, pageSize = 1000) {
             this.$ajax({
-                // url: "/logger/rest/v1/template/customized/group_relations",
-                url: "/rest/v1/template/customized/group_relations",
-                data: {
-                    pageNo: 1,
-                    pageSize: 1000,
-                },
+                // bug 还没处理分页
+                // url: `/rest/v1/template/customized/group_relations?pageNo=${pageNo}&pageSize=${pageSize}`,
+                url: `/rest/v1/template/customized/group_relations`,
                 success: (res) => {
-                    // if (res && res.code == 0) {
-                    //     call && call(res.data || []);
-                    // }
+                    debugger
+                    if (res && res.length != 0) {
+                        let arr = []
+                        res.forEach((item, i) => {
+                            // item.index = i + 1
+                            let str = item.reportUsers[0].name
+                            item.reportUsersStr = str
+                            arr.push(item)
+                        })
+                        this.tableListData = arr
+                    }
                 }
             })
+        },
+        initList () {
+            this.loadList()
         },
         initTemplate () {
             this.$ajax({
@@ -307,9 +305,11 @@ export default {
                 }
             })
         },
-        changeStatus () {
+        changeStatus (p) {
+            debugger
+            let id = p.row.id
             this.$ajax({
-                url: "/logger/rest/v1/template/customized/group_relation/",
+                url: "/logger/rest/v1/template/customized/group_relation/" + id,
                 type: 'patch',
                 data: {
                     enable: true
@@ -318,24 +318,32 @@ export default {
                 }
             })
         },
-        cancleBtnClick () {
+        cancleBtnClick (p) {
+            let id = p.row.id
              this.$ajax({
-                url: "/logger/rest/v1/template/customized/group_relation/{id}",
+                url: `/logger/rest/v1/template/customized/group_relation/${id}`,
                 type: 'delete',
                 success: (res) => {
                 }
             })
         },
-        editBtnClick () {
-            // 需要一个获取详情的接口
-            this.$ajax({
-                // url: "/logger/rest/v1/template/customized/group_relations",
-                url: "/rest/v1/template/customized/group_relations",
-                data: {
-                },
-                success: (res) => {
+        editBtnClick (p) {
+            let rowData = p.row
+            this.templateDesc = rowData.desc
+            this.selectGroupData = [
+                {
+                    groupName: rowData.groupName,
+                    groupId: rowData.groupId
                 }
-            })
+            ]
+            this.selectMemberData = [
+                {
+                    memberId: rowData.reportUsers[0].memberId,
+                    userName: rowData.reportUsers[0].name
+                }
+            ]
+            this.templateNameId = rowData.templateId
+            this.show = true
         },
         handleSelect(res) {
             console.log(res)
@@ -357,7 +365,9 @@ export default {
         }
     },
     created () {
+        // tab列表
         this.initList()
+        // 模板列表
         this.initTemplate()
     }
 }
@@ -379,6 +389,11 @@ export default {
             display: inline-block;
             width: 300px;
         }
+    }
+}
+.logger-frame-scroller {
+    .yy-switch {
+        margin: 4px 0;
     }
 }
 </style>

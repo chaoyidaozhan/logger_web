@@ -28,7 +28,8 @@ export default {
         initListData () {
             let token = this.$store.state.userInfo.token
             ajax({
-                url: `/template/recentlyTemplates?token= ${token}`,
+                // url: `/template/recentlyTemplates?token= ${token}`,
+                url: `/rest/v1/group/template?token${token}`,
                 data: {
                     // pageNo: 1,
                     // pageSize: 1000,
