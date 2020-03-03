@@ -314,6 +314,14 @@ export default {
                 }
             }
         }
+        .ivu-menu-item {
+            .icon-customized {
+                font-size: 24px;
+                margin-left: -5px;
+                vertical-align: middle;
+                margin-top: -5px;
+            }
+        }
         .ivu-menu-submenu-title {
             padding: 13px 16px;
         }

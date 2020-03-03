@@ -73,8 +73,8 @@ const menus = [
     {
         name: 'menus.groupTemplateManagement',
         path: '/GroupTemplate',
-        icon: 'icon-manage',
-        // type: ['admin','diary_examer']
+        icon: 'icon-customized',
+        type: ['admin','diary_examer']
     },
     {
         name: 'menus.statistics',
