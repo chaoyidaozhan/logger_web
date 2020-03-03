@@ -1,8 +1,8 @@
 <template>
   <div class="">
-    <span class="btn edit" @click="edit"> 编辑 </span>
+    <span class="btn edit" @click="edit"> {{$t('operate.edit')}} </span>
     <!-- <span class="btn edit" @click="edit"> {{$t('fieldAuth.edit')}} </span> -->
-    <span class="btn cancle" @click="cancle"> 删除 </span>
+    <span class="btn cancle" @click="cancle"> {{$t('operate.delete')}} </span>
     <!-- <span class="btn cancle" @click="cancle"> {{$t('cusBtns.remove')}} </span> -->
   </div>
 </template>

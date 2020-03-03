@@ -12,16 +12,16 @@
     <YYDialog
         width='450px'
         height='320px'
-        title="新增群模板"
+        :title="$t('operate.addNewGroupTemplate')"
         v-model="show"
         @on-ok='dialogConfirm'
         class="addDialogCtn">
         <div class="item" style="margin-top: 20px;">
-            <span class="title">内部群名称:</span>
+            <span class="title">{{$t("operate.internalGroupName")}}:</span>
             <span class="ctn">
                 <fs-select-tree-input
                     :group="selectGroupData"
-                    :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
+                    :title="$t('operate.insideGroupSelect')"
                     :placeholder="$t('placeholder.visibleToThisDepartment')"
                     @handleSelect="handleSelectRange1"
                     :ellipsis="false" 
@@ -33,7 +33,7 @@
             </span>
         </div>
         <div class="item">
-            <span class="title">模板名称:</span>
+            <span class="title">{{$t("operate.templateName")}}:</span>
             <span class="ctn">
                 <YYSelect 
                     v-model="templateNameId" 
@@ -46,7 +46,7 @@
             </span>
         </div>
         <div class="item">
-            <span class="title">描述:</span>
+            <span class="title">{{$t('operate.describe')}}:</span>
             <span class="ctn">
                 <YYInput
                     v-model="templateDesc" 
@@ -55,11 +55,11 @@
             </span>
         </div>
         <div class="item">
-            <span class="title">汇报人:</span>
+            <span class="title">{{$t('operate.reportPerson')}}:</span>
             <span class="ctn">
                     <fs-select-tree-input
                         :member="selectMemberData"
-                        :title="`${$t('operate.select')}${$t('noun.visibleRange')}`"
+                        :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
                         :placeholder="$t('placeholder.visibleToThisDepartment')"
                         @handleSelect="handleSelectRange2"
                         :ellipsis="false" 
@@ -98,7 +98,7 @@ export default {
                 //     key: 'index'
                 // },
                 {
-                    title: '内部群名称',
+                    title: this.$t("operate.internalGroupName"),
                     align: 'left',
                     key: 'groupName',
                     render: (h, params) => {
@@ -125,22 +125,22 @@ export default {
                     }
                 },
                 {
-                    title: '模版名称',
+                    title: this.$t("operate.templateName"),
                     align: 'left',
                     key: 'templateName'
                 },
                 {
-                    title: '汇报人',
+                    title: this.$t('operate.describe'),
                     align: 'left',
                     key: 'reportUsersStr'
                 },
                 {
-                    title: '描述',
+                    title: this.$t('operate.describe'),
                     align: 'center',
                     key: 'desc'
                 },
                 {
-                    title: '状态',
+                    title: this.$t('operate.status'),
                     align: 'center',
                     key: 'enable',
                     render: (h, params) => {
@@ -260,19 +260,23 @@ export default {
         },
         addDialogChenk () {
             if(this.selectGroupData.length == 0) {
-                this.$YYMessage.warning('请选择内部群名称')
+                let tips = this.$t('toast.selectInsideGroupName')
+                this.$YYMessage.warning(tips)
                 return false
             }
             if(this.selectGroupData.length != 1) {
-                this.$YYMessage.warning('只能选择一个内部群')
+                let tips = this.$t('toast.onlySelectOneInsideGroup')
+                this.$YYMessage.warning(tips)
                 return false
             }
             if(this.selectMemberData.length == 0) {
-                this.$YYMessage.warning('请选择汇报人')
+                let tips = this.$t('toast.selectReportPerson')
+                this.$YYMessage.warning(tips)
                 return false
             }
             if(this.templateNameId.length == 0) {
-                this.$YYMessage.warning('请选择模板')
+                let tips = this.$t('toast.selectTemplate')
+                this.$YYMessage.warning(tips)
                 return false
             }
             return true
@@ -306,7 +310,7 @@ export default {
                 // 新增
                 axios.post(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
                     if(res && res.status == 200) {
-                        this.$YYMessage.success('新增成功')
+                        this.$YYMessage.success(this.$t('toast.addSucess'))
                         this.loadList()
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
@@ -320,7 +324,7 @@ export default {
                 obj.id = this.editItemId
                 axios.patch(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
                     if(res && res.status == 200) {
-                        this.$YYMessage.success('编辑成功')
+                        this.$YYMessage.success(this.$t('toast.editSucess'))
                         this.loadList()
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
@@ -334,7 +338,7 @@ export default {
         handleSelectRange1(res) { //内部群
             let arr = res.group
             if(arr.length > 1) {
-                this.$YYMessage.warning('只能选择一个内部群')
+                this.$YYMessage.warning(this.$t('toast.onlySelectOneInsideGroup'))
             } else if(arr.length == 1) {
                 this.selectGroupData = arr
             }
@@ -375,7 +379,6 @@ export default {
             })
         },
         updateList(res) { // load成功之后更新数据
-        debugger
             // if(res.groupId && res.groupId !== this.getParams().groupId) return
             this.hasMore = true
             if(this.pageNo == 1) {
@@ -386,20 +389,6 @@ export default {
             if (res && res.length < this.pageSize) {
                 this.hasMore = false
             }
-            // if(res && res.code === 0) {
-            //     this.hasMore = true
-            //     if(this.pageNo == 1) {
-            //         this.tableListData = res || []
-            //     } else {
-            //         this.tableListData = this.tableListData.concat(res || [])
-            //     }
-            //     if (res && res.length < this.pageSize) {
-            //         this.hasMore = false
-            //     }
-            // } else {
-            //     this.tableListData = []
-            //     this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
-            // }
         },
         initList () {
             this.loadList()
@@ -424,13 +413,12 @@ export default {
             let id = p.row.id
             let enable = !p.row.enable
             axios.patch(`/rest/v1/template/customized/group_relation/${id}/?enable=${enable}`).then((res) => {
-                debugger
                 if(res && res.status == 200) {
                     if(enable) {
-                        this.$YYMessage.success('开启成功')
+                        this.$YYMessage.success(this.$t('toast.startSucess'))
                         p.row.enable = true
                     } else {
-                        this.$YYMessage.success('关闭成功')
+                        this.$YYMessage.success(this.$t('toast.offSucess'))
                         p.row.enable = false
                     }
                 }
@@ -444,7 +432,7 @@ export default {
                 url: `/rest/v1/template/customized/group_relation/${id}`,
                 type: 'delete',
                 success: (res) => {
-                    this.$YYMessage.success('删除成功')
+                    this.$YYMessage.success(this.$t('toast.deleteSucess'))
                     this.loadList()
                 }
             })
@@ -494,6 +482,7 @@ export default {
             text-align: right;
             color:rgba(51,51,51,1);
             margin-right: 10px;
+            font-size: 12px;
         }
         .ctn{
             display: inline-block;

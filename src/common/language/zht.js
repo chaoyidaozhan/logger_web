@@ -60,7 +60,15 @@ module.exports = {
         fill: '補',
         viewLowerLevelLog: '查看下級匯報',
         addAdministrator: '添加管理員',
-        withPublic: '包含公开匯報'
+        withPublic: '包含公开匯報',
+        addNewGroupTemplate: '新增群模板',
+        insideGroupSelect: '内部群选择',
+        internalGroupName: '内部群名称',
+        templateName: '模板名称',
+        describe: '描述',
+        reportPerson: '汇报人',
+        operate: '操作',
+        status: '状态'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -68,7 +76,8 @@ module.exports = {
         networkError: '網酪錯誤',
         clickToReload: '點擊重新加載',
         loadMore: '加載更多',
-        noRelevantData: '沒有相關數據'
+        noRelevantData: '沒有相關數據',
+        status: '状态'
     },
     toast: { // 提示
         operationFailed: '操作失敗',
@@ -99,7 +108,16 @@ module.exports = {
         theLogWasCreatedSuccessfully: '匯報創建成功',
         canNotBeEmpty: '不能為空',
         pleaseDragInTheContent: '請拖入內容',
-        selectAtLeastOne: '最少選擇一個'
+        selectAtLeastOne: '最少選擇一個',
+        selectInsideGroupName: '请选择内部群名称',
+        onlySelectOneInsideGroup: '只能选择一个内部群',
+        selectReportPerson: '请选择汇报人',
+        selectTemplate: '请选择模板',
+        editSucess: '编辑成功',
+        addSucess: '新增成功',
+        startSucess: '开启成功',
+        deleteSucess: '删除成功',
+        offSucess: '关闭成功'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',

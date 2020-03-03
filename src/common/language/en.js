@@ -19,7 +19,7 @@ module.exports = {
         statistics: 'Report Forms',
         templateManagement: 'Template Management',
         deploy: 'Deploy',
-        groupTemplateManagement: 'Group Template Management'
+        groupTemplateManagement: 'Template customization'
     },
     operate: { // 操作
         back: 'Back',
@@ -59,7 +59,16 @@ module.exports = {
         fill: 'Fill',
         viewLowerLevelLog: 'View subordinates reports',
         addAdministrator: 'Add administrator',
-        withPublic: 'Contains everyone visible'
+        withPublic: 'Contains everyone visible',
+        addNewGroupTemplate: 'New group template',
+        insideGroupSelect: 'Internal group selection',
+        insideGroupSelect: 'Inside Group Select',
+        internalGroupName: 'Internal Group Name',
+        templateName: 'Template Name',
+        describe: 'describe',
+        reportPerson: 'Report Person',
+        operate: 'Operate',
+        status: 'status'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -67,7 +76,8 @@ module.exports = {
         networkError: 'Network error',
         clickToReload: 'Click to reload',
         loadMore: 'Load more',
-        noRelevantData: 'No relevant Data'
+        noRelevantData: 'No relevant Data',
+        status: 'status'
     },
     toast: { // 提示
         operationFailed: 'Operation Failed',
@@ -98,7 +108,16 @@ module.exports = {
         theLogWasCreatedSuccessfully: 'Report created successfully.',
         canNotBeEmpty: 'Required',
         pleaseDragInTheContent: 'Please drag in the content',
-        selectAtLeastOne: 'select at least one'
+        selectAtLeastOne: 'select at least one',
+        selectInsideGroupName: 'Please select an internal group name',
+        onlySelectOneInsideGroup: 'Only one inner group can be selected',
+        selectReportPerson: 'Please select reporter',
+        selectTemplate: 'Please select a template',
+        editSucess: 'Edit Sucess',
+        addSucess: 'Add Sucess',
+        startSucess: 'Start Sucess',
+        deleteSucess: 'Delete Sucess',
+        offSucess: 'Turn Off Sucess',
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',
@@ -222,6 +241,6 @@ module.exports = {
         logTemplate: 'Report Template',
         logTemplateSettings: 'Report Template Settings',
         configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
-        statisticalAuthority: "'s statistical authority"
+        statisticalAuthority: "'s statistical authority",
     }
 }
