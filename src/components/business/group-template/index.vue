@@ -79,6 +79,7 @@ export default {
     data() {
         return {
             tableListData: [],
+            isEdit: false,
             columns: [
                 // {
                 //     title: '序号',
@@ -202,10 +203,17 @@ export default {
     watch: {
         showDialog(val) {
             this.show = val;
+            if(val && !this.isEdit) { // 新增
+                this.selectGroupData = []
+                this.selectMemberData = []
+                this.templateNameId = []
+                this.templateDesc = ''
+            }
         },
         show(val) {
             if(!val) {
                 this.$parent.$parent.showDialog = false
+                this.isEdit = false
             }
         }
     },
@@ -225,10 +233,39 @@ export default {
             // debugger
             // templateDesc
         },
+        addDialogChenk () {
+            if(this.selectGroupData.length == 0) {
+                this.$YYMessage.warning('请选择内部群名称')
+                return false
+            }
+            if(this.selectGroupData.length != 1) {
+                this.$YYMessage.warning('只能选择一个内部群')
+                return false
+            }
+            if(this.selectMemberData.length == 0) {
+                this.$YYMessage.warning('请选择汇报人')
+                return false
+            }
+            if(this.templateNameId.length == 0) {
+                this.$YYMessage.warning('请选择模板')
+                return false
+            }
+            return true
+        },
         dialogConfirm () {
-            let groupId = this.selectGroupData[0].gid
+            let checkFlag = this.addDialogChenk()
+            if (!checkFlag) {
+                this.show = true
+                return false
+            }
+            let groupId = this.selectGroupData[0].gid || this.selectGroupData[0].groupId
             // let groupId = '7112'
-            let reportedMembers = this.selectMemberData[0].memberId
+            // let reportedMembers = this.selectMemberData[0].memberId
+            let reportedMembers = []
+            this.selectMemberData.forEach(item => {
+                reportedMembers.push(item.memberId)
+            })
+            reportedMembers = reportedMembers.join(',')
             // let reportedMembers = "182282"
             let templateId = this.templateNameId
             let desc = this.templateDesc
@@ -239,21 +276,41 @@ export default {
                 desc
             }
             axios.defaults.withCredentials = true
-            axios.post(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
-                debugger
-                if(res && res.status == 200) {
-                    this.loadList()
-                } else {
-                    this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
-                }
-            }).catch(function (err) {
-                console.log(err)
-            })
+            let self = this
+            if(!this.isEdit) {
+                // 新增
+                axios.post(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
+                    if(res && res.status == 200) {
+                        this.loadList()
+                    } else {
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
+                    }
+                }).catch((err) => {
+                    let tips = err.response.data.message
+                    self.$YYMessage.error(tips)
+                })
+            } else {
+                // 编辑
+                obj.id = this.editItemId
+                axios.patch(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
+                    if(res && res.status == 200) {
+                        this.loadList()
+                    } else {
+                        this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
+                    }
+                }).catch((err) => {
+                    let tips = err.response.data.message
+                    self.$YYMessage.error(tips)
+                })
+            }
         },
         handleSelectRange1(res) { //内部群
-            debugger
             let arr = res.group
-            this.selectGroupData = arr
+            if(arr.length > 1) {
+                this.$YYMessage.warning('只能选择一个内部群')
+            } else if(arr.length == 1) {
+                this.selectGroupData = arr
+            }
             // let keys = Object.keys(res)
             // keys.forEach(key => {
             //     this[`${key}Range`] && (this[`${key}Range`] = res[key])
@@ -278,7 +335,11 @@ export default {
                         let arr = []
                         res.forEach((item, i) => {
                             // item.index = i + 1
-                            let str = item.reportUsers[0].name
+                            let str = []
+                            item.reportUsers.forEach(item => {
+                                str.push(item.name)
+                            })
+                            str = str.join(',')
                             item.reportUsersStr = str
                             item.enable = !!item.enable
                             arr.push(item)
@@ -337,6 +398,7 @@ export default {
             })
         },
         editBtnClick (p) {
+            this.editItemId = p.row.id
             let rowData = p.row
             this.templateDesc = rowData.desc
             this.selectGroupData = [
@@ -345,17 +407,20 @@ export default {
                     groupId: rowData.groupId
                 }
             ]
-            this.selectMemberData = [
-                {
-                    memberId: rowData.reportUsers[0].memberId,
-                    userName: rowData.reportUsers[0].name
-                }
-            ]
+            let arr = [] 
+            rowData.reportUsers.forEach(item => {
+                arr.push({
+                    'memberId': item.memberId,
+                    'userName': item.name
+                })
+            })
+            this.selectMemberData = arr
             this.templateNameId = rowData.templateId
             this.show = true
+            this.isEdit = true
         },
         handleSelect(res) {
-            console.log(res)
+            // console.log(res)
             // res && res.group && res.group.forEach((item) => {
             //     if(item.gid === 0) {
             //         this.isGroupOrDeptSelectedAll = true
