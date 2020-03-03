@@ -7,9 +7,10 @@
         <div class="loading">
             <div class="loading-content" v-if="!hasMore && !loading && tableListData.length">{{$t('status.loadedAllData')}}</div>
         </div>
-        <YYEmpty vertical="top" v-if="!tableListData.length && !loading"/>
+        <!-- <YYEmpty vertical="top" v-if="!tableListData.length && !loading"/> -->
     </div>
     <YYDialog
+        :class="'featureDiaalogCtn'"
         width='450px'
         height='320px'
         :title="$t('operate.addNewGroupTemplate')"
@@ -17,7 +18,9 @@
         @on-ok='dialogConfirm'
         class="addDialogCtn">
         <div class="item" style="margin-top: 20px;">
-            <span class="title">{{$t("operate.internalGroupName")}}:</span>
+            <span class="title">
+                <span class="must">{{$t("operate.internalGroupName")}}</span>
+            </span>
             <span class="ctn">
                 <fs-select-tree-input
                     :group="selectGroupData"
@@ -33,11 +36,13 @@
             </span>
         </div>
         <div class="item">
-            <span class="title">{{$t("operate.templateName")}}:</span>
+            <span class="title">
+                <span class="must">{{$t("operate.templateName")}}</span>
+            </span>
             <span class="ctn">
                 <YYSelect 
                     v-model="templateNameId" 
-                    @on-change="templateListHandleChange" style="width: 200px">
+                    @on-change="templateListHandleChange" style="width: 300px">
                     <!-- <span v-for="(item, i) in templateDataList" key=''></span> -->
                     <YYOption v-for="(item, i) in templateDataList" :value="item.id" :key="i">
                         {{item.title}}
@@ -46,16 +51,9 @@
             </span>
         </div>
         <div class="item">
-            <span class="title">{{$t('operate.describe')}}:</span>
-            <span class="ctn">
-                <YYInput
-                    v-model="templateDesc" 
-                    @on-change="handleChange">
-                </YYInput>
+            <span class="title">
+                <span class="must">{{$t('operate.reportPerson')}}</span>
             </span>
-        </div>
-        <div class="item">
-            <span class="title">{{$t('operate.reportPerson')}}:</span>
             <span class="ctn">
                     <fs-select-tree-input
                         :member="selectMemberData"
@@ -68,6 +66,15 @@
                         :showMember="true" 
                         ref="selectDept"
                     />
+            </span>
+        </div>
+        <div class="item">
+            <span class="title">{{$t('operate.describe')}}</span>
+            <span class="ctn">
+                <YYInput
+                    v-model="templateDesc" 
+                    @on-change="handleChange">
+                </YYInput>
             </span>
         </div>
     </YYDialog>
@@ -106,7 +113,8 @@ export default {
                         TableItemPerson,
                         {
                             props: {
-                                personData: params.row.reportUsers[0]
+                                personData: params.row.reportUsers[0],
+                                groupName: params.row.groupName
                             },
                             on: {
                             'BtnEdit': () => {
@@ -355,7 +363,7 @@ export default {
                 // url: `/rest/v1/template/customized/group_relations?pageNo=${pageNo}&pageSize=${pageSize}`,
                 url: `/rest/v1/template/customized/group_relations`,
                 success: (res) => {
-                    if (res && res.length != 0) {
+                    if (res) {
                         this.loading = false
                         this.updateList(res)
                         let arr = []
@@ -485,6 +493,15 @@ export default {
             color:rgba(51,51,51,1);
             margin-right: 10px;
             font-size: 12px;
+            .must::before{
+                content: '*';
+                display: inline-block;
+                margin-right: 4px;
+                line-height: 1;
+                font-family: SimSun;
+                font-size: 12px;
+                color: #fd838a;
+            }
         }
         .ctn{
             display: inline-block;
@@ -512,6 +529,11 @@ export default {
         width: 100%;
         height: 100%;
         left: 0;
+    }
+}
+.featureDiaalogCtn {
+    .yy-dialog-inner-content{
+        overflow: hidden;
     }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="personCtn">
     <img class="personImg" :src='src'>
-    <span class="desc"> {{name}} </span>
+    <span class="desc"> {{groupName}} </span>
   </div>
 </template>
 
@@ -10,8 +10,8 @@
 export default {
   data () {
     return {
-      src: this.personData.avatar,
-      name: this.personData.name
+      src: this.groupLogo,
+      name: this.groupName
     }
   },
   props: {
@@ -23,6 +23,14 @@ export default {
           'src': ''
         }
       )
+    },
+    groupName : {
+      type: String,
+      default: ''
+    },
+    groupLogo : {
+      type: String,
+      default: ''
     }
   },
   methods: {
