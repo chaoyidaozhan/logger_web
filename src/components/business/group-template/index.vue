@@ -306,9 +306,10 @@ export default {
             }
             axios.defaults.withCredentials = true
             let self = this
+            let token = this.$store.state.userInfo.token
             if(!this.isEdit) {
                 // 新增
-                axios.post(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
+                axios.post(`/rest/v1/template/customized/group_relation?token=${token}`,obj).then((res) => {
                     if(res && res.status == 200) {
                         this.$YYMessage.success(this.$t('toast.addSucess'))
                         this.loadList()
@@ -322,7 +323,7 @@ export default {
             } else {
                 // 编辑
                 obj.id = this.editItemId
-                axios.patch(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
+                axios.patch(`/rest/v1/template/customized/group_relation?token=${token}`,obj).then((res) => {
                     if(res && res.status == 200) {
                         this.$YYMessage.success(this.$t('toast.editSucess'))
                         this.loadList()
@@ -412,7 +413,8 @@ export default {
             axios.defaults.withCredentials = true
             let id = p.row.id
             let enable = !p.row.enable
-            axios.patch(`/rest/v1/template/customized/group_relation/${id}/?enable=${enable}`).then((res) => {
+            let token = this.$store.state.userInfo.token
+            axios.patch(`/rest/v1/template/customized/group_relation/${id}/?enable=${enable}&token=${token}`).then((res) => {
                 if(res && res.status == 200) {
                     if(enable) {
                         this.$YYMessage.success(this.$t('toast.startSucess'))
