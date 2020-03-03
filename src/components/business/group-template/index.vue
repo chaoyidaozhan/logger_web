@@ -136,7 +136,7 @@ export default {
                         'y-y-switch',
                         {
                             props: {
-                                value: params.row.status
+                                value: params.row.enable
                             },
                             on: {
                             'on-change': () => {
@@ -280,6 +280,7 @@ export default {
                             // item.index = i + 1
                             let str = item.reportUsers[0].name
                             item.reportUsersStr = str
+                            item.enable = !!item.enable
                             arr.push(item)
                         })
                         this.tableListData = arr
@@ -306,24 +307,32 @@ export default {
             })
         },
         changeStatus (p) {
-            debugger
+            axios.defaults.withCredentials = true
             let id = p.row.id
-            this.$ajax({
-                url: "/logger/rest/v1/template/customized/group_relation/" + id,
-                type: 'patch',
-                data: {
-                    enable: true
-                },
-                success: (res) => {
+            let enable = !p.row.enable
+            axios.patch(`/rest/v1/template/customized/group_relation/${id}/?enable=${enable}`).then((res) => {
+                debugger
+                if(res && res.status == 200) {
+                    if(enable) {
+                        this.$YYMessage.success('开启成功')
+                        p.row.enable = true
+                    } else {
+                        this.$YYMessage.success('关闭成功')
+                        p.row.enable = false
+                    }
                 }
+            }).catch(function (err) {
+                console.log(err)
             })
         },
         cancleBtnClick (p) {
             let id = p.row.id
              this.$ajax({
-                url: `/logger/rest/v1/template/customized/group_relation/${id}`,
+                url: `/rest/v1/template/customized/group_relation/${id}`,
                 type: 'delete',
                 success: (res) => {
+                    this.$YYMessage.success('删除成功')
+                    this.loadList()
                 }
             })
         },
