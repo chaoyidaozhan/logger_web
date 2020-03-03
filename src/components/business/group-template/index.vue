@@ -114,7 +114,8 @@ export default {
                         {
                             props: {
                                 personData: params.row.reportUsers[0],
-                                groupName: params.row.groupName
+                                groupName: params.row.groupName,
+                                groupLogo: params.row.groupLogo
                             },
                             on: {
                             'BtnEdit': () => {

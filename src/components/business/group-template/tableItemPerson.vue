@@ -1,6 +1,6 @@
 <template>
   <div class="personCtn">
-    <img class="personImg" :src='src'>
+    <img class="personImg" :src='groupLogo'>
     <span class="desc"> {{groupName}} </span>
   </div>
 </template>
@@ -10,7 +10,7 @@
 export default {
   data () {
     return {
-      src: this.groupLogo,
+      // src: this.groupLogo,
       name: this.groupName
     }
   },

@@ -4,13 +4,13 @@
             <div class="title">
                 <div><span>1</span>常用模板{{$t('noun.template')}}</div>
             </div>
-            <fs-template-list :list='recentlyTemplates'/>
+            <fs-template-list :outerList='recentlyTemplates'/>
         </div>
         <div v-if="template.length">
             <div class="title">
                 <div><span>1</span>全部模板{{$t('noun.template')}}</div>
             </div>
-            <fs-template-list :list='template'/>
+            <fs-template-list :outerList='template'/>
         </div>
         
     </div>
