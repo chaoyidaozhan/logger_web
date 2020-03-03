@@ -10,7 +10,7 @@
                 :active-name="activeName"
                 :class="lang"
                 width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
-                <div v-for="(item, index) in menus" :key="index">
+                <div v-for="(item, index) in menus" :key="index" v-show="item.path != '/GroupTemplate'">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
                         <i v-if="item.icon" :class="`${item.icon}`"></i>
                         <span>{{$t(item.name)}}</span>
