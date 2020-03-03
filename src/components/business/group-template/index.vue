@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div class="row">
-      <YYTable :columns="columns" :data="tableListData" />
+    <div class="row" @scroll.stop="onScroll">
+        <YYTable :columns="columns" :data="tableListData" />
+
+        <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
+        <div class="loading">
+            <div class="loading-content" v-if="!hasMore && !loading && tableListData.length">{{$t('status.loadedAllData')}}</div>
+        </div>
+        <YYEmpty vertical="top" v-if="!tableListData.length && !loading"/>
     </div>
     <YYDialog
         width='450px'
@@ -80,6 +86,11 @@ export default {
         return {
             tableListData: [],
             isEdit: false,
+            pageNo: 1,
+            pageSize: 20,
+            loading: false,
+            loaderror: false,
+            hasMore: true,
             columns: [
                 // {
                 //     title: '序号',
@@ -215,11 +226,25 @@ export default {
                 this.$parent.$parent.showDialog = false
                 this.isEdit = false
             }
+        },
+        pageNo (v) {
+            this.loadList()
         }
     },
     methods: {
         handleChange () {
-
+        },
+        onScroll(e) { // 分页
+            if(!this.loading && this.hasMore) {
+                let $target = e && e.target
+                let scrollHeight = $target.scrollHeight
+                let scrollTop = $target.scrollTop
+                let offsetHeight = $target.offsetHeight
+                
+                if ((scrollHeight - scrollTop) - offsetHeight < 20) {
+                    this.pageNo++
+                }
+            }
         },
         templateListHandleChange (v) {
             // let id = this.templateNameId
@@ -281,6 +306,7 @@ export default {
                 // 新增
                 axios.post(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
                     if(res && res.status == 200) {
+                        this.$YYMessage.success('新增成功')
                         this.loadList()
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
@@ -294,6 +320,7 @@ export default {
                 obj.id = this.editItemId
                 axios.patch(`/rest/v1/template/customized/group_relation`,obj).then((res) => {
                     if(res && res.status == 200) {
+                        this.$YYMessage.success('编辑成功')
                         this.loadList()
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
@@ -311,27 +338,21 @@ export default {
             } else if(arr.length == 1) {
                 this.selectGroupData = arr
             }
-            // let keys = Object.keys(res)
-            // keys.forEach(key => {
-            //     this[`${key}Range`] && (this[`${key}Range`] = res[key])
-            // })
         },
         handleSelectRange2(res) { //汇报人
             let arr = res.member
             this.selectMemberData = arr
-            // let keys = Object.keys(res)
-            // keys.forEach(key => {
-            //     this[`${key}Range`] && (this[`${key}Range`] = res[key])
-            // })
         },
-        loadList (pageNo = 1, pageSize = 1000) {
+        loadList () {
+            this.loading = true
             this.$ajax({
                 // bug 还没处理分页
                 // url: `/rest/v1/template/customized/group_relations?pageNo=${pageNo}&pageSize=${pageSize}`,
                 url: `/rest/v1/template/customized/group_relations`,
                 success: (res) => {
-                    debugger
                     if (res && res.length != 0) {
+                        this.loading = false
+                        this.updateList(res)
                         let arr = []
                         res.forEach((item, i) => {
                             // item.index = i + 1
@@ -346,8 +367,39 @@ export default {
                         })
                         this.tableListData = arr
                     }
+                },
+                error: (res)=>{
+                    this.loaderror = true
+                    this.loading = false
                 }
             })
+        },
+        updateList(res) { // load成功之后更新数据
+        debugger
+            // if(res.groupId && res.groupId !== this.getParams().groupId) return
+            this.hasMore = true
+            if(this.pageNo == 1) {
+                this.tableListData = res || []
+            } else {
+                this.tableListData = this.tableListData.concat(res || [])
+            }
+            if (res && res.length < this.pageSize) {
+                this.hasMore = false
+            }
+            // if(res && res.code === 0) {
+            //     this.hasMore = true
+            //     if(this.pageNo == 1) {
+            //         this.tableListData = res || []
+            //     } else {
+            //         this.tableListData = this.tableListData.concat(res || [])
+            //     }
+            //     if (res && res.length < this.pageSize) {
+            //         this.hasMore = false
+            //     }
+            // } else {
+            //     this.tableListData = []
+            //     this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
+            // }
         },
         initList () {
             this.loadList()
@@ -420,22 +472,6 @@ export default {
             this.isEdit = true
         },
         handleSelect(res) {
-            // console.log(res)
-            // res && res.group && res.group.forEach((item) => {
-            //     if(item.gid === 0) {
-            //         this.isGroupOrDeptSelectedAll = true
-            //     }
-            // })
-            // res && res.dept && res.dept.forEach((item) => {
-            //     if(item.deptId === 0) {
-            //         this.isGroupOrDeptSelectedAll = true
-            //     }
-            // })
-            // let keys = Object.keys(res)
-            // keys.forEach(key=>{
-            //     this[key] = res[key]
-            // })
-            // this.handleQuery()
         }
     },
     created () {
@@ -468,6 +504,23 @@ export default {
 .logger-frame-scroller {
     .yy-switch {
         margin: 4px 0;
+    }
+}
+.loading {
+    height: 60px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #888;
+    position: relative;
+    overflow: hidden;
+    .loading-content {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        left: 0;
     }
 }
 </style>
