@@ -68,7 +68,8 @@ module.exports = {
         describe: 'describe',
         reportPerson: 'Report Person',
         operate: 'Operate',
-        status: 'Disable/Enable'
+        status: 'Disable/Enable',
+        max150Tips: '最多输入150个字'
     },
     status: { // 状态
         loading: 'Loading...',

@@ -68,7 +68,8 @@ module.exports = {
         describe: '描述',
         reportPerson: '汇报人',
         operate: '操作',
-        status: '状态'
+        status: '停用/启用',
+        max150Tips: '最多输入150个字'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -117,7 +118,7 @@ module.exports = {
         addSucess: '新增成功',
         startSucess: '开启成功',
         deleteSucess: '删除成功',
-        offSucess: '关闭成功'
+        offSucess: '关闭成功',
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',

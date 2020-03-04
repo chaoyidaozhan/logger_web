@@ -68,7 +68,8 @@ module.exports = {
         describe: '描述',
         reportPerson: '汇报人',
         operate: '操作',
-        status: '停用/启用'
+        status: '停用/启用',
+        max150Tips: '最多输入150个字'
     },
     status: { // 状态
         loading: '正在加载...',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row" @scroll.stop="onScroll">
-        <YYTable :columns="columns" :data="tableListData" border="showBorder"/>
+        <YYTable :columns="columns" :data="tableListData" :border='showBorder'/>
 
         <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
         <div class="loading">
@@ -71,7 +71,7 @@
         <div class="item">
             <span class="title">{{$t('operate.describe')}}</span>
             <span class="ctn">
-                <YYInput
+                <YYInput ref='dialogDeacInput'
                     v-model="templateDesc" 
                     @on-change="handleChange">
                 </YYInput>
@@ -148,7 +148,7 @@ export default {
                 },
                 {
                     title: this.$t('operate.describe'),
-                    align: 'center',
+                    align: 'left',
                     key: 'desc',
                     render: (h, params) => {
                         return h('span', {
@@ -186,6 +186,7 @@ export default {
                     align: 'center',
                     key: 'id',
                     width: 120,
+                    align: 'left',
                     render: (h, params) => {
                         return h(
                         EditCancleButtons,
@@ -250,6 +251,15 @@ export default {
         },
         pageNo (v) {
             this.loadList()
+        },
+        templateDesc (v) {
+            if(v.length > 150) {
+                let tips = this.$t('operate.max150Tips')
+                this.$YYMessage.warning(tips)
+                let substr = v.substr(0, 10)
+                this.templateDesc = substr
+                this.$refs.dialogDeacInput.currentValue = substr
+            }
         }
     },
     methods: {
@@ -420,7 +430,7 @@ export default {
                 url: '/template/list',
                 data: {
                     pageNo: 1,
-                    pageSize: 1000,
+                    pageSize: this.pageSize,
                     client: 'app'
                 },
                 success: (res) => {
