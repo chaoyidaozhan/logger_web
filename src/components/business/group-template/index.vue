@@ -247,6 +247,9 @@ export default {
             if(!val) {
                 this.$parent.$parent.showDialog = false
                 this.isEdit = false
+            } else {
+                // 每次打开弹框都请求下模板数据 保证是最新数据
+                this.initTemplate()
             }
         },
         pageNo (v) {
@@ -278,16 +281,6 @@ export default {
             }
         },
         templateListHandleChange (v) {
-            // let id = this.templateNameId
-            // let self = this
-            // this.templateDataList.forEach((item, i) => {
-            //     if(item.id == id) {
-            //         self.templateName = item
-            //         // break
-            //     }
-            // })
-            // debugger
-            // templateDesc
         },
         addDialogChenk () {
             if(this.selectGroupData.length == 0) {
