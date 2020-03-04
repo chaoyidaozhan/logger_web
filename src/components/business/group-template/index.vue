@@ -25,7 +25,7 @@
                 <fs-select-tree-input
                     :group="selectGroupData"
                     :title="$t('operate.insideGroupSelect')"
-                    :placeholder="$t('placeholder.visibleToThisDepartment')"
+                    :placeholder="$t('placeholder.pleaseSelect')"
                     @handleSelect="handleSelectRange1"
                     :ellipsis="false" 
                     :showDept="false" 
@@ -58,7 +58,7 @@
                     <fs-select-tree-input
                         :member="selectMemberData"
                         :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
-                        :placeholder="$t('placeholder.visibleToThisDepartment')"
+                        :placeholder="$t('placeholder.pleaseSelect')"
                         @handleSelect="handleSelectRange2"
                         :ellipsis="false" 
                         :showDept="false" 
@@ -68,7 +68,7 @@
                     />
             </span>
         </div>
-        <div class="item">
+        <div class="item noMarginBottom">
             <span class="title">{{$t('operate.describe')}}</span>
             <span class="ctn">
                 <YYInput ref='dialogDeacInput'
@@ -506,7 +506,7 @@ export default {
 <style lang='less'>
 .addDialogCtn {
     .item{
-        height: 32px;
+        // height: 32px;
         line-height: 32px;
         margin-bottom: 16px;
         .title{
@@ -529,6 +529,9 @@ export default {
         .ctn{
             display: inline-block;
             width: 300px;
+        }
+        &.noMarginBottom {
+            margin-bottom: 0
         }
     }
 }
@@ -556,7 +559,8 @@ export default {
 }
 .featureDiaalogCtn {
     .yy-dialog-inner-content{
-        overflow: hidden;
+        // overflow: hidden;
+        height: auto;
     }
 }
 .yy-table-cell {

@@ -69,7 +69,7 @@ module.exports = {
         reportPerson: 'Report Person',
         operate: 'Operate',
         status: 'Disable/Enable',
-        max150Tips: '最多输入150个字'
+        max150Tips: 'Up to 150 words can be input',
     },
     status: { // 状态
         loading: 'Loading...',
@@ -138,7 +138,8 @@ module.exports = {
         visibleToThisDepartment: 'Visible to this department',
         enterTtheInternalGroupNameToSearch: 'Enter the internal group name to search',
         targetingSettings: 'Targeting settings',
-        whetherTheSelectedLocationIsRequired: 'Whether the selected location is required'
+        whetherTheSelectedLocationIsRequired: 'Whether the selected location is required',
+        pleaseSelect: 'Please Select'
     },
     date: { // 时间
         mon: 'Mon',
