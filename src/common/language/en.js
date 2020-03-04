@@ -68,7 +68,7 @@ module.exports = {
         describe: 'describe',
         reportPerson: 'Report Person',
         operate: 'Operate',
-        status: 'status'
+        status: 'Disable/Enable'
     },
     status: { // 状态
         loading: 'Loading...',

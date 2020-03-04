@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row" @scroll.stop="onScroll">
-        <YYTable :columns="columns" :data="tableListData" />
+        <YYTable :columns="columns" :data="tableListData" border="showBorder"/>
 
         <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
         <div class="loading">
@@ -91,6 +91,7 @@ import qs from 'qs'
 export default {
     data() {
         return {
+            showBorder: true,
             tableListData: [],
             isEdit: false,
             pageNo: 1,
@@ -108,6 +109,7 @@ export default {
                     title: this.$t("operate.internalGroupName"),
                     align: 'left',
                     key: 'groupName',
+                    width: 250,
                     render: (h, params) => {
                         return h(
                         TableItemPerson,
@@ -136,22 +138,31 @@ export default {
                 {
                     title: this.$t("operate.templateName"),
                     align: 'left',
-                    key: 'templateName'
+                    key: 'templateName',
+                    width: 250,
                 },
                 {
-                    title: this.$t('operate.describe'),
+                    title: this.$t('operate.reportPerson'),
                     align: 'left',
                     key: 'reportUsersStr'
                 },
                 {
                     title: this.$t('operate.describe'),
                     align: 'center',
-                    key: 'desc'
+                    key: 'desc',
+                    render: (h, params) => {
+                        return h('span', {
+                            attrs:{
+                                class:'tableItemDescCtn'
+                            }
+                        }, params.row.desc)
+                    },
                 },
                 {
                     title: this.$t('operate.status'),
                     align: 'center',
                     key: 'enable',
+                    width: 120,
                     render: (h, params) => {
                         return h(
                         'y-y-switch',
@@ -174,6 +185,7 @@ export default {
                     title: '操作',
                     align: 'center',
                     key: 'id',
+                    width: 120,
                     render: (h, params) => {
                         return h(
                         EditCancleButtons,
@@ -535,6 +547,12 @@ export default {
 .featureDiaalogCtn {
     .yy-dialog-inner-content{
         overflow: hidden;
+    }
+}
+.yy-table-cell {
+    .tableItemDescCtn {
+        margin: 9px 0;
+        display: inline-block;
     }
 }
 </style>

@@ -89,8 +89,12 @@ export default {
     transition: all .4s ease;
     .title {
         padding: 10px;
-        color: @gray-color-medium;
-        font-size: 12px;
+        font-size: 14px;
+        font-family: PingFangSC-Medium,PingFang SC;
+        font-weight: 500;
+        color: rgba(51,51,51,1);
+        line-height: 20px;
+        padding-bottom: 0;
         & > div {
             height: 40px;
             line-height: 40px;
