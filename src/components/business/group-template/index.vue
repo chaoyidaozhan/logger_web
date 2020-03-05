@@ -1,12 +1,18 @@
 <template>
   <div>
-    <div class="row" @scroll.stop="onScroll">
+    <div class="row specalTableCtn" @scroll.stop="onScroll">
         <YYTable :columns="columns" :data="tableListData" :border='showBorder'/>
-
-        <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
-        <div class="loading">
+        <YYPagination
+            :class="'paginationCtn'"
+            :total="totalCount" 
+            :pageSize="pageSize"
+            :showTotal="false" 
+            @on-change="paginationChange"
+        />
+        <!-- <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH> -->
+        <!-- <div class="loading">
             <div class="loading-content" v-if="!hasMore && !loading && tableListData.length">{{$t('status.loadedAllData')}}</div>
-        </div>
+        </div> -->
         <!-- <YYEmpty vertical="top" v-if="!tableListData.length && !loading"/> -->
     </div>
     <YYDialog
@@ -94,6 +100,7 @@ import qs from 'qs'
 export default {
     data() {
         return {
+            totalCount: 0,
             memberApiUri: '',
             showBorder: true,
             tableListData: [],
@@ -276,6 +283,9 @@ export default {
         }
     },
     methods: {
+        paginationChange (v) {
+            this.loadList (v, this.pageSize) 
+        },
         handleChange () {
         },
         onScroll(e) { // 分页
@@ -382,29 +392,34 @@ export default {
             let arr = res.member
             this.selectMemberData = arr
         },
-        loadList () {
+        loadList (pageNo = 1, pageSize = 20) {
             this.loading = true
             this.$ajax({
                 // bug 还没处理分页
                 // url: `/rest/v1/template/customized/group_relations?pageNo=${pageNo}&pageSize=${pageSize}`,
                 url: `/rest/v1/template/customized/group_relations`,
+                data: {
+                    pageNo,
+                    pageSize
+                },
                 success: (res) => {
                     if (res) {
                         this.loading = false
-                        this.updateList(res)
-                        let arr = []
-                        res.forEach((item, i) => {
-                            // item.index = i + 1
-                            let str = []
-                            item.reportUsers.forEach(item => {
-                                str.push(item.name)
-                            })
-                            str = str.join(',')
-                            item.reportUsersStr = str
-                            item.enable = !!item.enable
-                            arr.push(item)
-                        })
-                        this.tableListData = arr
+                        this.totalCount = res.totalCount
+                        this.tableListData = res.data
+                        // this.updateList(res)
+                        // let arr = []
+                        // res.forEach((item, i) => {
+                        //     // item.index = i + 1
+                        //     let str = []
+                        //     item.reportUsers.forEach(item => {
+                        //         str.push(item.name)
+                        //     })
+                        //     str = str.join(',')
+                        //     item.reportUsersStr = str
+                        //     item.enable = !!item.enable
+                        //     arr.push(item)
+                        // })
                     }
                 },
                 error: (res)=>{
@@ -570,6 +585,14 @@ export default {
     .tableItemDescCtn {
         margin: 9px 0;
         display: inline-block;
+    }
+}
+.paginationCtn{
+    margin-top: 20px;
+}
+.specalTableCtn {
+    .yy-table-wrapper {
+        min-height: 738px;
     }
 }
 </style>
