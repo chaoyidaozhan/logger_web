@@ -3,6 +3,7 @@
     <div class="row specalTableCtn" @scroll.stop="onScroll">
         <YYTable :columns="columns" :data="tableListData" :border='showBorder'/>
         <YYPagination
+            v-show="showPagination"
             :class="'paginationCtn'"
             :total="totalCount" 
             :pageSize="pageSize"
@@ -100,6 +101,7 @@ import qs from 'qs'
 export default {
     data() {
         return {
+            showPagination: false,
             totalCount: 0,
             memberApiUri: '',
             showBorder: true,
@@ -395,8 +397,6 @@ export default {
         loadList (pageNo = 1, pageSize = 20) {
             this.loading = true
             this.$ajax({
-                // bug 还没处理分页
-                // url: `/rest/v1/template/customized/group_relations?pageNo=${pageNo}&pageSize=${pageSize}`,
                 url: `/rest/v1/template/customized/group_relations`,
                 data: {
                     pageNo,
@@ -406,20 +406,12 @@ export default {
                     if (res) {
                         this.loading = false
                         this.totalCount = res.totalCount
+                        if(res.totalCount > this.pageSize) {
+                            this.showPagination = true
+                        } else {
+                            this.showPagination = false
+                        }
                         this.tableListData = res.data
-                        // this.updateList(res)
-                        // let arr = []
-                        // res.forEach((item, i) => {
-                        //     // item.index = i + 1
-                        //     let str = []
-                        //     item.reportUsers.forEach(item => {
-                        //         str.push(item.name)
-                        //     })
-                        //     str = str.join(',')
-                        //     item.reportUsersStr = str
-                        //     item.enable = !!item.enable
-                        //     arr.push(item)
-                        // })
                     }
                 },
                 error: (res)=>{
@@ -593,6 +585,9 @@ export default {
 .specalTableCtn {
     .yy-table-wrapper {
         min-height: 738px;
+    }
+    .yy-table-border::before {
+        display: none;
     }
 }
 </style>
