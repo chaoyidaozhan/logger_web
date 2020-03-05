@@ -116,8 +116,14 @@ export default {
                     }
                     for (let i = 0; i < get.length; i++) {
                         for (let j = 0; j < save.length; j++) {
-                            if (get[i][idtype] == save[j][idtype]) {
-                                save[j].checked = true
+                            if(type == 'team') { // 因为team 后端返回的数据 不是gid了 是groupId 了 这里做下兼容
+                                if (get[i][idtype] == save[j][idtype] || get[i]['groupId'] == save[j][idtype]) {
+                                    save[j].checked = true
+                                }
+                            } else {
+                                if (get[i][idtype] == save[j][idtype]) {
+                                    save[j].checked = true
+                                }
                             }
                         }
                     }
@@ -290,9 +296,16 @@ export default {
                     // 从右侧选中移除
                     let arr = this.info.selected[name]
                     arr.map((v, ind) => {
-                        if (each[idtype] == v[idtype]) {
-                            each.checked = false
-                            arr.splice(ind, 1)
+                        if (name == 'team') { // 这个也是对后端返回的数据兼容处理
+                            if (each[idtype] == v[idtype] || each[idtype] == v['groupId']) {
+                                each.checked = false
+                                arr.splice(ind, 1)
+                            }
+                        } else {
+                            if (each[idtype] == v[idtype]) {
+                                each.checked = false
+                                arr.splice(ind, 1)
+                            }
                         }
                     })
                 },

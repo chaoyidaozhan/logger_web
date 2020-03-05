@@ -132,6 +132,10 @@ export default {
         memberApiUri: {
             type: String
         },
+        isRadio: {
+            type: false,
+            default: false
+        }
     },
     methods: {
         handleSelect(res) {
@@ -162,6 +166,7 @@ export default {
         },
         openSelectMember() {
             let info = {
+                isRadio: this.isRadio,
                 title: this.title,
                 man: this.showMember,
                 team:  this.showGroup,

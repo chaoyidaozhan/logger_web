@@ -12,7 +12,9 @@
 				</div>
 				<div class="r">
 					<!-- Checkbox阻止事件 -->
-					<YYCheckbox class="cbx" style="pointer-events:none" :value="each.checked"/>
+					<YYRadio v-if="info.isRadio" class="cbx" style="pointer-events:none" :value="each.checked"></YYRadio>
+					<YYCheckbox v-else class="cbx" style="pointer-events:none" :value="each.checked"/>
+					<!-- <YYCheckbox class="cbx" style="pointer-events:none" :value="each.checked"/> -->
 				</div>
 			</li>
 			<li class="ajaxStatus" v-if="info.showLoading">
@@ -44,7 +46,8 @@
 		},
 		watch:{
 			// 储存变量 , 设置默认值
-			list(){
+			list(v){
+				console.log(v)
 				this.$selectTree.saveAjaxTeam = this.list ;
 				this.$selectTree.setDefaultTure('team');
 			}
@@ -96,19 +99,30 @@
             	this.getList() ;
             },
             checkEach( each ){
-            	// 限制 ;
-				let next = this.$selectTree.checkLimit(each ,'team');
-				if( !next ){ return };
-
-            	// 正常选择 ;
-            	each.checked = !each.checked ;
-            	if( each.checked ){
-            		// 添加右侧
-            		this.$selectTree.selected('team',each);
-            	}else {
-            		// 删除右侧
-            		this.$selectTree.removeSelected('team',each);
-            	};
+							// 限制 ;
+							let next = this.$selectTree.checkLimit(each ,'team');
+							if( !next ){ return };
+							if (this.info.isRadio) { // 单选
+								let list = this.list
+								list.forEach(item => {
+									if(item.checked) {
+										item.checked = false
+										this.$selectTree.removeSelected('team',item);
+									}
+								})
+								each.checked = true
+								this.$selectTree.selected('team',each);
+							} else {
+								// 正常选择 ;
+								each.checked = !each.checked ;
+								if( each.checked ){
+									// 添加右侧
+									this.$selectTree.selected('team',each);
+								}else {
+									// 删除右侧
+									this.$selectTree.removeSelected('team',each);
+								};
+							}
             }
 		}
 	}

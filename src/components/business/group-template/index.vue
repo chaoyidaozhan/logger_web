@@ -22,6 +22,7 @@
                 <span class="must">{{$t("operate.internalGroupName")}}</span>
             </span>
             <span class="ctn">
+                <!-- :isRadio="true"  是否单选 -->
                 <fs-select-tree-input
                     :group="selectGroupData"
                     :title="$t('operate.insideGroupSelect')"
@@ -31,6 +32,7 @@
                     :showDept="false" 
                     :showGroup="true" 
                     :showMember="false" 
+                    :isRadio="true" 
                     ref="selectDept"
                 />
             </span>
