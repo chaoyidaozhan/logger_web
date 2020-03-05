@@ -363,7 +363,13 @@ export default {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
                 }).catch((err) => {
-                    let tips = err.response.data.message
+                    let tips = ''
+                    if(err.response.status == 400) {
+                        // tips = '该模板已经绑定过了'
+                        tips = this.$t('toast.telplateHasBinded')
+                    } else {
+                        tips = err.response.data.message
+                    }
                     self.$YYMessage.error(tips)
                 })
             } else {
@@ -377,7 +383,13 @@ export default {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
                 }).catch((err) => {
-                    let tips = err.response.data.message
+                    let tips = ''
+                    if(err.response.status == 400) {
+                        // tips = '该模板已经绑定过了'
+                        tips = this.$t('toast.telplateHasBinded')
+                    } else {
+                        tips = err.response.data.message
+                    }
                     self.$YYMessage.error(tips)
                 })
             }

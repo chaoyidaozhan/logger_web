@@ -119,6 +119,7 @@ module.exports = {
         startSucess: 'Start Sucess',
         deleteSucess: 'Delete Sucess',
         offSucess: 'Turn Off Sucess',
+        telplateHasBinded: '该模板已经绑定过了'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',

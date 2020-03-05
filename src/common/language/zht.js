@@ -119,6 +119,7 @@ module.exports = {
         startSucess: '开启成功',
         deleteSucess: '删除成功',
         offSucess: '关闭成功',
+        telplateHasBinded: '该模板已经绑定过了'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',
