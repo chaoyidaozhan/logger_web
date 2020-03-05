@@ -47,7 +47,6 @@
 		watch:{
 			// 储存变量 , 设置默认值
 			list(v){
-				console.log(v)
 				this.$selectTree.saveAjaxTeam = this.list ;
 				this.$selectTree.setDefaultTure('team');
 			}

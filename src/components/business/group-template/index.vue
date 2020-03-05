@@ -66,6 +66,7 @@
                         :showDept="false" 
                         :showGroup="false" 
                         :showMember="true" 
+                        :memberApiUri="memberApiUri" 
                         ref="selectDept"
                     />
             </span>
@@ -93,6 +94,7 @@ import qs from 'qs'
 export default {
     data() {
         return {
+            memberApiUri: '',
             showBorder: true,
             tableListData: [],
             isEdit: false,
@@ -264,6 +266,12 @@ export default {
                 let substr = v.substr(0, 10)
                 this.templateDesc = substr
                 this.$refs.dialogDeacInput.currentValue = substr
+            }
+        },
+        selectGroupData (v) {
+            if(v.length) {
+                let gid = v[0].gid || v[0].groupId
+                this.memberApiUri = `/group/member/${gid}`
             }
         }
     },
