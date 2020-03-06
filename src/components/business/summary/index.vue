@@ -5,8 +5,8 @@
             <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table>
         </div>
         <div class="content-footer" v-if="list.length">
-            <div class="content-bottom" v-if="list.length">
-                <span class="bottom-left">
+            <div class="content-bottom mb-flex mb-flex-align-center" v-if="list.length">
+                <div class="bottom-left">
                     <YYCheckbox v-model="dataType" @on-change="handleSelectAll(dataType)">
                         {{$t('operate.checkAll')}}
                     </YYCheckbox>
@@ -15,13 +15,13 @@
                         <span class="check-num">{{checkNum}}</span>
                         {{$t('noun.uLog')}}
                     </span>
-                </span>
-                <span class="bottom-right">
-                    <YYButton type="success" @click="loggerSummary">
+                </div>
+                <div class="bottom-right mb-flex mb-flex-pack-justify">
+                    <YYButton type="primary" @click="loggerSummary">
                         {{$t('noun.summary')}}{{$t('noun.log')}}
                     </YYButton>
                     <YYButton type="ghost" @click="exportECL">{{$t('operate.export')}} EXCEL</YYButton>
-                </span>
+                </div>
             </div>
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
@@ -398,13 +398,21 @@ export default {
         left: 0;
         bottom: 0;
         width: 100%;
+        height: 64px;
+        box-sizing: border-box;
+        padding: 16px;
+        background: rgba(255,255,255,1);
     }
     .content-bottom {
-        height: 50px;
-        line-height: 50px;
+        height: 32px;
+        line-height: 32px;
         .bottom-left {
-            display: inline-block;
+            margin-right: 24px;
+            font-size: 12px;
+            color: #333;
+            // display: inline-block;
             .checkout-note {
+                margin-left: 6px;
                 font-size: 12px;
                 .check-num {
                     color: @primary-color
@@ -412,7 +420,8 @@ export default {
             }
         }
         .bottom-right {
-            float: right;
+            // float: right;
+            width: 192px;
             .ivu-btn-success {
                 border-color: @primary-color;
                 background-color: @primary-color;
