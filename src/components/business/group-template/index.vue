@@ -434,6 +434,7 @@ export default {
                                 arr.push(tem.name)
                             })
                             item.reportUsersStr = arr.join(',')
+                            item.enable = !!item.enable
                         })
                         this.tableListData = res.data
                     }
