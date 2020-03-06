@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div class="row specalTableCtn" @scroll.stop="onScroll">
+    <div class="row specalTableCtn">
         <YYTable :columns="columns" :data="tableListData" :border='showBorder'/>
+        <!-- v-show="showPagination" -->
         <YYPagination
-            v-show="showPagination"
             :class="'paginationCtn'"
             :total="totalCount" 
             :pageSize="pageSize"
             :showTotal="false" 
             @on-change="paginationChange"
+            @on-page-size-change="paginationPageSizeChange"
         />
         <!-- <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH> -->
         <!-- <div class="loading">
@@ -288,6 +289,10 @@ export default {
         paginationChange (v) {
             this.loadList (v, this.pageSize) 
         },
+        paginationPageSizeChange (v) {
+            this.pageSize = v
+            this.loadList (1, v) 
+        },
         handleChange () {
         },
         onScroll(e) { // 分页
@@ -358,7 +363,7 @@ export default {
                 axios.post(`/rest/v1/template/customized/group_relation?token=${token}`,obj).then((res) => {
                     if(res && res.status == 200) {
                         this.$YYMessage.success(this.$t('toast.addSucess'))
-                        this.loadList()
+                        this.loadList(this.pageNo, this.pageSize)
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
@@ -378,7 +383,7 @@ export default {
                 axios.patch(`/rest/v1/template/customized/group_relation?token=${token}`,obj).then((res) => {
                     if(res && res.status == 200) {
                         this.$YYMessage.success(this.$t('toast.editSucess'))
-                        this.loadList()
+                        this.loadList(this.pageNo, this.pageSize)
                     } else {
                         this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
                     }
@@ -423,6 +428,13 @@ export default {
                         } else {
                             this.showPagination = false
                         }
+                        res.data.forEach(item => {
+                            let arr = []
+                            item.reportUsers.forEach(tem => {
+                                arr.push(tem.name)
+                            })
+                            item.reportUsersStr = arr.join(',')
+                        })
                         this.tableListData = res.data
                     }
                 },
@@ -488,7 +500,7 @@ export default {
                 type: 'delete',
                 success: (res) => {
                     this.$YYMessage.success(this.$t('toast.deleteSucess'))
-                    this.loadList()
+                    this.loadList(this.pageNo, this.pageSize)
                 }
             })
         },
@@ -597,6 +609,11 @@ export default {
 .specalTableCtn {
     .yy-table-wrapper {
         min-height: 738px;
+        height: 738px;
+        overflow: auto;
+        .scroll-content-horizonal {
+            height: 706px;
+        }
     }
     .yy-table-border::before {
         display: none;
