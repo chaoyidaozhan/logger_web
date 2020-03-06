@@ -372,7 +372,7 @@ export default {
     width: 100%;
     height: 100%;
     background: #fff;
-    padding: 20px 20px 150px 20px;
+    padding: 20px 20px 64px 20px;
     .table-count {
         border-top: none;
     }
@@ -401,7 +401,7 @@ export default {
         height: 64px;
         box-sizing: border-box;
         padding: 16px;
-        background: rgba(255,255,255,1);
+        background: rgba(255,255,255,0.9);
     }
     .content-bottom {
         height: 32px;
