@@ -73,7 +73,7 @@
                 <YYCheckbox v-model="withPublic" @on-change="handleChangePublic">{{$t('operate.withPublic')}}</YYCheckbox>
             </FormItem> 
             <FormItem class="search-btn">
-                <YYButton :disabled="loading" type="primary" @click="handleQuery">
+                <YYButton :disabled="loading" @click="handleQuery">
                     {{$t('operate.search')}}
                 </YYButton>
                 <FormItem :label-width="10" class="export-btn" v-if="showExportExcel">

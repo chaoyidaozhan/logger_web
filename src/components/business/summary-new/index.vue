@@ -707,8 +707,8 @@ export default {
     .search-form {
         line-height: normal;
         .ivu-form-item {
-            margin-bottom: 20px;
-            margin-right: 10px;
+            // margin-bottom: 20px;
+            // margin-right: 10px;
         }
         .search-btn {
             position: static!important;
