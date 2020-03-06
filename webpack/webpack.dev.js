@@ -26,7 +26,7 @@ module.exports = merge(common, {
         quiet: false,
         compress: true,
         contentBase: config[NODE_ENV].contentBase,
-        publicPath: 'http://localhost:8081/',
+        publicPath: 'http://localhost',
         historyApiFallback: true,
         hot: true,
         open: true,

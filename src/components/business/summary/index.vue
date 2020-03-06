@@ -391,9 +391,13 @@ export default {
         padding: 1px;
     }
     .content-footer {
+        // position: absolute;
+        // left: 20px;
+        // right: 20px;
         position: absolute;
-        left: 20px;
-        right: 20px
+        left: 0;
+        bottom: 0;
+        width: 100%;
     }
     .content-bottom {
         height: 50px;
