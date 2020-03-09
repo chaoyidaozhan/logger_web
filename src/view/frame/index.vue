@@ -55,12 +55,19 @@ export default {
 		left: 0;
 		right: 0;
 		top: 0;
-		// height: 32px;
-		// line-height: 32px;
-		font-size: 12px;
-		// border-bottom: 1px solid @border-color-base;
+
+		// // height: 32px;
+		// // line-height: 32px;
+		// font-size: 12px;
+		// // border-bottom: 1px solid @border-color-base;
 		padding: 0 20px;
-		color: #333;
+		// color: #333;
+
+height: 60px;
+line-height: 60px;
+font-size: 14px;
+border-bottom: 1px solid @border-color-base;
+background-color: #fff;
 	}
 	.logger-frame-body {
 		height: 100%;
