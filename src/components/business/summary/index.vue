@@ -97,10 +97,12 @@ export default {
         checkCountNum() {
             let num = 0;
             let allCheckedItems = [];
+            let selectContent = [];
             this.list.forEach((item, index) => {
                 if(item.isWorkReportChecked) {
                     ++num;
                     allCheckedItems.push(item);
+                    selectContent.push(JSON.parse(item.content));
                 }
             });
             this.checkNum = num;
@@ -110,6 +112,7 @@ export default {
                 this.isAllChecked = true;
             }
             this.allCheckedItems = allCheckedItems;
+            this.selectContent = selectContent;
         },
         someItemCheckChange(item) {
             this.checkCountNum();
@@ -144,24 +147,18 @@ export default {
                 let curContent = (JSON.parse(l.content) || [])
                 if(curContent.length > maxContent.length) {
                     curContent[0].version = l.version
-                    curContent[0].dataType = l.dataType
+                    curContent[0].dataType = l.isWorkReportChecked ? 1 : 0
                     maxContent = curContent
                 }
             })
             this.templateItemData = maxContent[0]||{}
-            this.allCheckedItems.forEach(s => {
-                if(!s.isWorkReportChecked) {
-                    return;
-                }
+            this.selectContent.forEach(s => {
                 let curContent = s || []
                 if(curContent.length > contentArr.length) {
                     contentArr = curContent
                 }
             });
-            this.allCheckedItems.forEach((v,k)=>{
-                if(!v.isWorkReportChecked) {
-                    return;
-                }
+            this.selectContent.forEach((v,k)=>{
                 v.forEach((item, index)=>{
                     if(item.id == contentArr[index].id && k !== 0) {
                         if(item.type == 'InputText') {
