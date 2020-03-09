@@ -137,6 +137,50 @@ export default {
             this.pageNo = pageNo;
             this.loadData();
         },
+        workReportSummaryData() {
+            let contentArr = []
+            let maxContent = []
+            this.allCheckedItems.forEach(l => {
+                let curContent = (JSON.parse(l.content) || [])
+                if(curContent.length > maxContent.length) {
+                    curContent[0].version = l.version
+                    curContent[0].dataType = l.dataType
+                    maxContent = curContent
+                }
+            })
+            this.templateItemData = maxContent[0]||{}
+            this.allCheckedItems.forEach(s => {
+                if(!s.isWorkReportChecked) {
+                    return;
+                }
+                let curContent = s || []
+                if(curContent.length > contentArr.length) {
+                    contentArr = curContent
+                }
+            });
+            this.allCheckedItems.forEach((v,k)=>{
+                if(!v.isWorkReportChecked) {
+                    return;
+                }
+                v.forEach((item, index)=>{
+                    if(item.id == contentArr[index].id && k !== 0) {
+                        if(item.type == 'InputText') {
+                            if(!!item.content.trim()) {
+                                contentArr[index].content += `\n${item.content}`
+                                contentArr[index].value += `\n${item.value}`
+                            }
+                        }
+                        if(item.type == 'InputTextNum') {
+                            if(!!item.content && typeof +item.content == 'number') {
+                                contentArr[index].content = (+contentArr[index].content) + (+item.content)
+                                contentArr[index].value = (+contentArr[index].value) + (+item.value)
+                            }
+                        }
+                    }
+                })
+            })
+            this.templateItemData.content = JSON.stringify(contentArr);
+        },
         handleSummaryData(){ // 汇总数据
             let contentArr = []
             let maxContent = []
@@ -179,7 +223,8 @@ export default {
             if (this.checkNum <= 0) {
                 this.$YYMessage.warning(this.$t('toast.pleaseSelectTheSummaryLog'));
             } else {
-                this.handleSummaryData();
+                // this.handleSummaryData();
+                this.workReportSummaryData();
                 this.$store.dispatch('update_template_content', {
                     content: this.templateItemData
                 });
@@ -200,12 +245,14 @@ export default {
         },
         updateList(res) { // 更新列表
             if (res && res.code === 0) {
+                // start dingyu
                 let list = res.data.list;
                 list.forEach((item, index) => {
                     item.isWorkReportChecked = false;
                     item.workReportCreateTime = formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm');
                 });
                 this.list = list || [];
+                // end dingyu
                 this.totalCount = this.list.length;
                 if (this.list.length <= 0) {
                     this.iconFlag = 0;
