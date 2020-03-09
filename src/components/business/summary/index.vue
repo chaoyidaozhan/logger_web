@@ -1,13 +1,30 @@
 <template>
     <div class="logger-summary-content">
-        <div class="content-bar" v-if="list.length">
-            <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
-            <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table>
+        <div class="tableList" v-if="list.length">
+            <div class="tableItem" v-for="(itemA, indexA) in list">
+                <div class="itemHeader mb-flex mb-flex-pack-justify mb-flex-align-center">
+                    <div>
+                        <YYCheckbox v-model="itemA.isWorkReportChecked" @on-change="someItemCheckChange(itemA)"></YYCheckbox>
+                        <span>{{itemA.templateName}}</span>
+                    </div>
+                    <div>提交时间：{{itemA.workReportCreateTime}}</div>
+                </div>
+                <div class="itemBody">
+                    <div class="mb-flex mb-flex-align-center bodyContent" v-for="(itemB, indexB) in JSON.parse(itemA.content)">
+                        <div class="mb-flex mb-flex-align-center">
+                            <div class="mb-flex-1">{{itemB.title}}</div>
+                        </div>
+                        <div class="mb-flex-1">{{itemB.content}}</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table> -->
+            <!-- <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table> -->
         </div>
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom mb-flex mb-flex-align-center" v-if="list.length">
                 <div class="bottom-left">
-                    <YYCheckbox v-model="dataType" @on-change="handleSelectAll(dataType)">
+                    <YYCheckbox v-model="isAllChecked" @on-change="allCheck(isAllChecked)">
                         {{$t('operate.checkAll')}}
                     </YYCheckbox>
                     <span class="checkout-note">
@@ -41,6 +58,8 @@ export default {
     },
     data() {
         return {
+            allCheckedItems: [],
+            isAllChecked: false,
             dataType: false,
             checkNum: 0,
             iconFlag: 1,
@@ -69,6 +88,32 @@ export default {
         params: 'initList',
     },
     methods: {
+        allCheck(isAllChecked) {
+            this.list.forEach((item, index) => {
+                item.isWorkReportChecked = isAllChecked;
+            });
+            this.checkCountNum();
+        },
+        checkCountNum() {
+            let num = 0;
+            let allCheckedItems = [];
+            this.list.forEach((item, index) => {
+                if(item.isWorkReportChecked) {
+                    ++num;
+                    allCheckedItems.push(item);
+                }
+            });
+            this.checkNum = num;
+            if(num == 0) {
+                this.isAllChecked = false;
+            }else if(num === this.list.length) {
+                this.isAllChecked = true;
+            }
+            this.allCheckedItems = allCheckedItems;
+        },
+        someItemCheckChange(item) {
+            this.checkCountNum();
+        },
         handleSelectAll(dataType) { // 全选
             this.$refs.selection.selectAll(dataType);
         },
@@ -155,7 +200,12 @@ export default {
         },
         updateList(res) { // 更新列表
             if (res && res.code === 0) {
-                this.list = res.data.list || [];
+                let list = res.data.list;
+                list.forEach((item, index) => {
+                    item.isWorkReportChecked = false;
+                    item.workReportCreateTime = formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm');
+                });
+                this.list = list || [];
                 this.totalCount = this.list.length;
                 if (this.list.length <= 0) {
                     this.iconFlag = 0;
@@ -370,9 +420,8 @@ export default {
 .logger-summary-content {
     position: absolute;
     width: 100%;
-    height: 100%;
-    background: #fff;
-    padding: 20px 20px 64px 20px;
+    height: 100%;    background: #fff;
+    padding: 12px 0 64px 0x;
     .table-count {
         border-top: none;
     }
@@ -435,6 +484,47 @@ export default {
         text-align: center;
         line-height: 1.6;
         margin-top: 5px;
+    }
+}
+.tableList {
+    border-top: 1px solid #aaa;
+}
+.tableItem {
+    .itemHeader {
+        height: 34px;
+        padding: 0 16px;
+        font-size: 12px;
+        border-bottom: 1px solid #F0F0F0;
+        background: rgba(247, 249, 253, 1);
+        & > div:first-of-type {
+            span {
+                color: #333;
+                font-weight:500;
+            }
+        }
+        & > div:last-of-type {
+            color: #666;
+        }
+    }
+    .itemBody {
+        color: #333;
+        font-weight: 400;
+    }
+    .bodyContent {
+        line-height: 22px;
+        border-bottom: 1px solid #F0F0F0;
+        & > div {
+            padding: 8px 16px;
+        }
+        & > div:first-of-type {
+            width: 140px;
+            border-right: 1px solid #F0F0F0;
+            align-self: stretch;
+        }
+        & > div:first-of-type div {
+            text-align: right;
+            line-height: 22px;
+        }
     }
 }
 </style>

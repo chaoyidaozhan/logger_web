@@ -66,7 +66,7 @@ export default {
 height: 60px;
 line-height: 60px;
 font-size: 14px;
-border-bottom: 1px solid @border-color-base;
+// border-bottom: 1px solid @border-color-base;
 background-color: #fff;
 	}
 	.logger-frame-body {
