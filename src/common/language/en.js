@@ -70,6 +70,7 @@ module.exports = {
         operate: 'Operate',
         status: 'Disable/Enable',
         max150Tips: 'Up to 150 words can be input',
+        ruleMaker: 'Rule Maker'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -119,7 +120,8 @@ module.exports = {
         startSucess: 'Start Sucess',
         deleteSucess: 'Delete Sucess',
         offSucess: 'Turn Off Sucess',
-        telplateHasBinded: '该模板已经绑定过了'
+        telplateHasBinded: 'The template has been bound',
+        selectRuleMaker: 'Please select rule maker'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',

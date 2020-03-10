@@ -20,7 +20,7 @@
     <YYDialog
         :class="'featureDiaalogCtn'"
         width='450px'
-        height='320px'
+        height='380px'
         :title="$t('operate.addNewGroupTemplate')"
         v-model="show"
         @on-ok='dialogConfirm'
@@ -70,6 +70,25 @@
                         :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
                         :placeholder="$t('placeholder.pleaseSelect')"
                         @handleSelect="handleSelectRange2"
+                        :ellipsis="false" 
+                        :showDept="false" 
+                        :showGroup="false" 
+                        :showMember="true" 
+                        :memberApiUri="memberApiUri" 
+                        ref="selectDept"
+                    />
+            </span>
+        </div>
+        <div class="item">
+            <span class="title">
+                <span class="must">{{$t('operate.ruleMaker')}}</span>
+            </span>
+            <span class="ctn">
+                    <fs-select-tree-input
+                        :member="ruleMakerSelectMemberData"
+                        :title="`${$t('operate.ruleMaker')}${$t('operate.select')}`"
+                        :placeholder="$t('placeholder.pleaseSelect')"
+                        @handleSelect="handleSelectRange3"
                         :ellipsis="false" 
                         :showDept="false" 
                         :showGroup="false" 
@@ -196,7 +215,7 @@ export default {
                     }
                 },
                 {
-                    title: '操作',
+                    title: this.$t('operate.operate'),
                     align: 'center',
                     key: 'id',
                     width: 120,
@@ -225,6 +244,7 @@ export default {
             show: this.showDialog,
             selectGroupData: [],
             selectMemberData: [],
+            ruleMakerSelectMemberData: [],
             deptRange: [],
             groupRange: [],
             memberRange: [],
@@ -253,6 +273,7 @@ export default {
             if(val && !this.isEdit) { // 新增
                 this.selectGroupData = []
                 this.selectMemberData = []
+                this.ruleMakerSelectMemberData = []
                 this.templateNameId = []
                 this.templateDesc = ''
             }
@@ -325,6 +346,11 @@ export default {
                 this.$YYMessage.warning(tips)
                 return false
             }
+            if(this.ruleMakerSelectMemberData.length == 0) {
+                let tips = this.$t('toast.selectRuleMaker')
+                this.$YYMessage.warning(tips)
+                return false
+            }
             if(this.templateNameId.length == 0) {
                 let tips = this.$t('toast.selectTemplate')
                 this.$YYMessage.warning(tips)
@@ -346,6 +372,11 @@ export default {
                 reportedMembers.push(item.memberId)
             })
             reportedMembers = reportedMembers.join(',')
+            let ruleMakerSelectMemberData = [];
+            this.ruleMakerSelectMemberData.forEach(item => {
+                ruleMakerSelectMemberData.push(item.memberId)
+            })
+            ruleMakerSelectMemberData = ruleMakerSelectMemberData.join(',')
             // let reportedMembers = "182282"
             let templateId = this.templateNameId
             let desc = this.templateDesc
@@ -353,7 +384,8 @@ export default {
                 groupId,
                 reportedMembers,
                 templateId,
-                desc
+                desc,
+                buildRuleMembers: ruleMakerSelectMemberData
             }
             axios.defaults.withCredentials = true
             let self = this
@@ -410,6 +442,10 @@ export default {
         handleSelectRange2(res) { //汇报人
             let arr = res.member
             this.selectMemberData = arr
+        },
+        handleSelectRange3(res) { //规则制定人
+            let arr = res.member
+            this.ruleMakerSelectMemberData = arr
         },
         loadList (pageNo = 1, pageSize = 20) {
             this.loading = true
@@ -523,6 +559,14 @@ export default {
                 })
             })
             this.selectMemberData = arr
+            let buildRuleMembersArr = [];
+            rowData.buildRuleUsers.forEach(item => {
+                buildRuleMembersArr.push({
+                    'memberId': item.memberId,
+                    'userName': item.name
+                })
+            })
+            this.ruleMakerSelectMemberData = buildRuleMembersArr
             this.templateNameId = rowData.templateId
             this.show = true
             this.isEdit = true
