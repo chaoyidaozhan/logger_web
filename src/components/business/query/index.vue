@@ -92,6 +92,15 @@ export default {
             type: Boolean,
             default: false
         },
+        // 
+        showDatePicker: {
+            type: Boolean,
+            default: false
+        },
+        initCreateDate: {
+            type: Function,
+            default: function() {}  
+        }
     },
     data() {
         return {
@@ -103,7 +112,7 @@ export default {
             hasMore: true,
             queryMemberId: null,
             operateModal: false,
-            operateModalData: null,
+            operateModalData: null
         }
     },
     components: {
@@ -131,6 +140,14 @@ export default {
                 pageSize: this.pageSize,
                 range: this.range,
                 withPublic: this.withPublic
+            };
+            let currentDate = new Date().getTime();
+            let beginDate = FormatTime(new Date(), 'YYYY-MM-DD');
+            let endDate = FormatTime(new Date(currentDate - 100*24*60*60*1000), 'YYYY-MM-DD');
+            if(this.showDatePicker) {
+                data.beginDate = beginDate;
+                data.endDate = endDate;
+                this.initCreateDate([beginDate, endDate]);
             }
             if(this.isUnread) {
                 data.withPublic = this.withPublic

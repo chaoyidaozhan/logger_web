@@ -66,7 +66,7 @@ export default {
 .select-date {
     // margin-right: 15px;
     .date-wrap {
-        width: 100%;
+        width: 220px;
     }
     .ivu-input-icon-normal + .ivu-input {
         padding-right: 28px;

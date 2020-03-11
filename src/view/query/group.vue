@@ -6,11 +6,12 @@
         <template slot="head">
             <fs-query-form
                 :showTemplate="true"
-                :showDatePicker="true"
+                :showDatePicker="showDatePicker"
+                :createDate="createDate"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <fs-query-list v-if="hasLoadedGroup" :range="range" :params="params" />
+            <fs-query-list v-if="hasLoadedGroup" :range="range" :params="params" :initCreateDate="initCreateDate" :showDatePicker="showDatePicker"/>
         </template>
     </fs-frame>
 </template>
@@ -23,7 +24,9 @@
             return {
                 range: '3',
                 hasLoadedGroup: false,
-                groupId: ''
+                groupId: '',
+                showDatePicker: true,
+                createDate: []
             }
         },
         components: {
@@ -44,6 +47,9 @@
                     params.groupId = this.groupId
                 }
                 this.params = params
+            },
+            initCreateDate(createDate) {
+                this.createDate = createDate;
             }
         }
     }
