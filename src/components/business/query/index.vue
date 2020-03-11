@@ -142,8 +142,8 @@ export default {
                 withPublic: this.withPublic
             };
             let currentDate = new Date().getTime();
-            let beginDate = FormatTime(new Date(), 'YYYY-MM-DD');
-            let endDate = FormatTime(new Date(currentDate - 100*24*60*60*1000), 'YYYY-MM-DD');
+            let beginDate = FormatTime(new Date(currentDate - 100*24*60*60*1000), 'YYYY-MM-DD');
+            let endDate = FormatTime(new Date(), 'YYYY-MM-DD');
             if(this.showDatePicker) {
                 data.beginDate = beginDate;
                 data.endDate = endDate;
