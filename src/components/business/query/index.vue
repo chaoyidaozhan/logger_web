@@ -97,6 +97,10 @@ export default {
             type: Boolean,
             default: false
         },
+        initCreateDate: {
+            type: Function,
+            default: function() {}  
+        }
     },
     data() {
         return {
@@ -108,7 +112,7 @@ export default {
             hasMore: true,
             queryMemberId: null,
             operateModal: false,
-            operateModalData: null,
+            operateModalData: null
         }
     },
     components: {
@@ -143,6 +147,7 @@ export default {
             if(this.showDatePicker) {
                 data.beginDate = beginDate;
                 data.endDate = endDate;
+                this.initCreateDate([beginDate, endDate]);
             }
             if(this.isUnread) {
                 data.withPublic = this.withPublic

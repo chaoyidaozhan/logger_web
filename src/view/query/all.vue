@@ -5,10 +5,11 @@
                 :showMember="true"
                 :showTemplate="true"
                 :showDatePicker="showDatePicker"
+                :createDate="createDate"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <fs-query-list :range="range" :params="params" :showDatePicker="showDatePicker"/>
+            <fs-query-list :range="range" :params="params" :initCreateDate="initCreateDate" :showDatePicker="showDatePicker"/>
         </template>
     </fs-frame>
 </template>
@@ -18,9 +19,15 @@
         data() {
             return {
                 range: '0',
-                showDatePicker: true
+                showDatePicker: true,
+                createDate: []
             }
         },
-        mixins: [query]
+        mixins: [query],
+        methods: {
+            initCreateDate(createDate) {
+                this.createDate = createDate;
+            }
+        }
     }
 </script>
