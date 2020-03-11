@@ -3,12 +3,13 @@
         <template slot="head">
             <fs-query-form 
                 :showTemplate="true"
-                :showDatePicker="true"
+                :showDatePicker="showDatePicker"
                 :showDept="true"
                 :showOtherDept="true"
                 deptApiUri="/team/getDeptsWithPart"
                 @handleQuery="handleQuery" 
-                ref="queryForm"/>
+                ref="queryForm"
+                :createDate="createDate"/>
         </template>
         <template slot="body" >
             <fs-query-list 
@@ -16,6 +17,8 @@
                 :isLowerLevel="true"
                 :range="range" 
                 :params="params" 
+                :initCreateDate="initCreateDate" 
+                :showDatePicker="showDatePicker"
             />
         </template>
     </fs-frame>
@@ -25,9 +28,16 @@
     export default {
         data() {
             return {
-                range: '0'
+                range: '0',
+                showDatePicker: true,
+                createDate: []
             }
         },
-        mixins: [query]
+        mixins: [query],
+        methods: {
+            initCreateDate(createDate) {
+                this.createDate = createDate;
+            }
+        }
     }
 </script>

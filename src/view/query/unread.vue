@@ -4,9 +4,10 @@
             <fs-query-form 
                 :showMember="true"
                 :showTemplate="true"
-                :showDatePicker="true"
+                :showDatePicker="showDatePicker"
                 :showWithPublic="true"
                 @handleChangePublic="handleChangePublic"
+                :createDate="createDate"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
@@ -15,7 +16,9 @@
                 url="/diaryQuery/getUnreadDiary"
                 :withPublic="withPublic"
                 :range="range" 
-                :params="params" />
+                :params="params" 
+                :initCreateDate="initCreateDate" 
+                :showDatePicker="showDatePicker"/>
         </template>
     </fs-frame>
 </template>
@@ -25,13 +28,18 @@
         data() {
             return {
                 range: '0',
-                withPublic: false
+                withPublic: false,
+                showDatePicker: true,
+                createDate: []
             }
         },
         mixins: [query],
         methods: {
             handleChangePublic(value) {
                 this.withPublic = value
+            },
+            initCreateDate(createDate) {
+                this.createDate = createDate;
             }
         },
         created () {
