@@ -240,7 +240,9 @@ module.exports = {
         schedule: '日程',
         org: '组织',
         dept: '部门',
-        admin: '管理员'
+        admin: '管理员',
+        frequentlyUsedtTemplate: "常用模板",
+        
     },
     title: {
         logTemplate: '汇报模板',

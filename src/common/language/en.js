@@ -240,7 +240,8 @@ module.exports = {
         schedule: 'Schedule',
         org: 'Organization',
         dept: 'Department',
-        admin: 'Administrator'
+        admin: 'Administrator',
+        frequentlyUsedtTemplate: "Common templates",
     },
     title: {
         logTemplate: 'Report Template',
