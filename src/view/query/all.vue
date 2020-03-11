@@ -4,11 +4,11 @@
             <fs-query-form 
                 :showMember="true"
                 :showTemplate="true"
-                :showDatePicker="true"
+                :showDatePicker="showDatePicker"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
-            <fs-query-list :range="range" :params="params" />
+            <fs-query-list :range="range" :params="params" :showDatePicker="showDatePicker"/>
         </template>
     </fs-frame>
 </template>
@@ -17,7 +17,8 @@
     export default {
         data() {
             return {
-                range: '0'
+                range: '0',
+                showDatePicker: true
             }
         },
         mixins: [query]
