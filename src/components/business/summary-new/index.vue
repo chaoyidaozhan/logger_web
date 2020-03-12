@@ -113,8 +113,8 @@ import FsSelectTemplate from 'app_component/common/select-template/'
 import FsSelectDate from 'app_component/common/select-date/'
 import FsSelectTreeInput from 'app_component/common/select-tree-input/'
 import formatTime from 'app_src/filters/format-time'
-  import PerfectScrollbar from 'perfect-scrollbar';
-  let Ps = null;
+import PerfectScrollbar from 'perfect-scrollbar';
+let Ps = null;
 
 export default {
     data() {
