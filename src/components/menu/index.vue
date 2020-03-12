@@ -10,7 +10,7 @@
                 :active-name="activeName"
                 :class="lang"
                 width="auto" :open-names="openNames" @on-select="goToLink" @on-open-change="initScroll">
-                <div v-for="(item, index) in menus" :key="index">
+                <div v-for="(item, index) in menus" :key="index" v-show="item.path != '/GroupTemplate'">
                     <Menu-Item :name="item.path" v-if="!item.subMenu">
                         <i v-if="item.icon" :class="`${item.icon}`"></i>
                         <span>{{$t(item.name)}}</span>
@@ -312,6 +312,14 @@ export default {
                     height: 100%;
                     background-color: @primary-color
                 }
+            }
+        }
+        .ivu-menu-item {
+            .icon-customized {
+                font-size: 24px;
+                margin-left: -5px;
+                vertical-align: middle;
+                margin-top: -5px;
             }
         }
         .ivu-menu-submenu-title {

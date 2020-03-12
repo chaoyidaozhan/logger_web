@@ -9,6 +9,7 @@ import summary from './summary'
 import summaryNew from './summary-new'
 import template from './template'
 import deploy from './deploy'
+import groupTemplate from './groupTemplate'
 
 export default [{
     path: '/',
@@ -23,6 +24,7 @@ export default [{
         ...summaryNew,
         ...template,
         ...deploy,
+        ...groupTemplate,
         {
             path: '*',
             redirect: '/LoggerQueryAll'

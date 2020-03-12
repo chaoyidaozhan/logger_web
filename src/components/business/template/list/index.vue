@@ -29,11 +29,15 @@ export default {
         showEdit: {
             type: Boolean,
             default: false,
+        },
+        outerList: {
+            type: Array,
+            default: ()=>([])
         }
     },
     data() {
         return {
-            list: [],
+            list: this.outerList,
             show: true,
             totalCount: 0,
             pageSize: 19,
@@ -113,7 +117,9 @@ export default {
         },
     },
     created () {
-        this.loadData('fade');
+        if(this.$router.currentRoute.path == "/LoggerTemplate/manager") {
+            this.loadData('fade');
+        }
     },
 }
 </script>

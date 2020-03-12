@@ -71,6 +71,12 @@ const menus = [
         type: ['admin','diary_examer']
     },
     {
+        name: 'menus.groupTemplateManagement',
+        path: '/GroupTemplate',
+        icon: 'icon-customized',
+        type: ['admin','diary_examer']
+    },
+    {
         name: 'menus.statistics',
         path: '/LoggerSummaryNew',
         icon: 'icon-statistics-2018',

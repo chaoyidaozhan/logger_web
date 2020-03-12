@@ -1,6 +1,6 @@
 <template>
-    <div class="logger-container">
-        <fs-sign-menu ref="menu" v-if="hasGetUserInfo"/>
+    <div :class="{'no-padding-logger-container': ($router.currentRoute.path == '/GroupTemplate'), 'logger-container': true}">
+        <fs-sign-menu ref="menu" v-if="hasGetUserInfo && $router.currentRoute.path != '/GroupTemplate'"/>
         <router-view v-if="hasGetUserInfo"/>
     </div>
 </template>
@@ -112,6 +112,14 @@
             padding-left: @min-menu-width;
         }
     }
+</style>
+<style>
+.ivu-modal-wrap{
+    z-index: 9999!important;
+}
+.no-padding-logger-container {
+    padding-left: 0!important;
+}
 </style>
 
 
