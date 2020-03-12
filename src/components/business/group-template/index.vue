@@ -20,7 +20,7 @@
     <YYDialog
         :class="'featureDiaalogCtn'"
         width='450px'
-        height='380px'
+        height='464px'
         :title="$t('operate.addNewGroupTemplate')"
         v-model="show"
         @on-ok='dialogConfirm'
@@ -64,7 +64,7 @@
             <span class="title">
                 <span class="must">{{$t('operate.reportPerson')}}</span>
             </span>
-            <span class="ctn">
+            <span class="ctn threeHeightCtn">
                     <fs-select-tree-input
                         :member="selectMemberData"
                         :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
@@ -83,7 +83,7 @@
             <span class="title">
                 <span class="must">{{$t('operate.ruleMaker')}}</span>
             </span>
-            <span class="ctn">
+            <span class="ctn threeHeightCtn">
                     <fs-select-tree-input
                         :member="ruleMakerSelectMemberData"
                         :title="`${$t('operate.ruleMaker')}${$t('operate.select')}`"
@@ -595,6 +595,7 @@ export default {
             color:rgba(51,51,51,1);
             margin-right: 10px;
             font-size: 12px;
+            vertical-align: top;
             .must::before{
                 content: '*';
                 display: inline-block;
@@ -608,6 +609,32 @@ export default {
         .ctn{
             display: inline-block;
             width: 300px;
+            &.threeHeightCtn {
+                .select-tree-input {
+                    // height: 70px;
+                    // overflow: auto;
+                    // width: 258px;
+                    .select-tree-ctn {
+                        width: 258px;
+                        overflow-y: auto;
+                        height: 70px;
+                        &::-webkit-scrollbar {      /*滚动条整体样式*/
+                            width: 4px;             /*高宽分别对应横竖滚动条的尺寸*/
+                            height: 4px;
+                        }
+                        &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+                            border-radius: 5px;
+                            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+                            background:rgba(216,216,216,1);
+                        }
+                        // &::-webkit-scrollbar-track {/*滚动条里面轨道*/
+                        //     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+                        //     border-radius: 0;
+                        //     background:white;
+                        // }
+                    }
+                }
+            }
         }
         &.noMarginBottom {
             margin-bottom: 0
@@ -646,6 +673,10 @@ export default {
     .tableItemDescCtn {
         margin: 9px 0;
         display: inline-block;
+    }
+    span{
+        display: inline-block;
+        line-height: 16px;
     }
 }
 .paginationCtn{
