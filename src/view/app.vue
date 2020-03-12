@@ -107,7 +107,7 @@
         padding-left: @max-menu-width;
         position: relative;
         overflow: auto;
-        background-color: @white-color;
+        background-color: #F4F6F8;
         @media screen and (max-width: 1399px) {
             padding-left: @min-menu-width;
         }

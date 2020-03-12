@@ -223,7 +223,7 @@ export default {
     width: @max-menu-width;
     border-right: 1px solid #dddddd;
     background-color: @white-color;
-    box-shadow: 0 0 20px rgba(0,0,0,.1);
+    // box-shadow: 0 0 20px rgba(0,0,0,.1);
     z-index: 10;
     @media screen and (max-width: 1399px) {
         width: @min-menu-width;

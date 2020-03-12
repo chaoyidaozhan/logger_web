@@ -43,6 +43,8 @@ export default {
 .logger-frame {
 	width: 100%;
 	height: 100%;
+	box-sizing: border-box;
+	border-left: 10px solid #F4F6F8;
 	overflow: auto;
 	.logger-frame-scroller {
 		padding-top: 60px;
