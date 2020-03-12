@@ -34,7 +34,8 @@
 </template>
 <script>
 import menus from './menuConfig'
-import Ps from 'perfect-scrollbar'
+import PerfectScrollbar from 'perfect-scrollbar';
+let Ps = null;
 
 export default {
     data() {
@@ -93,15 +94,24 @@ export default {
         initScroll() {
             this.$nextTick(()=>{
                 let container = this.$refs.loggerMenuLayout
-                Ps.destroy(container);
-                Ps.initialize(container, {
+                Ps && Ps.destroy(container);
+                Ps = new PerfectScrollbar(container, {
                     wheelSpeed: 0.5,
                     wheelPropagation: false,
                     useBothWheelAxes: true,
                     eventPassthrough : 'horizontal',
                     minScrollbarLength: 60,
-                    maxScrollbarLength: 300
+                    maxScrollbarLength: 100
                 })
+                // Ps.destroy(container);
+                // Ps.initialize(container, {
+                //     wheelSpeed: 0.5,
+                //     wheelPropagation: false,
+                //     useBothWheelAxes: true,
+                //     eventPassthrough : 'horizontal',
+                //     minScrollbarLength: 60,
+                //     maxScrollbarLength: 300
+                // })
             })
         },
         setOpenNames() { // 设置展开状态
