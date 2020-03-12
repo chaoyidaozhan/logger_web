@@ -18,7 +18,7 @@ import 'app_src/directives/loading/'
 
 // css文件
 import 'video.js/dist/video-js.min.css'
-import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
+import 'perfect-scrollbar/css/perfect-scrollbar.css'
 import 'yyzone/dist/styles/yyzone.min.css'
 import './assets/css/common.less'
 import 'vue-photo-preview/dist/skin.css'

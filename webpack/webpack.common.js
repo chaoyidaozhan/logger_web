@@ -6,7 +6,7 @@
  */
 const path = require('path')
 const webpack = require("webpack")
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+// const CleanWebpackPlugin = require('clean-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -48,7 +48,7 @@ function createCssAndLessLoader() {
                 publicPath: '../'
             }
         },
-        'css-loader?importLoaders=1',
+        'css-loader',
         {
             loader: "postcss-loader",
             options: {
@@ -154,9 +154,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin([APP_DIST], {
-            allowExternal: true
-        }),
+        // new CleanWebpackPlugin([APP_DIST], {
+        //     allowExternal: true
+        // }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
             __ENV__: JSON.stringify(NODE_ENV),
@@ -181,8 +181,8 @@ module.exports = {
             }]
         }),
         new MiniCssExtractPlugin({
-            filename: "css/[name].[contenthash:8].css",
-            chunkFilename: "css/[id].css",
+            filename: "[name].[contenthash:8].css",
+            chunkFilename: "[id].css",
         }),
         new HtmlWebpackPlugin({
             phpHost: (config[NODE_ENV] || config.build).phpHost,

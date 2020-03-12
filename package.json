@@ -13,7 +13,7 @@
 		"prev": "npm run clean && cross-env NODE_ENV=prev npm run _build",
 		"build": "npm run clean && cross-env NODE_ENV=build npm run _build",
 		"analyzer": "cross-env NODE_ENV=prod_build webpack --mode production --config ./webpack/webpack.analyzer.js --profile --json > compilation-stats.json",
-		"clean": "rm -rf node_modules && npm install"
+		"clean": "rm -rf node_modules && npm install && rm -rf ./web"
 	},
 	"keywords": [],
 	"author": "",
@@ -51,7 +51,7 @@
 		"file-loader": "^5.1.0",
 		"happypack": "^5.0.0",
 		"html-webpack-plugin": "^3.2.0",
-		"less": "^3.8.1",
+		"less": "^2.7.3",
 		"less-loader": "^5.0.0",
 		"mini-css-extract-plugin": "^0.9.0",
 		"postcss-loader": "^3.0.0",
