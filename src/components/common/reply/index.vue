@@ -205,7 +205,7 @@
                 this.replyData.replyMemberId = commentItem.memberId;
                 this.replyData.replyUserName = commentItem.userName;
                 this.$refs.replyWrapper.focus();
-                this.value = `${$t('operate.reply')}${commentItem.userName}:`;
+                this.value = `${this.$t('operate.reply')}${commentItem.userName}:`;
             },
             filterContentAttach(attachs) { // 过滤附件
                 let attachList = {
