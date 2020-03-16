@@ -270,7 +270,7 @@ export default {
             padding: 12px 16px;
             font-size: 12px;
             line-height: 20px;
-            color: @menu-title-color;
+            color: #333;
             border-right: 0 !important;
 
             
