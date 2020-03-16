@@ -70,7 +70,8 @@ module.exports = {
         operate: '操作',
         status: '停用/启用',
         max150Tips: '最多输入150个字',
-        ruleMaker: '規則制定人'
+        ruleMaker: '規則制定人',
+        starting: '啟用中'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -242,6 +243,7 @@ module.exports = {
         dept: '部门',
         admin: '管理员',
         frequentlyUsedtTemplate: "常用模板",
+        templateStatus: "模板狀態",
     },
     title: {
         logTemplate: '匯報模板',

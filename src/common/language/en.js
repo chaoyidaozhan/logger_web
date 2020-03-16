@@ -70,7 +70,8 @@ module.exports = {
         operate: 'Operate',
         status: 'Disable/Enable',
         max150Tips: 'Up to 150 words can be input',
-        ruleMaker: 'Rule Maker'
+        ruleMaker: 'Rule Maker',
+        starting: 'Enabled'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -242,6 +243,7 @@ module.exports = {
         dept: 'Department',
         admin: 'Administrator',
         frequentlyUsedtTemplate: "Common templates",
+        templateStatus: "Template status",
     },
     title: {
         logTemplate: 'Report Template',

@@ -1,6 +1,18 @@
 <template>
     <div class="search-form">
         <Form inline>
+            <FormItem :label-width="60" :label="$t('noun.templateStatus')" v-if="showTemplateCheck">
+                <YYSelect 
+                    v-model="templateStatuSelected"
+                    @on-change="handleChange"
+                    :placeholder="$t('operate.all')">
+                    <YYOption v-for="(item, index) in templateStatusArr"
+                        :value="item.value"
+                        :key="index">
+                        {{item.label}}
+                    </YYOption>
+                </YYSelect>
+            </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
                 <fs-select-tree-input ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
@@ -27,9 +39,9 @@
                     @handleChange="handleQuery"
                     ref="selectTemplate"/>
             </FormItem> 
-            <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
+            <!-- <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
                 <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
-            </FormItem> 
+            </FormItem>  -->
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate" :createDate="createDate" @handleChange="handleQuery"/>
             </FormItem> 
@@ -162,7 +174,7 @@ export default {
         },
         templateType: {
             type: String,
-            default: 'app'
+            default: '0'
         },
         createDate: {
             type: Array,
@@ -205,7 +217,22 @@ export default {
             queryTimer: null,
             loading: false,
             withPublic: false,
-            isGroupOrDeptSelectedAll: false
+            isGroupOrDeptSelectedAll: false,
+            templateStatusArr: [
+                {
+                    value: '0',
+                    label: this.$t('operate.all')
+                },
+                {
+                    value: '1',
+                    label: this.$t('operate.starting')
+                },
+                {
+                    value: '2',
+                    label: (this.$t('operate.disable') + '/' + this.$t('operate.delete'))
+                }
+            ],
+            templateStatuSelected: this.templateType
         }
     },
     methods: {
@@ -331,13 +358,13 @@ export default {
             window.open(url)
         },
         handleChange(value) {
-            let templateType
-            if(value) {
-                templateType = 'web'
-            } else {
-                templateType = 'select'
-            }
-            this.$emit('handleTemplateType', templateType)
+            // let templateType
+            // if(value) {
+            //     templateType = 'web'
+            // } else {
+            //     templateType = 'select'
+            // }
+            this.$emit('handleTemplateType', value)
             this.handleQuery()
         },
         handleChangePublic() {
