@@ -358,7 +358,7 @@ export default {
                     }
                 }
             };
-            this.loggerSummaryPageRef = this.$refs.loggerSummaryPageRef;
+            this.PageRef = this.$refs.loggerSummaryPageRef;
             let loggerSummaryPageRef = this.loggerSummaryPageRef;
             loggerSummaryPageRef.onscroll = throttle(() => {
                 //变量scrollTop是滚动条滚动时，距离顶部的距离
