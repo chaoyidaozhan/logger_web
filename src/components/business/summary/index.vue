@@ -1,6 +1,6 @@
 <template>
     <div class="logger-summary-content">
-        <div class="content-bar" v-if="list.length">
+        <div class="content-bar" v-if="list.length" ref="loggerSummaryPageRef">
             <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
             <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table>
         </div>
@@ -23,7 +23,7 @@
                     <YYButton type="ghost" @click="exportECL">{{$t('operate.export')}} EXCEL</YYButton>
                 </span>
             </div>
-            <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
+            <!-- <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" /> -->
         </div>
         <YYEmpty v-else vertical="top" :text="!list.length&&iconFlag ? $t('toast.selectTheDataThatExport') : emptyMsg" />
     </div>
@@ -46,7 +46,7 @@ export default {
             iconFlag: 1,
             list: [],
             pageNo: 1,
-            pageSize: 9999,
+            pageSize: 20,
             range: 0,
             totalCount: 0,
             iconType: 'member',
@@ -59,7 +59,9 @@ export default {
             templateItemData:[],
             selectList:[],
             selectContent:[],
-            loading: false
+            loading: false,
+            loggerSummaryPageRef: null,
+            isStopScrollPage: false
         }
     },
     components: {
@@ -155,7 +157,14 @@ export default {
         },
         updateList(res) { // 更新列表
             if (res && res.code === 0) {
-                this.list = res.data.list || [];
+                let listLen = (res.data.list || []).length;
+                if(listLen < this.pageSize) {
+                    this.isStopScrollPage = true;
+                }
+                if(!listLen) {
+                    return;
+                }
+                this.list = this.list.concat(res.data.list || []);
                 this.totalCount = this.list.length;
                 if (this.list.length <= 0) {
                     this.iconFlag = 0;
@@ -299,6 +308,9 @@ export default {
             return data;
         },
         loadData() { // 加载数据
+            if(this.isStopScrollPage) {
+                return;
+            }
             let data = this.getParams();
             if (!data.templateId) {
                 this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.template')}`);
@@ -314,6 +326,9 @@ export default {
                     success: (res) => {
                         this.updateList(res);
                         this.loading = false;
+                        this.$nextTick(() => {
+                            this.loggerSummaryPage(res);
+                        });
                     },
                     error: (res) => {
                         this.loading = false;
@@ -322,10 +337,48 @@ export default {
                 })
             }
         },
+        loggerSummaryPage() {
+            if(this.loggerSummaryPageRef) {
+                return;
+            }
+            let throttle = function(method, delay, duration) {
+                let timer = null;
+                let begin = new Date();    
+                return function(){                
+                    let context = this, args=arguments;
+                    let current = new Date();        
+                    clearTimeout(timer);
+                    if(current-begin >= duration){
+                        method.apply(context,args);
+                        begin = current;
+                    }else{
+                        timer = setTimeout(() => {
+                            method.apply(context,args);
+                        },delay);
+                    }
+                }
+            };
+            this.loggerSummaryPageRef = this.$refs.loggerSummaryPageRef;
+            let loggerSummaryPageRef = this.loggerSummaryPageRef;
+            loggerSummaryPageRef.onscroll = throttle(() => {
+                //变量scrollTop是滚动条滚动时，距离顶部的距离
+                let scrollTop = loggerSummaryPageRef.scrollTop;
+                //变量windowHeight是可视区的高度
+                let windowHeight = loggerSummaryPageRef.clientHeight;
+                //变量scrollHeight是滚动条的总高度
+                let scrollHeight = loggerSummaryPageRef.scrollHeight;
+                //滚动条到底部的条件
+                if(scrollTop + windowHeight == scrollHeight) {
+                    ++this.pageNo;
+                    this.loadData();
+                }   
+            } , 100, 500);
+        },
         initList() { // 初始化列表
             this.pageNo = 1;
             this.dataType = false;
             this.checkNum = 0;
+            this.isStopScrollPage = false;
             this.loadData();
         }
     },
