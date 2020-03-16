@@ -174,7 +174,7 @@ export default {
         },
         templateType: {
             type: String,
-            default: '0'
+            default: 'app'
         },
         createDate: {
             type: Array,
@@ -220,10 +220,6 @@ export default {
             isGroupOrDeptSelectedAll: false,
             templateStatusArr: [
                 {
-                    value: '0',
-                    label: this.$t('operate.all')
-                },
-                {
                     value: '1',
                     label: this.$t('operate.starting')
                 },
@@ -232,7 +228,7 @@ export default {
                     label: (this.$t('operate.disable') + '/' + this.$t('operate.delete'))
                 }
             ],
-            templateStatuSelected: this.templateType
+            templateStatuSelected: '1'
         }
     },
     methods: {
@@ -358,13 +354,13 @@ export default {
             window.open(url)
         },
         handleChange(value) {
-            // let templateType
-            // if(value) {
-            //     templateType = 'web'
-            // } else {
-            //     templateType = 'select'
-            // }
-            this.$emit('handleTemplateType', value)
+            let templateType
+            if(value == '2') {
+                templateType = 'web'
+            } else {
+                templateType = 'select'
+            }
+            this.$emit('handleTemplateType', templateType)
             this.handleQuery()
         },
         handleChangePublic() {
