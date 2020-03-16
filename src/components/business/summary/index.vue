@@ -462,10 +462,13 @@ export default {
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
 .logger-summary-content {
-    position: absolute;
+    // position: absolute;
     width: 100%;
-    height: 100%;    background: #fff;
-    padding: 12px 0 64px 0x;
+    height: 100%;
+    background: #fff;
+    padding: 12px 0 64px 0px;
+    overflow-y: auto;
+    padding-bottom: 64px;
     .table-count {
         border-top: none;
     }
