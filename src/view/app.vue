@@ -103,7 +103,8 @@
     @import '~app_assets/css/var.less';
     .logger-container {
         width: 100%;
-        // height: 100%;
+        height: 100%;
+        box-sizing: border-box;
         padding-left: @max-menu-width;
         position: relative;
         overflow: auto;
