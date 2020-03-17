@@ -3,25 +3,7 @@
     <div>
       <div class="bgCover" @click="close()"></div>
       <div class="container">
-          <div class="header">
-            <span class="title">汇报规则</span>
-            <YYButton
-              :class="'headerButton'"
-              type="ghost" 
-              @click="setRules()">
-              设置汇报规则
-            </YYButton>
-            <i class="closeIcon icon-add" @click="close()"></i>
-          </div>
-          <div class="body">
-            <div class="scrollBody" v-if="listArr.length">
-              <Item v-for="(item, i) in listArr" :key=i></Item>
-            </div>
-            <div class="noImgCtn" v-else>
-              <img class="noDataImg" :src="tip_data">
-              <div class="tips">暂无汇报规则</div>
-            </div>
-          </div>
+         <Item></Item>
       </div>
     </div>
   </transition>
@@ -80,7 +62,7 @@ export default {
     left: 0;
     bottom: 0;
     opacity: 0;
-    z-index: 98;
+    z-index: 100;
   }
   .container {
     font-size: 12px;
@@ -88,7 +70,7 @@ export default {
     box-shadow: 0 2px 8px rgba(0,0,0,.15);
     width: 470px;
     height: 100%;
-    z-index: 99;
+    z-index: 101;
     right: 0;
     top: 0;
     background: white;

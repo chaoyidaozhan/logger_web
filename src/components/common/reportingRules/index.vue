@@ -37,6 +37,11 @@ export default {
             // this.showDetail = true
             this.showAdd = true
             break;
+          case 3 :
+            // this.showList = true,
+            this.showDetail = true
+            // this.showAdd = true
+            break;
         }
       },
       changeShowDetail () {
