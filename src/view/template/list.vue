@@ -43,8 +43,10 @@ export default {
 <style lang="less" scoped>
 .logger-template-list {
     width: 100%;
-    max-height: 100%;
+    height: 100%;
+    // max-height: 100%;
     overflow: auto;
     padding: 20px 10px 60px;
+    background: #F7F4F8;
 }
 </style>

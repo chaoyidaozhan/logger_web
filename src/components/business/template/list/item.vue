@@ -1,12 +1,16 @@
 <template>
     <div class="template-item cursor-pointer" @click="goToDetail">
         <div class="template-item-content">
-            <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
+            <!-- <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
             <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
             <template v-if="showEdit">
                 <div class="template-item-time ellipsis">{{$t('operate.update')}}{{ data.createTime | filterTime }}</div>
                 <div v-if="!data.dataStatus" class="template-item-status ellipsis">{{$t('operate.discontinued')}}</div>
-            </template>
+            </template> -->
+            <div class="mb-flex">
+                <div class="fileSuffixName"></div>
+                <div class="templateTitle">{{data.title}}</div>
+            </div>
         </div>
         <div class="template-operate-modal" v-if="showEdit">
             <!--启用， 停用-->
@@ -128,36 +132,50 @@ export default {
 @import '../../../../assets/css/var.less';
 .template-item {
     width: 100%;
-    padding-bottom: 47%;
+    height: 100%;
     position: relative;
+    background: white;
     .template-item-content {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        border: 1px solid;
-        border-color: @border-color;
-        border-radius: 4px;
-        padding: 0 20px;
+        // position: absolute;
+        // width: 100%;
+        // height: 100%;
+        // left: 0;
+        // border: 1px solid;
+        // border-color: @border-color;
+        border-radius: 3px;
+        box-sizing: border-box;
+        padding: 22px 20px 0;
+        // padding: 0 20px;
         transition: .4s ease all;
+        .mb-flex {
+            .fileSuffixName {
+                width: 40px;
+                height: 40px;
+                background: red;
+            }
+            .templateTitle {
+                font-size: 14px;
+                color: 14px;
+            }
+        }
         &:before {
             content: '';
+            width: 3px;
             position: absolute;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            top: -1px;
-            height: 6px;
-            left: -1px;
-            right: -1px;
-            background-color: @primary-color;
+            // border-top-left-radius: 4px;
+            // border-top-right-radius: 4px;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #ee3d4b;
             opacity: .4;
             transition: .4s ease all;
         }
         .template-item-title {
             font-size: 14px;
-            color: @gray-color-dark;
-            margin-top: 22px;
-            margin-bottom: 2px;
+            color: #333;
+            // margin-top: 22px;
+            // margin-bottom: 2px;
             padding: 2px 0;
         }        
         .template-item-describe {
