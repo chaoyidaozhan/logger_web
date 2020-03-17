@@ -1,18 +1,6 @@
 <template>
     <div class="search-form">
         <Form inline>
-            <FormItem :label-width="60" :label="$t('noun.templateStatus')" v-if="showTemplateCheck">
-                <YYSelect 
-                    v-model="templateStatuSelected"
-                    @on-change="handleChange"
-                    :placeholder="$t('operate.all')">
-                    <YYOption v-for="(item, index) in templateStatusArr"
-                        :value="item.value"
-                        :key="index">
-                        {{item.label}}
-                    </YYOption>
-                </YYSelect>
-            </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
                 <fs-select-tree-input ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
@@ -24,24 +12,40 @@
                     :group="group"
                     @handleSelect="handleSelect"/>
             </FormItem> 
-            <!--  -->
-            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
+            <!-- <FormItem :class="'minFormItem'" :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate"> -->
+            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
+                <fs-select-template
+                    :hasDefaultTemplate="hasDefaultTemplate" 
+                    :templateType="templateType" 
+                    @handleChange="handleQuery"
+                    ref="selectTemplate"/>
+            </FormItem>
+            <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
+            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showTemplate">
+               <YYSelect 
+                    v-model="classificationArrData" 
+                    @on-change="classifyHandleChange" style="width: 180px">
+                    <YYOption value="1">
+                        按部门统计
+                    </YYOption>
+                    <YYOption value="2">
+                        按人员统计
+                    </YYOption>
+                    <YYOption value="3">
+                        按内部群统计
+                    </YYOption>
+                </YYSelect>
+            </FormItem> 
+            <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
+                <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
+            </FormItem>
+             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
                 <fs-select-member ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :member="member"
                     @handleSelect="handleSelect"/>
             </FormItem> 
-            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
-                <fs-select-template 
-                    :hasDefaultTemplate="hasDefaultTemplate" 
-                    :templateType="templateType" 
-                    @handleChange="handleQuery"
-                    ref="selectTemplate"/>
-            </FormItem> 
-            <!-- <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
-                <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
-            </FormItem>  -->
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
                 <fs-select-date ref="selectDate" :createDate="createDate" @handleChange="handleQuery"/>
             </FormItem> 
@@ -55,7 +59,7 @@
                     :dept="dept"
                     :group="group"
                     @handleSelect="handleSelect"/>
-            </FormItem> 
+            </FormItem>
             <FormItem :label-width="lang === 'en' ? 76 : 40" :label="$t('noun.department')"  v-if="showDept">
                 <fs-select-tree-input ref="selectDept" 
                     :title="`${$t('operate.select')}${$t('noun.department')}`"
@@ -79,6 +83,13 @@
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     :groupApiUri="groupApiUri"/>
             </FormItem> 
+            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
+                <fs-select-member ref="selectMember" 
+                    :title="`${$t('operate.select')}${$t('noun.author')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
+                    :member="member"
+                    @handleSelect="handleSelect"/>
+            </FormItem> 
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
@@ -89,7 +100,9 @@
                 <YYButton :disabled="loading" @click="handleQuery">
                     {{$t('operate.search')}}
                 </YYButton>
-                <FormItem :label-width="10" class="export-btn" v-if="showExportExcel">
+            </FormItem>
+            <div class="rightButtonGroup">
+                <FormItem :class="'exportStyle'" :label-width="10" class="export-btn" v-if="showExportExcel">
                     <fs-export-excel
                     @handleExportExcel="handleExportExcel"
                     @handlePersonData="handlePersonData"
@@ -97,8 +110,20 @@
                     :showGroupExcelBtn="showGroupExcelBtn"
                     :showDeptExcelBtn="showDeptExcelBtn"></fs-export-excel>
                 </FormItem>
-            </FormItem>
+            </div>    
+            <div class="open-date" v-if="showCreateMenu">
+                <i class="icon-add" @click.stop=""></i>
+            </div>
+            <div class="logger-menu-logo" v-if="showCreateMenu">
+                <YYButton type="primary" @click="goLoggerDetail">
+                    {{$t('operate.createLog')}}
+                </YYButton>    
+            </div>
+            <YYButton type="ghost"  @click="setReportingRules()">
+                汇报规则
+            </YYButton>
         </Form>
+        <ReportingRules v-if="showReportingRules" />
     </div>
 </template>
 <script>
@@ -114,6 +139,7 @@
  * showOrderTypeMulti 选择日期类型是否支持选择日期
  * showExportExcel 是否显示日志统计导出按钮
  **/
+import ReportingRules from '../reportingRules/'
 import FsSelectTreeInput from '../select-tree-input/'
 import FsSelectTemplate from '../select-template/'
 import FsSelectMember from '../select-member/'
@@ -148,22 +174,22 @@ export default {
             type: Boolean,
             default: false
         },
-        showDept: {
-            type: Boolean,
-            default: false
-        },
-        showGroup: {
-            type: Boolean,
-            default: false
-        },
+        // showDept: {
+        //     type: Boolean,
+        //     default: false
+        // },
+        // showGroup: {
+        //     type: Boolean,
+        //     default: false
+        // },
         showAllMember: {
             type: Boolean,
             default: false
         },
-        showMember: {
-            type: Boolean,
-            default: false
-        },
+        // showMember: {
+        //     type: Boolean,
+        //     default: false
+        // },
         showOrderType: {
             type: Boolean,
             default: false
@@ -199,6 +225,10 @@ export default {
         showDeptExcelBtn: {
             type: Boolean,
             default: true
+        },
+        showCreateMenu: {
+            type:Boolean,
+            default:false
         }
     },
     components: {
@@ -207,31 +237,52 @@ export default {
         FsSelectDate,
         FsSelectOrderType,
         FsExportExcel,
-        FsSelectMember
+        FsSelectMember,
+        ReportingRules
     },
     data() {
         return {
+            showReportingRules: false,
+            showDept: false,
+            showGroup: false,
+            showMember: false,
+            classificationArrData: [], // 分类
             dept: [], // 组织
             group: [], // 内部群
             member: [], // 提交人
             queryTimer: null,
             loading: false,
             withPublic: false,
-            isGroupOrDeptSelectedAll: false,
-            templateStatusArr: [
-                {
-                    value: '1',
-                    label: this.$t('operate.starting')
-                },
-                {
-                    value: '2',
-                    label: (this.$t('operate.disable') + '/' + this.$t('operate.delete'))
-                }
-            ],
-            templateStatuSelected: '1'
+            isGroupOrDeptSelectedAll: false
         }
     },
     methods: {
+        goLoggerDetail() {
+            this.$router.push({
+                path: `/LoggerDetail/template`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            })
+        },
+        setReportingRules () {
+            this.showReportingRules = !this.showReportingRules
+            // console.log(this.)
+        },
+        classifyHandleChange (v) {
+            this.showDept = false
+            this.showGroup = false
+            this.showMember = false
+            if(v == 1) {
+                this.showDept = true
+            }
+            if(v == 2) {
+                this.showMember = true
+            }
+            if(v == 3) {
+                this.showGroup = true
+            }
+        },
         trimIds(params) { // 整理id数据
             if(this.member && !!this.member.length) { // 整理人员id
                 let memberIds = []
@@ -355,7 +406,7 @@ export default {
         },
         handleChange(value) {
             let templateType
-            if(value == '2') {
+            if(value) {
                 templateType = 'web'
             } else {
                 templateType = 'select'
@@ -394,5 +445,49 @@ export default {
     }
 }
 </script>
-
+<style scoped>
+    .logger-menu-logo{
+        display: inline-block;
+        float: right;
+        margin-right: 8px;
+    }
+    .open-date{
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        width:32px;
+        height:32px;
+        background:rgba(255,255,255,1);
+        border-radius:3px;
+        border:1px solid rgba(217,217,217,1);
+        float: right;
+    }
+</style>
+<style lang='less'>
+.search-form {
+    .ivu-form-inline {
+        .ivu-form-item{
+            min-width: 200px;
+            margin-right: 15px;
+            .query-select-member {
+                width: 160px;
+            }
+        }
+    }
+    .rightButtonGroup {
+        float: right;
+        .excel-btn-wrap {
+            background-color: #ee2223;
+            border-color: #ee2223;
+            &:hover{
+                background-color: #d61f20;
+                border-color: #d61f20;
+            }
+            a{
+                color: #fff; 
+            }
+        }
+    }
+}
+</style>
 

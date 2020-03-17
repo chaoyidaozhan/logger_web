@@ -1,182 +1,245 @@
 <template>
-    <div class="logger-list-item" ref="loggerListItem">
-        <!--当前人信息-->
-        <div class="logger-list-row clearfix logger-list-user">
-            <fs-avatar
-                class="avatar"
-                size="40px"
-                :avatar="loggerItemData.avatar" 
-                :name="loggerItemData.userName"
-                :fontSize="loggerItemData.userName ? '14px' : '20px'" 
-            />
-            <div class="logger-list-col clearfix">
-                <span class="username">{{loggerItemData.userName}}</span>
-                <span class="template-name" v-if="loggerItemData.templateName">
-                    <i>{{filterEncode(loggerItemData.templateName)}}</i>
-                </span>
-                <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 1000 * 60 * 60 * 48"><i>{{$t('operate.fill')}}</i></span>
-                <i class="view-lower-level" 
-                    v-if="isLowerLevel && !!loggerItemData.hasSubordinate"
-                    @click="handleViewLowerLevel">
-                    {{$t('operate.viewLowerLevelLog')}}
-                </i>
-                <div class="pull-right">
-                    <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
-                    <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
-                    <Poptip placement="bottom-end" width="70">
-                        <ul class="operate-tips" slot="content">
-                            <li class="cursor-pointer" 
-                                @click="handleEdit"
-                                v-if="userInfo.member_id == loggerItemData.memberId">
-                                {{$t('operate.edit')}}
-                            </li>
-                            <li class="cursor-pointer"
-                                @click="handleDelete"
-                                v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
-                                {{$t('operate.delete')}}
-                            </li>
-                            <li class="cursor-pointer" 
-                                @click="handlePrint"
-                                v-if="((userInfo.member_id == loggerItemData.memberId) || userInfo.admin) && (this.$route.path != '/DraftOfMine')">
-                                {{$t('operate.print')}}
-                            </li>
-                            <li class="cursor-pointer" v-if="this.$route.path != '/DraftOfMine'" @click="handleOperate">
-                                {{$t('operate.operationRecord')}}
-                            </li>
-                        </ul>
-                        <span class="operate cursor-pointer"><i class="icon-more"></i></span>
-                    </Poptip>
-                </div>
-            </div>
-        </div>
-        <!--可见范围-->
-        <div class="logger-list-row logger-list-range">
-            <div class="logger-list-col" 
-                :class="{'ellipsis': (!rangeExpand && rangeRealHeight > rangeDefaultHeight)}" 
-                :style="{'height': `${rangeHeight}px` }"
-                ref="rangeHeight">
-                {{renderRange(loggerItemData)}}
-                <span v-if="rangeRealHeight > rangeDefaultHeight" class="expand cursor-pointer" @click="handleRangeExpand">
-                    <Icon v-if="rangeExpand" type="chevron-up"></Icon>
-                    <Icon v-else type="chevron-down"></Icon>
-                </span>
-            </div>
-        </div>
-        <!-- 控制展开收起 -->
-        <div class="handle-content-expand" 
-            ref="contentHeight" 
-            :style="{'height': `${contentHeight}px` }">
-            <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
-                <div class="logger-list-col">
-                    <div class="title">
-                        {{$t('noun.logDate')}}
+    <div class="logger-item">
+        <div class="logger-content-item"  @mouseleave="closeMenu()">
+            <div class="leftMenu" v-show="isShowMenu">
+                <div class="left-header">
+                    {{loggerItemData.userName}}的工作汇报
+                    <div class="left-close">
+                        <i class="icon-add"></i>
                     </div>
-                    <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+                </div>
+                <div class="left-line"></div>
+                <div class="left-content">
+                    <div class="left-item" v-for="(item, index) in menus" :key="index">{{item.title}}</div>
                 </div>
             </div>
-            <!--具体内容-->
-            <template v-if="typeof JSON.parse(loggerItemData.content) === 'object'">
-                <logger-list-content-node
-                    v-for="(item, index) in JSON.parse(loggerItemData.content)"
-                    :data="item"
-                    :key="index"
-                    :filterEncode="filterEncode" />
-            </template>
-            <template v-else>
-                <logger-list-content-node
-                    :data="JSON.parse(loggerItemData.content)"
-                    :filterEncode="filterEncode" />
-            </template>
-            
-            <!--具体内容-->
-            <div class="logger-list-row logger-list-content">
-                <div class="logger-list-col">
-                    <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
-                        @{{item.replayUserName}}
-                    </span>
-                </div>
-            </div>
-
-            <!-- 附件 -->
-            <div class="logger-list-row logger-list-attach">
-                <div class="logger-list-col">
-                    <fs-images :images="loggerItemAttachs.imgs"
-                            v-if="loggerItemAttachs.imgs && loggerItemAttachs.imgs.length"></fs-images>
-                    <fs-files :files="loggerItemAttachs.files"
-                            v-if="loggerItemAttachs.files && loggerItemAttachs.files.length"></fs-files>
-                </div>
-            </div>
-        </div>
-        <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
-            <div class="logger-list-col">
-                <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
-                    {{$t('operate.expand')}}
-                </span>
-                <span class="cursor-pointer more" @click="handleContentExpand" v-else>
-                    {{$t('operate.collapse')}}
-                </span>
-            </div>
-        </div>
-        <div class="logger-list-row">
-            <div class="logger-list-col logger-list-location">
-                <Poptip
-                    v-if="loggerItemData.readCount"
-                    @on-popper-show="getAllMembers"
-                    placement="right-end">
-                    <div slot="content">
-                        <div 
-                            class="avatar-container"
-                            v-for="(item, index) in members"
-                            :key="index">
-                            <fs-avatar
-                                class="avatar member-card"
-                                size="40px"
-                                :avatar="item.avatar" 
-                                :name="item.userName"
-                                :fontSize="item.userName ? '14px' : '20px'" 
-                            />
-                            <span class="username">{{item.userName || ''}}</span>
+            <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
+                <!--当前人信息-->
+                <div class="logger-list-row clearfix logger-list-user">
+                    <fs-avatar
+                        class="avatar"
+                        size="40px"
+                        :avatar="loggerItemData.avatar" 
+                        :name="loggerItemData.userName"
+                        :fontSize="loggerItemData.userName ? '14px' : '20px'" 
+                    />
+                    <div class="logger-list-col clearfix">
+                        <span class="username">{{loggerItemData.userName}}</span>
+                        <span class="template-name" v-if="loggerItemData.templateName">
+                            <i>{{filterEncode(loggerItemData.templateName)}}</i>
+                        </span>
+                        <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 1000 * 60 * 60 * 48"><i>{{$t('operate.fill')}}</i></span>
+                        <i class="view-lower-level" 
+                            v-if="isLowerLevel && !!loggerItemData.hasSubordinate"
+                            @click="handleViewLowerLevel">
+                            {{$t('operate.viewLowerLevelLog')}}
+                        </i>
+                        <div class="pull-right">
+                            <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
+                            <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
+                            <Poptip placement="bottom-end" width="70">
+                                <ul class="operate-tips" slot="content">
+                                    <li class="cursor-pointer" 
+                                        @click="handleEdit"
+                                        v-if="userInfo.member_id == loggerItemData.memberId">
+                                        {{$t('operate.edit')}}
+                                    </li>
+                                    <li class="cursor-pointer"
+                                        @click="handleDelete"
+                                        v-if="(userInfo.member_id == loggerItemData.memberId) || userInfo.admin">
+                                        {{$t('operate.delete')}}
+                                    </li>
+                                    <li class="cursor-pointer" 
+                                        @click="handlePrint"
+                                        v-if="((userInfo.member_id == loggerItemData.memberId) || userInfo.admin) && (this.$route.path != '/DraftOfMine')">
+                                        {{$t('operate.print')}}
+                                    </li>
+                                    <li class="cursor-pointer" v-if="this.$route.path != '/DraftOfMine'" @click="handleOperate">
+                                        {{$t('operate.operationRecord')}}
+                                    </li>
+                                </ul>
+                                <span class="operate cursor-pointer"><i class="icon-more"></i></span>
+                            </Poptip>
                         </div>
                     </div>
-                    <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
-                </Poptip>
-                <div class="count" v-else>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
+                </div>
+                <!--可见范围-->
+                <div class="logger-list-row logger-list-range">
+                    <div class="logger-list-col" 
+                        :class="{'ellipsis': (!rangeExpand && rangeRealHeight > rangeDefaultHeight)}" 
+                        :style="{'height': `${rangeHeight}px` }"
+                        ref="rangeHeight">
+                        {{renderRange(loggerItemData)}}
+                        <span v-if="rangeRealHeight > rangeDefaultHeight" class="expand cursor-pointer" @click="handleRangeExpand">
+                            <Icon v-if="rangeExpand" type="chevron-up"></Icon>
+                            <Icon v-else type="chevron-down"></Icon>
+                        </span>
+                    </div>
+                </div>
+                <!-- 控制展开收起 -->
+                <div class="handle-content-expand" 
+                    ref="contentHeight" 
+                    :style="{'height': `${contentHeight}px` }">
+                    <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
+                        <div class="logger-list-col">
+                            <div class="title">
+                                {{$t('noun.logDate')}}
+                            </div>
+                            <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+                        </div>
+                    </div>
+                    <!--具体内容-->
+                    <template v-if="typeof JSON.parse(loggerItemData.content) === 'object'">
+                        <logger-list-content-node
+                            v-for="(item, index) in JSON.parse(loggerItemData.content)"
+                            :data="item"
+                            :key="index"
+                            :filterEncode="filterEncode" />
+                    </template>
+                    <template v-else>
+                        <logger-list-content-node
+                            :data="JSON.parse(loggerItemData.content)"
+                            :filterEncode="filterEncode" />
+                    </template>
+                    
+                    <!--具体内容-->
+                    <div class="logger-list-row logger-list-content">
+                        <div class="logger-list-col">
+                            <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
+                                @{{item.replayUserName}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 附件 -->
+                    <div class="logger-list-row logger-list-attach">
+                        <div class="logger-list-col">
+                            <fs-images :images="loggerItemAttachs.imgs"
+                                    v-if="loggerItemAttachs.imgs && loggerItemAttachs.imgs.length"></fs-images>
+                            <fs-files :files="loggerItemAttachs.files"
+                                    v-if="loggerItemAttachs.files && loggerItemAttachs.files.length"></fs-files>
+                        </div>
+                    </div>
+                </div>
+                <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
+                    <div class="logger-list-col logger-open-close">
+                        <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
+                            {{$t('operate.expand')}}
+                        </span>
+                        <span class="cursor-pointer more" @click="handleContentExpand" v-else>
+                            {{$t('operate.collapse')}}
+                        </span>
+                    </div>
+                    <div class="logger-list-col logger-list-location logger-list-watcher">
+                        <Poptip
+                            v-if="loggerItemData.readCount"
+                            @on-popper-show="getAllMembers"
+                            placement="right-end">
+                            <div slot="content">
+                                <div 
+                                    class="avatar-container"
+                                    v-for="(item, index) in members"
+                                    :key="index">
+                                    <fs-avatar
+                                        class="avatar member-card"
+                                        size="40px"
+                                        :avatar="item.avatar" 
+                                        :name="item.userName"
+                                        :fontSize="item.userName ? '14px' : '20px'" 
+                                    />
+                                    <span class="username">{{item.userName || ''}}</span>
+                                </div>
+                            </div>
+                            <div class="count">
+                                <img class="count-img" src="" />    
+                                <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
+                                <i class="icon-chat-normal"></i>
+                            </div>
+                        </Poptip>
+                        <div class="count" v-else>
+                            <img class="count-img" src="" />    
+                            <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
+                            <i class="icon-chat-normal"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="logger-list-row">
+                    <!-- <div class="logger-list-col logger-list-location">
+                        <Poptip
+                            v-if="loggerItemData.readCount"
+                            @on-popper-show="getAllMembers"
+                            placement="right-end">
+                            <div slot="content">
+                                <div 
+                                    class="avatar-container"
+                                    v-for="(item, index) in members"
+                                    :key="index">
+                                    <fs-avatar
+                                        class="avatar member-card"
+                                        size="40px"
+                                        :avatar="item.avatar" 
+                                        :name="item.userName"
+                                        :fontSize="item.userName ? '14px' : '20px'" 
+                                    />
+                                    <span class="username">{{item.userName || ''}}</span>
+                                </div>
+                            </div>
+                            <div class="count">{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
+                        </Poptip>
+                        <div class="count" v-else>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</div>
+                    </div> -->
+                </div>
+                <div class="logger-list-row" v-if="!!loggerItemData.location">
+                    <div class="logger-list-col logger-list-location">
+                        <Icon type="ios-location"></Icon>
+                        {{loggerItemData.location}}
+                    </div>
+                </div>
+                <div class="lat"></div>
+                <!--点赞回复收藏-->
+                <!-- <div class="logger-list-row logger-list-operate" v-if="!isDraft">
+                    <div class="logger-list-col">
+                        <span class="cursor-pointer like" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                            <i class="icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
+                            <i class="icon-good-selected" v-else></i>
+                            {{loggerItemData.like && loggerItemData.like.likeNum}}
+                        </span>
+                        <span class="cursor-pointer reply" :class="{active: showReply}"  @click="handleReply">
+                            <i class="icon-chat-normal" v-if="!showReply"></i>
+                            <i class="icon-chat-selected" v-else></i>
+                            {{loggerItemData.commentNum | filterCommentNum}}
+                        </span>
+                        <span class="cursor-pointer collect" 
+                            :class="{active: loggerItemData.favorite.isFavorite}"
+                            @click="handleCollect">
+                            <i class="icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
+                            <i class="icon-collect-selected" v-else></i>
+                            {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}
+                        </span>
+                    </div>
+                </div> -->
+                <div class="logger-list-row">
+                    <div class="logger-list-col">
+                        <fs-reply v-if="showReply"
+                            @handleReplyNum="handleReplyNum"
+                            :dailyId="loggerItemData.id"/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="logger-list-row" v-if="!!loggerItemData.location">
-            <div class="logger-list-col logger-list-location">
-                <Icon type="ios-location"></Icon>
-                {{loggerItemData.location}}
-            </div>
-        </div>
-        <div class="lat"></div>
-        <!--点赞回复收藏-->
-        <div class="logger-list-row logger-list-operate" v-if="!isDraft">
-            <div class="logger-list-col">
-                <span class="cursor-pointer like" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
-                    <i class="icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
-                    <i class="icon-good-selected" v-else></i>
-                    {{loggerItemData.like && loggerItemData.like.likeNum}}
-                </span>
-                <span class="cursor-pointer reply" :class="{active: showReply}"  @click="handleReply">
-                    <i class="icon-chat-normal" v-if="!showReply"></i>
-                    <i class="icon-chat-selected" v-else></i>
-                    {{loggerItemData.commentNum | filterCommentNum}}
-                </span>
-                <span class="cursor-pointer collect" 
-                    :class="{active: loggerItemData.favorite.isFavorite}"
-                    @click="handleCollect">
-                    <i class="icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
-                    <i class="icon-collect-selected" v-else></i>
-                    {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum}}
-                </span>
-            </div>
-        </div>
-        <div class="logger-list-row">
-            <div class="logger-list-col">
-                <fs-reply v-if="showReply"
-                    @handleReplyNum="handleReplyNum"
-                    :dailyId="loggerItemData.id"/>
+            <!--点赞回复收藏-->
+            <div class="logger-list-vertical-operate" v-if="isShowMenu">
+                <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                    <i class="icon-position icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
+                    <i class="icon-position icon-good-selected" v-else></i>
+                </div>
+                <div class="operate-item" style="margin-top:12px" :class="{active: showReply}" @click="handleReply">
+                    <i class="icon-position icon-chat-normal" v-if="!showReply"></i>
+                    <i class="icon-position icon-chat-selected" v-else></i>
+                </div>
+                <div class="operate-item" style="margin-top:12px" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                    <i class="icon-position icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
+                    <i class="icon-position icon-collect-selected" v-else></i>
+                </div>
             </div>
         </div>
     </div>
@@ -205,6 +268,14 @@ export default {
         isLowerLevel: {
             type: Boolean,
             default: false
+        },
+        menus:{
+            type:Array,
+            default:[]
+        },
+        scrollAll:{
+            type:Number,
+            default:0
         }
     },
     data() {
@@ -226,7 +297,8 @@ export default {
 
             showReply: false,
             editTimer: null,
-            members: null
+            members: null,
+            isShowMenu: false
         }
     },
     components: {
@@ -502,326 +574,450 @@ export default {
             } else {
                 this.loggerItemData.commentNum -= 1
             }
+        },
+        showMenu(){ //显示左右两边菜单
+            this.isShowMenu = true
+            // let leftMenu = document.querySelector('.leftMenu')  //visibility
+            // leftMenu.style.visibility = 'visible'
+            if(this.scrollAll - this.$el.offsetTop > 0){
+                let leftMenu = document.querySelector('.leftMenu')
+                if(leftMenu){
+                    leftMenu.style.marginTop = this.scrollAll - this.$el.offsetTop + 'px'
+                }
+            }
+            // console.log(this.$el.offsetHeight)
+            // console.log(this.$el.clientHeight)
+            // console.log(this.$el.scrollHeight)
+            // console.log(this.$el.scrollTop)
+        },
+        closeMenu(){ //关闭左右两边菜单
+            this.isShowMenu = false
+            // let leftMenu = document.querySelector('.leftMenu')  //visibility
+            // leftMenu.style.visibility = 'hidden'
         }
     },
     mounted () {
         this.$nextTick(()=>{
             this.setRangeHeight()        
         })
-    }
+    },
+    // created (){
+    //     // debugger
+    //     // let leftMenu = document.querySelector('.leftMenu')  //visibility
+    //     // leftMenu.style.visibility = 'hidden'
+    //     this.$eventbus.$on('showMenu',(tool)=>{
+    //         tool.isShowMenu = true
+    //     })
+    //     this.$eventbus.$on('closeMenu',(tool)=>{
+    //         tool.isShowMenu = false
+    //     })
+    // },
+    // destroyed(){
+    //     this.$eventbus.$off('showMenu')
+    //     this.$eventbus.$off('closeMenu')
+    // }
 }
 </script>
 <style lang="less">
 @import '~app_assets/css/var.less';
 @rowMarginBottom: 14px;
 @titleMarginBottom: 4px;
-.logger-list-item {
-    padding: 20px 20px 0;
-    position: relative;
-    background-color: @white-color;
-    color: @gray-color-light;
-    font-size: 14px;
-    &.fade-enter {
-        transition: .2s ease opacity;
-        opacity: 0;
-    }
-    &.fade-enter-in {
-        opacity: 1;
-    }
-    &:after {
-        position: absolute;
-        left: 74px;
-        height: 1px;
-        right: 20px;
-        bottom: 0;
-        content: '';
-        background-color: @border-color-base;
-    }
-    .logger-list-row {
-        line-height: 24px;
-        word-break: break-all;
-        &.logger-list-time {
-            margin-bottom: @rowMarginBottom;
-            .title {
-                margin-bottom: @titleMarginBottom;
-            }
-        }
-        .username {
-            color: #111;
-        }
-        .avatar {
-            float: left;
-            &.member-card {
-                margin: 5px;
-            }
-        }
-        .avatar-container {
-            float: left;
-            text-align: center;
-            width: 50px;
-            .avatar {
-                float: none;
-            }
-            .username {
-                display: block;
-                width: 100%;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
-        .logger-list-col {
-            margin-left: 54px;
-            .title {
-                margin-bottom: @titleMarginBottom;
-                color: @gray-color-dark;
-            }
-            .caption {
-                font-size: 13px;
-                color: @gray-color-medium;
-            }
-            .at {
-                color: #289CF2;
-                display: inline-block;
-                margin-right: 4px;
-                font-size: 13px;
-            }
-            .more {
-                color: #289CF2;
-                font-size: 13px;
-            }
-        }
-    }
-    .logger-list-user {
-        line-height: 24px;
-        .template-name {
-            border: 1px solid @primary-color;
-            color: @primary-color;
-            border-radius: 2px;
-            display: inline-block;
-            i {
-                font-style: normal;
-                padding: 1px 0;
-                line-height: 12px;
-                zoom: .8;
-                padding: 4px 8px;
-                display: block;
-            }
-        }
-        .view-lower-level {
-            font-size: 12px;
-            padding: 0 12px 0 8px;
-            cursor: pointer;
-            background: url('../../../assets/images/view-lower-level.png') no-repeat right center;
-            background-size: 12px;
-        }
-        .pull-right {
-            color: @gray-color-light;
-            font-size: 0;
-            span {
-                font-size: 12px;
-                margin-left: 8px;
-                &.operate {
-                    font-size: 14px;
-                }
-            }
-            .ivu-poptip {
-                position: relative;
-            }
-            .ivu-poptip-rel {
-                .icon-more {
-                    vertical-align: middle;
-                }
-            }
-            .ivu-poptip-popper {
-                min-width: auto;
-                left: auto!important;
-                top: 17px!important;
-                width: auto!important;
-                right: -4px;
-                .ivu-poptip-arrow {
-                    right: 6px;
-                }
-            }
-            .ivu-poptip-body {
-                padding: 0;
-            }
-            .operate-tips {
-                line-height: 32px;
-                li {
-                    color: @text-color;
-                    padding: 0 10px;
-                    margin: 1px;
-                    transition: .2 ease all;
-                    &:hover {
-                        background-color: @white-color-light;
-                        color: @primary-color;
-                    }
-                }
-            }
-        }
-    }
-    .logger-list-location {
-        font-size: 12px;
-        color: @gray-color-light;
+.logger-item{
+    .logger-content-item{
         position: relative;
-        .ivu-poptip-popper {
-            top: auto!important;
-            bottom: 0;
-        }
-        .ivu-poptip {
-            .count {
-                cursor: pointer;
-            }
-        }
-    }
-    .logger-list-range {
-        font-size: 12px;
-        color: @gray-color-light;
-        margin-top: -20px;
-        margin-bottom: 10px;
-        position: relative;
-        .logger-list-col {
-            padding: 1px 0;
-            transition: .2s ease height;
-            overflow: hidden;
-        }
-        .expand {
-            font-size: 12px;
-            height: 20px;
-            line-height: 20px;
-        }
-        .ellipsis {
-            padding-right: 20px;
-            .expand {
-                position: absolute;
-                right: 8px;
-                top: 3px;
-            }
-        }
-    }
-    .handle-content-expand {
-        overflow: hidden;
-    }
-    .handle-content-expand-btn {
-        color: @primary-color;
-        position: relative;
-        &:after {
-            content: '';
-            height: 10px;
-            width: 100%;
-            position: absolute;
-            top: -10px;
-            background: -webkit-linear-gradient(bottom, #ffffff 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0) 100%);
-        }
-    }
-    .lat {
-        height: 10px;
-    }
-    .logger-list-operate {
-        font-size: 0;
-        padding-bottom: 8px;
-        ::selection{
-            background-color: transparent;
-        }
-        span {
-            display: inline-block;
-            margin-right: 10px;
-            font-size: 12px;
-            color: @gray-color-light;
-            height: 20px;
-            line-height: 20px;
-            padding: 0 34px;
-            border-right: 1px solid @border-color;
-            vertical-align: middle;
-            i {
-                font-size: 16px;
-            }
-            &.reply {
-                i {
-                    position: relative;
-                    top: 2px;
-                }
-               
-            }
-            &.collect {
-                border-right: 0;
-            }
-            &.active {
-                color: #FFC400;
-            }
-        }
-    }
-    
-}
-
-.operate-modal {
-    .ivu-modal-body {
-        padding: 0 50px 10px;
-        min-height: 340px;
-        position: relative;
-        &:before {
-            position: absolute;
-            left: 26px;
-            content: '';
-            top: -8px;
-            bottom: 0;
-            width: 1px;
-            background-color: @border-color;
-        }
-        .operate-row {
-            line-height: 20px;
-            font-size: 14px;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 4px;
-            background-color: @white-color-light;
+        display: inline-block;
+        .logger-list-item {
+            margin-left: 188px;
+            max-width: 1024px;
+            min-width: 768px;
+            // margin: auto;
+            // float: left;
+            padding: 20px 20px 0;
             position: relative;
-            &:before {
-                position: absolute;
-                content: '';
-                left: -26px;
-                top: 15px;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background-color: @gray-color-normal;
+            background-color: @white-color;
+            color: @gray-color-light;
+            font-size: 14px;
+            &.fade-enter {
+                transition: .2s ease opacity;
+                opacity: 0;
+            }
+            &.fade-enter-in {
+                opacity: 1;
             }
             &:after {
                 position: absolute;
+                left: 74px;
+                height: 1px;
+                right: 20px;
+                bottom: 0;
                 content: '';
-                width: 0;
-                border-style: solid;
-                border-width: 8px 8px 8px 0;
-                border-color: transparent @white-color-light transparent @white-color-light;
-                left: -7px;
-                top: 10px;
+                background-color: @border-color-base;
             }
-            &:first-child {
-                &:before {
-                    background-color: @primary-color;
+            .logger-list-row {
+                line-height: 24px;
+                word-break: break-all;
+                &.logger-list-time {
+                    margin-bottom: @rowMarginBottom;
+                    .title {
+                        margin-bottom: @titleMarginBottom;
+                    }
+                }
+                .username {
+                    color: #111;
+                }
+                .avatar {
+                    float: left;
+                    &.member-card {
+                        margin: 5px;
+                    }
+                }
+                .avatar-container {
+                    float: left;
+                    text-align: center;
+                    width: 50px;
+                    .avatar {
+                        float: none;
+                    }
+                    .username {
+                        display: block;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+                .logger-list-col {
+                    margin-left: 54px;
+                    .title {
+                        margin-bottom: @titleMarginBottom;
+                        color: @gray-color-dark;
+                    }
+                    .caption {
+                        font-size: 13px;
+                        color: @gray-color-medium;
+                    }
+                    .at {
+                        color: #289CF2;
+                        display: inline-block;
+                        margin-right: 4px;
+                        font-size: 13px;
+                    }
+                    .more {
+                        color: #289CF2;
+                        font-size: 13px;
+                    }
                 }
             }
-            .operate-avatar {
-                float: left;
-                margin-top: 4px;
-            }
-            .operate-content {
-                margin-left: 41px;
-                .clearfix {
-                    color: @gray-color-light;
-                    height: 20px;
+            .logger-list-user {
+                line-height: 24px;
+                .template-name {
+                    border: 1px solid @primary-color;
+                    color: @primary-color;
+                    border-radius: 2px;
+                    display: inline-block;
+                    i {
+                        font-style: normal;
+                        padding: 1px 0;
+                        line-height: 12px;
+                        zoom: .8;
+                        padding: 4px 8px;
+                        display: block;
+                    }
+                }
+                .view-lower-level {
+                    font-size: 12px;
+                    padding: 0 12px 0 8px;
+                    cursor: pointer;
+                    background: url('../../../assets/images/view-lower-level.png') no-repeat right center;
+                    background-size: 12px;
                 }
                 .pull-right {
+                    color: @gray-color-light;
+                    font-size: 0;
+                    span {
+                        font-size: 12px;
+                        margin-left: 8px;
+                        &.operate {
+                            font-size: 14px;
+                        }
+                    }
+                    .ivu-poptip {
+                        position: relative;
+                    }
+                    .ivu-poptip-rel {
+                        .icon-more {
+                            vertical-align: middle;
+                        }
+                    }
+                    .ivu-poptip-popper {
+                        min-width: auto;
+                        left: auto!important;
+                        top: 17px!important;
+                        width: auto!important;
+                        right: -4px;
+                        .ivu-poptip-arrow {
+                            right: 6px;
+                        }
+                    }
+                    .ivu-poptip-body {
+                        padding: 0;
+                    }
+                    .operate-tips {
+                        line-height: 32px;
+                        li {
+                            color: @text-color;
+                            padding: 0 10px;
+                            margin: 1px;
+                            transition: .2 ease all;
+                            &:hover {
+                                background-color: @white-color-light;
+                                color: @primary-color;
+                            }
+                        }
+                    }
+                }
+            }
+            .logger-list-location {
+                font-size: 12px;
+                color: @gray-color-light;
+                position: relative;
+                .ivu-poptip-popper {
+                    top: auto!important;
+                    bottom: 0;
+                }
+                .ivu-poptip {
+                    .count {
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        .count-img{
+                            width: 20px;
+                            height: 20px;
+                            margin-right: 12px;
+                        }
+                    }
+                }
+            }
+            .logger-list-range {
+                font-size: 12px;
+                color: @gray-color-light;
+                margin-top: -20px;
+                margin-bottom: 10px;
+                position: relative;
+                .logger-list-col {
+                    padding: 1px 0;
+                    transition: .2s ease height;
+                    overflow: hidden;
+                }
+                .expand {
                     font-size: 12px;
+                    height: 20px;
+                    line-height: 20px;
+                }
+                .ellipsis {
+                    padding-right: 20px;
+                    .expand {
+                        position: absolute;
+                        right: 8px;
+                        top: 3px;
+                    }
+                }
+            }
+            .handle-content-expand {
+                overflow: hidden;
+            }
+            .handle-content-expand-btn {
+                color: @primary-color;
+                position: relative;
+                // &:after {
+                //     content: '';
+                //     height: 10px;
+                //     width: 100%;
+                //     position: absolute;
+                //     top: -10px;
+                //     background: -webkit-linear-gradient(bottom, #ffffff 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0) 100%);
+                // }
+            }
+            .logger-open-close{
+                display: inline-block;
+            }
+            .logger-list-watcher{
+                float: right;
+                display: inline-block;
+            }
+            .lat {
+                height: 10px;
+            }
+            .logger-list-operate {
+                font-size: 0;
+                padding-bottom: 8px;
+                ::selection{
+                    background-color: transparent;
+                }
+                span {
+                    display: inline-block;
+                    margin-right: 10px;
+                    font-size: 12px;
+                    color: @gray-color-light;
+                    height: 20px;
+                    line-height: 20px;
+                    padding: 0 34px;
+                    border-right: 1px solid @border-color;
+                    vertical-align: middle;
+                    i {
+                        font-size: 16px;
+                    }
+                    &.reply {
+                        i {
+                            position: relative;
+                            top: 2px;
+                        }
+                       
+                    }
+                    &.collect {
+                        border-right: 0;
+                    }
+                    &.active {
+                        color: #FFC400;
+                    }
+                }
+            }
+            
+        }
+        .operate-modal {
+            .ivu-modal-body {
+                padding: 0 50px 10px;
+                min-height: 340px;
+                position: relative;
+                &:before {
+                    position: absolute;
+                    left: 26px;
+                    content: '';
+                    top: -8px;
+                    bottom: 0;
+                    width: 1px;
+                    background-color: @border-color;
+                }
+                .operate-row {
+                    line-height: 20px;
+                    font-size: 14px;
+                    padding: 12px;
+                    margin-top: 10px;
+                    border-radius: 4px;
+                    background-color: @white-color-light;
+                    position: relative;
+                    &:before {
+                        position: absolute;
+                        content: '';
+                        left: -26px;
+                        top: 15px;
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 50%;
+                        background-color: @gray-color-normal;
+                    }
+                    &:after {
+                        position: absolute;
+                        content: '';
+                        width: 0;
+                        border-style: solid;
+                        border-width: 8px 8px 8px 0;
+                        border-color: transparent @white-color-light transparent @white-color-light;
+                        left: -7px;
+                        top: 10px;
+                    }
+                    &:first-child {
+                        &:before {
+                            background-color: @primary-color;
+                        }
+                    }
+                    .operate-avatar {
+                        float: left;
+                        margin-top: 4px;
+                    }
+                    .operate-content {
+                        margin-left: 41px;
+                        .clearfix {
+                            color: @gray-color-light;
+                            height: 20px;
+                        }
+                        .pull-right {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+            .ivu-modal-header p, .ivu-modal-header-inner {
+                font-weight: normal;
+            }
+            .ivu-modal-footer {
+                display: none;
+            }
+        }
+        .logger-list-vertical-operate{
+            width: 56px;
+            height: 150px;
+            position: absolute;
+            right: -56px;
+            bottom: 0;
+            .operate-item{
+                width:32px;
+                height:32px;
+                background:rgba(255,255,255,1);
+                box-shadow:0px 2px 6px 0px rgba(0,0,0,0.12);
+                border-radius:16px;
+                margin: auto;
+                position: relative;
+                cursor: pointer;
+                .icon-position{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                }
+                
+            }
+            .active{
+                color: #FFC400;
+            }
+        }
+        .leftMenu{
+            position: absolute;
+            // visibility: hidden;
+            width: 188px;
+            height: 240px;
+            padding: 6px 16px 8px 16px;
+            .left-header{
+                font-size:12px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(153,153,153,1);
+                height: 17px;
+                line-height: 17px;
+                .left-close{
+                    display: inline-block;
+                    float: right;
+                }
+            }
+            .left-line{
+                margin-top: 8px;
+                width:156px;
+                height:1px;
+                background: #D9D9D9;
+            }
+            .left-content{
+                width:156px;
+                height:144px;
+                margin-top: 8px;
+                font-size:12px;
+                font-family:PingFangSC-Regular,PingFang SC;
+                font-weight:400;
+                color:rgba(51,51,51,1);
+                .left-item{
+                    height: 36px;
+                    line-height: 36px;
                 }
             }
         }
-    }
-    .ivu-modal-header p, .ivu-modal-header-inner {
-        font-weight: normal;
-    }
-    .ivu-modal-footer {
-        display: none;
     }
 }
 </style>
