@@ -1,10 +1,10 @@
 <template>
     <div class="logger-menu">
-        <div class="logger-menu-logo">
+        <!-- <div class="logger-menu-logo">
             <YYButton type="primary" @click="goLoggerDetail">
                 {{$t('operate.createLog')}}
             </YYButton>
-        </div>
+        </div> -->
         <div class="logger-menu-layout" ref="loggerMenuLayout">
             <Menu ref="loggerMenu"
                 :active-name="activeName"
@@ -239,7 +239,7 @@ export default {
 
     .logger-menu-layout {
         position: absolute;
-        top: 86px;
+        top: 10px;
         bottom: 0;
         overflow: hidden;
         right: 0;
@@ -264,13 +264,13 @@ export default {
         &:after {
             display: none !important;
         }
-
         .ivu-menu-item,
         .ivu-menu-submenu-title {
+            height: 44px;
             padding: 12px 16px;
-            font-size: 14px;
-            line-height: 14px;
-            color: @menu-title-color;
+            font-size: 12px;
+            line-height: 20px;
+            color: #333;
             border-right: 0 !important;
 
             
@@ -306,7 +306,8 @@ export default {
 
             &.ivu-menu-item-active,
             &.ivu-menu-item-selected {
-                background-color: @menu-hover-bg-color;
+                // background-color: @menu-hover-bg-color;
+                background: linear-gradient(270deg,rgba(255,255,255,1) 0%,rgba(230,233,240,1) 100%) !important;
                 border-right: 0 !important;
 
                 &>i {
@@ -320,7 +321,11 @@ export default {
                     left: 0;
                     width: 3px;
                     height: 100%;
-                    background-color: @primary-color
+                    // background-color: @primary-color
+                    background:linear-gradient(45deg,rgba(252,76,47,1) 0%,rgba(238,34,35,1) 100%);
+                }
+                &::after {
+                    display: none !important;
                 }
             }
         }
@@ -332,17 +337,19 @@ export default {
                 margin-top: -5px;
             }
         }
-        .ivu-menu-submenu-title {
-            padding: 13px 16px;
-        }
+        // .ivu-menu-submenu-title {
+        //     padding: 13px 16px;
+        // }
         .ivu-menu-submenu .ivu-menu-item {
-            padding-left: 48px;
+            height: 36px;
+            padding: 10px 0 10px 44px;
+            line-height: 16px;
         }
 
         .ivu-menu-submenu-title-icon {
-            top: 0;
+            // top: 0;
             text-align: center;
-            margin-right: -6px !important;
+            margin-right: -8px !important;
         }
         &.en {
             .ivu-menu-item,

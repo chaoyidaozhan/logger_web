@@ -186,11 +186,12 @@ export default {
     .yy-select-selection {
         & > span {
             white-space: nowrap;
-            max-width: 140px;
+            // max-width: 140px;
             overflow: auto;
         }
         input {
             width: 60px;
+            display: none;
         }
     }
     width: 240px;

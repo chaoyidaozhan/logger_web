@@ -397,6 +397,16 @@ export default {
                     'visibleType': 1
                 })
             })
+            // 都是空的时候 默认本部门可见 需要把本部门信息传进去
+            if(!this.deptRange.length &&!this.groupRange.length && !this.memberRange.length) {
+                let info = this.$store.state.userInfo
+                visibleRangeStr.push({
+                    "teamId": info.dept_id,
+                    "teamName": "",
+                    "dataType": 1,
+                    "visibleType": 0
+                })
+            }
             this.rangeArr = visibleRangeStr
             this.templateContentClone = JSON.parse(JSON.stringify(this.templateContent))
             if(typeof this.templateContentClone == 'object') {

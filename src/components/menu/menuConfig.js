@@ -44,20 +44,21 @@ const menus = [
     {
         name: 'menus.logStatistic',
         icon: 'icon-statistics-2018',
-        subMenu: [
-            {
-                name: 'menus.department',
-                path: '/StatisticsOfDept'
-            },
-            {
-                name: 'menus.employee',
-                path: '/StatisticsOfMember'
-            },
-            {
-                name: 'menus.internalGroupReport',
-                path: '/StatisticsOfGroup'
-            },
-        ]
+        path: '/StatisticsOfDept',
+        // subMenu: [
+        //     {
+        //         name: 'menus.department',
+        //         path: '/StatisticsOfDept'
+        //     },
+        //     {
+        //         name: 'menus.employee',
+        //         path: '/StatisticsOfMember'
+        //     },
+        //     {
+        //         name: 'menus.internalGroupReport',
+        //         path: '/StatisticsOfGroup'
+        //     },
+        // ]
     },
     {
         name: 'menus.summary',

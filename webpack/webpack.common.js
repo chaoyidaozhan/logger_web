@@ -67,6 +67,18 @@ function createCssAndLessLoader() {
     ]
     return Object.assign([NODE_ENV === 'dev' ? 'css-hot-loader' : ''], loaders)
 }
+const bundleTime = function() {
+    let date = new Date();
+    let year = date.getFullYear();
+    //获取当前月份的日期
+    let mouth = date.getMonth() + 1;
+    let day = date.getDate();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    let milliseconds = date.getMilliseconds();
+    return (year + '-' + mouth + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds + ' ' + milliseconds);
+};
 module.exports = {
     entry: [
         '@babel/polyfill',
@@ -188,6 +200,7 @@ module.exports = {
             phpHost: (config[NODE_ENV] || config.build).phpHost,
             favicon: resolve('/src/assets/images/dailyrecord.png'),
             template: resolve('/src/template/index.html'),
+            bundleTime: bundleTime()
         })
     ],
     performance: {

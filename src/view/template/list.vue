@@ -3,7 +3,13 @@
         <template slot="head">
             <div class="logger-detail-header clearfix">
                 <span>{{$t('title.logTemplate')}}</span>
-                <div class="pull-right"></div>
+                <div class="pull-right">
+                    <YYButton
+                        @click="toCreatTemplate"
+                        type="primary">
+                        {{$t('operate.createTemplate')}}
+                    </YYButton>
+                </div>
             </div>
         </template>
         <template slot="body">
@@ -22,6 +28,16 @@ export default {
         FsFrame,
         FsTemplateList
     },
+    methods: {
+        toCreatTemplate() {
+            this.$router.push({
+                path: `/LoggerTemplate/operate/-1`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            })
+        }
+    }
 }
 </script>
 <style lang="less" scoped>

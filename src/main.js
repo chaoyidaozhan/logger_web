@@ -71,7 +71,7 @@ getWebLang().then(lang => {
         if ((from.path.indexOf('/LoggerTemplate/operate') != -1 &&
                 to.path.indexOf('/LoggerTemplate/operate') < 0) ||
             (from.path.indexOf('/LoggerDetail/operate/create') != -1 && !window.createComplete)) {
-            YYModal.show({
+                yyzone.YYModal.show({
                 title: i18n.messages[lang].toast.pagePrompt,
                 content: i18n.messages[lang].toast.confirmToLeaveCurrentPage,
                 onOk: () => {

@@ -2,41 +2,45 @@
     <div class="select-tree-input cursor-pointer" 
         :class="{disabled: !org.length && !dept.length && !group.length && !member.length, ellipsis: ellipsis}"
         @click="openSelectMember">
-        <template v-if="!org.length && !dept.length && !group.length && !member.length">
-            {{placeholder}}
-        </template>
-        <template v-else-if="ellipsis">
-            <span v-for="(item, index) in org" :key="index">
-                {{item.orgName}}
-            </span>
-            <span v-for="(item, index) in dept" :key="index">
-                {{item.deptName}}
-            </span>
-            <span v-for="(item, index) in group" :key="index">
-                {{item.groupName}}
-            </span>
-            <span v-for="item in member" :key="item.memberId">
-                {{item.userName}}
-            </span>
-        </template>
-        <template v-else>
-            <span class="tag" v-for="(item, index) in org" :key="index" @click="handleClear($event, item, 'org')">
-                {{item.orgName}}
-                <i class="icon-delete-userlist"></i>
-            </span>
-            <span class="tag" v-for="(item, index) in dept" :key="index" @click="handleClear($event, item, 'dept')">
-                {{item.deptName}}
-                <i class="icon-delete-userlist"></i>
-            </span>
-            <span class="tag" v-for="(item, index) in group" :key="index" @click="handleClear($event, item, 'group')">
-                {{item.groupName}}
-                <i class="icon-delete-userlist"></i>
-            </span>
-            <span class="tag" v-for="item in member" :key="item.memberId" @click="handleClear($event, item, 'member')">
-                {{item.userName}}
-                <i class="icon-delete-userlist"></i>
-            </span>
-        </template>
+        <div class="select-tree-ctn">
+            <div class="scroll-auto-ctn">
+                <template v-if="!org.length && !dept.length && !group.length && !member.length">
+                    {{placeholder}}
+                </template>
+                <template v-else-if="ellipsis">
+                    <span v-for="(item, index) in org" :key="index">
+                        {{item.orgName}}
+                    </span>
+                    <span v-for="(item, index) in dept" :key="index">
+                        {{item.deptName}}
+                    </span>
+                    <span v-for="(item, index) in group" :key="index">
+                        {{item.groupName}}
+                    </span>
+                    <span v-for="item in member" :key="item.memberId">
+                        {{item.userName}}
+                    </span>
+                </template>
+                <template v-else>
+                    <span class="tag" v-for="(item, index) in org" :key="index" @click="handleClear($event, item, 'org')">
+                        {{item.orgName}}
+                        <i class="icon-delete-userlist"></i>
+                    </span>
+                    <span class="tag" v-for="(item, index) in dept" :key="index" @click="handleClear($event, item, 'dept')">
+                        {{item.deptName}}
+                        <i class="icon-delete-userlist"></i>
+                    </span>
+                    <span class="tag" v-for="(item, index) in group" :key="index" @click="handleClear($event, item, 'group')">
+                        {{item.groupName}}
+                        <i class="icon-delete-userlist"></i>
+                    </span>
+                    <span class="tag" v-for="item in member" :key="item.memberId" @click="handleClear($event, item, 'member')">
+                        {{item.userName}}
+                        <i class="icon-delete-userlist"></i>
+                    </span>
+                </template>
+            </div>
+        </div>
         <i class="icon-add"></i>
     </div>
 </template>
@@ -229,6 +233,23 @@ export default {
     position: relative;
     line-height: 22px;
     transition: all 0.2s ease-in-out;
+    .icon-add {
+        position: absolute;
+        height: 30px;
+        font-size: 14px;
+        line-height: 30px;
+        // top: 50%;
+        top: 1px;
+        // margin-top: -15px;
+        width: 30px;
+        background-color: @white-color;
+        color: @gray-color-normal;
+        right: 1px;
+        text-align: center;
+    }
+    .select-tree-ctn {
+        position: relative;
+    }
     &:hover {
         border-color: @input-select-border-color;
     }
@@ -237,19 +258,6 @@ export default {
     }
     &.disabled {
         color: @btn-disable-color;
-    }
-    .icon-add {
-        position: absolute;
-        height: 30px;
-        font-size: 14px;
-        line-height: 30px;
-        top: 50%;
-        margin-top: -15px;
-        width: 30px;
-        background-color: @white-color;
-        color: @gray-color-normal;
-        right: 1px;
-        text-align: center;
     }
     .tag {
         padding: 0 10px 0 6px;
