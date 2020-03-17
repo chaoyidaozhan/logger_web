@@ -16,14 +16,14 @@
         <div class="bottomOperate mb-flex">
             <div class="mb-flex mb-flex-align-stretch">
                 <template v-if="data.dataStatus == 1">
-                    <div class="mb-flex-1 del" @click="handleDelete"></div>
-                    <div class="mb-flex-1 disable" @click="handleSwitch('stop')"></div>
-                    <div class="mb-flex-1 edit" @click="goToTemplate"></div>
-                    <div class="mb-flex-1 copy" @click="createCopyTemplate(data)"></div>
+                    <div :title="$t('operate.delete')" class="mb-flex-1 del" @click="handleDelete"></div>
+                    <div :title="$t('operate.disable')" class="mb-flex-1 disable" @click="handleSwitch('stop')"></div>
+                    <div :title="$t('operate.edit')" class="mb-flex-1 edit" @click="goToTemplate"></div>
+                    <div :title="$t('operate.copy')" class="mb-flex-1 copy" @click="createCopyTemplate(data)"></div>
                 </template>
                 <template v-else>
-                    <div class="mb-flex-1 enable" @click="handleSwitch('start')"></div>
-                    <div class="mb-flex-1 edit" @click="goToTemplate"></div>
+                    <div :title="$t('operate.enable')" class="mb-flex-1 enable" @click="handleSwitch('start')"></div>
+                    <div :title="$t('operate.edit')" class="mb-flex-1 edit" @click="goToTemplate"></div>
                 </template>
             </div>
         </div>
@@ -67,12 +67,37 @@ export default {
         },
     },
     methods: {
-        createCopyTemplate() {
-
-        },
         ...mapActions({
             updateTemplateContent: 'update_template_content'
         }),
+        createCopyTemplate(item) {
+            delete item.id;
+            delete item.memberId;
+            delete item.createTime;
+            let arr = item.title.match(/(\d+)$/ig);
+            let copyCount = 0;
+            arr !== null &&  (copyCount = ++arr[0]);
+            item.title += copyCount;
+            this.$ajax({
+                url: '/template/add',
+                type: 'post',
+                data: {
+                    ...item
+                },
+                requestBody: true,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.$emit('successCreateCopyTemplate')
+                    } else {
+                        this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
+                    }
+                    this.$emit('handleLoading');
+                },
+                error: (res)=>{
+                    this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
+                }
+            });
+        },
         filterHtml(val) {
             return HTMLDeCode(val)
         },

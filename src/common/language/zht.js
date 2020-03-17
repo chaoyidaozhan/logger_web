@@ -75,6 +75,8 @@ module.exports = {
         updateTime: '更新時間',
         allTemplate: '全部模板',
         commonTemplate: '常用模版',
+        copy: '復制',
+        enable: '啟用'
     },
     status: { // 狀態
         loading: '正在加載...',

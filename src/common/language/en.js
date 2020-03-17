@@ -75,6 +75,8 @@ module.exports = {
         updateTime: 'Update time',
         allTemplate: 'All template',
         commonTemplate: 'Common template',
+        copy: 'copy',
+        enable: 'Enable'
     },
     status: { // 状态
         loading: 'Loading...',

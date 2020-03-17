@@ -76,6 +76,8 @@ module.exports = {
         updateTime: '更新时间',
         allTemplate: '全部模板',
         commonTemplate: '常用模版',
+        copy: '复制',
+        enable: '启用'
     },
     status: { // 状态
         loading: '正在加载...',

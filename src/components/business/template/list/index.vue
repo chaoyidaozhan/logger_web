@@ -13,13 +13,13 @@
         <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
         <transition-group :name="animate">
             <div class="col" v-for="item in recentlyTemplates" :key="item.id">
-                <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+                <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
             </div>
         </transition-group>
         <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
         <transition-group :name="animate">
             <div class="col" v-for="item in list" :key="item.id">
-                <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+                <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
             </div>
         </transition-group>
         <div class="page" v-if="totalCount > pageSize">
@@ -61,6 +61,9 @@ export default {
         pagination
     },
     methods: {
+        successCreateCopyTemplate() {
+            this.loadData('fade');
+        },
         commonTempListData() {
             this.$ajax({
                 url: `/template/recentlyTemplates`,
