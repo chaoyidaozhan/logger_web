@@ -14,8 +14,12 @@
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
           <div class="body">
-            <div class="scrollBody">
+            <div class="scrollBody" v-if="listArr.length">
               <Item v-for="(item, i) in listArr" :key=i></Item>
+            </div>
+            <div class="noImgCtn" v-else>
+              <img class="noDataImg" :src="tip_data">
+              <div class="tips">暂无汇报规则</div>
             </div>
           </div>
       </div>
@@ -24,7 +28,7 @@
 </template>
 <script>
 import Item from './common/listItem'
-
+import tip_data from 'app_assets/images/tip_data.png'
 export default {
     props: {
         // showList: { // 是否显示模板
@@ -37,7 +41,9 @@ export default {
     },
     data() {
         return {
-          listArr: [1,2,3,4,5,6,7,8,9,10]
+          listArr: [1,2,3,4,5,6,7,8,9,10],
+          // listArr: [],
+          tip_data
         }
     },
     methods: {
@@ -104,6 +110,20 @@ export default {
       overflow-y: auto;
       .scrollBody {
 
+      }
+      .noImgCtn {
+        text-align: center;
+        margin-top: 50%;
+        .noDataImg {
+          width:62px;
+          height:59px;
+        }
+        .tips{
+          height:16px;
+          font-size:12px;
+          color:rgba(102,102,102,1);
+          line-height:16px;
+        }
       }
     }
   }
