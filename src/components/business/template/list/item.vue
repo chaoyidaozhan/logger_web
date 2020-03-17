@@ -11,6 +11,7 @@
                 <div class="fileSuffixName"></div>
                 <div class="templateTitle">{{data.title}}</div>
             </div>
+            <div class="templateUpdataTime">{{$t('operate.updateTime') + ':' + (data.createTime | filterTime)}}</div>
         </div>
         <div class="template-operate-modal" v-if="showEdit">
             <!--启用， 停用-->
@@ -148,6 +149,8 @@ export default {
         // padding: 0 20px;
         transition: .4s ease all;
         .mb-flex {
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
             .fileSuffixName {
                 width: 40px;
                 height: 40px;
@@ -156,8 +159,14 @@ export default {
             }
             .templateTitle {
                 font-size: 14px;
-                color: 14px;
+                color: #333;
+                line-height: 22px;
             }
+        }
+        .templateUpdataTime {
+            font-size: 12px;
+            color: #666;
+            padding-top: 7px;
         }
         &:before {
             content: '';

@@ -10,6 +10,8 @@
                 </div>
             </div>
         </div> -->
+        <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
+        <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
         <transition-group :name="animate">
             <div class="col" v-for="item in list" :key="item.id">
                 <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
@@ -127,6 +129,17 @@ export default {
 @import '../../../../assets/css/var.less';
  .content {
     font-size: 0;
+    .commonTemplate,
+    .allTemplate {
+        padding-bottom: 12px;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+    }
+    .allTemplate {
+        padding-top: 8px;
+    }
     .template-item-content-create {
         span {
             position: absolute;

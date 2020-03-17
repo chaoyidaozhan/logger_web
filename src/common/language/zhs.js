@@ -72,7 +72,10 @@ module.exports = {
         status: '停用/启用',
         max150Tips: '最多输入150个字',
         ruleMaker: '规则制定人',
-        starting: '启用中'
+        starting: '启用中',
+        updateTime: '更新时间',
+        allTemplate: '全部模板',
+        commonTemplate: '常用模版',
     },
     status: { // 状态
         loading: '正在加载...',

@@ -71,7 +71,10 @@ module.exports = {
         status: 'Disable/Enable',
         max150Tips: 'Up to 150 words can be input',
         ruleMaker: 'Rule Maker',
-        starting: 'Enabled'
+        starting: 'Enabled',
+        updateTime: 'Update time',
+        allTemplate: 'All template',
+        commonTemplate: 'Common template',
     },
     status: { // 状态
         loading: 'Loading...',
