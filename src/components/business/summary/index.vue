@@ -162,7 +162,7 @@ export default {
                     this.isStopScrollPage = true;
                 }
                 if(!listLen) {
-                    return;
+                    return listLen;
                 }
                 this.list = this.list.concat(res.data.list || []);
                 this.totalCount = this.list.length;
@@ -324,11 +324,14 @@ export default {
                     url: '/diaryQuery/getDiaryStatistics',
                     data: data,
                     success: (res) => {
-                        this.updateList(res);
+                        let listLen = this.updateList(res);
                         this.loading = false;
                         this.$nextTick(() => {
+                            if(listLen === 0) {
+                                return;
+                            }
                             this.loggerSummaryPage(res);
-                        });
+                        }, 1000);
                     },
                     error: (res) => {
                         this.loading = false;
@@ -358,7 +361,7 @@ export default {
                     }
                 }
             };
-            this.PageRef = this.$refs.loggerSummaryPageRef;
+            this.loggerSummaryPageRef = this.$refs.loggerSummaryPageRef;
             let loggerSummaryPageRef = this.loggerSummaryPageRef;
             loggerSummaryPageRef.onscroll = throttle(() => {
                 //变量scrollTop是滚动条滚动时，距离顶部的距离
@@ -379,6 +382,7 @@ export default {
             this.dataType = false;
             this.checkNum = 0;
             this.isStopScrollPage = false;
+            this.list = [];
             this.loadData();
         }
     },
