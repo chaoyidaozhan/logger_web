@@ -5,6 +5,7 @@
                 :showMember="true"
                 :showTemplate="true"
                 :showDatePicker="true"
+                :showCreateMenu="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >

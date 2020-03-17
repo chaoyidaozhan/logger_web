@@ -13,13 +13,6 @@
                     @handleSelect="handleSelect"/>
             </FormItem> 
             <!--  -->
-            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
-                <fs-select-member ref="selectMember" 
-                    :title="`${$t('operate.select')}${$t('noun.author')}`"
-                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
-                    :member="member"
-                    @handleSelect="handleSelect"/>
-            </FormItem> 
             <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
                 <fs-select-template 
                     :hasDefaultTemplate="hasDefaultTemplate" 
@@ -67,6 +60,13 @@
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     :groupApiUri="groupApiUri"/>
             </FormItem> 
+            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
+                <fs-select-member ref="selectMember" 
+                    :title="`${$t('operate.select')}${$t('noun.author')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
+                    :member="member"
+                    @handleSelect="handleSelect"/>
+            </FormItem> 
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
@@ -86,6 +86,14 @@
                     :showDeptExcelBtn="showDeptExcelBtn"></fs-export-excel>
                 </FormItem>
             </FormItem>
+            <div class="open-date" v-if="showCreateMenu">
+                <i class="icon-add" @click.stop=""></i>
+            </div>
+            <div class="logger-menu-logo" v-if="showCreateMenu">
+                <YYButton type="primary" @click="goLoggerDetail">
+                    {{$t('operate.createLog')}}
+                </YYButton>
+            </div>
         </Form>
     </div>
 </template>
@@ -187,6 +195,10 @@ export default {
         showDeptExcelBtn: {
             type: Boolean,
             default: true
+        },
+        showCreateMenu: {
+            type:Boolean,
+            default:false
         }
     },
     components: {
@@ -209,6 +221,14 @@ export default {
         }
     },
     methods: {
+        goLoggerDetail() {
+            this.$router.push({
+                path: `/LoggerDetail/template`,
+                query: {
+                    token: this.$store.state.userInfo.token
+                }
+            })
+        },
         trimIds(params) { // 整理id数据
             if(this.member && !!this.member.length) { // 整理人员id
                 let memberIds = []
@@ -371,5 +391,21 @@ export default {
     }
 }
 </script>
-
-
+<style scoped>
+    .logger-menu-logo{
+        display: inline-block;
+        float: right;
+        margin-right: 8px;
+    }
+    .open-date{
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        width:32px;
+        height:32px;
+        background:rgba(255,255,255,1);
+        border-radius:3px;
+        border:1px solid rgba(217,217,217,1);
+        float: right;
+    }
+</style>

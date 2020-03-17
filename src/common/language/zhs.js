@@ -48,6 +48,7 @@ module.exports = {
         reply: '回复',
         add: '添加',
         delete: '删除',
+        comment: '评论',
 
         edit: '编辑',
         disable: '停用',

@@ -1,45 +1,62 @@
 <template>
-    <div class="page-logger-list" @scroll.stop="onScroll">
-        <transition-group name="fade">
-            <fs-logger-list-item 
-                v-for="(item, index) in list"
-                @handleDelete="handleDelete"
-                @handleViewLowerLevel="handleViewLowerLevel"
-                @handleOperateModal="handleOperateModal"
-                :index="index" 
-                :isDraft="isDraft"
-                :isLowerLevel="isLowerLevel"
-                :loggerItemData="item"
-                :key="item.id || index" />
-        </transition-group>
-        <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
-        <div class="loading">
-            <div class="loading-content" v-if="!hasMore && !loading && list.length">{{$t('status.loadedAllData')}}</div>
-        </div>
-        <YYEmpty vertical="top" v-if="!list.length && !loading"/>
-         <!--操作记录弹层-->
-        <Modal
-            v-model="operateModal"
-            class="operate-modal"
-            :title="$t('noun.operationRecord')">   
-            <div class="operate-row" v-for="item in operateModalData" :key="item.id">
-                <fs-avatar class="operate-avatar" 
-                    size="31px" 
-                    :avatar="item.avatar" 
-                    :fontSize="item.userName ? '12px' : '18px'" 
-                    :name="item.userName"></fs-avatar>
-                <div class="operate-content">
-                    <div class="clearfix">
-                        <span>{{item.userName}}</span>
-                        <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
-                    </div>
-                    <div>
-                        {{item.reason}}
-                    </div>
+    <div class="page-logger-content" >
+        <!-- <div class="leftMenu" v-if="isShowMenu">
+            <div class="left-header">
+                {{loggerItemData.userName}}的工作汇报
+                <div class="left-close">
+                    <i class="icon-add"></i>
                 </div>
             </div>
-            <p slot="footer"></p>
-        </Modal>
+            <div class="left-line"></div>
+            <div class="left-content">
+                <div class="left-item" v-for="(item, index) in menus" :key="index">{{item.title}}</div>
+            </div>
+        </div> -->
+        <div class="page-logger-list" @scroll.stop="onScroll">
+            <transition-group name="fade">
+                <fs-logger-list-item 
+                    v-for="(item, index) in list"
+                    @handleDelete="handleDelete"
+                    @handleViewLowerLevel="handleViewLowerLevel"
+                    @handleOperateModal="handleOperateModal"
+                    :index="index" 
+                    :isDraft="isDraft"
+                    :isLowerLevel="isLowerLevel"
+                    :loggerItemData="item"
+                    :menus="item.title"
+                    :scrollAll="scrollAll"
+                    :key="item.id || index" />
+            </transition-group>
+            <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
+            <div class="loading">
+                <div class="loading-content" v-if="!hasMore && !loading && list.length">{{$t('status.loadedAllData')}}</div>
+            </div>
+            <YYEmpty vertical="top" v-if="!list.length && !loading"/>
+            <!--操作记录弹层-->
+            <Modal
+                v-model="operateModal"
+                class="operate-modal"
+                :title="$t('noun.operationRecord')">   
+                <div class="operate-row" v-for="item in operateModalData" :key="item.id">
+                    <fs-avatar class="operate-avatar" 
+                        size="31px" 
+                        :avatar="item.avatar" 
+                        :fontSize="item.userName ? '12px' : '18px'" 
+                        :name="item.userName"></fs-avatar>
+                    <div class="operate-content">
+                        <div class="clearfix">
+                            <span>{{item.userName}}</span>
+                            <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
+                        </div>
+                        <div>
+                            {{item.reason}}
+                        </div>
+                    </div>
+                </div>
+                <p slot="footer"></p>
+            </Modal>
+        </div>
+        <!-- <div class="righttMenu"></div> -->
     </div>
 </template>
 <script>
@@ -104,6 +121,9 @@ export default {
             queryMemberId: null,
             operateModal: false,
             operateModalData: null,
+            menus:[],
+            // tool:null,
+            scrollAll: 0 //当前滚动的长度
         }
     },
     components: {
@@ -153,6 +173,7 @@ export default {
                 if ((scrollHeight - scrollTop) - offsetHeight < 20) {
                     this.pageNo++
                 }
+                this.scrollAll = scrollTop
             }
         },
         updateList(res) { // load成功之后更新数据
@@ -164,6 +185,10 @@ export default {
                 } else {
                     this.list = this.list.concat(res.data || [])
                 }
+                this.list.forEach((item) => {
+                    let items = JSON.parse(item.content)
+                    item.title = items;
+                })
                 if (res.data && res.data.length < this.pageSize) {
                     this.hasMore = false
                 }
@@ -214,12 +239,30 @@ export default {
             this.loading = false
             this.hasMore = true
             this.loadData()
-        }
+        },
+        // showMenu() {
+        //     this.$eventbus.$emit('showMenu', this.tool)
+        //     let leftMenu = document.querySelector('.leftMenu')  //visibility
+        //     leftMenu.style.visibility = 'visible'
+        // },
+        // closeMenu() {
+        //     this.$eventbus.$emit('closeMenu', this.tool)
+        //     let leftMenu = document.querySelector('.leftMenu')  //visibility
+        //     leftMenu.style.visibility = 'hidden'
+        // }
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
         this.initList()
-    }
+    },
+    // created() {
+    //     this.$eventbus.$on('transforTool',(tool)=>{
+    //         this.tool = tool
+    //     })
+    // },
+    // destroyed() {
+    //     this.$eventbus.$off('transforTool')
+    // }
 }
 </script>
 <style lang="less" scoped>
@@ -232,29 +275,76 @@ export default {
     50%  { transform: rotate(180deg);}
     to   { transform: rotate(360deg);}
 }
-.page-logger-list {
-    height: 100%;
-    overflow: auto;
-    .loading {
-        height: 60px;
-        line-height: 50px;
-        text-align: center;
-        font-size: 14px;
-        background-color: @white-color;
-        color: @gray-color-light;
-        position: relative;
-        overflow: hidden;
-        * {
-            vertical-align: middle;
+.page-logger-content{
+    margin-top: 10px;
+    // .leftMenu{
+    //     position: absolute;
+    //     // background: #fff;
+    //     visibility: hidden;
+    //     width: 188px;
+    //     height: 100%;
+    //     padding: 6px 16px 8px 16px;
+    //     .left-header{
+    //         font-size:12px;
+    //         font-family:PingFangSC-Regular,PingFang SC;
+    //         font-weight:400;
+    //         color:rgba(153,153,153,1);
+    //         height: 17px;
+    //         line-height: 17px;
+    //         .left-close{
+    //             display: inline-block;
+    //             float: right;
+    //         }
+    //     }
+    //     .left-line{
+    //         margin-top: 8px;
+    //         width:156px;
+    //         height:1px;
+    //         background: #D9D9D9;
+    //     }
+    //     .left-content{
+    //         width:156px;
+    //         height:144px;
+    //         margin-top: 8px;
+    //         font-size:12px;
+    //         font-family:PingFangSC-Regular,PingFang SC;
+    //         font-weight:400;
+    //         color:rgba(51,51,51,1);
+    //         .left-item{
+    //             cursor: pointer;
+    //             height: 36px;
+    //             line-height: 36px;
+    //         }
+    //     }
+    // }
+    .page-logger-list {
+        height: 100vh;
+        overflow: auto;
+        .loading {
+            height: 60px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 14px;
+            // background-color: @white-color;
             color: @gray-color-light;
-        }
-        .loading-content {
-            position: absolute;
-            top:0;
-            width: 100%;
-            height: 100%;
-            left: 0;
+            position: relative;
+            overflow: hidden;
+            * {
+                vertical-align: middle;
+                color: @gray-color-light;
+            }
+            .loading-content {
+                position: absolute;
+                top:0;
+                width: 100%;
+                height: 100%;
+                left: 0;
+            }
         }
     }
+    // .rightMenu{
+
+    // }
 }
+
 </style>

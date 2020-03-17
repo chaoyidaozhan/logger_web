@@ -21,7 +21,7 @@
                         type="primary" 
                         :disabled="btnloading"
                         @click="commitComment">
-                    {{$t('operate.reply')}}
+                    {{$t('operate.comment')}}
                 </YYButton>
                 <emoji class="emoji" 
                        v-if="showFace"
