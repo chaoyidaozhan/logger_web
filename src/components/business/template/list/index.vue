@@ -11,6 +11,11 @@
             </div>
         </div> -->
         <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
+        <transition-group :name="animate">
+            <div class="col" v-for="item in recentlyTemplates" :key="item.id">
+                <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+            </div>
+        </transition-group>
         <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
         <transition-group :name="animate">
             <div class="col" v-for="item in list" :key="item.id">
@@ -47,7 +52,8 @@ export default {
             loaded: false,
             animate: 'fade',
             timer: null,
-            contentWidth: 0
+            contentWidth: 0,
+            recentlyTemplates: []
         }
     },
     components: {
@@ -55,6 +61,14 @@ export default {
         pagination
     },
     methods: {
+        commonTempListData() {
+            this.$ajax({
+                url: `/template/recentlyTemplates`,
+                success: (res) => {
+                    this.recentlyTemplates = res.data.recentlyTemplates;
+                }
+            })
+        },
         setTempListData(name) { // 设置模板数据
             this.list = this.$store.state.template[`${name}`];
             clearTimeout(this.timer);
@@ -122,6 +136,7 @@ export default {
         if(this.$router.currentRoute.path == "/LoggerTemplate/manager") {
             this.loadData('fade');
         }
+        this.commonTempListData();
     },
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="template-item cursor-pointer" @click="goToDetail">
-        <div class="template-item-content">
+        <div class="template-item-content" :class="{day: data.diaryTimeStatus == 1, week: data.diaryTimeStatus == 2, mouth: data.diaryTimeStatus == 3}">
             <!-- <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
             <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
             <template v-if="showEdit">
@@ -11,7 +11,7 @@
                 <div class="fileSuffixName"></div>
                 <div class="templateTitle">{{data.title}}</div>
             </div>
-            <div class="templateUpdataTime">{{$t('operate.updateTime') + ':' + (data.createTime | filterTime)}}</div>
+            <div class="templateUpdataTime">{{$t('operate.updateTime') + ' : '}}{{data.createTime | filterTime}}</div>
         </div>
         <div class="template-operate-modal" v-if="showEdit">
             <!--启用， 停用-->
@@ -155,7 +155,6 @@ export default {
                 width: 40px;
                 height: 40px;
                 margin-right: 12px;
-                background: red;
             }
             .templateTitle {
                 font-size: 14px;
@@ -167,19 +166,6 @@ export default {
             font-size: 12px;
             color: #666;
             padding-top: 7px;
-        }
-        &:before {
-            content: '';
-            width: 3px;
-            position: absolute;
-            // border-top-left-radius: 4px;
-            // border-top-right-radius: 4px;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background-color: #ee3d4b;
-            opacity: .4;
-            transition: .4s ease all;
         }
         .template-item-title {
             font-size: 14px;
@@ -215,6 +201,63 @@ export default {
             }
             box-shadow: 0 2px 4px @box-shadow;
         }     
+    }
+    .day {
+        &:before {
+            content: '';
+            width: 3px;
+            position: absolute;
+            // border-top-left-radius: 4px;
+            // border-top-right-radius: 4px;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #ee3d4b;
+            opacity: .4;
+            transition: .4s ease all;
+        }
+        .fileSuffixName {
+            background: url("../../../../assets/images/day.png") center center no-repeat;
+            background: contain;
+        }
+    }
+    .week {
+        &:before {
+            content: '';
+            width: 3px;
+            position: absolute;
+            // border-top-left-radius: 4px;
+            // border-top-right-radius: 4px;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #02c0a7;
+            opacity: .4;
+            transition: .4s ease all;
+        }
+        .fileSuffixName {
+            background: url("../../../../assets/images/week.png") center center no-repeat;
+            background: contain;
+        }
+    }
+    .month {
+        &:before {
+            content: '';
+            width: 3px;
+            position: absolute;
+            // border-top-left-radius: 4px;
+            // border-top-right-radius: 4px;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #02c0a7;
+            opacity: .4;
+            transition: .4s ease all;
+        }
+        .fileSuffixName {
+            background: url("../../../../assets/images/mouth.png") center center no-repeat;
+            background: contain;
+        }
     }
     .template-operate-modal {
         position: absolute;
