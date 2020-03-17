@@ -34,15 +34,17 @@ export default {
             break;
           case 2 :
             // this.showList = true,
-            this.showDetail = true
-            // this.showAdd = false
+            // this.showDetail = true
+            this.showAdd = true
             break;
         }
       },
       changeShowDetail () {
         this.showDetail = false
       },
-      changeShowAdd () {}
+      changeShowAdd () {
+        this.showAdd = false
+      }
     },
     mounted () {
     },
