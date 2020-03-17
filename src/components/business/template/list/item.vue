@@ -1,5 +1,5 @@
 <template>
-    <div class="template-item cursor-pointer" @click="goToDetail">
+    <div class="template-item cursor-pointer" @click="goToDetail" :class="{itemDisable: data.dataStatus == 0}">
         <div class="template-item-content" :class="{day: data.dataType == 1, week: data.dataType == 2, mouth: data.dataType == 3}">
             <!-- <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
             <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
@@ -21,6 +21,7 @@
                 <div class="mb-flex-1 copy"></div>
             </div>
         </div>
+        <div class="enOrdisble" v-if="data.dataStatus == 0">{{$t('operate.discontinued')}}</div>
         <!-- <div class="template-operate-modal" v-if="showEdit">
             <template v-if="!data.dataStatus">
                 <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
@@ -136,6 +137,9 @@ export default {
 </script>
 <style lang="less">
 @import '../../../../assets/css/var.less';
+.itemDisable {
+    opacity: .5;
+}
 .template-item {
     width: 100%;
     height: 100%;
@@ -317,6 +321,18 @@ export default {
     }
     &:hover .bottomOperate {
         display: block;
+    }
+    .enOrdisble {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 52px;
+        height: 20px;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        color: #333;
+        background: #f7f7f7;
     }
     .template-operate-modal {
         position: absolute;
