@@ -1,6 +1,6 @@
 <template>
     <div class="content" v-loading="{loading: loaded, text: $t('status.loading')}">
-        <div class="col" v-if="showEdit" @click="goToTemplate">
+        <!-- <div class="col" v-if="showEdit" @click="goToTemplate">
             <div class="template-item cursor-pointer">
                 <div class="template-item-content template-item-content-create">
                     <span>
@@ -9,7 +9,7 @@
                     </span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <transition-group :name="animate">
             <div class="col" v-for="item in list" :key="item.id">
                 <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
