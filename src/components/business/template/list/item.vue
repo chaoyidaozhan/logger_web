@@ -1,6 +1,6 @@
 <template>
     <div class="template-item cursor-pointer" @click="goToDetail">
-        <div class="template-item-content" :class="{day: data.diaryTimeStatus == 1, week: data.diaryTimeStatus == 2, mouth: data.diaryTimeStatus == 3}">
+        <div class="template-item-content" :class="{day: data.dataType == 1, week: data.dataType == 2, mouth: data.dataType == 3}">
             <!-- <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
             <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
             <template v-if="showEdit">
@@ -13,20 +13,25 @@
             </div>
             <div class="templateUpdataTime">{{$t('operate.updateTime') + ' : '}}{{data.createTime | filterTime}}</div>
         </div>
-        <div class="template-operate-modal" v-if="showEdit">
-            <!--启用， 停用-->
+        <div class="bottomOperate mb-flex">
+            <div class="mb-flex mb-flex-align-stretch">
+                <div class="mb-flex-1 del"></div>
+                <div class="mb-flex-1 enable"></div>
+                <div class="mb-flex-1 edit"></div>
+                <div class="mb-flex-1 copy"></div>
+            </div>
+        </div>
+        <!-- <div class="template-operate-modal" v-if="showEdit">
             <template v-if="!data.dataStatus">
                 <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
-                 <!--停用显示编辑和删除-->
                 <span @click="goToTemplate"><i class="icon-edit"></i></span>
                 <span><i class="icon-delete" @click="handleDelete"></i></span>
             </template>
             <template v-else>
-                <!--启用显示查看-->
                 <span @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
                 <span @click="goToTemplate"><i class="icon-check"></i></span>
             </template>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -143,7 +148,6 @@ export default {
         // left: 0;
         // border: 1px solid;
         // border-color: @border-color;
-        border-radius: 3px;
         box-sizing: border-box;
         padding: 22px 20px 0;
         // padding: 0 20px;
@@ -258,6 +262,61 @@ export default {
             background: url("../../../../assets/images/mouth.png") center center no-repeat;
             background: contain;
         }
+    }
+    .bottomOperate {
+        display: none;
+        position: absolute;
+        bottom: 0;
+        left: 3px;
+        height: 32px;
+        width: 100%;
+        background: #fafafa;
+        & > div {
+            height: 100%;
+        }
+        .del {
+            background: url("../../../../assets/images/del.png") center center no-repeat;
+            background-size: 18px 18px;
+        }
+        .del:hover {
+            background: url("../../../../assets/images/del.png") center center no-repeat #e7e7e7;
+            background-size: 18px 18px;
+        }
+        .enable {
+            background: url("../../../../assets/images/enable.png") center center no-repeat;
+            background-size: 18px 18px;
+        }
+        .enable:hover {
+            background: url("../../../../assets/images/enable.png") center center no-repeat #e7e7e7;
+            background-size: 18px 18px;
+        }
+        .disable {
+            background: url("../../../../assets/images/disable.png") center center no-repeat;
+            background-size: 18px 18px;
+        }
+        .disable:hover {
+            background: url("../../../../assets/images/disable.png") center center no-repeat #e7e7e7;
+            background-size: 18px 18px;
+        }
+        .edit {
+            background: url("../../../../assets/images/edit.png") center center no-repeat;
+            background-size: 18px 18px;
+        }
+        .edit:hover {
+            background: url("../../../../assets/images/edit.png") center center no-repeat #e7e7e7;
+            background-size: 18px 18px;
+        }
+        .copy {
+            background: url("../../../../assets/images/copy.png") center center no-repeat;
+            background-size: 18px 18px;  
+        }
+        .copy:hover {
+            background: url("../../../../assets/images/copy.png") center center no-repeat #e7e7e7;
+            background-size: 18px 18px;  
+        }
+    }
+    &:hover .bottomOperate {
+        display: block;
     }
     .template-operate-modal {
         position: absolute;

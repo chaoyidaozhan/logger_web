@@ -188,6 +188,7 @@ export default {
         margin: 0 16px 16px 0;
         font-size: 14px;
         overflow: hidden;
+        border-radius: 3px;
         // vertical-align: top;
         &.out-leave-active {
             transition: width .3s, opacity .3s;
