@@ -7,7 +7,7 @@
                 <div class="template-item-time ellipsis">{{$t('operate.update')}}{{ data.createTime | filterTime }}</div>
                 <div v-if="!data.dataStatus" class="template-item-status ellipsis">{{$t('operate.discontinued')}}</div>
             </template> -->
-            <div class="mb-flex">
+            <div class="mb-flex mb-flex-align-center">
                 <div class="fileSuffixName"></div>
                 <div class="templateTitle">{{data.title}}</div>
             </div>
@@ -151,6 +151,7 @@ export default {
             .fileSuffixName {
                 width: 40px;
                 height: 40px;
+                margin-right: 12px;
                 background: red;
             }
             .templateTitle {
