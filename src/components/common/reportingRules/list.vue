@@ -8,7 +8,7 @@
             <YYButton
               :class="'headerButton'"
               type="ghost" 
-              @click="close()">
+              @click="setRules()">
               设置汇报规则
             </YYButton>
             <i class="closeIcon icon-add" @click="close()"></i>
@@ -48,7 +48,12 @@ export default {
     },
     methods: {
       close () {
-        this.$emit('changeShow')
+        // 1 关闭 2 设置规则  3 查看详情
+        this.$emit('changeShow', 1)
+      },
+      setRules () {
+        // 1 关闭 2 设置规则  3 查看详情
+        this.$emit('changeShow', 2)
       }
     },
     mounted () {
@@ -59,7 +64,7 @@ export default {
 </script>
 <style lang='less' scoped>
   .moveR-enter-active,  .moveR-leave-active {
-    transition: all 5s linear;
+    transition: all .5s linear;
     transform: translateX(0);
   }
   .moveR-enter,  .moveR-leave {

@@ -26,11 +26,22 @@ export default {
         }
     },
     methods: {
-      changeShowList () {
-        this.showList = false
-        this.$parent.showReportingRules = false
+      changeShowList (flag) {
+        switch (flag) {
+          case 1 :
+            this.showList = false
+            this.$parent.showReportingRules = false
+            break;
+          case 2 :
+            // this.showList = true,
+            this.showDetail = true
+            // this.showAdd = false
+            break;
+        }
       },
-      changeShowDetail () {},
+      changeShowDetail () {
+        this.showDetail = false
+      },
       changeShowAdd () {}
     },
     mounted () {
