@@ -15,10 +15,16 @@
         </div>
         <div class="bottomOperate mb-flex">
             <div class="mb-flex mb-flex-align-stretch">
-                <div class="mb-flex-1 del"></div>
-                <div class="mb-flex-1 enable"></div>
-                <div class="mb-flex-1 edit"></div>
-                <div class="mb-flex-1 copy"></div>
+                <template v-if="data.dataStatus == 1">
+                    <div class="mb-flex-1 del" @click="handleDelete"></div>
+                    <div class="mb-flex-1 disable" @click="handleSwitch('stop')"></div>
+                    <div class="mb-flex-1 edit" @click="goToTemplate"></div>
+                    <div class="mb-flex-1 copy" @click="createCopyTemplate(data)"></div>
+                </template>
+                <template v-else>
+                    <div class="mb-flex-1 enable" @click="handleSwitch('start')"></div>
+                    <div class="mb-flex-1 edit" @click="goToTemplate"></div>
+                </template>
             </div>
         </div>
         <div class="enOrdisble" v-if="data.dataStatus == 0">{{$t('operate.discontinued')}}</div>
@@ -61,6 +67,9 @@ export default {
         },
     },
     methods: {
+        createCopyTemplate() {
+
+        },
         ...mapActions({
             updateTemplateContent: 'update_template_content'
         }),
