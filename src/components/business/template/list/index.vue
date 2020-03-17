@@ -153,12 +153,14 @@ export default {
         width: 100%;
     }
     .col {
-        width: 220px;
+        width: 275px;
+        height: 110px;
         display: inline-block;
-        padding: 0 10px 20px;
+        box-sizing: border-box;
+        margin: 0 16px 16px 0;
         font-size: 14px;
         overflow: hidden;
-        vertical-align: top;
+        // vertical-align: top;
         &.out-leave-active {
             transition: width .3s, opacity .3s;
         }

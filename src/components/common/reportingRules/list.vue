@@ -13,11 +13,17 @@
             </YYButton>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
+          <div class="body">
+            <div class="scrollBody">
+              <Item v-for="(item, i) in listArr" :key=i></Item>
+            </div>
+          </div>
       </div>
     </div>
   </transition>
 </template>
 <script>
+import Item from './common/listItem'
 
 export default {
     props: {
@@ -27,9 +33,11 @@ export default {
         // }
     },
     components: {
+      Item
     },
     data() {
         return {
+          listArr: [1,2,3,4,5,6,7,8,9,10]
         }
     },
     methods: {
@@ -90,6 +98,13 @@ export default {
       top: 18px;
       cursor: pointer;
       transform: rotate(45deg);
+    }
+    .body{
+      height: 100%;
+      overflow-y: auto;
+      .scrollBody {
+
+      }
     }
   }
 </style>

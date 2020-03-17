@@ -110,13 +110,14 @@
                     :showGroupExcelBtn="showGroupExcelBtn"
                     :showDeptExcelBtn="showDeptExcelBtn"></fs-export-excel>
                 </FormItem>
+            </div>    
             <div class="open-date" v-if="showCreateMenu">
                 <i class="icon-add" @click.stop=""></i>
             </div>
             <div class="logger-menu-logo" v-if="showCreateMenu">
                 <YYButton type="primary" @click="goLoggerDetail">
                     {{$t('operate.createLog')}}
-                </YYButton>
+                </YYButton>    
             </div>
             <YYButton type="ghost"  @click="setReportingRules()">
                 汇报规则
