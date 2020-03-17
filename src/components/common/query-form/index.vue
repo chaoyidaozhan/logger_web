@@ -116,6 +116,7 @@
             <div class="logger-menu-logo" v-if="showCreateMenu">
                 <YYButton type="primary" @click="goLoggerDetail">
                     {{$t('operate.createLog')}}
+                </YYButton>
             </div>
             <YYButton type="ghost"  @click="setReportingRules()">
                 汇报规则
