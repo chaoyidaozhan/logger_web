@@ -250,6 +250,7 @@ module.exports = {
         admin: '管理员',
         frequentlyUsedtTemplate: "常用模板",
         templateStatus: "模板狀態",
+        addTemplate: '添加模版'
     },
     title: {
         logTemplate: '匯報模板',

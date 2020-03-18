@@ -13,7 +13,7 @@
             </div>
             <div class="templateUpdataTime">{{$t('operate.updateTime') + ' : '}}{{data.createTime | filterTime}}</div>
         </div>
-        <div class="bottomOperate mb-flex">
+        <div class="bottomOperate mb-flex" v-if="bottomOperate">
             <div class="mb-flex mb-flex-align-stretch">
                 <template v-if="data.dataStatus == 1">
                     <div :title="$t('operate.delete')" class="mb-flex-1 del" @click="handleDelete"></div>
@@ -28,6 +28,7 @@
             </div>
         </div>
         <div class="enOrdisble" v-if="data.dataStatus == 0">{{$t('operate.discontinued')}}</div>
+        <div v-if="isSelectIconShow" class="selectIcon" :class="{selected: data.isCurrentTemplateSelected}"></div>
         <!-- <div class="template-operate-modal" v-if="showEdit">
             <template v-if="!data.dataStatus">
                 <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
@@ -54,7 +55,19 @@ export default {
         showEdit: {
             type: Boolean,
             default: false
-        }
+        },
+        bottomOperate: {
+            type: Boolean,
+            default: true
+        },
+        isToDetail: {
+            type: Boolean,
+            default: true
+        },
+        isSelectIconShow: {
+            type: Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -141,7 +154,13 @@ export default {
             })
            
         },
-        goToDetail() {
+        goToDetail(item) {
+            if(this.isSelectIconShow) {
+                this.data.isCurrentTemplateSelected = !this.data.isCurrentTemplateSelected;
+            }
+            if(!this.isToDetail) {
+                return;
+            }
             this.updateTemplateContent({
                 content: this.data
             });
@@ -238,12 +257,12 @@ export default {
             transform-origin: left top;
             border: 2px solid @gray-color-elip;
         } 
-        &:hover {
-            &:before {
-                opacity: 1;
-            }
-            box-shadow: 0 2px 4px @box-shadow;
-        }     
+        // &:hover {
+        //     &:before {
+        //         opacity: 1;
+        //     }
+        //     box-shadow: 0 2px 4px @box-shadow;
+        // }     
     }
     .day {
         &:before {
@@ -368,6 +387,24 @@ export default {
         text-align: center;
         color: #333;
         background: #f7f7f7;
+    }
+    .selectIcon {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 20px;
+        height: 18px;
+        background: url("../../../../assets/images/teplateUnSelected.png") center center no-repeat;
+        background-size: contain;
+    }
+    .selectIcon.selected {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 20px;
+        height: 18px;
+        background: url("../../../../assets/images/teplateSelected.png") center center no-repeat;
+        background-size: contain;
     }
     .template-operate-modal {
         position: absolute;

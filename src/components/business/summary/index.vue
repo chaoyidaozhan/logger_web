@@ -7,7 +7,7 @@
                         <YYCheckbox v-model="itemA.isWorkReportChecked" @on-change="someItemCheckChange(itemA)"></YYCheckbox>
                         <span>{{itemA.templateName}}</span>
                     </div>
-                    <div>提交时间：{{itemA.workReportCreateTime}}</div>
+                    <div>{{$t('noun.submitTime') + '：' + itemA.workReportCreateTime}}</div>
                 </div>
                 <div class="itemBody">
                     <div class="mb-flex mb-flex-align-center bodyContent" v-for="(itemB, indexB) in JSON.parse(itemA.content)">
