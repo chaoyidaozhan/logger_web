@@ -22,18 +22,20 @@
             </div>
         </div>
         <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
-            <div class="deploy-title" v-if="currentMember">
-                {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
-                <span><YYButton type="default" @click="handleAddLimit">{{$t('operate.add')}}</YYButton></span>
-            </div>
-            <div class="deploy-limit-content" v-if="deployLimit && deployLimit.length">
-                <span class="deploy-limit-scope" 
-                    v-for="item in deployLimit"
-                    v-if="!+item.status"
-                    :key="item.id">
-                    {{item[mapKey[item.dataType]] || '“'}}
-                    <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
-                </span>
+            <div>
+                <div class="mb-flex mb-flex-align-center">
+                    <div>雷蒙蒙的核查模版</div>
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div class="yy-icon-guanbi"></div>
+                        <div>{{$t('operate.add')}}</div>
+                    </div>
+                </div>
+                <div class="mb-flex">
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div>项目双周报</div>
+                        <div class="yy-icon-xinzeng"></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div v-else-if="currentTab == 'addReportReminder'">
