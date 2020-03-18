@@ -518,7 +518,7 @@ isAddTemplateShow: true
             flex-wrap: wrap;
             padding: 12px 20px;
             box-sizing: border-box;
-            overflow-y: scroll;
+            overflow-y: auto;
             height: 100%;
         }
         .templateItem {
