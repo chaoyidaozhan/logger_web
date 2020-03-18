@@ -1,39 +1,47 @@
 <template>
     <div class="deploy-container" v-yyloading="!deployMember">
-        <div class="deploy-member">
-            <div class="deploy-title">{{$t('operate.addAdministrator')}}
-                <span>
-                    <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
-                    <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
-                </span>
-            </div>
-            <div class="deploy-member-content"
-                v-if="deployMember && deployMember.length">
-                <div class="deploy-member-card" 
-                    v-for="(item) in deployMember"
-                    v-if="!+item.status"
-                    @click="handleChangeLimit(item)"
-                    :class="{'active':currentMember && (item.memberId === currentMember.memberId)}"
-                    :key="item.memberId">
-                    <fs-avatar :avatar="item.avatar" :name="item.userName" size="50px"/>
-                    <span class="name">{{item.userName}}</span>
-                    <span class="ico"></span>
+        <div v-if="currentTab == 'addReportReviewer'">
+
+        </div>
+        <div v-else-if="currentTab == 'addReportReminder'">
+
+        </div>
+        <div v-else-if="currentTab == 'configureAdministrator'">
+            <div class="deploy-member">
+                <div class="deploy-title">{{$t('operate.addAdministrator')}}
+                    <span>
+                        <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
+                        <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
+                    </span>
+                </div>
+                <div class="deploy-member-content"
+                    v-if="deployMember && deployMember.length">
+                    <div class="deploy-member-card" 
+                        v-for="(item) in deployMember"
+                        v-if="!+item.status"
+                        @click="handleChangeLimit(item)"
+                        :class="{'active':currentMember && (item.memberId === currentMember.memberId)}"
+                        :key="item.memberId">
+                        <fs-avatar :avatar="item.avatar" :name="item.userName" size="50px"/>
+                        <span class="name">{{item.userName}}</span>
+                        <span class="ico"></span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="deploy-limit">
-            <div class="deploy-title" v-if="currentMember">
-                {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
-                <span><YYButton type="default" @click="handleAddLimit">{{$t('operate.add')}}</YYButton></span>
-            </div>
-            <div class="deploy-limit-content" v-if="deployLimit && deployLimit.length">
-                <span class="deploy-limit-scope" 
-                    v-for="item in deployLimit"
-                    v-if="!+item.status"
-                    :key="item.id">
-                    {{item[mapKey[item.dataType]] || '“'}}
-                    <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
-                </span>
+            <div class="deploy-limit">
+                <div class="deploy-title" v-if="currentMember">
+                    {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
+                    <span><YYButton type="default" @click="handleAddLimit">{{$t('operate.add')}}</YYButton></span>
+                </div>
+                <div class="deploy-limit-content" v-if="deployLimit && deployLimit.length">
+                    <span class="deploy-limit-scope" 
+                        v-for="item in deployLimit"
+                        v-if="!+item.status"
+                        :key="item.id">
+                        {{item[mapKey[item.dataType]] || '“'}}
+                        <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -53,6 +61,30 @@ export default {
                 1: 'orgName',
                 0: 'deptName'
             }
+        }
+    },
+    props: {
+        currentTab: {
+            type: String,
+            default: 'addReportReviewer'
+        }
+    },
+    watch: {
+        currentTab: {
+            handler(newVal, oldVal) {
+                switch(newVal) {
+                    case 'addReportReviewer':
+
+                    break;
+                    case 'addReportReminder':
+
+                    break;
+                    case 'configureAdministrator':
+                        this.getDeployMember();
+                    break;
+                }
+            },
+            deep:true
         }
     },
     components: {
@@ -264,7 +296,7 @@ export default {
         }
     },
     created () {
-        this.getDeployMember()
+
     }
 }
 </script>
