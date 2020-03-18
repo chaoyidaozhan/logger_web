@@ -54,15 +54,15 @@
                 </span>
             </div>
         </div>
-        <div class="addTemplate mb-flex mb-flex-v">
+        <div class="addTemplate mb-flex mb-flex-v" v-show="isAddTemplateShow">
             <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>添加模版</div>
-                <div class="yy-icon-guanbi"></div>
+                <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
             </div>
             <div class="mb-flex-1">
                 <!-- <fs-item v-for="(item, index) in list"></fs-item> -->
             </div>
-            <div>
+            <div class="footer">
                 
             </div>
         </div>
@@ -84,7 +84,8 @@ export default {
                 1: 'orgName',
                 0: 'deptName'
             },
-            isLoadingShow: false
+isLoadingShow: false,
+isAddTemplateShow: true
         }
     },
     props: {
@@ -450,9 +451,14 @@ export default {
             padding: 0 22px 0 20px;
             font-size: 14px;
             color: #333;
-            div:last-of-type {
-
+            .yy-icon-guanbi {
+                cursor: pointer;
             }
+        }
+        .footer {
+            height: 60px;
+            padding: 0 20px 0;
+            background: white;
         }
     }
 }
