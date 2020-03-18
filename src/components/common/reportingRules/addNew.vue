@@ -50,16 +50,13 @@
                   v-model="dateType" 
                   @on-change="handleDateTypeChange">
                   <YYOption value="1">
-                    周
-                  </YYOption>
-                  <YYOption value="2">
-                    月
-                  </YYOption>
-                  <YYOption value="3">
                     日
                   </YYOption>
-                  <YYOption value="4">
-                    双周
+                  <YYOption value="2">
+                    周
+                  </YYOption>
+                  <YYOption value="3">
+                    月
                   </YYOption>
               </YYSelect>
               </div>
@@ -70,7 +67,7 @@
               </div>
               <div class="subctn">
                 <div>
-                  <YYCheckbox label="1">
+                  <YYCheckbox v-model="fromCurrentWeek">
                     <span>从当前周开始</span>
                   </YYCheckbox>
                 </div>
@@ -117,7 +114,8 @@
                 提交开始时间
               </div>
               <div class="subctn">
-                  <WeekTime></WeekTime>
+                  <!-- <WeekTime :columns="2"></WeekTime> -->
+                  <WeekTime :columns="3"></WeekTime>
               </div>
             </div>
             <div class="item">
@@ -157,7 +155,7 @@
   </transition>
 </template>
 <script>
-import WeekTime from './common/weekTime'
+import WeekTime from './common/dateReference/weekTime'
 import FsSelectTemplate from '../select-template/'
 import FsSelectTreeInput from '../../common/select-tree-input/'
 import ImTips from 'app_assets/images/tips.png'
@@ -175,6 +173,7 @@ export default {
     },
     data() {
         return {
+          fromCurrentWeek: false, //是否从当前周开始
           listArr: [1,2,3,4,5,6,7,8,9,10],
           selectMemberData: [],
           memberApiUri: '',

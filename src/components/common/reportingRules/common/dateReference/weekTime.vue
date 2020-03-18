@@ -6,15 +6,15 @@
     </span>
     <i class="icon-date icon-statistics-2018"></i>   
   </div> 
-  <div class="slideCtn" v-show="showSlide">
-    <div class="listsub">
+  <div class="slideCtn" v-show="showSlide" :style="{width: columns == 2 ? '66.66%' : '100%'}">
+    <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}" v-if="columns != 2">
        <ul class="listCtn">
         <li class="listItem">1</li>
         <li class="listItem">2</li>
         <li class="listItem">3</li>
       </ul>
     </div>
-    <div class="listsub">
+    <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}">
        <ul class="listCtn">
           <li class="listItem">1</li>
           <li class="listItem">2</li>
@@ -45,7 +45,7 @@
           <li class="listItem">3</li>
       </ul>
     </div>
-    <div class="listsub">
+    <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}">
        <ul class="listCtn">
         <li class="listItem">1</li>
         <li class="listItem">2</li>
@@ -57,6 +57,7 @@
       <YYButton 
         type="primary"
         size="small"
+        @click="confirm()"
         >
         确定
       </YYButton>
@@ -68,21 +69,26 @@
 
 export default {
     props: {
-        // showTemplate: { // 是否显示模板
-        //     type: Boolean,
-        //     default: false
-        // }
+        columns: { // 是否显示模板
+            type: Number,
+            default: 3
+        }
     },
     components: {
     },
     data() {
         return {
-          showSlide: false
+          showSlide: false,
+          firstColumsData: [
+            {key: 1, value: '星期一'},
+            {key: 2, value: '星期二'},
+            {key: 3, value: '星期三'},
+          ]
         }
     },
     methods: {
-      aa () {
-
+      confirm () {
+        this.showSlide = false
       }
     },
     mounted () {
@@ -131,6 +137,7 @@ export default {
         overflow-y: auto;
         width: 33.33%;
         float: left;
+        border-right: 1px solid #D9D9D9;
         &::-webkit-scrollbar {      /*滚动条整体样式*/
             width: 4px;             /*高宽分别对应横竖滚动条的尺寸*/
             height: 4px;
