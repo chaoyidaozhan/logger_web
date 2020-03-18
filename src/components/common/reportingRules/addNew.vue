@@ -85,7 +85,7 @@
               <div class="subctn">
                 <YYSelect 
                   v-model="dateType"
-                  multiple=true
+                  :multiple="true"
                   @on-change="handleDateTypeChange">
                   <YYOption value="1">
                     周一
