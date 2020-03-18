@@ -256,5 +256,7 @@ module.exports = {
         logTemplateSettings: 'Report Template Settings',
         configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
         statisticalAuthority: "'s statistical authority",
+        addReportReviewer: 'Add report reviewer',
+        addReportReminder: 'Add report reminder'
     }
 }

@@ -1,7 +1,11 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <div>{{$t('title.configureAdministratorAndStatisticsPermissions')}}</div>
+            <div class="mb-flex">
+                <div>{{$t('title.addReportReviewer')}}</div>
+                <div>{{$t('title.addReportReminder')}}</div>
+                <div>{{$t('title.configureAdministratorAndStatisticsPermissions')}}</div>
+            </div>
         </template>
         <template slot="body">
             <fs-deploy />
@@ -18,3 +22,10 @@ export default {
     }
 }
 </script>
+<style lang="less" scoped>
+.mb-flex {
+    font-size: 14px;
+    color: #333;
+    height: 100%;
+}
+</style>

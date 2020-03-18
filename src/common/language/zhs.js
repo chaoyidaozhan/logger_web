@@ -256,6 +256,8 @@ module.exports = {
         logTemplate: '汇报模板',
         logTemplateSettings: '设置汇报模板',
         configureAdministratorAndStatisticsPermissions: '配置管理员及统计权限',
-        statisticalAuthority: "的统计权限"
+        statisticalAuthority: "的统计权限",
+        addReportReviewer: '添加汇报核查人',
+        addReportReminder: '添加汇报催办人'
     }
 }
