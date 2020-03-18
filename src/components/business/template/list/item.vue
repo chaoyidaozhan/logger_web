@@ -74,10 +74,10 @@ export default {
             delete item.id;
             delete item.memberId;
             delete item.createTime;
-            let arr = item.title.match(/(\d+)$/ig);
-            let copyCount = 0;
-            arr !== null &&  (copyCount = ++arr[0]);
-            item.title += copyCount;
+            let itemTitle = item.title;
+            let regArr = itemTitle.match(/(\d+)$/ig);
+            let copyCount = regArr[0] === null ? 1 : (++regArr[0]);
+            item.title = itemTitle.replace(/(\d+)$/ig, copyCount);
             this.$ajax({
                 url: '/template/add',
                 type: 'post',
@@ -87,7 +87,8 @@ export default {
                 requestBody: true,
                 success: (res)=>{
                     if(res && res.code == 0) {
-                        this.$emit('successCreateCopyTemplate')
+                        this.$YYMessage.success(this.$t('status.copyTemplateSuccess'));
+                        this.$emit('successCreateCopyTemplate');
                     } else {
                         this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
                     }

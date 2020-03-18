@@ -86,7 +86,8 @@ module.exports = {
         clickToReload: '点击重新加载',
         loadMore: '加载更多',
         noRelevantData: '没有相关数据',
-        status: '状态'
+        status: '状态',
+        copyTemplateSuccess: '复制模板成功'
     },
     toast: { // 提示
         operationFailed: '操作失败',

@@ -85,7 +85,8 @@ module.exports = {
         clickToReload: 'Click to reload',
         loadMore: 'Load more',
         noRelevantData: 'No relevant Data',
-        status: 'status'
+        status: 'status',
+        copyTemplateSuccess: 'copy template success'
     },
     toast: { // 提示
         operationFailed: 'Operation Failed',
