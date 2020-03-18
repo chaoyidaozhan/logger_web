@@ -56,7 +56,7 @@
         </div>
         <div class="addTemplate mb-flex mb-flex-v" v-show="isAddTemplateShow">
             <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
-                <div>添加模版</div>
+                <div>{{$t('noun.addTemplate')}}</div>
                 <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
             </div>
             <div class="body mb-flex-1 mb-flex mb-flex-pack-justify">
@@ -76,6 +76,9 @@
                     </YYCheckbox>
                 </div>
                 <div>
+                    <YYButton type="primary" @click.stop="addSelectedTemplate">{{$t('noun.addTemplate')}}</YYButton>
+                </div>
+                <div class="mb-flex-1">
                     <YYPagination
                         :total="totalCount" 
                         :pageSize="pageSize"
