@@ -3,13 +3,21 @@
     <div>
       <div class="bgCover" @click="close()"></div>
       <div class="container">
-         <Item></Item>
+         <div class="header">
+            <span class="title">设置汇报规则</span>
+            <i class="closeIcon icon-add" @click="close()"></i>
+          </div>
+         <DetailItem @edit="editClick()"></DetailItem>
+         <DateRange :class="'dataRange'"></DateRange>
+         <TabPersonList></TabPersonList>
       </div>
     </div>
   </transition>
 </template>
 <script>
-import Item from './common/listItem'
+import DetailItem from './common/detailItem'
+import DateRange from './common/dateRange'
+import TabPersonList from './common/tabPersonList'
 import tip_data from 'app_assets/images/tip_data.png'
 export default {
     props: {
@@ -19,7 +27,9 @@ export default {
         // }
     },
     components: {
-      Item
+      DetailItem,
+      DateRange,
+      TabPersonList
     },
     data() {
         return {
@@ -29,13 +39,16 @@ export default {
         }
     },
     methods: {
+      editClick () {
+        this.$emit('changeShow', 2)
+      },
       close () {
         // 1 关闭 2 设置规则  3 查看详情
-        this.$emit('changeShow', 1)
+        this.$emit('changeShow', 'close')
       },
       setRules () {
         // 1 关闭 2 设置规则  3 查看详情
-        this.$emit('changeShow', 2)
+        this.$emit('changeShow', 3)
       }
     },
     mounted () {
@@ -74,6 +87,10 @@ export default {
     right: 0;
     top: 0;
     background: white;
+    .dataRange {
+      text-align: center;
+      font-size: 14px;
+    }
     .title {
       display: inline-block;
       height: 48px;

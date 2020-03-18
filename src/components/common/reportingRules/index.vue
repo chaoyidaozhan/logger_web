@@ -44,8 +44,18 @@ export default {
             break;
         }
       },
-      changeShowDetail () {
-        this.showDetail = false
+      changeShowDetail (flag) {
+        switch (flag) {
+          case 'close' :
+            this.showDetail = false
+            break;
+          case 2 :
+            this.showAdd = true
+            break;
+          case 3 :
+            this.showAdd = true
+            break;
+        }
       },
       changeShowAdd () {
         this.showAdd = false
