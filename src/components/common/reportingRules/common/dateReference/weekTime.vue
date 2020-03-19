@@ -2,7 +2,7 @@
 <div class="ctn">
   <div class="subCtn" @click="showSlide = !showSlide">
     <span class="text">
-      日期 啊啊啊啊
+      {{ showValue }}
     </span>
     <i class="icon-date icon-statistics-2018"></i>   
   </div> 
@@ -99,11 +99,27 @@ export default {
           minuteArr: [],
           selfDay: this.day,
           selfHour: this.hour,
-          selfMinute: this.minute
+          selfMinute: this.minute,
+          showValue: ''
         }
     },
+    computed: {
+    },
     methods: {
+      getShowValue() {
+        let str = ''
+        let dayValue = ''
+        if(this.columns == 3) {
+          this.firstColumsData.forEach(item => {
+            if (item.key == this.selfDay) dayValue = item.value
+          })
+        }
+        str = `${dayValue} ${this.selfHour} ${this.selfMinute}`
+        return str
+      },
       confirm () {
+        let v = this.getShowValue()
+        this.showValue = v
         this.showSlide = false
       },
       setDay (v) {
@@ -151,6 +167,7 @@ export default {
     height: 32px;
     line-height: 32px;
     .subCtn {
+      height: 32px;
       // width: 115px;
       padding: 0px 10px;
       font-size: 12px;
