@@ -4,6 +4,7 @@
             <fs-query-form 
                 :showMember="true"
                 :showTemplate="true"
+                :showCreateMenu="true"
                 :showDatePicker="showDatePicker"
                 :createDate="createDate"
                 @handleQuery="handleQuery" ref="queryForm"/>
