@@ -34,10 +34,22 @@ export default {
     },
     methods: {
         handleQuery(params) {
+             // classification 1部门 deptId ;   2人员 memberIds   3内部群 groupId
+             switch (params.classification) {
+                case '1':
+                    this.validateString = 'deptId';
+                    break
+                case '2':
+                    this.validateString = 'memberIds';
+                    break
+                case '3':
+                    this.validateString = 'groupId';
+                    break
+            }
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
                 return this.$Message.warning(this.validateMsg[this.validateString])
-            } 
+            }
             this.minDate = params.minDate || ''
             this.maxDate = params.maxDate || ''
             delete params.minDate

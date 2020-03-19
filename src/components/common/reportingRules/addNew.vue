@@ -42,7 +42,7 @@
             </div>
             <div class="item">
               <div class="itemTitle">
-                <span class="must"></span>
+                <!-- <span class="must"></span> -->
                 选择周期
               </div>
               <div class="subctn">
@@ -76,7 +76,7 @@
             <!-- 指定日期 只有日才有 -->
             <div class="item">
               <div class="itemTitle">
-                <span class="must"></span>
+                <!-- <span class="must"></span> -->
                 指定日期
               </div>
               <div class="subctn">
@@ -110,7 +110,7 @@
             </div>
             <div class="item">
               <div class="itemTitle">
-                <span class="must"></span>
+                <!-- <span class="must"></span> -->
                 提交开始时间
               </div>
               <div class="subctn">
@@ -120,7 +120,7 @@
             </div>
             <div class="item">
               <div class="itemTitle">
-                <span class="must"></span>
+                <!-- <span class="must"></span> -->
                 提交结束时间
               </div>
               <div class="subctn">
@@ -133,7 +133,7 @@
             </div> 
             <div class="item">
               <div class="itemTitle">
-                <span class="must"></span>
+                <!-- <span class="must"></span> -->
                 提醒时间
               </div>
               <div class="subctn">
@@ -147,6 +147,16 @@
                     截止前15小时
                   </YYOption>
               </YYSelect>
+              </div>
+            </div>
+             <div class="item submitCtn">
+              <div class="itemTitle">
+              </div>
+              <div class="subctn">
+                <YYButton 
+                  type="primary">
+                  提交
+                </YYButton>
               </div>
             </div>
           </div>
@@ -296,6 +306,9 @@ export default {
           clear: both;
         }
         margin-bottom: 15px;
+        &.submitCtn {
+          margin-top: 30px;
+        }
       }
       .subItem {
         height: 20px;
