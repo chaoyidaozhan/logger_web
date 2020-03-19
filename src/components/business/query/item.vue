@@ -6,7 +6,7 @@
                 <div class="left-header" @click="back2Logger()">
                     {{loggerItemData.userName}}的工作汇报
                     <div class="left-close">
-                        <i class="icon-add"></i>
+                        <YYIcon type="guanbi"></YYIcon>
                     </div>
                 </div>
                 <div class="left-line"></div>
@@ -156,9 +156,9 @@
                             </div>
                             <div class="count">
                                 <div class="imageCount">
-                                    <img class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
-                                    <img class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
-                                    <img class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                    <img style="right:88px;z-index:3" class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                    <img style="right:75px;z-index:2" class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                    <img style="right:62px;z-index:1" class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
                                 </div>
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                                 <!-- <i class="icon-chat-normal"></i> -->
@@ -827,8 +827,11 @@ export default {
                             display: inline-block;
                             margin-right: 12px;
                             .count-img{
+                                border-radius: 50%;
                                 width: 20px;
                                 height: 20px;
+                                position: absolute;
+                                top: 1px;
                             }
                         }
                     }
