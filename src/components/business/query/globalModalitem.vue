@@ -1,23 +1,7 @@
 <template>
-    <div class="logger-item">
-        <!-- @mouseleave="closeMenu()" -->
-        <div class="logger-content-item" @mouseleave="closeMenu()">
-            <div class="leftMenu" v-show="isShowMenu">
-                <div class="left-header" @click="back2Logger()">
-                    {{loggerItemData.userName}}的工作汇报
-                    <div class="left-close">
-                        <i class="icon-add"></i>
-                    </div>
-                </div>
-                <div class="left-line"></div>
-                <div class="left-content">
-                    <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
-                        {{item.title}}
-                        <treeNode :item="item" @back2Title="back2Title"></treeNode>
-                    </div>
-                </div>
-            </div>
-            <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
+    <div class="logger-item-modal">
+        <div class="logger-content-item"  @mouseleave="closeMenu()">
+            <div class="logger-list-item logger-list-item-modal" ref="loggerListItem" @mouseenter="showMenu()">
                 <!--当前人信息-->
                 <div class="logger-list-row clearfix logger-list-user">
                     <fs-avatar
@@ -41,7 +25,7 @@
                         <div class="pull-right">
                             <span class="time">{{loggerItemData.createTime | filterDiaryUserTime}}</span>
                             <span class="data-type">{{dataSource[loggerItemData.dataType || 0]}}</span>
-                            <Poptip placement="bottom-end" width="70">
+                            <!-- <Poptip placement="bottom-end" width="70">
                                 <ul class="operate-tips" slot="content">
                                     <li class="cursor-pointer" 
                                         @click="handleEdit"
@@ -63,12 +47,12 @@
                                     </li>
                                 </ul>
                                 <span class="operate cursor-pointer"><i class="icon-more"></i></span>
-                            </Poptip>
+                            </Poptip> -->
                         </div>
                     </div>
                 </div>
                 <!--可见范围-->
-                <div class="logger-list-row logger-list-range">
+                <div class="logger-list-row logger-list-range logger-list-range-modal">
                     <div class="logger-list-col" 
                         :class="{'ellipsis': (!rangeExpand && rangeRealHeight > rangeDefaultHeight)}" 
                         :style="{'height': `${rangeHeight}px` }"
@@ -80,16 +64,16 @@
                         </span>
                     </div>
                 </div>
-                <!-- 控制展开收起 -->
+                <!-- 控制展开收起 :style="{'height': `${contentHeight}px` -->
                 <div class="handle-content-expand" 
                     ref="contentHeight" 
-                    :style="{'height': `${contentHeight}px` }">
+                    }">
                     <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
                         <div class="logger-list-col">
                             <div class="title">
                                 {{$t('noun.logDate')}}
                             </div>
-                            <div class="caption">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+                            <div class="caption caption-modal">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
                         </div>
                     </div>
                     <!--具体内容-->
@@ -126,14 +110,14 @@
                     </div>
                 </div>
                 <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
-                    <div class="logger-list-col logger-open-close">
+                    <!-- <div class="logger-list-col logger-open-close">
                         <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
                             {{$t('operate.expand')}}
                         </span>
                         <span class="cursor-pointer more" @click="handleContentExpand" v-else>
                             {{$t('operate.collapse')}}
                         </span>
-                    </div>
+                    </div> -->
                     <div class="logger-list-col logger-list-location logger-list-watcher">
                         <Poptip
                             v-if="loggerItemData.readCount"
@@ -228,21 +212,6 @@
                             @handleReplyNum="handleReplyNum"
                             :dailyId="loggerItemData.id"/>
                     </div>
-                </div>
-            </div>
-            <!--点赞回复收藏-->
-            <div class="logger-list-vertical-operate" v-show="isShowMenu">
-                <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
-                    <i class="icon-position icon-good-normal" v-if="!loggerItemData.like.isLike"></i>
-                    <i class="icon-position icon-good-selected" v-else></i>
-                </div>
-                <div class="operate-item" style="margin-top:12px" :class="{active: showReply}" @click="handleReply">
-                    <i class="icon-position icon-chat-normal" v-if="!showReply"></i>
-                    <i class="icon-position icon-chat-selected" v-else></i>
-                </div>
-                <div class="operate-item" style="margin-top:12px" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
-                    <i class="icon-position icon-collect-normal" v-if="!loggerItemData.favorite.isFavorite"></i>
-                    <i class="icon-position icon-collect-selected" v-else></i>
                 </div>
             </div>
         </div>
@@ -640,17 +609,15 @@ export default {
 </script>
 <style lang="less">
 @import '~app_assets/css/var.less';
-@rowMarginBottom: 14px;
-@titleMarginBottom: 4px;
-.logger-item{
+.logger-item-modal{
     .logger-content-item{
         position: relative;
         display: inline-block;
         width: 100%;
         .logger-list-item {
             // margin-left: 188px;
-            margin:0 auto;
-            max-width: 1024px;
+            // margin:0 auto;
+            // max-width: 1024px;
             min-width: 768px;
             // margin: auto;
             // float: left;
@@ -679,9 +646,9 @@ export default {
                 line-height: 24px;
                 word-break: break-all;
                 &.logger-list-time {
-                    margin-bottom: @rowMarginBottom;
+                    margin-bottom: 14px;
                     .title {
-                        margin-bottom: @titleMarginBottom;
+                        margin-bottom: 4px;
                     }
                 }
                 .username {
@@ -710,7 +677,7 @@ export default {
                 .logger-list-col {
                     margin-left: 54px;
                     .title {
-                        margin-bottom: @titleMarginBottom;
+                        margin-bottom: 4px;
                         color: @gray-color-dark;
                     }
                     .caption {
@@ -973,72 +940,6 @@ export default {
             }
             .ivu-modal-footer {
                 display: none;
-            }
-        }
-        .logger-list-vertical-operate{
-            width: 56px;
-            height: 150px;
-            position: absolute;
-            bottom: 0;
-            .operate-item{
-                width:32px;
-                height:32px;
-                background:rgba(255,255,255,1);
-                box-shadow:0px 2px 6px 0px rgba(0,0,0,0.12);
-                border-radius:16px;
-                margin: auto;
-                position: relative;
-                cursor: pointer;
-                .icon-position{
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%,-50%);
-                }
-                
-            }
-            .active{
-                color: #FFC400;
-            }
-        }
-        .leftMenu{
-            position: absolute;
-            // visibility: hidden;
-            width: 100%;
-            height: 240px;
-            padding: 6px 16px 8px 16px;
-            .left-header{
-                font-size:12px;
-                font-family:PingFangSC-Regular,PingFang SC;
-                font-weight:400;
-                color:rgba(153,153,153,1);
-                height: 17px;
-                line-height: 17px;
-                .left-close{
-                    display: inline-block;
-                    float: right;
-                }
-            }
-            .left-line{
-                width:100%;
-                margin-top: 8px;
-                height:1px;
-                background: #D9D9D9;
-            }
-            .left-content{
-                width:100%;
-                height:144px;
-                margin-top: 8px;
-                font-size:12px;
-                font-family:PingFangSC-Regular,PingFang SC;
-                font-weight:400;
-                color:rgba(51,51,51,1);
-                .left-item{
-                    cursor: pointer;
-                    padding: 10px 0;
-                    // height: 36px;
-                    // line-height: 36px;
-                }
             }
         }
     }

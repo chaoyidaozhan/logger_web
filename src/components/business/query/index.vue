@@ -1,19 +1,7 @@
 <template>
-    <div class="page-logger-content" >
-        <!-- <div class="leftMenu" v-if="isShowMenu">
-            <div class="left-header">
-                {{loggerItemData.userName}}的工作汇报
-                <div class="left-close">
-                    <i class="icon-add"></i>
-                </div>
-            </div>
-            <div class="left-line"></div>
-            <div class="left-content">
-                <div class="left-item" v-for="(item, index) in menus" :key="index">{{item.title}}</div>
-            </div>
-        </div> -->
+    <div id="page-logger-content" class="page-logger-content" >
         <div class="page-logger-list" @scroll.stop="onScroll">
-            <transition-group name="fade">
+            <transition-group name="fade" style="display:block">
                 <fs-logger-list-item 
                     v-for="(item, index) in list"
                     @handleDelete="handleDelete"
@@ -24,7 +12,6 @@
                     :isLowerLevel="isLowerLevel"
                     :loggerItemData="item"
                     :menus="item.title"
-                    :scrollAll="scrollAll"
                     :key="item.id || index" />
             </transition-group>
             <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
@@ -56,13 +43,14 @@
                 <p slot="footer"></p>
             </Modal>
         </div>
-        <!-- <div class="righttMenu"></div> -->
+        <GlobalModal></GlobalModal>
     </div>
 </template>
 <script>
 import FsLoggerListItem from './item'
 import FormatTime from 'app_src/filters/format-time'
 import FsAvatar from 'app_component/common/avatar'
+import GlobalModal from './globalModal'
 
 /**
     range 
@@ -130,14 +118,13 @@ export default {
             queryMemberId: null,
             operateModal: false,
             operateModalData: null,
-            menus:[],
-            // tool:null,
-            scrollAll: 0 //当前滚动的长度
+            menus:[]
         }
     },
     components: {
         FsLoggerListItem,
-        FsAvatar
+        FsAvatar,
+        GlobalModal
     },
     watch: {
         pageNo: 'loadData',
@@ -190,7 +177,6 @@ export default {
                 if ((scrollHeight - scrollTop) - offsetHeight < 20) {
                     this.pageNo++
                 }
-                this.scrollAll = scrollTop
             }
         },
         updateList(res) { // load成功之后更新数据
@@ -256,30 +242,12 @@ export default {
             this.loading = false
             this.hasMore = true
             this.loadData()
-        },
-        // showMenu() {
-        //     this.$eventbus.$emit('showMenu', this.tool)
-        //     let leftMenu = document.querySelector('.leftMenu')  //visibility
-        //     leftMenu.style.visibility = 'visible'
-        // },
-        // closeMenu() {
-        //     this.$eventbus.$emit('closeMenu', this.tool)
-        //     let leftMenu = document.querySelector('.leftMenu')  //visibility
-        //     leftMenu.style.visibility = 'hidden'
-        // }
+        }
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
         this.initList()
-    },
-    // created() {
-    //     this.$eventbus.$on('transforTool',(tool)=>{
-    //         this.tool = tool
-    //     })
-    // },
-    // destroyed() {
-    //     this.$eventbus.$off('transforTool')
-    // }
+    }
 }
 </script>
 <style lang="less" scoped>
@@ -293,7 +261,8 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-content{
-    margin-top: 10px;
+    padding-top: 10px;
+    background: #F5F5F5;
     // .leftMenu{
     //     position: absolute;
     //     // background: #fff;
@@ -335,7 +304,8 @@ export default {
     //     }
     // }
     .page-logger-list {
-        height: 100vh;
+        height: calc(~ '100vh - 60px');
+        // height: 100%;
         overflow: auto;
         .loading {
             height: 60px;

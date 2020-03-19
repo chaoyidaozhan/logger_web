@@ -111,17 +111,17 @@
                     :showDeptExcelBtn="showDeptExcelBtn"></fs-export-excel>
                 </FormItem>
             </div>    
-            <div class="open-date" v-if="showCreateMenu">
-                <i class="icon-add" @click.stop=""></i>
+            <div class="open-date" v-if="showCreateMenu" @click.stop="globalModel">
+                <i class="icon-add" ></i>
             </div>
             <div class="logger-menu-logo" v-if="showCreateMenu">
                 <YYButton type="primary" @click="goLoggerDetail">
                     {{$t('operate.createLog')}}
                 </YYButton>    
             </div>
-            <YYButton type="ghost"  @click="setReportingRules()">
+            <!-- <YYButton type="ghost"  @click="setReportingRules()">
                 汇报规则
-            </YYButton>
+            </YYButton> -->
         </Form>
         <ReportingRules v-if="showReportingRules" />
     </div>
@@ -257,6 +257,9 @@ export default {
         }
     },
     methods: {
+        globalModel() {
+            this.$eventbus.$emit('openglobal')
+        },  
         goLoggerDetail() {
             this.$router.push({
                 path: `/LoggerDetail/template`,
@@ -452,6 +455,7 @@ export default {
         margin-right: 8px;
     }
     .open-date{
+        cursor: pointer;
         display: inline-block;
         font-size: 12px;
         text-align: center;
