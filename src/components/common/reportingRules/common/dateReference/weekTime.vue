@@ -1,17 +1,17 @@
 <template>
-<div class="ctn">
+<div class="ctn" v-clickoutside="handleClose">
   <div class="subCtn" @click="showSlide = !showSlide">
     <span class="text">
       {{ showValue }}
     </span>
     <i class="icon-date icon-statistics-2018"></i>   
-  </div> 
+  </div>
   <div class="slideCtn" v-show="showSlide" :style="{width: columns == 2 ? '66.66%' : '100%'}">
     <!-- 第一列 -->
     <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}" v-if="columns != 2">
        <ul class="listCtn">
        <li class="listItem"
-          v-for="(item, i) in firstColData"
+          v-for="(item, i) in firstColumsData"
           :key="i"
           @click="setDay(item.key)"
           :class="{'active': selfDay == item.key}">
@@ -57,6 +57,7 @@
 </div>
 </template>
 <script>
+import clickoutside from 'app_src/directives/clickoutside'
 
 export default {
     props: {
@@ -85,16 +86,15 @@ export default {
           default: '0'
         }
     },
+    directives: {
+      clickoutside
+    },
     components: {
     },
     data() {
         return {
           showSlide: false,
-          firstColumsData: [
-            {key: '1', value: '星期一'},
-            {key: '2', value: '星期二'},
-            {key: '3', value: '星期三'},
-          ],
+          firstColumsData: this.firstColData,
           hourArr: [],
           minuteArr: [],
           selfDay: this.day,
@@ -106,6 +106,9 @@ export default {
     computed: {
     },
     methods: {
+      handleClose () {
+        this.showSlide = false
+      },
       getShowValue() {
         let str = ''
         let dayValue = ''
@@ -114,7 +117,7 @@ export default {
             if (item.key == this.selfDay) dayValue = item.value
           })
         }
-        str = `${dayValue} ${this.selfHour} ${this.selfMinute}`
+        str = `${dayValue} ${this.selfHour}:${this.selfMinute}`
         return str
       },
       confirm () {
@@ -141,6 +144,9 @@ export default {
       },
       minute(v) {
         this.selfMinute = v
+      },
+      firstColData(v) {
+        this.firstColumsData = v
       }
     },
     created () {

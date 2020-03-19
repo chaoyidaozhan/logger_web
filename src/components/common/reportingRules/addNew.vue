@@ -46,8 +46,8 @@
                 选择周期
               </div>
               <div class="subctn">
-                <YYSelect 
-                  v-model="dateType" 
+                <YYSelect
+                  v-model="dateType"
                   @on-change="handleDateTypeChange">
                   <YYOption value="1">
                     日
@@ -58,11 +58,14 @@
                   <YYOption value="3">
                     月
                   </YYOption>
+                  <YYOption value="4">
+                    双周
+                  </YYOption>
               </YYSelect>
               </div>
             </div>
             <!-- 从当前周开始 -->
-            <div class="item subItem">
+            <div class="item subItem" v-if="dateType == '4'">
               <div class="itemTitle">
               </div>
               <div class="subctn">
@@ -74,7 +77,7 @@
               </div>
             </div>
             <!-- 指定日期 只有日才有 -->
-            <div class="item">
+            <div class="item" v-if="dateType == '1'">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
                 指定日期
@@ -83,7 +86,7 @@
                 <YYSelect 
                   v-model="appointedDate"
                   :multiple="true"
-                  @on-change="handleDateTypeChange">
+                  @on-change="handleAppointedDate">
                   <YYOption value="1">
                     周一
                   </YYOption>
@@ -114,8 +117,7 @@
                 提交开始时间
               </div>
               <div class="subctn">
-                  <!-- <WeekTime :columns="2"></WeekTime> -->
-                  <WeekTime :firstColData="firstColData" :columns="2" :day="'1'" :hour="'11'" :minute="'1'"></WeekTime>
+                  <WeekTime :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hour="'11'" :minute="'01'"></WeekTime>
               </div>
             </div>
             <div class="item">
@@ -124,7 +126,7 @@
                 提交结束时间
               </div>
               <div class="subctn">
-                <WeekTime :firstColData="firstColData"></WeekTime>
+                <WeekTime :firstColData="endFirstColData" :columns="endColumns"></WeekTime>
               </div>
             </div>
             <div class="item tipsCtn">
@@ -138,8 +140,8 @@
               </div>
               <div class="subctn">
                 <YYSelect 
-                  v-model="dateType" 
-                  @on-change="handleDateTypeChange">
+                  v-model="lastRemindTime" 
+                  @on-change="handleLastRemindTime">
                   <YYOption value="1">
                     截止前1小时
                   </YYOption>
@@ -189,19 +191,22 @@ export default {
           memberApiUri: '',
           hasDefaultTemplate: true,
           templateType: 'app',
-          dateType: [
-             {
-                value: '1',
-                label: '日'
-              }
-          ],
+          dateType: [],
+          lastRemindTime: [],// 最后设置的提醒时间
           ImTips,
-          firstColData: [
+          startFirstColData: [
             {key: '1', value: '周一'},
             {key: '2', value: '周二'},
             {key: '3', value: '周三'}
           ],
-          appointedDate: [] // 指定日期
+          endFirstColData: [
+            {key: '1', value: '周一'},
+            {key: '2', value: '周二'},
+            {key: '3', value: '周三'}
+          ],
+          appointedDate: [], // 指定日期
+          startColumns: 2,
+          endColumns: 2,
           // listArr: [],
         }
     },
@@ -217,7 +222,52 @@ export default {
 
       },
       handleDateTypeChange (v) {
-        // console.log(v)
+        switch (v) {
+          case '1': // 日
+            this.startColumns = 2
+            this.endColumns = 3
+            this.endFirstColData = [
+              {key: '1', value: '本日'},
+              {key: '2', value: '次日'}
+            ]
+            break;
+          case '2': // 周
+            this.startColumns = 3
+            this.endColumns = 3
+            this.startFirstColData = this.getWeekDaysFromSomeDay()
+            this.endFirstColData = this.getWeekDaysFromSomeDay()
+            break;
+          case '3': // 月
+            this.startColumns = 2
+            this.endColumns = 2
+            break;
+          case '4': // 当前周
+            this.startColumns = 3
+            this.endColumns = 3
+            this.startFirstColData = this.getWeekDaysFromSomeDay()
+            break;
+        }
+        console.log(this.dateType)
+      },
+      // 指定日期
+      handleAppointedDate () {
+
+      },
+      handleLastRemindTime () {
+
+      },
+      getWeekDaysFromSomeDay (start = 0) {
+        // 从start开始 一周时间 bug
+        let r = [
+          {key: '1', value: '周一'},
+          {key: '2', value: '周二'},
+          {key: '3', value: '周三'},
+          {key: '4', value: '周四'},
+          {key: '5', value: '周五'},
+          {key: '6', value: '周六'},
+          {key: '7', value: '周日'},
+        ]
+        return r
       }
     },
     mounted () {
