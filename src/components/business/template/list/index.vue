@@ -182,6 +182,15 @@ export default {
     }
     .page {
         width: 100%;
+        /deep/ .yy-pagination {
+            text-align: center;
+        }
+        /deep/ .yy-pagination-item {
+            background: white;
+        }
+        /deep/ .yy-pagination-item-active {
+            background: #adb4bc;
+        }
     }
     .col {
         width: 275px;
