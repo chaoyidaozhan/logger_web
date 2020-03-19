@@ -1,8 +1,8 @@
 <template>
     <div class="logger-item">
         <!-- @mouseleave="closeMenu()" -->
-        <div class="logger-content-item" @mouseleave="closeMenu()">
-            <div class="leftMenu" v-show="isShowMenu">
+        <div class="logger-content-item" @mouseenter="showMenu()" @mouseleave="closeMenu()">
+            <div class="leftMenu" v-show="isShowMenu && !isInternalGroupReport">
                 <div class="left-header" @click="back2Logger()">
                     {{loggerItemData.userName}}的工作汇报
                     <div class="left-close">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
+            <div class="logger-list-item" ref="loggerListItem">
                 <!--当前人信息-->
                 <div class="logger-list-row clearfix logger-list-user">
                     <fs-avatar
@@ -155,7 +155,11 @@
                                 </div>
                             </div>
                             <div class="count">
-                                <img class="count-img" src="" />    
+                                <div class="imageCount">
+                                    <img class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                    <img class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                    <img class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                </div>
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                                 <!-- <i class="icon-chat-normal"></i> -->
                                 <YYIcon type="arrow-right"></YYIcon>
@@ -231,6 +235,7 @@
                             :dailyId="loggerItemData.id"/>
                     </div>
                 </div>
+                <div class="line" v-if="!loggerItemData.islast"></div>
             </div>
             <!--点赞回复收藏-->
             <div class="logger-list-vertical-operate" v-show="isShowMenu">
@@ -303,7 +308,8 @@ export default {
             editTimer: null,
             members: null,
             isShowMenu: false,
-            loggerItem: null//记录该item
+            loggerItem: null,//记录该item
+            isInternalGroupReport: false//是否是内部群汇报
         }
     },
     components: {
@@ -622,6 +628,10 @@ export default {
         }
     },
     mounted () {
+        //判断是否是内部群
+        if(this.$route.path === '/LoggerQueryGroup'){
+            this.isInternalGroupReport = true
+        }
         this.$nextTick(()=>{
             this.setRangeHeight()        
         })
@@ -668,15 +678,15 @@ export default {
             &.fade-enter-in {
                 opacity: 1;
             }
-            &:after {
-                position: absolute;
-                left: 74px;
-                height: 1px;
-                right: 20px;
-                bottom: 0;
-                content: '';
-                background-color: @border-color-base;
-            }
+            // &:after {
+            //     position: absolute;
+            //     left: 74px;
+            //     height: 1px;
+            //     right: 20px;
+            //     bottom: 0;
+            //     content: '';
+            //     background-color: @border-color-base;
+            // }
             .logger-list-row {
                 line-height: 24px;
                 word-break: break-all;
@@ -813,10 +823,13 @@ export default {
                         cursor: pointer;
                         display: flex;
                         align-items: center;
-                        .count-img{
-                            width: 20px;
-                            height: 20px;
+                        .imageCount{
+                            display: inline-block;
                             margin-right: 12px;
+                            .count-img{
+                                width: 20px;
+                                height: 20px;
+                            }
                         }
                     }
                 }
@@ -905,76 +918,14 @@ export default {
                     }
                 }
             }
-            
-        }
-        .operate-modal {
-            .ivu-modal-body {
-                padding: 0 50px 10px;
-                min-height: 340px;
-                position: relative;
-                &:before {
-                    position: absolute;
-                    left: 26px;
-                    content: '';
-                    top: -8px;
-                    bottom: 0;
-                    width: 1px;
-                    background-color: @border-color;
-                }
-                .operate-row {
-                    line-height: 20px;
-                    font-size: 14px;
-                    padding: 12px;
-                    margin-top: 10px;
-                    border-radius: 4px;
-                    background-color: @white-color-light;
-                    position: relative;
-                    &:before {
-                        position: absolute;
-                        content: '';
-                        left: -26px;
-                        top: 15px;
-                        width: 5px;
-                        height: 5px;
-                        border-radius: 50%;
-                        background-color: @gray-color-normal;
-                    }
-                    &:after {
-                        position: absolute;
-                        content: '';
-                        width: 0;
-                        border-style: solid;
-                        border-width: 8px 8px 8px 0;
-                        border-color: transparent @white-color-light transparent @white-color-light;
-                        left: -7px;
-                        top: 10px;
-                    }
-                    &:first-child {
-                        &:before {
-                            background-color: @primary-color;
-                        }
-                    }
-                    .operate-avatar {
-                        float: left;
-                        margin-top: 4px;
-                    }
-                    .operate-content {
-                        margin-left: 41px;
-                        .clearfix {
-                            color: @gray-color-light;
-                            height: 20px;
-                        }
-                        .pull-right {
-                            font-size: 12px;
-                        }
-                    }
-                }
-            }
-            .ivu-modal-header p, .ivu-modal-header-inner {
-                font-weight: normal;
-            }
-            .ivu-modal-footer {
-                display: none;
+            .line {
+                position: absolute;
+                left: 74px;
+                height: 1px;
+                right: 20px;
+                bottom: 0;
+                content: '';
+                background-color: @border-color-base;
             }
         }
         .logger-list-vertical-operate{
@@ -1042,6 +993,76 @@ export default {
                 }
             }
         }
+    }
+}
+.operate-modal {
+    .ivu-modal-body {
+        padding: 0 50px 10px;
+        min-height: 340px;
+        position: relative;
+        &:before {
+            position: absolute;
+            left: 26px;
+            content: '';
+            top: -8px;
+            bottom: 0;
+            width: 1px;
+            background-color: @border-color;
+        }
+        .operate-row {
+            line-height: 20px;
+            font-size: 14px;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 4px;
+            background-color: @white-color-light;
+            position: relative;
+            &:before {
+                position: absolute;
+                content: '';
+                left: -26px;
+                top: 15px;
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background-color: @gray-color-normal;
+            }
+            &:after {
+                position: absolute;
+                content: '';
+                width: 0;
+                border-style: solid;
+                border-width: 8px 8px 8px 0;
+                border-color: transparent @white-color-light transparent @white-color-light;
+                left: -7px;
+                top: 10px;
+            }
+            &:first-child {
+                &:before {
+                    background-color: @primary-color;
+                }
+            }
+            .operate-avatar {
+                float: left;
+                margin-top: 4px;
+            }
+            .operate-content {
+                margin-left: 41px;
+                .clearfix {
+                    color: @gray-color-light;
+                    height: 20px;
+                }
+                .pull-right {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    .ivu-modal-header p, .ivu-modal-header-inner {
+        font-weight: normal;
+    }
+    .ivu-modal-footer {
+        display: none;
     }
 }
 </style>

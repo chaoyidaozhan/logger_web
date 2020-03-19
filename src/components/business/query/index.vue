@@ -188,13 +188,16 @@ export default {
                 } else {
                     this.list = this.list.concat(res.data || [])
                 }
-                this.list.forEach((item) => {
-                    let items = JSON.parse(item.content)
-                    item.title = items;
-                })
                 if (res.data && res.data.length < this.pageSize) {
                     this.hasMore = false
                 }
+                this.list.forEach((item, index) => {
+                    let items = JSON.parse(item.content)
+                    item.title = items;
+                    if(!this.hasMore && index === this.list.length - 1){
+                        item.islast = true
+                    }
+                })
             } else {
                 this.list = []
                 this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))
