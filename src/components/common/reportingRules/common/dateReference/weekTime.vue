@@ -26,7 +26,7 @@
             v-for="(item, i) in hourArr"
             :key="i"
             @click="setHour(item.key)"
-            :class="{'active': hour == item.key}">
+            :class="{'active': selfHour == item.key}">
               {{ item.value }}
             </li>
       </ul>
@@ -38,7 +38,7 @@
           v-for="(item, i) in minuteArr"
           :key="i"
           @click="setMinute(item.key)"
-          :class="{'active': minute == item.key}">
+          :class="{'active': selfMinute == item.key}">
             {{ item.value }}
           </li>
       </ul>

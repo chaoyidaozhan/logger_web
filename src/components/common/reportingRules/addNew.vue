@@ -73,7 +73,7 @@
                 </div>
               </div>
             </div>
-            <!-- 指定日期 -->
+            <!-- 指定日期 只有日才有 -->
             <div class="item">
               <div class="itemTitle">
                 <span class="must"></span>
@@ -81,7 +81,7 @@
               </div>
               <div class="subctn">
                 <YYSelect 
-                  v-model="dateType"
+                  v-model="appointedDate"
                   :multiple="true"
                   @on-change="handleDateTypeChange">
                   <YYOption value="1">
@@ -124,7 +124,7 @@
                 提交结束时间
               </div>
               <div class="subctn">
-                <WeekTime></WeekTime>
+                <WeekTime :firstColData="firstColData"></WeekTime>
               </div>
             </div>
             <div class="item tipsCtn">
@@ -179,13 +179,19 @@ export default {
           memberApiUri: '',
           hasDefaultTemplate: true,
           templateType: 'app',
-          dateType: '1',
+          dateType: [
+             {
+                value: '1',
+                label: '日'
+              }
+          ],
           ImTips,
           firstColData: [
             {key: '1', value: '周一'},
             {key: '2', value: '周二'},
             {key: '3', value: '周三'}
-          ]
+          ],
+          appointedDate: [] // 指定日期
           // listArr: [],
         }
     },
@@ -200,8 +206,8 @@ export default {
       handleQuery () {
 
       },
-      handleDateTypeChange () {
-
+      handleDateTypeChange (v) {
+        console.log(v)
       }
     },
     mounted () {
