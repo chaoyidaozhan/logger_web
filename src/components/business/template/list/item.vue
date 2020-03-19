@@ -83,13 +83,14 @@ export default {
         ...mapActions({
             updateTemplateContent: 'update_template_content'
         }),
-        createCopyTemplate(item) {
+        createCopyTemplate(originalItem) {
+            let item = Object.assign({}, originalItem);
             delete item.id;
             delete item.memberId;
             delete item.createTime;
             let itemTitle = item.title;
             let regArr = itemTitle.match(/(\d+)$/ig);
-            let copyCount = regArr[0] === null ? 1 : (++regArr[0]);
+            let copyCount = regArr === null ? 1 : (++regArr[0]);
             item.title = itemTitle.replace(/(\d+)$/ig, copyCount);
             this.$ajax({
                 url: '/template/add',
@@ -100,6 +101,7 @@ export default {
                 requestBody: true,
                 success: (res)=>{
                     if(res && res.code == 0) {
+                        originalItem.title = item.title;
                         this.$YYMessage.success(this.$t('status.copyTemplateSuccess'));
                         this.$emit('successCreateCopyTemplate');
                     } else {
