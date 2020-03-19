@@ -2,22 +2,24 @@
  <div class="listItem">
    <div class="header">
       <span class="title">项目实施周报</span>
-      <span class="buttonGroup">
-        <i class="edit icon-edit"></i>
-        <i class="delete icon-delete"></i>
-      </span>
+      <YYButton
+        class="edit"
+        type="ghost" 
+        size="small" 
+        @click="handleClick()">
+        编辑
+      </YYButton>
    </div>
    <div class="subHeader">
      <div class="desc">张三,李四,王五等11人</div>
      <div class="desc">周五18：00-下周一09：00</div>
    </div>
    <div class="footer">
-     <span class="lookDetail" @click="getDetail()">查看详情 <i class="icon-arrow-right"></i></span>
      <span class="photoInfor">
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <span class="submitNum">5人提交</span>
+       <span class="submitNum">5人未提交</span>
      </span>
    </div>
  </div>
@@ -39,8 +41,11 @@ export default {
         }
     },
     methods: {
-      getDetail () {
-        this.$emit('getDetail')
+      // getDetail () {
+      //   this.$emit('getDetail')
+      // },
+      handleClick () {
+        this.$emit('edit')
       }
     },
     mounted () {
@@ -51,6 +56,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .listItem {
+  padding-top: 10px;
   width:430px;
   height:128px;
   background:rgba(255,255,255,1);
@@ -64,6 +70,10 @@ export default {
     }
   }
   .header {
+    .edit {
+      float: right;
+      margin-top: 8px;
+    }
     .title{
       display: inline-block;
       font-size:14px;
@@ -108,7 +118,7 @@ export default {
     .photoInfor {
       height: 20px;
       line-height: 20px;
-      float: right;
+      // float: right;
       .personPhoto {
         width: 20px;
         height: 20px;

@@ -26,12 +26,40 @@ export default {
         }
     },
     methods: {
-      changeShowList () {
-        this.showList = false
-        this.$parent.showReportingRules = false
+      changeShowList (flag) {
+        switch (flag) {
+          case 1 :
+            this.showList = false
+            this.$parent.showReportingRules = false
+            break;
+          case 2 :
+            // this.showList = true,
+            // this.showDetail = true
+            this.showAdd = true
+            break;
+          case 3 :
+            // this.showList = true,
+            this.showDetail = true
+            // this.showAdd = true
+            break;
+        }
       },
-      changeShowDetail () {},
-      changeShowAdd () {}
+      changeShowDetail (flag) {
+        switch (flag) {
+          case 'close' :
+            this.showDetail = false
+            break;
+          case 2 :
+            this.showAdd = true
+            break;
+          case 3 :
+            this.showAdd = true
+            break;
+        }
+      },
+      changeShowAdd () {
+        this.showAdd = false
+      }
     },
     mounted () {
     },

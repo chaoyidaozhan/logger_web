@@ -1,36 +1,54 @@
 <template>
-  <transition name="moveR"  v-if="showList">
+  <transition name="moveR">
     <div>
-      <div class="bgCover"></div>
+      <div class="bgCover" @click="close()"></div>
       <div class="container">
-          <div class="header">
-            <span>汇报规则</span>
-            <span>设置汇报规则</span>
-            <i class="icon-customized"></i>
+         <div class="header">
+            <span class="title">设置汇报规则</span>
+            <i class="closeIcon icon-add" @click="close()"></i>
           </div>
+         <DetailItem @edit="editClick()"></DetailItem>
+         <DateRange :class="'dataRange'"></DateRange>
+         <TabPersonList></TabPersonList>
       </div>
     </div>
   </transition>
 </template>
 <script>
-
+import DetailItem from './common/detailItem'
+import DateRange from './common/dateRange'
+import TabPersonList from './common/tabPersonList'
+import tip_data from 'app_assets/images/tip_data.png'
 export default {
     props: {
-        showTemplate: { // 是否显示模板
-            type: Boolean,
-            default: false
-        }
+        // showList: { // 是否显示模板
+        //     type: Boolean,
+        //     default: false
+        // }
     },
     components: {
+      DetailItem,
+      DateRange,
+      TabPersonList
     },
     data() {
         return {
-          showList: true
+          listArr: [1,2,3,4,5,6,7,8,9,10],
+          // listArr: [],
+          tip_data
         }
     },
     methods: {
-      aa () {
-
+      editClick () {
+        this.$emit('changeShow', 2)
+      },
+      close () {
+        // 1 关闭 2 设置规则  3 查看详情
+        this.$emit('changeShow', 'close')
+      },
+      setRules () {
+        // 1 关闭 2 设置规则  3 查看详情
+        this.$emit('changeShow', 3)
       }
     },
     mounted () {
@@ -41,7 +59,7 @@ export default {
 </script>
 <style lang='less' scoped>
   .moveR-enter-active,  .moveR-leave-active {
-    transition: all 0.3s linear;
+    transition: all .5s linear;
     transform: translateX(0);
   }
   .moveR-enter,  .moveR-leave {
@@ -57,18 +75,61 @@ export default {
     left: 0;
     bottom: 0;
     opacity: 0;
-    z-index: 98;
+    z-index: 100;
   }
   .container {
+    font-size: 12px;
     position: fixed;
     box-shadow: 0 2px 8px rgba(0,0,0,.15);
     width: 470px;
     height: 100%;
-    z-index: 99;
+    z-index: 101;
     right: 0;
     top: 0;
     background: white;
-    // transition: transform .3s cubic-bezier(.9,0,.3,.7),-webkit-transform .3s cubic-bezier(.9,0,.3,.7);
+    .dataRange {
+      text-align: center;
+      font-size: 14px;
+    }
+    .title {
+      display: inline-block;
+      height: 48px;
+      line-height: 48px;
+      margin-left: 20px;
+    }
+    .headerButton {
+      float: right;
+      margin-right: 56px;
+      margin-top: 10px;
+    }
+    .closeIcon {
+      position: absolute;
+      right: 22px;
+      top: 18px;
+      cursor: pointer;
+      transform: rotate(45deg);
+    }
+    .body{
+      height: 100%;
+      overflow-y: auto;
+      .scrollBody {
+
+      }
+      .noImgCtn {
+        text-align: center;
+        margin-top: 50%;
+        .noDataImg {
+          width:62px;
+          height:59px;
+        }
+        .tips{
+          height:16px;
+          font-size:12px;
+          color:rgba(102,102,102,1);
+          line-height:16px;
+        }
+      }
+    }
   }
 </style>
 

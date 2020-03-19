@@ -71,7 +71,12 @@ module.exports = {
         status: 'Disable/Enable',
         max150Tips: 'Up to 150 words can be input',
         ruleMaker: 'Rule Maker',
-        starting: 'Enabled'
+        starting: 'Enabled',
+        updateTime: 'Update time',
+        allTemplate: 'All template',
+        commonTemplate: 'Common template',
+        copy: 'copy',
+        enable: 'Enable'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -80,7 +85,8 @@ module.exports = {
         clickToReload: 'Click to reload',
         loadMore: 'Load more',
         noRelevantData: 'No relevant Data',
-        status: 'status'
+        status: 'status',
+        copyTemplateSuccess: 'copy template success'
     },
     toast: { // 提示
         operationFailed: 'Operation Failed',
@@ -244,11 +250,14 @@ module.exports = {
         admin: 'Administrator',
         frequentlyUsedtTemplate: "Common templates",
         templateStatus: "Template status",
+        addTemplate: 'Add template'
     },
     title: {
         logTemplate: 'Report Template',
         logTemplateSettings: 'Report Template Settings',
         configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
         statisticalAuthority: "'s statistical authority",
+        addReportReviewer: 'Add report reviewer',
+        addReportReminder: 'Add report reminder'
     }
 }

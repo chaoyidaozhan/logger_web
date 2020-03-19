@@ -10,9 +10,16 @@
                 </div>
             </div>
         </div> -->
+        <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
+        <transition-group :name="animate">
+            <div class="col" v-for="item in recentlyTemplates" :key="item.id">
+                <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+            </div>
+        </transition-group>
+        <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
         <transition-group :name="animate">
             <div class="col" v-for="item in list" :key="item.id">
-                <fs-template-item @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+                <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
             </div>
         </transition-group>
         <div class="page" v-if="totalCount > pageSize">
@@ -45,7 +52,8 @@ export default {
             loaded: false,
             animate: 'fade',
             timer: null,
-            contentWidth: 0
+            contentWidth: 0,
+            recentlyTemplates: []
         }
     },
     components: {
@@ -53,6 +61,17 @@ export default {
         pagination
     },
     methods: {
+        successCreateCopyTemplate() {
+            this.loadData('fade');
+        },
+        commonTempListData() {
+            this.$ajax({
+                url: `/template/recentlyTemplates`,
+                success: (res) => {
+                    this.recentlyTemplates = res.data.recentlyTemplates;
+                }
+            })
+        },
         setTempListData(name) { // 设置模板数据
             this.list = this.$store.state.template[`${name}`];
             clearTimeout(this.timer);
@@ -120,6 +139,7 @@ export default {
         if(this.$router.currentRoute.path == "/LoggerTemplate/manager") {
             this.loadData('fade');
         }
+        this.commonTempListData();
     },
 }
 </script>
@@ -127,6 +147,17 @@ export default {
 @import '../../../../assets/css/var.less';
  .content {
     font-size: 0;
+    .commonTemplate,
+    .allTemplate {
+        padding-bottom: 12px;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+    }
+    .allTemplate {
+        padding-top: 8px;
+    }
     .template-item-content-create {
         span {
             position: absolute;
@@ -160,6 +191,7 @@ export default {
         margin: 0 16px 16px 0;
         font-size: 14px;
         overflow: hidden;
+        border-radius: 3px;
         // vertical-align: top;
         &.out-leave-active {
             transition: width .3s, opacity .3s;

@@ -72,7 +72,12 @@ module.exports = {
         status: '停用/启用',
         max150Tips: '最多输入150个字',
         ruleMaker: '规则制定人',
-        starting: '启用中'
+        starting: '启用中',
+        updateTime: '更新时间',
+        allTemplate: '全部模板',
+        commonTemplate: '常用模版',
+        copy: '复制',
+        enable: '启用'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -81,7 +86,8 @@ module.exports = {
         clickToReload: '点击重新加载',
         loadMore: '加载更多',
         noRelevantData: '没有相关数据',
-        status: '状态'
+        status: '状态',
+        copyTemplateSuccess: '复制模板成功'
     },
     toast: { // 提示
         operationFailed: '操作失败',
@@ -245,11 +251,14 @@ module.exports = {
         admin: '管理员',
         frequentlyUsedtTemplate: "常用模板",
         templateStatus: "模板状态",
+        addTemplate: '添加模版'
     },
     title: {
         logTemplate: '汇报模板',
         logTemplateSettings: '设置汇报模板',
         configureAdministratorAndStatisticsPermissions: '配置管理员及统计权限',
-        statisticalAuthority: "的统计权限"
+        statisticalAuthority: "的统计权限",
+        addReportReviewer: '添加汇报核查人',
+        addReportReminder: '添加汇报催办人'
     }
 }

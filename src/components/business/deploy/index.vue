@@ -1,5 +1,5 @@
 <template>
-    <div class="deploy-container" v-yyloading="!deployMember">
+    <div class="deploy-container" v-yyloading="isLoadingShow">
         <div class="deploy-member">
             <div class="deploy-title">{{$t('operate.addAdministrator')}}
                 <span>
@@ -21,7 +21,27 @@
                 </div>
             </div>
         </div>
-        <div class="deploy-limit">
+        <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
+            <div>
+                <div class="mb-flex mb-flex-align-center">
+                    <div>雷蒙蒙的核查模版</div>
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div class="yy-icon-guanbi"></div>
+                        <div>{{$t('operate.add')}}</div>
+                    </div>
+                </div>
+                <div class="mb-flex">
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div>项目双周报</div>
+                        <div class="yy-icon-xinzeng"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else-if="currentTab == 'addReportReminder'">
+
+        </div>
+        <div class="deploy-limit" v-else-if="currentTab == 'configureAdministrator'">
             <div class="deploy-title" v-if="currentMember">
                 {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
                 <span><YYButton type="default" @click="handleAddLimit">{{$t('operate.add')}}</YYButton></span>
@@ -36,10 +56,47 @@
                 </span>
             </div>
         </div>
+        <div class="addTemplate mb-flex mb-flex-v" v-show="isAddTemplateShow">
+            <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
+                <div>{{$t('noun.addTemplate')}}</div>
+                <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
+            </div>
+            <div class="body mb-flex-1 mb-flex mb-flex-pack-justify">
+                <div class="templateItem" v-for="(item, index) in allTemplateList">
+                    <fs-template-item
+                        :bottomOperate="false"
+                        :isToDetail="false"
+                        :isSelectIconShow="true"
+                        :data="item">
+                    </fs-template-item>
+                </div>
+            </div>
+            <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
+                <div>
+                    <YYCheckbox v-model="isAllChecked" @on-change="allCheck(isAllChecked)">
+                        {{$t('operate.checkAll')}}
+                    </YYCheckbox>
+                </div>
+                <div>
+                    <YYButton type="primary" @click.stop="addSelectedTemplate">{{$t('noun.addTemplate')}}</YYButton>
+                </div>
+                <div class="mb-flex-1">
+                    <YYPagination
+                        :total="totalCount" 
+                        :pageSize="pageSize"
+                        :showTotal="false"
+                        align="right"
+                        :show-elevator="false"
+                        :show-sizer="false"
+                        @on-change="paginationChange"/>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
-import FsAvatar from 'app_component/common/avatar'
+import FsAvatar from 'app_component/common/avatar';
+import FsTemplateItem from '../template/list/item';
 export default {
     data() {
         return {
@@ -52,13 +109,73 @@ export default {
                 2: 'userName',
                 1: 'orgName',
                 0: 'deptName'
-            }
+            },
+            allTemplateList: [],
+            totalCount: 0,
+            pageSize: 20,
+            pageNo: 1,
+            isAllChecked: false,
+isLoadingShow: false,
+isAddTemplateShow: true
+        }
+    },
+    props: {
+        currentTab: {
+            type: String,
+            default: 'addReportReviewer'
+        }
+    },
+    watch: {
+        currentTab: {
+            handler(newVal, oldVal) {
+                switch(newVal) {
+                    case 'addReportReviewer':
+
+                    break;
+                    case 'addReportReminder':
+
+                    break;
+                    case 'configureAdministrator':
+                        this.getDeployMember();
+                    break;
+                }
+            },
+            deep:true
         }
     },
     components: {
-        FsAvatar
+        FsAvatar,
+        FsTemplateItem
     },
     methods: {
+        paginationChange() {
+            
+        },
+        allCheck(isAllChecked) {
+
+        },
+        loadData() {
+            this.$ajax({
+                url: '/template/list',
+                data: {
+                    pageSize: this.pageSize,
+                    pageNo: this.pageNo,
+                },
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        let list = res.data.list;
+                        list.forEach((item, index) => {
+                            item.isCurrentTemplateSelected = false;
+                        });
+                        this.allTemplateList = list || [];
+                        this.totalCount = res.data.totalCount || 0;
+                    }
+                },
+                error: (res)=>{
+                    this.$YYMessage.error(res && res.msg || this.$t('status.networkError'));
+                }
+            });
+        },
         handleAddMember() {
             let info = {
                 title: this.$t('operate.addAdministrator'),
@@ -232,6 +349,7 @@ export default {
             this.deployLimit = null
         },
         getDeployMember() {
+            this.isLoadingShow = true;
             this.$ajax({
                 url: '/rest/v1/diaryStatistics/peoples',
                 data: {
@@ -239,6 +357,7 @@ export default {
                     pageSize: 999
                 },
                 success: (res)=>{
+                    this.isLoadingShow = false;
                     if(res && res.code == 0) {
                         this.deployMember = res.data
                     }
@@ -264,7 +383,7 @@ export default {
         }
     },
     created () {
-        this.getDeployMember()
+        this.loadData();
     }
 }
 </script>
@@ -376,6 +495,42 @@ export default {
                     display: block;
                 }
             }
+        }
+    }
+    .addTemplate {
+        position: absolute;
+        top: -60px;
+        right: 0;
+        bottom: 0;
+        width: 622px;
+        box-shadow:-8px 0px 30px 0px rgba(74,81,93,0.2);
+        background: #F6F5F8;
+        .header {
+            height: 48px;
+            padding: 0 22px 0 20px;
+            font-size: 14px;
+            color: #333;
+            .yy-icon-guanbi {
+                cursor: pointer;
+            }
+        }
+        .body {
+            flex-wrap: wrap;
+            padding: 12px 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100%;
+        }
+        .templateItem {
+            width: 275px;
+            height: 110px;
+            margin-bottom: 16px;
+            background: white;
+        }
+        .footer {
+            height: 60px;
+            padding: 0 20px 0;
+            background: white;
         }
     }
 }
