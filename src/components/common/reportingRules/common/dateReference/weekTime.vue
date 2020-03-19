@@ -7,49 +7,40 @@
     <i class="icon-date icon-statistics-2018"></i>   
   </div> 
   <div class="slideCtn" v-show="showSlide" :style="{width: columns == 2 ? '66.66%' : '100%'}">
+    <!-- 第一列 -->
     <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}" v-if="columns != 2">
        <ul class="listCtn">
-        <li class="listItem">1</li>
-        <li class="listItem">2</li>
-        <li class="listItem">3</li>
+       <li class="listItem"
+          v-for="(item, i) in firstColData"
+          :key="i"
+          @click="setDay(item.key)"
+          :class="{'active': selfDay == item.key}">
+            {{ item.value }}
+        </li>
       </ul>
     </div>
+    <!-- 第二列 -->
     <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}">
        <ul class="listCtn">
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
-          <li class="listItem">1</li>
-          <li class="listItem">2</li>
-          <li class="listItem">3</li>
+          <li class="listItem"
+            v-for="(item, i) in hourArr"
+            :key="i"
+            @click="setHour(item.key)"
+            :class="{'active': hour == item.key}">
+              {{ item.value }}
+            </li>
       </ul>
     </div>
+    <!-- 第三列 -->
     <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}">
        <ul class="listCtn">
-        <li class="listItem">1</li>
-        <li class="listItem">2</li>
-        <li class="listItem">3</li>
+         <li class="listItem"
+          v-for="(item, i) in minuteArr"
+          :key="i"
+          @click="setMinute(item.key)"
+          :class="{'active': minute == item.key}">
+            {{ item.value }}
+          </li>
       </ul>
     </div>
     <div style="clear: both"></div>
@@ -69,9 +60,29 @@
 
 export default {
     props: {
-        columns: { // 是否显示模板
+      // 展示几列
+        columns: {
             type: Number,
             default: 3
+        },
+        // 第一列数据
+        firstColData: {
+          type: Array,
+          default: () => {
+            return []
+          }
+        },
+        day: {
+          type: String,
+          default: '0'
+        },
+        hour: {
+          type: String,
+          default: '0'
+        },
+        minute: {
+          type: String,
+          default: '0'
         }
     },
     components: {
@@ -80,16 +91,53 @@ export default {
         return {
           showSlide: false,
           firstColumsData: [
-            {key: 1, value: '星期一'},
-            {key: 2, value: '星期二'},
-            {key: 3, value: '星期三'},
-          ]
+            {key: '1', value: '星期一'},
+            {key: '2', value: '星期二'},
+            {key: '3', value: '星期三'},
+          ],
+          hourArr: [],
+          minuteArr: [],
+          selfDay: this.day,
+          selfHour: this.hour,
+          selfMinute: this.minute
         }
     },
     methods: {
       confirm () {
         this.showSlide = false
+      },
+      setDay (v) {
+        this.selfDay = v
+      },
+      setHour (v) {
+        this.selfHour = v
+      },
+      setMinute (v) {
+        this.selfMinute = v
       }
+    },
+    watch: {
+      day(v) {
+        this.selfDay = v
+      },
+      hour(v) {
+        this.selfHour = v
+      },
+      minute(v) {
+        this.selfMinute = v
+      }
+    },
+    created () {
+      let arr = []
+      for(let i=1; i < 24; i++) {
+        i = (i < 10) ? '0' + i : i + ''
+        arr.push({
+          key: i,
+          value: i
+        })
+      }
+      this.hourArr = arr
+      this.minuteArr = arr
     },
     mounted () {
     },

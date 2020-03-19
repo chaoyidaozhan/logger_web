@@ -115,7 +115,7 @@
               </div>
               <div class="subctn">
                   <!-- <WeekTime :columns="2"></WeekTime> -->
-                  <WeekTime :columns="3"></WeekTime>
+                  <WeekTime :firstColData="firstColData" :columns="2" :day="'1'" :hour="'11'" :minute="'1'"></WeekTime>
               </div>
             </div>
             <div class="item">
@@ -180,7 +180,12 @@ export default {
           hasDefaultTemplate: true,
           templateType: 'app',
           dateType: '1',
-          ImTips
+          ImTips,
+          firstColData: [
+            {key: '1', value: '周一'},
+            {key: '2', value: '周二'},
+            {key: '3', value: '周三'}
+          ]
           // listArr: [],
         }
     },
