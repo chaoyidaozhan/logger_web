@@ -261,6 +261,8 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-content{
+    height: 100%;
+    overflow: auto;
     padding-top: 10px;
     background: #F5F5F5;
     // .leftMenu{
@@ -304,8 +306,7 @@ export default {
     //     }
     // }
     .page-logger-list {
-        height: calc(~ '100vh - 60px');
-        // height: 100%;
+        height: 100%;
         overflow: auto;
         .loading {
             height: 60px;

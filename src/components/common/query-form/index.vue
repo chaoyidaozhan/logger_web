@@ -112,7 +112,7 @@
                 </FormItem>
             </div>    
             <div class="open-date" v-if="showCreateMenu" @click.stop="globalModel">
-                <i class="icon-add" ></i>
+                <YYIcon type="touping"></YYIcon>
             </div>
             <div class="logger-menu-logo" v-if="showCreateMenu">
                 <YYButton type="primary" @click="goLoggerDetail">

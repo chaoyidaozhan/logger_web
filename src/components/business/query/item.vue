@@ -157,13 +157,15 @@
                             <div class="count">
                                 <img class="count-img" src="" />    
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
-                                <i class="icon-chat-normal"></i>
+                                <!-- <i class="icon-chat-normal"></i> -->
+                                <YYIcon type="arrow-right"></YYIcon>
                             </div>
                         </Poptip>
                         <div class="count" v-else>
                             <img class="count-img" src="" />    
                             <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
-                            <i class="icon-chat-normal"></i>
+                            <!-- <i class="icon-chat-normal"></i> -->
+                            <YYIcon type="arrow-right"></YYIcon>
                         </div>
                     </div>
                 </div>
@@ -1005,8 +1007,8 @@ export default {
             position: absolute;
             // visibility: hidden;
             width: 100%;
-            height: 240px;
             padding: 6px 16px 8px 16px;
+            z-index: 2020;
             .left-header{
                 font-size:12px;
                 font-family:PingFangSC-Regular,PingFang SC;
@@ -1027,7 +1029,6 @@ export default {
             }
             .left-content{
                 width:100%;
-                height:144px;
                 margin-top: 8px;
                 font-size:12px;
                 font-family:PingFangSC-Regular,PingFang SC;

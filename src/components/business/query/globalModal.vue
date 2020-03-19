@@ -41,25 +41,27 @@
             </div>
             <p slot="footer"></p>
         </Modal>
-        <div class="canvaldialog"> 
-            <canvas id="draw" width="800" height="800"></canvas>
-            <div class="tooldialog">
-                <div class="fontAdd" @click='fontAdd()'>
-                    <i class="icon-add" ></i>
-                </div>
-                <div class="fontReduce" @click="fontReduce()">
-                    <i class="icon-add" ></i>
-                </div>
-                <div class="exit" @click="exit()">
-                    <i class="icon-add" ></i>
-                </div>
-                <div class="drawing" @click="drawing()">
-                    <i class="icon-add" v-if="isCanval"></i>
-                    <i class="icon-delete" v-else></i>
-                </div>
-                <div class="back2top" @click="back2top()">
-                    <i class="icon-add" ></i>
-                </div>
+        <canvas class="canvaldialog" v-show="isCanval" id="draw" width="800" height="800"></canvas>
+        <div class="tooldialog">
+            <div class="fontAdd" @click='fontAdd()'>
+                <!-- <i class="icon-add" ></i> -->
+                <YYIcon type="zihaojia"></YYIcon>
+            </div>
+            <div class="fontReduce" @click="fontReduce()">
+                <!-- <i class="icon-add" ></i> -->
+                <YYIcon type="zihaojian"></YYIcon>
+            </div>
+            <div class="exit" @click="exit()">
+                <i >退出</i>
+                <!-- <YYIcon type="touping"></YYIcon> -->
+            </div>
+            <div class="drawing" @click="drawing()">
+                <i class="icon-add" v-if="isCanval"></i>
+                <i class="icon-delete" v-else></i>
+            </div>
+            <div class="back2top" @click="back2top()">
+                <!-- <i class="icon-add" ></i> -->
+                <YYIcon type="back-to-top"></YYIcon>
             </div>
         </div>
     </div>
@@ -141,8 +143,7 @@ export default {
             loggerListItemModalFontSize:14,
             captionModalFontSize:13,
             loggerListRangeModalFontSize:12,
-            isCanval: false,
-            isFirstCanval: true
+            isCanval: false
         }
     },
     components: {
@@ -344,32 +345,29 @@ export default {
             let lastY = 0;
             let hue = 0;
             let direction = true;
-            if(this.isFirstCanval){
-                this.mousedownCanval = function mousedownCanval(e){
-                    isDrawing = true;
-                    [lastX, lastY] = [e.offsetX, e.offsetY];
+            function mousedownCanval(e){
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+            function draw(e) {
+                if (!isDrawing) return; // stop the fn from running when they are not moused down
+                console.log(e);
+                ctx.beginPath();
+                // start from
+                ctx.moveTo(lastX, lastY);
+                // go to
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+
+                hue++;
+                if (hue >= 360) {
+                    hue = 0;
                 }
-                this.draw = function draw(e) {
-                    if (!isDrawing) return; // stop the fn from running when they are not moused down
-                    console.log(e);
-                    ctx.beginPath();
-                    // start from
-                    ctx.moveTo(lastX, lastY);
-                    // go to
-                    ctx.lineTo(e.offsetX, e.offsetY);
-                    ctx.stroke();
-                    [lastX, lastY] = [e.offsetX, e.offsetY];
-    
-                    hue++;
-                    if (hue >= 360) {
-                        hue = 0;
-                    }
-                }
-    
-                this.mouseupCanval = function mouseupCanval(e){
-                    isDrawing = false
-                }
-                this.isFirstCanval = false
+            }
+
+            function mouseupCanval(e){
+                isDrawing = false
             }
             
             if(!this.isCanval){
@@ -380,11 +378,14 @@ export default {
                 ctx.lineCap = 'round';
                 ctx.lineWidth = 10;
 
+                this.mousedownCanval = mousedownCanval
+                this.draw = draw
+                this.mouseupCanval = mouseupCanval
 
-                canvas.addEventListener('mousedown', this.mousedownCanval, false);
-                canvas.addEventListener('mousemove', this.draw, false);
-                canvas.addEventListener('mouseup', this.mouseupCanval, false);
-                canvas.addEventListener('mouseout', this.mouseupCanval, false);
+                canvas.addEventListener('mousedown', mousedownCanval, false);
+                canvas.addEventListener('mousemove', draw, false);
+                canvas.addEventListener('mouseup', mouseupCanval, false);
+                canvas.addEventListener('mouseout', mouseupCanval, false);
                 this.isCanval = true
             }else{
                 canvas.removeEventListener('mousedown', this.mousedownCanval, false);
@@ -503,73 +504,73 @@ export default {
             left: 0;
         }
     }
+    .tooldialog{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 120px;
+        right: 0;
+        color: #FFF;
+        padding: 36px;
+        .fontAdd{
+            background: #000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .fontReduce{
+            background: #000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .exit{
+            background: #000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .drawing{
+            background: #000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .back2top{
+            position: absolute;
+            bottom: 36px;
+            background: #000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+    }
     .canvaldialog{
         position: fixed;
         top:0;
         bottom:0;
         left: 0;
         right: 0;
-        .tooldialog{
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            width: 120px;
-            right: 0;
-            color: #FFF;
-            padding: 36px;
-            .fontAdd{
-                background: #000;
-                opacity:0.36;
-                width: 48px;
-                height: 48px;
-                color: #FFF;
-                line-height: 48px;
-                text-align: center;
-                cursor: pointer;
-            }
-            .fontReduce{
-                background: #000;
-                opacity:0.36;
-                width: 48px;
-                height: 48px;
-                color: #FFF;
-                line-height: 48px;
-                text-align: center;
-                cursor: pointer;
-            }
-            .exit{
-                background: #000;
-                opacity:0.36;
-                width: 48px;
-                height: 48px;
-                color: #FFF;
-                line-height: 48px;
-                text-align: center;
-                cursor: pointer;
-            }
-            .drawing{
-                background: #000;
-                opacity:0.36;
-                width: 48px;
-                height: 48px;
-                color: #FFF;
-                line-height: 48px;
-                text-align: center;
-                cursor: pointer;
-            }
-            .back2top{
-                position: absolute;
-                bottom: 36px;
-                background: #000;
-                opacity:0.36;
-                width: 48px;
-                height: 48px;
-                color: #FFF;
-                line-height: 48px;
-                text-align: center;
-                cursor: pointer;
-            }
-        }
     }
 }
 

@@ -67,7 +67,8 @@
                 <!-- 控制展开收起 :style="{'height': `${contentHeight}px` -->
                 <div class="handle-content-expand" 
                     ref="contentHeight" 
-                    }">
+                    style="{'height': `${contentHeight}px`}"
+                    >
                     <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
                         <div class="logger-list-col">
                             <div class="title">
@@ -110,14 +111,14 @@
                     </div>
                 </div>
                 <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
-                    <!-- <div class="logger-list-col logger-open-close">
-                        <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
+                    <div class="logger-list-col logger-open-close">
+                        <!-- <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
                             {{$t('operate.expand')}}
                         </span>
                         <span class="cursor-pointer more" @click="handleContentExpand" v-else>
                             {{$t('operate.collapse')}}
-                        </span>
-                    </div> -->
+                        </span> -->
+                    </div>
                     <div class="logger-list-col logger-list-location logger-list-watcher">
                         <Poptip
                             v-if="loggerItemData.readCount"
