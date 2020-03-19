@@ -49,6 +49,7 @@ export default {
 	.logger-frame-scroller {
 		padding-top: 60px;
 		height: 100%;
+		box-sizing: border-box;
 		// min-width: @min-container-width;
 		position: relative;
 	}

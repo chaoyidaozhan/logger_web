@@ -22,20 +22,49 @@
             </div>
         </div>
         <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
-            <div>
-                <div class="mb-flex mb-flex-align-center">
+
+
+            <div class="reportMemberList">
+                <div class="memberAddTemplate mb-flex mb-flex-align-center">
                     <div>雷蒙蒙的核查模版</div>
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
-                        <div class="yy-icon-guanbi"></div>
+                        <div class="yy-icon-xinzeng"></div>
                         <div>{{$t('operate.add')}}</div>
                     </div>
                 </div>
-                <div class="mb-flex">
+                <div class="memberSelectedTemplate mb-flex">
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
                         <div>项目双周报</div>
-                        <div class="yy-icon-xinzeng"></div>
+                        <div class="yy-icon-guanbi"></div>
+                    </div>
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div>项目双周报</div>
+                        <div class="yy-icon-guanbi"></div>
                     </div>
                 </div>
+            </div>
+            <div class="reportMemberList">
+                <div class="memberAddTemplate mb-flex mb-flex-align-center">
+                    <div>雷蒙蒙的核查模版</div>
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div class="yy-icon-xinzeng"></div>
+                        <div>{{$t('operate.add')}}</div>
+                    </div>
+                </div>
+                <div class="memberSelectedTemplate mb-flex">
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div>项目双周报</div>
+                        <div class="yy-icon-guanbi"></div>
+                    </div>
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                        <div>项目双周报</div>
+                        <div class="yy-icon-guanbi"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="changeOperate mb-flex mb-flex-pack-justify">
+                <YYButton type="primary" @click="changeSave">{{$t('operate.save')}}</YYButton>
+                <YYButton @click="changeReset">{{$t('operate.reset')}}</YYButton>
             </div>
         </div>
         <div v-else-if="currentTab == 'addReportReminder'">
@@ -57,11 +86,11 @@
             </div>
         </div>
         <div class="addTemplate mb-flex mb-flex-v" v-show="isAddTemplateShow">
-            <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
+            <div class="addTemplateHeader mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>{{$t('noun.addTemplate')}}</div>
                 <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
             </div>
-            <div class="body mb-flex-1 mb-flex mb-flex-pack-justify">
+            <div class="addTemplateBody mb-flex-1 mb-flex mb-flex-pack-justify">
                 <div class="templateItem" v-for="(item, index) in allTemplateList">
                     <fs-template-item
                         :bottomOperate="false"
@@ -71,7 +100,7 @@
                     </fs-template-item>
                 </div>
             </div>
-            <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
+            <div class="addTemplateFooter mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>
                     <YYCheckbox v-model="isAllChecked" @on-change="allCheck(isAllChecked)">
                         {{$t('operate.checkAll')}}
@@ -148,6 +177,12 @@ isAddTemplateShow: true
         FsTemplateItem
     },
     methods: {
+        changeSave() {
+
+        },
+        changeReset() {
+
+        },
         paginationChange() {
             
         },
@@ -455,6 +490,49 @@ isAddTemplateShow: true
     .deploy-limit {
         margin-top: 20px;
     }
+    .reportMemberList {
+        margin-bottom: 20px;
+        .memberAddTemplate {
+            color: #333;
+            font-size: 12px;
+            cursor: pointer;
+            & > div {
+                margin-right: 16px;
+                font-weight: 500;
+            }
+            .mb-flex {
+                width: 60px;
+                height: 26px;
+                border-radius: 3px;
+                box-sizing: border-box;
+                border: 1px solid #D9D9D9;
+                padding: 0 8px 0 10px;
+            }
+            margin-bottom: 12px;
+        }
+        .memberSelectedTemplate {
+            & > .mb-flex {
+                min-width: 92px;
+                height: 30px;
+                border-radius:3px;
+                font-size: 12px;
+                color: #333;
+                padding: 0 10px 0 8px;
+                flex-wrap: wrap;
+                margin: 0 8px 8px 0;
+                background: #E6E6E6;
+                div:first-of-type {
+                    margin-right: 6px;
+                }
+                .yy-icon-guanbi {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .changeOperate {
+        width: 128px;
+    }
     .deploy-limit-content {
         border: 1px solid @border-color-dark;
         border-radius: 4px;
@@ -505,7 +583,7 @@ isAddTemplateShow: true
         width: 622px;
         box-shadow:-8px 0px 30px 0px rgba(74,81,93,0.2);
         background: #F6F5F8;
-        .header {
+        .addTemplateHeader {
             height: 48px;
             padding: 0 22px 0 20px;
             font-size: 14px;
@@ -514,7 +592,7 @@ isAddTemplateShow: true
                 cursor: pointer;
             }
         }
-        .body {
+        .addTemplateBody {
             flex-wrap: wrap;
             padding: 12px 20px;
             box-sizing: border-box;
@@ -527,7 +605,7 @@ isAddTemplateShow: true
             margin-bottom: 16px;
             background: white;
         }
-        .footer {
+        .addTemplateFooter {
             height: 60px;
             padding: 0 20px 0;
             background: white;

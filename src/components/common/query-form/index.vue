@@ -83,13 +83,13 @@
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     :groupApiUri="groupApiUri"/>
             </FormItem> 
-            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
+            <!-- <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
                 <fs-select-member ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :member="member"
                     @handleSelect="handleSelect"/>
-            </FormItem> 
+            </FormItem>  -->
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
                 <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
             </FormItem> 
@@ -101,6 +101,11 @@
                     {{$t('operate.search')}}
                 </YYButton>
             </FormItem>
+            <div v-if="showReportingRulesFlag" class="reportRules">
+                <YYButton type="ghost" @click="setReportingRules()">
+                    汇报规则
+                </YYButton>
+            </div>
             <div class="rightButtonGroup">
                 <FormItem :class="'exportStyle'" :label-width="10" class="export-btn" v-if="showExportExcel">
                     <fs-export-excel
@@ -119,9 +124,6 @@
                     {{$t('operate.createLog')}}
                 </YYButton>    
             </div>
-            <!-- <YYButton type="ghost"  @click="setReportingRules()">
-                汇报规则
-            </YYButton> -->
         </Form>
         <ReportingRules v-if="showReportingRules" />
     </div>
@@ -253,7 +255,8 @@ export default {
             queryTimer: null,
             loading: false,
             withPublic: false,
-            isGroupOrDeptSelectedAll: false
+            isGroupOrDeptSelectedAll: false,
+            showReportingRulesFlag: true
         }
     },
     methods: {
@@ -464,6 +467,9 @@ export default {
         background:rgba(255,255,255,1);
         border-radius:3px;
         border:1px solid rgba(217,217,217,1);
+        float: right;
+    }
+    .reportRules {
         float: right;
     }
 </style>
