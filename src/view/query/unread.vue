@@ -6,6 +6,7 @@
                 :showTemplate="true"
                 :showDatePicker="showDatePicker"
                 :showWithPublic="true"
+                :showBrowse="true"
                 @handleChangePublic="handleChangePublic"
                 :createDate="createDate"
                 @handleQuery="handleQuery" ref="queryForm"/>

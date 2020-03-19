@@ -116,7 +116,7 @@
                     :showDeptExcelBtn="showDeptExcelBtn"></fs-export-excel>
                 </FormItem>
             </div>    
-            <div class="open-date" v-if="showCreateMenu" @click.stop="globalModel">
+            <div class="open-date" v-if="showBrowse" @click.stop="globalModel">
                 <YYIcon type="touping"></YYIcon>
             </div>
             <div class="logger-menu-logo" v-if="showCreateMenu">
@@ -229,6 +229,10 @@ export default {
             default: true
         },
         showCreateMenu: {
+            type:Boolean,
+            default:false
+        },
+        showBrowse: {
             type:Boolean,
             default:false
         }

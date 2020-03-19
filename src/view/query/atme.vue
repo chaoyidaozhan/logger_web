@@ -5,6 +5,7 @@
                 :showTemplate="true"
                 :showDatePicker="showDatePicker"
                 :createDate="createDate"
+                :showBrowse="true"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body" >
