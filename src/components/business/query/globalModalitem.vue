@@ -611,6 +611,7 @@ export default {
 <style lang="less">
 @import '~app_assets/css/var.less';
 .logger-item-modal{
+    padding: 60px;
     .logger-content-item{
         position: relative;
         display: inline-block;
