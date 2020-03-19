@@ -338,8 +338,10 @@ export default {
         },
         handleQuery() { // 查询时返回整理好的数据
             clearTimeout(this.queryTimer)
+            console.log(this.classificationArrData)
             this.queryTimer = setTimeout(() => {
                 let params = {
+                    classification: this.classificationArrData, // 分类
                     withPublic: this.withPublic,
                     templateId: this.$refs.selectTemplate && this.$refs.selectTemplate.templateId,
                     beginDate: this.$refs.selectDate && this.$refs.selectDate.beginDate,
