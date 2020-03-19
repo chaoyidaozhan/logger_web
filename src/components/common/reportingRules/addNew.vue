@@ -49,23 +49,23 @@
                 <YYSelect
                   v-model="dateType"
                   @on-change="handleDateTypeChange">
-                  <YYOption value="1">
+                  <YYOption value="0">
                     日
                   </YYOption>
-                  <YYOption value="2">
+                  <YYOption value="1">
                     周
                   </YYOption>
-                  <YYOption value="3">
+                  <YYOption value="2">
                     月
                   </YYOption>
-                  <YYOption value="4">
+                  <YYOption value="3">
                     双周
                   </YYOption>
               </YYSelect>
               </div>
             </div>
             <!-- 从当前周开始 -->
-            <div class="item subItem" v-if="dateType == '4'">
+            <div class="item subItem" v-if="dateType == '3'">
               <div class="itemTitle">
               </div>
               <div class="subctn">
@@ -77,7 +77,7 @@
               </div>
             </div>
             <!-- 指定日期 只有日才有 -->
-            <div class="item" v-if="dateType == '1'">
+            <div class="item" v-if="dateType == '0'">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
                 指定日期
@@ -117,7 +117,7 @@
                 提交开始时间
               </div>
               <div class="subctn">
-                  <WeekTime :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hour="'11'" :minute="'01'"></WeekTime>
+                  <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'11:11'"></WeekTime>
               </div>
             </div>
             <div class="item">
@@ -126,7 +126,7 @@
                 提交结束时间
               </div>
               <div class="subctn">
-                <WeekTime :firstColData="endFirstColData" :columns="endColumns"></WeekTime>
+                <WeekTime ref="remindEndTime" :firstColData="endFirstColData" :columns="endColumns" :hms="'11:11'"></WeekTime>
               </div>
             </div>
             <div class="item tipsCtn">
@@ -142,11 +142,8 @@
                 <YYSelect 
                   v-model="lastRemindTime" 
                   @on-change="handleLastRemindTime">
-                  <YYOption value="1">
-                    截止前1小时
-                  </YYOption>
-                  <YYOption value="15">
-                    截止前15小时
+                  <YYOption value="item" v-for="(item, i) in lastRemindTimeArr" :key="i">
+                    截止前{{item}}小时
                   </YYOption>
               </YYSelect>
               </div>
@@ -155,7 +152,8 @@
               <div class="itemTitle">
               </div>
               <div class="subctn">
-                <YYButton 
+                <YYButton
+                  @click="submit"
                   type="primary">
                   提交
                 </YYButton>
@@ -207,12 +205,43 @@ export default {
           appointedDate: [], // 指定日期
           startColumns: 2,
           endColumns: 2,
-          // listArr: [],
+          lastRemindTimeArr: [],
         }
     },
     methods: {
       close () {
         this.$emit('changeShow')
+      },
+      submit () {
+        let token = this.$store.state.userInfo.token
+        let obj = {}
+        let templateId = this.$refs.selectTemplate.templateId
+        let submitPeriodic = this.dateType == '3' ? '1' : this.dateType
+        // let submitStartWeek = 1
+        let submitStartTime = this.$refs.remindStartTime.showValue
+        let submitEndWeek = this.$refs.remindEndTime.showValue
+        let remindType = 1
+        let remindTime = this.lastRemindTime
+        let personArr = []
+        this.selectMemberData.forEach(item => {
+          personArr.push(item.memberId)
+        })
+        let diarySubmitPeopleStr = personArr.join(',')
+        // if(dateType == 1) {
+        // }
+        obj = {
+          templateId,
+          submitPeriodic,
+          submitStartTime,
+          submitEndWeek,
+          remindType,
+          remindTime,
+          diarySubmitPeopleStr
+        }
+        // debugger
+        // this.$http.post('/diarySubmitRule/add?token=' + token, obj).then(res => {
+        //   console.log(res)
+        // })
       },
       handleSelectRange(res) { //汇报人
           let arr = res.member
@@ -223,7 +252,7 @@ export default {
       },
       handleDateTypeChange (v) {
         switch (v) {
-          case '1': // 日
+          case '0': // 日
             this.startColumns = 2
             this.endColumns = 3
             this.endFirstColData = [
@@ -231,17 +260,17 @@ export default {
               {key: '2', value: '次日'}
             ]
             break;
-          case '2': // 周
+          case '1': // 周
             this.startColumns = 3
             this.endColumns = 3
             this.startFirstColData = this.getWeekDaysFromSomeDay()
             this.endFirstColData = this.getWeekDaysFromSomeDay()
             break;
-          case '3': // 月
+          case '2': // 月
             this.startColumns = 2
             this.endColumns = 2
             break;
-          case '4': // 当前周
+          case '3': // 当前周
             this.startColumns = 3
             this.endColumns = 3
             this.startFirstColData = this.getWeekDaysFromSomeDay()
@@ -269,6 +298,13 @@ export default {
         ]
         return r
       }
+    },
+    created () {
+      let arr = []
+      for(let i = 1; i < 24; i++) {
+        arr.push(i)
+      }
+      this.lastRemindTimeArr = arr
     },
     mounted () {
     },

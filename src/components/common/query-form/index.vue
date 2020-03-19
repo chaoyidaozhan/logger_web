@@ -101,7 +101,7 @@
                     {{$t('operate.search')}}
                 </YYButton>
             </FormItem>
-            <div v-if="showReportingRulesFlag" class="reportRules">
+            <div v-if="showReportRule" class="reportRules">
                 <YYButton type="ghost" @click="setReportingRules()">
                     汇报规则
                 </YYButton>
@@ -165,6 +165,10 @@ export default {
             default: false
         },
         hasDefaultTemplate: {
+            type: Boolean,
+            default: true
+        },
+        showReportRule: {
             type: Boolean,
             default: true
         },

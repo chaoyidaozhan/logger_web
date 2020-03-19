@@ -16,6 +16,8 @@ import FsVueVideo from './components/common/video/'
 import selectTree from './components/common/select-tree'
 import 'app_src/directives/loading/'
 import yyzone from 'yyzone'
+import axios from 'axios'
+axios.defaults.withCredentials = true
 
 // css文件
 import 'video.js/dist/video-js.min.css'
@@ -59,6 +61,7 @@ getWebLang().then(lang => {
     })
     Vue.prototype.$eventbus = new Vue() // 建立组件全局通信的钩子
     Vue.prototype.$ajax = ajax // 将ajax挂在到vue实例
+    Vue.prototype.$http = axios // 将 axios 挂在到vue实例
 
     const router = new VueRouter({ // 创建路由
         mode: 'hash',

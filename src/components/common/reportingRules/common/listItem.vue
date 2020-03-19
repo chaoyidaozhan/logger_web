@@ -75,11 +75,13 @@ export default {
       display: none;
       float: right;
       .edit {
+        cursor: pointer;
         font-size: 18px;
         margin-right: 10px;
         vertical-align: middle;
       }
       .delete {
+        cursor: pointer;
         font-size: 16px;
         vertical-align: middle;
       }

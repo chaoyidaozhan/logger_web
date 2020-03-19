@@ -77,14 +77,18 @@ export default {
           type: String,
           default: '0'
         },
-        hour: {
+        hms: {
           type: String,
-          default: '0'
+          default: '00:00'
         },
-        minute: {
-          type: String,
-          default: '0'
-        }
+        // hour: {
+        //   type: String,
+        //   default: '0'
+        // },
+        // minute: {
+        //   type: String,
+        //   default: '0'
+        // }
     },
     directives: {
       clickoutside
@@ -98,8 +102,8 @@ export default {
           hourArr: [],
           minuteArr: [],
           selfDay: this.day,
-          selfHour: this.hour,
-          selfMinute: this.minute,
+          selfHour: this.hms.split(':')[0],
+          selfMinute: this.hms.split(':')[1],
           showValue: ''
         }
     },
@@ -139,11 +143,13 @@ export default {
       day(v) {
         this.selfDay = v
       },
-      hour(v) {
-        this.selfHour = v
-      },
+      // hour(v) {
+      //   this.selfHour = v
+      // },
       minute(v) {
-        this.selfMinute = v
+        let arr = v.split(':')
+        this.selfMinute = arr[0]
+        this.selfMinute = arr[1]
       },
       firstColData(v) {
         this.firstColumsData = v
@@ -160,6 +166,7 @@ export default {
       }
       this.hourArr = arr
       this.minuteArr = arr
+      this.showValue = this.hms
     },
     mounted () {
     },
