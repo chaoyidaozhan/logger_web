@@ -87,6 +87,7 @@ export default {
     right: 0;
     top: 0;
     transition: all .4s ease;
+    background: #F4F6F8;
     .title {
         padding: 10px;
         font-size: 14px;

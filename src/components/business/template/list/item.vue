@@ -13,7 +13,7 @@
             </div>
             <div class="templateUpdataTime">{{$t('operate.updateTime') + ' : '}}{{data.createTime | filterTime}}</div>
         </div>
-        <div class="bottomOperate mb-flex" v-if="bottomOperate">
+        <div class="bottomOperate mb-flex" v-if="showEdit">
             <div class="mb-flex mb-flex-align-stretch">
                 <template v-if="data.dataStatus == 1">
                     <div :title="$t('operate.delete')" class="mb-flex-1 del" @click="handleDelete"></div>

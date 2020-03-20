@@ -10,18 +10,25 @@
                 </div>
             </div>
         </div> -->
-        <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
-        <transition-group :name="animate">
-            <div class="col" v-for="item in recentlyTemplates" :key="item.id">
-                <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
-            </div>
-        </transition-group>
-        <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
-        <transition-group :name="animate">
+        <template v-if="!isCommonTemplateShow">
             <div class="col" v-for="item in list" :key="item.id">
                 <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
             </div>
-        </transition-group>
+        </template>
+        <template v-else>
+            <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
+            <transition-group :name="animate">
+                <div class="col" v-for="item in recentlyTemplates" :key="item.id">
+                    <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+                </div>
+            </transition-group>
+            <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
+            <transition-group :name="animate">
+                <div class="col" v-for="item in list" :key="item.id">
+                    <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+                </div>
+            </transition-group>
+        </template>
         <div class="page" v-if="totalCount > pageSize">
             <pagination :totalCount="totalCount" @handleChangePage="handleChangePage" :pageSize="pageSize" :pageNo="pageNo" />
         </div>
@@ -40,6 +47,10 @@ export default {
         outerList: {
             type: Array,
             default: ()=>([])
+        },
+        isCommonTemplateShow: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -65,6 +76,9 @@ export default {
             this.loadData('fade');
         },
         commonTempListData() {
+            if(!this.isCommonTemplateShow) {
+                return;
+            }
             this.$ajax({
                 url: `/template/recentlyTemplates`,
                 success: (res) => {

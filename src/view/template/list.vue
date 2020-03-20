@@ -14,7 +14,7 @@
         </template>
         <template slot="body">
             <div class="logger-template-list">
-                <fs-template-list :showEdit="true"/>
+                <fs-template-list :showEdit="true" :isCommonTemplateShow="true"/>
             </div>
         </template>
     </fs-frame>
