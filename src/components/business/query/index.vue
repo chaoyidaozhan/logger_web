@@ -2,7 +2,7 @@
     <div id="page-logger-content" class="page-logger-content" >
         <div class="page-logger-list" @scroll.stop="onScroll">
             <transition-group name="fade" style="display:block">
-                <fs-logger-list-item 
+                <fs-logger-list-item
                     v-for="(item, index) in list"
                     @handleDelete="handleDelete"
                     @handleViewLowerLevel="handleViewLowerLevel"
@@ -198,6 +198,7 @@ export default {
                         item.islast = true
                     }
                 })
+                this.$eventbus.$emit('translist', this.list, this.pageNo, this.pageSize)
             } else {
                 this.list = []
                 this.$YYMessage.warning((res && res.msg) || this.$t('status.networkError'))

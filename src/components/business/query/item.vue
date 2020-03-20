@@ -588,6 +588,7 @@ export default {
             }
         },
         showMenu(){ //显示左右两边菜单
+            this.$eventbus.$emit('transid', this.loggerItemData.id)
             this.loggerItem = this.$el
             this.isShowMenu = true
             let leftMenu = this.$el.querySelector('.leftMenu')

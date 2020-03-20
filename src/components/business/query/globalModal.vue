@@ -11,7 +11,8 @@
                 :isLowerLevel="isLowerLevel"
                 :loggerItemData="item"
                 :menus="item.title"
-                :key="item.id || index" />
+                :key="item.id || index" 
+                />
         </transition-group>
         <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
         <div class="loading">
@@ -55,9 +56,11 @@
                 <i >退出</i>
                 <!-- <YYIcon type="touping"></YYIcon> -->
             </div>
-            <div class="drawing" @click="drawing()">
-                <i class="icon-add" v-if="isCanval"></i>
-                <i class="icon-delete" v-else></i>
+            <div class="drawing" @click="drawing()" v-if="isCanval">
+                <img :src="pen" width="46px"></img>
+            </div>
+            <div class="nodrawing" @click="drawing()" v-else>
+                <img :src="pen" width="46px"></img>
             </div>
             <div class="back2top" @click="back2top()">
                 <!-- <i class="icon-add" ></i> -->
@@ -71,6 +74,7 @@ import FsLoggerListItem from './globalModalitem'
 import FormatTime from 'app_src/filters/format-time'
 import FsAvatar from 'app_component/common/avatar'
 import GlobalModal from './globalModal'
+import pen from 'app_assets/images/pen.png'
 
 /**
     range 
@@ -143,7 +147,9 @@ export default {
             loggerListItemModalFontSize:14,
             captionModalFontSize:13,
             loggerListRangeModalFontSize:12,
-            isCanval: false
+            isCanval: false,
+            pen,
+            offsetId:''//设置滚动到第几条
         }
     },
     components: {
@@ -229,7 +235,7 @@ export default {
                 let scrollTop = $target.scrollTop
                 let offsetHeight = $target.offsetHeight
                 
-                if ((scrollHeight - scrollTop) - offsetHeight < 20) {
+                if ((scrollHeight - scrollTop) - offsetHeight < 20 && !this.isCanval) {
                     this.pageNo++
                 }
             }
@@ -449,10 +455,24 @@ export default {
         this.initList()
     },
     created() {
-        let _this = this
         this.$eventbus.$on('openglobal', ()=>{
-            _this.showGlobalModal = true
+            this.showGlobalModal = true
+            // debugger
+            // if(this.offsetId !== ''){
+            //     let loggerItemId = document.querySelector(`#${this.offsetId}`)
+            //     let pageLoggerList = document.querySelector('.page-logger-list')
+            //     pageLoggerList.scrollTop = loggerItemId.offsetTop
+            // }
         })
+        this.$eventbus.$on('translist', (list, pageNo, pageSize)=>{
+            this.list = list
+            this.pageNo = pageNo
+            this.pageSize = pageSize
+        })
+        this.$eventbus.$on('transid', (id)=>{
+            this.offsetId = id
+        })
+
         document.addEventListener("fullscreenchange", function () {
             if (document.fullscreenElement != null) {
                 console.info("Went full screen");
@@ -467,6 +487,8 @@ export default {
     },
     destroyed(){
         this.$eventbus.$off('openglobal')
+        this.$eventbus.$off('translist')
+        this.$eventbus.$off('transid')
     }
 }
 </script>
@@ -550,6 +572,18 @@ export default {
         }
         .drawing{
             background: #000;
+            border:1px solid #FF0000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .nodrawing{
+            background: #000;
+            border:1px solid #000;
             opacity:0.36;
             width: 48px;
             height: 48px;
