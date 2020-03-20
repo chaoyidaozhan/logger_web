@@ -72,9 +72,9 @@ module.exports = {
         max150Tips: 'Up to 150 words can be input',
         ruleMaker: 'Rule Maker',
         starting: 'Enabled',
-        updateTime: 'Update time',
+        updateTime: 'Updated at',
         allTemplate: 'All template',
-        commonTemplate: 'Common template',
+        commonTemplate: 'Common Templates',
         copy: 'Copy',
         enable: 'Enable',
         reset: 'Reset'
@@ -87,7 +87,7 @@ module.exports = {
         loadMore: 'Load more',
         noRelevantData: 'No relevant Data',
         status: 'status',
-        copyTemplateSuccess: 'copy template success'
+        copyTemplateSuccess: 'Template copied successfully'
     },
     toast: { // 提示
         operationFailed: 'Operation Failed',
@@ -251,14 +251,14 @@ module.exports = {
         admin: 'Administrator',
         frequentlyUsedtTemplate: "Common templates",
         templateStatus: "Template status",
-        addTemplate: 'Add template'
+        addTemplate: 'Add Template'
     },
     title: {
         logTemplate: 'Report Template',
         logTemplateSettings: 'Report Template Settings',
         configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
         statisticalAuthority: "'s statistical authority",
-        addReportReviewer: 'Add report reviewer',
-        addReportReminder: 'Add report reminder'
+        addReportReviewer: 'Add Reviewer',
+        addReportReminder: 'Add Reminder'
     }
 }
