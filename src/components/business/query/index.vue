@@ -43,14 +43,14 @@
                 <p slot="footer"></p>
             </Modal>
         </div>
-        <GlobalModal></GlobalModal>
+        <!-- <GlobalModal></GlobalModal> -->
     </div>
 </template>
 <script>
 import FsLoggerListItem from './item'
 import FormatTime from 'app_src/filters/format-time'
 import FsAvatar from 'app_component/common/avatar'
-import GlobalModal from './globalModal'
+// import GlobalModal from './globalModal'
 
 /**
     range 
@@ -124,7 +124,7 @@ export default {
     components: {
         FsLoggerListItem,
         FsAvatar,
-        GlobalModal
+        // GlobalModal
     },
     watch: {
         pageNo: 'loadData',

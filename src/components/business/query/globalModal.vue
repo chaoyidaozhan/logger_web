@@ -41,7 +41,7 @@
             </div>
             <p slot="footer"></p>
         </Modal>
-        <canvas class="canvaldialog" v-show="isCanval" id="draw" width="800" height="800"></canvas>
+        <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas>
         <div class="tooldialog">
             <div class="fontAdd" @click='fontAdd()'>
                 <!-- <i class="icon-add" ></i> -->
@@ -339,6 +339,7 @@ export default {
         // },
         drawing(){
             const canvas = document.querySelector('#draw');
+            const globalModal = document.querySelector('#globalModal');
             const ctx = canvas.getContext('2d');
             let isDrawing = false;
             let lastX = 0;
@@ -371,8 +372,8 @@ export default {
             }
             
             if(!this.isCanval){
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+                canvas.width = globalModal.scrollWidth;
+                canvas.height = globalModal.scrollHeight;
                 ctx.strokeStyle = '#FF0000'; //ctx is the canvas
                 ctx.lineJoin = 'round';
                 ctx.lineCap = 'round';
@@ -480,6 +481,11 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-list {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background: #FFF;
     height: auto;
     overflow: auto;
@@ -566,7 +572,8 @@ export default {
         }
     }
     .canvaldialog{
-        position: fixed;
+        display: block;
+        position: absolute;
         top:0;
         bottom:0;
         left: 0;
