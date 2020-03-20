@@ -170,7 +170,7 @@ export default {
         },
         showReportRule: {
             type: Boolean,
-            default: true
+            default: false
         },
         showDatePicker: {
             type: Boolean,
