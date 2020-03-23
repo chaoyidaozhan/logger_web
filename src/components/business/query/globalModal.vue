@@ -1,6 +1,6 @@
 <template>
     <div v-if="showGlobalModal" id="globalModal" class="page-logger-list" @scroll.stop="onScroll">
-        <transition-group name="fade">
+        <transition-group name="fade" class="spanModal" style="display:inline-block;text-align: left;zoom:1.5;">
             <fs-logger-list-item 
                 v-for="(item, index) in list"
                 @handleDelete="handleDelete"
@@ -57,10 +57,10 @@
                 <!-- <YYIcon type="touping"></YYIcon> -->
             </div>
             <div class="drawing" @click="drawing()" v-if="isCanval">
-                <img :src="pen" width="46px"></img>
+                <img :src="pen" width="24px"></img>
             </div>
             <div class="nodrawing" @click="drawing()" v-else>
-                <img :src="pen" width="46px"></img>
+                <img :src="pen" width="24px"></img>
             </div>
             <div class="back2top" @click="back2top()">
                 <!-- <i class="icon-add" ></i> -->
@@ -144,9 +144,6 @@ export default {
             operateModalData: null,
             menus:[],
             showGlobalModal: false,
-            loggerListItemModalFontSize:14,
-            captionModalFontSize:13,
-            loggerListRangeModalFontSize:12,
             isCanval: false,
             pen,
             offsetId:''//设置滚动到第几条
@@ -404,44 +401,22 @@ export default {
             
         },
         fontAdd(){
-            this.loggerListItemModalFontSize ++
-            this.captionModalFontSize ++ 
-            this.loggerListRangeModalFontSize ++
-            let loggerListItemModals = document.querySelectorAll('.logger-list-item-modal')
-            let captionModals = document.querySelectorAll('.caption-modal')
-            let loggerListRangeModals = document.querySelectorAll('.logger-list-range-modal')
-            loggerListItemModals.forEach((loggerListItemModal) => {
-                loggerListItemModal.style.fontSize= this.loggerListItemModalFontSize + 'px'
-            })
-            captionModals.forEach((captionModal) => {
-                captionModal.style.fontSize= this.captionModalFontSize + 'px'
-            })
-            loggerListRangeModals.forEach((loggerListRangeModal) => {
-                loggerListRangeModal.style.fontSize= this.loggerListRangeModalFontSize + 'px'
-            })
+            let loggerItemModals = document.querySelector(".spanModal")
+            if(loggerItemModals.style.zoom === '2.2'){
+                return
+            }
+            loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) + .1
         },
         fontReduce(){
-            this.loggerListItemModalFontSize --
-            this.captionModalFontSize --
-            this.loggerListRangeModalFontSize --
-            let loggerListItemModals = document.querySelectorAll('.logger-list-item-modal')
-            let captionModals = document.querySelectorAll('.caption-modal')
-            let loggerListRangeModals = document.querySelectorAll('.logger-list-range-modal')
-            loggerListItemModals.forEach((loggerListItemModal) => {
-                loggerListItemModal.style.fontSize= this.loggerListItemModalFontSize + 'px'
-            })
-            captionModals.forEach((captionModal) => {
-                captionModal.style.fontSize= this.captionModalFontSize + 'px'
-            })
-            loggerListRangeModals.forEach((loggerListRangeModal) => {
-                loggerListRangeModal.style.fontSize= this.loggerListRangeModalFontSize + 'px'
-            })
+            let loggerItemModals = document.querySelector(".spanModal")
+            if(loggerItemModals.style.zoom === '1'){
+                return
+            }
+            loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) - .1
         },
         exit(){
-            this.loggerListItemModalFontSize=14
-            this.captionModalFontSize=13
-            this.loggerListRangeModalFontSize=12
             this.exitFullScreen()
+            this.isCanval = false
         },
         back2top(){
             this.$el.scrollTop = 0
@@ -458,11 +433,14 @@ export default {
         this.$eventbus.$on('openglobal', ()=>{
             this.showGlobalModal = true
             // debugger
-            // if(this.offsetId !== ''){
-            //     let loggerItemId = document.querySelector(`#${this.offsetId}`)
-            //     let pageLoggerList = document.querySelector('.page-logger-list')
-            //     pageLoggerList.scrollTop = loggerItemId.offsetTop
-            // }
+            // this.$nextTick(()=>{
+            //     if(this.offsetId !== ''){
+            //         let loggerItemId = document.querySelector(`#${this.offsetId}`)
+            //         let pageLoggerList = document.querySelector('.page-logger-list')
+            //         pageLoggerList.scrollTop = loggerItemId.offsetTop
+            //     }
+            // })
+            
         })
         this.$eventbus.$on('translist', (list, pageNo, pageSize)=>{
             this.list = list
@@ -473,14 +451,13 @@ export default {
             this.offsetId = id
         })
 
+        let _this = this
         document.addEventListener("fullscreenchange", function () {
             if (document.fullscreenElement != null) {
                 console.info("Went full screen");
             } else {
-                this.loggerListItemModalFontSize=14
-                this.captionModalFontSize=13
-                this.loggerListRangeModalFontSize=12
                 _this.showGlobalModal = false
+                _this.isCanval = false
                 console.info("Exited full screen");
             }
         });
@@ -503,6 +480,7 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-list {
+    text-align: center;
     position: absolute;
     left: 0;
     right: 0;
@@ -571,7 +549,6 @@ export default {
             cursor: pointer;
         }
         .drawing{
-            background: #000;
             border:1px solid #FF0000;
             opacity:0.36;
             width: 48px;
@@ -582,7 +559,6 @@ export default {
             cursor: pointer;
         }
         .nodrawing{
-            background: #000;
             border:1px solid #000;
             opacity:0.36;
             width: 48px;

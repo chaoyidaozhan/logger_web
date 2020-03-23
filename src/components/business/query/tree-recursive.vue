@@ -2,7 +2,7 @@
     <div v-if="item && item.children && item.children.length > 0">
         <div class="treenode" v-for="(treenode, index) in item.children" :key="index" @click="back2check(treenode)">
             {{treenode.title}}
-            <myTree :item="treenode" ></myTree>                      
+            <!-- <myTree :item="treenode" ></myTree>                       -->
         </div>
     </div>
 </template>
