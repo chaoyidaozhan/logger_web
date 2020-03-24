@@ -32,7 +32,7 @@
        <YYCheckbox class="isSelected" v-model="isSelected">全选</YYCheckbox>
        <YYButton 
         type="primary">
-          发送提醒
+          {{$t('operate.sendReminder')}}
       </YYButton>
     </div>
   </div>
@@ -48,17 +48,17 @@ export default {
       tabIndex: 0,
       tabHeader: [
         {
-          title: '已提交',
+          title: this.$t('operate.submitted'),
           sum: 11,
           index: 0
         },
         {
-          title: '未提交',
+          title: this.$t('operate.notSubmitted'),
           sum: 2222,
           index: 1
         },
         {
-          title: '延期提交',
+          title: this.$t('operate.postponedSubmission'),
           sum: 323,
           index: 2
         }

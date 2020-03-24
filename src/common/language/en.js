@@ -77,7 +77,20 @@ module.exports = {
         commonTemplate: 'Common Templates',
         copy: 'Copy',
         enable: 'Enable',
-        reset: 'Reset'
+        reset: 'Reset',
+
+        reportRules: 'Reporting rules',
+        setReportRules: 'Set reporting rules',
+        noReportRules: 'No reporting rules',
+        selectTemplate: 'Select template',
+        selectSubmitPeople: 'Select submitter',
+        selectionCycle: 'Selection cycle',
+        sendReminder: 'Send reminder',
+        submitted: 'Submitted',
+        notSubmitted: 'Not submitted',
+        postponedSubmission: 'Postponed submission',
+        someoneNotSubmit: '<-placeholder-> not submitted',
+        viewDetails: 'View details'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -186,7 +199,17 @@ module.exports = {
         startTime: 'Start Time',
         endTime: 'End Time',
         startingAndEndingTime: 'Period',
-        lastDayOfTheMonth: 'Last day of the month'
+        lastDayOfTheMonth: 'Last day of the month',
+
+        biweekly: 'biweekly',
+        fromCurrentWeek: 'From current week',
+        appointedDate: 'Appointed date',
+        submissionStartTime: 'Submission start time',
+        submissionEndTime: 'Submission end time',
+        pleaseFillReportAtSomeTime: 'Please fill in the report at XXX time',
+        reminderTime: 'Reminder time',
+        hoursBeforeTheDeadline: '<-placeholder-> hours before the deadline',
+        to: 'to'
     },
     noun: { // 固有名词
         expand: 'Expand',

@@ -3,9 +3,9 @@
         <div class="select-order-type-select cursor-pointer" 
             @click="handleExpand"
             :class="{expand: expand}">
-            <div class="selected" >
-                {{(orderType == 3 && minDate) ? `${minDate} - ${maxDate}` : orderNameObj[orderType]}}
-                <i class="ivu-icon ivu-icon-arrow-down-b ivu-select-arrow"></i>
+            <div class="selected mb-flex mb-flex-pack-justify mb-flex-align-center">
+                <div>{{(orderType == 3 && minDate) ? `${minDate} - ${maxDate}` : orderNameObj[orderType]}}</div>
+                <div class="ivu-icon ivu-icon-ios-arrow-down"></div>
             </div>
             <ul v-if="expand">
                 <li v-for="item in orderData"
@@ -13,7 +13,9 @@
                     :class="(orderType == item.id) ?' selected': ''"
                     :key="item.id">
                     <span>{{item.name}}</span>
-                    <YYDatePicker type="daterange" v-if="item.id == 3"
+                    <YYDatePicker 
+                        type="daterange" 
+                        v-if="item.id == 3"
                         placement="bottom-end"
                         v-model="pickerValue"
                         :placeholder="$t('noun.date')" 
@@ -41,6 +43,30 @@ export default {
         },
         defaultType: {
             type: Number | String,
+        },
+        classificationArrData: {
+            type: Array | Number | String,
+            default: function() {
+                return [];
+            }
+        }
+    },
+    watch: {
+        classificationArrData(newVal, oldVal) {
+            if(typeof newVal == 'string') {
+                switch(newVal) {
+                    case '1':
+                        this.orderData = this.deptOrderData;
+                    break;
+                    case '2':
+                        this.orderData = this.memberOrderData;
+                    break;
+                    case '3':
+                        this.orderData = this.groupOrderData;
+                    break;
+                }
+            }
+            
         }
     },
     data() {
@@ -52,7 +78,7 @@ export default {
                 3: this.$t('noun.custom'),
                 4: this.$t('noun.daily'),
             },
-            deptOrderData: [ // dept
+            deptOrderData: [ // dept  1
                 {
                     name: this.$t('noun.monthly'),
                     id: 0
@@ -62,7 +88,7 @@ export default {
                     id: 1
                 },
             ],
-            groupOrderData: [ // group
+            groupOrderData: [ // group  3
                 {
                     name: this.$t('noun.daily'),
                     id: 4
@@ -76,7 +102,7 @@ export default {
                     id: 1
                 },
             ],
-            memberOrderData: [ // member
+            memberOrderData: [ // member  2
                 {
                     name: this.$t('noun.daily'),
                     id: 4
@@ -200,7 +226,6 @@ export default {
             top: 34px;
             left: 0;
             box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
-            position: absolute;
             z-index: 900;
             li {
                 margin: 0;

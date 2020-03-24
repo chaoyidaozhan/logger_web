@@ -4,14 +4,14 @@
       <div class="bgCover" @click="close()"></div>
       <div class="container">
           <div class="header">
-            <span class="title">设置汇报规则</span>
+            <span class="title">{{$t('operate.setReportRules')}}</span>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
           <div class="body">
             <div class="item">
               <div class="itemTitle">
                 <span class="must"></span>
-                选择模板
+                {{$t('operate.selectTemplate')}}
               </div>
               <div class="subctn">
                 <fs-select-template
@@ -24,7 +24,7 @@
             <div class="item">
               <div class="itemTitle">
                 <span class="must"></span>
-                选择提交人
+                {{$t('operate.selectSubmitPeople')}}
               </div>
               <div class="subctn">
                <fs-select-tree-input
@@ -43,23 +43,23 @@
             <div class="item">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
-                选择周期
+                {{$t('operate.selectionCycle')}}
               </div>
               <div class="subctn">
                 <YYSelect
                   v-model="dateType"
                   @on-change="handleDateTypeChange">
                   <YYOption value="0">
-                    日
+                    {{$t('date.d')}}
                   </YYOption>
                   <YYOption value="1">
-                    周
+                    {{$t('date.w')}}
                   </YYOption>
                   <YYOption value="2">
-                    月
+                    {{$t('date.m')}}
                   </YYOption>
                   <YYOption value="3">
-                    双周
+                    {{$t('date.biweekly')}}
                   </YYOption>
               </YYSelect>
               </div>
@@ -71,7 +71,7 @@
               <div class="subctn">
                 <div>
                   <YYCheckbox v-model="fromCurrentWeek">
-                    <span>从当前周开始</span>
+                    <span>{{$t('date.fromCurrentWeek')}}</span>
                   </YYCheckbox>
                 </div>
               </div>
@@ -80,7 +80,7 @@
             <div class="item" v-if="dateType == '0'">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
-                指定日期
+                {{$t('date.appointedDate')}}
               </div>
               <div class="subctn">
                 <YYSelect 
@@ -88,25 +88,25 @@
                   :multiple="true"
                   @on-change="handleAppointedDate">
                   <YYOption value="1">
-                    周一
+                    {{$t('date.mon')}}
                   </YYOption>
                   <YYOption value="2">
-                    周二
+                    {{$t('date.tue')}}
                   </YYOption>
                   <YYOption value="3">
-                    周三
+                    {{$t('date.wed')}}
                   </YYOption>
                   <YYOption value="4">
-                    周四
+                    {{$t('date.thu')}}
                   </YYOption>
                   <YYOption value="5">
-                    周五
+                    {{$t('date.fri')}}
                   </YYOption>
                   <YYOption value="6">
-                    周六
+                    {{$t('date.sat')}}
                   </YYOption>
                   <YYOption value="7">
-                    周日
+                    {{$t('date.sun')}}
                   </YYOption>
               </YYSelect>
               </div>
@@ -114,7 +114,7 @@
             <div class="item">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
-                提交开始时间
+                {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
                   <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'11:11'"></WeekTime>
@@ -123,7 +123,7 @@
             <div class="item">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
-                提交结束时间
+                {{$t('date.submissionEndTime')}}
               </div>
               <div class="subctn">
                 <WeekTime ref="remindEndTime" :firstColData="endFirstColData" :columns="endColumns" :hms="'11:11'"></WeekTime>
@@ -131,19 +131,19 @@
             </div>
             <div class="item tipsCtn">
              <img class="tipsimg" :src="ImTips">
-             <span class="desc"> 请在xxx时间填写汇报 </span>
+             <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
             </div> 
             <div class="item">
               <div class="itemTitle">
                 <!-- <span class="must"></span> -->
-                提醒时间
+                {{$t('date.reminderTime')}}
               </div>
               <div class="subctn">
                 <YYSelect 
                   v-model="lastRemindTime" 
                   @on-change="handleLastRemindTime">
                   <YYOption value="item" v-for="(item, i) in lastRemindTimeArr" :key="i">
-                    截止前{{item}}小时
+                    {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
                   </YYOption>
               </YYSelect>
               </div>
@@ -155,7 +155,7 @@
                 <YYButton
                   @click="submit"
                   type="primary">
-                  提交
+                  {{$t('operate.submit')}}
                 </YYButton>
               </div>
             </div>
@@ -193,14 +193,14 @@ export default {
           lastRemindTime: [],// 最后设置的提醒时间
           ImTips,
           startFirstColData: [
-            {key: '1', value: '周一'},
-            {key: '2', value: '周二'},
-            {key: '3', value: '周三'}
+            {key: '1', value: this.$t('date.mon')},
+            {key: '2', value: this.$t('date.tue')},
+            {key: '3', value: this.$t('date.wed')}
           ],
           endFirstColData: [
-            {key: '1', value: '周一'},
-            {key: '2', value: '周二'},
-            {key: '3', value: '周三'}
+            {key: '1', value: this.$t('date.mon')},
+            {key: '2', value: this.$t('date.tue')},
+            {key: '3', value: this.$t('date.wed')}
           ],
           appointedDate: [], // 指定日期
           startColumns: 2,
@@ -256,8 +256,8 @@ export default {
             this.startColumns = 2
             this.endColumns = 3
             this.endFirstColData = [
-              {key: '1', value: '本日'},
-              {key: '2', value: '次日'}
+              {key: '1', value: this.$t('date.today')},
+              {key: '2', value: this.$t('date.morrow')}
             ]
             break;
           case '1': // 周
@@ -288,13 +288,13 @@ export default {
       getWeekDaysFromSomeDay (start = 0) {
         // 从start开始 一周时间 bug
         let r = [
-          {key: '1', value: '周一'},
-          {key: '2', value: '周二'},
-          {key: '3', value: '周三'},
-          {key: '4', value: '周四'},
-          {key: '5', value: '周五'},
-          {key: '6', value: '周六'},
-          {key: '7', value: '周日'},
+          {key: '1', value: this.$t('date.mon')},
+          {key: '2', value: this.$t('date.tue')},
+          {key: '3', value: this.$t('date.wed')},
+          {key: '4', value: this.$t('date.thu')},
+          {key: '5', value: this.$t('date.fri')},
+          {key: '6', value: this.$t('date.sat')},
+          {key: '7', value: this.$t('date.sun')},
         ]
         return r
       }

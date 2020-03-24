@@ -13,12 +13,15 @@
         :transfer="false"
         :filterMethod="handleSearch"
         @on-change="handleSelect">
-        <YYOption v-for="item in searchResult" 
-            :key="item.value"
-            :value="item.value">
-            <!-- <YYAvatar :path="item.avatar" :name="item.label" size="20px"/> -->
-            {{item.label}}
-        </YYOption>
+        <div v-if="searchResult.length">
+            <YYOption 
+                v-for="item in searchResult" 
+                :key="item.value"
+                :value="item.value">
+                <!-- <YYAvatar :path="item.avatar" :name="item.label" size="20px"/> -->
+                {{item.label}}
+            </YYOption>
+        </div>
         <i class="icon-add" @click.stop="openSelectMember" slot="suffix"></i>
     </YYSelect>
 </template>

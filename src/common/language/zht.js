@@ -77,7 +77,20 @@ module.exports = {
         commonTemplate: '常用模版',
         copy: '復制',
         enable: '啟用',
-        reset: '重置'
+        reset: '重置',
+
+        reportRules: '匯報規則',
+        setReportRules: '設置匯報規則',
+        noReportRules: '暫無匯報規則',
+        selectTemplate: '選擇模板',
+        selectSubmitPeople: '選擇提交人',
+        selectionCycle: '選擇周期',
+        sendReminder: '發送提醒',
+        submitted: '已提交',
+        notSubmitted: '未提交',
+        postponedSubmission: '延期提交',
+        someoneNotSubmit: '<-placeholder->人未提交',
+        viewDetails: '查看詳情'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -187,6 +200,16 @@ module.exports = {
         endTime: '結束時間',
         startingAndEndingTime: '起止時間',
         lastDayOfTheMonth: '每月最後壹天',
+
+        biweekly: '雙周',
+        fromCurrentWeek: '從當前周開始',
+        appointedDate: '指定日期',
+        submissionStartTime: '提交開始時間',
+        submissionEndTime: '提交結束時間',
+        pleaseFillReportAtSomeTime: '請在xxx時間填寫匯報',
+        reminderTime: '提醒時間',
+        hoursBeforeTheDeadline: '截止前<-placeholder->小時',
+        to: '至'
     },
     noun: { // 固有名詞
         expand: '展開',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <i class="icon-arrow-left"></i>
-    <span>{{ start }} 至 {{ end }}</span>
+    <span>{{ start }} {{$t('date.to')}} {{ end }}</span>
     <i class="icon-arrow-right"></i>
   </div>
 </template>
