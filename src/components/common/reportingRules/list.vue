@@ -4,12 +4,12 @@
       <div class="bgCover" @click="close()"></div>
       <div class="container">
           <div class="header">
-            <span class="title">汇报规则</span>
+            <span class="title">{{$t('operate.reportRules')}}</span>
             <YYButton
               :class="'headerButton'"
               type="ghost" 
               @click="setRules()">
-              设置汇报规则
+              {{$t('operate.setReportRules')}}
             </YYButton>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
@@ -19,7 +19,7 @@
             </div>
             <div class="noImgCtn" v-else>
               <img class="noDataImg" :src="tip_data">
-              <div class="tips">暂无汇报规则</div>
+              <div class="tips">{{$t('operate.noReportRules')}}</div>
             </div>
           </div>
       </div>

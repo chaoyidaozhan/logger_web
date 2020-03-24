@@ -4,7 +4,7 @@
       <div class="bgCover" @click="close()"></div>
       <div class="container">
          <div class="header">
-            <span class="title">设置汇报规则</span>
+            <span class="title">{{$t('operate.setReportRules')}}</span>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
          <DetailItem @edit="editClick()"></DetailItem>

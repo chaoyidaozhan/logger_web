@@ -78,7 +78,14 @@ module.exports = {
         commonTemplate: '常用模版',
         copy: '复制',
         enable: '启用',
-        reset: '重置'
+        reset: '重置',
+
+        reportRules: '汇报规则',
+        setReportRules: '设置汇报规则',
+        noReportRules: '暂无汇报规则',
+        selectTemplate: '选择模板',
+        selectSubmitPeople: '选择提交人',
+        selectionCycle: '选择周期'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -188,6 +195,16 @@ module.exports = {
         endTime: '结束时间',
         startingAndEndingTime: '起止时间',
         lastDayOfTheMonth: '每月最后一天',
+        biweekly: '双周',
+        fromCurrentWeek: '从当前周开始',
+        appointedDate: '指定日期',
+        submissionStartTime: '提交开始时间',
+        submissionEndTime: '提交结束时间',
+        pleaseFillReportAtSomeTime: '请在xxx时间填写汇报',
+        reminderTime: '提醒时间',
+        hoursBeforeTheDeadline: '截止前<-placeholder->小时',
+        today: '本日',
+        nextDay: '次日'
     },
     noun: { // 固有名词
         expand: '展开',
