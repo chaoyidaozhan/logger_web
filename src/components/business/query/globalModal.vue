@@ -44,23 +44,20 @@
         </Modal>
         <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas>
         <div class="tooldialog">
-            <div class="fontAdd" @click='fontAdd()'>
+            <div class="fontAdd" :class="{active:isFontAdd}" @click='fontAdd()'>
                 <!-- <i class="icon-add" ></i> -->
                 <YYIcon type="zihaojia"></YYIcon>
             </div>
-            <div class="fontReduce" @click="fontReduce()">
+            <div class="fontReduce" :class="{active:isFontReduce}" @click="fontReduce()">
                 <!-- <i class="icon-add" ></i> -->
                 <YYIcon type="zihaojian"></YYIcon>
             </div>
-            <div class="exit" @click="exit()">
+            <div class="exit" :class="{active:isExit}" @click="exit()">
                 <i >退出</i>
                 <!-- <YYIcon type="touping"></YYIcon> -->
             </div>
-            <div class="drawing" @click="drawing()" v-if="isCanval">
-                <img :src="pen" width="24px"></img>
-            </div>
-            <div class="nodrawing" @click="drawing()" v-else>
-                <img :src="pen" width="24px"></img>
+            <div class="nodrawing" :class="{active:isCanval}" @click="drawing()">
+                <YYIcon type="huabi"></YYIcon>
             </div>
             <div class="back2top" @click="back2top()">
                 <!-- <i class="icon-add" ></i> -->
@@ -144,6 +141,10 @@ export default {
             operateModalData: null,
             menus:[],
             showGlobalModal: false,
+            isCanval: false,
+            isExit: false,
+            isFontAdd: false,
+            isFontReduce: false,
             isCanval: false,
             pen,
             offsetId:''//设置滚动到第几条
@@ -390,6 +391,9 @@ export default {
                 canvas.addEventListener('mousemove', draw, false);
                 canvas.addEventListener('mouseup', mouseupCanval, false);
                 canvas.addEventListener('mouseout', mouseupCanval, false);
+                this.isExit = false
+                this.isFontAdd = false
+                this.isFontReduce = false
                 this.isCanval = true
             }else{
                 canvas.removeEventListener('mousedown', this.mousedownCanval, false);
@@ -401,6 +405,10 @@ export default {
             
         },
         fontAdd(){
+            this.isExit = false
+            this.isFontAdd = true
+            this.isFontReduce = false
+            this.isCanval = false
             let loggerItemModals = document.querySelector(".spanModal")
             if(loggerItemModals.style.zoom === '2.2'){
                 return
@@ -408,6 +416,10 @@ export default {
             loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) + .1
         },
         fontReduce(){
+            this.isExit = false
+            this.isFontAdd = false
+            this.isFontReduce = true
+            this.isCanval = false
             let loggerItemModals = document.querySelector(".spanModal")
             if(loggerItemModals.style.zoom === '1'){
                 return
@@ -416,6 +428,9 @@ export default {
         },
         exit(){
             this.exitFullScreen()
+            this.isExit = true
+            this.isFontAdd = false
+            this.isFontReduce = false
             this.isCanval = false
         },
         back2top(){
@@ -548,8 +563,8 @@ export default {
             text-align: center;
             cursor: pointer;
         }
-        .drawing{
-            border:1px solid #FF0000;
+        .nodrawing{
+            background: #000;
             opacity:0.36;
             width: 48px;
             height: 48px;
@@ -558,15 +573,8 @@ export default {
             text-align: center;
             cursor: pointer;
         }
-        .nodrawing{
-            border:1px solid #000;
-            opacity:0.36;
-            width: 48px;
-            height: 48px;
-            color: #FFF;
-            line-height: 48px;
-            text-align: center;
-            cursor: pointer;
+        .active{
+            opacity:0.5;
         }
         .back2top{
             position: absolute;
