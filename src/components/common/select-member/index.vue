@@ -13,15 +13,13 @@
         :transfer="false"
         :filterMethod="handleSearch"
         @on-change="handleSelect">
-        <div v-if="searchResult.length">
-            <YYOption 
-                v-for="item in searchResult" 
-                :key="item.value"
-                :value="item.value">
-                <!-- <YYAvatar :path="item.avatar" :name="item.label" size="20px"/> -->
-                {{item.label}}
-            </YYOption>
-        </div>
+        <YYOption 
+            v-for="item in searchResult" 
+            :key="item.value"
+            :value="item.value">
+            <!-- <YYAvatar :path="item.avatar" :name="item.label" size="20px"/> -->
+            {{item.label}}
+        </YYOption>
         <i class="icon-add" @click.stop="openSelectMember" slot="suffix"></i>
     </YYSelect>
 </template>
@@ -186,6 +184,7 @@ export default {
 <style lang="less">
 @import '~app_assets/css/var.less';
 .query-select-member {
+    width: 240px;
     .yy-select-selection {
         & > span {
             white-space: nowrap;
@@ -197,7 +196,9 @@ export default {
             display: none;
         }
     }
-    width: 240px;
+    .yy-select-dropdown {
+        display: none;
+    }
     .yy-avatar-wrapper {
         vertical-align: middle;
     }

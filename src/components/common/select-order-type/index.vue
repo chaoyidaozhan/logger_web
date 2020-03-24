@@ -5,7 +5,7 @@
             :class="{expand: expand}">
             <div class="selected mb-flex mb-flex-pack-justify mb-flex-align-center">
                 <div>{{(orderType == 3 && minDate) ? `${minDate} - ${maxDate}` : orderNameObj[orderType]}}</div>
-                <div class="ivu-icon ivu-icon-ios-arrow-down"></div>
+                <div class="yy-icon-arrow-down"></div>
             </div>
             <ul v-if="expand">
                 <li v-for="item in orderData"
