@@ -44,6 +44,30 @@ export default {
         defaultType: {
             type: Number | String,
         },
+        classificationArrData: {
+            type: Array | Number | String,
+            default: function() {
+                return [];
+            }
+        }
+    },
+    watch: {
+        classificationArrData(newVal, oldVal) {
+            if(typeof newVal == 'string') {
+                switch(newVal) {
+                    case '1':
+                        this.orderData = this.deptOrderData;
+                    break;
+                    case '2':
+                        this.orderData = this.memberOrderData;
+                    break;
+                    case '3':
+                        this.orderData = this.groupOrderData;
+                    break;
+                }
+            }
+            
+        }
     },
     data() {
         return {
@@ -54,7 +78,7 @@ export default {
                 3: this.$t('noun.custom'),
                 4: this.$t('noun.daily'),
             },
-            deptOrderData: [ // dept
+            deptOrderData: [ // dept  1
                 {
                     name: this.$t('noun.monthly'),
                     id: 0
@@ -64,7 +88,7 @@ export default {
                     id: 1
                 },
             ],
-            groupOrderData: [ // group
+            groupOrderData: [ // group  3
                 {
                     name: this.$t('noun.daily'),
                     id: 4
@@ -78,7 +102,7 @@ export default {
                     id: 1
                 },
             ],
-            memberOrderData: [ // member
+            memberOrderData: [ // member  2
                 {
                     name: this.$t('noun.daily'),
                     id: 4

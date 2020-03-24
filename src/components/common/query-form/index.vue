@@ -91,7 +91,7 @@
                     @handleSelect="handleSelect"/>
             </FormItem>  -->
             <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
-                <fs-select-order-type ref="selectOrderType" :multi="showOrderTypeMulti"/>
+                <fs-select-order-type ref="selectOrderType" :classificationArrData="classificationArrData" :multi="showOrderTypeMulti"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showWithPublic">
                 <YYCheckbox v-model="withPublic" @on-change="handleChangePublic">{{$t('operate.withPublic')}}</YYCheckbox>
