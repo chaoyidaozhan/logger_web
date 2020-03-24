@@ -3,9 +3,9 @@
         <div class="select-order-type-select cursor-pointer" 
             @click="handleExpand"
             :class="{expand: expand}">
-            <div class="selected" >
-                {{(orderType == 3 && minDate) ? `${minDate} - ${maxDate}` : orderNameObj[orderType]}}
-                <i class="ivu-icon ivu-icon-arrow-down-b ivu-select-arrow"></i>
+            <div class="selected mb-flex mb-flex-pack-justify mb-flex-align-center">
+                <div>{{(orderType == 3 && minDate) ? `${minDate} - ${maxDate}` : orderNameObj[orderType]}}</div>
+                <div class="ivu-icon ivu-icon-ios-arrow-down"></div>
             </div>
             <ul v-if="expand">
                 <li v-for="item in orderData"
@@ -200,7 +200,6 @@ export default {
             top: 34px;
             left: 0;
             box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
-            position: absolute;
             z-index: 900;
             li {
                 margin: 0;
