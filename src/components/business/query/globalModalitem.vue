@@ -605,13 +605,15 @@ export default {
         loggerOperates.forEach((loggerOperate)=>{
             loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
         })
+        
     }
 }
 </script>
 <style lang="less">
 @import '~app_assets/css/var.less';
 .logger-item-modal{
-    padding: 60px;
+    // padding: 60px;
+    // transform: scale(.7);
     .logger-content-item{
         position: relative;
         display: inline-block;

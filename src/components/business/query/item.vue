@@ -1,7 +1,7 @@
 <template>
     <div class="logger-item">
         <!-- @mouseleave="closeMenu()" -->
-        <div class="logger-content-item" @mouseenter="showMenu()" @mouseleave="closeMenu()">
+        <div class="logger-content-item" @mouseleave="closeMenu()">
             <div class="leftMenu" v-show="isShowMenu && !isInternalGroupReport">
                 <div class="left-header" @click="back2Logger()">
                     {{loggerItemData.userName}}的工作汇报
@@ -13,11 +13,11 @@
                 <div class="left-content">
                     <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
                         {{item.title}}
-                        <treeNode :item="item" @back2Title="back2Title"></treeNode>
+                        <!-- <treeNode :item="item" @back2Title="back2Title"></treeNode> -->
                     </div>
                 </div>
             </div>
-            <div class="logger-list-item" ref="loggerListItem">
+            <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
                 <!--当前人信息-->
                 <div class="logger-list-row clearfix logger-list-user">
                     <fs-avatar
@@ -263,7 +263,7 @@ import HTMLDeCode from 'app_src/filters/HTMLDeCode'
 import FsFiles from './file'
 import FsImages from './image'
 import LoggerListContentNode from './content'
-import treeNode from './tree-recursive'
+// import treeNode from './tree-recursive'
 
 const contentHeight = 24
 export default {
@@ -318,7 +318,7 @@ export default {
         FsFiles,
         FsImages,
         LoggerListContentNode,
-        treeNode
+        // treeNode
     },
     filters: {
         filterDiaryTime(val) { // 格式化日志日期
@@ -591,19 +591,24 @@ export default {
             this.$eventbus.$emit('transid', this.loggerItemData.id)
             this.loggerItem = this.$el
             this.isShowMenu = true
-            let leftMenu = this.$el.querySelector('.leftMenu')
+            // let leftMenu = this.$el.querySelector('.leftMenu')
             let pageLoggerList = document.querySelector('.page-logger-list')
+            let loggerListItem = this.$el.querySelector('.logger-list-item')
+            loggerListItem.style.border = '1px dashed #18B681'
+            
             let itemScrollTop = pageLoggerList.scrollTop
-            if(leftMenu) {
-                if(itemScrollTop - this.$el.offsetTop > 0){
-                    leftMenu.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
-                }else{
-                    leftMenu.style.marginTop = 0
-                }
-            }
+            // if(leftMenu) {
+            //     if(itemScrollTop - this.$el.offsetTop > 0){
+            //         leftMenu.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
+            //     }else{
+            //         leftMenu.style.marginTop = 0
+            //     }
+            // }
         },
         closeMenu(){ //关闭左右两边菜单
             this.isShowMenu = false
+            let loggerListItem = this.$el.querySelector('.logger-list-item')
+            loggerListItem.style.border = ''
         },
         // 返回工作汇报
         back2Logger(){
@@ -959,9 +964,9 @@ export default {
             }
         }
         .leftMenu{
-            position: absolute;
-            // visibility: hidden;
-            width: 100%;
+            position: fixed;
+            top: 68px;
+            height: 100%;
             padding: 6px 16px 8px 16px;
             z-index: 2020;
             .left-header{
