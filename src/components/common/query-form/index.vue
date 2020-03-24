@@ -26,13 +26,13 @@
                     v-model="classificationArrData" 
                     @on-change="classifyHandleChange" style="width: 180px">
                     <YYOption value="1">
-                        按部门统计
+                        {{$t('menus.department')}}
                     </YYOption>
                     <YYOption value="2">
-                        按人员统计
+                        {{$t('menus.employee')}}
                     </YYOption>
                     <YYOption value="3">
-                        按内部群统计
+                        {{$t('menus.internalGroupReport')}}
                     </YYOption>
                 </YYSelect>
             </FormItem> 
@@ -103,7 +103,7 @@
             </FormItem>
             <div v-if="showReportRule" class="reportRules">
                 <YYButton type="ghost" @click="setReportingRules()">
-                    汇报规则
+                    {{$t('operate.reportRules')}}
                 </YYButton>
             </div>
             <div class="rightButtonGroup">
@@ -346,7 +346,6 @@ export default {
         },
         handleQuery() { // 查询时返回整理好的数据
             clearTimeout(this.queryTimer)
-            console.log(this.classificationArrData)
             this.queryTimer = setTimeout(() => {
                 let params = {
                     classification: this.classificationArrData, // 分类
