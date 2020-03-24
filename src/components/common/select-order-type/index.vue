@@ -198,7 +198,7 @@ export default {
         display: inline-block;
         vertical-align: middle;
         width: 100%;
-        padding: 4px 30px 4px 7px;
+        padding: 4px 12px 4px 7px;
         font-size: 12px;
         border: 1px solid @border-color;
         border-radius: 4px;
@@ -212,7 +212,7 @@ export default {
             border-color: @input-select-border-color;
         }
         &.expand {
-            .ivu-icon {
+            .yy-icon-arrow-down {
                 transform: rotate(180deg);
             }
         }
