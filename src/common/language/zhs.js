@@ -90,7 +90,7 @@ module.exports = {
         submitted: '已提交',
         notSubmitted: '未提交',
         postponedSubmission: '延期提交',
-        someoneNotSubmit: '<-placeholder-> not submitted',
+        someoneNotSubmit: '<-placeholder->人未提交',
         viewDetails: '查看详情'
     },
     status: { // 状态
@@ -201,6 +201,7 @@ module.exports = {
         endTime: '结束时间',
         startingAndEndingTime: '起止时间',
         lastDayOfTheMonth: '每月最后一天',
+        
         biweekly: '双周',
         fromCurrentWeek: '从当前周开始',
         appointedDate: '指定日期',
@@ -209,7 +210,6 @@ module.exports = {
         pleaseFillReportAtSomeTime: '请在xxx时间填写汇报',
         reminderTime: '提醒时间',
         hoursBeforeTheDeadline: '截止前<-placeholder->小时',
-        today: '本日',
         to: '至'
     },
     noun: { // 固有名词
