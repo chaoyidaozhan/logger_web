@@ -257,7 +257,7 @@ export default {
             this.endColumns = 3
             this.endFirstColData = [
               {key: '1', value: this.$t('date.today')},
-              {key: '2', value: this.$t('date.nextDay')}
+              {key: '2', value: this.$t('date.morrow')}
             ]
             break;
           case '1': // 周

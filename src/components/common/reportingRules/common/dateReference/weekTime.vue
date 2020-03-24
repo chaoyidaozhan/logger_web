@@ -50,7 +50,7 @@
         size="small"
         @click="confirm()"
         >
-        确定
+        {{$t('operate.ok')}}
       </YYButton>
     </div>
   </div>

@@ -85,7 +85,13 @@ module.exports = {
         noReportRules: '暂无汇报规则',
         selectTemplate: '选择模板',
         selectSubmitPeople: '选择提交人',
-        selectionCycle: '选择周期'
+        selectionCycle: '选择周期',
+        sendReminder: '发送提醒',
+        submitted: '已提交',
+        notSubmitted: '未提交',
+        postponedSubmission: '延期提交',
+        someoneNotSubmit: '<-placeholder-> not submitted',
+        viewDetails: '查看详情'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -204,7 +210,7 @@ module.exports = {
         reminderTime: '提醒时间',
         hoursBeforeTheDeadline: '截止前<-placeholder->小时',
         today: '本日',
-        nextDay: '次日'
+        to: '至'
     },
     noun: { // 固有名词
         expand: '展开',

@@ -12,12 +12,12 @@
      <div class="desc">周五18：00-下周一09：00</div>
    </div>
    <div class="footer">
-     <span class="lookDetail" @click="getDetail()">查看详情 <i class="icon-arrow-right"></i></span>
+     <span class="lookDetail" @click="getDetail()">{{$t('operate.viewDetails')}} <i class="icon-arrow-right"></i></span>
      <span class="photoInfor">
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <span class="submitNum">5人提交</span>
+       <span class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', 5)}}</span>
      </span>
    </div>
  </div>
