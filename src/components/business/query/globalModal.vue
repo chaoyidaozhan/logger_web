@@ -1,6 +1,6 @@
 <template>
     <div v-if="showGlobalModal" id="globalModal" class="page-logger-list" @scroll.stop="onScroll">
-        <transition-group name="fade" class="spanModal" style="display:inline-block;text-align: left;zoom:1.5;">
+        <transition-group name="fade" class="spanModal">
             <fs-logger-list-item 
                 v-for="(item, index) in list"
                 @handleDelete="handleDelete"
@@ -52,12 +52,12 @@
                 <!-- <i class="icon-add" ></i> -->
                 <YYIcon type="zihaojian"></YYIcon>
             </div>
+            <div class="nodrawing" :class="{active:isCanval}" @click="drawing()">
+                <YYIcon type="huabi"></YYIcon>
+            </div>
             <div class="exit" :class="{active:isExit}" @click="exit()">
                 <i >退出</i>
                 <!-- <YYIcon type="touping"></YYIcon> -->
-            </div>
-            <div class="nodrawing" :class="{active:isCanval}" @click="drawing()">
-                <YYIcon type="huabi"></YYIcon>
             </div>
             <div class="back2top" @click="back2top()">
                 <!-- <i class="icon-add" ></i> -->
@@ -302,45 +302,6 @@ export default {
             this.hasMore = true
             this.loadData()
         },
-        // initDraw(){
-        //     const canvas = document.querySelector('#draw');
-        //     const ctx = canvas.getContext('2d');
-        //     canvas.width = window.innerWidth;
-        //     canvas.height = window.innerHeight;
-        //     ctx.strokeStyle = '#FF0000'; //ctx is the canvas
-        //     ctx.lineJoin = 'round';
-        //     ctx.lineCap = 'round';
-        //     ctx.lineWidth = 10;
-        //     let isDrawing = false;
-        //     let lastX = 0;
-        //     let lastY = 0;
-        //     let hue = 0;
-        //     let direction = true;
-        //     function draw(e) {
-        //         if (!isDrawing) return; // stop the fn from running when they are not moused down
-        //         console.log(e);
-        //         ctx.beginPath();
-        //         // start from
-        //         ctx.moveTo(lastX, lastY);
-        //         // go to
-        //         ctx.lineTo(e.offsetX, e.offsetY);
-        //         ctx.stroke();
-        //         [lastX, lastY] = [e.offsetX, e.offsetY];
-
-        //         hue++;
-        //         if (hue >= 360) {
-        //             hue = 0;
-        //         }
-        //     }
-        //     canvas.addEventListener('mousedown', (e) => {
-        //         isDrawing = true;
-        //         [lastX, lastY] = [e.offsetX, e.offsetY];
-        //     });
-        //     canvas.addEventListener('mousemove', draw);
-        //     canvas.addEventListener('mouseup', () => isDrawing = false);
-        //     canvas.addEventListener('mouseout', () => isDrawing = false);
-        //     this.isCanval = true
-        // },
         drawing(){
             const canvas = document.querySelector('#draw');
             const globalModal = document.querySelector('#globalModal');
@@ -351,12 +312,12 @@ export default {
             let hue = 0;
             let direction = true;
             function mousedownCanval(e){
+            debugger
                 isDrawing = true;
                 [lastX, lastY] = [e.offsetX, e.offsetY];
             }
             function draw(e) {
                 if (!isDrawing) return; // stop the fn from running when they are not moused down
-                console.log(e);
                 ctx.beginPath();
                 // start from
                 ctx.moveTo(lastX, lastY);
@@ -381,7 +342,7 @@ export default {
                 ctx.strokeStyle = '#FF0000'; //ctx is the canvas
                 ctx.lineJoin = 'round';
                 ctx.lineCap = 'round';
-                ctx.lineWidth = 10;
+                ctx.lineWidth = 6;
 
                 this.mousedownCanval = mousedownCanval
                 this.draw = draw
@@ -405,15 +366,22 @@ export default {
             
         },
         fontAdd(){
+            // const canvas = document.querySelector('#draw');
+            // const ctx = canvas.getContext('2d');
+            // ctx.strokeStyle = '#00FF7F'; 
             this.isExit = false
             this.isFontAdd = true
             this.isFontReduce = false
             this.isCanval = false
             let loggerItemModals = document.querySelector(".spanModal")
-            if(loggerItemModals.style.zoom === '2.2'){
+            if(loggerItemModals.style.zoom === '1.8'){//2.2
                 return
             }
-            loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) + .1
+            if(!!loggerItemModals.style.zoom){
+                loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) + .1
+            }else{
+                loggerItemModals.style.zoom = parseFloat(1.5) + .1
+            }
         },
         fontReduce(){
             this.isExit = false
@@ -424,7 +392,11 @@ export default {
             if(loggerItemModals.style.zoom === '1'){
                 return
             }
-            loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) - .1
+            if(!!loggerItemModals.style.zoom){
+                loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) - .1
+            }else{
+                loggerItemModals.style.zoom = parseFloat(1.5) - .1
+            }
         },
         exit(){
             this.exitFullScreen()
@@ -504,6 +476,9 @@ export default {
     background: #FFF;
     height: auto;
     overflow: auto;
+    .spanModal{
+        display:inline-block;text-align: left;zoom:1.5;
+    }
     .loading {
         height: 60px;
         line-height: 50px;

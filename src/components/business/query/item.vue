@@ -236,6 +236,13 @@
                     </div>
                 </div>
                 <div class="line" v-if="!loggerItemData.islast"></div>
+                <div v-if="this.isShowMenu" class="borderStyle">
+                    <div class="topLine"></div>
+                    <div class="bottomLine"></div>
+                    <div class="leftLine"></div>
+                    <div class="rightLine"></div>
+                </div>
+                <!-- </div> -->
             </div>
             <!--点赞回复收藏-->
             <div class="logger-list-vertical-operate" v-show="isShowMenu">
@@ -594,7 +601,7 @@ export default {
             // let leftMenu = this.$el.querySelector('.leftMenu')
             let pageLoggerList = document.querySelector('.page-logger-list')
             let loggerListItem = this.$el.querySelector('.logger-list-item')
-            loggerListItem.style.border = '1px dashed #18B681'
+            // loggerListItem.style.border = '1px dashed #18B681'
             
             let itemScrollTop = pageLoggerList.scrollTop
             // if(leftMenu) {
@@ -613,7 +620,7 @@ export default {
         // 返回工作汇报
         back2Logger(){
             let pageLoggerList = document.querySelector('.page-logger-list')
-            pageLoggerList.scrollTop = this.loggerItem.offsetTop
+            pageLoggerList.scrollTop = this.loggerItem.offsetTop - 10
         },
         //返回工作汇报的当前title
         back2Title(item){
@@ -622,13 +629,18 @@ export default {
             }
             this.$nextTick(()=>{
                 let _this = this
+                let pageLoggerList = document.querySelector('.page-logger-list')
+                pageLoggerList.scrollTop = this.loggerItem.offsetTop - 10
                 this.$el.querySelectorAll('.title').forEach((e)=>{
                     if(e.innerText === item.title){
-                            let pageLoggerList = document.querySelector('.page-logger-list')
-                            pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 10
-                        }
+                            // let pageLoggerList = document.querySelector('.page-logger-list')
+                            // pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 10
+                        e.style.animation = 'changeFont 1s';
+                        setTimeout(() =>{
+                            e.style.animation = '';
+                        }, 1000)
                     }
-                )
+                })
                 event.stopPropagation();
             })
         }
@@ -660,6 +672,18 @@ export default {
 @import '~app_assets/css/var.less';
 @rowMarginBottom: 14px;
 @titleMarginBottom: 4px;
+@keyframes changeFont{
+    0%{
+        font-size: 14px;
+    }
+    50%{
+        font-size: 20px;
+    }
+    100%{
+        font-size: 14px;
+    }
+}
+
 .logger-item{
     .logger-content-item{
         position: relative;
@@ -935,6 +959,52 @@ export default {
                 bottom: 0;
                 content: '';
                 background-color: @border-color-base;
+            }
+            .borderStyle{
+                .topLine{
+                    margin: auto;
+                    position: absolute;
+                    width: 100%;
+                    height: 1px;
+                    top: 0px;
+                    left: 0px;
+                    background-image: linear-gradient(to right, #18B681 0%, #18B681 50%, transparent 50%);
+                    background-size: 18px 1px;
+                    background-repeat: repeat-x;
+                }
+                .bottomLine{
+                    margin: auto;
+                    position: absolute;
+                    width: 100%;
+                    height: 1px;
+                    bottom: 0px; 
+                    left: 0px;
+                    background-image: linear-gradient(to right, #18B681 0%, #18B681 50%, transparent 50%);
+                    background-size: 18px 1px;
+                    background-repeat: repeat-x;
+                }
+                .leftLine{
+                    margin: auto;
+                    position: absolute;
+                    width: 1px;
+                    height: 100%;
+                    top: 0px;
+                    left: 0px;
+                    background-image: linear-gradient(to bottom, #18B681 0%, #18B681 50%, transparent 50%);
+                    background-size: 1px 18px;
+                    background-repeat: repeat-y;
+                }
+                .rightLine{
+                    margin: auto;
+                    position: absolute;
+                    width: 1px;
+                    height: 100%;
+                    background-image: linear-gradient(to bottom, #18B681 0%, #18B681 50%, transparent 50%);
+                    right: 0px;
+                    top: 0px;
+                    background-size: 1px 18px;
+                    background-repeat: repeat-y;
+                }
             }
         }
         .logger-list-vertical-operate{
