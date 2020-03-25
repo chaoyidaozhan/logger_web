@@ -58,16 +58,16 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-  .moveR-enter-active,  .moveR-leave-active {
-    transition: all .5s linear;
-    transform: translateX(0);
-  }
-  .moveR-enter,  .moveR-leave {
-    transform: translateX(100%);
-  }
-  .moveR-leave-to{
-    transform: translateX(100%);
-  }
+  // .moveR-enter-active,  .moveR-leave-active {
+  //   transition: all .5s linear;
+  //   transform: translateX(0);
+  // }
+  // .moveR-enter,  .moveR-leave {
+  //   transform: translateX(100%);
+  // }
+  // .moveR-leave-to{
+  //   transform: translateX(100%);
+  // }
   .bgCover {
     position: fixed;
     right: 0;
