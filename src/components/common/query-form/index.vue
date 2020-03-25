@@ -21,7 +21,7 @@
                     ref="selectTemplate"/>
             </FormItem>
             <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
-            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showTemplate">
+            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showReportRule">
                <YYSelect 
                     v-model="classificationArrData" 
                     @on-change="classifyHandleChange" style="width: 180px">
