@@ -7,7 +7,7 @@
             <span class="title">{{$t('operate.setReportRules')}}</span>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
-         <DetailItem @edit="editClick()"></DetailItem>
+         <DetailItem @edit="editClick()" :detailMsg="detailMsg"></DetailItem>
          <DateRange :class="'dataRange'"></DateRange>
          <TabPersonList></TabPersonList>
       </div>
@@ -21,10 +21,12 @@ import TabPersonList from './common/tabPersonList'
 import tip_data from 'app_assets/images/tip_data.png'
 export default {
     props: {
-        // showList: { // 是否显示模板
-        //     type: Boolean,
-        //     default: false
-        // }
+      detailMsg: {
+        type: Object,
+        default: function() {
+          return {};
+        }
+      }
     },
     components: {
       DetailItem,

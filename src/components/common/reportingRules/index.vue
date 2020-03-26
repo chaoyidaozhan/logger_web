@@ -1,7 +1,7 @@
 <template>
 <div class="baseCtn">
   <List v-show="showList" @changeShow="changeShowList"/>
-  <Detail v-show="showDetail" @changeShow="changeShowDetail"/>
+  <Detail v-show="showDetail" @changeShow="changeShowDetail" :detailMsg="detailMsg"/>
   <AddNew v-show="showAdd" @changeShow="changeShowAdd"/>
 </div>
 </template>
@@ -22,7 +22,8 @@ export default {
         return {
           showList: true,
           showDetail: false,
-          showAdd: false
+          showAdd: false,
+          detailMsg: {}
         }
     },
     methods: {
@@ -40,7 +41,7 @@ export default {
             break;
         }
       },
-      changeShowDetail (flag) {
+      changeShowDetail (flag, detailMsg = {}) {
         switch (flag) {
           case 'close' :
             this.showDetail = false
@@ -52,6 +53,7 @@ export default {
             this.showAdd = true
             break;
         }
+        this.detailMsg = detailMsg;
       },
       changeShowAdd () {
         this.showAdd = false

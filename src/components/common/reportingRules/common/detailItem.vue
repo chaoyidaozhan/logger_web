@@ -1,7 +1,7 @@
 <template>
  <div class="listItem">
    <div class="header">
-      <span class="title">项目实施周报</span>
+      <span class="title">{{detailMsg.templateName}}</span>
       <YYButton
         class="edit"
         type="ghost" 
@@ -11,8 +11,8 @@
       </YYButton>
    </div>
    <div class="subHeader">
-     <div class="desc">张三,李四,王五等11人</div>
-     <div class="desc">周五18：00-下周一09：00</div>
+     <div class="desc">{{data.detailMsgParticipant}}</div>
+     <div class="desc">{{data.detailMsgTime}}</div>
    </div>
    <div class="footer">
      <span class="photoInfor">
@@ -28,10 +28,12 @@
 
 export default {
     props: {
-        // showTemplate: { // 是否显示模板
-        //     type: Boolean,
-        //     default: false
-        // }
+      detailMsg: {
+        type: Object,
+        default: function() {
+          return {};
+        }
+      }
     },
     components: {
     },

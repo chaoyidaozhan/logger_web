@@ -7,9 +7,9 @@
         <i class="delete icon-delete"></i>
       </span>
    </div>
-   <div class="subHeader">
-     <div class="desc">{{getParticipant()}}</div>
-     <div class="desc">{{getTime()}}</div>
+   <div class="subHeader" v-if="data.detailMsgParticipant">
+     <div class="desc">{{data.detailMsgParticipant}}</div>
+     <div class="desc">{{data.detailMsgTime}}</div>
    </div>
    <div class="footer">
      <span class="lookDetail" @click="getDetail()">{{$t('operate.viewDetails')}} <i class="icon-arrow-right"></i></span>
@@ -108,7 +108,15 @@ export default {
         this.$emit('getDetail', this.data)
       }
     },
+    created() {
+
+    },
     mounted () {
+      this.$nextTick(() => {
+        let data = this.data;
+        data.detailMsgParticipant = this.getParticipant();
+        data.detailMsgTime = this.getTime();
+      });
     },
     destroyed () {
     }
