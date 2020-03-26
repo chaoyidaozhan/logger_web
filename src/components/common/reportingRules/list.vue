@@ -41,8 +41,7 @@ export default {
     },
     data() {
         return {
-          listArr: [{}],
-          // listArr: [],
+          listArr: [],
           tip_data
         }
     },
@@ -51,7 +50,19 @@ export default {
 
       },
       allRulesList() {
-
+        this.$ajax({
+            url: '/diarySubmitRule/getAllDiarySubmitRules',
+            type: 'get',
+            data: {},
+            success: res => {
+                setTimeout(() => {
+                    this.$vux.loading.hide();
+                }, 300);
+                if (res && res.data) {
+                    this.listArr = res.data || [];
+                }
+            }
+        })
       },
       close () {
         // 1 关闭 2 设置规则  3 查看详情
