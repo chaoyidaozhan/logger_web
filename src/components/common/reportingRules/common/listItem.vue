@@ -105,7 +105,7 @@ export default {
           return timeText;
       },
       getDetail () {
-        this.$emit('getDetail')
+        this.$emit('getDetail', this.data)
       }
     },
     mounted () {

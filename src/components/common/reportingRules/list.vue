@@ -29,6 +29,8 @@
 <script>
 import Item from './common/listItem'
 import tip_data from 'app_assets/images/tip_data.png'
+import FormatTime from 'app_src/filters/format-time'
+
 export default {
     props: {
         // showList: { // 是否显示模板
@@ -41,23 +43,17 @@ export default {
     },
     data() {
         return {
-          listArr: [],
+          listArr: [{}],
           tip_data
         }
     },
     methods: {
-      ruleDetail() {
-
-      },
       allRulesList() {
         this.$ajax({
             url: '/diarySubmitRule/getAllDiarySubmitRules',
             type: 'get',
             data: {},
             success: res => {
-                setTimeout(() => {
-                    this.$vux.loading.hide();
-                }, 300);
                 if (res && res.data) {
                     this.listArr = res.data || [];
                 }
@@ -72,12 +68,12 @@ export default {
         // 1 关闭 2 设置规则  3 查看详情
         this.$emit('changeShow', 2)
       },
-      getDetail () {
+      getDetail (item) {
         this.$ajax({
           url: `/diarySubmitRule/getRuleDetail`,
           data: {
-              diarySubmitRuleId: this.$route.query.diarySubmitRuleId,
-              queryDate: formatTime(new Date(), 'YYYY-MM-DD')
+              diarySubmitRuleId: item.id,
+              queryDate: FormatTime(new Date(), 'YYYY-MM-DD')
           },
           success: (res) => {
               if (res.code == 0) {
