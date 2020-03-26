@@ -209,7 +209,7 @@ module.exports = {
         pleaseFillReportAtSomeTime: '請在xxx時間填寫匯報',
         reminderTime: '提醒時間',
         hoursBeforeTheDeadline: '截止前<-placeholder->小時',
-        to: '至'
+        to: '至',
     },
     noun: { // 固有名詞
         expand: '展開',
@@ -283,5 +283,12 @@ module.exports = {
         statisticalAuthority: "的統計權限",
         addReportReviewer: '添加匯報核查人',
         addReportReminder: '添加匯報催辦人'
+    },
+    summary: {
+        PersonsNotSubmitted: '人未提交',
+        AsATotal: '等共',
+        Total: '共',
+        people: '人',
+        TheSubmitterIsNotSet: '未設置提交人', 
     }
 }

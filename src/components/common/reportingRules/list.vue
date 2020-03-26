@@ -15,7 +15,7 @@
           </div>
           <div class="body">
             <div class="scrollBody" v-if="listArr.length">
-              <Item v-for="(item, i) in listArr" :key=i @getDetail="getDetail"></Item>
+              <Item :data="item" v-for="(item, i) in listArr" :key=i @getDetail="getDetail"></Item>
             </div>
             <div class="noImgCtn" v-else>
               <img class="noDataImg" :src="tip_data">
@@ -41,12 +41,24 @@ export default {
     },
     data() {
         return {
-          listArr: [1,2,3,4,5,6,7,8,9,10],
+          listArr: [{}],
           // listArr: [],
           tip_data
         }
     },
     methods: {
+      allRulesList() {
+        this.$ajax({
+            url: '/diarySubmitRule/getAllDiarySubmitRules',
+            type: 'get',
+            data: {},
+            success: res => {
+                if (res && res.data) {
+                    this.listArr = res.data || [];
+                }
+            }
+        })
+      },
       close () {
         // 1 关闭 2 设置规则  3 查看详情
         this.$emit('changeShow', 1)
@@ -58,6 +70,9 @@ export default {
       getDetail () {
         this.$emit('changeShow', 3)
       }
+    },
+    created() {
+      this.allRulesList();
     },
     mounted () {
     },

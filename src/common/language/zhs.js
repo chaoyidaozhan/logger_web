@@ -210,7 +210,7 @@ module.exports = {
         pleaseFillReportAtSomeTime: '请在xxx时间填写汇报',
         reminderTime: '提醒时间',
         hoursBeforeTheDeadline: '截止前<-placeholder->小时',
-        to: '至'
+        to: '至',
     },
     noun: { // 固有名词
         expand: '展开',
@@ -284,5 +284,11 @@ module.exports = {
         statisticalAuthority: "的统计权限",
         addReportReviewer: '添加汇报核查人',
         addReportReminder: '添加汇报催办人'
+    },
+    summary: {
+        AsATotal: '等共',
+        Total: '共',
+        people: '人',
+        TheSubmitterIsNotSet: '未設置提交人', 
     }
 }

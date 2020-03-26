@@ -1,15 +1,15 @@
 <template>
  <div class="listItem">
    <div class="header">
-      <span class="title">项目实施周报</span>
+      <span class="title">{{data.templateName}}</span>
       <span class="buttonGroup">
         <i class="edit icon-edit"></i>
         <i class="delete icon-delete"></i>
       </span>
    </div>
    <div class="subHeader">
-     <div class="desc">张三,李四,王五等11人</div>
-     <div class="desc">周五18：00-下周一09：00</div>
+     <div class="desc">{{getParticipant()}}</div>
+     <div class="desc">{{getTime()}}</div>
    </div>
    <div class="footer">
      <span class="lookDetail" @click="getDetail()">{{$t('operate.viewDetails')}} <i class="icon-arrow-right"></i></span>
@@ -26,19 +26,84 @@
 
 export default {
     props: {
-        // showTemplate: { // 是否显示模板
-        //     type: Boolean,
-        //     default: false
-        // }
+      data: {
+        type: Object,
+        default: function() {
+          return {};
+        }
+      }
     },
     components: {
     },
     data() {
         return {
-          // showList: true
         }
     },
     methods: {
+        getParticipant() {
+          let diarySubmitPeople = this.data.diarySubmitPeople;
+          if(!diarySubmitPeople) {
+            return;
+          }
+          if (diarySubmitPeople.length) {
+              let participantArr = [];
+              diarySubmitPeople.forEach((item, index) => {
+                  if (index < 3)  {
+                      participantArr.push(item.userName);
+                  }
+              });
+              if(this.lang == 'en') {
+                  return `${participantArr.join('、')}${diarySubmitPeople.length> 3 ?
+                  this.$t('summary.AsATotal'):this.$t('summary.Total')} ${diarySubmitPeople.length} ${this.$t('summary.people')}`;
+              } else {
+                  return `${participantArr.join('、')}${diarySubmitPeople.length> 3 ?
+                  this.$t('summary.AsATotal'):this.$t('summary.Total')}${diarySubmitPeople.length}${this.$t('summary.people')}`;
+              }
+          } else {
+              return this.$t('summary.TheSubmitterIsNotSet');
+          }
+      },
+      getTime() {
+          let timeText = "";
+          if(this.data.submitPeriodic == 0) {
+              let weekMap = {
+                  1:this.$t('date.mon'),
+                  2:this.$t('date.tue'),
+                  3:this.$t('date.wed'),
+                  4:this.$t('date.thu'),
+                  5:this.$t('date.fri'),
+                  6:this.$t('date.sat'),
+                  7:this.$t('date.sun'),
+              };
+              let dayText = this.$t('date.everyDay');
+              let weekArr = [];
+              let dayTextArr = [];
+              if(this.data.submitStartWeek) {
+                  weekArr = this.data.submitStartWeek.split(",");
+              }
+              weekArr.forEach((item)=> {
+                  if(weekMap[item]) {
+                      dayTextArr.push(weekMap[item]);
+                  }
+              });
+              dayText = (weekArr.length >=7 ? this.$t('date.everyDay'):dayTextArr.join('、'));
+              timeText = `${dayText}${this.data.submitStartTime && this.data.submitStartTime.substring(0,5)}-${this.data.submitStartTime>this.data.submitEndTime?this.$t('date.morrow'):''}${this.data.submitEndTime && this.data.submitEndTime.substring(0,5)}`;
+          } else if(this.data.submitPeriodic == 1) {
+              let weekMap = {
+                  1:this.$t('date.mon'),
+                  2:this.$t('date.tue'),
+                  3:this.$t('date.wed'),
+                  4:this.$t('date.thu'),
+                  5:this.$t('date.fri'),
+                  6:this.$t('date.sat'),
+                  7:this.$t('date.sun'),
+              };
+              timeText = `${this.data.submitStartWeek && weekMap[this.data.submitStartWeek] || ""}${this.data.submitStartTime && this.data.submitStartTime.substring(0,5)}-${this.data.submitStartWeek>this.data.submitEndWeek?`${this.$t('date.next')} `:''}${this.data.submitEndWeek && weekMap[this.data.submitEndWeek] || ""}${this.data.submitEndTime && this.data.submitEndTime.substring(0,5)}`;                
+          } else if(this.data.submitPeriodic == 2) {
+              timeText = `${this.$t('date.LastDayOfTheMonth')}${this.data.submitStartTime && this.data.submitStartTime.substring(0,5)}-${this.data.submitEndTime && this.data.submitEndTime.substring(0,5)}`;
+          }
+          return timeText;
+      },
       getDetail () {
         this.$emit('getDetail')
       }

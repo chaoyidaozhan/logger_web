@@ -209,7 +209,7 @@ module.exports = {
         pleaseFillReportAtSomeTime: 'Please fill in the report at XXX time',
         reminderTime: 'Reminder time',
         hoursBeforeTheDeadline: '<-placeholder-> hours before the deadline',
-        to: 'to'
+        to: 'to',
     },
     noun: { // 固有名词
         expand: 'Expand',
@@ -283,5 +283,12 @@ module.exports = {
         statisticalAuthority: "'s statistical authority",
         addReportReviewer: 'Add Reviewer',
         addReportReminder: 'Add Reminder'
+    },
+    summary: {
+        PersonsNotSubmitted: ' people not submitted',
+        AsATotal: ' , total ',
+        Total: ' total ',
+        people: ' people',
+        TheSubmitterIsNotSet: 'The submitter is not set',
     }
 }
