@@ -1,9 +1,28 @@
 <template>
     <div class="logger-summary-content">
-        <div class="content-bar" v-if="list.length" ref="loggerSummaryPageRef">
+        <div class="tableList" v-if="list.length">
+            <div class="tableItem" v-for="(itemA, indexA) in list">
+                <div class="itemHeader mb-flex mb-flex-pack-justify mb-flex-align-center">
+                    <div>
+                        <YYCheckbox v-model="itemA.isWorkReportChecked" @on-change="someItemCheckChange(itemA)"></YYCheckbox>
+                        <span>{{itemA.templateName}}</span>
+                    </div>
+                    <div>{{$t('noun.submitTime') + '：' + itemA.workReportCreateTime}}</div>
+                </div>
+                <div class="itemBody">
+                    <div class="mb-flex mb-flex-align-center bodyContent" v-for="(itemB, indexB) in JSON.parse(itemA.content)">
+                        <div class="mb-flex mb-flex-align-center">
+                            <div class="mb-flex-1">{{itemB.title}}</div>
+                        </div>
+                        <div class="mb-flex-1">{{itemB.content}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="content-bar" v-if="list.length" ref="loggerSummaryPageRef">
             <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
             <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table>
-        </div>
+        </div> -->
         <div class="content-footer" v-if="list.length">
             <div class="content-bottom mb-flex mb-flex-align-center" v-if="list.length">
                 <div class="bottom-left">
