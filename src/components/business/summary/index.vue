@@ -1,6 +1,6 @@
 <template>
     <div class="logger-summary-content">
-        <div class="tableList" v-if="list.length">
+        <div class="tableList" v-if="list.length" ref="loggerSummaryPageRef">
             <div class="tableItem" v-for="(itemA, indexA) in list">
                 <div class="itemHeader mb-flex mb-flex-pack-justify mb-flex-align-center">
                     <div>
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="content-bar" v-if="list.length" ref="loggerSummaryPageRef">
+        <!-- <div class="content-bar" v-if="list.length">
             <Table :loading="loading" border ref="selection" :columns="columnsData" :data="listTemplate" @on-selection-change="handleSelectChange"></Table>
             <Table :columns="footerData" border :show-header="false" :data="countData" class="table-count"></Table>
         </div> -->
@@ -253,7 +253,11 @@ export default {
                 if(!listLen) {
                     return listLen;
                 }
-                this.list = this.list.concat(res.data.list || []);
+                let tempList = res.data.list;
+                tempList.forEach((item, index) => {
+                    item.workReportCreateTime = formatTime(new Date(item.createTime), 'YYYY-MM-DD HH:mm');
+                });
+                this.list = this.list.concat(tempList || []);
                 this.totalCount = this.list.length;
                 if (this.list.length <= 0) {
                     this.iconFlag = 0;
