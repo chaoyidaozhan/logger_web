@@ -33,14 +33,10 @@ export default {
             this.$parent.showReportingRules = false
             break;
           case 2 :
-            // this.showList = true,
-            // this.showDetail = true
             this.showAdd = true
             break;
           case 3 :
-            // this.showList = true,
             this.showDetail = true
-            // this.showAdd = true
             break;
         }
       },

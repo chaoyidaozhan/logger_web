@@ -47,17 +47,11 @@ export default {
         }
     },
     methods: {
+      ruleDetail() {
+
+      },
       allRulesList() {
-        this.$ajax({
-            url: '/diarySubmitRule/getAllDiarySubmitRules',
-            type: 'get',
-            data: {},
-            success: res => {
-                if (res && res.data) {
-                    this.listArr = res.data || [];
-                }
-            }
-        })
+
       },
       close () {
         // 1 关闭 2 设置规则  3 查看详情
@@ -68,7 +62,18 @@ export default {
         this.$emit('changeShow', 2)
       },
       getDetail () {
-        this.$emit('changeShow', 3)
+        this.$ajax({
+          url: `/diarySubmitRule/getRuleDetail`,
+          data: {
+              diarySubmitRuleId: this.$route.query.diarySubmitRuleId,
+              queryDate: formatTime(new Date(), 'YYYY-MM-DD')
+          },
+          success: (res) => {
+              if (res.code == 0) {
+                  this.$emit('changeShow', 3)
+              }
+          }
+        })
       }
     },
     created() {
