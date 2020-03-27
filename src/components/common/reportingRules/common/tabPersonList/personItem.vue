@@ -1,17 +1,25 @@
 <template>
   <div class="personalItem" :class="{'active': isSelected, 'gray': isGray}">
-    <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-    <span class="name">张三</span>
-    <YYCheckbox class="isSelected" v-model="isSelected"/>
+    <img class="personPhoto" :src="memberMsg.avatar">
+    <span class="name">{{memberMsg.userName}}</span>
+    <YYCheckbox class="isSelected" v-model="memberMsg.isSelected"/>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    memberMsg: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    }
+  },
   data () {
     return {
-      isSelected: false,
-      isGray: false
+
+      isGray: true
     }
   }
 }

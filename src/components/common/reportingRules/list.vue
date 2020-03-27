@@ -77,7 +77,8 @@ export default {
           },
           success: (res) => {
               if (res.code == 0) {
-                  this.$emit('changeShow', 3)
+                  res.data.currentItemDetailMsg = item;
+                  this.$emit('changeShow', 3, res.data)
               }
           }
         })

@@ -12,20 +12,20 @@
     </ul>
     <!-- 已提交 -->
     <ul class="subCtn clearfix" v-show="tabIndex == 0">
-      <li class="subCtnItem" v-for="(item, i) in list" :key="i">
-        <PersonItem></PersonItem>
+      <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
+        <PersonItem :memberMsg="memberMsg"></PersonItem>
       </li>
     </ul>
     <!-- 未提交 -->
     <ul class="subCtn clearfix" v-show="tabIndex == 1">
-      <li class="subCtnItem" v-for="(item, i) in list" :key="i">
-        <PersonItem></PersonItem>
+      <li class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
+        <PersonItem :memberMsg="memberMsg"></PersonItem>
       </li>
     </ul>
     <!-- 延期提交 -->
     <ul class="subCtn clearfix" v-show="tabIndex == 2">
-      <li class="subCtnItem" v-for="(item, i) in list" :key="i">
-        <PersonItem></PersonItem>
+      <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
+        <PersonItem :memberMsg="memberMsg"></PersonItem>
       </li>
     </ul>
     <div class="footer">
@@ -42,28 +42,37 @@
 import PersonItem from './personItem'
 
 export default {
+  props: {
+    detailMsg: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    }
+  },
   data () {
+    let diarySubumitList = this.detailMsg.diarySubumitList;
     return {
-      list: [1,2,3,4,5,6],
       tabIndex: 0,
       tabHeader: [
         {
           title: this.$t('operate.submitted'),
-          sum: 11,
+          sum: diarySubumitList.submitNormal.length,
           index: 0
         },
         {
           title: this.$t('operate.notSubmitted'),
-          sum: 2222,
+          sum: diarySubumitList.unSubmit.length,
           index: 1
         },
         {
           title: this.$t('operate.postponedSubmission'),
-          sum: 323,
+          sum: diarySubumitList.submitPostpone.length,
           index: 2
         }
       ],
-      isSelected: false
+      isSelected: false,
+      diarySubumitList
     }
   },
   components: {
@@ -73,6 +82,9 @@ export default {
     changeIndex(i) {
       this.tabIndex = i
     }
+  },
+  created() {
+
   }
 }
 </script>

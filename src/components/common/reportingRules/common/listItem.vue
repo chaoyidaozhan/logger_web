@@ -24,7 +24,7 @@
 </template>
 <script>
 import detailDealwith from './detail.js'
-console.log(detailDealwith)
+
 export default {
     props: {
       data: {
@@ -43,7 +43,7 @@ export default {
     },
     methods: {
       getDetail () {
-        this.$emit('getDetail', this.data)
+        this.$emit('getDetail', this.detailMsg)
       }
     },
     created() {
