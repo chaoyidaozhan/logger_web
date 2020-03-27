@@ -225,7 +225,7 @@ export default {
     background-color: @white-color;
     // box-shadow: 0 0 20px rgba(0,0,0,.1);
     z-index: 10;
-    @media screen and (max-width: 1399px) {
+    @media screen and (max-width: 1200px) {
         width: @min-menu-width;
     }
     ::selection {

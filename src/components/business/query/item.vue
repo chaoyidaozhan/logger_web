@@ -156,9 +156,9 @@
                             </div>
                             <div class="count">
                                 <div class="imageCount">
-                                    <img style="right:88px;z-index:3" class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
-                                    <img style="right:75px;z-index:2" class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
-                                    <img style="right:62px;z-index:1" class="count-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584610184733&di=d4681ce2e3888bdaa470b5741cfd8771&imgtype=0&src=http%3A%2F%2Fp.store.itangyuan.com%2Fp%2Fbook%2Fcover%2FEg2uEB2T4gI%2FEg6tEBjset-Ue_2tE_jtETu0jMuegVsXjf.jpg" />    
+                                    <img style="right:88px;z-index:3" class="count-img" :src="members && members[2] && members[2].avatar" />    
+                                    <img style="right:75px;z-index:2" class="count-img" :src="members && members[1] && members[1].avatar" />    
+                                    <img style="right:62px;z-index:1" class="count-img" :src="members && members[0] && members[0].avatar" />    
                                 </div>
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                                 <!-- <i class="icon-chat-normal"></i> -->
@@ -694,6 +694,9 @@ export default {
             margin:0 auto;
             max-width: 1024px;
             min-width: 768px;
+            @media screen and (max-width: 1200px) {
+                width: 768px;
+            }
             // margin: auto;
             // float: left;
             padding: 20px 20px 0;

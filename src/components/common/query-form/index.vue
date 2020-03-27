@@ -469,7 +469,7 @@ export default {
     .open-date{
         cursor: pointer;
         display: inline-block;
-        font-size: 12px;
+        font-size: 16px;
         text-align: center;
         width:32px;
         height:32px;
@@ -477,6 +477,7 @@ export default {
         border-radius:3px;
         border:1px solid rgba(217,217,217,1);
         float: right;
+        color:#333333;
     }
     .reportRules {
         float: right;

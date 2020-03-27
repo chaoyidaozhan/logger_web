@@ -55,6 +55,8 @@
             <div class="nodrawing" :class="{active:isCanval}" @click="drawing()">
                 <YYIcon type="huabi"></YYIcon>
             </div>
+           <ColorPane v-if="isCanval" :color="defaultColor"></ColorPane>
+
             <div class="exit" :class="{active:isExit}" @click="exit()">
                 <i >退出</i>
                 <!-- <YYIcon type="touping"></YYIcon> -->
@@ -72,6 +74,7 @@ import FormatTime from 'app_src/filters/format-time'
 import FsAvatar from 'app_component/common/avatar'
 import GlobalModal from './globalModal'
 import pen from 'app_assets/images/pen.png'
+import ColorPane from './colorPane'
 
 /**
     range 
@@ -141,19 +144,20 @@ export default {
             operateModalData: null,
             menus:[],
             showGlobalModal: false,
-            isCanval: false,
             isExit: false,
             isFontAdd: false,
             isFontReduce: false,
             isCanval: false,
             pen,
-            offsetId:''//设置滚动到第几条
+            offsetId:'',//设置滚动到第几条
+            defaultColor:'#EE2223'//设置默认颜色
         }
     },
     components: {
         FsLoggerListItem,
         FsAvatar,
-        GlobalModal
+        GlobalModal,
+        ColorPane
     },
     watch: {
         pageNo: 'loadData',
@@ -312,7 +316,6 @@ export default {
             let hue = 0;
             let direction = true;
             function mousedownCanval(e){
-            debugger
                 isDrawing = true;
                 [lastX, lastY] = [e.offsetX, e.offsetY];
             }
@@ -355,12 +358,22 @@ export default {
                 this.isExit = false
                 this.isFontAdd = false
                 this.isFontReduce = false
+
+                let nodrawing = document.querySelector('.nodrawing')
+                nodrawing.style.borderRadius = '3px 3px 0px 0px'
+
                 this.isCanval = true
             }else{
                 canvas.removeEventListener('mousedown', this.mousedownCanval, false);
                 canvas.removeEventListener('mousemove', this.draw, false);
                 canvas.removeEventListener('mouseup', this.mouseupCanval, false);
                 canvas.removeEventListener('mouseout', this.mouseupCanval, false);
+
+                document.querySelector('.nodrawing')
+
+                let nodrawing = document.querySelector('.nodrawing')
+                nodrawing.style.borderRadius = '3px'
+
                 this.isCanval = false
             }
             
@@ -508,7 +521,9 @@ export default {
         right: 0;
         color: #FFF;
         padding: 36px;
+        font-size: 15px;
         .fontAdd{
+            font-size: 22px;
             background: #000;
             opacity:0.36;
             width: 48px;
@@ -517,8 +532,10 @@ export default {
             line-height: 48px;
             text-align: center;
             cursor: pointer;
+            border-radius:3px 3px 0px 0px;
         }
         .fontReduce{
+            font-size: 22px;
             background: #000;
             opacity:0.36;
             width: 48px;
@@ -527,18 +544,11 @@ export default {
             line-height: 48px;
             text-align: center;
             cursor: pointer;
-        }
-        .exit{
-            background: #000;
-            opacity:0.36;
-            width: 48px;
-            height: 48px;
-            color: #FFF;
-            line-height: 48px;
-            text-align: center;
-            cursor: pointer;
+            border-radius:0px 0px 3px 3px;
         }
         .nodrawing{
+            font-size: 22px;
+            margin-top: 8px;
             background: #000;
             opacity:0.36;
             width: 48px;
@@ -547,11 +557,26 @@ export default {
             line-height: 48px;
             text-align: center;
             cursor: pointer;
+            border-radius:3px;
+        }
+        .exit{
+            font-size: 14px;
+            margin-top: 8px;
+            background: #000;
+            opacity:0.36;
+            width: 48px;
+            height: 48px;
+            color: #FFF;
+            line-height: 48px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 3px;
         }
         .active{
             opacity:0.5;
         }
         .back2top{
+            font-size: 22px;
             position: absolute;
             bottom: 36px;
             background: #000;
@@ -562,6 +587,7 @@ export default {
             line-height: 48px;
             text-align: center;
             cursor: pointer;
+            border-radius: 3px;
         }
     }
     .canvaldialog{
