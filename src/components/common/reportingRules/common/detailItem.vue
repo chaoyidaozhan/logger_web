@@ -1,7 +1,7 @@
 <template>
  <div class="listItem">
    <div class="header">
-      <span class="title">{{detailMsg.templateName}}</span>
+      <span class="title">{{currentItemDetailMsg.templateName}}</span>
       <YYButton
         class="edit"
         type="ghost" 
@@ -11,15 +11,15 @@
       </YYButton>
    </div>
    <div class="subHeader">
-     <div class="desc">{{data.detailMsgParticipant}}</div>
-     <div class="desc">{{data.detailMsgTime}}</div>
+     <div class="desc">{{currentItemDetailMsg.detailMsgParticipant}}</div>
+     <div class="desc">{{currentItemDetailMsg.detailMsgTime}}</div>
    </div>
    <div class="footer">
      <span class="photoInfor">
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <span class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', 5)}}</span>
+       <span class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', currentItemDetailMsg.unSubmitCount || '')}}</span>
      </span>
    </div>
  </div>
@@ -39,20 +39,16 @@ export default {
     },
     data() {
         return {
-          // showList: true
+          currentItemDetailMsg: {}
         }
     },
     methods: {
-      // getDetail () {
-      //   this.$emit('getDetail')
-      // },
       handleClick () {
         this.$emit('edit')
       }
     },
-    mounted () {
-    },
-    destroyed () {
+    created() {
+      this.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
     }
 }
 </script>

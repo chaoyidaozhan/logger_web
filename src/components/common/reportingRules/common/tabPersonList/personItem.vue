@@ -1,17 +1,26 @@
 <template>
-  <div class="personalItem" :class="{'active': isSelected, 'gray': isGray}">
-    <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-    <span class="name">张三</span>
-    <YYCheckbox class="isSelected" v-model="isSelected"/>
+  <div class="personalItem mb-flex mb-flex-align-center" :class="{'active': memberMsg.isSelected}">
+    <img class="personPhoto" :src="memberMsg.avatar">
+    <div class="name mb-flex-1">{{memberMsg.userName}}</div>
+    <div class="personalCheckbox">
+      <YYCheckbox class="isSelected" v-model="memberMsg.isSelected"/>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    memberMsg: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    }
+  },
   data () {
     return {
-      isSelected: false,
-      isGray: false
+      isGray: true
     }
   }
 }
@@ -19,13 +28,14 @@ export default {
 <style lang="less" scoped>
 .personalItem {
   cursor: pointer;
-  width: 102px;
+  width: 127px;
   height: 42px;
   background: rgba(245,246,247,1);
   border-radius: 2px;
   margin-right: 7px;
   margin-bottom: 8px;
   line-height: 42px;
+  padding-right: 8px;
   &:hover{
     .isSelected {
       display: inline-block;
@@ -37,15 +47,23 @@ export default {
     }
   }
   .personPhoto {
+    display: block;
     width:28px;
     height:28px;
     border-radius: 50%;
     vertical-align: middle;
     margin-left: 12px;
   }
-  .name{
+  .name {
     vertical-align: middle;
     margin-left: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .personalCheckbox {
+    width: 14px;
+    height: 42px;
   }
   .isSelected {
     display: none

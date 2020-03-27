@@ -9,7 +9,7 @@
           </div>
          <DetailItem @edit="editClick()" :detailMsg="detailMsg"></DetailItem>
          <DateRange :class="'dataRange'"></DateRange>
-         <TabPersonList></TabPersonList>
+         <TabPersonList :detailMsg="detailMsg"></TabPersonList>
       </div>
     </div>
   </transition>
