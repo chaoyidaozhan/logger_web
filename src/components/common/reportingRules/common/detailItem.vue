@@ -11,15 +11,15 @@
       </YYButton>
    </div>
    <div class="subHeader">
-     <div class="desc">{{data.detailMsgParticipant}}</div>
-     <div class="desc">{{data.detailMsgTime}}</div>
+     <div class="desc">{{detailMsg.detailMsgParticipant}}</div>
+     <div class="desc">{{detailMsg.detailMsgTime}}</div>
    </div>
    <div class="footer">
      <span class="photoInfor">
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <span class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', 5)}}</span>
+       <span class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', detailMsg.unSubmitCount || '')}}</span>
      </span>
    </div>
  </div>
