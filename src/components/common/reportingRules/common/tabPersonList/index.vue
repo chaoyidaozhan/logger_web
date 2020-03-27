@@ -11,21 +11,21 @@
       <!-- <li class="item" @click="changeIndex(3)">延期提交 (1)</li> -->
     </ul>
     <!-- 已提交 -->
-    <ul class="subCtn clearfix" v-show="tabIndex == 0">
+    <ul class="subCtn clearfix" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
       <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
-        <PersonItem :memberMsg="memberMsg"></PersonItem>
+        <PersonItem :memberMsg="item"></PersonItem>
       </li>
     </ul>
     <!-- 未提交 -->
-    <ul class="subCtn clearfix" v-show="tabIndex == 1">
+    <ul class="subCtn clearfix" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
       <li class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
-        <PersonItem :memberMsg="memberMsg"></PersonItem>
+        <PersonItem :memberMsg="item"></PersonItem>
       </li>
     </ul>
     <!-- 延期提交 -->
-    <ul class="subCtn clearfix" v-show="tabIndex == 2">
+    <ul class="subCtn clearfix" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
       <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
-        <PersonItem :memberMsg="memberMsg"></PersonItem>
+        <PersonItem :memberMsg="item"></PersonItem>
       </li>
     </ul>
     <div class="footer">
