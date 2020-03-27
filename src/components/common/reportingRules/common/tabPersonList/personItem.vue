@@ -2,7 +2,9 @@
   <div class="personalItem mb-flex mb-flex-align-center" :class="{'active': memberMsg.isSelected}">
     <img class="personPhoto" :src="memberMsg.avatar">
     <div class="name mb-flex-1">{{memberMsg.userName}}</div>
-    <YYCheckbox class="isSelected" v-model="memberMsg.isSelected"/>
+    <div class="personalCheckbox">
+      <YYCheckbox class="isSelected" v-model="memberMsg.isSelected"/>
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,6 @@ export default {
   },
   data () {
     return {
-
       isGray: true
     }
   }
@@ -34,16 +35,17 @@ export default {
   margin-right: 7px;
   margin-bottom: 8px;
   line-height: 42px;
-  // &:hover{
-  //   .isSelected {
-  //     display: inline-block;
-  //   }
-  // }
-  // &.active {
-  //   .isSelected {
-  //     display: inline-block;
-  //   }
-  // }
+  padding-right: 8px;
+  &:hover{
+    .isSelected {
+      display: inline-block;
+    }
+  }
+  &.active {
+    .isSelected {
+      display: inline-block;
+    }
+  }
   .personPhoto {
     display: block;
     width:28px;
@@ -59,8 +61,12 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  // .isSelected {
-  //   display: none
-  // }
+  .personalCheckbox {
+    width: 14px;
+    height: 42px;
+  }
+  .isSelected {
+    display: none
+  }
 }
 </style>
