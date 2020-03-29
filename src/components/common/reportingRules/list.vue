@@ -15,7 +15,7 @@
           </div>
           <div class="body">
             <div class="scrollBody" v-if="listArr.length">
-              <Item :data="item" v-for="(item, i) in listArr" :key=i @getDetail="getDetail"></Item>
+              <Item :data="item" v-for="(item, i) in listArr" :key=i @getDetail="getDetail" @toEdit="toEdit"></Item>
             </div>
             <div class="noImgCtn" v-else>
               <img class="noDataImg" :src="tip_data">
@@ -68,20 +68,33 @@ export default {
         // 1 关闭 2 设置规则  3 查看详情
         this.$emit('changeShow', 2)
       },
+      itemDetailMsg(item) {
+        return new Promise((reslove, reject) => {
+                this.$ajax({
+                  url: `/diarySubmitRule/getRuleDetail`,
+                  data: {
+                      diarySubmitRuleId: item.id,
+                      queryDate: FormatTime(new Date(), 'YYYY-MM-DD')
+                  },
+                  success: (res) => {
+                      if (res.code == 0) {
+                          reslove(res.data);
+                      }
+                  }
+                })
+        });
+      },
+      toEdit(item) {
+        this.itemDetailMsg(item).then((data) => {
+            data.currentItemDetailMsg = item;
+            this.$emit('changeShow', 2, data);
+        });
+      },
       getDetail (item) {
-        this.$ajax({
-          url: `/diarySubmitRule/getRuleDetail`,
-          data: {
-              diarySubmitRuleId: item.id,
-              queryDate: FormatTime(new Date(), 'YYYY-MM-DD')
-          },
-          success: (res) => {
-              if (res.code == 0) {
-                  res.data.currentItemDetailMsg = item;
-                  this.$emit('changeShow', 3, res.data)
-              }
-          }
-        })
+        this.itemDetailMsg(item).then((data) => {
+            data.currentItemDetailMsg = item;
+            this.$emit('changeShow', 3, data);
+        });
       }
     },
     created() {

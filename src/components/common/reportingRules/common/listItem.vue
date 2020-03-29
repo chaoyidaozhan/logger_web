@@ -3,7 +3,7 @@
    <div class="header">
       <span class="title">{{detailMsg.templateName}}</span>
       <span class="buttonGroup">
-        <i class="edit icon-edit"></i>
+        <i class="edit icon-edit" @click.stop="toEdit()"></i>
         <i class="delete icon-delete"></i>
       </span>
    </div>
@@ -42,6 +42,9 @@ export default {
         }
     },
     methods: {
+      toEdit() {
+        this.$emit('toEdit', this.detailMsg)
+      },
       getDetail () {
         this.$emit('getDetail', this.detailMsg)
       }

@@ -171,10 +171,12 @@ import FsSelectTreeInput from '../../common/select-tree-input/'
 import ImTips from 'app_assets/images/tips.png'
 export default {
     props: {
-        // showList: { // 是否显示模板
-        //     type: Boolean,
-        //     default: false
-        // }
+      detailMsg: {
+        type: Object,
+        default: function() {
+          return {};
+        }
+      }
     },
     components: {
       FsSelectTemplate,
@@ -238,10 +240,6 @@ export default {
           remindTime,
           diarySubmitPeopleStr
         }
-        // debugger
-        // this.$http.post('/diarySubmitRule/add?token=' + token, obj).then(res => {
-        //   console.log(res)
-        // })
       },
       handleSelectRange(res) { //汇报人
           let arr = res.member
