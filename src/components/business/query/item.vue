@@ -154,14 +154,13 @@
                                     <span class="username">{{item.userName || ''}}</span>
                                 </div>
                             </div>
-                            <div class="count">
+                            <div class="count" v-if="loggerItemData.readCount">
                                 <div class="imageCount">
-                                    <img style="right:88px;z-index:3" class="count-img" :src="members && members[2] && members[2].avatar" />    
-                                    <img style="right:75px;z-index:2" class="count-img" :src="members && members[1] && members[1].avatar" />    
-                                    <img style="right:62px;z-index:1" class="count-img" :src="members && members[0] && members[0].avatar" />    
+                                    <img v-show="!!loggerItemData && !!loggerItemData.readLog[2]" style="right:88px;z-index:3" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[2] && loggerItemData.readLog[2].avatar" />    
+                                    <img v-show="!!loggerItemData && !!loggerItemData.readLog[1]" style="right:75px;z-index:2" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[1] && loggerItemData.readLog[1].avatar" />    
+                                    <img v-show="!!loggerItemData && !!loggerItemData.readLog[0]" style="right:62px;z-index:1" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[0] && loggerItemData.readLog[0].avatar" />    
                                 </div>
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
-                                <!-- <i class="icon-chat-normal"></i> -->
                                 <YYIcon type="arrow-right"></YYIcon>
                             </div>
                         </Poptip>
@@ -646,6 +645,13 @@ export default {
         }
     },
     mounted () {
+        let loggerList = this.$el.querySelector('.logger-list-item')
+
+        //根据设计js调整width大小
+        if(window.innerWidth > 1200 && window.innerWidth < 1920){
+            loggerList.style.width = 768 + (window.innerWidth - 1200) * 256 / 720 + 'px'
+        }
+
         //判断是否是内部群
         if(this.$route.path === '/LoggerQueryGroup'){
             this.isInternalGroupReport = true
@@ -655,16 +661,20 @@ export default {
         })
 
         //通过js改变leftMenu样式
+        let pageLoggerList = document.querySelector('.logger-frame-scroller')
         let leftMenus = document.querySelectorAll('.leftMenu')
-        let loggerList = document.querySelector('.logger-list-item')
         let loggerContent = document.querySelector('.logger-content-item')
         let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-        leftMenus.forEach((leftMenu) => {
-            leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-        })
-        loggerOperates.forEach((loggerOperate)=>{
-            loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-        })
+        if(window.innerWidth > 1439){
+            leftMenus.forEach((leftMenu) => {
+                leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
+            })
+            loggerOperates.forEach((loggerOperate)=>{
+                loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
+            })
+        }else{
+            pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
+        }
     }
 }
 </script>
@@ -692,8 +702,10 @@ export default {
         .logger-list-item {
             // margin-left: 188px;
             margin:0 auto;
-            max-width: 1024px;
-            min-width: 768px;
+
+            @media screen and (min-width: 1920px) {
+                width: 1024px;
+            }
             @media screen and (max-width: 1200px) {
                 width: 768px;
             }
@@ -1015,6 +1027,13 @@ export default {
             height: 150px;
             position: absolute;
             bottom: 0;
+            @media screen and (max-width: 1439px) {
+                width: 188px;
+                height: 150px;
+                position: absolute;
+                right: 65px;
+                bottom: -33px;
+            }
             .operate-item{
                 width:32px;
                 height:32px;
@@ -1042,6 +1061,14 @@ export default {
             height: 100%;
             padding: 6px 16px 8px 16px;
             z-index: 2020;
+            @media screen and (max-width: 1439px) {
+                position: absolute;
+                top: 0;
+                height: 100%;
+                padding: 6px 16px 8px 16px;
+                z-index: 2020;
+                width: 188px;
+            }
             .left-header{
                 font-size:12px;
                 font-family:PingFangSC-Regular,PingFang SC;

@@ -44,9 +44,6 @@ export default {
 .logger-frame {
 	width: 100%;
 	height: 100%;
-	@media screen and (max-width: 1200px) {
-        width: 1040px;
-    }
 	box-sizing: border-box;
 	border-left: 10px solid #F4F6F8;
 	overflow: auto;
