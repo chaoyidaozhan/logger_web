@@ -311,7 +311,8 @@ export default {
     // }
     .page-logger-list {
         height: 100%;
-        overflow: auto;
+        // overflow: auto;
+        overflow: hidden;
         .loading {
             height: 60px;
             line-height: 50px;
