@@ -22,8 +22,6 @@
             </div>
         </div>
         <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
-
-
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
                     <div>雷蒙蒙的核查模版</div>
@@ -144,8 +142,9 @@ export default {
             pageSize: 20,
             pageNo: 1,
             isAllChecked: false,
-isLoadingShow: false,
-isAddTemplateShow: true
+            isLoadingShow: false,
+            isAddTemplateShow: false,
+            
         }
     },
     props: {
@@ -159,7 +158,7 @@ isAddTemplateShow: true
             handler(newVal, oldVal) {
                 switch(newVal) {
                     case 'addReportReviewer':
-
+                        
                     break;
                     case 'addReportReminder':
 
