@@ -4,7 +4,7 @@
       <span class="title">{{detailMsg.templateName}}</span>
       <span class="buttonGroup">
         <i class="edit icon-edit" @click.stop="toEdit()"></i>
-        <i class="delete icon-delete"></i>
+        <i class="delete icon-delete" @click.stop="delRule()"></i>
       </span>
    </div>
    <div class="subHeader">
@@ -42,6 +42,9 @@ export default {
         }
     },
     methods: {
+      delRule() {
+        this.$emit('delRule', this.detailMsg)
+      },
       toEdit() {
         this.$emit('toEdit', this.detailMsg)
       },
