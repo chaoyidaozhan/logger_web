@@ -81,13 +81,13 @@ export default {
         // 1 关闭 2 设置规则  3 查看详情
         this.$emit('changeShow', 2)
       },
-      itemDetailMsg(item) {
+      itemDetailMsg(item, queryDate = '') {
         return new Promise((reslove, reject) => {
                 this.$ajax({
                   url: `/diarySubmitRule/getRuleDetail`,
                   data: {
                       diarySubmitRuleId: item.id,
-                      queryDate: FormatTime(new Date(), 'YYYY-MM-DD')
+                      queryDate: (queryDate || FormatTime(new Date(), 'YYYY-MM-DD'))
                   },
                   success: (res) => {
                       if (res.code == 0) {

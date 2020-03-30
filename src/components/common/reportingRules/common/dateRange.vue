@@ -31,7 +31,7 @@ export default {
         if(this.lang == 'en') {
             dateText = `${tempDate.getMonth()+1}/${tempDate.getDate()}`
         } else {
-            dateText = (tempDate.getMonth()+1) + this.$t('date.M') + tempDate.getDate()+this.$t('date.D');
+            dateText = (tempDate.getMonth()+1) + this.$t('date.m') + tempDate.getDate()+this.$t('date.d');
         }
         return {
             text: dateText,
@@ -67,3 +67,9 @@ export default {
     },
 }
 </script>
+<style lang='less' scoped>
+.icon-arrow-left,
+.icon-arrow-right {
+  cursor: pointer;
+}
+</style>

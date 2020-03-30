@@ -7,7 +7,7 @@
             <span class="title">{{$t('operate.setReportRules')}}</span>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
-         <DetailItem @edit="editClick()" :detailMsg="detailMsg"></DetailItem>
+         <DetailItem @edit="editClick()" :detailMsg="detailMsg" @handleChangeDate="handleChangeDate"></DetailItem>
          <DateRange :class="'dataRange'"></DateRange>
          <TabPersonList :detailMsg="detailMsg"></TabPersonList>
       </div>
@@ -35,12 +35,13 @@ export default {
     },
     data() {
         return {
-          listArr: [1,2,3,4,5,6,7,8,9,10],
-          // listArr: [],
           tip_data
         }
     },
     methods: {
+      handleChangeDate(data) {
+        this.$emit('handleChangeDate', data);
+      },
       editClick () {
         this.$emit('changeShow', 2)
       },
