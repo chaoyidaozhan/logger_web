@@ -119,7 +119,7 @@
                             {{$t('operate.collapse')}}
                         </span> -->
                     </div>
-                    <div class="logger-list-col logger-list-location logger-list-watcher">
+                    <!-- <div class="logger-list-col logger-list-location logger-list-watcher">
                         <Poptip
                             v-if="loggerItemData.readCount"
                             @on-popper-show="getAllMembers"
@@ -139,10 +139,13 @@
                                     <span class="username">{{item.userName || ''}}</span>
                                 </div>
                             </div>
-                            <div class="count">
-                                <img class="count-img" src="" />    
+                            <div class="count" v-if="loggerItemData.readCount">
+                                <div class="imageCount">
+                                    <img v-show="!!loggerItemData && !!loggerItemData.readLog[2]" style="right:88px;z-index:3" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[2] && loggerItemData.readLog[2].avatar" />    
+                                    <img v-show="!!loggerItemData && !!loggerItemData.readLog[1]" style="right:75px;z-index:2" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[1] && loggerItemData.readLog[1].avatar" />    
+                                    <img v-show="!!loggerItemData && !!loggerItemData.readLog[0]" style="right:62px;z-index:1" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[0] && loggerItemData.readLog[0].avatar" />    
+                                </div>
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
-                                <i class="icon-chat-normal"></i>
                             </div>
                         </Poptip>
                         <div class="count" v-else>
@@ -150,7 +153,7 @@
                             <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                             <i class="icon-chat-normal"></i>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="logger-list-row">
                     <!-- <div class="logger-list-col logger-list-location">

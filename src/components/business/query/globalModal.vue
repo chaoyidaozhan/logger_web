@@ -342,7 +342,7 @@ export default {
             if(!this.isCanval){
                 canvas.width = globalModal.scrollWidth;
                 canvas.height = globalModal.scrollHeight;
-                ctx.strokeStyle = '#FF0000'; //ctx is the canvas
+                ctx.strokeStyle = this.defaultColor; //ctx is the canvas
                 ctx.lineJoin = 'round';
                 ctx.lineCap = 'round';
                 ctx.lineWidth = 6;
@@ -461,11 +461,16 @@ export default {
                 console.info("Exited full screen");
             }
         });
+
+        this.$eventbus.$on('changeColor', (color) => {
+            this.defaultColor = color
+        })
     },
     destroyed(){
         this.$eventbus.$off('openglobal')
         this.$eventbus.$off('translist')
         this.$eventbus.$off('transid')
+        this.$eventbus.$off('changeColor')
     }
 }
 </script>

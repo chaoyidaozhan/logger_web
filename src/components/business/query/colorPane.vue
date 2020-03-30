@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="colorPane" @click="showdrawingBoard = !showdrawingBoard">
-            <div class="colorLump"></div>
+            <div class="colorLump" :style="{background:defaultColor}"></div>
         </div>
         <div class="drawingBoard" v-show='showdrawingBoard'>
             <div class="drawingBoardBorder" v-for="(drawPane, index) in drawPanes" :key="index">
@@ -13,6 +13,12 @@
 </template>
 <script>
 export default {
+    props:{
+        color:{
+            type:String,
+            default:'#EE2223'
+        }
+    },
     data(){
         return{
             drawPanes:[{
@@ -52,7 +58,8 @@ export default {
             },{
                 color:'#333333'
             }],
-            showdrawingBoard: false
+            showdrawingBoard: false,
+            defaultColor:''
         }
     },
     methods:{
@@ -63,7 +70,12 @@ export default {
             const canvas = document.querySelector('#draw')
             const ctx = canvas.getContext('2d')
             ctx.strokeStyle = color
+            this.$eventbus.$emit('changeColor', color)
+            this.defaultColor = color
         }
+    },
+    created(){
+        this.defaultColor = this.color
     }
 }
 </script>
@@ -82,7 +94,6 @@ export default {
         .colorLump{
             width: 22px;
             height: 22px;
-            background:rgba(238,34,35,1);
             border-radius:2px;
             opacity:1;
             border:1px solid rgba(136,136,136,1);
