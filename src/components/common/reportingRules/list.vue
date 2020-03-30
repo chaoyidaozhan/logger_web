@@ -15,7 +15,7 @@
           </div>
           <div class="body">
             <div class="scrollBody" v-if="listArr.length">
-              <Item :data="item" v-for="(item, i) in listArr" :key=i @getDetail="getDetail" @toEdit="toEdit"></Item>
+              <Item :data="item" v-for="(item, i) in listArr" :key=i @getDetail="getDetail" @toEdit="toEdit" @delRule="delRule"></Item>
             </div>
             <div class="noImgCtn" v-else>
               <img class="noDataImg" :src="tip_data">
@@ -48,6 +48,19 @@ export default {
         }
     },
     methods: {
+      delRule(item) {
+        this.$ajax({
+            url: `/diarySubmitRule/${item.id}`,
+            type: 'delete',
+            data: {},
+            success: res => {
+                if (res.code != 0) {
+                  return;
+                }
+                this.allRulesList();
+            }
+        })
+      },
       allRulesList() {
         this.$ajax({
             url: '/diarySubmitRule/getAllDiarySubmitRules',

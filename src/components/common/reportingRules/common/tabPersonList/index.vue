@@ -31,10 +31,16 @@
     <div class="footer">
        <YYCheckbox class="isSelected" v-model="isSelected">全选</YYCheckbox>
        <YYButton 
+        @click="sendSelectedMember"
         type="primary">
           {{$t('operate.sendReminder')}}
       </YYButton>
     </div>
+    <YYModal 
+      type="confirm"
+      title=""
+      :content="'你将给“' + memberNames.join(',') + '”等' + memberNames.length + '人发送提交汇报提醒。'"
+      v-model="isConfirmShow"/>
   </div>
 </template>
 
@@ -72,13 +78,44 @@ export default {
         }
       ],
       isSelected: false,
-      diarySubumitList
+      diarySubumitList,
+      isConfirmShow: false,
+      memberIds: [],
+      memberNames: []
     }
   },
   components: {
     PersonItem
   },
   methods: {
+    sendSelectedMember() {
+      let diarySubumitList = this.detailMsg.diarySubumitList;
+      let memberIds = [];
+      let memberNames = [];
+      switch(this.tabIndex) {
+        // case 0:
+        // break;
+        case 1:
+          diarySubumitList.unSubmit.forEach((item, index) => {
+            if(item.isSelected) {
+              memberIds.push(item.memberId);
+              memberNames.push(item.userName);
+            }
+          });
+        break;
+        case 2:
+          diarySubumitList.submitPostpone.forEach((item, index) => {
+            if(item.isSelected) {
+              memberIds.push(item.memberId);
+              memberNames.push(item.userName);
+            }
+          });
+        break;
+      }
+      this.memberIds = memberIds;
+      this.memberNames = memberNames;
+      this.isConfirmShow = true;
+    },
     changeIndex(i) {
       this.tabIndex = i
     }
@@ -98,6 +135,7 @@ export default {
       color: #333333;
       margin-right: 24px;
       position: relative;
+      cursor: pointer;
       &.active {
         color: #EE2223;
         &::before{
