@@ -36,11 +36,11 @@
           {{$t('operate.sendReminder')}}
       </YYButton>
     </div>
-    <YYModal 
+    <!-- <YYModal 
       type="confirm"
       title=""
       :content="'你将给“' + memberNames.join(',') + '”等' + memberNames.length + '人发送提交汇报提醒。'"
-      v-model="isConfirmShow"/>
+      v-model="isConfirmShow"/> -->
   </div>
 </template>
 
