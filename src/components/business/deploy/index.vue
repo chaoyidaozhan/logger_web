@@ -22,8 +22,6 @@
             </div>
         </div>
         <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
-
-
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
                     <div>雷蒙蒙的核查模版</div>
