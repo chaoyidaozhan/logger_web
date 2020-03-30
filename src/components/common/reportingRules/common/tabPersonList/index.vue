@@ -75,7 +75,7 @@ export default {
       isAllSelected: false,
       diarySubumitList,
       isConfirmShow: false,
-      isRender: false
+      isRender: true
     }
   },
   components: {
@@ -149,6 +149,7 @@ export default {
       })
     },
     changeIndex(i) {
+      this.isAllSelected = false;
       this.tabIndex = i
     }
   },
