@@ -59,23 +59,26 @@ export default {
         {
           title: this.$t('operate.submitted'),
           sum: diarySubumitList.submitNormal.length,
-          index: 0
+          index: 0,
+          isAllSelected: false
         },
         {
           title: this.$t('operate.notSubmitted'),
           sum: diarySubumitList.unSubmit.length,
-          index: 1
+          index: 1,
+          isAllSelected: false
         },
         {
           title: this.$t('operate.postponedSubmission'),
           sum: diarySubumitList.submitPostpone.length,
-          index: 2
+          index: 2,
+          isAllSelected: false
         }
       ],
-      isAllSelected: false,
       diarySubumitList,
       isConfirmShow: false,
-      isRender: true
+      isRender: true,
+      isAllSelected: false
     }
   },
   components: {
@@ -98,6 +101,8 @@ export default {
           });
         break;
       }
+      this.isAllSelected = isAllSelected;
+      this.tabHeader[this.tabIndex].isAllSelected = isAllSelected;
       this.isRender = false;
       this.$nextTick(() => {
         this.isRender = true;
@@ -149,8 +154,8 @@ export default {
       })
     },
     changeIndex(i) {
-      this.isAllSelected = false;
-      this.tabIndex = i
+      this.tabIndex = i;
+      this.isAllSelected = this.tabHeader[this.tabIndex].isAllSelected;
     }
   },
   created() {
