@@ -7,40 +7,35 @@
         @click="changeIndex(item.index)">
           {{item.title}}({{item.sum}})
       </li>
-      <!-- <li class="item" :class="{'active' : tabIndex == 2}" @click="changeIndex(2)">未提交 (1)</li> -->
-      <!-- <li class="item" @click="changeIndex(3)">延期提交 (1)</li> -->
     </ul>
-    <!-- 已提交 -->
-    <ul class="subCtn clearfix" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
-      <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
-        <PersonItem :memberMsg="item"></PersonItem>
-      </li>
-    </ul>
-    <!-- 未提交 -->
-    <ul class="subCtn clearfix" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
-      <li class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
-        <PersonItem :memberMsg="item"></PersonItem>
-      </li>
-    </ul>
-    <!-- 延期提交 -->
-    <ul class="subCtn clearfix" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
-      <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
-        <PersonItem :memberMsg="item"></PersonItem>
-      </li>
-    </ul>
+    <div v-if="isRender">
+      <!-- 已提交 -->
+      <ul class="subCtn clearfix" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
+        <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
+          <PersonItem :memberMsg="item"></PersonItem>
+        </li>
+      </ul>
+      <!-- 未提交 -->
+      <ul class="subCtn clearfix" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
+        <li class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
+          <PersonItem :memberMsg="item"></PersonItem>
+        </li>
+      </ul>
+      <!-- 延期提交 -->
+      <ul class="subCtn clearfix" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
+        <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
+          <PersonItem :memberMsg="item"></PersonItem>
+        </li>
+      </ul>
+    </div>
     <div class="footer">
-       <YYCheckbox class="isSelected" v-model="isSelected">全选</YYCheckbox>
+       <YYCheckbox class="isSelected" v-model="isAllSelected" @on-change="allSelect">全选</YYCheckbox>
        <YYButton 
         @click="sendSelectedMember"
         type="primary">
           {{$t('operate.sendReminder')}}
       </YYButton>
     </div>
-    <!-- <YYModal 
-      type="confirm"
-      title=""
-      :content="'你将给“' + memberNames.join(',') + '”等' + memberNames.length + '人发送提交汇报提醒。'"
-      v-model="isConfirmShow"/> -->
   </div>
 </template>
 
@@ -77,17 +72,37 @@ export default {
           index: 2
         }
       ],
-      isSelected: false,
+      isAllSelected: false,
       diarySubumitList,
       isConfirmShow: false,
-      memberIds: [],
-      memberNames: []
+      isRender: false
     }
   },
   components: {
     PersonItem
   },
   methods: {
+    allSelect(isAllSelected) {
+      let diarySubumitList = this.detailMsg.diarySubumitList;
+      switch(this.tabIndex) {
+        // case 0:
+        // break;
+        case 1:
+          diarySubumitList.unSubmit.forEach((item, index) => {
+            item.isSelected = isAllSelected;
+          });
+        break;
+        case 2:
+          diarySubumitList.submitPostpone.forEach((item, index) => {
+            item.isSelected = isAllSelected;
+          });
+        break;
+      }
+      this.isRender = false;
+      this.$nextTick(() => {
+        this.isRender = true;
+      });
+    },
     sendSelectedMember() {
       let diarySubumitList = this.detailMsg.diarySubumitList;
       let memberIds = [];
@@ -112,9 +127,26 @@ export default {
           });
         break;
       }
-      this.memberIds = memberIds;
-      this.memberNames = memberNames;
-      this.isConfirmShow = true;
+      this.$YYModal.show({
+          title: ``,
+          content: `你将给“${memberNames.join(',')}”等${memberNames.length}人发送提交汇报提醒。`,
+          onOk: () => {
+            this.$ajax({
+                url: '/diaryStatistics/send',
+                type: 'post',
+                data: {
+                  content: '',
+                  userIds: memberIds.join(',')
+                },
+                requestBody: 1,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                      this.$YYMessage.success(res)
+                    }
+                }
+            })
+          }
+      })
     },
     changeIndex(i) {
       this.tabIndex = i
@@ -161,10 +193,12 @@ export default {
   }
   .footer{
     position: absolute;
+    box-sizing: border-box;
     bottom: 13px;
     right: 0;
     width: 100%;
     padding-left: 20px;
+    background: white;
   }
 }
 
