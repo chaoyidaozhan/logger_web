@@ -597,12 +597,15 @@ export default {
             this.$eventbus.$emit('transid', this.loggerItemData.id)
             this.loggerItem = this.$el
             this.isShowMenu = true
-            // let leftMenu = this.$el.querySelector('.leftMenu')
             let pageLoggerList = document.querySelector('.page-logger-list')
             let loggerListItem = this.$el.querySelector('.logger-list-item')
             // loggerListItem.style.border = '1px dashed #18B681'
             
             let itemScrollTop = pageLoggerList.scrollTop
+            let leftMenu = this.$el.querySelector('.leftMenu')
+            if(window.innerWidth <= 1439){
+                leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            }
             // if(leftMenu) {
             //     if(itemScrollTop - this.$el.offsetTop > 0){
             //         leftMenu.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
@@ -675,6 +678,17 @@ export default {
         }else{
             pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
         }
+
+        // this.$eventbus.$on('changeLeftMenuScroll', () => {
+        //     let pageLoggerList = document.querySelector('.page-logger-list')
+        //     let leftMenu = this.$el.querySelector('.leftMenu')
+        //     if(window.innerWidth <= 1439){
+        //         leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+        //     }
+        // })
+    },
+    destroyed() {
+        // this.$eventbus.$off('changeLeftMenuScroll')
     }
 }
 </script>

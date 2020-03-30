@@ -177,6 +177,8 @@ export default {
                 if ((scrollHeight - scrollTop) - offsetHeight < 20) {
                     this.pageNo++
                 }
+
+                // this.$eventbus.$emit('changeLeftMenuScroll')
             }
         },
         updateList(res) { // load成功之后更新数据
@@ -311,8 +313,7 @@ export default {
     // }
     .page-logger-list {
         height: 100%;
-        // overflow: auto;
-        overflow: hidden;
+        overflow: auto;
         .loading {
             height: 60px;
             line-height: 50px;
