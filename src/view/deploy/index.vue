@@ -4,7 +4,7 @@
             <div class="mb-flex">
                 <div @click.stop="tabChange('addReportReviewer')" :class="{selected: currentTab == 'addReportReviewer'}">{{$t('title.addReportReviewer')}}</div>
                 <div @click.stop="tabChange('addReportReminder')" :class="{selected: currentTab == 'addReportReminder'}">{{$t('title.addReportReminder')}}</div>
-                <div @click.stop="tabChange('configureAdministrator')" :class="{selected: currentTab == 'configureAdministrator'}">{{$t('title.configureAdministratorAndStatisticsPermissions')}}</div>
+                <div v-if="isSettingManagerShow" @click.stop="tabChange('configureAdministrator')" :class="{selected: currentTab == 'configureAdministrator'}">{{$t('title.configureAdministratorAndStatisticsPermissions')}}</div>
             </div>
         </template>
         <template slot="body">
@@ -18,7 +18,8 @@ import FsDeploy from 'app_component/business/deploy'
 export default {
     data() {
         return {
-            currentTab: 'addReportReviewer'
+            currentTab: 'addReportReviewer',
+            isSettingManagerShow: !!this.$store.state.userInfo.showConfig
         };
     },
     components: {

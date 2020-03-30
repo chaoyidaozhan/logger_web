@@ -142,8 +142,9 @@ export default {
             pageSize: 20,
             pageNo: 1,
             isAllChecked: false,
-isLoadingShow: false,
-isAddTemplateShow: true
+            isLoadingShow: false,
+            isAddTemplateShow: false,
+            
         }
     },
     props: {
@@ -157,7 +158,7 @@ isAddTemplateShow: true
             handler(newVal, oldVal) {
                 switch(newVal) {
                     case 'addReportReviewer':
-
+                        
                     break;
                     case 'addReportReminder':
 
