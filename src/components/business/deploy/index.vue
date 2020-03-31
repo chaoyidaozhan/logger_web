@@ -41,25 +41,6 @@
                     </div>
                 </div>
             </div>
-            <div class="reportMemberList">
-                <div class="memberAddTemplate mb-flex mb-flex-align-center">
-                    <div>雷蒙蒙的核查模版</div>
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
-                        <div class="yy-icon-xinzeng"></div>
-                        <div>{{$t('operate.add')}}</div>
-                    </div>
-                </div>
-                <div class="memberSelectedTemplate mb-flex">
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
-                        <div>项目双周报</div>
-                        <div class="yy-icon-guanbi"></div>
-                    </div>
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
-                        <div>项目双周报</div>
-                        <div class="yy-icon-guanbi"></div>
-                    </div>
-                </div>
-            </div>
             <div class="changeOperate mb-flex mb-flex-pack-justify">
                 <YYButton type="primary" @click="changeSave">{{$t('operate.save')}}</YYButton>
                 <YYButton @click="changeReset">{{$t('operate.reset')}}</YYButton>
@@ -144,7 +125,8 @@ export default {
             isAllChecked: false,
             isLoadingShow: false,
             isAddTemplateShow: false,
-            
+            reportReviewerTemplateList: [],
+            reportReminderTemplateList: []
         }
     },
     props: {
@@ -244,20 +226,16 @@ export default {
                 return;
             }
             let type = this.currentTab == 'addReportReviewer' ? 0 : 1;
+            members.forEach(mem=>{
+                mem.type = type;
+            });
             this.$ajax({
                 url: '/rest/v1/diary/role',
                 type: 'post',
-                data: {
-                    memberId: members,
-                    type
-                },
+                data: members,
                 requestBody: 1,
                 success: (res)=>{
-                    if(res && res.code == 0) {
-                        this.reportReviewerList(type);
-                    } else {
-                        this.$YYMessage.warning(res.msg)
-                    }
+                    this.reportReviewerList(type);
                 }
             });
         },
