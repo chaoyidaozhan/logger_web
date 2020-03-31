@@ -208,6 +208,7 @@ export default {
           startColumns: 2,
           endColumns: 2,
           lastRemindTimeArr: [],
+          selectedTemplateId: 0
         }
     },
     methods: {
@@ -245,8 +246,8 @@ export default {
           let arr = res.member
           this.selectMemberData = arr
       },
-      handleQuery () {
-
+      handleQuery(id) {
+        this.selectedTemplateId = id;
       },
       handleDateTypeChange (v) {
         switch (v) {

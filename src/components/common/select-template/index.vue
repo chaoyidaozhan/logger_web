@@ -1,6 +1,7 @@
 <template>
     <div class="select-template">
-        <YYSelect v-model="templateId" 
+        <YYSelect 
+            v-model="templateId" 
             :invertable="false"
             :placeholder="`${$t('operate.select')}${$t('noun.template')}`">
             <YYOption v-for="(item, index) in tempListData"
@@ -53,7 +54,7 @@ export default {
                 }
             })
             if(value) {
-                this.$emit('handleChange')
+                this.$emit('handleChange', value)
             }
         },
         getTemplateApp(call) {
