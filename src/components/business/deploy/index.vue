@@ -30,9 +30,9 @@
                         <div @click.stop="addRoleTemplate">{{$t('operate.add')}}</div>
                     </div>
                 </div>
-                <div class="memberSelectedTemplate mb-flex">
+                <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" v-for="(item, index) in currentRoleMapTemplate">
-                        <div>{{item.title}}</div>
+                        <div class="templateTitle">{{item.title}}</div>
                         <div class="yy-icon-guanbi" @click.stop="delRoleTemplate(item)"></div>
                     </div>
                 </div>
@@ -252,7 +252,10 @@ export default {
             this.loadData();
         },
         allCheck(isAllChecked) {
-
+            let currentPageNumTemplate = this.allTemplatePagenumMapList[this.pageNo + ''];
+            currentPageNumTemplate.forEach((item, index) => {
+                item.isCurrentTemplateSelected = isAllChecked;
+            });
         },
         loadData() {
             let currentPageNumTemplate = this.allTemplatePagenumMapList[this.pageNo + ''];
@@ -633,6 +636,11 @@ export default {
                 .yy-icon-guanbi {
                     cursor: pointer;
                 }
+            }
+            .templateTitle {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
     }
