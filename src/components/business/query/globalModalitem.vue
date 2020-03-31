@@ -16,7 +16,7 @@
                         <span class="template-name" v-if="loggerItemData.templateName">
                             <i>{{filterEncode(loggerItemData.templateName)}}</i>
                         </span>
-                        <span class="template-name" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 1000 * 60 * 60 * 48"><i>{{$t('operate.fill')}}</i></span>
+                        <span class="template-name" style="background:rgba(238,34,35,0.08);border-radius:5px;color:rgba(238,34,35,1);" v-if="Math.abs(loggerItemData.diaryTime - loggerItemData.createTime) > 1000 * 60 * 60 * 48"><i>{{$t('operate.fill')}}</i></span>
                         <i class="view-lower-level" 
                             v-if="isLowerLevel && !!loggerItemData.hasSubordinate"
                             @click="handleViewLowerLevel">
@@ -72,9 +72,9 @@
                     <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
                         <div class="logger-list-col">
                             <div class="title">
-                                {{$t('noun.logDate')}}
+                                {{$t('noun.logDate')}}:
                             </div>
-                            <div class="caption caption-modal">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
+                            <div class="caption-date caption-modal">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
                         </div>
                     </div>
                     <!--具体内容-->
@@ -219,6 +219,7 @@
                 </div>
             </div>
         </div>
+        <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas>
     </div>
 </template>
 <script>
@@ -274,7 +275,9 @@ export default {
             editTimer: null,
             members: null,
             isShowMenu: false,
-            loggerItem: null//记录该item
+            loggerItem: null,//记录该item
+            isCanval: false,
+            defaultColor:''
         }
     },
     components: {
@@ -320,6 +323,18 @@ export default {
         }
     },
     methods: {
+        closeCanvas() { 
+            const canvas = this.$el.querySelector('#draw');
+            canvas.removeEventListener('mousedown', this.mousedownCanval, false);
+            canvas.removeEventListener('mousemove', this.draw, false);
+            canvas.removeEventListener('mouseup', this.mouseupCanval, false);
+            canvas.removeEventListener('mouseout', this.mouseupCanval, false);
+
+            document.querySelector('.nodrawing')
+
+            let nodrawing = document.querySelector('.nodrawing')
+            nodrawing.style.borderRadius = '3px'
+        },
         getAllMembers() {
             this.$ajax({
                 url: `/diaryReadLog/getDiaryReadLogList/${this.loggerItemData.id}`,
@@ -593,6 +608,110 @@ export default {
         }
     },
     mounted () {
+        let _this = this
+        
+        this.$eventbus.$on('opencanvas', (isCanval, defaultColor) => {
+            const canvas = _this.$el.querySelector('#draw');
+            // const globalModal = document.querySelector('#globalModal');
+            const ctx = canvas.getContext('2d');
+
+            let isDrawing = false;
+            sessionStorage.setItem('isDrawing', isDrawing)
+            let lastX = 0;
+            let lastY = 0;
+            let direction = true;
+            let loggerItemModals = document.querySelector(".spanModal")
+
+            //解决由于放大问题带来的画图问题
+            let times = 1.5;
+            if(!!loggerItemModals.style.zoom){
+                times = loggerItemModals.style.zoom
+            }
+            function mousedownCanval(e){
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
+                // _this.$eventbus.$emit('changeDrawing', true)
+                sessionStorage.setItem('isDrawing', isDrawing)
+            }
+            function draw(e) {
+                isDrawing = sessionStorage.getItem('isDrawing')
+                if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
+                ctx.beginPath();
+                // start from
+                ctx.moveTo(lastX, lastY);
+                // go to
+                ctx.lineTo(e.offsetX/times, e.offsetY/times);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
+            }
+
+            function mouseupCanval(e){
+                isDrawing = false
+                sessionStorage.setItem('isDrawing', isDrawing)
+            }
+
+            function mouseenterCanval(e){
+                lastX = e.offsetX/times
+                lastY = e.offsetY/times
+            }
+
+            if(!isCanval){
+                let pageLoggerList = document.querySelector('.page-logger-list')
+                let loggerItemModal = document.querySelector('.logger-item-modal')
+                let canvaldialog = _this.$el.querySelector('.canvaldialog')
+                canvaldialog.style.position = 'absolute'
+                canvaldialog.style.right = 0
+                canvaldialog.style.top = 0
+                canvaldialog.style.bottom = 0
+                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth)/2 + 'px'
+
+                canvas.width = pageLoggerList.offsetWidth
+                canvas.height = _this.$el.scrollHeight
+                ctx.strokeStyle = defaultColor; //ctx is the canvas
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.lineWidth = 6;
+
+                _this.mousedownCanval = mousedownCanval
+                _this.draw = draw
+                _this.mouseupCanval = mouseupCanval
+                _this.mouseenterCanval = mouseenterCanval
+
+                canvas.addEventListener('mousedown', _this.mousedownCanval, false);
+                canvas.addEventListener('mousemove', _this.draw, false);
+                canvas.addEventListener('mouseup', _this.mouseupCanval, false);
+                // canvas.addEventListener('mouseout', _this.mouseupCanval, false);
+                canvas.addEventListener('mouseenter', _this.mouseenterCanval, false);
+
+                let nodrawing = document.querySelector('.nodrawing')
+                nodrawing.style.borderRadius = '3px 3px 0px 0px'
+                this.isCanval = true
+            }else{
+                canvas.removeEventListener('mousedown', this.mousedownCanval, false);
+                canvas.removeEventListener('mousemove', this.draw, false);
+                canvas.removeEventListener('mouseup', this.mouseupCanval, false);
+                // canvas.removeEventListener('mouseout', this.mouseupCanval, false);
+                canvas.removeEventListener('mouseenter', _this.mouseenterCanval, false);
+
+                document.querySelector('.nodrawing')
+
+                let nodrawing = document.querySelector('.nodrawing')
+                nodrawing.style.borderRadius = '3px'
+
+                this.isCanval = false
+            }
+        })
+
+        this.$eventbus.$on('closeCanvas', ()=>{
+            this.closeCanvas()
+        })
+
+        this.$eventbus.$on('changePen', (defaultColor) => {
+            const canvas = _this.$el.querySelector('#draw');
+            const ctx = canvas.getContext('2d');
+            ctx.strokeStyle = defaultColor;
+        })
+
         this.$nextTick(()=>{
             this.setRangeHeight()        
         })
@@ -608,13 +727,20 @@ export default {
         loggerOperates.forEach((loggerOperate)=>{
             loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
         })
-        
+    },
+    destroyed(){
+        this.$eventbus.$off('opencanvas')
+        this.$eventbus.$off('closeCanvas')
+        this.$eventbus.$off('changePen')
     }
 }
 </script>
 <style lang="less">
 @import '~app_assets/css/var.less';
 .logger-item-modal{
+    position: relative;
+    margin: auto;
+    width: 70%;
     // padding: 60px;
     // transform: scale(.7);
     .logger-content-item{
@@ -628,7 +754,7 @@ export default {
             min-width: 768px;
             // margin: auto;
             // float: left;
-            padding: 20px 20px 0;
+            padding: 32px 32px 0;
             position: relative;
             background-color: @white-color;
             color: @gray-color-light;
@@ -686,6 +812,12 @@ export default {
                     .title {
                         margin-bottom: 4px;
                         color: @gray-color-dark;
+                        display: inline-block;
+                    }
+                    .caption-date{
+                        display: inline-block;
+                        font-size: 13px;
+                        color: @gray-color-medium;
                     }
                     .caption {
                         font-size: 13px;
@@ -706,9 +838,12 @@ export default {
             .logger-list-user {
                 line-height: 24px;
                 .template-name {
-                    border: 1px solid @primary-color;
-                    color: @primary-color;
-                    border-radius: 2px;
+                    // border: 1px solid @primary-color;
+                    // color: @primary-color;
+                    background:rgba(245,245,245,1);
+                    border-radius:5px;
+                    font-weight:400;
+                    color:rgba(102,102,102,1);
                     display: inline-block;
                     i {
                         font-style: normal;
@@ -949,6 +1084,16 @@ export default {
                 display: none;
             }
         }
+    }
+    .canvaldialog{
+    //     width: 100%;
+    //     height: 100%;
+        // display: block;
+        // position: absolute;
+        // top:0;
+        // bottom:0;
+        // // left: 0;
+        // right: 0;
     }
 }
 </style>
