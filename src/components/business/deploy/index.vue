@@ -24,7 +24,7 @@
         <div class="deploy-limit" v-if="currentTab != 'configureAdministrator' && currentMember">
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
-                    <div>{{currentMember.userName}}的核查模板</div>
+                    <div>{{currentMember.userName}}的{{currentTabType == 0 ? '核查' : '催办'}}模板</div>
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
                         <div class="yy-icon-xinzeng"></div>
                         <div @click.stop="addRoleTemplate">{{$t('operate.add')}}</div>
