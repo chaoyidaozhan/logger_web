@@ -22,9 +22,9 @@
             </div>
         </div>
         <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
-            <div class="reportMemberList">
+            <div class="reportMemberList" v-for="(item, index) in currentRoleMapTemplate">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
-                    <div>雷蒙蒙的核查模版</div>
+                    <div>{}</div>
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
                         <div class="yy-icon-xinzeng"></div>
                         <div>{{$t('operate.add')}}</div>
@@ -32,12 +32,8 @@
                 </div>
                 <div class="memberSelectedTemplate mb-flex">
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
-                        <div>项目双周报</div>
-                        <div class="yy-icon-guanbi"></div>
-                    </div>
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
-                        <div>项目双周报</div>
-                        <div class="yy-icon-guanbi"></div>
+                        <div>{{item.title}}</div>
+                        <div class="yy-icon-guanbi" @click.stop="delRoleTemplate(item)"></div>
                     </div>
                 </div>
             </div>
@@ -125,8 +121,7 @@ export default {
             isAllChecked: false,
             isLoadingShow: false,
             isAddTemplateShow: false,
-            reportReviewerTemplateList: [],
-            reportReminderTemplateList: []
+            currentRoleMapTemplate: []
         }
     },
     props: {
@@ -140,10 +135,10 @@ export default {
             handler(newVal, oldVal) {
                 switch(newVal) {
                     case 'addReportReviewer':
-                        this.reportReviewerList(0);
+                        this.reportList();
                     break;
                     case 'addReportReminder':
-                        this.reportReviewerList(1);
+                        this.reportList();
                     break;
                     case 'configureAdministrator':
                         this.getDeployMember();
@@ -158,8 +153,34 @@ export default {
         FsTemplateItem
     },
     methods: {
-        reportReviewerList(type = 0) {
+        delRoleTemplate(item) {
+            this.$ajax({
+                url: '/rest/v1/diary/role_template_relation',
+                type: 'delete',
+                data: {
+                    diaryRoleId: item.id
+                },
+                requestBody: 1,
+                success: (res)=>{
+                    this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
+                }
+            });
+        },
+        delRole() {
+            this.$ajax({
+                url: `/rest/v1/diary/role/${this.currentMember.id}`,
+                type: 'delete',
+                data: {},
+                requestBody: 1,
+                success: (res)=>{
+                    this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
+                    this.
+                }
+            });
+        },
+        reportList() {
             this.isLoadingShow = true;
+            let type = this.currentTab == 'addReportReviewer' ? 0 : 1;
             let qzId = this.$store.state.userInfo.qzId;
             this.$ajax({
                 url: `/rest/v1/${qzId}/diary/roles`,
@@ -225,7 +246,6 @@ export default {
                 });
                 return;
             }
-            let type = this.currentTab == 'addReportReviewer' ? 0 : 1;
             members.forEach(mem=>{
                 mem.type = type;
             });
@@ -235,7 +255,7 @@ export default {
                 data: members,
                 requestBody: 1,
                 success: (res)=>{
-                    this.reportReviewerList(type);
+                    this.reportList();
                 }
             });
         },
@@ -270,18 +290,22 @@ export default {
                 onOk: () => {
                     const members = [this.currentMember.memberId]
                     this.stashLimitData[this.currentMember.memberId] = null
-                    this.$ajax({
-                        url: '/rest/v1/diaryStatistics/people/delete',
-                        type: 'post',
-                        data: members,
-                        requestBody: 1,
-                        success: (res)=>{
-                            if(res && res.code == 0) {
-                                this.handleInitData()
-                                this.getDeployMember()
+                    if(this.currentTab == 'configureAdministrator') {
+                        this.$ajax({
+                            url: '/rest/v1/diaryStatistics/people/delete',
+                            type: 'post',
+                            data: members,
+                            requestBody: 1,
+                            success: (res)=>{
+                                if(res && res.code == 0) {
+                                    this.handleInitData()
+                                    this.getDeployMember()
+                                }
                             }
-                        }
-                    })
+                        })
+                        return;
+                    }
+                    this.delRole();
                 }
             })
 
@@ -393,7 +417,20 @@ export default {
             if(this.stashLimitData[param.memberId]) {
                 return this.deployLimit = this.stashLimitData[param.memberId]
             }
-            this.getDeployLimit()
+            if(this.currentTab == 'configureAdministrator') {
+                this.getDeployLimit();
+                return;
+            }
+            this.roleMapTemplateList();
+        },
+        roleMapTemplateList() {
+            this.$ajax({
+                url: `/rest/v1/diary/${this.currentMember.id}/role_template_relations`,
+                data: {},
+                success: (res) => {
+                    this.currentRoleMapTemplate = res.templates;
+                }
+            })
         },
         handleInitData() {
             this.currentMember = null
