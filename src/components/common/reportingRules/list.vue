@@ -67,9 +67,9 @@ export default {
             type: 'get',
             data: {},
             success: res => {
-                if (res && res.data) {
-                    this.listArr = res.data || [];
-                }
+              if (res && res.data) {
+                this.listArr = res.data || [];
+              }
             }
         })
       },
