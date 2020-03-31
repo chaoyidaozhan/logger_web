@@ -127,7 +127,7 @@ import FsTemplateItem from '../template/list/item';
 export default {
     data() {
         return {
-            deployMember: null,
+            deployMember: [],
             deployLimit: null,
             currentMember: null,
             stashLimitData: {},
@@ -158,17 +158,17 @@ export default {
             handler(newVal, oldVal) {
                 switch(newVal) {
                     case 'addReportReviewer':
-                        
+                        this.reportReviewerList(0);
                     break;
                     case 'addReportReminder':
-
+                        this.reportReviewerList(1);
                     break;
                     case 'configureAdministrator':
                         this.getDeployMember();
                     break;
                 }
             },
-            deep:true
+            immediate: true
         }
     },
     components: {
@@ -176,6 +176,22 @@ export default {
         FsTemplateItem
     },
     methods: {
+        reportReviewerList(type = 0) {
+            this.isLoadingShow = true;
+            let qzId = this.$store.state.userInfo.qzId;
+            this.$ajax({
+                url: `/rest/v1/${qzId}/diary/roles`,
+                data: {
+                    type
+                },
+                success: (res)=>{
+                    this.isLoadingShow = false;
+                    if(res) {
+                        this.deployMember = res
+                    }
+                }
+            })
+        },
         changeSave() {
 
         },
@@ -210,6 +226,41 @@ export default {
                 }
             });
         },
+        addRoleMember(members = '') {
+            if(this.currentTab == 'configureAdministrator') {
+                this.$ajax({
+                    url: '/rest/v1/diaryStatistics/people',
+                    type: 'post',
+                    data: members,
+                    requestBody: 1,
+                    success: (res)=>{
+                        if(res && res.code == 0) {
+                            this.getDeployMember()
+                        } else {
+                            this.$YYMessage.warning(res.msg)
+                        }
+                    }
+                });
+                return;
+            }
+            let type = this.currentTab == 'addReportReviewer' ? 0 : 1;
+            this.$ajax({
+                url: '/rest/v1/diary/role',
+                type: 'post',
+                data: {
+                    memberId: members,
+                    type
+                },
+                requestBody: 1,
+                success: (res)=>{
+                    if(res && res.code == 0) {
+                        this.reportReviewerList(type);
+                    } else {
+                        this.$YYMessage.warning(res.msg)
+                    }
+                }
+            });
+        },
         handleAddMember() {
             let info = {
                 title: this.$t('operate.addAdministrator'),
@@ -230,19 +281,7 @@ export default {
                             memberId: mem.memberId
                         }
                     })
-                    this.$ajax({
-                        url: '/rest/v1/diaryStatistics/people',
-                        type: 'post',
-                        data: members,
-                        requestBody: 1,
-                        success: (res)=>{
-                            if(res && res.code == 0) {
-                                this.getDeployMember()
-                            } else {
-                                this.$YYMessage.warning(res.msg)
-                            }
-                        }
-                    })
+                    this.addRoleMember(members);
                 }
             })
         },
