@@ -38,8 +38,8 @@
                 </div>
             </div>
             <div class="changeOperate mb-flex mb-flex-pack-justify">
-                <YYButton type="primary" @click="changeSave">{{$t('operate.save')}}</YYButton>
-                <YYButton @click="changeReset">{{$t('operate.reset')}}</YYButton>
+                <YYButton type="primary" @click="reportSave">{{$t('operate.save')}}</YYButton>
+                <YYButton @click="reportReset">{{$t('operate.reset')}}</YYButton>
             </div>
         </div>
         <div v-else-if="currentTab == 'addReportReminder'">
@@ -121,6 +121,7 @@ export default {
             isAllChecked: false,
             isLoadingShow: false,
             isAddTemplateShow: false,
+            originCurrentRoleMapTemplate: [],
             currentRoleMapTemplate: [],
             currentTabType: 0,
             currentPageNumTemplate: []
@@ -158,6 +159,28 @@ export default {
         FsTemplateItem
     },
     methods: {
+        reportSave() {
+            let templateIds = [];
+            this.currentRoleMapTemplate.forEach((item, index) => {
+                templateIds.push(item.id);
+            });
+            this.$ajax({
+                url: '/rest/v1/diary/role_template_relation',
+                type: 'post',
+                data: {
+                    diaryRoleId: this.currentMember.id,
+                    templateIds,
+                    type: this.currentTabType
+                },
+                requestBody: 1,
+                success: (res) => {
+                    this.roleMapTemplateList();
+                }
+            });
+        },
+        reportReset() {
+            this.currentRoleMapTemplate = this.originCurrentRoleMapTemplate;
+        },
         giveRoleAddTemplate() {
             let twoDimensional = Object.values(this.allTemplatePagenumMapList);
             let allSelectedTemplate = [];
@@ -174,19 +197,7 @@ export default {
             allSelectedTemplate.forEach((item, index) => {
                 excludeRepeat[item.id] = item;
             });
-            let currentRoleMapTemplate = Object.values(excludeRepeat);
-            this.$ajax({
-                url: '/rest/v1/diary/role_template_relation',
-                type: 'post',
-                data: {
-                    diaryRoleId: this.currentMember.id,
-                    templateIds: Object.keys(excludeRepeat)
-                },
-                requestBody: 1,
-                success: (res)=>{
-                    this.currentRoleMapTemplate = currentRoleMapTemplate;
-                }
-            });
+            this.currentRoleMapTemplate = Object.values(excludeRepeat);
         },
         addRoleTemplate() {
             this.loadData();
@@ -197,11 +208,14 @@ export default {
                 url: '/rest/v1/diary/role_template_relation',
                 type: 'delete',
                 data: {
-                    diaryRoleId: item.id
+                    diaryRoleId: this.currentMember.id,
+                    type: this.currentTabType,
+                    templateIds: [item.id]
                 },
                 requestBody: 1,
                 success: (res)=>{
                     this.$YYMessage.success(this.$t('toast.successfullyDeleted'));
+                    this.roleMapTemplateList();
                 }
             });
         },
@@ -472,7 +486,8 @@ export default {
                 url: `/rest/v1/diary/${this.currentMember.id}/role_template_relations`,
                 data: {},
                 success: (res) => {
-                    this.currentRoleMapTemplate = res.templates;
+                    this.originCurrentRoleMapTemplate = Object.assign([], res.templates);
+                    this.currentRoleMapTemplate = Object.assign([], res.templates);
                 }
             })
         },
