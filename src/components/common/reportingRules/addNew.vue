@@ -116,7 +116,7 @@
                 {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
-                  <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'11:11'"></WeekTime>
+                  <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'9:00'"></WeekTime>
               </div>
             </div>
             <!-- 提交结束时间 -->
@@ -125,16 +125,16 @@
                 {{$t('date.submissionEndTime')}}
               </div>
               <div class="subctn">
-                <WeekTime ref="remindEndTime" :firstColData="endFirstColData" :columns="endColumns" :hms="'11:11'"></WeekTime>
+                <WeekTime ref="remindEndTime" :firstColData="endFirstColData" :columns="endColumns" :hms="'18:00'"></WeekTime>
               </div>
             </div>
             <div class="item tipsCtn">
              <img class="tipsimg" :src="ImTips">
              <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
             </div> 
+            <!-- 提醒时间 -->
             <div class="item">
               <div class="itemTitle">
-                <!-- <span class="must"></span> -->
                 {{$t('date.reminderTime')}}
               </div>
               <div class="subctn">
@@ -204,8 +204,8 @@ export default {
             {key: '3', value: this.$t('date.wed')}
           ],
           appointedDate: [], // 指定日期
-          startColumns: 2,
-          endColumns: 2,
+          startColumns: 3,
+          endColumns: 3,
           lastRemindTimeArr: [],
           selectedTemplateId: 0
         }
