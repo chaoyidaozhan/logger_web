@@ -86,13 +86,13 @@ export default {
                 this.$ajax({
                   url: `/diarySubmitRule/getRuleDetail`,
                   data: {
-                      diarySubmitRuleId: item.id,
-                      queryDate: (queryDate || FormatTime(new Date(), 'YYYY-MM-DD'))
+                    diarySubmitRuleId: item.id,
+                    queryDate: (queryDate || FormatTime(new Date(), 'YYYY-MM-DD'))
                   },
                   success: (res) => {
-                      if (res.code == 0) {
-                          reslove(res.data);
-                      }
+                    if (res.code == 0) {
+                        reslove(res.data);
+                    }
                   }
                 })
         });
