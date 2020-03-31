@@ -21,16 +21,16 @@
                 </div>
             </div>
         </div>
-        <div class="deploy-limit" v-if="currentTab == 'addReportReviewer'">
-            <div class="reportMemberList" v-for="(item, index) in currentRoleMapTemplate">
+        <div class="deploy-limit" v-if="currentTab == 'addReportReviewer' && currentMember">
+            <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
-                    <div>{}</div>
+                    <div>{{currentMember.userName}}的核查模板</div>
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
                         <div class="yy-icon-xinzeng"></div>
-                        <div>{{$t('operate.add')}}</div>
+                        <div @click.stop="addRoleTemplate">{{$t('operate.add')}}</div>
                     </div>
                 </div>
-                <div class="memberSelectedTemplate mb-flex">
+                <div class="memberSelectedTemplate mb-flex" v-for="(item, index) in currentRoleMapTemplate">
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
                         <div>{{item.title}}</div>
                         <div class="yy-icon-guanbi" @click.stop="delRoleTemplate(item)"></div>
@@ -45,7 +45,7 @@
         <div v-else-if="currentTab == 'addReportReminder'">
 
         </div>
-        <div class="deploy-limit" v-else-if="currentTab == 'configureAdministrator'">
+        <div class="deploy-limit" v-else-if="currentTab == 'configureAdministrator' && currentMember">
             <div class="deploy-title" v-if="currentMember">
                 {{currentMember.userName}}{{$t('title.statisticalAuthority')}}
                 <span><YYButton type="default" @click="handleAddLimit">{{$t('operate.add')}}</YYButton></span>
@@ -66,7 +66,7 @@
                 <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
             </div>
             <div class="addTemplateBody mb-flex-1 mb-flex mb-flex-pack-justify">
-                <div class="templateItem" v-for="(item, index) in allTemplateList">
+                <div class="templateItem" v-for="(item, index) in currentPageNumTemplate">
                     <fs-template-item
                         :bottomOperate="false"
                         :isToDetail="false"
@@ -82,7 +82,7 @@
                     </YYCheckbox>
                 </div>
                 <div>
-                    <YYButton type="primary" @click.stop="addSelectedTemplate">{{$t('noun.addTemplate')}}</YYButton>
+                    <YYButton type="primary" @click.stop="giveRoleAddTemplate">{{$t('noun.addTemplate')}}</YYButton>
                 </div>
                 <div class="mb-flex-1">
                     <YYPagination
@@ -114,14 +114,16 @@ export default {
                 1: 'orgName',
                 0: 'deptName'
             },
-            allTemplateList: [],
+            allTemplatePagenumMapList: {},
             totalCount: 0,
             pageSize: 20,
             pageNo: 1,
             isAllChecked: false,
             isLoadingShow: false,
             isAddTemplateShow: false,
-            currentRoleMapTemplate: []
+            currentRoleMapTemplate: [],
+            currentTabType: 0,
+            currentPageNumTemplate: []
         }
     },
     props: {
@@ -135,12 +137,15 @@ export default {
             handler(newVal, oldVal) {
                 switch(newVal) {
                     case 'addReportReviewer':
+                        this.currentTabType = 0;
                         this.reportList();
                     break;
                     case 'addReportReminder':
+                        this.currentTabType = 1;
                         this.reportList();
                     break;
                     case 'configureAdministrator':
+                        this.currentTabType = 2;
                         this.getDeployMember();
                     break;
                 }
@@ -153,6 +158,27 @@ export default {
         FsTemplateItem
     },
     methods: {
+        giveRoleAddTemplate() {
+            let twoDimensional = Object.values(this.allTemplatePagenumMapList);
+            let allSelectedTemplate = [];
+            twoDimensional.forEach((itemA, indexA) => {
+                itemA.forEach((itemB, indexB) => {
+                    itemB.isCurrentTemplateSelected && allSelectedTemplate.push(itemB);
+                });
+            });
+            let excludeRepeat = {};
+            this.currentRoleMapTemplate.forEach((item, index) => {
+                excludeRepeat[item.id] = item;
+            });
+            allSelectedTemplate.forEach((item, index) => {
+                excludeRepeat[item.id] = item;
+            });
+            this.currentRoleMapTemplate = Object.values(excludeRepeat);
+        },
+        addRoleTemplate() {
+            this.loadData();
+            this.isAddTemplateShow = true;
+        },
         delRoleTemplate(item) {
             this.$ajax({
                 url: '/rest/v1/diary/role_template_relation',
@@ -162,7 +188,7 @@ export default {
                 },
                 requestBody: 1,
                 success: (res)=>{
-                    this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
+                    this.$YYMessage.success(this.$t('toast.successfullyDeleted'));
                 }
             });
         },
@@ -174,18 +200,17 @@ export default {
                 requestBody: 1,
                 success: (res)=>{
                     this.$YYMessage.success(this.$t('toast.successfullyDeleted'))
-                    this.
+                    this.reportList();
                 }
             });
         },
         reportList() {
             this.isLoadingShow = true;
-            let type = this.currentTab == 'addReportReviewer' ? 0 : 1;
             let qzId = this.$store.state.userInfo.qzId;
             this.$ajax({
                 url: `/rest/v1/${qzId}/diary/roles`,
                 data: {
-                    type
+                    type: this.currentTabType
                 },
                 success: (res)=>{
                     this.isLoadingShow = false;
@@ -201,13 +226,19 @@ export default {
         changeReset() {
 
         },
-        paginationChange() {
-            
+        paginationChange(pageNum) {
+            this.pageNo = pageNum;
+            this.loadData();
         },
         allCheck(isAllChecked) {
 
         },
         loadData() {
+            let currentPageNumTemplate = this.allTemplatePagenumMapList[this.pageNo + ''];
+            if(currentPageNumTemplate) {
+                this.currentPageNumTemplate = currentPageNumTemplate;
+                return;
+            }
             this.$ajax({
                 url: '/template/list',
                 data: {
@@ -220,7 +251,7 @@ export default {
                         list.forEach((item, index) => {
                             item.isCurrentTemplateSelected = false;
                         });
-                        this.allTemplateList = list || [];
+                        this.currentPageNumTemplate = this.allTemplatePagenumMapList[this.pageNo + ''] = list || [];
                         this.totalCount = res.data.totalCount || 0;
                     }
                 },
@@ -247,7 +278,7 @@ export default {
                 return;
             }
             members.forEach(mem=>{
-                mem.type = type;
+                mem.type = this.currentTabType;
             });
             this.$ajax({
                 url: '/rest/v1/diary/role',
@@ -471,7 +502,7 @@ export default {
         }
     },
     created () {
-        this.loadData();
+        
     }
 }
 </script>
