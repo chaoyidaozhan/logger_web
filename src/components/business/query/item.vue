@@ -1,9 +1,9 @@
 <template>
     <div class="logger-item">
         <!-- @mouseleave="closeMenu()" -->
-        <div class="logger-content-item" >
+        <div class="logger-content-item" @mouseleave="closeMenu()">
             <!-- @mouseleave="closeMenu()"> -->
-            <!-- <div class="leftMenu" v-show="isShowMenu && !isInternalGroupReport">
+            <div class="leftMenu" v-show="isShowMenu && !isInternalGroupReport" >
                 <div class="left-header" @click="back2Logger()">
                     {{loggerItemData.userName}}的工作汇报
                     <div class="left-close">
@@ -15,8 +15,8 @@
                         {{item.title}}
                     </div>
                 </div>
-            </div> -->
-            <div class="logger-list-item" ref="loggerListItem" >
+            </div>
+            <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
                 <!-- @mouseenter="showMenu()"> -->
                 <!--当前人信息-->
                 <div class="logger-list-row clearfix logger-list-user">
@@ -673,45 +673,45 @@ export default {
         })
 
         //通过js改变leftMenu样式
-        // let pageLoggerList = document.querySelector('.logger-frame-scroller')
-        // let leftMenus = document.querySelectorAll('.leftMenu')
-        // let loggerContent = document.querySelector('.logger-content-item')
-        // let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-        // if(window.innerWidth > 1439){
-        //     leftMenus.forEach((leftMenu) => {
-        //         leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-        //     })
-        //     loggerOperates.forEach((loggerOperate)=>{
-        //         loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-        //     })
-        // }else{
-        //     pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
-        // }
+        let pageLoggerList = document.querySelector('.logger-frame-scroller')
+        let leftMenus = document.querySelectorAll('.leftMenu')
+        let loggerContent = document.querySelector('.logger-content-item')
+        let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
+        if(window.innerWidth > 1439){
+            leftMenus.forEach((leftMenu) => {
+                leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
+            })
+            loggerOperates.forEach((loggerOperate)=>{
+                loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
+            })
+        }else{
+            pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
+        }
 
-        // this.$eventbus.$on('changeLeftMenuScroll', () => {
-        //     let pageLoggerList = document.querySelector('.page-logger-list')
-        //     let leftMenu = this.$el.querySelector('.leftMenu')
-        //     if(window.innerWidth <= 1439){
-        //         leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
-        //     }
-        // })
-        // window.onresize = function(){
-        //     //通过js改变leftMenu样式
-        //     let pageLoggerList = document.querySelector('.logger-frame-scroller')
-        //     let leftMenus = document.querySelectorAll('.leftMenu')
-        //     let loggerContent = document.querySelector('.logger-content-item')
-        //     let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-        //     if(window.innerWidth > 1439){
-        //         leftMenus.forEach((leftMenu) => {
-        //             leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-        //         })
-        //         loggerOperates.forEach((loggerOperate)=>{
-        //             loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-        //         })
-        //     }else{
-        //         pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
-        //     }
-        // }
+        this.$eventbus.$on('changeLeftMenuScroll', () => {
+            let pageLoggerList = document.querySelector('.page-logger-list')
+            let leftMenu = this.$el.querySelector('.leftMenu')
+            if(window.innerWidth <= 1439){
+                leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            }
+        })
+        window.onresize = function(){
+            //通过js改变leftMenu样式
+            let pageLoggerList = document.querySelector('.logger-frame-scroller')
+            let leftMenus = document.querySelectorAll('.leftMenu')
+            let loggerContent = document.querySelector('.logger-content-item')
+            let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
+            if(window.innerWidth > 1439){
+                leftMenus.forEach((leftMenu) => {
+                    leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
+                })
+                loggerOperates.forEach((loggerOperate)=>{
+                    loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
+                })
+            }else{
+                pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
+            }
+        }
     },
 }
 </script>
@@ -749,7 +749,7 @@ export default {
             }
             // margin: auto;
             // float: left;
-            padding: 32px 32px 0;
+            padding: 32px 32px 58px 32px;
             position: relative;
             // background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,1));
             // background-color: @white-color;
@@ -979,7 +979,7 @@ export default {
                 position: absolute;
                 left: 0;
                 right: 30px;
-                bottom: 0;
+                bottom: 20px;
             }
             .handle-content-expand-btn {
                 color: @primary-color;

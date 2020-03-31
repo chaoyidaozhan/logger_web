@@ -1,21 +1,5 @@
 <template>
     <div id="page-logger-content" class="page-logger-content" >
-        <div class="leftMenu" v-show="isShowMenu && !isInternalGroupReport">
-            <div class="left-header" @click="back2Logger()">
-                <!-- {{item.userName}}的工作汇报 -->
-                xxx的工作汇报
-                <div class="left-close">
-                </div>
-            </div>
-            <div class="left-line"></div>
-            <div class="left-content">
-                <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
-                    {{item.title}}
-                </div>
-            </div>
-        </div>
-
-
         <div class="page-logger-list" @scroll.stop="onScroll">
             <transition-group name="fade" style="display:block">
                 <fs-logger-list-item
