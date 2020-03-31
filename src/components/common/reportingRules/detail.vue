@@ -7,9 +7,9 @@
             <span class="title">{{$t('operate.setReportRules')}}</span>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
-         <DetailItem @edit="editClick()" :detailMsg="detailMsg"></DetailItem>
+         <DetailItem @edit="editClick()" :detailMsg="detailMsgCopy"></DetailItem>
          <DateRange :class="'dataRange'" @handleChangeDate="handleChangeDate"></DateRange>
-         <TabPersonList :detailMsg="detailMsg"></TabPersonList>
+         <TabPersonList :detailMsg="detailMsgCopy"></TabPersonList>
       </div>
     </div>
   </transition>
@@ -35,7 +35,8 @@ export default {
     },
     data() {
         return {
-          tip_data
+          tip_data,
+          detailMsgCopy: {}
         }
     },
     methods: {
@@ -57,8 +58,8 @@ export default {
       },
       handleChangeDate(data) {
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
-          responseData.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
-          this.detailMsg = responseData;
+          responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
+          this.detailMsgCopy = responseData;
         });
       },
       editClick () {
@@ -72,6 +73,9 @@ export default {
         // 1 关闭 2 设置规则  3 查看详情
         this.$emit('changeShow', 3)
       }
+    },
+    created() {
+      this.detailMsgCopy = Object.assign({}, this.detailMsg);
     },
     mounted () {
     },

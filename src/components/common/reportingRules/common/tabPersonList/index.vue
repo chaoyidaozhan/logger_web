@@ -200,10 +200,10 @@ export default {
   .footer{
     position: absolute;
     box-sizing: border-box;
-    bottom: 13px;
+    bottom: 0;
     right: 0;
     width: 100%;
-    padding-left: 20px;
+    padding: 0 0 13px 20px;
     background: white;
   }
 }
