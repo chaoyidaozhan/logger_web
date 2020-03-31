@@ -30,8 +30,8 @@
                         <div @click.stop="addRoleTemplate">{{$t('operate.add')}}</div>
                     </div>
                 </div>
-                <div class="memberSelectedTemplate mb-flex" v-for="(item, index) in currentRoleMapTemplate">
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                <div class="memberSelectedTemplate mb-flex">
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" v-for="(item, index) in currentRoleMapTemplate">
                         <div>{{item.title}}</div>
                         <div class="yy-icon-guanbi" @click.stop="delRoleTemplate(item)"></div>
                     </div>
@@ -60,7 +60,7 @@
                 </span>
             </div>
         </div>
-        <div class="addTemplate mb-flex mb-flex-v" v-show="isAddTemplateShow">
+        <div class="addTemplate mb-flex mb-flex-v" v-if="isAddTemplateShow">
             <div class="addTemplateHeader mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>{{$t('noun.addTemplate')}}</div>
                 <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
@@ -160,6 +160,7 @@ export default {
     },
     methods: {
         reportSave() {
+            this.isAddTemplateShow = false;
             let templateIds = [];
             this.currentRoleMapTemplate.forEach((item, index) => {
                 templateIds.push(item.id);
