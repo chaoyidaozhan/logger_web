@@ -16,10 +16,10 @@
               </div>
               <div class="subctn">
                 <fs-select-template
-                :hasDefaultTemplate="hasDefaultTemplate" 
-                :templateType="templateType" 
-                @handleChange="handleQuery"
-                ref="selectTemplate"/>
+                  :hasDefaultTemplate="hasDefaultTemplate" 
+                  :templateType="templateType" 
+                  @handleChange="handleQuery"
+                  ref="selectTemplate"/>
               </div>
             </div>
             <!-- 选人 -->
@@ -38,8 +38,7 @@
                   :showDept="false" 
                   :showGroup="false" 
                   :showMember="true"
-                  ref="selectDept"
-              />
+                  ref="selectDept"/>
               </div>
             </div>
             <!-- 选择周期 -->
