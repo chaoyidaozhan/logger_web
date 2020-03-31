@@ -1,7 +1,8 @@
 <template>
     <div class="deploy-container" v-yyloading="isLoadingShow">
         <div class="deploy-member">
-            <div class="deploy-title">{{$t('operate.addAdministrator')}}
+            <div class="deploy-title">
+                <span>{{$t('operate.addAdministrator')}}</span>
                 <span>
                     <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
                     <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
