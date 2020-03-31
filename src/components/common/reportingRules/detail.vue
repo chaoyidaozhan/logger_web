@@ -7,8 +7,8 @@
             <span class="title">{{$t('operate.setReportRules')}}</span>
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
-         <DetailItem @edit="editClick()" :detailMsg="detailMsg" @handleChangeDate="handleChangeDate"></DetailItem>
-         <DateRange :class="'dataRange'"></DateRange>
+         <DetailItem @edit="editClick()" :detailMsg="detailMsg"></DetailItem>
+         <DateRange :class="'dataRange'" @handleChangeDate="handleChangeDate"></DateRange>
          <TabPersonList :detailMsg="detailMsg"></TabPersonList>
       </div>
     </div>
@@ -39,8 +39,27 @@ export default {
         }
     },
     methods: {
+      itemDetailMsg(item, queryDate = '') {
+        return new Promise((reslove, reject) => {
+                this.$ajax({
+                  url: `/diarySubmitRule/getRuleDetail`,
+                  data: {
+                      diarySubmitRuleId: item.diarySubmitRule.id,
+                      queryDate: (queryDate || FormatTime(new Date(), 'YYYY-MM-DD'))
+                  },
+                  success: (res) => {
+                      if (res.code == 0) {
+                          reslove(res.data);
+                      }
+                  }
+                })
+        });
+      },
       handleChangeDate(data) {
-        this.$emit('handleChangeDate', data);
+        this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
+          responseData.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
+          this.detailMsg = responseData;
+        });
       },
       editClick () {
         this.$emit('changeShow', 2)

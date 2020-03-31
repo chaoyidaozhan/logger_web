@@ -1,7 +1,7 @@
 <template>
 <div class="baseCtn">
   <List v-if="showList" @changeShow="changeShowList"/>
-  <Detail v-if="showDetail" @changeShow="changeShowDetail" :detailMsg="detailMsg" @handleChangeDate="handleChangeDate"/>
+  <Detail v-if="showDetail" @changeShow="changeShowDetail" :detailMsg="detailMsg"/>
   <AddNew v-if="showAdd" @changeShow="changeShowAdd" :detailMsg="detailMsg"/>
 </div>
 </template>
