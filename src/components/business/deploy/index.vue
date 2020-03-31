@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="deploy-limit" v-if="currentTab == 'addReportReviewer' && currentMember">
+        <div class="deploy-limit" v-if="currentTab != 'configureAdministrator' && currentMember">
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
                     <div>{{currentMember.userName}}的核查模板</div>
@@ -41,9 +41,6 @@
                 <YYButton type="primary" @click="reportSave">{{$t('operate.save')}}</YYButton>
                 <YYButton @click="reportReset">{{$t('operate.reset')}}</YYButton>
             </div>
-        </div>
-        <div v-else-if="currentTab == 'addReportReminder'">
-
         </div>
         <div class="deploy-limit" v-else-if="currentTab == 'configureAdministrator' && currentMember">
             <div class="deploy-title" v-if="currentMember">
@@ -150,6 +147,7 @@ export default {
                         this.getDeployMember();
                     break;
                 }
+                this.currentMember = null
             },
             immediate: true
         }
@@ -175,6 +173,7 @@ export default {
                 },
                 requestBody: 1,
                 success: (res) => {
+                    this.$YYMessage.success(this.$t('toast.savedSuccessfully'));
                     this.roleMapTemplateList();
                 }
             });
@@ -247,12 +246,6 @@ export default {
                     }
                 }
             })
-        },
-        changeSave() {
-
-        },
-        changeReset() {
-
         },
         paginationChange(pageNum) {
             this.pageNo = pageNum;
@@ -565,7 +558,7 @@ export default {
             text-align: center;
             display: inline-block;
             transition: .2s ease all;
-            cursor: default;
+            cursor: pointer;
             .ico {
                 position: absolute;
                 right: 0;
