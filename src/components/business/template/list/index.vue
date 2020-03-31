@@ -17,11 +17,13 @@
         </template>
         <template v-else>
             <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
-            <transition-group :name="animate">
-                <div class="col" v-for="item in recentlyTemplates" :key="item.id">
-                    <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
-                </div>
-            </transition-group>
+            <div class="commonTemplateList">
+                <transition-group :name="animate">
+                    <div class="col" v-for="item in recentlyTemplates" :key="item.id">
+                        <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
+                    </div>
+                </transition-group>
+            </div>
             <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
             <transition-group :name="animate">
                 <div class="col" v-for="item in list" :key="item.id">
@@ -168,6 +170,9 @@ export default {
         font-size: 14px;
         font-weight: 500;
         line-height: 20px;
+    }
+    .commonTemplateList {
+        min-height: 110px;
     }
     .allTemplate {
         padding-top: 8px;
