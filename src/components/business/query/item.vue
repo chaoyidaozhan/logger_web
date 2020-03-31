@@ -80,7 +80,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="aaa">
+                <div class="loggerlistcontent">
                     <!-- 控制展开收起 -->
                     <div class="handle-content-expand" 
                         ref="contentHeight" 
@@ -127,9 +127,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="ccc">
+                <div class="loggerDialog" v-show="contentRealHeight > contentDefaultHeight && contentDefaultHeight && !contentExpand">
                 </div>
-                <div class="bbb"> 
+                <div class="loggerExpand"> 
                     <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
                         <div class="logger-list-col logger-open-close">
                             <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
@@ -515,11 +515,11 @@ export default {
                 this.contentHeight = this.contentDefaultHeight
             }
 
-            let ccc = this.$el.querySelector('.ccc')
+            let loggerDialog = this.$el.querySelector('.loggerDialog')
             if(this.contentExpand){
-                ccc.style.backgroundImage = ''
+                loggerDialog.style.backgroundImage = ''
             }else{
-                ccc.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
+                loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
             }
         },
         handleEdit() {
@@ -664,11 +664,11 @@ export default {
         }
         this.$nextTick(()=>{
             this.setRangeHeight()        
-            let ccc = this.$el.querySelector('.ccc')
+            let loggerDialog = this.$el.querySelector('.loggerDialog')
             if(!(this.contentRealHeight > this.contentDefaultHeight && this.contentDefaultHeight)){
-                ccc.style.backgroundImage = ''
+                loggerDialog.style.backgroundImage = ''
             }else{
-                ccc.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
+                loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
             }
         })
 
@@ -963,19 +963,19 @@ export default {
                     }
                 }
             }
-            .aaa{
+            .loggerlistcontent{
                 .handle-content-expand {
                     overflow: hidden;
                 }
             }
-            .ccc{
+            .loggerDialog{
                 position: absolute;
                 left: 0;
                 right: 0;
                 top: 0;
                 bottom: 0;
             }
-            .bbb{
+            .loggerExpand{
                 position: absolute;
                 left: 0;
                 right: 30px;
