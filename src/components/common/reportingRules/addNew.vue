@@ -8,6 +8,7 @@
             <i class="closeIcon icon-add" @click="close()"></i>
           </div>
           <div class="body">
+            <!-- 选择模板 -->
             <div class="item">
               <div class="itemTitle">
                 <span class="must"></span>
@@ -21,6 +22,7 @@
                 ref="selectTemplate"/>
               </div>
             </div>
+            <!-- 选人 -->
             <div class="item">
               <div class="itemTitle">
                 <span class="must"></span>
@@ -40,9 +42,9 @@
               />
               </div>
             </div>
+            <!-- 选择周期 -->
             <div class="item">
               <div class="itemTitle">
-                <!-- <span class="must"></span> -->
                 {{$t('operate.selectionCycle')}}
               </div>
               <div class="subctn">
@@ -58,28 +60,25 @@
                   <YYOption value="2">
                     {{$t('date.m')}}
                   </YYOption>
-                  <YYOption value="3">
-                    {{$t('date.biweekly')}}
-                  </YYOption>
               </YYSelect>
               </div>
             </div>
             <!-- 从当前周开始 -->
-            <div class="item subItem" v-if="dateType == '3'">
+            <div class="item subItem" v-if="dateType == '1'">
               <div class="itemTitle">
               </div>
               <div class="subctn">
                 <div>
                   <YYCheckbox v-model="fromCurrentWeek">
-                    <span>{{$t('date.fromCurrentWeek')}}</span>
+                    <!-- <span>{{$t('date.fromCurrentWeek')}}</span> -->
+                    <span>双周提醒</span>
                   </YYCheckbox>
                 </div>
               </div>
             </div>
-            <!-- 指定日期 只有日才有 -->
+            <!-- 指定日期 周期选择日 -->
             <div class="item" v-if="dateType == '0'">
               <div class="itemTitle">
-                <!-- <span class="must"></span> -->
                 {{$t('date.appointedDate')}}
               </div>
               <div class="subctn">
@@ -111,18 +110,18 @@
               </YYSelect>
               </div>
             </div>
+            <!-- 提交开始时间 -->
             <div class="item">
               <div class="itemTitle">
-                <!-- <span class="must"></span> -->
                 {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
                   <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'11:11'"></WeekTime>
               </div>
             </div>
+            <!-- 提交结束时间 -->
             <div class="item">
               <div class="itemTitle">
-                <!-- <span class="must"></span> -->
                 {{$t('date.submissionEndTime')}}
               </div>
               <div class="subctn">
