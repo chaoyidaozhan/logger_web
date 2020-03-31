@@ -118,7 +118,12 @@ export default {
             queryMemberId: null,
             operateModal: false,
             operateModalData: null,
-            menus:[]
+            menus:[],
+
+            members: null,
+            isShowMenu: true,
+            loggerItem: null,//记录该item
+            isInternalGroupReport: false//是否是内部群汇报
         }
     },
     components: {

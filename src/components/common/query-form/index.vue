@@ -488,7 +488,10 @@ export default {
     .ivu-form-inline {
         .ivu-form-item{
             min-width: 200px;
-            margin-right: 15px;
+            margin-right: 8px;
+            .ivu-form-item-label{
+                padding: 10px 8px 10px 0;
+            }
             .query-select-member {
                 width: 160px;
             }

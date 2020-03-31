@@ -42,7 +42,8 @@
             </div>
             <p slot="footer"></p>
         </Modal>
-        <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas>
+ 
+        <!-- <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas> -->
         <div class="tooldialog">
             <div class="fontAdd" :class="{active:isFontAdd}" @click='fontAdd()'>
                 <!-- <i class="icon-add" ></i> -->
@@ -150,7 +151,8 @@ export default {
             isCanval: false,
             pen,
             offsetId:'',//设置滚动到第几条
-            defaultColor:'#EE2223'//设置默认颜色
+            defaultColor:'#EE2223',//设置默认颜色
+            isDrawing:false
         }
     },
     components: {
@@ -307,76 +309,16 @@ export default {
             this.loadData()
         },
         drawing(){
-            const canvas = document.querySelector('#draw');
-            const globalModal = document.querySelector('#globalModal');
-            const ctx = canvas.getContext('2d');
-            let isDrawing = false;
-            let lastX = 0;
-            let lastY = 0;
-            let hue = 0;
-            let direction = true;
-            function mousedownCanval(e){
-                isDrawing = true;
-                [lastX, lastY] = [e.offsetX, e.offsetY];
-            }
-            function draw(e) {
-                if (!isDrawing) return; // stop the fn from running when they are not moused down
-                ctx.beginPath();
-                // start from
-                ctx.moveTo(lastX, lastY);
-                // go to
-                ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.stroke();
-                [lastX, lastY] = [e.offsetX, e.offsetY];
-
-                hue++;
-                if (hue >= 360) {
-                    hue = 0;
-                }
-            }
-
-            function mouseupCanval(e){
-                isDrawing = false
-            }
-            
+            // let isDrawing = sessionStorage.getItem('isDrawing')
+            this.$eventbus.$emit('opencanvas', this.isCanval, this.defaultColor)
             if(!this.isCanval){
-                canvas.width = globalModal.scrollWidth;
-                canvas.height = globalModal.scrollHeight;
-                ctx.strokeStyle = this.defaultColor; //ctx is the canvas
-                ctx.lineJoin = 'round';
-                ctx.lineCap = 'round';
-                ctx.lineWidth = 6;
-
-                this.mousedownCanval = mousedownCanval
-                this.draw = draw
-                this.mouseupCanval = mouseupCanval
-
-                canvas.addEventListener('mousedown', mousedownCanval, false);
-                canvas.addEventListener('mousemove', draw, false);
-                canvas.addEventListener('mouseup', mouseupCanval, false);
-                canvas.addEventListener('mouseout', mouseupCanval, false);
                 this.isExit = false
                 this.isFontAdd = false
                 this.isFontReduce = false
-
-                let nodrawing = document.querySelector('.nodrawing')
-                nodrawing.style.borderRadius = '3px 3px 0px 0px'
-
                 this.isCanval = true
-            }else{
-                canvas.removeEventListener('mousedown', this.mousedownCanval, false);
-                canvas.removeEventListener('mousemove', this.draw, false);
-                canvas.removeEventListener('mouseup', this.mouseupCanval, false);
-                canvas.removeEventListener('mouseout', this.mouseupCanval, false);
-
-                document.querySelector('.nodrawing')
-
-                let nodrawing = document.querySelector('.nodrawing')
-                nodrawing.style.borderRadius = '3px'
-
+            }else {
                 this.isCanval = false
             }
-            
         },
         fontAdd(){
             // const canvas = document.querySelector('#draw');
@@ -395,6 +337,7 @@ export default {
             }else{
                 loggerItemModals.style.zoom = parseFloat(1.5) + .1
             }
+            this.$eventbus.$emit('closeCanvas')
         },
         fontReduce(){
             this.isExit = false
@@ -410,6 +353,7 @@ export default {
             }else{
                 loggerItemModals.style.zoom = parseFloat(1.5) - .1
             }
+            this.$eventbus.$emit('closeCanvas')
         },
         exit(){
             this.exitFullScreen()
@@ -417,6 +361,7 @@ export default {
             this.isFontAdd = false
             this.isFontReduce = false
             this.isCanval = false
+            this.$eventbus.$emit('closeCanvas')
         },
         back2top(){
             this.$el.scrollTop = 0
@@ -430,17 +375,11 @@ export default {
         this.initList()
     },
     created() {
+        // this.$eventbus.$on('changeDrawing', (isDrawing)=>{
+        //     this.isDrawing = isDrawing
+        // })
         this.$eventbus.$on('openglobal', ()=>{
             this.showGlobalModal = true
-            // debugger
-            // this.$nextTick(()=>{
-            //     if(this.offsetId !== ''){
-            //         let loggerItemId = document.querySelector(`#${this.offsetId}`)
-            //         let pageLoggerList = document.querySelector('.page-logger-list')
-            //         pageLoggerList.scrollTop = loggerItemId.offsetTop
-            //     }
-            // })
-            
         })
         this.$eventbus.$on('translist', (list, pageNo, pageSize)=>{
             this.list = list
@@ -464,6 +403,7 @@ export default {
 
         this.$eventbus.$on('changeColor', (color) => {
             this.defaultColor = color
+            this.$eventbus.$emit('changePen', color)
         })
     },
     destroyed(){
@@ -471,6 +411,7 @@ export default {
         this.$eventbus.$off('translist')
         this.$eventbus.$off('transid')
         this.$eventbus.$off('changeColor')
+        // this.$eventbus.$off('changeDrawing')
     }
 }
 </script>
@@ -495,7 +436,9 @@ export default {
     height: auto;
     overflow: auto;
     .spanModal{
-        display:inline-block;text-align: left;zoom:1.5;
+        // display:inline-block;
+        text-align: left;
+        zoom:1.5;
     }
     .loading {
         height: 60px;
@@ -595,14 +538,14 @@ export default {
             border-radius: 3px;
         }
     }
-    .canvaldialog{
-        display: block;
-        position: absolute;
-        top:0;
-        bottom:0;
-        left: 0;
-        right: 0;
-    }
+    // .canvaldialog{
+    //     display: block;
+    //     position: absolute;
+    //     top:0;
+    //     bottom:0;
+    //     left: 0;
+    //     right: 0;
+    // }
 }
 
 </style>
