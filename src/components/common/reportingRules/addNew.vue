@@ -195,12 +195,20 @@ export default {
           startFirstColData: [
             {key: '1', value: this.$t('date.mon')},
             {key: '2', value: this.$t('date.tue')},
-            {key: '3', value: this.$t('date.wed')}
+            {key: '3', value: this.$t('date.wed')},
+            {key: '4', value: this.$t('date.thu')},
+            {key: '5', value: this.$t('date.fri')},
+            {key: '6', value: this.$t('date.sat')},
+            {key: '7', value: this.$t('date.sun')}
           ],
           endFirstColData: [
             {key: '1', value: this.$t('date.mon')},
             {key: '2', value: this.$t('date.tue')},
-            {key: '3', value: this.$t('date.wed')}
+            {key: '3', value: this.$t('date.wed')},
+            {key: '4', value: this.$t('date.thu')},
+            {key: '5', value: this.$t('date.fri')},
+            {key: '6', value: this.$t('date.sat')},
+            {key: '7', value: this.$t('date.sun')}
           ],
           appointedDate: [], // 指定日期
           startColumns: 3,

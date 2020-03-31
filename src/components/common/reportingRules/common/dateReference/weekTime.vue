@@ -4,7 +4,7 @@
     <span class="text">
       {{ showValue }}
     </span>
-    <i class="icon-date icon-statistics-2018"></i>   
+    <i class="icon-date icon-statistics-2018"></i>
   </div>
   <div class="slideCtn" v-show="showSlide" :style="{width: columns == 2 ? '66.66%' : '100%'}">
     <!-- 第一列 -->
