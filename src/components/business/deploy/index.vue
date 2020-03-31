@@ -170,10 +170,23 @@ export default {
             this.currentRoleMapTemplate.forEach((item, index) => {
                 excludeRepeat[item.id] = item;
             });
+            let templateIds = [];
             allSelectedTemplate.forEach((item, index) => {
                 excludeRepeat[item.id] = item;
             });
-            this.currentRoleMapTemplate = Object.values(excludeRepeat);
+            let currentRoleMapTemplate = Object.values(excludeRepeat);
+            this.$ajax({
+                url: '/rest/v1/diary/role_template_relation',
+                type: 'post',
+                data: {
+                    diaryRoleId: this.currentMember.id,
+                    templateIds: Object.keys(excludeRepeat)
+                },
+                requestBody: 1,
+                success: (res)=>{
+                    this.currentRoleMapTemplate = currentRoleMapTemplate;
+                }
+            });
         },
         addRoleTemplate() {
             this.loadData();
