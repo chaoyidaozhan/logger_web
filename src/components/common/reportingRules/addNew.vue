@@ -74,8 +74,8 @@
                 </div>
               </div>
             </div>
-            <!-- 指定日期 周期选择日 -->
-            <!-- <div class="item" v-if="dateType == '0'">
+            <!-- 周期选择日 -->
+            <div class="item" v-if="dateType == '0'">
               <div class="itemTitle">
                 {{$t('date.appointedDate')}}
               </div>
@@ -107,7 +107,7 @@
                   </YYOption>
               </YYSelect>
               </div>
-            </div> -->
+            </div>
             <!-- 提交开始时间 -->
             <!-- <div class="item">
               <div class="itemTitle">
