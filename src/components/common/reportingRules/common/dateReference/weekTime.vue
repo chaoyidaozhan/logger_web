@@ -14,8 +14,8 @@
         <li class="listItem"
             v-for="(item, i) in firstColumsData"
             :key="i"
-            @click="setFirstCol(item.name, item.value)"
-            :class="{'active': currentFirstCol == item.name}">
+            @click="setFirstCol(item)"
+            :class="{'active': currentFirstCol.name == item.name}">
               {{item.name}}
           </li>
         </ul>
@@ -26,8 +26,8 @@
             <li class="listItem"
               v-for="(item, i) in secondColumsData"
               :key="i"
-              @click="setSecondCol(item.name, item.value)"
-              :class="{'active': currentSecondCol == item.name}">
+              @click="setSecondCol(item)"
+              :class="{'active': currentSecondCol.name == item.name}">
                 {{item.name}}
               </li>
         </ul>
@@ -80,8 +80,11 @@ export default {
           }
         },
         firstColDefault: {
-          type: String,
-          default: ''
+          type: Object,
+          default: {
+            name: '',
+            value: ''
+          }
         },
         secondColDefault: {
           type: String,
@@ -141,11 +144,11 @@ export default {
         }
         this.showSlide = false
       },
-      setFirstCol(name, value) {
-        this.currentFirstCol = name;
+      setFirstCol(item) {
+        this.currentFirstCol = item;
       },
-      setSecondCol (name, value) {
-        this.currentSecondCol = name
+      setSecondCol (item) {
+        this.currentSecondCol = item
       }
     },
     created () {

@@ -104,8 +104,8 @@
                     :firstColData="firstStartColData"
                     :secondColData="secondStartColumsData"
                     :columns="columnsNum"
-                    :firstColDefault="startColDefault"
-                    :showValue="startColDefault">
+                    :firstColDefault="startPickerDefault"
+                    :showValue="startPickerDefault.name">
                   </WeekTime>
               </div>
             </div>
@@ -121,8 +121,8 @@
                     :firstColData="firstEndColData"
                     :secondColData="secondEndColumsData"
                     :columns="columnsNum"
-                    :firstColDefault="endColDefault"
-                    :showValue="endColDefault">
+                    :firstColDefault="endPickerDefault"
+                    :showValue="endPickerDefault.name">
                 </WeekTime>
               </div>
             </div>
@@ -191,37 +191,10 @@ export default {
         return {
           // 是否双周提醒
           fromCurrentWeek: false,
-          // listArr: [1,2,3,4,5,6,7,8,9,10],
-          // selectMemberData: [],
-          // memberApiUri: '',
           hasDefaultTemplate: true,
           templateType: 'web',
-          // dateType: '0',
-          // lastRemindTime: [],// 最后设置的提醒时间
           ImTips,
-          // startFirstColData: [
-          //   {key: '1', value: this.$t('date.mon')},
-          //   {key: '2', value: this.$t('date.tue')},
-          //   {key: '3', value: this.$t('date.wed')},
-          //   {key: '4', value: this.$t('date.thu')},
-          //   {key: '5', value: this.$t('date.fri')},
-          //   {key: '6', value: this.$t('date.sat')},
-          //   {key: '7', value: this.$t('date.sun')}
-          // ],
-          // endFirstColData: [
-          //   {key: '1', value: this.$t('date.mon')},
-          //   {key: '2', value: this.$t('date.tue')},
-          //   {key: '3', value: this.$t('date.wed')},
-          //   {key: '4', value: this.$t('date.thu')},
-          //   {key: '5', value: this.$t('date.fri')},
-          //   {key: '6', value: this.$t('date.sat')},
-          //   {key: '7', value: this.$t('date.sun')}
-          // ],
-          // appointedDate: [], // 指定日期
           columnsNum: 1,
-          // endColumns: 3,
-          // lastRemindTimeArr: [],
-          // selectedTemplateId: 0,
           // 
           formData: {
             templateId: '',
@@ -316,8 +289,8 @@ export default {
         secondEndColumsData: [],
         startTimeShowValue: '',
         endTimeShowValue: '',
-        startColDefault: '',
-        endColDefault: ''
+        startPickerDefault: {},
+        endPickerDefault: {}
       }
     },
     methods: {
@@ -370,21 +343,27 @@ export default {
         }
       },
       setStartTimePicker(firstCol, secondCol) {
-        if(this.columnsNum == 1) {
-          this.startColDefault = firstCol;
-        }else if(this.columnsNum == 2) {
-          this.startColDefault = firstCol + ' ' + secondCol;
-        }else if(this.columnsNum == 1) {
-          this.startColDefault = firstCol;
+        let submitPeriodic = +this.formData.submitPeriodic;
+        if(submitPeriodic == 0) {
+          this.startPickerDefault = firstCol;
+          this.handleSubmitEndTime();
+        }else if(submitPeriodic == 1) {
+          this.startPickerDefault = {
+            name: (firstCol.name + ' ' + secondCol.name),
+            value: (firstCol.value + ' ' + secondCol.value)
+          };
+        }else if(submitPeriodic == 2) {
+          this.startPickerDefault = firstCol;
         }
       },
       setEndTimePicker(firstCol, secondCol) {
-        if(this.columnsNum == 1) {
-          this.endColDefault = firstCol;
-        }else if(this.columnsNum == 2) {
-          this.endColDefault = firstCol + ' ' + secondCol;
-        }else if(this.columnsNum == 1) {
-          this.endColDefault = firstCol;
+        let submitPeriodic = +this.formData.submitPeriodic;
+        if(submitPeriodic == 0) {
+          this.endPickerDefault = firstCol;
+        }else if(submitPeriodic == 1) {
+          this.endPickerDefault = firstCol + ' ' + secondCol;
+        }else if(submitPeriodic == 2) {
+          this.endPickerDefault = firstCol;
         }
       },
       initPickerValue() { // 每次打开选择时间控件初始化当前值
@@ -426,7 +405,7 @@ export default {
           let hour = `${j<10?`0${j}`:j}:00`;
           temp.push({
             name: hour,
-            value: hour
+            value: j
           })
         }
         this.secondStartColumsData = temp;
@@ -472,7 +451,7 @@ export default {
           const submitEndTimeValue = this.getNum(this.formData.submitEndTime[0]);
           const submitStartTimeValue = this.getNum(this.formData.submitStartTime[0]);
           let firstColData = [];
-          switch (+this.formData.submitPeriodic) {
+          switch(+this.formData.submitPeriodic) {
               case 0:
                   for (; i <= 23; i++) {
                       if (i >= submitEndTimeValue || (submitEndTimeValue > submitStartTimeValue)) {
@@ -486,7 +465,10 @@ export default {
                   }
                   this.firstStartColData = firstColData;
                   this.showSubmitStartTime = true;
-                  this.startColDefault = '18:00';
+                  this.startPickerDefault = {
+                    name: '18:00',
+                    value: 18
+                  };
                   break;
               case 1:
                   this.handleSubmitStartWeek();
@@ -514,7 +496,7 @@ export default {
         let i = 1;
         this.initPickerValue();
         let tomorrow = [];
-        const submitStartTimeValue = this.getNum(this.formData.submitStartTime[0]);
+        const submitStartTimeValue = this.getNum(this.startPickerDefault.value);
         this.submitEndTimePicker = [];
         let firstColData = [];
         switch (+this.formData.submitPeriodic) {
@@ -529,7 +511,7 @@ export default {
                       tomorrow.push(tomorrowTemp)
                       morrowArr.push({
                         name: tomorrowTemp,
-                        value: tomorrowTemp
+                        value: `next ${i<10?`0${i}`:i}:00`
                       });
                   } else {
                       time = `${i<10?`0${i}`:i}:00`;
@@ -544,7 +526,10 @@ export default {
               this.showSubmitEndTime = true;
               firstColData = commonArr.concat(morrowArr);
               this.firstEndColData = firstColData;
-              this.endColDefault = `${this.$t('date.morrow')} 09:00`;
+              this.endPickerDefault = {
+                name: `${this.$t('date.morrow')} 09:00`,
+                value: `next 9`
+              };
               break;
           case 1:
               this.handleSubmitEndWeek();
