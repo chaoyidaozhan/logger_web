@@ -104,8 +104,8 @@
                     :firstColData="firstStartColData"
                     :secondColumsData="secondStartColumsData"
                     :columns="columnsNum"
-                    :day="formData.submitStartTime[0]"
-                    :showValue="startTimeShowValue">
+                    :firstColDefault="firstStartColDefault"
+                    :showValue="firstStartColDefault">
                   </WeekTime>
               </div>
             </div>
@@ -121,8 +121,8 @@
                     :firstColData="firstEndColData"
                     :secondColumsData="secondEndColumsData"
                     :columns="columnsNum"
-                    :day="formData.submitEndTime[0]"
-                    :showValue="endTimeShowValue">
+                    :firstColDefault="firstEndColDefault"
+                    :showValue="firstEndColDefault">
                 </WeekTime>
               </div>
             </div>
@@ -315,7 +315,9 @@ export default {
         secondStartColumsData: [],
         secondEndColumsData: [],
         startTimeShowValue: '',
-        endTimeShowValue: ''
+        endTimeShowValue: '',
+        firstStartColDefault: '18:00',
+        firstEndColDefault: `${this.$t('date.morrow')} 09:00`
       }
     },
     methods: {
@@ -368,10 +370,14 @@ export default {
         }
       },
       setStartTimePicker(date) {
-        this.formData.submitStartTime = date;
+        if(this.columnsNum == 1) {
+          this.firstStartColDefault = date;
+        }
       },
       setEndTimePicker(date) {
-        this.formData.submitEndTime = date;
+        if(this.columnsNum == 1) {
+          this.firstEndColDefault = date;
+        }
       },
       initPickerValue() { // 每次打开选择时间控件初始化当前值
         // 初始化当前周

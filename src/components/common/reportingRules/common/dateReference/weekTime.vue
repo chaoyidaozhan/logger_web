@@ -14,8 +14,8 @@
         <li class="listItem"
             v-for="(item, i) in firstColumsData"
             :key="i"
-            @click="setDay(item.value)"
-            :class="{'active': selfDay == item.value}">
+            @click="setFirstCol(item.name, item.value)"
+            :class="{'active': currentFirstCol == item.name}">
               {{ item.name }}
           </li>
         </ul>
@@ -85,6 +85,10 @@ export default {
             return []
           }
         },
+        firstColDefault: {
+          type: String,
+          default: ''
+        },
         // day: {
         //   type: String,
         //   default: '0'
@@ -115,7 +119,7 @@ export default {
         return {
           showSlide: false,
           firstColumsData: this.firstColData,
-          selfDay: this.day,
+          currentFirstCol: this.firstColDefault,
           selfHour: this.hour,
           selfMinute: this.minute
         }
@@ -139,14 +143,14 @@ export default {
       },
       confirm () {
         if(this.columns == 1) {
-          this.$emit('setTimePicker', [this.selfDay]);
+          this.$emit('setTimePicker', this.currentFirstCol);
         }else if(this.columns == 2) {
           this.$emit('setTimePicker', [this.selfDay, this.selfHour]);
         }
         this.showSlide = false
       },
-      setDay (v) {
-        this.selfDay = v;
+      setFirstCol(name, value) {
+        this.currentFirstCol = name;
       },
       setHour (v) {
         this.selfHour = v
