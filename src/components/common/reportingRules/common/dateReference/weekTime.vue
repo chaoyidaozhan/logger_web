@@ -6,7 +6,7 @@
     </span>
     <i class="icon-date icon-statistics-2018"></i>
   </div>
-  <div class="slideCtn" v-show="showSlide">
+  <div class="slideCtn" v-if="showSlide">
     <div class="mb-flex">
       <!-- 第一列 -->
       <div class="listsub mb-flex-1">
@@ -16,24 +16,24 @@
             :key="i"
             @click="setFirstCol(item.name, item.value)"
             :class="{'active': currentFirstCol == item.name}">
-              {{ item.name }}
+              {{item.name}}
           </li>
         </ul>
       </div>
       <!-- 第二列 -->
-      <div class="listsub mb-flex-1" v-if="columns > 1">
+      <div class="listsub mb-flex-1" v-show="columns > 1">
         <ul class="listCtn">
             <li class="listItem"
               v-for="(item, i) in secondColumsData"
               :key="i"
-              @click="setHour(item.value)"
-              :class="{'active': selfHour == item.value}">
-                {{ item.name }}
+              @click="setSecondCol(item.name, item.value)"
+              :class="{'active': currentSecondCol == item.name}">
+                {{item.name}}
               </li>
         </ul>
       </div>
       <!-- 第三列 -->
-      <div class="listsub mb-flex-1" v-if="columns > 2">
+      <!-- <div class="listsub mb-flex-1" v-show="columns > 2">
         <ul class="listCtn">
           <li class="listItem"
             v-for="(item, i) in thirdColumsData"
@@ -43,9 +43,9 @@
               {{ item }}
             </li>
         </ul>
-      </div>
+      </div> -->
     </div>
-    <div class="footer" v-show="showSlide">
+    <div class="footer">
       <YYButton
         type="primary"
         size="small"
@@ -73,13 +73,7 @@ export default {
             return []
           }
         },
-        secondColumsData: {
-          type: Array,
-          default: () => {
-            return []
-          }
-        },
-        thirdColumsData: {
+        secondColData: {
           type: Array,
           default: () => {
             return []
@@ -89,29 +83,25 @@ export default {
           type: String,
           default: ''
         },
-        // day: {
-        //   type: String,
-        //   default: '0'
-        // },
-        // hms: {
-        //   type: String,
-        //   default: '00:00'
-        // },
+        secondColDefault: {
+          type: String,
+          default: ''
+        },
         showValue: {
           type: String,
           default: '00:00'
-        },
-        hour: {
-          type: String,
-          default: '0'
-        },
-        minute: {
-          type: String,
-          default: '0'
         }
     },
     directives: {
       clickoutside
+    },
+    watch: {
+      firstColData(newVal) {
+        this.firstColumsData = newVal;
+      },
+      secondColData(newVal) {
+        this.secondColumsData = newVal;
+      },
     },
     components: {
     },
@@ -119,9 +109,9 @@ export default {
         return {
           showSlide: false,
           firstColumsData: this.firstColData,
+          secondColumsData: this.secondColData,
           currentFirstCol: this.firstColDefault,
-          selfHour: this.hour,
-          selfMinute: this.minute
+          currentSecondCol: this.secondColDefault,
         }
     },
     computed: {
@@ -145,45 +135,21 @@ export default {
         if(this.columns == 1) {
           this.$emit('setTimePicker', this.currentFirstCol);
         }else if(this.columns == 2) {
-          this.$emit('setTimePicker', [this.selfDay, this.selfHour]);
+          this.$emit('setTimePicker', this.currentFirstCol, this.currentSecondCol);
+        }else if(this.columns == 3) {
+          this.$emit('setTimePicker', this.currentFirstCol);
         }
         this.showSlide = false
       },
       setFirstCol(name, value) {
         this.currentFirstCol = name;
       },
-      setHour (v) {
-        this.selfHour = v
-      },
-      setMinute (v) {
-        this.selfMinute = v
-      }
-    },
-    watch: {
-      day(v) {
-        this.selfDay = v
-      },
-      minute(v) {
-        let arr = v.split(':')
-        this.selfMinute = arr[0]
-        this.selfMinute = arr[1]
-      },
-      firstColData(v) {
-        this.firstColumsData = v
+      setSecondCol (name, value) {
+        this.currentSecondCol = name
       }
     },
     created () {
-      // let arr = []
-      // for(let i=1; i < 24; i++) {
-      //   i = (i < 10) ? '0' + i : i + ''
-      //   arr.push({
-      //     key: i,
-      //     value: i
-      //   })
-      // }
-      // this.hourArr = arr
-      // this.minuteArr = arr
-      // this.showValue = this.hms
+
     }
 }
 </script>

@@ -74,7 +74,7 @@
                 <YYSelect
                   v-model="formData.submitStartWeek"
                   :multiple="true">
-                  <YYOption :value="item.key + ''" v-for="(item, index) in submitDate">
+                  <YYOption :value="item.key + ''" :key="index" v-for="(item, index) in submitDate">
                     {{item.value}}
                   </YYOption>
                 </YYSelect>
@@ -102,10 +102,10 @@
                     ref="remindStartTime"
                     @setTimePicker="setStartTimePicker"
                     :firstColData="firstStartColData"
-                    :secondColumsData="secondStartColumsData"
+                    :secondColData="secondStartColumsData"
                     :columns="columnsNum"
-                    :firstColDefault="firstStartColDefault"
-                    :showValue="firstStartColDefault">
+                    :firstColDefault="startColDefault"
+                    :showValue="startColDefault">
                   </WeekTime>
               </div>
             </div>
@@ -115,14 +115,14 @@
                 {{$t('date.submissionEndTime')}}
               </div>
               <div class="subctn">
-                <WeekTime 
+                <WeekTime
                     ref="remindEndTime"
                     @setTimePicker="setEndTimePicker"
                     :firstColData="firstEndColData"
-                    :secondColumsData="secondEndColumsData"
+                    :secondColData="secondEndColumsData"
                     :columns="columnsNum"
-                    :firstColDefault="firstEndColDefault"
-                    :showValue="firstEndColDefault">
+                    :firstColDefault="endColDefault"
+                    :showValue="endColDefault">
                 </WeekTime>
               </div>
             </div>
@@ -316,8 +316,8 @@ export default {
         secondEndColumsData: [],
         startTimeShowValue: '',
         endTimeShowValue: '',
-        firstStartColDefault: '18:00',
-        firstEndColDefault: `${this.$t('date.morrow')} 09:00`
+        startColDefault: '',
+        endColDefault: ''
       }
     },
     methods: {
@@ -369,14 +369,22 @@ export default {
           this.handleSubmitPeriodic(0, 0);
         }
       },
-      setStartTimePicker(date) {
+      setStartTimePicker(firstCol, secondCol) {
         if(this.columnsNum == 1) {
-          this.firstStartColDefault = date;
+          this.startColDefault = firstCol;
+        }else if(this.columnsNum == 2) {
+          this.startColDefault = firstCol + ' ' + secondCol;
+        }else if(this.columnsNum == 1) {
+          this.startColDefault = firstCol;
         }
       },
-      setEndTimePicker(date) {
+      setEndTimePicker(firstCol, secondCol) {
         if(this.columnsNum == 1) {
-          this.firstEndColDefault = date;
+          this.endColDefault = firstCol;
+        }else if(this.columnsNum == 2) {
+          this.endColDefault = firstCol + ' ' + secondCol;
+        }else if(this.columnsNum == 1) {
+          this.endColDefault = firstCol;
         }
       },
       initPickerValue() { // 每次打开选择时间控件初始化当前值
@@ -478,6 +486,7 @@ export default {
                   }
                   this.firstStartColData = firstColData;
                   this.showSubmitStartTime = true;
+                  this.startColDefault = '18:00';
                   break;
               case 1:
                   this.handleSubmitStartWeek();
@@ -510,22 +519,22 @@ export default {
         let firstColData = [];
         switch (+this.formData.submitPeriodic) {
           case 0:
-              let ifArr = [];
-              let elseArr = [];
+              let commonArr = [];
+              let morrowArr = [];
               for (; i <= 24; i++) {
                   let tomorrowTemp = '';
                   let time = '';
                   if (i <= submitStartTimeValue) {
                       tomorrowTemp = `${this.$t('date.morrow')} ${i<10?`0${i}`:i}:00`;
                       tomorrow.push(tomorrowTemp)
-                      ifArr.push({
+                      morrowArr.push({
                         name: tomorrowTemp,
                         value: tomorrowTemp
                       });
                   } else {
                       time = `${i<10?`0${i}`:i}:00`;
                       this.submitEndTimePicker.push(time)
-                      elseArr.push({
+                      commonArr.push({
                         name: time,
                         value: time
                       });
@@ -533,8 +542,9 @@ export default {
               }
               this.submitEndTimePicker = this.submitEndTimePicker.concat(tomorrow);
               this.showSubmitEndTime = true;
-              firstColData = elseArr.concat(ifArr);
+              firstColData = commonArr.concat(morrowArr);
               this.firstEndColData = firstColData;
+              this.endColDefault = `${this.$t('date.morrow')} 09:00`;
               break;
           case 1:
               this.handleSubmitEndWeek();
@@ -684,6 +694,7 @@ export default {
           this.formData.doubleWeekRemind = true;
         }
         this.formData.doubleWeekRemind = false;
+        this.formData.remindThisWeek = false;
         if (date != undefined) {
             this.$set(this.formData, 'submitDate', date.toString())
         }
