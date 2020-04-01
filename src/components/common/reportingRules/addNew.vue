@@ -30,7 +30,7 @@
               </div>
               <div class="subctn">
                <fs-select-tree-input
-                  :member="selectMemberData"
+                  :member="formData.diarySubmitPeopleStr"
                   :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
                   :placeholder="$t('placeholder.pleaseSelect')"
                   @handleSelect="handleSelectRange"
@@ -48,8 +48,8 @@
               </div>
               <div class="subctn">
                 <YYSelect
-                  v-model="dateType"
-                  @on-change="handleDateTypeChange">
+                  v-model="formData.submitPeriodic"
+                  @on-change="handleSubmitPeriodic(+formData.submitPeriodic, submitPeriodic[+formData.submitPeriodic])">
                   <YYOption value="0">
                     {{$t('date.d')}}
                   </YYOption>
@@ -62,8 +62,24 @@
               </YYSelect>
               </div>
             </div>
+            <!-- 周期选择日 -->
+            <div class="item" v-if="formData.submitPeriodic == 0">
+              <div class="itemTitle">
+                {{$t('date.appointedDate')}}
+              </div>
+              <div class="subctn">
+                <YYSelect 
+                  v-model="appointedDate"
+                  :multiple="true"
+                  @on-change="handleAppointedDate">
+                  <YYOption :value="date.key" v-for="(date, index) in formData.submitStartWeek">
+                    {{submitDate[date-1].value}}
+                  </YYOption>
+              </YYSelect>
+              </div>
+            </div>
             <!-- 从当前周开始 -->
-            <div class="item subItem" v-if="dateType == '1'">
+            <div class="item subItem" v-if="formData.submitPeriodic == 1">
               <div class="itemTitle">
               </div>
               <div class="subctn">
@@ -74,51 +90,17 @@
                 </div>
               </div>
             </div>
-            <!-- 周期选择日 -->
-            <div class="item" v-if="dateType == '0'">
-              <div class="itemTitle">
-                {{$t('date.appointedDate')}}
-              </div>
-              <div class="subctn">
-                <YYSelect 
-                  v-model="appointedDate"
-                  :multiple="true"
-                  @on-change="handleAppointedDate">
-                  <YYOption value="1">
-                    {{$t('date.mon')}}
-                  </YYOption>
-                  <YYOption value="2">
-                    {{$t('date.tue')}}
-                  </YYOption>
-                  <YYOption value="3">
-                    {{$t('date.wed')}}
-                  </YYOption>
-                  <YYOption value="4">
-                    {{$t('date.thu')}}
-                  </YYOption>
-                  <YYOption value="5">
-                    {{$t('date.fri')}}
-                  </YYOption>
-                  <YYOption value="6">
-                    {{$t('date.sat')}}
-                  </YYOption>
-                  <YYOption value="7">
-                    {{$t('date.sun')}}
-                  </YYOption>
-              </YYSelect>
-              </div>
-            </div>
             <!-- 提交开始时间 -->
-            <!-- <div class="item">
+            <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
                   <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'9:00'"></WeekTime>
               </div>
-            </div> -->
+            </div>
             <!-- 提交结束时间 -->
-            <!-- <div class="item">
+            <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionEndTime')}}
               </div>
@@ -129,7 +111,7 @@
             <div class="item tipsCtn">
              <img class="tipsimg" :src="ImTips">
              <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
-            </div>  -->
+            </div> 
             <!-- 提醒时间 -->
             <!-- <div class="item">
               <div class="itemTitle">
@@ -191,11 +173,11 @@ export default {
           // 是否双周提醒
           fromCurrentWeek: false,
           // listArr: [1,2,3,4,5,6,7,8,9,10],
-          selectMemberData: [],
+          // selectMemberData: [],
           // memberApiUri: '',
           hasDefaultTemplate: true,
           templateType: 'web',
-          dateType: '0',
+          // dateType: '0',
           // lastRemindTime: [],// 最后设置的提醒时间
           // ImTips,
           // startFirstColData: [
@@ -216,7 +198,7 @@ export default {
           //   {key: '6', value: this.$t('date.sat')},
           //   {key: '7', value: this.$t('date.sun')}
           // ],
-          // appointedDate: [], // 指定日期
+          appointedDate: [], // 指定日期
           // startColumns: 3,
           // endColumns: 3,
           // lastRemindTimeArr: [],
@@ -342,43 +324,43 @@ export default {
       },
       // 选人控件
       handleSelectRange(res) {
-          let arr = res.member
-          this.selectMemberData = arr
+        let arr = res.member
+        this.formData.diarySubmitPeopleStr = arr;
       },
       handleQuery(id) {
         this.formData.templateId = id;
       },
       handleDateTypeChange (v) {
-        switch (v) {
-          case '0': // 日
-            this.startColumns = 2
-            this.endColumns = 3
-            this.endFirstColData = [
-              {key: '1', value: this.$t('date.today')},
-              {key: '2', value: this.$t('date.morrow')}
-            ]
-            break;
-          case '1': // 周
-            this.startColumns = 3
-            this.endColumns = 3
-            this.startFirstColData = this.getWeekDaysFromSomeDay()
-            this.endFirstColData = this.getWeekDaysFromSomeDay()
-            break;
-          case '2': // 月
-            this.startColumns = 2
-            this.endColumns = 2
-            break;
-          case '3': // 当前周
-            this.startColumns = 3
-            this.endColumns = 3
-            this.startFirstColData = this.getWeekDaysFromSomeDay()
-            break;
-        }
+        // switch (v) {
+        //   case '0': // 日
+        //     this.startColumns = 2
+        //     this.endColumns = 3
+        //     this.endFirstColData = [
+        //       {key: '1', value: this.$t('date.today')},
+        //       {key: '2', value: this.$t('date.morrow')}
+        //     ]
+        //     break;
+        //   case '1': // 周
+        //     this.startColumns = 3
+        //     this.endColumns = 3
+        //     this.startFirstColData = this.getWeekDaysFromSomeDay()
+        //     this.endFirstColData = this.getWeekDaysFromSomeDay()
+        //     break;
+        //   case '2': // 月
+        //     this.startColumns = 2
+        //     this.endColumns = 2
+        //     break;
+        //   case '3': // 当前周
+        //     this.startColumns = 3
+        //     this.endColumns = 3
+        //     this.startFirstColData = this.getWeekDaysFromSomeDay()
+        //     break;
+        // }
       },
       // // 指定日期
-      // handleAppointedDate () {
+      handleAppointedDate () {
 
-      // },
+      },
       // handleLastRemindTime () {
 
       // },
