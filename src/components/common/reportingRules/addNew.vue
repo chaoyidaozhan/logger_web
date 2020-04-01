@@ -69,7 +69,6 @@
               <div class="subctn">
                 <div>
                   <YYCheckbox v-model="fromCurrentWeek">
-                    <!-- <span>{{$t('date.fromCurrentWeek')}}</span> -->
                     <span>双周提醒</span>
                   </YYCheckbox>
                 </div>
@@ -167,6 +166,8 @@ import WeekTime from './common/dateReference/weekTime'
 import FsSelectTemplate from '../select-template/'
 import FsSelectTreeInput from '../../common/select-tree-input/'
 import ImTips from 'app_assets/images/tips.png'
+import formatTime from 'app_src/filters/format-time'
+
 export default {
     props: {
       detailMsg: {
@@ -174,6 +175,10 @@ export default {
         default: function() {
           return {};
         }
+      },
+      isEdit: {
+        type: Boolean,
+        default: false
       }
     },
     components: {
@@ -183,78 +188,165 @@ export default {
     },
     data() {
         return {
-          fromCurrentWeek: false, //是否从当前周开始
-          listArr: [1,2,3,4,5,6,7,8,9,10],
-          selectMemberData: [],
-          memberApiUri: '',
-          hasDefaultTemplate: true,
-          templateType: 'app',
-          dateType: [],
-          lastRemindTime: [],// 最后设置的提醒时间
-          ImTips,
-          startFirstColData: [
-            {key: '1', value: this.$t('date.mon')},
-            {key: '2', value: this.$t('date.tue')},
-            {key: '3', value: this.$t('date.wed')},
-            {key: '4', value: this.$t('date.thu')},
-            {key: '5', value: this.$t('date.fri')},
-            {key: '6', value: this.$t('date.sat')},
-            {key: '7', value: this.$t('date.sun')}
-          ],
-          endFirstColData: [
-            {key: '1', value: this.$t('date.mon')},
-            {key: '2', value: this.$t('date.tue')},
-            {key: '3', value: this.$t('date.wed')},
-            {key: '4', value: this.$t('date.thu')},
-            {key: '5', value: this.$t('date.fri')},
-            {key: '6', value: this.$t('date.sat')},
-            {key: '7', value: this.$t('date.sun')}
-          ],
-          appointedDate: [], // 指定日期
-          startColumns: 3,
-          endColumns: 3,
-          lastRemindTimeArr: [],
-          selectedTemplateId: 0
-        }
+          // 是否双周提醒
+          fromCurrentWeek: false,
+          // listArr: [1,2,3,4,5,6,7,8,9,10],
+          // selectMemberData: [],
+          // memberApiUri: '',
+          // hasDefaultTemplate: true,
+          // templateType: 'app',
+          dateType: '0',
+          // lastRemindTime: [],// 最后设置的提醒时间
+          // ImTips,
+          // startFirstColData: [
+          //   {key: '1', value: this.$t('date.mon')},
+          //   {key: '2', value: this.$t('date.tue')},
+          //   {key: '3', value: this.$t('date.wed')},
+          //   {key: '4', value: this.$t('date.thu')},
+          //   {key: '5', value: this.$t('date.fri')},
+          //   {key: '6', value: this.$t('date.sat')},
+          //   {key: '7', value: this.$t('date.sun')}
+          // ],
+          // endFirstColData: [
+          //   {key: '1', value: this.$t('date.mon')},
+          //   {key: '2', value: this.$t('date.tue')},
+          //   {key: '3', value: this.$t('date.wed')},
+          //   {key: '4', value: this.$t('date.thu')},
+          //   {key: '5', value: this.$t('date.fri')},
+          //   {key: '6', value: this.$t('date.sat')},
+          //   {key: '7', value: this.$t('date.sun')}
+          // ],
+          // appointedDate: [], // 指定日期
+          // startColumns: 3,
+          // endColumns: 3,
+          // lastRemindTimeArr: [],
+          // selectedTemplateId: 0,
+          formData: {
+            templateId: [],
+            diarySubmitPeopleStr: [],
+            submitPeriodic: '0',
+            submitDate: '0',
+            submitStartWeek: [],
+            submitEndWeek: [],
+            submitStartTime: [],
+            submitEndTime: [],
+            remindType: true,
+            remindTime: [],
+            doubleWeekRemind: false,
+            remindThisWeek: false,
+        },
+        // 选择模板
+        template: [], 
+        showTemplate: false,
+        templatePicker: [], 
+        templateValue: [],
+        // 提交周期
+        submitPeriodic: [
+            { key: 0, value: this.$t('date.D') },
+            { key: undefined, value: this.$t('date.W') },
+            { key: 1, value: this.$t('date.M') }
+        ],
+        // ----------------------------------------------------
+        // 指定日期
+        showSubmitDate: false,
+        // 指定日期为日对应的周期
+        submitDate: [
+            { key: '1', value: this.$t('date.Mon') },
+            { key: '2', value: this.$t('date.Tue') },
+            { key: '3', value: this.$t('date.Wed') },
+            { key: '4', value: this.$t('date.Thu') },
+            { key: '5', value: this.$t('date.Fri') },
+            { key: '6', value: this.$t('date.Sat') },
+            { key: '7', value: this.$t('date.Sun') }
+        ],
+        submitDateValue: ['1','2','3','4','5','6','7'],
+        // ----------------------------------------------------
+        // 提交开始时间
+        showSubmitStartTime: false,
+        submitStartTimePicker: [],
+        submitStartTimeValue: [],
+        // ----------------------------------------------------
+        // 提交开始按周
+        showSubmitStartWeek: false,
+        submitStartWeekPicker: [],
+        submitStartWeekValue: [],
+        // ----------------------------------------------------
+        // 按日提交开始时间  标记
+        dayStartTimeValue: ['18:00'],
+        // 按周提交开始时间  标记
+        weekStartDateValue: ['5'],
+        weekStartTimeValue: ['18:00'],
+        // 按月提交开始时间  标记
+        monthStartTimeValue: ['09:00'],
+        // ----------------------------------------------------
+        // 提交结束时间
+        showSubmitEndTime: false,
+        submitEndTimePicker: [],
+        submitEndTimeValue: [],
+        // ----------------------------------------------------
+        // 提交结束按周
+        showSubmitEndWeek: false,
+        submitEndWeekPicker: [],
+        submitEndWeekValue: [],
+        // ----------------------------------------------------
+        // 按日提交结束时间  标记
+        dayEndTimeValue: [`${this.$t('date.Morrow')} 09:00`],
+        // 按周提交结束时间  标记
+        weekEndDateValue: ['1'],
+        weekEndTimeValue: ['09:00'],
+        // 按月提交结束时间  标记
+        monthEndTimeValue: ['18:00'],
+        // ----------------------------------------------------
+        // 选择周
+        week: [this.$t('date.Mon'), this.$t('date.Tue'), this.$t('date.Wed'), this.$t('date.Thu'), this.$t('date.Fri'), this.$t('date.Sat'), this.$t('date.Sun')],
+        showRemindTime: false,
+        remindTimePicker: [],
+        remindTimeValue: ['1'],
+        dayRemindTimeValue: ['1'],
+        weekRemindTimeValue: ['1'],
+        monthRemindTimeValue: ['1'],
+        loaded: false,
+        hasSave: false,
+      }
     },
     methods: {
       close () {
         this.$emit('changeShow')
       },
-      submit () {
-        let token = this.$store.state.userInfo.token
-        let obj = {}
-        let templateId = this.$refs.selectTemplate.templateId
-        let submitPeriodic = this.dateType == '3' ? '1' : this.dateType
-        // let submitStartWeek = 1
-        let submitStartTime = this.$refs.remindStartTime.showValue
-        let submitEndWeek = this.$refs.remindEndTime.showValue
-        let remindType = 1
-        let remindTime = this.lastRemindTime
-        let personArr = []
-        this.selectMemberData.forEach(item => {
-          personArr.push(item.memberId)
-        })
-        let diarySubmitPeopleStr = personArr.join(',')
-        // if(dateType == 1) {
-        // }
-        obj = {
-          templateId,
-          submitPeriodic,
-          submitStartTime,
-          submitEndWeek,
-          remindType,
-          remindTime,
-          diarySubmitPeopleStr
-        }
-      },
-      handleSelectRange(res) { //汇报人
-          let arr = res.member
-          this.selectMemberData = arr
-      },
-      handleQuery(id) {
-        this.selectedTemplateId = id;
-      },
+      // submit () {
+      //   let token = this.$store.state.userInfo.token
+      //   let obj = {}
+      //   let templateId = this.$refs.selectTemplate.templateId
+      //   let submitPeriodic = this.dateType == '3' ? '1' : this.dateType
+      //   // let submitStartWeek = 1
+      //   let submitStartTime = this.$refs.remindStartTime.showValue
+      //   let submitEndWeek = this.$refs.remindEndTime.showValue
+      //   let remindType = 1
+      //   let remindTime = this.lastRemindTime
+      //   let personArr = []
+      //   this.selectMemberData.forEach(item => {
+      //     personArr.push(item.memberId)
+      //   })
+      //   let diarySubmitPeopleStr = personArr.join(',')
+      //   // if(dateType == 1) {
+      //   // }
+      //   obj = {
+      //     templateId,
+      //     submitPeriodic,
+      //     submitStartTime,
+      //     submitEndWeek,
+      //     remindType,
+      //     remindTime,
+      //     diarySubmitPeopleStr
+      //   }
+      // },
+      // handleSelectRange(res) { //汇报人
+      //     let arr = res.member
+      //     this.selectMemberData = arr
+      // },
+      // handleQuery(id) {
+      //   this.selectedTemplateId = id;
+      // },
       handleDateTypeChange (v) {
         switch (v) {
           case '0': // 日
@@ -281,35 +373,210 @@ export default {
             this.startFirstColData = this.getWeekDaysFromSomeDay()
             break;
         }
-        console.log(this.dateType)
       },
-      // 指定日期
-      handleAppointedDate () {
+      // // 指定日期
+      // handleAppointedDate () {
 
-      },
-      handleLastRemindTime () {
+      // },
+      // handleLastRemindTime () {
 
+      // },
+      // getWeekDaysFromSomeDay (start = 0) {
+      //   // 从start开始 一周时间 bug
+      //   let r = [
+      //     {key: '1', value: this.$t('date.mon')},
+      //     {key: '2', value: this.$t('date.tue')},
+      //     {key: '3', value: this.$t('date.wed')},
+      //     {key: '4', value: this.$t('date.thu')},
+      //     {key: '5', value: this.$t('date.fri')},
+      //     {key: '6', value: this.$t('date.sat')},
+      //     {key: '7', value: this.$t('date.sun')},
+      //   ]
+      //   return r
+      // },
+      // 获取日志规则详情
+      getRule() { 
+          if (this.isEdit) {
+              this.getEditData();
+          } else {
+              this.handleSubmitPeriodic(0, 0);
+          }
       },
-      getWeekDaysFromSomeDay (start = 0) {
-        // 从start开始 一周时间 bug
-        let r = [
-          {key: '1', value: this.$t('date.mon')},
-          {key: '2', value: this.$t('date.tue')},
-          {key: '3', value: this.$t('date.wed')},
-          {key: '4', value: this.$t('date.thu')},
-          {key: '5', value: this.$t('date.fri')},
-          {key: '6', value: this.$t('date.sat')},
-          {key: '7', value: this.$t('date.sun')},
-        ]
-        return r
-      }
+      // 格式化编辑回显
+      trimEditData(param) { 
+        Object.keys(param).forEach(key => {
+            switch (key) {
+                case 'templateId':
+                    this.formData.templateId = [param[key]];
+                    this.templateValue = [param[key]];
+                    break;
+                case 'diarySubmitPeople':
+                    let peopleArr = []
+                    param[key].forEach((item => {
+                        peopleArr.push({
+                            userName: item.userName,
+                            memberId: item.memberId
+                        })
+                    }))
+                    this.formData.diarySubmitPeopleStr = peopleArr;
+                    break;
+                case 'submitPeriodic':
+                    this.formData.submitPeriodic = `${param[key]}`;
+                    break;
+                case 'submitStartWeek':
+                    switch (+param.submitPeriodic) {
+                        case 0:
+                            this.submitDateValue = param[key].split(',');
+                            break;
+                        case 1:
+                            this.weekStartDateValue = param[key].split(',')
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'submitEndWeek':
+                    switch (+param.submitPeriodic) {
+                        case 1:
+                            this.weekEndDateValue = param[key].split(',')
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'submitStartTime':
+                    const sNum = this.getNum(param[key]);
+                    const sValue = [`${sNum<10?`0${sNum}`:sNum}:00`]
+                    switch (+param.submitPeriodic) {
+                        case 0:
+                            this.dayStartTimeValue = sValue
+                            break;
+                        case 1:
+                            this.weekStartTimeValue = sValue
+                            break;
+                        case 2:
+                            this.monthStartTimeValue = sValue
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'submitEndTime':
+                    const eNum = this.getNum(param[key]);
+                    const eValue = [`${eNum<10?`0${eNum}`:eNum}:00`]
+                    switch (+param.submitPeriodic) {
+                        case 0:
+                            this.dayEndTimeValue = eValue;
+                            break;
+                        case 1:
+                            this.weekEndTimeValue = eValue;
+                            break;
+                        case 2:
+                            this.monthEndTimeValue = eValue;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'remindType':
+                case 'doubleWeekRemind':
+                case 'remindThisWeek':
+                    this.formData[key] = !!param[key];
+                    break;
+                case 'remindTime':
+                    if (param[key]) {
+                        switch (+param.submitPeriodic) {
+                            case 0:
+                                this.dayRemindTimeValue = param[key].toString().split(',');
+                                break;
+                            case 1:
+                                this.weekRemindTimeValue = param[key].toString().split(',');
+                                break;
+                            case 2:
+                                this.monthRemindTimeValue = param[key].toString().split(',');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                default:
+                break;
+            }
+        });
+        this.handleSubmitPeriodic(this.formData.submitPeriodic, this.submitPeriodic[this.formData.submitPeriodic].key)
+      },
+      getEditData() { // 获取编辑内容
+        this.$ajax({
+            url: `/diarySubmitRule/getRuleDetail`,
+            data: {
+                diarySubmitRuleId: this.detailMsg.id,
+                queryDate: formatTime(new Date(), 'YYYY-MM-DD')
+            },
+            success: (res) => {
+                if (res.code == 0) {
+                    this.trimEditData(res.data && res.data.diarySubmitRule);
+                }
+            }
+        })
+      },
+      // 克隆对象
+      cloneObj(obj) {
+          return JSON.parse(JSON.stringify(obj))
+      },
+      // 选择提交周期
+      handleSubmitPeriodic(per, date) {
+        if (date != undefined) {
+            this.$set(this.formData, 'submitDate', date.toString())
+        }
+        this.$set(this.formData, 'submitPeriodic', per.toString())
+        // 根据不同的提价周期进行数据初始化
+        switch (+per) {
+            case 0:
+                this.formData.submitStartWeek = this.cloneObj(this.submitDateValue);
+                this.formData.submitEndWeek = [];
+
+                this.submitStartTimeValue = this.dayStartTimeValue;
+                this.submitEndTimeValue = this.dayEndTimeValue;
+
+                this.remindTimeValue = this.dayRemindTimeValue;
+                break;
+            case 1:
+                this.submitStartWeekValue = this.weekStartDateValue;
+                this.submitEndWeekValue = this.weekEndDateValue;
+
+                this.formData.submitStartWeek = this.cloneObj(this.weekStartDateValue);
+                this.formData.submitEndWeek = this.cloneObj(this.weekEndDateValue);
+
+                this.submitStartTimeValue = this.weekStartTimeValue;
+                this.submitEndTimeValue = this.weekEndTimeValue;
+
+                this.remindTimeValue = this.weekRemindTimeValue;
+                break;
+            case 2:
+                this.formData.submitStartWeek = [];
+                this.formData.submitEndWeek = [];
+
+                this.submitStartTimeValue = this.monthStartTimeValue;
+                this.submitEndTimeValue = this.monthEndTimeValue;
+
+                this.remindTimeValue = this.monthRemindTimeValue;
+                break;
+            default:
+            break;
+        }
+        // 切换时更新当前表单字段
+        this.formData.remindTime = this.cloneObj(this.remindTimeValue);
+        this.formData.submitStartTime = this.cloneObj(this.submitStartTimeValue);
+        this.formData.submitEndTime = this.cloneObj(this.submitEndTimeValue);
+      },
     },
     created () {
-      let arr = []
-      for(let i = 1; i < 24; i++) {
-        arr.push(i)
-      }
-      this.lastRemindTimeArr = arr
+      // let arr = []
+      // for(let i = 1; i < 24; i++) {
+      //   arr.push(i)
+      // }
+      // this.lastRemindTimeArr = arr
+      this.getRule();
     },
     mounted () {
     },
