@@ -59,6 +59,9 @@
                   <YYOption value="2">
                     {{$t('date.m')}}
                   </YYOption>
+                  <YYOption value="3">
+                    双周提醒
+                  </YYOption>
               </YYSelect>
               </div>
             </div>
@@ -69,23 +72,23 @@
               </div>
               <div class="subctn">
                 <YYSelect
-                    v-model="formData.submitStartWeek"
-                    :multiple="true"
-                    @on-change="handleSubmitDate">
-                    <YYOption :value="item.key + ''" v-for="(item, index) in submitDate">
-                      {{item.value}}
-                    </YYOption>
+                  v-model="formData.submitStartWeek"
+                  :multiple="true"
+                  @on-change="handleSubmitDate">
+                  <YYOption :value="item.key + ''" v-for="(item, index) in submitDate">
+                    {{item.value}}
+                  </YYOption>
                 </YYSelect>
               </div>
             </div>
             <!-- 从当前周开始 -->
-            <div class="item subItem" v-if="formData.submitPeriodic == 1">
+            <div class="item subItem" v-if="formData.submitPeriodic == 3">
               <div class="itemTitle">
               </div>
               <div class="subctn">
                 <div>
-                  <YYCheckbox v-model="formData.doubleWeekRemind">
-                    <span>双周提醒</span>
+                  <YYCheckbox v-model="formData.remindThisWeek">
+                    <span>当前周开始</span>
                   </YYCheckbox>
                 </div>
               </div>
@@ -517,6 +520,11 @@ console.log(this.formData.submitStartWeek)
       },
       // 选择提交周期
       handleSubmitPeriodic(per, date) {
+        if(per === 3) {
+          this.formData.doubleWeekRemind = true;
+          return;
+        }
+        this.formData.doubleWeekRemind = false;
         if (date != undefined) {
             this.$set(this.formData, 'submitDate', date.toString())
         }
