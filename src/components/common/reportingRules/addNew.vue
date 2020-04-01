@@ -73,8 +73,7 @@
               <div class="subctn">
                 <YYSelect
                   v-model="formData.submitStartWeek"
-                  :multiple="true"
-                  @on-change="handleSubmitDate">
+                  :multiple="true">
                   <YYOption :value="item.key + ''" v-for="(item, index) in submitDate">
                     {{item.value}}
                   </YYOption>
@@ -94,14 +93,20 @@
               </div>
             </div>
             <!-- 提交开始时间 -->
-            <!-- <div class="item">
+            <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
-                  <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'9:00'"></WeekTime>
+                  <WeekTime
+                    ref="remindStartTime"
+                    :firstColData="submitStartTimePicker"
+                    :columns="startColumns"
+                    :day="formData.submitStartTime[0]"
+                    :showValue="formData.submitStartTime[0]">
+                  </WeekTime>
               </div>
-            </div> -->
+            </div>
             <!-- 提交结束时间 -->
             <!-- <div class="item">
               <div class="itemTitle">
@@ -202,7 +207,7 @@ export default {
           //   {key: '7', value: this.$t('date.sun')}
           // ],
           // appointedDate: [], // 指定日期
-          // startColumns: 3,
+          startColumns: 1,
           // endColumns: 3,
           // lastRemindTimeArr: [],
           // selectedTemplateId: 0,
@@ -276,7 +281,7 @@ export default {
         submitEndWeekValue: [],
         // ----------------------------------------------------
         // 按日提交结束时间  标记
-        dayEndTimeValue: [`${this.$t('date.Morrow')} 09:00`],
+        dayEndTimeValue: [`${this.$t('date.morrow')} 09:00`],
         // 按周提交结束时间  标记
         weekEndDateValue: ['1'],
         weekEndTimeValue: ['09:00'],
@@ -334,7 +339,7 @@ export default {
       handleQuery(id) {
         this.formData.templateId = id;
       },
-      handleDateTypeChange (v) {
+      // handleDateTypeChange (v) {
         // switch (v) {
         //   case '0': // 日
         //     this.startColumns = 2
@@ -360,7 +365,7 @@ export default {
         //     this.startFirstColData = this.getWeekDaysFromSomeDay()
         //     break;
         // }
-      },
+      // },
       // // 指定日期
       // handleAppointedDate () {
 
@@ -392,10 +397,58 @@ export default {
               this.handleSubmitPeriodic(0, 0);
           }
       },
-      // 选择指定日期
-      handleSubmitDate() {
-console.log(this.formData.submitStartWeek)
-          // this.submitDateValue = this.cloneObj(this.formData.submitStartWeek)
+      initPickerValue() { // 每次打开选择时间控件初始化当前值
+        // 初始化当前周
+        this.formData.submitStartWeek.length &&
+            (this.submitStartWeekValue = this.cloneObj(this.formData.submitStartWeek));
+        this.formData.submitEndWeek.length &&
+            (this.submitEndWeekValue = this.cloneObj(this.formData.submitEndWeek));
+
+        // 初始化当前时间
+        this.submitStartTimeValue = this.cloneObj(this.formData.submitStartTime);
+        this.submitEndTimeValue = this.cloneObj(this.formData.submitEndTime);
+
+        // 初始化截止时间
+        this.remindTimeValue = this.cloneObj(this.formData.remindTime);
+      },
+      getNum(str) { // 获取纯数字
+        if (!str) {
+            return 0
+        }
+        let arr = str.match(/[0-9]+/g);
+        return +arr[0];
+      },
+      // 打开选择开始时间 0~23
+      handleSubmitStartTime() {
+          let i = 0;
+          this.submitStartTimePicker = [];
+          this.initPickerValue();
+          const submitEndTimeValue = this.getNum(this.formData.submitEndTime[0]);
+          const submitStartTimeValue = this.getNum(this.formData.submitStartTime[0]);
+          switch (+this.formData.submitPeriodic) {
+              case 0:
+                  for (; i <= 23; i++) {
+                      if (i >= submitEndTimeValue || (submitEndTimeValue > submitStartTimeValue)) {
+                          this.submitStartTimePicker.push(`${i<10?`0${i}`:i}:00`)
+                      }
+                  }
+                  this.showSubmitStartTime = true;
+                  break;
+              case 1:
+                  this.handleSubmitStartWeek();
+                  break;
+              case 2:
+                  for (; i <= 23; i++) {
+                      if (i >= submitEndTimeValue || (submitEndTimeValue > submitStartTimeValue)) {
+                          this.submitStartTimePicker.push(`${i<10?`0${i}`:i}:00`)
+                      }
+                  }
+                  this.showSubmitStartTime = true;
+                  break;
+              default:
+                  break;
+          }
+console.log(this.submitStartTimePicker)
       },
       // 格式化编辑回显
       trimEditData(param) { 
@@ -568,6 +621,7 @@ console.log(this.formData.submitStartWeek)
         this.formData.remindTime = this.cloneObj(this.remindTimeValue);
         this.formData.submitStartTime = this.cloneObj(this.submitStartTimeValue);
         this.formData.submitEndTime = this.cloneObj(this.submitEndTimeValue);
+        this.handleSubmitStartTime();
       },
     },
     created () {
