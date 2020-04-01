@@ -68,14 +68,14 @@
                 {{$t('date.appointedDate')}}
               </div>
               <div class="subctn">
-                <YYSelect 
-                  v-model="appointedDate"
-                  :multiple="true"
-                  @on-change="handleAppointedDate">
-                  <YYOption :value="date.key" v-for="(date, index) in formData.submitStartWeek">
-                    {{submitDate[date-1].value}}
-                  </YYOption>
-              </YYSelect>
+                <YYSelect
+                    v-model="formData.submitStartWeek"
+                    :multiple="true"
+                    @on-change="handleSubmitDate">
+                    <YYOption :value="item.key + ''" v-for="(item, index) in submitDate">
+                      {{item.value}}
+                    </YYOption>
+                </YYSelect>
               </div>
             </div>
             <!-- 从当前周开始 -->
@@ -91,16 +91,16 @@
               </div>
             </div>
             <!-- 提交开始时间 -->
-            <div class="item">
+            <!-- <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
                   <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'9:00'"></WeekTime>
               </div>
-            </div>
+            </div> -->
             <!-- 提交结束时间 -->
-            <div class="item">
+            <!-- <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionEndTime')}}
               </div>
@@ -111,7 +111,7 @@
             <div class="item tipsCtn">
              <img class="tipsimg" :src="ImTips">
              <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
-            </div> 
+            </div>  -->
             <!-- 提醒时间 -->
             <!-- <div class="item">
               <div class="itemTitle">
@@ -198,11 +198,12 @@ export default {
           //   {key: '6', value: this.$t('date.sat')},
           //   {key: '7', value: this.$t('date.sun')}
           // ],
-          appointedDate: [], // 指定日期
+          // appointedDate: [], // 指定日期
           // startColumns: 3,
           // endColumns: 3,
           // lastRemindTimeArr: [],
           // selectedTemplateId: 0,
+          // 
           formData: {
             templateId: '',
             diarySubmitPeopleStr: [],
@@ -358,25 +359,28 @@ export default {
         // }
       },
       // // 指定日期
-      handleAppointedDate () {
+      // handleAppointedDate () {
 
-      },
+      // },
       // handleLastRemindTime () {
 
       // },
-      getWeekDaysFromSomeDay (start = 0) {
-        // 从start开始 一周时间 bug
-        let r = [
-          {key: '1', value: this.$t('date.mon')},
-          {key: '2', value: this.$t('date.tue')},
-          {key: '3', value: this.$t('date.wed')},
-          {key: '4', value: this.$t('date.thu')},
-          {key: '5', value: this.$t('date.fri')},
-          {key: '6', value: this.$t('date.sat')},
-          {key: '7', value: this.$t('date.sun')},
-        ]
-        return r
-      },
+      // getWeekDaysFromSomeDay (start = 0) {
+      //   // 从start开始 一周时间 bug
+      //   let r = [
+      //     {key: '1', value: this.$t('date.mon')},
+      //     {key: '2', value: this.$t('date.tue')},
+      //     {key: '3', value: this.$t('date.wed')},
+      //     {key: '4', value: this.$t('date.thu')},
+      //     {key: '5', value: this.$t('date.fri')},
+      //     {key: '6', value: this.$t('date.sat')},
+      //     {key: '7', value: this.$t('date.sun')},
+      //   ]
+      //   return r
+      // },
+      // 
+      // 
+      // 
       // 获取日志规则详情
       getRule() { 
           if (this.isEdit) {
@@ -384,6 +388,11 @@ export default {
           } else {
               this.handleSubmitPeriodic(0, 0);
           }
+      },
+      // 选择指定日期
+      handleSubmitDate() {
+console.log(this.formData.submitStartWeek)
+          // this.submitDateValue = this.cloneObj(this.formData.submitStartWeek)
       },
       // 格式化编辑回显
       trimEditData(param) { 
