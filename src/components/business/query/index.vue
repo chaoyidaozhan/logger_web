@@ -200,6 +200,7 @@ export default {
                 }
                 this.list.forEach((item, index) => {
                     let items = JSON.parse(item.content)
+                    items = items.filter((newItem)=>{return newItem.type !== 'InputDate'})
                     item.title = items;
                     if(!this.hasMore && index === this.list.length - 1){
                         item.islast = true
