@@ -361,7 +361,10 @@ export default {
         if(submitPeriodic == 0) {
           this.endPickerDefault = firstCol;
         }else if(submitPeriodic == 1) {
-          this.endPickerDefault = firstCol + ' ' + secondCol;
+          this.endPickerDefault = {
+            name: (firstCol.name + ' ' + secondCol.name),
+            value: (firstCol.value + ' ' + secondCol.value)
+          };
         }else if(submitPeriodic == 2) {
           this.endPickerDefault = firstCol;
         }
@@ -467,7 +470,7 @@ export default {
                   this.showSubmitStartTime = true;
                   this.startPickerDefault = {
                     name: '18:00',
-                    value: 18
+                    value: '18'
                   };
                   break;
               case 1:
