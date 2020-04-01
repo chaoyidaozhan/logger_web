@@ -68,14 +68,14 @@
               </div>
               <div class="subctn">
                 <div>
-                  <YYCheckbox v-model="fromCurrentWeek">
+                  <YYCheckbox v-model="formData.doubleWeekRemind">
                     <span>双周提醒</span>
                   </YYCheckbox>
                 </div>
               </div>
             </div>
             <!-- 指定日期 周期选择日 -->
-            <div class="item" v-if="dateType == '0'">
+            <!-- <div class="item" v-if="dateType == '0'">
               <div class="itemTitle">
                 {{$t('date.appointedDate')}}
               </div>
@@ -107,18 +107,18 @@
                   </YYOption>
               </YYSelect>
               </div>
-            </div>
+            </div> -->
             <!-- 提交开始时间 -->
-            <div class="item">
+            <!-- <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionStartTime')}}
               </div>
               <div class="subctn">
                   <WeekTime ref="remindStartTime" :firstColData="startFirstColData" :columns="startColumns" :day="'1'" :hms="'9:00'"></WeekTime>
               </div>
-            </div>
+            </div> -->
             <!-- 提交结束时间 -->
-            <div class="item">
+            <!-- <div class="item">
               <div class="itemTitle">
                 {{$t('date.submissionEndTime')}}
               </div>
@@ -129,9 +129,9 @@
             <div class="item tipsCtn">
              <img class="tipsimg" :src="ImTips">
              <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
-            </div> 
+            </div>  -->
             <!-- 提醒时间 -->
-            <div class="item">
+            <!-- <div class="item">
               <div class="itemTitle">
                 {{$t('date.reminderTime')}}
               </div>
@@ -144,7 +144,7 @@
                   </YYOption>
               </YYSelect>
               </div>
-            </div>
+            </div> -->
              <div class="item submitCtn">
               <div class="itemTitle">
               </div>
@@ -191,10 +191,10 @@ export default {
           // 是否双周提醒
           fromCurrentWeek: false,
           // listArr: [1,2,3,4,5,6,7,8,9,10],
-          // selectMemberData: [],
+          selectMemberData: [],
           // memberApiUri: '',
-          // hasDefaultTemplate: true,
-          // templateType: 'app',
+          hasDefaultTemplate: true,
+          templateType: 'web',
           dateType: '0',
           // lastRemindTime: [],// 最后设置的提醒时间
           // ImTips,
@@ -222,7 +222,7 @@ export default {
           // lastRemindTimeArr: [],
           // selectedTemplateId: 0,
           formData: {
-            templateId: [],
+            templateId: '',
             diarySubmitPeopleStr: [],
             submitPeriodic: '0',
             submitDate: '0',
@@ -242,22 +242,22 @@ export default {
         templateValue: [],
         // 提交周期
         submitPeriodic: [
-            { key: 0, value: this.$t('date.D') },
-            { key: undefined, value: this.$t('date.W') },
-            { key: 1, value: this.$t('date.M') }
+            { key: 0, value: this.$t('date.d') },
+            { key: undefined, value: this.$t('date.w') },
+            { key: 1, value: this.$t('date.m') }
         ],
         // ----------------------------------------------------
         // 指定日期
         showSubmitDate: false,
         // 指定日期为日对应的周期
         submitDate: [
-            { key: '1', value: this.$t('date.Mon') },
-            { key: '2', value: this.$t('date.Tue') },
-            { key: '3', value: this.$t('date.Wed') },
-            { key: '4', value: this.$t('date.Thu') },
-            { key: '5', value: this.$t('date.Fri') },
-            { key: '6', value: this.$t('date.Sat') },
-            { key: '7', value: this.$t('date.Sun') }
+            { key: '1', value: this.$t('date.mon') },
+            { key: '2', value: this.$t('date.tue') },
+            { key: '3', value: this.$t('date.wed') },
+            { key: '4', value: this.$t('date.thu') },
+            { key: '5', value: this.$t('date.fri') },
+            { key: '6', value: this.$t('date.sat') },
+            { key: '7', value: this.$t('date.sun') }
         ],
         submitDateValue: ['1','2','3','4','5','6','7'],
         // ----------------------------------------------------
@@ -298,7 +298,7 @@ export default {
         monthEndTimeValue: ['18:00'],
         // ----------------------------------------------------
         // 选择周
-        week: [this.$t('date.Mon'), this.$t('date.Tue'), this.$t('date.Wed'), this.$t('date.Thu'), this.$t('date.Fri'), this.$t('date.Sat'), this.$t('date.Sun')],
+        week: [this.$t('date.mon'), this.$t('date.tue'), this.$t('date.wed'), this.$t('date.thu'), this.$t('date.fri'), this.$t('date.sat'), this.$t('date.sun')],
         showRemindTime: false,
         remindTimePicker: [],
         remindTimeValue: ['1'],
@@ -313,40 +313,41 @@ export default {
       close () {
         this.$emit('changeShow')
       },
-      // submit () {
-      //   let token = this.$store.state.userInfo.token
-      //   let obj = {}
-      //   let templateId = this.$refs.selectTemplate.templateId
-      //   let submitPeriodic = this.dateType == '3' ? '1' : this.dateType
-      //   // let submitStartWeek = 1
-      //   let submitStartTime = this.$refs.remindStartTime.showValue
-      //   let submitEndWeek = this.$refs.remindEndTime.showValue
-      //   let remindType = 1
-      //   let remindTime = this.lastRemindTime
-      //   let personArr = []
-      //   this.selectMemberData.forEach(item => {
-      //     personArr.push(item.memberId)
-      //   })
-      //   let diarySubmitPeopleStr = personArr.join(',')
-      //   // if(dateType == 1) {
-      //   // }
-      //   obj = {
-      //     templateId,
-      //     submitPeriodic,
-      //     submitStartTime,
-      //     submitEndWeek,
-      //     remindType,
-      //     remindTime,
-      //     diarySubmitPeopleStr
-      //   }
-      // },
-      // handleSelectRange(res) { //汇报人
-      //     let arr = res.member
-      //     this.selectMemberData = arr
-      // },
-      // handleQuery(id) {
-      //   this.selectedTemplateId = id;
-      // },
+      submit () {
+        let token = this.$store.state.userInfo.token
+        let obj = {}
+        let templateId = this.$refs.selectTemplate.templateId
+        let submitPeriodic = this.dateType == '3' ? '1' : this.dateType
+        // let submitStartWeek = 1
+        let submitStartTime = this.$refs.remindStartTime.showValue
+        let submitEndWeek = this.$refs.remindEndTime.showValue
+        let remindType = 1
+        let remindTime = this.lastRemindTime
+        let personArr = []
+        this.selectMemberData.forEach(item => {
+          personArr.push(item.memberId)
+        })
+        let diarySubmitPeopleStr = personArr.join(',')
+        // if(dateType == 1) {
+        // }
+        obj = {
+          templateId,
+          submitPeriodic,
+          submitStartTime,
+          submitEndWeek,
+          remindType,
+          remindTime,
+          diarySubmitPeopleStr
+        }
+      },
+      // 选人控件
+      handleSelectRange(res) {
+          let arr = res.member
+          this.selectMemberData = arr
+      },
+      handleQuery(id) {
+        this.formData.templateId = id;
+      },
       handleDateTypeChange (v) {
         switch (v) {
           case '0': // 日
@@ -381,19 +382,19 @@ export default {
       // handleLastRemindTime () {
 
       // },
-      // getWeekDaysFromSomeDay (start = 0) {
-      //   // 从start开始 一周时间 bug
-      //   let r = [
-      //     {key: '1', value: this.$t('date.mon')},
-      //     {key: '2', value: this.$t('date.tue')},
-      //     {key: '3', value: this.$t('date.wed')},
-      //     {key: '4', value: this.$t('date.thu')},
-      //     {key: '5', value: this.$t('date.fri')},
-      //     {key: '6', value: this.$t('date.sat')},
-      //     {key: '7', value: this.$t('date.sun')},
-      //   ]
-      //   return r
-      // },
+      getWeekDaysFromSomeDay (start = 0) {
+        // 从start开始 一周时间 bug
+        let r = [
+          {key: '1', value: this.$t('date.mon')},
+          {key: '2', value: this.$t('date.tue')},
+          {key: '3', value: this.$t('date.wed')},
+          {key: '4', value: this.$t('date.thu')},
+          {key: '5', value: this.$t('date.fri')},
+          {key: '6', value: this.$t('date.sat')},
+          {key: '7', value: this.$t('date.sun')},
+        ]
+        return r
+      },
       // 获取日志规则详情
       getRule() { 
           if (this.isEdit) {
