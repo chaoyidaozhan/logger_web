@@ -234,7 +234,7 @@
                         <YYIcon type="zan"></YYIcon>
                     </i>
                     <i class="icon-position" style="color:#EE2223" v-else>
-                        <YYIcon type="zan"></YYIcon>
+                        <YYIcon type="thumb-up"></YYIcon>
                     </i>
                 </div>
                 <div class="operate-item" style="margin-top:12px" :class="{active: showReply}" @click="handleReply">
