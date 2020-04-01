@@ -6,50 +6,50 @@
     </span>
     <i class="icon-date icon-statistics-2018"></i>
   </div>
-  <div class="slideCtn" v-show="showSlide" :style="{width: columns == 2 ? '66.66%' : '100%'}">
-    <!-- 第一列 -->
-    <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}" v-if="columns != 2">
-       <ul class="listCtn">
-       <li class="listItem"
-          v-for="(item, i) in firstColumsData"
-          :key="i"
-          @click="setDay(item.key)"
-          :class="{'active': selfDay == item.key}">
-            {{ item.value }}
-        </li>
-      </ul>
-    </div>
-    <!-- 第二列 -->
-    <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}">
-       <ul class="listCtn">
-          <li class="listItem"
-            v-for="(item, i) in hourArr"
+  <div class="slideCtn" v-show="showSlide">
+    <div class="mb-flex">
+      <!-- 第一列 -->
+      <div class="listsub mb-flex-1">
+        <ul class="listCtn">
+        <li class="listItem"
+            v-for="(item, i) in firstColumsData"
             :key="i"
-            @click="setHour(item.key)"
-            :class="{'active': selfHour == item.key}">
-              {{ item.value }}
-            </li>
-      </ul>
-    </div>
-    <!-- 第三列 -->
-    <div class="listsub" :style="{width: columns == 2 ? '50%' : '33.33%'}">
-       <ul class="listCtn">
-         <li class="listItem"
-          v-for="(item, i) in minuteArr"
-          :key="i"
-          @click="setMinute(item.key)"
-          :class="{'active': selfMinute == item.key}">
-            {{ item.value }}
+            @click="setDay(item)"
+            :class="{'active': selfDay == item}">
+              {{ item }}
           </li>
-      </ul>
+        </ul>
+      </div>
+      <!-- 第二列 -->
+      <div class="listsub mb-flex-1" v-if="columns > 1">
+        <ul class="listCtn">
+            <li class="listItem"
+              v-for="(item, i) in secondColumsData"
+              :key="i"
+              @click="setHour(item)"
+              :class="{'active': selfHour == item}">
+                {{ item }}
+              </li>
+        </ul>
+      </div>
+      <!-- 第三列 -->
+      <div class="listsub mb-flex-1" v-if="columns > 2">
+        <ul class="listCtn">
+          <li class="listItem"
+            v-for="(item, i) in thirdColumsData"
+            :key="i"
+            @click="setMinute(item)"
+            :class="{'active': selfMinute == item}">
+              {{ item }}
+            </li>
+        </ul>
+      </div>
     </div>
-    <div style="clear: both"></div>
-    <div class="footer">
-      <YYButton 
+    <div class="footer" v-show="showSlide">
+      <YYButton
         type="primary"
         size="small"
-        @click="confirm()"
-        >
+        @click="confirm()">
         {{$t('operate.ok')}}
       </YYButton>
     </div>
@@ -64,7 +64,7 @@ export default {
       // 展示几列
         columns: {
             type: Number,
-            default: 3
+            default: 1
         },
         // 第一列数据
         firstColData: {
@@ -73,22 +73,38 @@ export default {
             return []
           }
         },
-        day: {
-          type: String,
-          default: '0'
+        secondColumsData: {
+          type: Array,
+          default: () => {
+            return []
+          }
         },
-        hms: {
-          type: String,
-          default: '00:00'
+        thirdColumsData: {
+          type: Array,
+          default: () => {
+            return []
+          }
         },
-        // hour: {
+        // day: {
         //   type: String,
         //   default: '0'
         // },
-        // minute: {
+        // hms: {
         //   type: String,
-        //   default: '0'
-        // }
+        //   default: '00:00'
+        // },
+        showValue: {
+          type: String,
+          default: '00:00'
+        },
+        hour: {
+          type: String,
+          default: '0'
+        },
+        minute: {
+          type: String,
+          default: '0'
+        }
     },
     directives: {
       clickoutside
@@ -99,12 +115,9 @@ export default {
         return {
           showSlide: false,
           firstColumsData: this.firstColData,
-          hourArr: [],
-          minuteArr: [],
           selfDay: this.day,
-          selfHour: this.hms.split(':')[0],
-          selfMinute: this.hms.split(':')[1],
-          showValue: ''
+          selfHour: this.hour,
+          selfMinute: this.minute
         }
     },
     computed: {
@@ -125,12 +138,15 @@ export default {
         return str
       },
       confirm () {
-        let v = this.getShowValue()
-        this.showValue = v
+        if(this.columns == 1) {
+          this.$emit('setTimePicker', [this.selfDay]);
+        }else if(this.columns == 2) {
+          this.$emit('setTimePicker', [this.selfDay, this.selfHour]);
+        }
         this.showSlide = false
       },
       setDay (v) {
-        this.selfDay = v
+        this.selfDay = v;
       },
       setHour (v) {
         this.selfHour = v
@@ -143,9 +159,6 @@ export default {
       day(v) {
         this.selfDay = v
       },
-      // hour(v) {
-      //   this.selfHour = v
-      // },
       minute(v) {
         let arr = v.split(':')
         this.selfMinute = arr[0]
@@ -156,29 +169,25 @@ export default {
       }
     },
     created () {
-      let arr = []
-      for(let i=1; i < 24; i++) {
-        i = (i < 10) ? '0' + i : i + ''
-        arr.push({
-          key: i,
-          value: i
-        })
-      }
-      this.hourArr = arr
-      this.minuteArr = arr
-      this.showValue = this.hms
-    },
-    mounted () {
-    },
-    destroyed () {
+      // let arr = []
+      // for(let i=1; i < 24; i++) {
+      //   i = (i < 10) ? '0' + i : i + ''
+      //   arr.push({
+      //     key: i,
+      //     value: i
+      //   })
+      // }
+      // this.hourArr = arr
+      // this.minuteArr = arr
+      // this.showValue = this.hms
     }
 }
 </script>
 <style lang='less' scoped>
 .ctn {
     position: relative;
-    height: 32px;
-    line-height: 32px;
+    // height: 32px;
+    // line-height: 32px;
     .subCtn {
       height: 32px;
       // width: 115px;
