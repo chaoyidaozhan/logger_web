@@ -1132,7 +1132,7 @@ export default {
             @media screen and (max-width: 1439px) {
                 position: absolute;
                 top: 0;
-                height: 100%;
+                height: calc(~'100vh - 70px');
                 padding: 6px 16px 8px 16px;
                 z-index: 2020;
                 width: 188px;
