@@ -14,9 +14,9 @@
         <li class="listItem"
             v-for="(item, i) in firstColumsData"
             :key="i"
-            @click="setDay(item)"
-            :class="{'active': selfDay == item}">
-              {{ item }}
+            @click="setDay(item.value)"
+            :class="{'active': selfDay == item.value}">
+              {{ item.name }}
           </li>
         </ul>
       </div>
@@ -26,9 +26,9 @@
             <li class="listItem"
               v-for="(item, i) in secondColumsData"
               :key="i"
-              @click="setHour(item)"
-              :class="{'active': selfHour == item}">
-                {{ item }}
+              @click="setHour(item.value)"
+              :class="{'active': selfHour == item.value}">
+                {{ item.name }}
               </li>
         </ul>
       </div>

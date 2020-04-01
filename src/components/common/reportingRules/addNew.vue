@@ -101,10 +101,11 @@
                   <WeekTime
                     ref="remindStartTime"
                     @setTimePicker="setStartTimePicker"
-                    :firstColData="submitStartTimePicker"
-                    :columns="startColumns"
+                    :firstColData="firstStartColData"
+                    :secondColumsData="secondStartColumsData"
+                    :columns="columnsNum"
                     :day="formData.submitStartTime[0]"
-                    :showValue="formData.submitStartTime[0]">
+                    :showValue="startTimeShowValue">
                   </WeekTime>
               </div>
             </div>
@@ -117,13 +118,15 @@
                 <WeekTime 
                     ref="remindEndTime"
                     @setTimePicker="setEndTimePicker"
-                    :firstColData="submitEndTimePicker"
-                    :columns="startColumns"
+                    :firstColData="firstEndColData"
+                    :secondColumsData="secondEndColumsData"
+                    :columns="columnsNum"
                     :day="formData.submitEndTime[0]"
-                    :showValue="formData.submitEndTime[0]">
+                    :showValue="endTimeShowValue">
                 </WeekTime>
               </div>
             </div>
+            <!-- tips -->
             <div class="item tipsCtn">
               <img class="tipsimg" :src="ImTips">
               <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
@@ -215,7 +218,7 @@ export default {
           //   {key: '7', value: this.$t('date.sun')}
           // ],
           // appointedDate: [], // 指定日期
-          startColumns: 1,
+          columnsNum: 1,
           // endColumns: 3,
           // lastRemindTimeArr: [],
           // selectedTemplateId: 0,
@@ -306,6 +309,13 @@ export default {
         monthRemindTimeValue: ['1'],
         loaded: false,
         hasSave: false,
+        // 
+        firstStartColData: [],
+        firstEndColData: [],
+        secondStartColumsData: [],
+        secondEndColumsData: [],
+        startTimeShowValue: '',
+        endTimeShowValue: ''
       }
     },
     methods: {
@@ -347,57 +357,9 @@ export default {
       handleQuery(id) {
         this.formData.templateId = id;
       },
-      // handleDateTypeChange (v) {
-        // switch (v) {
-        //   case '0': // 日
-        //     this.startColumns = 2
-        //     this.endColumns = 3
-        //     this.endFirstColData = [
-        //       {key: '1', value: this.$t('date.today')},
-        //       {key: '2', value: this.$t('date.morrow')}
-        //     ]
-        //     break;
-        //   case '1': // 周
-        //     this.startColumns = 3
-        //     this.endColumns = 3
-        //     this.startFirstColData = this.getWeekDaysFromSomeDay()
-        //     this.endFirstColData = this.getWeekDaysFromSomeDay()
-        //     break;
-        //   case '2': // 月
-        //     this.startColumns = 2
-        //     this.endColumns = 2
-        //     break;
-        //   case '3': // 当前周
-        //     this.startColumns = 3
-        //     this.endColumns = 3
-        //     this.startFirstColData = this.getWeekDaysFromSomeDay()
-        //     break;
-        // }
-      // },
-      // // 指定日期
-      // handleAppointedDate () {
+      // 
 
-      // },
-      // handleLastRemindTime () {
 
-      // },
-      // getWeekDaysFromSomeDay (start = 0) {
-      //   // 从start开始 一周时间 bug
-      //   let r = [
-      //     {key: '1', value: this.$t('date.mon')},
-      //     {key: '2', value: this.$t('date.tue')},
-      //     {key: '3', value: this.$t('date.wed')},
-      //     {key: '4', value: this.$t('date.thu')},
-      //     {key: '5', value: this.$t('date.fri')},
-      //     {key: '6', value: this.$t('date.sat')},
-      //     {key: '7', value: this.$t('date.sun')},
-      //   ]
-      //   return r
-      // },
-      // 
-      // 
-      // 
-      // 获取日志规则详情
       getRule() { 
         if(this.isEdit) {
           this.getEditData();
@@ -443,9 +405,20 @@ export default {
                 name: this.week[i]
             })
         }
+        this.firstStartColData = this.submitStartWeekPicker;
+        let temp = [];
+        let j = 0;
+        for (; j <= 24; j++) {
+          let hour = `${j<10?`0${j}`:j}:00`;
+          temp.push({
+            name: hour,
+            value: hour
+          })
+        }
+        this.secondStartColumsData = temp;
       },
       // 打开选择结束周
-      handleSubmitEndWeek() { 
+      handleSubmitEndWeek() {
         this.showSubmitEndWeek = true;
         this.submitEndWeekPicker = [];
         this.initPickerValue();
@@ -465,6 +438,17 @@ export default {
             }
         }
         this.submitEndWeekPicker = this.submitEndWeekPicker.concat(nextWeek.reverse());
+        this.firstEndColData = this.submitEndWeekPicker;
+        let temp = [];
+        let j = 0;
+        for (; j <= 24; j++) {
+          let hour = `${j<10?`0${j}`:j}:00`;
+          temp.push({
+            name: hour,
+            value: hour
+          })
+        }
+        this.secondEndColumsData = temp;
       },
       // 打开选择开始时间 0~23
       handleSubmitStartTime() {
@@ -473,13 +457,20 @@ export default {
           this.initPickerValue();
           const submitEndTimeValue = this.getNum(this.formData.submitEndTime[0]);
           const submitStartTimeValue = this.getNum(this.formData.submitStartTime[0]);
+          let firstColData = [];
           switch (+this.formData.submitPeriodic) {
               case 0:
                   for (; i <= 23; i++) {
                       if (i >= submitEndTimeValue || (submitEndTimeValue > submitStartTimeValue)) {
-                          this.submitStartTimePicker.push(`${i<10?`0${i}`:i}:00`)
+                          let time = `${i<10?`0${i}`:i}:00`;
+                          this.submitStartTimePicker.push(time)
+                          firstColData.push({
+                            name: time,
+                            value: time
+                          });
                       }
                   }
+                  this.firstStartColData = firstColData;
                   this.showSubmitStartTime = true;
                   break;
               case 1:
@@ -489,8 +480,14 @@ export default {
                   for (; i <= 23; i++) {
                       if (i >= submitEndTimeValue || (submitEndTimeValue > submitStartTimeValue)) {
                           this.submitStartTimePicker.push(`${i<10?`0${i}`:i}:00`)
+                          let time = `${i<10?`0${i}`:i}:00`;
+                          firstColData.push({
+                            name: time,
+                            value: time
+                          });
                       }
                   }
+                  this.firstStartColData = firstColData;
                   this.showSubmitStartTime = true;
                   break;
               default:
@@ -504,17 +501,34 @@ export default {
         let tomorrow = [];
         const submitStartTimeValue = this.getNum(this.formData.submitStartTime[0]);
         this.submitEndTimePicker = [];
+        let firstColData = [];
         switch (+this.formData.submitPeriodic) {
           case 0:
+              let ifArr = [];
+              let elseArr = [];
               for (; i <= 24; i++) {
+                  let tomorrowTemp = '';
+                  let time = '';
                   if (i <= submitStartTimeValue) {
-                      tomorrow.push(`${this.$t('date.morrow')} ${i<10?`0${i}`:i}:00`)
+                      tomorrowTemp = `${this.$t('date.morrow')} ${i<10?`0${i}`:i}:00`;
+                      tomorrow.push(tomorrowTemp)
+                      ifArr.push({
+                        name: tomorrowTemp,
+                        value: tomorrowTemp
+                      });
                   } else {
-                      this.submitEndTimePicker.push(`${i<10?`0${i}`:i}:00`)
+                      time = `${i<10?`0${i}`:i}:00`;
+                      this.submitEndTimePicker.push(time)
+                      elseArr.push({
+                        name: time,
+                        value: time
+                      });
                   }
               }
               this.submitEndTimePicker = this.submitEndTimePicker.concat(tomorrow);
               this.showSubmitEndTime = true;
+              firstColData = elseArr.concat(ifArr);
+              this.firstEndColData = firstColData;
               break;
           case 1:
               this.handleSubmitEndWeek();
@@ -522,9 +536,15 @@ export default {
           case 2:
               for (; i <= 24; i++) {
                   if (i > submitStartTimeValue) {
-                      this.submitEndTimePicker.push(`${i<10?`0${i}`:i}:00`)
+                    let time = `${i<10?`0${i}`:i}:00`;
+                    this.submitEndTimePicker.push(time)
+                    firstColData.push({
+                      name: time,
+                      value: time
+                    });
                   }
               }
+              this.firstEndColData = firstColData;
               this.showSubmitEndTime = true;
               break;
           default:
@@ -654,9 +674,8 @@ export default {
       },
       // 选择提交周期
       handleSubmitPeriodic(per, date) {
-        if(per === 3) {
+        if(+per == 3) {
           this.formData.doubleWeekRemind = true;
-          return;
         }
         this.formData.doubleWeekRemind = false;
         if (date != undefined) {
@@ -673,6 +692,7 @@ export default {
                 this.submitEndTimeValue = this.dayEndTimeValue;
 
                 this.remindTimeValue = this.dayRemindTimeValue;
+                this.columnsNum = 1;
                 break;
             case 1:
                 this.submitStartWeekValue = this.weekStartDateValue;
@@ -685,6 +705,7 @@ export default {
                 this.submitEndTimeValue = this.weekEndTimeValue;
 
                 this.remindTimeValue = this.weekRemindTimeValue;
+                this.columnsNum = 2;
                 break;
             case 2:
                 this.formData.submitStartWeek = [];
@@ -694,11 +715,11 @@ export default {
                 this.submitEndTimeValue = this.monthEndTimeValue;
 
                 this.remindTimeValue = this.monthRemindTimeValue;
+                this.columnsNum = 1;
                 break;
             default:
             break;
         }
-        this.startColumns = (+per) + 1;
         // 切换时更新当前表单字段
         this.formData.remindTime = this.cloneObj(this.remindTimeValue);
         this.formData.submitStartTime = this.cloneObj(this.submitStartTimeValue);
@@ -708,11 +729,6 @@ export default {
       },
     },
     created () {
-      // let arr = []
-      // for(let i = 1; i < 24; i++) {
-      //   arr.push(i)
-      // }
-      // this.lastRemindTimeArr = arr
       this.getRule();
     },
     mounted () {
