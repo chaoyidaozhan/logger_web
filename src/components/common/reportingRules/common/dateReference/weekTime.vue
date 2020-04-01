@@ -6,7 +6,7 @@
     </span>
     <i class="icon-date icon-statistics-2018"></i>
   </div>
-  <div class="slideCtn" v-show="showSlide" :style="{width: columns == 2 ? '66.66%' : '100%'}">
+  <div class="slideCtn" v-show="showSlide">
     <div class="mb-flex">
       <!-- 第一列 -->
       <div class="listsub mb-flex-1">
@@ -24,11 +24,11 @@
       <div class="listsub mb-flex-1" v-if="columns > 1">
         <ul class="listCtn">
             <li class="listItem"
-              v-for="(item, i) in hourArr"
+              v-for="(item, i) in secondColumsData"
               :key="i"
-              @click="setHour(item.key)"
-              :class="{'active': selfHour == item.key}">
-                {{ item.value }}
+              @click="setHour(item)"
+              :class="{'active': selfHour == item}">
+                {{ item }}
               </li>
         </ul>
       </div>
@@ -36,17 +36,17 @@
       <div class="listsub mb-flex-1" v-if="columns > 2">
         <ul class="listCtn">
           <li class="listItem"
-            v-for="(item, i) in minuteArr"
+            v-for="(item, i) in thirdColumsData"
             :key="i"
-            @click="setMinute(item.key)"
-            :class="{'active': selfMinute == item.key}">
-              {{ item.value }}
+            @click="setMinute(item)"
+            :class="{'active': selfMinute == item}">
+              {{ item }}
             </li>
         </ul>
       </div>
     </div>
     <div class="footer" v-show="showSlide">
-      <YYButton 
+      <YYButton
         type="primary"
         size="small"
         @click="confirm()">
@@ -64,7 +64,7 @@ export default {
       // 展示几列
         columns: {
             type: Number,
-            default: 3
+            default: 1
         },
         // 第一列数据
         firstColData: {
@@ -73,26 +73,38 @@ export default {
             return []
           }
         },
-        day: {
-          type: String,
-          default: '0'
+        secondColumsData: {
+          type: Array,
+          default: () => {
+            return []
+          }
         },
-        hms: {
-          type: String,
-          default: '00:00'
+        thirdColumsData: {
+          type: Array,
+          default: () => {
+            return []
+          }
         },
-        showValue: {
-          type: String,
-          default: '00:00'
-        }
-        // hour: {
+        // day: {
         //   type: String,
         //   default: '0'
         // },
-        // minute: {
+        // hms: {
         //   type: String,
-        //   default: '0'
-        // }
+        //   default: '00:00'
+        // },
+        showValue: {
+          type: String,
+          default: '00:00'
+        },
+        hour: {
+          type: String,
+          default: '0'
+        },
+        minute: {
+          type: String,
+          default: '0'
+        }
     },
     directives: {
       clickoutside
@@ -103,12 +115,9 @@ export default {
         return {
           showSlide: false,
           firstColumsData: this.firstColData,
-          hourArr: [],
-          minuteArr: [],
           selfDay: this.day,
-          selfHour: this.hms.split(':')[0],
-          selfMinute: this.hms.split(':')[1],
-          // showValue: ''
+          selfHour: this.hour,
+          selfMinute: this.minute
         }
     },
     computed: {
@@ -129,12 +138,15 @@ export default {
         return str
       },
       confirm () {
-        let v = this.getShowValue()
-        this.showValue = v
+        if(this.columns == 1) {
+          this.$emit('setTimePicker', [this.selfDay]);
+        }else if(this.columns == 2) {
+          this.$emit('setTimePicker', [this.selfDay, this.selfHour]);
+        }
         this.showSlide = false
       },
       setDay (v) {
-        this.selfDay = v
+        this.selfDay = v;
       },
       setHour (v) {
         this.selfHour = v
