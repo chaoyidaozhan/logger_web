@@ -749,7 +749,7 @@ export default {
             }
             // margin: auto;
             // float: left;
-            padding: 32px 32px 58px 32px;
+            padding: 32px 32px 20px 32px;
             position: relative;
             // background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,1));
             // background-color: @white-color;
@@ -834,7 +834,6 @@ export default {
                         font-size: 13px;
                     }
                     .more {
-                        margin-left: 31px;
                         color: #289CF2;
                         font-size: 13px;
                     }
@@ -976,10 +975,10 @@ export default {
                 bottom: 0;
             }
             .loggerExpand{
-                position: absolute;
-                left: 0;
-                right: 30px;
-                bottom: 20px;
+                position: relative;
+                // left: 0;
+                // right: 30px;
+                // bottom: 20px;
             }
             .handle-content-expand-btn {
                 color: @primary-color;
