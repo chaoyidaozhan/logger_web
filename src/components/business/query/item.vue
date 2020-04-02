@@ -3,8 +3,8 @@
         <!-- @mouseleave="closeMenu()" -->
         <div class="logger-content-item" @mouseleave="closeMenu()">
             <!-- @mouseleave="closeMenu()"> isShowMenu&& !isInternalGroupReport-->
-            <div class="leftMenu" v-show="true" >
-                <div class="leftMenuBox">
+            <div class="leftMenu">
+                <div class="leftMenuBox" v-show="isShowMenu&& !isInternalGroupReport">
                     <div class="left-header" @click="back2Logger()">
                         {{loggerItemData.userName}}的工作汇报
                         <div class="left-close">
@@ -609,15 +609,16 @@ export default {
             // loggerListItem.style.border = '1px dashed #18B681'
             
             let itemScrollTop = pageLoggerList.scrollTop
-            let leftMenu = this.$el.querySelector('.leftMenu')
-            if(window.innerWidth <= 1439){
-                leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            let leftMenuBox = this.$el.querySelector('.leftMenuBox')
+            if(window.innerWidth <= 1250){
+                leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
             }
-            // if(leftMenu) {
+
+            // if(leftMenuBox) {
             //     if(itemScrollTop - this.$el.offsetTop > 0){
-            //         leftMenu.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
+            //         leftMenuBox.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
             //     }else{
-            //         leftMenu.style.marginTop = 0
+            //         leftMenuBox.style.marginTop = 0
             //     }
             // }
         },
@@ -678,7 +679,7 @@ export default {
 
         //通过js改变leftMenu样式
         let pageLoggerList = document.querySelector('.logger-frame-scroller')
-        let leftMenus = document.querySelectorAll('.leftMenu')
+        // let leftMenuBox = document.querySelectorAll('.leftMenuBox')
         let loggerContent = document.querySelector('.logger-content-item')
         let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
         // if(window.innerWidth > 1439){
@@ -692,13 +693,13 @@ export default {
         //     pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
         // }
 
-        // this.$eventbus.$on('changeLeftMenuScroll', () => {
-        //     let pageLoggerList = document.querySelector('.page-logger-list')
-        //     let leftMenu = this.$el.querySelector('.leftMenu')
-        //     if(window.innerWidth <= 1439){
-        //         leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
-        //     }
-        // })
+        this.$eventbus.$on('changeLeftMenuScroll', () => {
+            let pageLoggerList = document.querySelector('.page-logger-list')
+            let leftMenuBox = this.$el.querySelector('.leftMenuBox')
+            if(window.innerWidth <= 1250){
+                leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            }
+        })
         window.onresize = function(){
             //通过js改变leftMenu样式
             // let pageLoggerList = document.querySelector('.logger-frame-scroller')
@@ -717,6 +718,9 @@ export default {
             // }
         }
     },
+    destroyed() {
+        this.$eventbus.$off('changeLeftMenuScroll')
+    }
 }
 </script>
 <style lang="less">
@@ -734,6 +738,21 @@ export default {
         font-size: 14px;
     }
 }
+
+@media screen and (min-width: 1250px) {
+    .leftMenu{
+        flex:1 !important;
+        .leftMenuBox{
+            position: fixed !important;
+            top: 70px !important;
+            height: 100% !important;
+            padding: 6px 16px 8px 16px !important;
+            z-index: 2020 !important;
+            width: 13% !important;
+        }
+    }
+}
+
 
 .logger-item{
     .logger-content-item{
@@ -755,7 +774,7 @@ export default {
             }
             // margin: auto;
             // float: left;
-            padding: 32px 32px 58px 32px;
+            padding: 32px 32px 20px 32px;
             position: relative;
             // background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,1));
             // background-color: @white-color;
@@ -840,7 +859,6 @@ export default {
                         font-size: 13px;
                     }
                     .more {
-                        margin-left: 31px;
                         color: #289CF2;
                         font-size: 13px;
                     }
@@ -982,14 +1000,16 @@ export default {
                 bottom: 0;
             }
             .loggerExpand{
-                position: absolute;
-                left: 0;
-                right: 30px;
-                bottom: 20px;
+                position: relative;
+                margin-top: 18px;
+                // left: 0;
+                // right: 30px;
+                // bottom: 20px;
             }
             .handle-content-expand-btn {
                 color: @primary-color;
                 position: relative;
+                margin-bottom: 27px;
                 // &:after {
                 //     content: '';
                 //     height: 10px;
@@ -1148,18 +1168,21 @@ export default {
             //     z-index: 2020;
             //     width: 188px;
             // }
+            position: relative;
             .leftMenuBox{
-                top: 68px;
-                height: 100%;
+                position: absolute;
+                // top: 68px;
+                height: calc(~'100vh - 70px');
+                width: 100%;
                 padding: 6px 16px 8px 16px;
                 z-index: 2020;
                 .left-header{
-                    font-size:12px;
-                    font-family:PingFangSC-Regular,PingFang SC;
-                    font-weight:400;
-                    color:rgba(153,153,153,1);
                     height: 17px;
-                    line-height: 17px;
+                    font-size:12px;
+                    font-family:PingFangSC-Medium,PingFang SC;
+                    font-weight:500;
+                    color:rgba(51,51,51,1);
+                    line-height:17px
                     .left-close{
                         display: inline-block;
                         float: right;

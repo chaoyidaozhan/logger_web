@@ -183,7 +183,7 @@ export default {
                     this.pageNo++
                 }
 
-                // this.$eventbus.$emit('changeLeftMenuScroll')
+                this.$eventbus.$emit('changeLeftMenuScroll')
             }
         },
         updateList(res) { // load成功之后更新数据
