@@ -287,14 +287,9 @@ export default {
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
           param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
-          param.remindType = 0;
-          if(param.remindTime != '0') {
-            param.remindType = 1;
-          }
           // 
           param.doubleWeekRemind = 0;
           param.remindThisWeek = 0;
-          param.submitDate = 0;
         }else if (param.submitPeriodic == 1 || param.submitPeriodic == 3) {
           let startWeekDayMapClockName = this.startPickerDefault.name.split(' ');
           let startWeekDayMapClockValue = this.startPickerDefault.value.split(' ');
@@ -304,19 +299,22 @@ export default {
           param.submitStartTime = startWeekDayMapClockName[1] + ':00';
           param.submitEndWeek = endWeekDayMapClockValue[0];
           param.submitEndTime = endWeekDayMapClockName[1] + ':00';
+          // 
+          param.doubleWeekRemind = param.doubleWeekRemind ? 1 : 0;
           param.remindThisWeek = param.remindThisWeek ? 1 : 0;
-
-
-
         }else if(param.submitPeriodic == 2) {
 
+        }
+        param.remindType = 0;
+        if(param.remindTime != '0') {
+          param.remindType = 1;
         }
 
 
 
-        // if (param.submitStartWeek.length != 7 && param.submitPeriodic == 0) {
-        //     param.submitDate = null
-        // }
+        if (this.formData.submitStartWeek.length != 7 && this.formData.submitPeriodic == 0) {
+            param.submitDate = null
+        }
         let uri = '/diarySubmitRule/add';
         // if (this.$route.query.type === 'edit') {
         //     uri = "/diarySubmitRule/edit";
