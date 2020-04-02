@@ -206,7 +206,7 @@ module.exports = {
         appointedDate: '指定日期',
         submissionStartTime: '提交開始時間',
         submissionEndTime: '提交結束時間',
-        pleaseFillReportAtSomeTime: '請在xxx時間填寫匯報',
+        pleaseFillReportAtSomeTime: '請在<-placeholder->時間填寫匯報',
         reminderTime: '提醒時間',
         hoursBeforeTheDeadline: '截止前<-placeholder->小時',
         to: '至',

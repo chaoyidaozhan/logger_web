@@ -16,8 +16,8 @@
               </div>
               <div class="subctn">
                 <fs-select-template
-                  :hasDefaultTemplate="hasDefaultTemplate" 
-                  :templateType="templateType" 
+                  :hasDefaultTemplate="false" 
+                  templateType="web" 
                   @handleChange="handleQuery"
                   ref="selectTemplate"/>
               </div>
@@ -131,7 +131,12 @@
             <!-- tips -->
             <div class="item tipsCtn">
               <img class="tipsimg" :src="ImTips">
-              <span class="desc">{{$t('date.pleaseFillReportAtSomeTime')}}</span>
+              <span class="desc" v-if="formData.submitPeriodic == 2">
+                本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
+              </span>
+              <span class="desc" v-else>
+                {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
+              </span>
             </div> 
             <!-- 提醒时间 -->
             <div class="item">
@@ -191,8 +196,6 @@ export default {
     },
     data() {
         return {
-          hasDefaultTemplate: true,
-          templateType: 'web',
           ImTips,
           columnsNum: 1,
           // 

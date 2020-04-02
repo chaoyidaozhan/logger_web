@@ -206,7 +206,7 @@ module.exports = {
         appointedDate: 'Appointed date',
         submissionStartTime: 'Submission start time',
         submissionEndTime: 'Submission end time',
-        pleaseFillReportAtSomeTime: 'Please fill in the report at XXX time',
+        pleaseFillReportAtSomeTime: 'Please fill in the report at <-placeholder-> time',
         reminderTime: 'Reminder time',
         hoursBeforeTheDeadline: '<-placeholder-> hours before the deadline',
         to: 'to',
