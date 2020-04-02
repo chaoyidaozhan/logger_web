@@ -101,8 +101,8 @@
                   <WeekTime
                     ref="remindStartTime"
                     @setTimePicker="setStartTimePicker"
-                    :firstColData="firstStartColData"
-                    :secondColData="secondStartColumsData"
+                    :firstColData="startPickerFirstColData"
+                    :secondColData="startPickersecondColData"
                     :columns="columnsNum"
                     :firstColDefault="startPickerDefault"
                     :showValue="startPickerDefault.name">
@@ -118,8 +118,8 @@
                 <WeekTime
                     ref="remindEndTime"
                     @setTimePicker="setEndTimePicker"
-                    :firstColData="firstEndColData"
-                    :secondColData="secondEndColumsData"
+                    :firstColData="endPickerFirstColData"
+                    :secondColData="endPickersecondColData"
                     :columns="columnsNum"
                     :firstColDefault="endPickerDefault"
                     :showValue="endPickerDefault.name">
@@ -283,10 +283,10 @@ export default {
         loaded: false,
         hasSave: false,
         // 
-        firstStartColData: [],
-        firstEndColData: [],
-        secondStartColumsData: [],
-        secondEndColumsData: [],
+        startPickerFirstColData: [],
+        endPickerFirstColData: [],
+        startPickersecondColData: [],
+        endPickersecondColData: [],
         startTimeShowValue: '',
         endTimeShowValue: '',
         startPickerDefault: {},
@@ -350,7 +350,7 @@ export default {
         }else if(submitPeriodic == 1) {
           this.startPickerDefault = {
             name: (firstCol.name + ' ' + secondCol.name),
-            value: (firstCol.value + ' ' + secondCol.value)
+            value: (firstCol.value + '--' + secondCol.value)
           };
         }else if(submitPeriodic == 2) {
           this.startPickerDefault = firstCol;
@@ -363,7 +363,7 @@ export default {
         }else if(submitPeriodic == 1) {
           this.endPickerDefault = {
             name: (firstCol.name + ' ' + secondCol.name),
-            value: (firstCol.value + ' ' + secondCol.value)
+            value: (firstCol.value + '--' + secondCol.value)
           };
         }else if(submitPeriodic == 2) {
           this.endPickerDefault = firstCol;
@@ -391,83 +391,73 @@ export default {
         return +arr[0];
       },
       handleSubmitStartWeek() { // 打开选择开始周
-        this.showSubmitStartWeek = true;
-        this.submitStartWeekPicker = [];
-        this.initPickerValue();
+        let startPickerFirstColData = [];
         let i = 0;
         for (; i < 7; i++) {
-            this.submitStartWeekPicker.push({
-                value: `${i+1}`,
-                name: this.week[i]
-            })
+          startPickerFirstColData.push({
+            value: `${i+1}`,
+            name: this.week[i]
+          })
         }
-        this.firstStartColData = this.submitStartWeekPicker;
-        let temp = [];
+        this.startPickerFirstColData = startPickerFirstColData;
+        let startPickersecondColData = [];
         let j = 0;
         for (; j <= 24; j++) {
           let hour = `${j<10?`0${j}`:j}:00`;
-          temp.push({
+          startPickersecondColData.push({
             name: hour,
             value: j
           })
         }
-        this.secondStartColumsData = temp;
+        this.startPickersecondColData = startPickersecondColData;
       },
       // 打开选择结束周
       handleSubmitEndWeek() {
-        this.showSubmitEndWeek = true;
-        this.submitEndWeekPicker = [];
-        this.initPickerValue();
+        let dayAndClock = this.startPickerDefault.value.split('--')
+        dayAndClock[0] = +dayAndClock[0];
+        dayAndClock[1] = +dayAndClock[1];
         let i = 0;
-        let nextWeek = [];
+        let nextWeekDay = [];
+        let commonWeekDay = [];
         for (; i < 7; i++) {
-            if (i < this.submitStartWeekValue[0] - 1) {
-                nextWeek.push({
-                    value: `${this.submitStartWeekValue[0]-i-1}`,
-                    name: `${this.$t('date.next')} ${this.week[this.submitStartWeekValue[0]-i-2]}`
+            if (i < dayAndClock[0]) {
+                nextWeekDay.push({
+                    value: `+${dayAndClock[0]-i}`,
+                    name: `${this.$t('date.next')} ${this.week[dayAndClock[0]-i-1]}`
                 })
             } else {
-                this.submitEndWeekPicker.push({
-                    value: `${i+1}`,
+                commonWeekDay.push({
+                    value: `${i +1}`,
                     name: this.week[i]
                 })
             }
         }
-        this.submitEndWeekPicker = this.submitEndWeekPicker.concat(nextWeek.reverse());
-        this.firstEndColData = this.submitEndWeekPicker;
-        let temp = [];
+        this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay.reverse());
+        let endPickersecondColData = [];
         let j = 0;
         for (; j <= 24; j++) {
-          let hour = `${j<10?`0${j}`:j}:00`;
-          temp.push({
-            name: hour,
-            value: hour
+          let clock = `${j<10?`0${j}`:j}:00`;
+          endPickersecondColData.push({
+            name: clock,
+            value: j
           })
         }
-        this.secondEndColumsData = temp;
+        this.endPickersecondColData = endPickersecondColData;
       },
       // 打开选择开始时间 0~23
       handleSubmitStartTime() {
           let i = 0;
-          this.submitStartTimePicker = [];
-          this.initPickerValue();
-          const submitEndTimeValue = this.getNum(this.formData.submitEndTime[0]);
-          const submitStartTimeValue = this.getNum(this.formData.submitStartTime[0]);
           let firstColData = [];
           switch(+this.formData.submitPeriodic) {
               case 0:
                   for (; i <= 23; i++) {
-                      if (i >= submitEndTimeValue || (submitEndTimeValue > submitStartTimeValue)) {
-                          let time = `${i<10?`0${i}`:i}:00`;
-                          this.submitStartTimePicker.push(time)
-                          firstColData.push({
-                            name: time,
-                            value: time
-                          });
-                      }
+                    let time = `${i<10?`0${i}`:i}:00`;
+                    firstColData.push({
+                      name: time,
+                      value: i
+                    });
                   }
-                  this.firstStartColData = firstColData;
-                  this.showSubmitStartTime = true;
+                  this.startPickerFirstColData = firstColData;
                   this.startPickerDefault = {
                     name: '18:00',
                     value: '18'
@@ -475,6 +465,10 @@ export default {
                   break;
               case 1:
                   this.handleSubmitStartWeek();
+                  this.startPickerDefault = {
+                    name: '周五 18:00',
+                    value: '5--18'
+                  };
                   break;
               case 2:
                   for (; i <= 23; i++) {
@@ -487,7 +481,7 @@ export default {
                           });
                       }
                   }
-                  this.firstStartColData = firstColData;
+                  this.startPickerFirstColData = firstColData;
                   this.showSubmitStartTime = true;
                   break;
               default:
@@ -497,10 +491,8 @@ export default {
       // 打开选择结束时间 1~24
       handleSubmitEndTime() {
         let i = 1;
-        this.initPickerValue();
         let tomorrow = [];
-        const submitStartTimeValue = this.getNum(this.startPickerDefault.value);
-        this.submitEndTimePicker = [];
+        const submitStartTimeValue = +this.startPickerDefault.value;
         let firstColData = [];
         switch (+this.formData.submitPeriodic) {
           case 0:
@@ -514,24 +506,21 @@ export default {
                       tomorrow.push(tomorrowTemp)
                       morrowArr.push({
                         name: tomorrowTemp,
-                        value: `next ${i<10?`0${i}`:i}:00`
+                        value: `+${i<10?`0${i}`:i}:00`
                       });
                   } else {
                       time = `${i<10?`0${i}`:i}:00`;
-                      this.submitEndTimePicker.push(time)
                       commonArr.push({
                         name: time,
                         value: time
                       });
                   }
               }
-              this.submitEndTimePicker = this.submitEndTimePicker.concat(tomorrow);
-              this.showSubmitEndTime = true;
               firstColData = commonArr.concat(morrowArr);
-              this.firstEndColData = firstColData;
+              this.endPickerFirstColData = firstColData;
               this.endPickerDefault = {
                 name: `${this.$t('date.morrow')} 09:00`,
-                value: `next 9`
+                value: '+9'
               };
               break;
           case 1:
@@ -548,7 +537,7 @@ export default {
                     });
                   }
               }
-              this.firstEndColData = firstColData;
+              this.endPickerFirstColData = firstColData;
               this.showSubmitEndTime = true;
               break;
           default:
