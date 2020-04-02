@@ -82,7 +82,7 @@
                         <logger-list-content-node
                             v-for="(item, index) in JSON.parse(loggerItemData.content)"
                             :data="item"
-                            :key="index"
+                            :key="`${index}global`"
                             :filterEncode="filterEncode" />
                     </template>
                     <template v-else>
@@ -94,7 +94,7 @@
                     <!--具体内容-->
                     <div class="logger-list-row logger-list-content">
                         <div class="logger-list-col">
-                            <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
+                            <span class="at" v-for="(item, index) in loggerItemData.at" :key="`${index}global`">
                                 @{{item.replayUserName}}
                             </span>
                         </div>
@@ -717,16 +717,16 @@ export default {
         })
 
         //通过js改变leftMenu样式
-        let leftMenus = document.querySelectorAll('.leftMenu')
-        let loggerList = document.querySelector('.logger-list-item')
-        let loggerContent = document.querySelector('.logger-content-item')
-        let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-        leftMenus.forEach((leftMenu) => {
-            leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-        })
-        loggerOperates.forEach((loggerOperate)=>{
-            loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-        })
+        // let leftMenus = document.querySelectorAll('.leftMenu')
+        // let loggerList = document.querySelector('.logger-list-item')
+        // let loggerContent = document.querySelector('.logger-content-item')
+        // let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
+        // leftMenus.forEach((leftMenu) => {
+        //     leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
+        // })
+        // loggerOperates.forEach((loggerOperate)=>{
+        //     loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
+        // })
     },
     destroyed(){
         this.$eventbus.$off('opencanvas')

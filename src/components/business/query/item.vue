@@ -2,17 +2,19 @@
     <div class="logger-item">
         <!-- @mouseleave="closeMenu()" -->
         <div class="logger-content-item" @mouseleave="closeMenu()">
-            <!-- @mouseleave="closeMenu()"> -->
-            <div class="leftMenu" v-show="isShowMenu && !isInternalGroupReport" >
-                <div class="left-header" @click="back2Logger()">
-                    {{loggerItemData.userName}}的工作汇报
-                    <div class="left-close">
+            <!-- @mouseleave="closeMenu()"> isShowMenu&& !isInternalGroupReport-->
+            <div class="leftMenu">
+                <div class="leftMenuBox" v-show="isShowMenu&& !isInternalGroupReport">
+                    <div class="left-header" @click="back2Logger()">
+                        {{loggerItemData.userName}}的工作汇报
+                        <div class="left-close">
+                        </div>
                     </div>
-                </div>
-                <div class="left-line"></div>
-                <div class="left-content">
-                    <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
-                        {{item.title}}
+                    <div class="left-line"></div>
+                    <div class="left-content">
+                        <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
+                            {{item.title}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -227,31 +229,33 @@
                     <div class="rightLine"></div>
                 </div>
             </div>
-            <!--点赞回复收藏-->
-            <div class="logger-list-vertical-operate" v-show="isShowMenu">
-                <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
-                    <i class="icon-position" v-if="!loggerItemData.like.isLike">
-                        <YYIcon type="zan"></YYIcon>
-                    </i>
-                    <i class="icon-position" style="color:#EE2223" v-else>
-                        <YYIcon type="thumb-up"></YYIcon>
-                    </i>
-                </div>
-                <div class="operate-item" style="margin-top:12px" :class="{active: showReply}" @click="handleReply">
-                    <i class="icon-position" v-if="!showReply">
-                        <YYIcon type="message-square"></YYIcon>
-                    </i>
-                    <i class="icon-position" v-else>
-                        <YYIcon type="message-square"></YYIcon>
-                    </i>
-                </div>
-                <div class="operate-item" style="margin-top:12px" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
-                    <i class="icon-position" v-if="!loggerItemData.favorite.isFavorite">
-                        <YYIcon type="xingxing-kong"></YYIcon>
-                    </i>
-                    <i class="icon-position" v-else>
-                        <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
-                    </i>
+            <!--点赞回复收藏isShowMenu-->
+            <div class="logger-list-vertical-operate">
+                <div class="logger-list-vertical-operate-menu"  v-show="isShowMenu">
+                    <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                        <i class="icon-position" v-if="!loggerItemData.like.isLike">
+                            <YYIcon type="zan"></YYIcon>
+                        </i>
+                        <i class="icon-position" style="color:#EE2223" v-else>
+                            <YYIcon type="thumb-up"></YYIcon>
+                        </i>
+                    </div>
+                    <div class="operate-item" style="margin-top:12px" :class="{active: showReply}" @click="handleReply">
+                        <i class="icon-position" v-if="!showReply">
+                            <YYIcon type="message-square"></YYIcon>
+                        </i>
+                        <i class="icon-position" v-else>
+                            <YYIcon type="message-square"></YYIcon>
+                        </i>
+                    </div>
+                    <div class="operate-item" style="margin-top:12px" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                        <i class="icon-position" v-if="!loggerItemData.favorite.isFavorite">
+                            <YYIcon type="xingxing-kong"></YYIcon>
+                        </i>
+                        <i class="icon-position" v-else>
+                            <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
+                        </i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -605,15 +609,16 @@ export default {
             // loggerListItem.style.border = '1px dashed #18B681'
             
             let itemScrollTop = pageLoggerList.scrollTop
-            let leftMenu = this.$el.querySelector('.leftMenu')
-            if(window.innerWidth <= 1439){
-                leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            let leftMenuBox = this.$el.querySelector('.leftMenuBox')
+            if(window.innerWidth <= 1250){
+                leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
             }
-            // if(leftMenu) {
+
+            // if(leftMenuBox) {
             //     if(itemScrollTop - this.$el.offsetTop > 0){
-            //         leftMenu.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
+            //         leftMenuBox.style.marginTop = itemScrollTop - this.$el.offsetTop + 10 + 'px'
             //     }else{
-            //         leftMenu.style.marginTop = 0
+            //         leftMenuBox.style.marginTop = 0
             //     }
             // }
         },
@@ -674,45 +679,48 @@ export default {
 
         //通过js改变leftMenu样式
         let pageLoggerList = document.querySelector('.logger-frame-scroller')
-        let leftMenus = document.querySelectorAll('.leftMenu')
+        // let leftMenuBox = document.querySelectorAll('.leftMenuBox')
         let loggerContent = document.querySelector('.logger-content-item')
         let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-        if(window.innerWidth > 1439){
-            leftMenus.forEach((leftMenu) => {
-                leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-            })
-            loggerOperates.forEach((loggerOperate)=>{
-                loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-            })
-        }else{
-            pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
-        }
+        // if(window.innerWidth > 1439){
+        //     leftMenus.forEach((leftMenu) => {
+        //         leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
+        //     })
+        //     loggerOperates.forEach((loggerOperate)=>{
+        //         loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
+        //     })
+        // }else{
+        //     pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
+        // }
 
         this.$eventbus.$on('changeLeftMenuScroll', () => {
             let pageLoggerList = document.querySelector('.page-logger-list')
-            let leftMenu = this.$el.querySelector('.leftMenu')
-            if(window.innerWidth <= 1439){
-                leftMenu.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            let leftMenuBox = this.$el.querySelector('.leftMenuBox')
+            if(window.innerWidth <= 1250){
+                leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
             }
         })
         window.onresize = function(){
             //通过js改变leftMenu样式
-            let pageLoggerList = document.querySelector('.logger-frame-scroller')
-            let leftMenus = document.querySelectorAll('.leftMenu')
-            let loggerContent = document.querySelector('.logger-content-item')
-            let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-            if(window.innerWidth > 1439){
-                leftMenus.forEach((leftMenu) => {
-                    leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-                })
-                loggerOperates.forEach((loggerOperate)=>{
-                    loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-                })
-            }else{
-                pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
-            }
+            // let pageLoggerList = document.querySelector('.logger-frame-scroller')
+            // let leftMenus = document.querySelectorAll('.leftMenu')
+            // let loggerContent = document.querySelector('.logger-content-item')
+            // let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
+            // if(window.innerWidth > 1439){
+            //     leftMenus.forEach((leftMenu) => {
+            //         leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
+            //     })
+            //     loggerOperates.forEach((loggerOperate)=>{
+            //         loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
+            //     })
+            // }else{
+            //     pageLoggerList.style.width = loggerList.offsetWidth + 188 * 2 + 'px'
+            // }
         }
     },
+    destroyed() {
+        this.$eventbus.$off('changeLeftMenuScroll')
+    }
 }
 </script>
 <style lang="less">
@@ -731,25 +739,42 @@ export default {
     }
 }
 
+@media screen and (min-width: 1250px) {
+    .leftMenu{
+        flex:1 !important;
+        .leftMenuBox{
+            position: fixed !important;
+            top: 70px !important;
+            height: 100% !important;
+            padding: 6px 16px 8px 16px !important;
+            z-index: 2020 !important;
+            width: 13% !important;
+        }
+    }
+}
+
+
 .logger-item{
     .logger-content-item{
         position: relative;
         display: inline-block;
-        width: 100%;
+        min-width: 1040px;
+        display: flex;
         .logger-list-item {
+            flex:1;
             // margin-left: 188px;
             margin:0 auto;
             background-color: #fff;
-
+            min-width: 70%;
             @media screen and (min-width: 1920px) {
-                width: 1024px;
+                max-width: 1197px;
             }
             @media screen and (max-width: 1200px) {
-                width: 768px;
+                min-width: 720px;
             }
             // margin: auto;
             // float: left;
-            padding: 32px 32px 58px 32px;
+            padding: 32px 32px 20px 32px;
             position: relative;
             // background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,1));
             // background-color: @white-color;
@@ -834,7 +859,6 @@ export default {
                         font-size: 13px;
                     }
                     .more {
-                        margin-left: 31px;
                         color: #289CF2;
                         font-size: 13px;
                     }
@@ -976,14 +1000,16 @@ export default {
                 bottom: 0;
             }
             .loggerExpand{
-                position: absolute;
-                left: 0;
-                right: 30px;
-                bottom: 20px;
+                position: relative;
+                margin-top: 18px;
+                // left: 0;
+                // right: 30px;
+                // bottom: 20px;
             }
             .handle-content-expand-btn {
                 color: @primary-color;
                 position: relative;
+                margin-bottom: 27px;
                 // &:after {
                 //     content: '';
                 //     height: 10px;
@@ -1094,79 +1120,93 @@ export default {
             }
         }
         .logger-list-vertical-operate{
+            position: relative;
+            flex:1;
             width: 56px;
-            height: 150px;
-            position: absolute;
+            // height: 150px;
+            // position: absolute;
             bottom: 0;
-            @media screen and (max-width: 1439px) {
-                width: 188px;
-                height: 150px;
+            // @media screen and (max-width: 1439px) {
+            //     width: 188px;
+            //     height: 150px;
+            //     position: absolute;
+            //     right: 65px;
+            //     bottom: -33px;
+            // }
+            .logger-list-vertical-operate-menu {
+                display: inline-block;
+                margin-left: 16px;
                 position: absolute;
-                right: 65px;
-                bottom: -33px;
-            }
-            .operate-item{
-                width:32px;
-                height:32px;
-                background:rgba(255,255,255,1);
-                box-shadow:0px 2px 6px 0px rgba(0,0,0,0.12);
-                border-radius:16px;
-                margin: auto;
-                position: relative;
-                cursor: pointer;
-                .icon-position{
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%,-50%);
+                bottom: 0;
+                .operate-item{
+                    width:32px;
+                    height:32px;
+                    background:rgba(255,255,255,1);
+                    box-shadow:0px 2px 6px 0px rgba(0,0,0,0.12);
+                    border-radius:16px;
+                    margin: auto;
+                    position: relative;
+                    cursor: pointer;
+                    .icon-position{
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%);
+                    }
+                    
                 }
-                
             }
         }
         .leftMenu{
-            position: fixed;
-            top: 68px;
-            height: 100%;
-            padding: 6px 16px 8px 16px;
-            z-index: 2020;
-            @media screen and (max-width: 1439px) {
+            // position: fixed;
+            flex:1;
+            // @media screen and (max-width: 1439px) {
+            //     position: absolute;
+            //     top: 0;
+            //     height: calc(~'100vh - 70px');
+            //     padding: 6px 16px 8px 16px;
+            //     z-index: 2020;
+            //     width: 188px;
+            // }
+            position: relative;
+            .leftMenuBox{
                 position: absolute;
-                top: 0;
+                // top: 68px;
                 height: calc(~'100vh - 70px');
+                width: 100%;
                 padding: 6px 16px 8px 16px;
                 z-index: 2020;
-                width: 188px;
-            }
-            .left-header{
-                font-size:12px;
-                font-family:PingFangSC-Regular,PingFang SC;
-                font-weight:400;
-                color:rgba(153,153,153,1);
-                height: 17px;
-                line-height: 17px;
-                .left-close{
-                    display: inline-block;
-                    float: right;
+                .left-header{
+                    height: 17px;
+                    font-size:12px;
+                    font-family:PingFangSC-Medium,PingFang SC;
+                    font-weight:500;
+                    color:rgba(51,51,51,1);
+                    line-height:17px
+                    .left-close{
+                        display: inline-block;
+                        float: right;
+                    }
                 }
-            }
-            .left-line{
-                width:100%;
-                margin-top: 8px;
-                height:1px;
-                background: #D9D9D9;
-            }
-            .left-content{
-                width:100%;
-                margin-top: 8px;
-                font-size:12px;
-                font-family:PingFangSC-Regular,PingFang SC;
-                font-weight:400;
-                color:rgba(51,51,51,1);
-                .left-item{
-                    cursor: pointer;
-                    padding: 10px 0;
-                    // height: 36px;
-                    // line-height: 36px;
+                .left-line{
+                    width:100%;
+                    margin-top: 8px;
+                    height:1px;
+                    background: #D9D9D9;
+                }
+                .left-content{
+                    width:100%;
+                    margin-top: 8px;
+                    font-size:12px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(51,51,51,1);
+                    .left-item{
+                        cursor: pointer;
+                        padding: 10px 0;
+                        // height: 36px;
+                        // line-height: 36px;
+                    }
                 }
             }
         }
