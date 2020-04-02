@@ -145,9 +145,10 @@
               </div>
               <div class="subctn">
                 <YYSelect 
+                  :multiple="false"
                   :invertable="false"
                   v-model="formData.remindTime">
-                  <YYOption :value="item.value + ''" v-for="(item, index) in remindTimeArr" :key="index">
+                  <YYOption :value="item + ''" v-for="(item, index) in remindTimeArr" :key="index">
                     {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
                   </YYOption>
                 </YYSelect>
@@ -209,7 +210,7 @@ export default {
             submitStartTime: [],
             submitEndTime: [],
             remindType: true,
-          remindTime: [],
+            remindTime: '0',
             doubleWeekRemind: false,
             remindThisWeek: false,
         },
@@ -285,10 +286,15 @@ export default {
           param.submitStartWeek = param.submitStartWeek.join(',');
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
-          param.submitEndTime = this.endPickerDefault.name + ':00';
-
-
-
+          param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          param.remindType = 0;
+          if(param.remindTime != '0') {
+            param.remindType = 1;
+          }
+          // 
+          param.doubleWeekRemind = 0;
+          param.remindThisWeek = 0;
+          param.submitDate = 0;
         }else if (param.submitPeriodic == 1 || param.submitPeriodic == 3) {
           let startWeekDayMapClockName = this.startPickerDefault.name.split(' ');
           let startWeekDayMapClockValue = this.startPickerDefault.value.split(' ');
@@ -299,9 +305,6 @@ export default {
           param.submitEndWeek = endWeekDayMapClockValue[0];
           param.submitEndTime = endWeekDayMapClockName[1] + ':00';
           param.remindThisWeek = param.remindThisWeek ? 1 : 0;
-          if(param.submitPeriodic == 3) {
-
-          }
 
 
 
@@ -311,42 +314,9 @@ export default {
 
 
 
-        if (param.submitStartWeek.length != 7 && param.submitPeriodic == 0) {
-            param.submitDate = null
-        }
-        Object.keys(param).forEach(key => {
-            switch (key) {
-                case 'templateId':
-                    param[key] = param[key][0];
-                    break;
-                case 'diarySubmitPeopleStr':
-                    let peopleArr = []
-                    param[key].forEach((item => {
-                        peopleArr.push(item.memberId)
-                    }))
-                    param[key] = peopleArr.join(',')
-                    break;
-                case 'submitStartWeek':
-                case 'submitEndWeek':
-                    param[key] = param[key].join(',')
-                    break;
-                case 'submitStartTime':
-                case 'submitEndTime':
-                    const num = this.getNum(param[key][0]);
-                    param[key] = `${num<10?`0${num}`:num}:00:00`
-                    break;
-                case 'remindType':
-                case 'doubleWeekRemind':
-                case 'remindThisWeek':
-                    param[key] = +param[key];
-                    break;
-                case 'remindTime':
-                    param[key] = param[key][0];
-                    break;
-                default:
-                    break;
-            }
-        });
+        // if (param.submitStartWeek.length != 7 && param.submitPeriodic == 0) {
+        //     param.submitDate = null
+        // }
         let uri = '/diarySubmitRule/add';
         // if (this.$route.query.type === 'edit') {
         //     uri = "/diarySubmitRule/edit";
@@ -354,17 +324,25 @@ export default {
         //     routeQuery.doubleWeekRemind = this.formData.doubleWeekRemind ? 1 : 0
         //     routeQuery.remindThisWeek = this.formData.remindThisWeek ? 1 : 0
         // }
-        // this.$ajax({
-        //     url: uri,
-        //     type: 'post',
-        //     data: param,
-        //     requestBody: 1,
-        //     success: (res) => {
-        //       if (res && res.code == 0) {
+        this.$ajax({
+            url: uri,
+            type: 'post',
+            data: param,
+            requestBody: true,
+            success: (res) => {
+              if (res && res.code == 0) {
 
-        //       }
-        //     }
-        // });
+              }
+            }
+        });
+
+
+
+
+
+
+
+
       },
       setStartTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
@@ -507,7 +485,7 @@ export default {
                         value: i
                       });
                   } else {
-                      time = `${i<10?`0${i}`:i}:00`;
+                      time = ` ${i<10?`0${i}`:i}:00`;
                       commonArr.push({
                         name: time,
                         value: i
@@ -670,7 +648,7 @@ export default {
           this.formData.doubleWeekRemind = false;
           this.formData.remindThisWeek = false;
         }
-        this.formData.remindTime = [];
+        this.formData.remindTime = '0';
         // 根据不同的提价周期进行数据初始化
         switch (per) {
             case 0:
@@ -680,6 +658,11 @@ export default {
                 value: '18'
               };
               this.handleSubmitStartTime(per);
+              this.endPickerDefault = {
+                name: `${this.$t('date.morrow')} 09:00`,
+                value: '9'
+              };
+              this.handleSubmitEndTime(per);
             break;
             case 1:
               this.columnsNum = 2;
