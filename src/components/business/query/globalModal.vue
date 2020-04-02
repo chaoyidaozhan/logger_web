@@ -11,7 +11,7 @@
                 :isLowerLevel="isLowerLevel"
                 :loggerItemData="item"
                 :menus="item.title"
-                :key="item.id || index" 
+                :key="`${item.id}global` || `${index}global`" 
                 />
         </transition-group>
         <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
@@ -24,7 +24,7 @@
             v-model="operateModal"
             class="operate-modal"
             :title="$t('noun.operationRecord')">   
-            <div class="operate-row" v-for="item in operateModalData" :key="item.id">
+            <div class="operate-row" v-for="item in operateModalData" :key="`${item.id}global`">
                 <fs-avatar class="operate-avatar" 
                     size="31px" 
                     :avatar="item.avatar" 
