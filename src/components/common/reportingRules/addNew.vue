@@ -145,12 +145,12 @@
               </div>
               <div class="subctn">
                 <YYSelect 
-                  :invertable="false" 
+                  :invertable="false"
                   v-model="formData.remindTime">
-                  <YYOption :value="item + ''" v-for="(item, i) in 15" :key="i">
+                  <YYOption :value="item.value + ''" v-for="(item, index) in remindTimeArr" :key="index">
                     {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
                   </YYOption>
-              </YYSelect>
+                </YYSelect>
               </div>
             </div>
              <div class="item submitCtn">
@@ -209,7 +209,7 @@ export default {
             submitStartTime: [],
             submitEndTime: [],
             remindType: true,
-            remindTime: '1',
+          remindTime: [],
             doubleWeekRemind: false,
             remindThisWeek: false,
         },
@@ -236,7 +236,8 @@ export default {
         startPickersecondColData: [],
         endPickersecondColData: [],
         startPickerDefault: {},
-        endPickerDefault: {}
+        endPickerDefault: {},
+        remindTimeArr: []
       }
     },
     methods: {
@@ -285,7 +286,10 @@ export default {
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
           param.submitEndTime = this.endPickerDefault.name + ':00';
-        }else if (param.submitPeriodic == 1) {
+
+
+
+        }else if (param.submitPeriodic == 1 || param.submitPeriodic == 3) {
           let startWeekDayMapClockName = this.startPickerDefault.name.split(' ');
           let startWeekDayMapClockValue = this.startPickerDefault.value.split(' ');
           let endWeekDayMapClockName = this.endPickerDefault.name.split(' ');
@@ -295,7 +299,13 @@ export default {
           param.submitEndWeek = endWeekDayMapClockValue[0];
           param.submitEndTime = endWeekDayMapClockName[1] + ':00';
           param.remindThisWeek = param.remindThisWeek ? 1 : 0;
-        }else if(param.submitPeriodic == 1) {
+          if(param.submitPeriodic == 3) {
+
+          }
+
+
+
+        }else if(param.submitPeriodic == 2) {
 
         }
 
@@ -660,6 +670,7 @@ export default {
           this.formData.doubleWeekRemind = false;
           this.formData.remindThisWeek = false;
         }
+        this.formData.remindTime = [];
         // 根据不同的提价周期进行数据初始化
         switch (per) {
             case 0:
@@ -715,6 +726,11 @@ export default {
       },
     },
     created () {
+      let remindTimeArr = [];
+      for(let i=1;i<16;i++) {
+        remindTimeArr.push(i);
+      }
+      this.remindTimeArr = remindTimeArr;
       this.getRule();
     },
     mounted () {
