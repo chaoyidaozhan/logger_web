@@ -85,9 +85,9 @@ export default {
         }),
         createCopyTemplate(originalItem) {
             let item = Object.assign({}, originalItem);
-            delete item.id;
             delete item.memberId;
             delete item.createTime;
+            item.copy = true;
             let itemTitle = item.title;
             let regArr = itemTitle.match(/(\d+)$/ig);
             let copyCount = regArr === null ? 1 : (++regArr[0]);
