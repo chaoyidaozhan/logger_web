@@ -290,5 +290,10 @@ module.exports = {
         Total: ' total ',
         people: ' people',
         TheSubmitterIsNotSet: 'The submitter is not set',
+
+        Select: 'Select ',
+        TheTemplate: 'Template',
+        TheAuthor: 'Submitter',
+        SpecifyDate: 'Specify Date',
     }
 }

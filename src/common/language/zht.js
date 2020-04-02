@@ -290,5 +290,10 @@ module.exports = {
         Total: '共',
         people: '人',
         TheSubmitterIsNotSet: '未設置提交人', 
+
+        Select: '請選擇',
+        TheTemplate: '模板',
+        TheAuthor: '提交人',
+        SpecifyDate: '指定日期',
     }
 }
