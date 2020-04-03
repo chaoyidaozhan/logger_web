@@ -497,7 +497,7 @@ export default {
             if (!data.beginDate || !data.endDate) {
                 return this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`)
             }
-            if(!data.orgIds && !data.deptIds && !data.memberIds && && !data.groupIds) {
+            if(!data.orgIds && !data.deptIds && !data.memberIds && !data.groupIds) {
                 return this.$YYMessage.warning(`
                     ${this.$t('noun.org')},
                     ${this.$t('noun.dept')},
