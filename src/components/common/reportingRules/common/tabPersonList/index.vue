@@ -1,5 +1,5 @@
 <template>
-  <div class="ctn mb-flex mb-flex-v">
+  <div class="ctn">
     <div class="list mb-flex mb-flex-align-center">
       <div 
         class="item"

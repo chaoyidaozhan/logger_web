@@ -9,7 +9,7 @@
         </div>
         <div class="body">
           <!-- 选择模板 -->
-          <div class="item">
+          <div class="item mb-flex mb-flex-pack-justify">
             <div class="itemTitle">
               <span class="must"></span>
               {{$t('operate.selectTemplate')}}
@@ -23,7 +23,7 @@
             </div>
           </div>
           <!-- 选人 -->
-          <div class="item">
+          <div class="item mb-flex mb-flex-pack-justify">
             <div class="itemTitle">
               <span class="must"></span>
               {{$t('operate.selectSubmitPeople')}}
@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- 选择周期 -->
-          <div class="item">
+          <div class="item mb-flex mb-flex-pack-justify">
             <div class="itemTitle">
               {{$t('operate.selectionCycle')}}
             </div>
@@ -67,7 +67,7 @@
             </div>
           </div>
           <!-- 周期选择日 -->
-          <div class="item" v-if="formData.submitPeriodic == 0">
+          <div class="item mb-flex mb-flex-pack-justify" v-if="formData.submitPeriodic == 0">
             <div class="itemTitle">
               {{$t('date.appointedDate')}}
             </div>
@@ -83,7 +83,7 @@
             </div>
           </div>
           <!-- 从当前周开始 -->
-          <div class="item subItem" v-if="formData.doubleWeekRemind">
+          <div class="item subItem mb-flex mb-flex-pack-justify" v-if="formData.doubleWeekRemind">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -95,7 +95,7 @@
             </div>
           </div>
           <!-- 提交开始时间 -->
-          <div class="item">
+          <div class="item mb-flex mb-flex-pack-justify">
             <div class="itemTitle">
               {{$t('date.submissionStartTime')}}
             </div>
@@ -112,7 +112,7 @@
             </div>
           </div>
           <!-- 提交结束时间 -->
-          <div class="item">
+          <div class="item mb-flex mb-flex-pack-justify">
             <div class="itemTitle">
               {{$t('date.submissionEndTime')}}
             </div>
@@ -139,7 +139,7 @@
             </span>
           </div> 
           <!-- 提醒时间 -->
-          <div class="item">
+          <div class="item mb-flex mb-flex-pack-justify">
             <div class="itemTitle">
               {{$t('date.reminderTime')}}
             </div>
@@ -154,7 +154,7 @@
               </YYSelect>
             </div>
           </div>
-            <div class="item submitCtn">
+          <div class="item submitCtn">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -742,11 +742,11 @@ export default {
     .body{
       .item {
         padding: 0 20px;
+        min-height: 32px;
         .itemTitle {
           width: 80px;
           height: 32px;
           text-align: right;
-          float: left;
           .must {
             margin-right: -8px;
             &::before{
@@ -761,7 +761,6 @@ export default {
           }
         }
         .subctn {
-          float: left;
           margin-left: 10px;
           width: 340px;
         }
