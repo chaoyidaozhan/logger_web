@@ -1,32 +1,33 @@
 <template>
-  <div class="ctn">
-    <ul class="list clearfix">
-      <li class="item"
+  <div class="ctn mb-flex mb-flex-v">
+    <div class="list mb-flex mb-flex-align-center">
+      <div 
+        class="item"
         v-for="(item, i) in tabHeader" :key="i"
         :class="{'active' : i == tabIndex}"
         @click="changeIndex(item.index)">
-          {{item.title}}({{item.sum}})
-      </li>
-    </ul>
-    <div v-if="isRender">
+        {{item.title}}({{item.sum}})
+      </div>
+    </div>
+    <div v-if="isRender" class="listContainer mb-flex-1">
       <!-- 已提交 -->
-      <ul class="subCtn clearfix" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
-        <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
+        <div class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
           <PersonItem :memberMsg="item"></PersonItem>
-        </li>
-      </ul>
+        </div>
+      </div>
       <!-- 未提交 -->
-      <ul class="subCtn clearfix" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
-        <li class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
+        <div class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
           <PersonItem :memberMsg="item"></PersonItem>
-        </li>
-      </ul>
+        </div>
+      </div>
       <!-- 延期提交 -->
-      <ul class="subCtn clearfix" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
-        <li class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
+        <div class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
           <PersonItem :memberMsg="item"></PersonItem>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
     <div class="footer">
        <YYCheckbox class="isSelected" v-model="isAllSelected" @on-change="allSelect">全选</YYCheckbox>
@@ -165,12 +166,20 @@ export default {
 </script>
 <style lang='less' scoped>
 .ctn {
+  height: 100%;
+  box-sizing: border-box;
   padding: 0 20px;
-  padding-right: 0;
+  .listContainer {
+    height: 100%;
+    overflow-y: auto;
+  }
+  .listContainer::-webkit-scrollbar {
+    width: 0;
+  }
   .list {
+    height: 40px;
     .item {
-      float: left;
-      color: #333333;
+      color: #333;
       margin-right: 24px;
       position: relative;
       cursor: pointer;
@@ -193,9 +202,6 @@ export default {
   }
   .subCtn {
     margin-top: 10px;
-    .subCtnItem {
-      float: left;
-    }
   }
   .footer{
     position: absolute;
@@ -207,5 +213,4 @@ export default {
     background: white;
   }
 }
-
 </style>

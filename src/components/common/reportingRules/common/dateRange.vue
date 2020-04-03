@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <i class="icon-arrow-left" @click="timeToggle('right')" ></i>
+  <div class="dateRange mb-flex mb-flex-align-center">
+    <div class="yy-icon-Vjiantou-zuo" @click="timeToggle('right')" ></div>
     <!-- <span>{{ start }} {{$t('date.to')}} {{ end }}</span> -->
-    <span>{{dateText}}</span>
-    <i class="icon-arrow-right" @click="timeToggle('left')"></i>
+    <div>&nbsp;&nbsp;{{dateText}}&nbsp;&nbsp;</div>
+    <div class="yy-icon-Vjiantou-you" @click="timeToggle('left')"></div>
   </div>
 </template>
-
 <script>
 import formatTime from 'app_src/filters/format-time';
 
@@ -68,8 +67,13 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-.icon-arrow-left,
-.icon-arrow-right {
-  cursor: pointer;
+.dateRange {
+    margin: 0 auto 6px;
+    justify-content: center;
+    .yy-icon-Vjiantou-zuo,
+    .yy-icon-Vjiantou-you {
+        cursor: pointer;
+    }
 }
+
 </style>

@@ -28,7 +28,7 @@ export default {
 <style lang="less" scoped>
 .personalItem {
   cursor: pointer;
-  width: 127px;
+  width: 125px;
   height: 42px;
   background: rgba(245,246,247,1);
   border-radius: 2px;
