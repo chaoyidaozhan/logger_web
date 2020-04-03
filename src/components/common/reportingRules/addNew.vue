@@ -3,169 +3,169 @@
     <div>
       <div class="bgCover" @click="close()"></div>
       <div class="container">
-          <div class="header">
-            <span class="title">{{$t('operate.setReportRules')}}</span>
-            <i class="yy-icon-guanbi-yuanxing closeIcon" @click="close()"></i>
+        <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
+          <div class="title">{{$t('operate.setReportRules')}}</div>
+          <div class="yy-icon-guanbi" @click="close()"></div>
+        </div>
+        <div class="body">
+          <!-- 选择模板 -->
+          <div class="item">
+            <div class="itemTitle">
+              <span class="must"></span>
+              {{$t('operate.selectTemplate')}}
+            </div>
+            <div class="subctn">
+              <fs-select-template
+                :hasDefaultTemplate="false" 
+                templateType="web" 
+                @handleChange="handleQuery"
+                ref="selectTemplate"/>
+            </div>
           </div>
-          <div class="body">
-            <!-- 选择模板 -->
-            <div class="item">
-              <div class="itemTitle">
-                <span class="must"></span>
-                {{$t('operate.selectTemplate')}}
-              </div>
-              <div class="subctn">
-                <fs-select-template
-                  :hasDefaultTemplate="false" 
-                  templateType="web" 
-                  @handleChange="handleQuery"
-                  ref="selectTemplate"/>
-              </div>
+          <!-- 选人 -->
+          <div class="item">
+            <div class="itemTitle">
+              <span class="must"></span>
+              {{$t('operate.selectSubmitPeople')}}
             </div>
-            <!-- 选人 -->
-            <div class="item">
-              <div class="itemTitle">
-                <span class="must"></span>
-                {{$t('operate.selectSubmitPeople')}}
-              </div>
-              <div class="subctn">
-               <fs-select-tree-input
-                  :member="formData.diarySubmitPeopleStr"
-                  :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
-                  :placeholder="$t('placeholder.pleaseSelect')"
-                  @handleSelect="handleSelectRange"
-                  :ellipsis="false" 
-                  :showDept="false" 
-                  :showGroup="false" 
-                  :showMember="true"
-                  ref="selectDept"/>
-              </div>
+            <div class="subctn">
+              <fs-select-tree-input
+                :member="formData.diarySubmitPeopleStr"
+                :title="`${$t('operate.reportPerson')}${$t('operate.select')}`"
+                :placeholder="$t('placeholder.pleaseSelect')"
+                @handleSelect="handleSelectRange"
+                :ellipsis="false" 
+                :showDept="false" 
+                :showGroup="false" 
+                :showMember="true"
+                ref="selectDept"/>
             </div>
-            <!-- 选择周期 -->
-            <div class="item">
-              <div class="itemTitle">
-                {{$t('operate.selectionCycle')}}
-              </div>
-              <div class="subctn">
-                <YYSelect
-                  v-model="formData.submitPeriodic"
-                  :invertable="false"
-                  @on-change="handleSubmitPeriodic(+formData.submitPeriodic)">
-                  <YYOption value="0">
-                    {{$t('date.d')}}
-                  </YYOption>
-                  <YYOption value="1">
-                    {{$t('date.w')}}
-                  </YYOption>
-                  <YYOption value="2">
-                    {{$t('date.m')}}
-                  </YYOption>
-                  <YYOption value="3">
-                    双周提醒
-                  </YYOption>
+          </div>
+          <!-- 选择周期 -->
+          <div class="item">
+            <div class="itemTitle">
+              {{$t('operate.selectionCycle')}}
+            </div>
+            <div class="subctn">
+              <YYSelect
+                v-model="formData.submitPeriodic"
+                :invertable="false"
+                @on-change="handleSubmitPeriodic(+formData.submitPeriodic)">
+                <YYOption value="0">
+                  {{$t('date.d')}}
+                </YYOption>
+                <YYOption value="1">
+                  {{$t('date.w')}}
+                </YYOption>
+                <YYOption value="2">
+                  {{$t('date.m')}}
+                </YYOption>
+                <YYOption value="3">
+                  双周提醒
+                </YYOption>
+            </YYSelect>
+            </div>
+          </div>
+          <!-- 周期选择日 -->
+          <div class="item" v-if="formData.submitPeriodic == 0">
+            <div class="itemTitle">
+              {{$t('date.appointedDate')}}
+            </div>
+            <div class="subctn">
+              <YYSelect
+                v-model="formData.submitStartWeek"
+                :invertable="false" 
+                :multiple="true">
+                <YYOption :value="item.key + ''" :key="index" v-for="(item, index) in submitDate">
+                  {{item.value}}
+                </YYOption>
               </YYSelect>
-              </div>
             </div>
-            <!-- 周期选择日 -->
-            <div class="item" v-if="formData.submitPeriodic == 0">
-              <div class="itemTitle">
-                {{$t('date.appointedDate')}}
-              </div>
-              <div class="subctn">
-                <YYSelect
-                  v-model="formData.submitStartWeek"
-                  :invertable="false" 
-                  :multiple="true">
-                  <YYOption :value="item.key + ''" :key="index" v-for="(item, index) in submitDate">
-                    {{item.value}}
-                  </YYOption>
-                </YYSelect>
-              </div>
+          </div>
+          <!-- 从当前周开始 -->
+          <div class="item subItem" v-if="formData.doubleWeekRemind">
+            <div class="itemTitle">
             </div>
-            <!-- 从当前周开始 -->
-            <div class="item subItem" v-if="formData.doubleWeekRemind">
-              <div class="itemTitle">
-              </div>
-              <div class="subctn">
-                <div>
-                  <YYCheckbox v-model="formData.remindThisWeek">
-                    <span>当前周开始</span>
-                  </YYCheckbox>
-                </div>
-              </div>
-            </div>
-            <!-- 提交开始时间 -->
-            <div class="item">
-              <div class="itemTitle">
-                {{$t('date.submissionStartTime')}}
-              </div>
-              <div class="subctn">
-                  <WeekTime
-                    ref="remindStartTime"
-                    @setTimePicker="setStartTimePicker"
-                    :firstColData="startPickerFirstColData"
-                    :secondColData="startPickersecondColData"
-                    :columns="columnsNum"
-                    :firstColDefault="startPickerDefault"
-                    :showValue="startPickerDefault.name">
-                  </WeekTime>
-              </div>
-            </div>
-            <!-- 提交结束时间 -->
-            <div class="item">
-              <div class="itemTitle">
-                {{$t('date.submissionEndTime')}}
-              </div>
-              <div class="subctn">
-                <WeekTime
-                    ref="remindEndTime"
-                    @setTimePicker="setEndTimePicker"
-                    :firstColData="endPickerFirstColData"
-                    :secondColData="endPickersecondColData"
-                    :columns="columnsNum"
-                    :firstColDefault="endPickerDefault"
-                    :showValue="endPickerDefault.name">
-                </WeekTime>
-              </div>
-            </div>
-            <!-- tips -->
-            <div class="item tipsCtn">
-              <img class="tipsimg" :src="ImTips">
-              <span class="desc" v-if="formData.submitPeriodic == 2">
-                本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
-              </span>
-              <span class="desc" v-else>
-                {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
-              </span>
-            </div> 
-            <!-- 提醒时间 -->
-            <div class="item">
-              <div class="itemTitle">
-                {{$t('date.reminderTime')}}
-              </div>
-              <div class="subctn">
-                <YYSelect 
-                  :multiple="false"
-                  :invertable="false"
-                  v-model="formData.remindTime">
-                  <YYOption :value="item + ''" v-for="(item, index) in remindTimeArr" :key="index">
-                    {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
-                  </YYOption>
-                </YYSelect>
-              </div>
-            </div>
-             <div class="item submitCtn">
-              <div class="itemTitle">
-              </div>
-              <div class="subctn">
-                <YYButton
-                  @click="handleSubmitRule"
-                  type="primary">
-                  {{$t('operate.submit')}}
-                </YYButton>
+            <div class="subctn">
+              <div>
+                <YYCheckbox v-model="formData.remindThisWeek">
+                  <span>当前周开始</span>
+                </YYCheckbox>
               </div>
             </div>
           </div>
+          <!-- 提交开始时间 -->
+          <div class="item">
+            <div class="itemTitle">
+              {{$t('date.submissionStartTime')}}
+            </div>
+            <div class="subctn">
+                <WeekTime
+                  ref="remindStartTime"
+                  @setTimePicker="setStartTimePicker"
+                  :firstColData="startPickerFirstColData"
+                  :secondColData="startPickersecondColData"
+                  :columns="columnsNum"
+                  :firstColDefault="startPickerDefault"
+                  :showValue="startPickerDefault.name">
+                </WeekTime>
+            </div>
+          </div>
+          <!-- 提交结束时间 -->
+          <div class="item">
+            <div class="itemTitle">
+              {{$t('date.submissionEndTime')}}
+            </div>
+            <div class="subctn">
+              <WeekTime
+                  ref="remindEndTime"
+                  @setTimePicker="setEndTimePicker"
+                  :firstColData="endPickerFirstColData"
+                  :secondColData="endPickersecondColData"
+                  :columns="columnsNum"
+                  :firstColDefault="endPickerDefault"
+                  :showValue="endPickerDefault.name">
+              </WeekTime>
+            </div>
+          </div>
+          <!-- tips -->
+          <div class="item tipsCtn">
+            <img class="tipsimg" :src="ImTips">
+            <span class="desc" v-if="formData.submitPeriodic == 2">
+              本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
+            </span>
+            <span class="desc" v-else>
+              {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
+            </span>
+          </div> 
+          <!-- 提醒时间 -->
+          <div class="item">
+            <div class="itemTitle">
+              {{$t('date.reminderTime')}}
+            </div>
+            <div class="subctn">
+              <YYSelect 
+                :multiple="false"
+                :invertable="false"
+                v-model="formData.remindTime">
+                <YYOption :value="item + ''" v-for="(item, index) in remindTimeArr" :key="index">
+                  {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
+                </YYOption>
+              </YYSelect>
+            </div>
+          </div>
+            <div class="item submitCtn">
+            <div class="itemTitle">
+            </div>
+            <div class="subctn">
+              <YYButton
+                @click="handleSubmitRule"
+                type="primary">
+                {{$t('operate.submit')}}
+              </YYButton>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </transition>
@@ -709,16 +709,17 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-  // .moveR-enter-active,  .moveR-leave-active {
-  //   transition: all .1s linear;
-  //   transform: translateX(0);
-  // }
-  // .moveR-enter,  .moveR-leave {
-  //   transform: translateX(100%);
-  // }
-  // .moveR-leave-to{
-  //   transform: translateX(100%);
-  // }
+  .header {
+    height: 48px;
+    padding: 0 20px;
+    .mb-flex-1 {
+      padding-right: 23px;
+      text-align: right;
+    }
+    .yy-icon-guanbi {
+      font-size: 12px;;
+    }
+  }
   .bgCover {
     position: fixed;
     right: 0;
@@ -738,23 +739,6 @@ export default {
     right: 0;
     top: 0;
     background: white;
-    .title {
-      display: inline-block;
-      height: 48px;
-      line-height: 48px;
-      margin-left: 20px;
-    }
-    .headerButton {
-      float: right;
-      margin-right: 56px;
-      margin-top: 10px;
-    }
-    .closeIcon {
-      position: absolute;
-      right: 22px;
-      top: 18px;
-      cursor: pointer;
-    }
     .body{
       .item {
         padding: 0 20px;
