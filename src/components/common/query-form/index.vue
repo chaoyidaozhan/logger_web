@@ -1,6 +1,22 @@
 <template>
     <div class="search-form">
         <Form inline>
+            <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
+            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showReportRule">
+               <YYSelect 
+                    v-model="classificationArrData" 
+                    @on-change="classifyHandleChange" style="width: 180px">
+                    <YYOption value="1">
+                        {{$t('menus.department')}}
+                    </YYOption>
+                    <YYOption value="2">
+                        {{$t('menus.employee')}}
+                    </YYOption>
+                    <YYOption value="3">
+                        {{$t('menus.internalGroupReport')}}
+                    </YYOption>
+                </YYSelect>
+            </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
                 <fs-select-tree-input ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
@@ -20,22 +36,6 @@
                     @handleChange="handleQuery"
                     ref="selectTemplate"/>
             </FormItem>
-            <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
-            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showReportRule">
-               <YYSelect 
-                    v-model="classificationArrData" 
-                    @on-change="classifyHandleChange" style="width: 180px">
-                    <YYOption value="1">
-                        {{$t('menus.department')}}
-                    </YYOption>
-                    <YYOption value="2">
-                        {{$t('menus.employee')}}
-                    </YYOption>
-                    <YYOption value="3">
-                        {{$t('menus.internalGroupReport')}}
-                    </YYOption>
-                </YYSelect>
-            </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
                 <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
             </FormItem>
