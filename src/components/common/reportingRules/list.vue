@@ -3,15 +3,16 @@
     <div>
       <div class="bgCover" @click="close()"></div>
       <div class="container">
-          <div class="header">
-            <span class="title">{{$t('operate.reportRules')}}</span>
-            <YYButton
-              :class="'headerButton'"
-              type="ghost" 
-              @click="setRules()">
-              {{$t('operate.setReportRules')}}
-            </YYButton>
-            <i class="closeIcon icon-add" @click="close()"></i>
+          <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
+            <div>{{$t('operate.reportRules')}}</div>
+            <div class="mb-flex-1">
+              <YYButton
+                type="ghost" 
+                @click="setRules()">
+                {{$t('operate.setReportRules')}}
+              </YYButton>
+            </div>
+            <div class="yy-icon-guanbi" @click="close()"></div>
           </div>
           <div class="body">
             <div class="scrollBody" v-if="listArr.length">
@@ -120,16 +121,6 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-  // .moveR-enter-active,  .moveR-leave-active {
-  //   transition: all .5s linear;
-  //   transform: translateX(0);
-  // }
-  // .moveR-enter,  .moveR-leave {
-  //   transform: translateX(100%);
-  // }
-  // .moveR-leave-to{
-  //   transform: translateX(100%);
-  // }
   .bgCover {
     position: fixed;
     right: 0;
@@ -149,30 +140,22 @@ export default {
     right: 0;
     top: 0;
     background: white;
-    .title {
-      display: inline-block;
+    .header {
       height: 48px;
-      line-height: 48px;
-      margin-left: 20px;
-    }
-    .headerButton {
-      float: right;
-      margin-right: 56px;
-      margin-top: 10px;
-    }
-    .closeIcon {
-      position: absolute;
-      right: 22px;
-      top: 18px;
-      cursor: pointer;
-      transform: rotate(45deg);
+      padding: 0 20px;
+      .mb-flex-1 {
+        padding-right: 23px;
+        text-align: right;
+      }
+      .yy-icon-guanbi {
+        font-size: 12px;;
+      }
     }
     .body{
       height: 100%;
       overflow-y: auto;
-      .scrollBody {
-
-      }
+      padding-top: 16px;
+      box-sizing: border-box;
       .noImgCtn {
         text-align: center;
         margin-top: 50%;

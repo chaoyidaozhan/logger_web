@@ -5,7 +5,7 @@
       <div class="container">
           <div class="header">
             <span class="title">{{$t('operate.setReportRules')}}</span>
-            <i class="closeIcon icon-add" @click="close()"></i>
+            <i class="yy-icon-guanbi-yuanxing closeIcon" @click="close()"></i>
           </div>
           <div class="body">
             <!-- 选择模板 -->
@@ -754,7 +754,6 @@ export default {
       right: 22px;
       top: 18px;
       cursor: pointer;
-      transform: rotate(45deg);
     }
     .body{
       .item {
