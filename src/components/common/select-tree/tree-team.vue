@@ -67,14 +67,14 @@
 			},
 			getList(){
 				// 请求部门地址可以自定义 ;
-				let url = this.info.groupApiUri ? this.info.groupApiUri : '/group/me' ;
+				let url = this.info.groupApiUri ? this.info.groupApiUri : (this.info.isPullAllGroup ? '/group/' : '/group/me') ;
 				this.ajaxStatus = 'loading' ;
             	this.$ajax({
 	                url: url ,
 	                data:{
 	                	pageSize : this.pageSize,
 	                	pageNum  : this.pageNum,
-	                	keyword  : this.keyWord
+						keyword  : this.keyWord,
 	                },
 	                success: (res)=>{
 	                	if( res.code==0 ){

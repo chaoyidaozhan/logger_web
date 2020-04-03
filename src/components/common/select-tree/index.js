@@ -34,7 +34,8 @@ export default {
                     count: 500,
                     showAll: false, //当limit为1时 可选择是否全选 
                     warning: '超出选择范围'
-                }
+                },
+                isPullAllGroup: false
             }
         }
 

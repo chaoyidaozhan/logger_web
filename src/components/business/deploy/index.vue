@@ -119,7 +119,7 @@ export default {
 
         },
         handleAddLimit() {
-            let dept = [], man = [], org = []
+            let dept = [], man = [], org = [], team = []
             this.stashLimitData[this.currentMember.memberId].forEach(item=>{
                 if(item.dataType === 1) {
                     item.deptId = item.orgId
@@ -136,18 +136,20 @@ export default {
                 title: this.$t('operate.addAdministrator'),
                 man: true,
                 dep: true,
-                team:  false,
+                team:  true,
                 showLoading: true,
                 selected: {
                     dep: dept,
                     man: man,
-                    org: org
+                    org: org,
+                    team: team
                 },
                 limit: {
                     showAll: false,
                     warning: '',
                     count: 500
-                }
+                },
+                isPullAllGroup: true
             }
             this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
                 const memberIds = res.man.map(mem=>{
@@ -162,7 +164,9 @@ export default {
                         deptIds.push(dept.deptId)
                     }
                 }) 
-                
+                let groupIds = res.team.map((item, index) => {
+                    return item.gid;
+                });
                 this.$ajax({
                     url: '/rest/v1/diaryStatistics/acl',
                     type: 'post',
@@ -171,6 +175,7 @@ export default {
                         memberIds: memberIds,
                         deptIds: deptIds,
                         orgIds: orgIds,
+                        groupIds: groupIds
                     },
                     requestBody: 1,
                     success: (res)=>{
