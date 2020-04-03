@@ -128,6 +128,9 @@ export default {
         box-sizing: border-box;
         border: 1px solid white;
       }
+      .personPhoto:first-of-type {
+        margin-left: 0;
+      }
       .submitNum {
         color: #EE2223;
         font-weight: 400;

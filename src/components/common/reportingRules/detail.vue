@@ -3,13 +3,13 @@
     <div>
       <div class="bgCover" @click="close()"></div>
       <div class="container">
-         <div class="header">
-            <span class="title">{{$t('operate.setReportRules')}}</span>
-            <i class="yy-icon-guanbi closeIcon" @click="close()"></i>
-          </div>
-         <DetailItem @edit="editClick()" :detailMsg="detailMsgCopy"></DetailItem>
-         <DateRange :class="'dataRange'" @handleChangeDate="handleChangeDate"></DateRange>
-         <TabPersonList :detailMsg="detailMsgCopy"></TabPersonList>
+        <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
+          <div class="title">{{$t('operate.setReportRules')}}</div>
+          <div class="yy-icon-guanbi" @click="close()"></div>
+        </div>
+        <DetailItem @edit="editClick()" :detailMsg="detailMsgCopy"></DetailItem>
+        <DateRange :class="'dataRange'" @handleChangeDate="handleChangeDate"></DateRange>
+        <TabPersonList :detailMsg="detailMsgCopy"></TabPersonList>
       </div>
     </div>
   </transition>
@@ -94,6 +94,17 @@ export default {
   // .moveR-leave-to{
   //   transform: translateX(100%);
   // }
+  .header {
+    height: 48px;
+    padding: 0 20px;
+    .mb-flex-1 {
+      padding-right: 23px;
+      text-align: right;
+    }
+    .yy-icon-guanbi {
+      font-size: 12px;;
+    }
+  }
   .bgCover {
     position: fixed;
     right: 0;
@@ -107,7 +118,7 @@ export default {
     font-size: 12px;
     position: fixed;
     box-shadow: 0 2px 8px rgba(0,0,0,.15);
-    width: 470px;
+    width: 570px;
     height: 100%;
     z-index: 101;
     right: 0;
@@ -117,29 +128,9 @@ export default {
       text-align: center;
       font-size: 14px;
     }
-    .title {
-      display: inline-block;
-      height: 48px;
-      line-height: 48px;
-      margin-left: 20px;
-    }
-    .headerButton {
-      float: right;
-      margin-right: 56px;
-      margin-top: 10px;
-    }
-    .closeIcon {
-      position: absolute;
-      right: 22px;
-      top: 18px;
-      cursor: pointer;
-    }
     .body{
       height: 100%;
       overflow-y: auto;
-      .scrollBody {
-
-      }
       .noImgCtn {
         text-align: center;
         margin-top: 50%;

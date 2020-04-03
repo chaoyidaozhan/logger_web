@@ -1,136 +1,109 @@
 <template>
  <div class="listItem">
-   <div class="header">
-      <span class="title">{{currentItemDetailMsg.templateName}}</span>
-      <YYButton
-        class="edit"
-        type="ghost" 
-        size="small" 
-        @click="handleClick()">
-        {{$t('operate.edit')}}
-      </YYButton>
+   <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
+      <div class="title">{{currentItemDetailMsg.templateName}}</div>
+      <div>
+        <YYButton
+          type="ghost" 
+          size="small" 
+          @click="handleClick()">
+          {{$t('operate.edit')}}
+        </YYButton>
+      </div>
    </div>
    <div class="subHeader">
      <div class="desc">{{currentItemDetailMsg.detailMsgParticipant}}</div>
      <div class="desc">{{currentItemDetailMsg.detailMsgTime}}</div>
    </div>
-   <div class="footer">
-     <span class="photoInfor">
-       <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-       <span class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', currentItemDetailMsg.unSubmitCount || '')}}</span>
-     </span>
+   <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
+    <div class="photoInfor mb-flex mb-flex-align-center mb-flex-pack-justify">
+      <div class="mb-flex">
+        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
+        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
+        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
+      </div>
+      <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', currentItemDetailMsg.unSubmitCount || '')}}</div>
+    </div>
    </div>
  </div>
 </template>
 <script>
-
 export default {
-    props: {
-      detailMsg: {
-        type: Object,
-        default: function() {
-          return {};
-        }
+  props: {
+    detailMsg: {
+      type: Object,
+      default: function() {
+        return {};
       }
-    },
-    components: {
-    },
-    data() {
-        return {
-          currentItemDetailMsg: {}
-        }
-    },
-    methods: {
-      handleClick () {
-        this.$emit('edit')
-      }
-    },
-    created() {
-      this.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
     }
+  },
+  components: {
+  },
+  data() {
+      return {
+        currentItemDetailMsg: {}
+      }
+  },
+  methods: {
+    handleClick () {
+      this.$emit('edit')
+    }
+  },
+  created() {
+    this.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
+  }
 }
 </script>
 <style lang='less' scoped>
 .listItem {
-  padding-top: 10px;
-  width:430px;
-  height:128px;
-  background:rgba(255,255,255,1);
-  box-shadow:0px 5px 15px 0px rgba(51,51,51,0.12);
-  border-radius:3px;
-  margin: 16px auto;
-  padding: 0 20px;
-  &:hover{
-    .buttonGroup {
-      display: inline-block!important;
-    }
-  }
+  width: 530px;
+  min-height: 140px;
+  box-shadow: 0px 5px 15px 0px rgba(51,51,51,0.12);
+  border-radius: 3px;
+  margin: 0 auto 16px;
+  padding: 20px 20px 0;
+  background: white;
   .header {
-    .edit {
-      float: right;
-      margin-top: 8px;
-    }
+    height: 26px;
     .title{
-      display: inline-block;
-      font-size:14px;
-      font-weight:500;
-      color:rgba(51,51,51,1);
-      line-height:20px;
-    }
-    .buttonGroup {
-      display: none;
-      float: right;
-      .edit {
-        font-size: 18px;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-      .delete {
-        font-size: 16px;
-        vertical-align: middle;
-      }
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
     }
   }
   .subHeader {
+    margin-top: 4px;
+    min-height: 40px;
+    font-size: 12px;
+    color: #666;
     .desc {
-        font-size: 12px;
-        color: #666666;
-        line-height: 20px;
+      line-height: 20px;
     }
   }
   .footer {
-    .lookDetail {
-      cursor: pointer;
-      color: #3B76DD;
-      display: inline-block;
-      height: 20px;
-      line-height: 20px;
-      .icon-arrow-right {
-        vertical-align: middle;
-        margin-top: -2px;
-        display: inline-block;
-      }
-    }
+    height: 20px;
+    margin-top: 8px;
     .photoInfor {
+      width: 124px;
       height: 20px;
-      line-height: 20px;
-      // float: right;
       .personPhoto {
+        display: block;
         width: 20px;
         height: 20px;
+        margin-left: -4px;
         border-radius: 50%;
-        vertical-align: middle;
-        margin-top: -2px;
-        margin-right: -10px;
+        box-sizing: border-box;
+        border: 1px solid white;
+      }
+      .personPhoto:first-of-type {
+        margin-left: 0;
       }
       .submitNum {
-        margin-left: 18px;
         color: #EE2223;
+        font-weight: 400;
+        font-size: 12px;
       }
     }
   }
 }
 </style>
-
