@@ -1,8 +1,8 @@
 <template>
 	<div class="picker">
-		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delYear"></div>
+		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delYear"></div>
 		<div>{{nowYear}}</div>
-		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addYear"></div>
+		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addYear"></div>
 	</div>
 </template>
 <script>

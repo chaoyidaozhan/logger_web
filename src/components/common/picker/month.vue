@@ -1,8 +1,8 @@
 <template>
 	<div class="picker">
-		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delMonth"></div>
+		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delMonth"></div>
 		<div>{{nowYear}}/{{(10 - nowMonth > 0) ? `0${nowMonth}` : nowMonth}}</div>
-		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addMonth"></div>
+		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addMonth"></div>
 	</div>
 </template>
 <script type="text/javascript">

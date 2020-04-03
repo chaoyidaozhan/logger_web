@@ -1,8 +1,8 @@
 <template>
 	<div class="picker">
-		<div class="btn lt" :class="{disabled:this.ltDisabled}" @click="delDate"></div>
+		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delDate"></div>
         <div class="date-range">{{beginDate}} - {{endDate}}</div>
-		<div class="btn rt" :class="{disabled:this.rtDisabled}" @click="addDate"></div>
+		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addDate"></div>
 	</div>
 </template>
 <script>
