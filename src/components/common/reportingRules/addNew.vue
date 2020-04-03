@@ -287,6 +287,7 @@ export default {
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
           param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          param.submitDate = 0;
           // 
           param.doubleWeekRemind = 0;
           param.remindThisWeek = 0;
@@ -303,25 +304,21 @@ export default {
           param.doubleWeekRemind = param.doubleWeekRemind ? 1 : 0;
           param.remindThisWeek = param.remindThisWeek ? 1 : 0;
         }else if(param.submitPeriodic == 2) {
-
+          param.submitStartWeek = '';
+          param.submitEndWeek = '';
+          // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用   周期为日月的时候传   
+          param.submitDate = 1;
+          param.submitStartTime = this.startPickerDefault.name + ':00';
+          param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          // 
+          param.doubleWeekRemind = 0;
+          param.remindThisWeek = 0;
         }
         param.remindType = 0;
         if(param.remindTime != '0') {
           param.remindType = 1;
         }
-
-
-
-        if (this.formData.submitStartWeek.length != 7 && this.formData.submitPeriodic == 0) {
-            param.submitDate = null
-        }
         let uri = '/diarySubmitRule/add';
-        // if (this.$route.query.type === 'edit') {
-        //     uri = "/diarySubmitRule/edit";
-        //     param.id = this.$route.query.diarySubmitRuleId
-        //     routeQuery.doubleWeekRemind = this.formData.doubleWeekRemind ? 1 : 0
-        //     routeQuery.remindThisWeek = this.formData.remindThisWeek ? 1 : 0
-        // }
         this.$ajax({
             url: uri,
             type: 'post',
@@ -333,14 +330,6 @@ export default {
               }
             }
         });
-
-
-
-
-
-
-
-
       },
       setStartTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
@@ -500,14 +489,13 @@ export default {
               {
                 const submitStartTimeValue = +this.startPickerDefault.value;
                 for (; i <= 24; i++) {
-                    if (i > submitStartTimeValue) {
-                      let time = `${i<10?`0${i}`:i}:00`;
-                      this.submitEndTimePicker.push(time)
-                      firstColData.push({
-                        name: time,
-                        value: time
-                      });
-                    }
+                  if (i > submitStartTimeValue) {
+                    let time = `${i<10?`0${i}`:i}:00`;
+                    firstColData.push({
+                      name: time,
+                      value: time
+                    });
+                  }
                 }
                 this.endPickerFirstColData = firstColData;
               }
