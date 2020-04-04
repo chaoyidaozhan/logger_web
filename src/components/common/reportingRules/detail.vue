@@ -74,7 +74,7 @@ export default {
                 })
         });
       },
-      handleChangeDate(data) {console.log(data)
+      handleChangeDate(data) {
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
           responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
           this.detailMsgCopy = responseData;
