@@ -44,6 +44,8 @@ export default {
       },
       changeShowDetail (flag, detailMsg = {}) {
         this.detailMsg = detailMsg;
+        this.showList = false
+        this.showDetail = false
         switch (flag) {
           case 'close' :
             this.showDetail = false
@@ -57,7 +59,7 @@ export default {
         }
       },
       changeShowAdd () {
-        this.showAdd = false
+        this.showAdd = false;
       }
     },
     mounted () {
