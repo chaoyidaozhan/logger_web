@@ -1,7 +1,6 @@
 <template>
-  <div class="dateRange mb-flex mb-flex-align-center">
+  <div class="dayRange mb-flex mb-flex-align-center">
     <div class="yy-icon-Vjiantou-zuo" @click="timeToggle('right')" ></div>
-    <!-- <span>{{ start }} {{$t('date.to')}} {{ end }}</span> -->
     <div>&nbsp;&nbsp;{{dateText}}&nbsp;&nbsp;</div>
     <div class="yy-icon-Vjiantou-you" @click="timeToggle('left')"></div>
   </div>
@@ -67,13 +66,8 @@ export default {
 }
 </script>
 <style lang='less' scoped>
-.dateRange {
-    margin: 0 auto 6px;
-    justify-content: center;
-    .yy-icon-Vjiantou-zuo,
-    .yy-icon-Vjiantou-you {
-        cursor: pointer;
-    }
+.dayRange {
+
 }
 
 </style>

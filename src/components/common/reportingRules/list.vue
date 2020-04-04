@@ -148,7 +148,8 @@ export default {
         text-align: right;
       }
       .yy-icon-guanbi {
-        font-size: 12px;;
+        font-size: 12px;
+        cursor: pointer;
       }
     }
     .body{

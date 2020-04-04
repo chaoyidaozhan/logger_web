@@ -8,7 +8,21 @@
           <div class="yy-icon-guanbi" @click="close()"></div>
         </div>
         <DetailItem @edit="editClick()" :detailMsg="detailMsgCopy"></DetailItem>
-        <DateRange :class="'dataRange'" @handleChangeDate="handleChangeDate"></DateRange>
+        <DateRange 
+          v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 0" 
+          class="dateRangeCommon" 
+          @handleChangeDate="handleChangeDate">
+        </DateRange>
+        <weekRange 
+          v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 1" 
+          :class="'dateRangeCommon'" 
+          @handleChangeDate="handleChangeDate">
+        </weekRange>
+        <monthRange 
+          v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 2" 
+          :class="'dateRangeCommon'" 
+          @handleChangeDate="handleChangeDate">
+        </monthRange>
         <TabPersonList :detailMsg="detailMsgCopy"></TabPersonList>
       </div>
     </div>
@@ -17,6 +31,8 @@
 <script>
 import DetailItem from './common/detailItem'
 import DateRange from './common/dateRange'
+import weekRange from './common/weekRange'
+import monthRange from './common/monthRange'
 import TabPersonList from './common/tabPersonList'
 import tip_data from 'app_assets/images/tip_data.png'
 export default {
@@ -31,7 +47,9 @@ export default {
     components: {
       DetailItem,
       DateRange,
-      TabPersonList
+      TabPersonList,
+      weekRange,
+      monthRange
     },
     data() {
         return {
@@ -56,7 +74,7 @@ export default {
                 })
         });
       },
-      handleChangeDate(data) {
+      handleChangeDate(data) {console.log(data)
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
           responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
           this.detailMsgCopy = responseData;
@@ -94,6 +112,16 @@ export default {
   // .moveR-leave-to{
   //   transform: translateX(100%);
   // }
+  .dateRangeCommon {
+    margin: 0 auto 6px;
+    justify-content: center;
+    text-align: center;
+    font-size: 14px;
+    .yy-icon-Vjiantou-zuo,
+    .yy-icon-Vjiantou-you {
+        cursor: pointer;
+    }
+  }
   .header {
     height: 48px;
     padding: 0 20px;
@@ -102,7 +130,8 @@ export default {
       text-align: right;
     }
     .yy-icon-guanbi {
-      font-size: 12px;;
+      font-size: 12px;
+      cursor: pointer;
     }
   }
   .bgCover {
@@ -124,10 +153,6 @@ export default {
     right: 0;
     top: 0;
     background: white;
-    .dataRange {
-      text-align: center;
-      font-size: 14px;
-    }
     .body{
       height: 100%;
       overflow-y: auto;
