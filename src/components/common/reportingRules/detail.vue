@@ -8,11 +8,11 @@
           <div class="yy-icon-guanbi" @click="close()"></div>
         </div>
         <DetailItem @edit="editClick()" :detailMsg="detailMsgCopy"></DetailItem>
-        <DateRange 
+        <dayRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 0" 
           class="dateRangeCommon" 
           @handleChangeDate="handleChangeDate">
-        </DateRange>
+        </dayRange>
         <weekRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 1" 
           class="dateRangeCommon" 
@@ -30,7 +30,7 @@
 </template>
 <script>
 import DetailItem from './common/detailItem'
-import DateRange from './common/dateRange'
+import dayRange from './common/dayRange'
 import weekRange from './common/weekRange'
 import monthRange from './common/monthRange'
 import TabPersonList from './common/tabPersonList'
@@ -46,7 +46,7 @@ export default {
     },
     components: {
       DetailItem,
-      DateRange,
+      dayRange,
       TabPersonList,
       weekRange,
       monthRange
