@@ -1,7 +1,7 @@
 <template>
   <div class="dayRange mb-flex mb-flex-align-center">
     <div class="yy-icon-Vjiantou-zuo" @click="timeToggle('right')" ></div>
-    <div>&nbsp;&nbsp;{{dateText}}&nbsp;&nbsp;</div>
+    <div class="timer">&nbsp;&nbsp;{{dateText}}&nbsp;&nbsp;</div>
     <div class="yy-icon-Vjiantou-you" @click="timeToggle('left')"></div>
   </div>
 </template>

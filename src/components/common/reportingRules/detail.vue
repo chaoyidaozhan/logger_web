@@ -15,12 +15,12 @@
         </DateRange>
         <weekRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 1" 
-          :class="'dateRangeCommon'" 
+          class="dateRangeCommon" 
           @handleChangeDate="handleChangeDate">
         </weekRange>
         <monthRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 2" 
-          :class="'dateRangeCommon'" 
+          class="dateRangeCommon" 
           @handleChangeDate="handleChangeDate">
         </monthRange>
         <TabPersonList :detailMsg="detailMsgCopy"></TabPersonList>
@@ -117,9 +117,16 @@ export default {
     justify-content: center;
     text-align: center;
     font-size: 14px;
-    .yy-icon-Vjiantou-zuo,
-    .yy-icon-Vjiantou-you {
+    /deep/ .yy-icon-Vjiantou-zuo,
+    /deep/ .yy-icon-Vjiantou-you {
         cursor: pointer;
+    }
+    /deep/ .timer {
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+    /deep/ .disabled {
+      color: #ccc;
     }
   }
   .header {

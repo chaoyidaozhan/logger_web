@@ -1,12 +1,8 @@
 <template>
 <div class="monthRange mb-flex mb-flex-align-center">
-    <div class="timer-left" @click="delMonth()" :class="{disabled:this.ltDisabled}">
-        <i class="yy-icon-Vjiantou-zuo"></i>
-    </div>
+    <div @click="delMonth()" :class="{disabled:this.ltDisabled}" class="yy-icon-Vjiantou-zuo"></div>
     <div class="timer">{{nowYear}}{{lang == "en" ? '/' : '年'}}{{(nowMonth < 10) ? `0${nowMonth}` : nowMonth}}{{lang == "en" ? '' : '月'}}</div>
-    <div class="timer-right" @click="addMonth()" :class="{disabled:this.rtDisabled}">
-        <i class="yy-icon-Vjiantou-you"></i>
-    </div>
+    <div @click="addMonth()" :class="{disabled:this.rtDisabled}" class="yy-icon-Vjiantou-you"></div>
 </div>
 </template>
 <script type="text/javascript">
@@ -73,18 +69,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .monthRange {
-	.timer {
-        white-space: nowrap;
-	}
-   .timer-left,
-   .timer-right {
-        cursor: pointer;
-   }
-   .disabled {
-		i {
-			color: #ccc;
-		}
-   }
+
 }
 </style>
 

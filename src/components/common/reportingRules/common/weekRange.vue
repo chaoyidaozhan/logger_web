@@ -112,17 +112,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .weekRange {
-	.timer {
-        white-space: nowrap;
-	}
-   .timer-left,
-   .timer-right {
-       cursor: pointer;
-   }
-   .disabled {
-	    i {
-			color: #ccc;
-		}
-   }
+
 }
 </style>
