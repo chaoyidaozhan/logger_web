@@ -16,7 +16,7 @@
             </div>
             <div class="subctn">
               <fs-select-template
-                :hasDefaultTemplate="false" 
+                :hasDefaultTemplate="true" 
                 templateType="web" 
                 @handleChange="handleQuery"
                 ref="selectTemplate"/>
@@ -51,16 +51,16 @@
                 v-model="formData.submitPeriodic"
                 :invertable="false"
                 @on-change="handleSubmitPeriodic(+formData.submitPeriodic)">
-                <YYOption value="0">
+                <YYOption :value="0">
                   {{$t('date.d')}}
                 </YYOption>
-                <YYOption value="1">
+                <YYOption :value="1">
                   {{$t('date.w')}}
                 </YYOption>
-                <YYOption value="2">
+                <YYOption :value="2">
                   {{$t('date.m')}}
                 </YYOption>
-                <YYOption value="3">
+                <YYOption :value="3">
                   双周提醒
                 </YYOption>
             </YYSelect>
@@ -148,7 +148,7 @@
                 :multiple="false"
                 :invertable="false"
                 v-model="formData.remindTime">
-                <YYOption :value="item + ''" v-for="(item, index) in remindTimeArr" :key="index">
+                <YYOption :value="item" v-for="(item, index) in remindTimeArr" :key="index">
                   {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
                 </YYOption>
               </YYSelect>
@@ -199,14 +199,14 @@ export default {
           formData: {
             templateId: '',
             diarySubmitPeopleStr: [],
-            submitPeriodic: '0',
+            submitPeriodic: 0,
             submitDate: '0',
             submitStartWeek: [],
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
-            remindType: true,
-            remindTime: '0',
+            remindType: 0,
+            remindTime: 0,
             doubleWeekRemind: false,
             remindThisWeek: false,
         },
@@ -251,10 +251,60 @@ export default {
       },
       // 
       // 
-      getRule() { 
-        let detailMsgKeys = Object.keys(this.detailMsg);
+      getRule() {console.log(this.detailMsg)
+        let detailMsg = this.detailMsg;
+        let currentItemDetailMsg = Object.assign({}, detailMsg.currentItemDetailMsg);
+        let formData = {};
+        let detailMsgKeys = Object.keys(detailMsg);
+        let timeDealWith = function(clock) {
+          let arr = clock.split(':');
+          return {
+            all: (arr[0] + ':' + arr[1]),
+            num: (+arr[0])
+          };
+        };
         if(detailMsgKeys.length) {
+          formData = {
+            templateId: currentItemDetailMsg.id + '',
+            diarySubmitPeopleStr: currentItemDetailMsg.diarySubmitPeople,
+            submitPeriodic: currentItemDetailMsg.submitPeriodic,
+            submitDate: currentItemDetailMsg.submitDate
+          };
+          let submitStartTimeDealWith = {};
+          let submitEndTimeDealWith = {};
+          switch (+currentItemDetailMsg.submitPeriodic) {
+            case 0:
 
+            break;
+            case 1:
+
+            break;
+            case 2:
+              submitStartTimeDealWith = timeDealWith(currentItemDetailMsg.submitStartTime);
+              submitEndTimeDealWith = timeDealWith(currentItemDetailMsg.submitEndTime)
+              formData.submitStartTime = submitStartTimeDealWith.all;
+              formData.submitEndTime = submitEndTimeDealWith.all;
+              this.startPickerDefault = {
+                name: submitStartTimeDealWith.all,
+                value: submitStartTimeDealWith.num
+              };
+              this.endPickerDefault = {
+                name: submitEndTimeDealWith.all,
+                value: submitEndTimeDealWith.num
+              };
+              this.columnsNum = 1;
+            break;
+          }
+          formData.remindTime = currentItemDetailMsg.remindTime;
+          if(!formData.remindTime) {
+            formData.remindType = 0;
+          }
+          this.formData = {
+            ...this.formData,
+            ...formData
+          };
+          this.handleSubmitStartTime(2);
+          this.handleSubmitEndTime(2)
         }else {
           this.handleSubmitPeriodic(0);
         }
@@ -312,7 +362,7 @@ export default {
           param.remindThisWeek = 0;
         }
         param.remindType = 0;
-        if(param.remindTime != '0') {
+        if(param.remindTime !== 0) {
           param.remindType = 1;
         }
         let uri = '/diarySubmitRule/add';
@@ -631,7 +681,7 @@ export default {
           this.formData.doubleWeekRemind = false;
           this.formData.remindThisWeek = false;
         }
-        this.formData.remindTime = '0';
+        this.formData.remindTime = 0;
         // 根据不同的提价周期进行数据初始化
         switch (per) {
             case 0:

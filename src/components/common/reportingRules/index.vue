@@ -64,10 +64,6 @@ export default {
         this.showAdd = false;
         this.showList = true;
       }
-    },
-    mounted () {
-    },
-    destroyed () {
     }
 }
 </script>
