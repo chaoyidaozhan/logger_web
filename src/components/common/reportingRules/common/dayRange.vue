@@ -2,7 +2,7 @@
   <div class="dayRange mb-flex mb-flex-align-center">
     <div class="yy-icon-Vjiantou-zuo" @click="timeToggle('right')" ></div>
     <div class="timer">&nbsp;&nbsp;{{dateText}}&nbsp;&nbsp;</div>
-    <div class="yy-icon-Vjiantou-you" @click="timeToggle('left')"></div>
+    <div class="yy-icon-Vjiantou-you" @click="timeToggle('left')" :class="{disabled:this.rtDisabled}"></div>
   </div>
 </template>
 <script>
@@ -11,12 +11,12 @@ import formatTime from 'app_src/filters/format-time';
 export default {
   data () {
     return {
-      timerList: [],
-      dateIndex: 0,
-      showDots: false,
-      dateText: null,
-			ltDisabled: false,
-			rtDisabled: false
+        timerList: [],
+        dateIndex: 0,
+        showDots: false,
+        dateText: null,
+        ltDisabled: false,
+        rtDisabled: false
     }
   },
   methods: {
