@@ -274,11 +274,11 @@ export default {
           let submitStartTimeDealWith = {};
           let submitEndTimeDealWith = {};
           let submitStartWeek = [];
+          submitStartTimeDealWith = timeDealWith(currentItemDetailMsg.submitStartTime);
+          submitEndTimeDealWith = timeDealWith(currentItemDetailMsg.submitEndTime);
+          formData.submitStartTime = submitStartTimeDealWith.all;
+          formData.submitEndTime = submitEndTimeDealWith.all;
           if(submitPeriodic == 0 || submitPeriodic == 2) {
-              submitStartTimeDealWith = timeDealWith(currentItemDetailMsg.submitStartTime);
-              submitEndTimeDealWith = timeDealWith(currentItemDetailMsg.submitEndTime);
-              formData.submitStartTime = submitStartTimeDealWith.all;
-              formData.submitEndTime = submitEndTimeDealWith.all;
               this.startPickerDefault = {
                 name: submitStartTimeDealWith.all,
                 value: submitStartTimeDealWith.num
@@ -294,6 +294,14 @@ export default {
               formData.submitStartWeek = currentItemDetailMsg.submitStartWeek.split(',')
             break;
             case 1:
+              this.startPickerDefault = {
+                name: (currentItemDetailMsg.submitStartWeek + ' ' + submitStartTimeDealWith.all),
+                value: (currentItemDetailMsg.submitStartWeek + ' ' + submitStartTimeDealWith.num)
+              };
+              this.endPickerDefault = {
+                name: (currentItemDetailMsg.submitEndWeek + ' ' + submitEndTimeDealWith.all),
+                value: (currentItemDetailMsg.submitEndWeek + ' ' + submitEndTimeDealWith.num)
+              };
               formData.doubleWeekRemind = !!currentItemDetailMsg.doubleWeekRemind;
               formData.remindThisWeek = !!currentItemDetailMsg.remindThisWeek;
               formData.doubleWeekRemind && (formData.submitPeriodic = 3);
@@ -312,8 +320,8 @@ export default {
             this.handleSubmitEndTime(submitPeriodic);
           }else if(currentItemDetailMsg.submitPeriodic == 1) {
             this.columnsNum = 2;
-            // this.handleSubmitStartTime(submitPeriodic);
-            // this.handleSubmitEndTime(submitPeriodic);
+            this.handleSubmitStartTime(1);
+            this.handleSubmitEndTime(1);
           }
           this.formData = {
             ...this.formData,

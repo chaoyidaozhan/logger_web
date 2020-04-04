@@ -15,7 +15,7 @@
             v-for="(item, i) in firstColumsData"
             :key="i"
             @click="setFirstCol(item)"
-            :class="{'active': currentFirstCol.name == item.name}">
+            :class="{'active': currentFirstCol.value == item.value}">
               {{item.name}}
           </li>
         </ul>
@@ -27,7 +27,7 @@
               v-for="(item, i) in secondColumsData"
               :key="i"
               @click="setSecondCol(item)"
-              :class="{'active': currentSecondCol.name == item.name}">
+              :class="{'active': currentSecondCol.value == item.value}">
                 {{item.name}}
               </li>
         </ul>
