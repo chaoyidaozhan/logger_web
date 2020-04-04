@@ -66,7 +66,7 @@
             </YYSelect>
             </div>
           </div>
-          <!-- 周期选择日 -->
+          <!-- 周期选择日  指定日期-->
           <div class="item mb-flex mb-flex-pack-justify" v-if="formData.submitPeriodic == 0">
             <div class="itemTitle">
               {{$t('date.appointedDate')}}
@@ -263,25 +263,20 @@ export default {
             num: (+arr[0])
           };
         };
+        let submitPeriodic = currentItemDetailMsg.submitPeriodic;
         if(detailMsgKeys.length) {
           formData = {
             templateId: currentItemDetailMsg.id + '',
             diarySubmitPeopleStr: currentItemDetailMsg.diarySubmitPeople,
-            submitPeriodic: currentItemDetailMsg.submitPeriodic,
+            submitPeriodic: submitPeriodic,
             submitDate: currentItemDetailMsg.submitDate
           };
           let submitStartTimeDealWith = {};
           let submitEndTimeDealWith = {};
-          switch (+currentItemDetailMsg.submitPeriodic) {
-            case 0:
-
-            break;
-            case 1:
-
-            break;
-            case 2:
+          let submitStartWeek = [];
+          if(submitPeriodic == 0 || submitPeriodic == 2) {
               submitStartTimeDealWith = timeDealWith(currentItemDetailMsg.submitStartTime);
-              submitEndTimeDealWith = timeDealWith(currentItemDetailMsg.submitEndTime)
+              submitEndTimeDealWith = timeDealWith(currentItemDetailMsg.submitEndTime);
               formData.submitStartTime = submitStartTimeDealWith.all;
               formData.submitEndTime = submitEndTimeDealWith.all;
               this.startPickerDefault = {
@@ -293,18 +288,37 @@ export default {
                 value: submitEndTimeDealWith.num
               };
               this.columnsNum = 1;
+          }
+          switch (submitPeriodic) {
+            case 0:
+              formData.submitStartWeek = currentItemDetailMsg.submitStartWeek.split(',')
+            break;
+            case 1:
+              formData.doubleWeekRemind = !!currentItemDetailMsg.doubleWeekRemind;
+              formData.remindThisWeek = !!currentItemDetailMsg.remindThisWeek;
+              formData.doubleWeekRemind && (formData.submitPeriodic = 3);
+            break;
+            case 2:
+              
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
           if(!formData.remindTime) {
             formData.remindType = 0;
           }
+          if(submitPeriodic == 0 || submitPeriodic == 2) {
+            this.columnsNum = 1;
+            this.handleSubmitStartTime(submitPeriodic);
+            this.handleSubmitEndTime(submitPeriodic);
+          }else if(currentItemDetailMsg.submitPeriodic == 1) {
+            this.columnsNum = 2;
+            // this.handleSubmitStartTime(submitPeriodic);
+            // this.handleSubmitEndTime(submitPeriodic);
+          }
           this.formData = {
             ...this.formData,
             ...formData
           };
-          this.handleSubmitStartTime(2);
-          this.handleSubmitEndTime(2)
         }else {
           this.handleSubmitPeriodic(0);
         }
