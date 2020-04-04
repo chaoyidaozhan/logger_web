@@ -16,7 +16,14 @@
           </div>
           <div class="body">
             <div class="scrollBody" v-if="listArr.length">
-              <Item :data="item" v-for="(item, i) in listArr" :key=i @getDetail="getDetail" @toEdit="toEdit" @delRule="delRule"></Item>
+              <Item 
+                :data="item" 
+                v-for="(item, i) in listArr" 
+                :key="i" 
+                @getDetail="getDetail" 
+                @toEdit="toEdit" 
+                @delRule="delRule">
+              </Item>
             </div>
             <div class="noImgCtn" v-else>
               <img class="noDataImg" :src="tip_data">
@@ -79,7 +86,6 @@ export default {
         this.$emit('changeShow', 1)
       },
       setRules () {
-        // 1 关闭 2 设置规则  3 查看详情
         this.$emit('changeShow', 2)
       },
       itemDetailMsg(item, queryDate = '') {

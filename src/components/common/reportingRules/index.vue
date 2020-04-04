@@ -44,22 +44,25 @@ export default {
       },
       changeShowDetail (flag, detailMsg = {}) {
         this.detailMsg = detailMsg;
-        this.showList = false
-        this.showDetail = false
         switch (flag) {
           case 'close' :
             this.showDetail = false
             break;
           case 2 :
+            this.showList = false
+            this.showDetail = false
             this.showAdd = true
             break;
           case 3 :
+            this.showList = false
+            this.showDetail = false
             this.showAdd = true
             break;
         }
       },
       changeShowAdd () {
         this.showAdd = false;
+        this.showList = true;
       }
     },
     mounted () {

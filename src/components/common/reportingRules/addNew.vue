@@ -184,10 +184,6 @@ export default {
         default: function() {
           return {};
         }
-      },
-      isEdit: {
-        type: Boolean,
-        default: false
       }
     },
     components: {
@@ -256,9 +252,10 @@ export default {
       // 
       // 
       getRule() { 
-        if(this.isEdit) {
-          this.getEditData();
-        } else {
+        let detailMsgKeys = Object.keys(this.detailMsg);
+        if(detailMsgKeys.length) {
+
+        }else {
           this.handleSubmitPeriodic(0);
         }
       },
@@ -607,7 +604,7 @@ export default {
         });
         this.handleSubmitPeriodic(this.formData.submitPeriodic)
       },
-      getEditData() { // 获取编辑内容
+      getEditData() {
         this.$ajax({
             url: `/diarySubmitRule/getRuleDetail`,
             data: {
