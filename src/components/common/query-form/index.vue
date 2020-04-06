@@ -103,7 +103,7 @@
                 </YYButton>
             </FormItem>
             <div v-if="showReportRule" class="reportRules">
-                <YYButton type="ghost" @click="setReportingRules()">
+                <YYButton type="ghost" @click="setReportingRules">
                     {{$t('operate.reportRules')}}
                 </YYButton>
             </div>
@@ -283,7 +283,6 @@ export default {
         },
         setReportingRules () {
             this.showReportingRules = !this.showReportingRules
-            // console.log(this.)
         },
         classifyHandleChange (v) {
             this.isDeptShow = false
@@ -392,15 +391,15 @@ export default {
             }
             this.trimIds(data)
             let isDept = params === 0 || params == 1 ? true : false
-            if((isDept && data.deptId === undefined) || (!isDept && data.groupId === undefined)) {
+            if((isDept && data.deptIds === undefined) || (!isDept && data.groupIds === undefined)) {
                 return
             }
             let path = (params === 1 || params === 3)
                      ? "exportExcelIncludeUserStatisticsByCondition"
                      : "exportExcelStatisticsByCondition"
-            let deptOrGroupId = data.deptId !== undefined
-                              ? `deptId=${data.deptId}`
-                              : `groupId=${data.groupId}`
+            let deptOrGroupId = data.deptIds !== undefined
+                              ? `deptId=${data.deptIds}`
+                              : `groupId=${data.groupIds}`
             let host = `${window.location.protocol}//${window.location.host}/logger`
             let url = `${host}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&language=${window.lang}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}&start=${data.start}`
             window.open(url)
