@@ -398,8 +398,8 @@ export default {
                      ? "exportExcelIncludeUserStatisticsByCondition"
                      : "exportExcelStatisticsByCondition"
             let deptOrGroupId = data.deptIds !== undefined
-                              ? `deptId=${data.deptIds}`
-                              : `groupId=${data.groupIds}`
+                              ? `deptIds=${data.deptIds}`
+                              : `groupIds=${data.groupIds}`
             let host = `${window.location.protocol}//${window.location.host}/logger`
             let url = `${host}/diaryQuery/${path}?token=${this.$store.state.userInfo.token}&timestamp=${new Date().getTime()}&language=${window.lang}&orderType=${data.orderType}&${deptOrGroupId}&templateId=${data.templateId}&years=${data.years}&start=${data.start}`
             window.open(url)
