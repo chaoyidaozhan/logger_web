@@ -39,7 +39,7 @@
             <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
                 <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
             </FormItem>
-             <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
+             <FormItem :label-width="50" :label="$t('noun.author')" v-if="isMemberShow">
                 <fs-select-member ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
@@ -60,7 +60,7 @@
                     :group="group"
                     @handleSelect="handleSelect"/>
             </FormItem>
-            <FormItem :label-width="lang === 'en' ? 76 : 40" :label="$t('noun.department')"  v-if="showDept">
+            <FormItem :label-width="lang === 'en' ? 76 : 40" :label="$t('noun.department')"  v-if="isDeptShow">
                 <fs-select-tree-input ref="selectDept" 
                     :title="`${$t('operate.select')}${$t('noun.department')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.department')}`"
@@ -72,7 +72,7 @@
                     :limit="{ showAll: true, warning: '', count: 1 }"
                     :deptApiUri="deptApiUri"/>
             </FormItem> 
-            <FormItem :label-width="lang === 'en' ? 98 : 50" :label="$t('noun.internalGroup')"  v-if="showGroup">
+            <FormItem :label-width="lang === 'en' ? 98 : 50" :label="$t('noun.internalGroup')"  v-if="isGroupShow">
                 <fs-select-tree-input ref="selectGroup" 
                     :title="`${$t('operate.select')}${$t('noun.internalGroup')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.internalGroup')}`"
@@ -140,6 +140,7 @@
  * showOrderType 是否显示选择日期类型组件
  * showOrderTypeMulti 选择日期类型是否支持选择日期
  * showExportExcel 是否显示日志统计导出按钮
+ * showReportRule 是否显示规则分类:部门,人员,内部群
  **/
 import ReportingRules from '../reportingRules/'
 import FsSelectTreeInput from '../select-tree-input/'
@@ -180,22 +181,22 @@ export default {
             type: Boolean,
             default: false
         },
-        // showDept: {
-        //     type: Boolean,
-        //     default: false
-        // },
-        // showGroup: {
-        //     type: Boolean,
-        //     default: false
-        // },
+        showDept: {
+            type: Boolean,
+            default: false
+        },
+        showGroup: {
+            type: Boolean,
+            default: false
+        },
         showAllMember: {
             type: Boolean,
             default: false
         },
-        // showMember: {
-        //     type: Boolean,
-        //     default: false
-        // },
+        showMember: {
+            type: Boolean,
+            default: false
+        },
         showOrderType: {
             type: Boolean,
             default: false
@@ -253,10 +254,10 @@ export default {
     data() {
         return {
             showReportingRules: false,
-            showDept: false,
-            showGroup: false,
-            showMember: false,
-            classificationArrData: [], // 分类
+            isDeptShow: this.showDept,
+            isGroupShow: this.showGroup,
+            isMemberShow: this.showMember,
+            classificationArrData: '1', // 分类
             dept: [], // 组织
             group: [], // 内部群
             member: [], // 提交人
@@ -284,18 +285,20 @@ export default {
             // console.log(this.)
         },
         classifyHandleChange (v) {
-            this.showDept = false
-            this.showGroup = false
-            this.showMember = false
-            if(v == 1) {
-                this.showDept = true
-            }
-            if(v == 2) {
-                this.showMember = true
-            }
-            if(v == 3) {
-                this.showGroup = true
-            }
+            this.isDeptShow = false
+            this.isGroupShow = false
+            this.isMemberShow = false
+            this.$nextTick(() => {
+                if(v == '1') {
+                    this.isDeptShow = true
+                }
+                if(v == '2') {
+                    this.isMemberShow = true
+                }
+                if(v == '3') {
+                    this.isGroupShow = true
+                }
+            });
         },
         trimIds(params) { // 整理id数据
             if(this.member && !!this.member.length) { // 整理人员id
