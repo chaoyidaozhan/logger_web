@@ -20,8 +20,8 @@ export default {
             maxDate: '',
             validateString: null,
             validateMsg: {
-                deptId: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.department')}`,
-                groupId: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.internalGroup')}`,
+                deptIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.department')}`,
+                groupIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.internalGroup')}`,
                 memberIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.author')}`,
             }
         }
@@ -37,13 +37,13 @@ export default {
              // classification 1部门 deptId ;   2人员 memberIds   3内部群 groupId
              switch (params.classification) {
                 case '1':
-                    this.validateString = 'deptId';
+                    this.validateString = 'deptIds';
                     break
                 case '2':
                     this.validateString = 'memberIds';
                     break
                 case '3':
-                    this.validateString = 'groupId';
+                    this.validateString = 'groupIds';
                     break
             }
             if (!!this.validateString && 

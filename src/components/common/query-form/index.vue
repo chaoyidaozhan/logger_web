@@ -4,6 +4,7 @@
             <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
             <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showReportRule">
                <YYSelect 
+                    :invertable="false"
                     v-model="classificationArrData" 
                     @on-change="classifyHandleChange" style="width: 180px">
                     <YYOption value="1">
@@ -69,7 +70,7 @@
                     :showMember="false"
                     :showDept="true"
                     :dept="dept"
-                    :limit="{ showAll: true, warning: '', count: 1 }"
+                    :limit="{ showAll: false, warning: '', count: 10 }"
                     :deptApiUri="deptApiUri"/>
             </FormItem> 
             <FormItem :label-width="lang === 'en' ? 98 : 50" :label="$t('noun.internalGroup')"  v-if="isGroupShow">
@@ -80,7 +81,7 @@
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
-                    :limit="{ showAll: true, warning: '', count: 1 }"
+                    :limit="{ showAll: false, warning: '', count: 10 }"
                     :groupApiUri="groupApiUri"/>
             </FormItem> 
             <!-- <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
@@ -309,18 +310,18 @@ export default {
                 params.memberIds = memberIds.join(',')
             }
             if(this.dept && !!this.dept.length) { // 整理组织id
-                let deptId = []
+                let deptIds = []
                 this.dept.forEach(item=>{
-                    deptId.push(item.deptId)
+                    deptIds.push(item.deptId)
                 })
-                params.deptId = deptId.join(',')
+                params.deptIds = deptIds.join(',')
             }
             if(this.group && !!this.group.length) { // 整理内部群
-                let groupId = []
+                let groupIds = []
                 this.group.forEach(item=>{
-                    groupId.push(item.gid)
+                    groupIds.push(item.gid)
                 })
-                params.groupId = groupId.join(',')
+                params.groupIds = groupIds.join(',')
             }
         },
         rulesValidate(params) { // 非空验证
