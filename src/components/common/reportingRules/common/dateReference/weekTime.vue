@@ -87,8 +87,11 @@ export default {
           }
         },
         secondColDefault: {
-          type: String,
-          default: ''
+          type: Object,
+          default: {
+            name: '',
+            value: ''
+          }
         },
         showValue: {
           type: String,

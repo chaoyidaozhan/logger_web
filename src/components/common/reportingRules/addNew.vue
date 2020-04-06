@@ -107,6 +107,7 @@
                   :secondColData="startPickersecondColData"
                   :columns="columnsNum"
                   :firstColDefault="startPickerDefault"
+                  :secondColDefault="startPickerSecondColDefault"
                   :showValue="startPickerDefault.name">
                 </WeekTime>
             </div>
@@ -124,6 +125,7 @@
                   :secondColData="endPickersecondColData"
                   :columns="columnsNum"
                   :firstColDefault="endPickerDefault"
+                  :secondColDefault="endPickerSecondColDefault"
                   :showValue="endPickerDefault.name">
               </WeekTime>
             </div>
@@ -234,6 +236,8 @@ export default {
         endPickersecondColData: [],
         startPickerDefault: {},
         endPickerDefault: {},
+        startPickerSecondColDefault: {},
+	      endPickerSecondColDefault: {},
         remindTimeArr: []
       }
     },
@@ -251,7 +255,7 @@ export default {
       },
       // 
       // 
-      getRule() {console.log(this.detailMsg)
+      getRule() {
         let detailMsg = this.detailMsg;
         let currentItemDetailMsg = Object.assign({}, detailMsg.currentItemDetailMsg);
         let formData = {};
@@ -260,7 +264,7 @@ export default {
           let arr = clock.split(':');
           return {
             all: (arr[0] + ':' + arr[1]),
-            num: (+arr[0])
+            num: arr[0]
           };
         };
         let submitPeriodic = currentItemDetailMsg.submitPeriodic;
@@ -295,12 +299,20 @@ export default {
             break;
             case 1:
               this.startPickerDefault = {
-                name: (currentItemDetailMsg.submitStartWeek + ' ' + submitStartTimeDealWith.all),
-                value: (currentItemDetailMsg.submitStartWeek + ' ' + submitStartTimeDealWith.num)
+                name: this.week[+currentItemDetailMsg.submitStartWeek] + ' ' + submitStartTimeDealWith.all,
+                value: currentItemDetailMsg.submitStartWeek
+              };
+              this.startPickerSecondColDefault = {
+                name: submitStartTimeDealWith.all,
+                value: submitStartTimeDealWith.num
               };
               this.endPickerDefault = {
-                name: (currentItemDetailMsg.submitEndWeek + ' ' + submitEndTimeDealWith.all),
-                value: (currentItemDetailMsg.submitEndWeek + ' ' + submitEndTimeDealWith.num)
+                name: this.week[+currentItemDetailMsg.submitEndWeek] + ' ' + submitEndTimeDealWith.all,
+                value: currentItemDetailMsg.submitEndWeek
+              };
+              this.endPickerSecondColDefault = {
+                name: submitEndTimeDealWith.all,
+                value: submitEndTimeDealWith.num
               };
               formData.doubleWeekRemind = !!currentItemDetailMsg.doubleWeekRemind;
               formData.remindThisWeek = !!currentItemDetailMsg.remindThisWeek;
