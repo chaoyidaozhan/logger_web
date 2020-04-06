@@ -91,8 +91,8 @@
                     :member="member"
                     @handleSelect="handleSelect"/>
             </FormItem>  -->
-            <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || showOrderTypeMulti">
-                <fs-select-order-type ref="selectOrderType" :classificationArrData="classificationArrData" :multi="showOrderTypeMulti"/>
+            <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showOrderType || orderTypeMulti">
+                <fs-select-order-type ref="selectOrderType" :classificationArrData="classificationArrData" :multi="orderTypeMulti"/>
             </FormItem> 
             <FormItem class="form-item-checkbox" v-if="showWithPublic">
                 <YYCheckbox v-model="withPublic" @on-change="handleChangePublic">{{$t('operate.withPublic')}}</YYCheckbox>
@@ -266,7 +266,8 @@ export default {
             loading: false,
             withPublic: false,
             isGroupOrDeptSelectedAll: false,
-            showReportingRulesFlag: true
+            showReportingRulesFlag: true,
+            orderTypeMulti: this.showOrderTypeMulti
         }
     },
     methods: {
@@ -291,15 +292,15 @@ export default {
             this.$nextTick(() => {
                 if(v == '1') {
                     this.isDeptShow = true
-                    this.showOrderTypeMulti = 'dept'
+                    this.orderTypeMulti = 'dept'
                 }
                 if(v == '2') {
                     this.isMemberShow = true
-                    this.showOrderTypeMulti = 'member'
+                    this.orderTypeMulti = 'member'
                 }
                 if(v == '3') {
                     this.isGroupShow = true
-                    this.showOrderTypeMulti = 'group'
+                    this.orderTypeMulti = 'group'
                 }
             });
         },

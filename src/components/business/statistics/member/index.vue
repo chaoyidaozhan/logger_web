@@ -134,7 +134,7 @@ export default {
                     this.start = beginDate || '';
                     this.end = endDate || '';
                 }
-                if(this.params.memberIds) {
+                if(this.params.memberIds || this.params.groupIds || this.params.deptIds) {
                     this.loadData();
                 } 
                 this.$eventbus.$emit('getStartEndTime', {
