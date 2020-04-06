@@ -291,12 +291,15 @@ export default {
             this.$nextTick(() => {
                 if(v == '1') {
                     this.isDeptShow = true
+                    this.showOrderTypeMulti = 'dept'
                 }
                 if(v == '2') {
                     this.isMemberShow = true
+                    this.showOrderTypeMulti = 'member'
                 }
                 if(v == '3') {
                     this.isGroupShow = true
+                    this.showOrderTypeMulti = 'group'
                 }
             });
         },
