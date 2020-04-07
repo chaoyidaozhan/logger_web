@@ -3,8 +3,8 @@
    <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="title">{{detailMsg.templateName}}</div>
       <div class="editAndDelete mb-flex mb-flex-pack-justify">
-        <div class="edit yy-icon-bianji" @click.stop="toEdit()"></div>
-        <div class="delete yy-icon-lajitong" @click.stop="delRule()"></div>
+        <div class="edit yy-icon-bianji" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="toEdit"></div>
+        <div class="delete yy-icon-lajitong" @click.stop="delRule"></div>
       </div>
    </div>
    <div class="subHeader">
@@ -12,7 +12,7 @@
      <div class="desc">{{detailMsg.detailMsgTime}}</div>
    </div>
    <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
-    <div class="lookDetail" @click="getDetail()">
+    <div class="lookDetail" @click="getDetail">
       <span>{{$t('operate.viewDetails')}}</span>
       <i class="yy-icon-Vjiantou-you"></i>
     </div>
@@ -43,7 +43,8 @@ export default {
     },
     data() {
         return {
-          detailMsg: {}
+          detailMsg: {},
+          currentMemberId: this.$store.state.userInfo.member_id
         }
     },
     methods: {
@@ -94,6 +95,9 @@ export default {
     .delete {
       font-size: 16px;
       cursor: pointer;
+    }
+    .notCreater {
+      visibility: hidden;
     }
   }
   &:hover .editAndDelete {
