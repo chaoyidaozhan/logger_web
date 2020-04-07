@@ -318,6 +318,7 @@ export default {
     //     }
     // }
     .page-logger-list {
+        z-index: 2020;
         height: 100%;
         overflow: auto;
         .loading {
