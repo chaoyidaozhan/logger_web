@@ -147,7 +147,8 @@ module.exports = {
                 loader: 'url-loader',
                 query: {
                     limit: 10000,
-                    name: 'fonts/[name].[hash:8].[ext]'
+                    name: 'fonts/[name].[hash:8].[ext]',
+                    publicPath: './'
                 }
             },
             {

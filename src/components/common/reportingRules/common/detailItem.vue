@@ -18,9 +18,8 @@
    <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
     <div class="photoInfor mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="mb-flex">
-        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
-        <img class="personPhoto" src='http://ykj-esn-test.oss-cn-beijing.aliyuncs.com/10668/3259547/201802/9/151815486186b6e5713f8117fa31190a7f2cba2cfd.jpg.thumb.jpg'>
+        
+        <img class="personPhoto" v-for="(item, index) in currentItemDetailMsg.unSubmit" :src="item.avatar">
       </div>
       <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', currentItemDetailMsg.unSubmitCount || '')}}</div>
     </div>
@@ -51,6 +50,7 @@ export default {
   },
   created() {
     this.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
+    console.log(this.currentItemDetailMsg)
   }
 }
 </script>

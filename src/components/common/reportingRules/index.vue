@@ -62,7 +62,8 @@ export default {
       },
       changeShowAdd () {
         this.showAdd = false;
-        this.showList = true;
+        this.showList = false;
+        this.showDetail = false;
       }
     }
 }
