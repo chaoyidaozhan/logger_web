@@ -643,6 +643,9 @@ export default {
                 ctx.lineTo(e.offsetX/times, e.offsetY/times);
                 ctx.stroke();
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
+                if(!!window.getSelection().toString()){
+                    window.getSelection().removeAllRanges()
+                }
             }
 
             function mouseupCanval(e){
@@ -663,7 +666,7 @@ export default {
                 canvaldialog.style.right = 0
                 canvaldialog.style.top = 0
                 canvaldialog.style.bottom = 0
-                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth)/2 + 'px'
+                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 400)/2 + 'px'
 
                 canvas.width = pageLoggerList.offsetWidth
                 canvas.height = _this.$el.scrollHeight
