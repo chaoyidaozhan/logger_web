@@ -666,7 +666,7 @@ export default {
                 canvaldialog.style.right = 0
                 canvaldialog.style.top = 0
                 canvaldialog.style.bottom = 0
-                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 400)/2 + 'px'
+                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 200)/2 + 'px'
 
                 canvas.width = pageLoggerList.offsetWidth
                 canvas.height = _this.$el.scrollHeight
@@ -742,7 +742,7 @@ export default {
 @import '~app_assets/css/var.less';
 .logger-item-modal{
     position: relative;
-    margin: auto;
+    // margin: auto;
     width: 70%;
     // padding: 60px;
     // transform: scale(.7);
