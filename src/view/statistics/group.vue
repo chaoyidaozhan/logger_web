@@ -16,7 +16,7 @@
             <fs-common-statistics 
                 :params="params"
                 type="group"
-                :title="`${$t('noun.internalGroup')}${$t('noun.name')}`"
+                :title="`${$t('noun.personnel')}${$t('noun.name')}`"
             />
         </template>
     </fs-frame>
