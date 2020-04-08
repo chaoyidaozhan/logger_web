@@ -139,11 +139,12 @@ export default {
           content: `你将给“${memberNames.join(',')}”等${memberNames.length}人发送提交汇报提醒。`,
           onOk: () => {
             this.$ajax({
-                url: '/diaryStatistics/send',
+                url: '/diarySubmitRule/remind',
                 type: 'post',
                 data: {
-                  content: '',
-                  userIds: memberIds.join(',')
+                  diarySubmitRuleId: this.detailMsg.currentItemDetailMsg.id,
+                  memberIds: memberIds.join(','),
+                  queryDate: ''
                 },
                 requestBody: 1,
                 success: (res)=>{
