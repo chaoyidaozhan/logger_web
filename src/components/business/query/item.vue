@@ -643,8 +643,11 @@ export default {
                 pageLoggerList.scrollTop = this.loggerItem.offsetTop - 10
                 this.$el.querySelectorAll('.title').forEach((e)=>{
                     if(e.innerText === item.title && e.id === item.id.toString()){
-                            // let pageLoggerList = document.querySelector('.page-logger-list')
-                            // pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 10
+                        let pageContent = document.querySelector('.page-logger-content')
+                        if(e.offsetTop > pageContent.offsetHeight){
+                            let pageLoggerList = document.querySelector('.page-logger-list')
+                            pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 10
+                        }
                         e.style.animation = 'changeFont 1s';
                         setTimeout(() =>{
                             e.style.animation = '';
@@ -774,7 +777,7 @@ export default {
             }
             // margin: auto;
             // float: left;
-            padding: 32px 32px 20px 32px;
+            padding: 32px 32px 0 32px;
             position: relative;
             // background-image: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0.8),rgba(255,255,255,1));
             // background-color: @white-color;

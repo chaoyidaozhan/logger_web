@@ -368,7 +368,8 @@ export default {
         }
     },
     updated () {
-        this.openFullscreen(document.body)
+        // window.open()
+        this.openFullscreen(window.top.document.body)
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id

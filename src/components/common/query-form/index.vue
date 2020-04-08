@@ -272,6 +272,7 @@ export default {
     },
     methods: {
         globalModel() {
+            // window.open('/#/globalModal')
             this.$eventbus.$emit('openglobal')
         },  
         goLoggerDetail() {
