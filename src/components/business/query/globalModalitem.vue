@@ -82,7 +82,7 @@
                         <logger-list-content-node
                             v-for="(item, index) in JSON.parse(loggerItemData.content)"
                             :data="item"
-                            :key="`${index}global` + new Date()"
+                            :key="`${index}global`"
                             :filterEncode="filterEncode" />
                     </template>
                     <template v-else>
