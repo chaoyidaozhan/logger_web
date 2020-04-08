@@ -64,6 +64,9 @@ export default {
         this.showAdd = false;
         this.showList = false;
         this.showDetail = false;
+        this.$nextTick(() => {
+          this.showList = true;
+        });
       }
     }
 }

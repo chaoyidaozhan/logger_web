@@ -5,9 +5,9 @@
       <div class="container">
         <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
           <div class="title">{{$t('operate.setReportRules')}}</div>
-          <div class="yy-icon-guanbi" @click="close()"></div>
+          <div class="yy-icon-guanbi" @click="close"></div>
         </div>
-        <DetailItem @edit="editClick()" :detailMsg="detailMsgCopy"></DetailItem>
+        <DetailItem @edit="editClick" :detailMsg="detailMsgCopy"></DetailItem>
         <dayRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 0" 
           class="dateRangeCommon" 
@@ -23,7 +23,7 @@
           class="dateRangeCommon" 
           @handleChangeDate="handleChangeDate">
         </monthRange>
-        <TabPersonList :detailMsg="detailMsgCopy"></TabPersonList>
+        <TabPersonList :detailMsg="detailMsgCopy" :dateRange="dateRange"></TabPersonList>
       </div>
     </div>
   </transition>
@@ -54,7 +54,8 @@ export default {
     data() {
         return {
           tip_data,
-          detailMsgCopy: {}
+          detailMsgCopy: {},
+          dateRange: {}
         }
     },
     methods: {
@@ -75,6 +76,7 @@ export default {
         });
       },
       handleChangeDate(data) {
+        this.dateRange = data
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
           responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
           this.detailMsgCopy = responseData;

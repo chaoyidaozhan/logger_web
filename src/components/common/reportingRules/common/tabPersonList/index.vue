@@ -50,7 +50,13 @@ export default {
       default: function() {
         return {};
       }
-    }
+    },
+    dateRange: {
+      type: Object,
+      default: function() {
+        return {};
+      }
+    },
   },
   data () {
     let diarySubumitList = this.detailMsg.diarySubumitList;
@@ -144,15 +150,15 @@ export default {
                 data: {
                   diarySubmitRuleId: this.detailMsg.currentItemDetailMsg.id,
                   memberIds: memberIds.join(','),
-                  queryDate: ''
+                  queryDate: this.dateRange.beginDate
                 },
-                requestBody: 1,
+                requestBody: true,
                 success: (res)=>{
                     if(res && res.code == 0) {
                       this.$YYMessage.success(res)
                     }
                 }
-            })
+            });
           }
       })
     },
