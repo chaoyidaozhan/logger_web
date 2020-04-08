@@ -220,7 +220,7 @@
                                 :dailyId="loggerItemData.id"/>
                         </div>
                     </div>
-                    <div class="line" v-if="!loggerItemData.islast"></div>
+                    <div class="line" v-if="!loggerItemData.islast && !this.isShowMenu"></div>
                 </div>
                 <div v-if="this.isShowMenu" class="borderStyle">
                     <div class="topLine"></div>
