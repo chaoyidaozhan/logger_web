@@ -4,7 +4,7 @@
       <div class="bgCover" @click="close()"></div>
       <div class="container">
           <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
-            <div>{{$t('operate.reportRules')}}</div>
+            <div class="title">{{$t('operate.reportRules')}}</div>
             <div class="mb-flex-1">
               <YYButton
                 type="ghost" 
@@ -139,7 +139,7 @@ export default {
   .container {
     font-size: 12px;
     position: fixed;
-    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    box-shadow: -8px 0px 30px 0px rgba(74,81,93,0.2);
     width: 470px;
     height: 100%;
     z-index: 99;
@@ -149,6 +149,9 @@ export default {
     .header {
       height: 48px;
       padding: 0 20px;
+      .title {
+        
+      }
       .mb-flex-1 {
         padding-right: 23px;
         text-align: right;

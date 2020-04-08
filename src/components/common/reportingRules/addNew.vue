@@ -814,7 +814,7 @@ export default {
   .container {
     font-size: 12px;
     position: fixed;
-    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    box-shadow: -8px 0px 30px 0px rgba(74,81,93,0.2);
     width: 470px;
     height: 100%;
     z-index: 101;

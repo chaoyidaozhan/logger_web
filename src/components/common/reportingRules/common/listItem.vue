@@ -3,7 +3,7 @@
    <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="title">{{detailMsg.templateName}}</div>
       <div class="editAndDelete mb-flex mb-flex-pack-justify">
-        <div class="edit yy-icon-bianji" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="toEdit"></div>
+        <div class="edit yy-icon-bianji-2" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="toEdit"></div>
         <div class="delete yy-icon-lajitong" @click.stop="delRule"></div>
       </div>
    </div>
@@ -85,6 +85,7 @@ export default {
     .editAndDelete {
       visibility: hidden;
       width: 47px;
+      color: #666;
     }
     .edit {
       font-size: 16px;
