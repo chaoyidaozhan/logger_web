@@ -368,7 +368,7 @@ export default {
         }
     },
     updated () {
-        this.openFullscreen(document.getElementById("globalModal"))
+        this.openFullscreen(document.body)
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
