@@ -18,14 +18,14 @@
         <template v-else>
             <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
             <div class="commonTemplateList">
-                <transition-group :name="animate">
+                <transition-group :name="animate" class="commonTemplateListGrid">
                     <div class="col" v-for="item in recentlyTemplates" :key="item.id">
                         <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
                     </div>
                 </transition-group>
             </div>
             <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
-            <transition-group :name="animate">
+            <transition-group :name="animate" class="allTemplateList">
                 <div class="col" v-for="item in list" :key="item.id">
                     <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
                 </div>
@@ -176,6 +176,15 @@ export default {
     }
     .allTemplate {
         padding-top: 8px;
+    }
+    .commonTemplateListGrid,
+    .allTemplateList {
+        display: grid;
+        grid-row-gap: 16px;
+        grid-column-gap: 16px;
+        grid-template-rows: repeat(auto-fill, 110px);
+        grid-template-columns: repeat(auto-fill, 275px);
+        justify-content: center;
     }
     .template-item-content-create {
         span {
