@@ -12,9 +12,9 @@
      <div class="desc">{{detailMsg.detailMsgTime}}</div>
    </div>
    <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
-    <div class="lookDetail" @click="getDetail">
-      <span>{{$t('operate.viewDetails')}}</span>
-      <i class="yy-icon-Vjiantou-you"></i>
+    <div class="lookDetail mb-flex mb-flex-align-center" @click="getDetail">
+      <div>{{$t('operate.viewDetails')}}</div>
+      <div class="yy-icon-Vjiantou-you"></div>
     </div>
     <div class="photoInfor mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="mb-flex">
@@ -118,8 +118,8 @@ export default {
     margin-top: 8px;
     .lookDetail {
       font-size: 14px;
-      cursor: pointer;
       color: #3B76DD;
+      cursor: pointer;
     }
     .photoInfor {
       width: 124px;

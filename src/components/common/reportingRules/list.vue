@@ -12,7 +12,7 @@
                 {{$t('operate.setReportRules')}}
               </YYButton>
             </div>
-            <div class="yy-icon-guanbi" @click="close()"></div>
+            <div class="yy-icon-guanbi" @click="close"></div>
           </div>
           <div class="body">
             <div class="scrollBody" v-if="listArr.length">
@@ -75,7 +75,7 @@ export default {
             type: 'get',
             data: {},
             success: res => {
-              if (res && res.data) {
+              if (res && res.code == 0) {
                 this.listArr = res.data || [];
               }
             }
