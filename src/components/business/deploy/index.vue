@@ -32,10 +32,9 @@
                     </div>
                 </div>
                 <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" v-for="(item, index) in currentRoleMapTemplate">
-                        <div class="templateTitle">{{item.title}}</div>
-                        <div class="yy-icon-guanbi" @click.stop="delRoleTemplate(item)"></div>
-                    </div>
+                    <YYTag @on-delete="delRoleTemplate(item)" closeable v-for="(item, index) in currentRoleMapTemplate">
+                        {{item.title}}
+                    </YYTag>
                 </div>
             </div>
             <div class="changeOperate mb-flex mb-flex-pack-justify">
