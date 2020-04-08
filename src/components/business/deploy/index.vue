@@ -32,10 +32,9 @@
                     </div>
                 </div>
                 <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" v-for="(item, index) in currentRoleMapTemplate">
-                        <div class="templateTitle">{{item.title}}</div>
-                        <div class="yy-icon-guanbi" @click.stop="delRoleTemplate(item)"></div>
-                    </div>
+                    <YYTag @on-delete="delRoleTemplate(item)" closeable v-for="(item, index) in currentRoleMapTemplate">
+                        {{item.title}}
+                    </YYTag>
                 </div>
             </div>
             <div class="changeOperate mb-flex mb-flex-pack-justify">
@@ -183,7 +182,8 @@ export default {
             this.currentRoleMapTemplate = this.originCurrentRoleMapTemplate;
         },
         giveRoleAddTemplate() {
-            let twoDimensional = Object.values(this.allTemplatePagenumMapList);
+            let allTemplatePagenumMapList = Object.assign({}, this.allTemplatePagenumMapList);
+            let twoDimensional = Object.values(allTemplatePagenumMapList);
             let allSelectedTemplate = [];
             twoDimensional.forEach((itemA, indexA) => {
                 itemA.forEach((itemB, indexB) => {
@@ -199,6 +199,14 @@ export default {
                 excludeRepeat[item.id] = item;
             });
             this.currentRoleMapTemplate = Object.values(excludeRepeat);
+            // 
+            let twoDimensionalOrigin = Object.values(this.allTemplatePagenumMapList);
+            twoDimensionalOrigin.forEach((itemA, indexA) => {
+                itemA.forEach((itemB, indexB) => {
+                    itemB.isCurrentTemplateSelected = false;
+                });
+            });
+            this.isAddTemplateShow = false;
         },
         addRoleTemplate() {
             this.loadData();
@@ -713,6 +721,7 @@ export default {
             box-sizing: border-box;
             overflow-y: auto;
             height: 100%;
+            align-content: flex-start;
         }
         .templateItem {
             width: 275px;
