@@ -996,7 +996,7 @@ export default {
                 position: absolute;
                 left: 0;
                 right: 0;
-                top: 0;
+                top: 100px;
                 bottom: 0;
             }
             .loggerExpand{
@@ -1005,6 +1005,10 @@ export default {
                 // left: 0;
                 // right: 30px;
                 // bottom: 20px;
+                .line{
+                    background: #D9D9D9;
+                    height: 1px;
+                }
             }
             .handle-content-expand-btn {
                 color: @primary-color;
