@@ -18,7 +18,9 @@
     </div>
     <div class="photoInfor mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="mb-flex">
-        <img class="personPhoto" v-for="(item, index) in detailMsg.unSubmit" :src="item.avatar">
+        <template v-for="(item, index) in detailMsg.unSubmit">
+          <img class="personPhoto" v-if="index < 3" :src="item.avatar">
+        </template>
       </div>
       <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', detailMsg.unSubmitCount || '')}}</div>
     </div>
