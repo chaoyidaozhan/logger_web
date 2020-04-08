@@ -15,7 +15,7 @@
             <fs-common-statistics 
                 :params="params"
                 type="dept"
-                :title="`${$t('noun.personnel')}${$t('noun.name')}`"
+                :title="`${$t('noun.department')}${$t('noun.name')}`"
             />
         </template>
     </fs-frame>

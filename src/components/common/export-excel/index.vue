@@ -47,9 +47,10 @@
     .excel-btn-wrap {
         text-align: center;
         margin-right: 0;
-        border: 1px solid @select-item-bg;
+        // border: 1px solid @select-item-bg;
         background-color: @select-item-bg;
         border-radius: 4px;
+        box-sizing: border-box;
         .ivu-dropdown-item:hover {
             background: @select-item-bg;
         }

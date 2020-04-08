@@ -18,37 +18,12 @@
                     </YYOption>
                 </YYSelect>
             </FormItem> 
-            <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
-                <fs-select-tree-input ref="selectMember" 
-                    :title="`${$t('operate.select')}${$t('noun.author')}`"
-                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
-                    :showDept="true"
-                    :showGroup="true" 
-                    :member="member"
-                    :dept="dept"
-                    :group="group"
-                    @handleSelect="handleSelect"/>
-            </FormItem> 
-            <!-- <FormItem :class="'minFormItem'" :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate"> -->
-            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
-                <fs-select-template
-                    :hasDefaultTemplate="hasDefaultTemplate" 
-                    :templateType="templateType" 
-                    @handleChange="handleQuery"
-                    ref="selectTemplate"/>
-            </FormItem>
-            <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
-                <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
-            </FormItem>
-             <FormItem :label-width="50" :label="$t('noun.author')" v-if="isMemberShow">
+            <FormItem :label-width="50" :label="$t('noun.author')" v-if="isMemberShow">
                 <fs-select-member ref="selectMember" 
                     :title="`${$t('operate.select')}${$t('noun.author')}`"
                     :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
                     :member="member"
                     @handleSelect="handleSelect"/>
-            </FormItem> 
-            <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
-                <fs-select-date ref="selectDate" :createDate="createDate" @handleChange="handleQuery"/>
             </FormItem> 
             <FormItem :label-width="50" :label="$t('noun.author')"  v-if="showAllMember && showTemplateCheck">
                 <fs-select-tree-input ref="selectMember" 
@@ -83,6 +58,31 @@
                     :group="group"
                     :limit="{ showAll: false, warning: '', count: 10 }"
                     :groupApiUri="groupApiUri"/>
+            </FormItem> 
+            <!-- <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
+                <fs-select-tree-input ref="selectMember" 
+                    :title="`${$t('operate.select')}${$t('noun.author')}`"
+                    :placeholder="`${$t('operate.select')}${$t('noun.author')}`"
+                    :showDept="true"
+                    :showGroup="true" 
+                    :member="member"
+                    :dept="dept"
+                    :group="group"
+                    @handleSelect="handleSelect"/>
+            </FormItem>  -->
+            <!-- <FormItem :class="'minFormItem'" :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate"> -->
+            <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')"  v-if="showTemplate">
+                <fs-select-template
+                    :hasDefaultTemplate="hasDefaultTemplate" 
+                    :templateType="templateType" 
+                    @handleChange="handleQuery"
+                    ref="selectTemplate"/>
+            </FormItem>
+            <FormItem class="form-item-checkbox" v-if="showTemplateCheck">
+                <YYCheckbox @on-change="handleChange">{{$t('operate.disable')}}/{{$t('operate.delete')}}</YYCheckbox>
+            </FormItem>
+            <FormItem :label-width="40" :label="$t('noun.date')"  v-if="showDatePicker">
+                <fs-select-date ref="selectDate" :createDate="createDate" @handleChange="handleQuery"/>
             </FormItem> 
             <!-- <FormItem :label-width="50" :label="$t('noun.author')" v-if="showMember">
                 <fs-select-member ref="selectMember" 
