@@ -646,7 +646,6 @@ export default {
                 if(!!window.getSelection().toString()){
                     window.getSelection().removeAllRanges()
                 }
-                console.log("draw")
             }
 
             function mouseupCanval(e){
@@ -657,7 +656,6 @@ export default {
             function mouseenterCanval(e){
                 lastX = e.offsetX/times
                 lastY = e.offsetY/times
-                console.log("enter")
                 // isDrawing = sessionStorage.getItem('isDrawing')
                 // if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
                 // ctx.beginPath();
@@ -689,7 +687,6 @@ export default {
                 }
                 this.leaveX = e.offsetX/times
                 this.leaveY = e.offsetY/times
-                console.log("leave")
             }
 
             if(!isCanval){
