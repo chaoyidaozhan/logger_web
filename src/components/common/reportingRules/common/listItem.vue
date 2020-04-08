@@ -16,7 +16,7 @@
       <div>{{$t('operate.viewDetails')}}</div>
       <div class="yy-icon-Vjiantou-you"></div>
     </div>
-    <div class="photoInfor mb-flex mb-flex-align-center mb-flex-pack-justify">
+    <div class="photoInfor mb-flex mb-flex-align-center">
       <div class="mb-flex">
         <template v-for="(item, index) in detailMsg.unSubmit">
           <img class="personPhoto" v-if="index < 3" :src="item.avatar">
@@ -124,6 +124,10 @@ export default {
     .photoInfor {
       width: 124px;
       height: 20px;
+      justify-content: flex-end;
+      .mb-flex {
+        margin-right: 12px;
+      }
       .personPhoto {
         display: block;
         width: 20px;
