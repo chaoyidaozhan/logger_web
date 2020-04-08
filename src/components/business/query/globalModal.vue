@@ -1,6 +1,6 @@
 <template>
     <div v-if="showGlobalModal" id="globalModal" class="page-logger-list" @scroll.stop="onScroll">
-        <transition-group name="fade" class="spanModal">
+        <transition-group name="fade" class="spanModal" style="display: inline-block;">
             <fs-logger-list-item 
                 v-for="(item, index) in list"
                 @handleDelete="handleDelete"
@@ -426,6 +426,7 @@ export default {
     to   { transform: rotate(360deg);}
 }
 .page-logger-list {
+    z-index: 2020;
     text-align: center;
     position: absolute;
     left: 0;

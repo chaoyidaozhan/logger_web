@@ -82,7 +82,7 @@
                         <logger-list-content-node
                             v-for="(item, index) in JSON.parse(loggerItemData.content)"
                             :data="item"
-                            :key="`${index}global`"
+                            :key="`${index}global` + new Date()"
                             :filterEncode="filterEncode" />
                     </template>
                     <template v-else>
@@ -656,6 +656,37 @@ export default {
             function mouseenterCanval(e){
                 lastX = e.offsetX/times
                 lastY = e.offsetY/times
+                // isDrawing = sessionStorage.getItem('isDrawing')
+                // if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
+                // ctx.beginPath();
+                // // start from
+                // ctx.moveTo(lastX, lastY);
+                // // go to
+                // ctx.lineTo(e.offsetX/times, e.offsetY/times);
+                // ctx.stroke();
+                // [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
+                // if(!!window.getSelection().toString()){
+                //     window.getSelection().removeAllRanges()
+                // }
+                // console.log(e)
+                
+            }
+
+            function rightDraw(e){
+                isDrawing = sessionStorage.getItem('isDrawing')
+                if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
+                ctx.beginPath();
+                // start from
+                ctx.moveTo(lastX, lastY);
+                // go to
+                ctx.lineTo(e.offsetX/times, e.offsetY/times);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
+                if(!!window.getSelection().toString()){
+                    window.getSelection().removeAllRanges()
+                }
+                this.leaveX = e.offsetX/times
+                this.leaveY = e.offsetY/times
             }
 
             if(!isCanval){
@@ -666,7 +697,7 @@ export default {
                 canvaldialog.style.right = 0
                 canvaldialog.style.top = 0
                 canvaldialog.style.bottom = 0
-                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 400)/2 + 'px'
+                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 200)/2 + 'px'
 
                 canvas.width = pageLoggerList.offsetWidth
                 canvas.height = _this.$el.scrollHeight
@@ -679,11 +710,12 @@ export default {
                 _this.draw = draw
                 _this.mouseupCanval = mouseupCanval
                 _this.mouseenterCanval = mouseenterCanval
+                _this.rightDraw = rightDraw
 
                 canvas.addEventListener('mousedown', _this.mousedownCanval, false);
                 canvas.addEventListener('mousemove', _this.draw, false);
                 canvas.addEventListener('mouseup', _this.mouseupCanval, false);
-                // canvas.addEventListener('mouseout', _this.mouseupCanval, false);
+                canvas.addEventListener('mouseleave', _this.rightDraw, false);
                 canvas.addEventListener('mouseenter', _this.mouseenterCanval, false);
 
                 let nodrawing = document.querySelector('.nodrawing')
@@ -693,8 +725,8 @@ export default {
                 canvas.removeEventListener('mousedown', this.mousedownCanval, false);
                 canvas.removeEventListener('mousemove', this.draw, false);
                 canvas.removeEventListener('mouseup', this.mouseupCanval, false);
-                // canvas.removeEventListener('mouseout', this.mouseupCanval, false);
-                canvas.removeEventListener('mouseenter', _this.mouseenterCanval, false);
+                canvas.removeEventListener('mouseleave', this.rightDraw, false);
+                canvas.removeEventListener('mouseenter', this.mouseenterCanval, false);
 
                 document.querySelector('.nodrawing')
 
@@ -742,7 +774,7 @@ export default {
 @import '~app_assets/css/var.less';
 .logger-item-modal{
     position: relative;
-    margin: auto;
+    // margin: auto;
     width: 70%;
     // padding: 60px;
     // transform: scale(.7);
