@@ -407,7 +407,7 @@ export default {
             requestBody: true,
             success: (res) => {
               if (res && res.code == 0) {
-                
+                this.close();
               }
             }
         });
