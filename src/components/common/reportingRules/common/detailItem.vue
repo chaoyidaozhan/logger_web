@@ -49,7 +49,6 @@ export default {
   },
   created() {
     this.currentItemDetailMsg = this.detailMsg.currentItemDetailMsg;
-    console.log(this.currentItemDetailMsg)
   }
 }
 </script>
