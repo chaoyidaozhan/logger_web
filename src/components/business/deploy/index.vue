@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
-                    <YYTag @on-delete="delRoleTemplate(item)" closeable v-for="(item, index) in currentRoleMapTemplate">
+                    <YYTag :key="index" @on-delete="delRoleTemplate(item)" closeable v-for="(item, index) in currentRoleMapTemplate">
                         {{item.title}}
                     </YYTag>
                 </div>
