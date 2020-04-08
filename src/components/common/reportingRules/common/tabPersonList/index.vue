@@ -104,6 +104,7 @@ export default {
       }
       this.isAllSelected = isAllSelected;
       this.tabHeader[this.tabIndex].isAllSelected = isAllSelected;
+      this.diarySubumitList = diarySubumitList;
       this.isRender = false;
       this.$nextTick(() => {
         this.isRender = true;
@@ -185,6 +186,7 @@ export default {
       cursor: pointer;
       &.active {
         color: #EE2223;
+        font-weight: 500;
         &::before{
           content: '';
           width: 50%;

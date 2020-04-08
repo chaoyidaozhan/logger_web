@@ -47,6 +47,6 @@ export default {
     // max-height: 100%;
     overflow: auto;
     padding: 20px 10px 60px;
-    background: #F7F4F8;
+    background: #f5f5f5;
 }
 </style>

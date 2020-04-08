@@ -18,7 +18,6 @@
    <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
     <div class="photoInfor mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="mb-flex">
-        
         <img class="personPhoto" v-for="(item, index) in currentItemDetailMsg.unSubmit" :src="item.avatar">
       </div>
       <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', currentItemDetailMsg.unSubmitCount || '')}}</div>
@@ -86,6 +85,9 @@ export default {
     .photoInfor {
       width: 124px;
       height: 20px;
+      .mb-flex {
+        margin-right: 12px;
+      }
       .personPhoto {
         display: block;
         width: 20px;

@@ -224,6 +224,7 @@ export default {
                 font-size: 14px;
                 color: #333;
                 line-height: 22px;
+                font-weight: 500;
             }
         }
         .templateUpdataTime {
@@ -277,12 +278,12 @@ export default {
             left: 0;
             height: 100%;
             background-color: #ee3d4b;
-            opacity: .4;
+            opacity: .85;
             transition: .4s ease all;
         }
         .fileSuffixName {
             background: url("../../../../assets/images/day.png") center center no-repeat;
-            background: contain;
+            background-size: contain;
         }
     }
     .week {
@@ -296,12 +297,12 @@ export default {
             left: 0;
             height: 100%;
             background-color: #02c0a7;
-            opacity: .4;
+            opacity: .85;
             transition: .4s ease all;
         }
         .fileSuffixName {
             background: url("../../../../assets/images/week.png") center center no-repeat;
-            background: contain;
+            background-size: contain;
         }
     }
     .month {
@@ -315,12 +316,12 @@ export default {
             left: 0;
             height: 100%;
             background-color: #02c0a7;
-            opacity: .4;
+            opacity: .85;
             transition: .4s ease all;
         }
         .fileSuffixName {
             background: url("../../../../assets/images/mouth.png") center center no-repeat;
-            background: contain;
+            background-size: contain;
         }
     }
     .bottomOperate {
