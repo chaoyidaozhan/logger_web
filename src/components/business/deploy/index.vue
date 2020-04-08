@@ -629,27 +629,8 @@ export default {
             margin-bottom: 12px;
         }
         .memberSelectedTemplate {
-            & > .mb-flex {
-                min-width: 92px;
-                height: 30px;
-                border-radius:3px;
-                font-size: 12px;
-                color: #333;
-                padding: 0 10px 0 8px;
-                flex-wrap: wrap;
-                margin: 0 8px 8px 0;
-                background: #E6E6E6;
-                div:first-of-type {
-                    margin-right: 6px;
-                }
-                .yy-icon-guanbi {
-                    cursor: pointer;
-                }
-            }
-            .templateTitle {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+            /deep/ .yy-tag {
+                margin-bottom: 5px;
             }
         }
     }
