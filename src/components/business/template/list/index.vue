@@ -207,6 +207,9 @@ export default {
         /deep/ .yy-pagination-item {
             background: white;
         }
+        /deep/ .yy-pagination-item:hover {
+            background: #adb4bc;
+        }
         /deep/ .yy-pagination-item-active {
             background: #adb4bc;
         }
