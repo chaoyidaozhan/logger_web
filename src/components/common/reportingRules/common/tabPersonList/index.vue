@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     allSelect(isAllSelected) {
-      let diarySubumitList = this.detailMsg.diarySubumitList;
+      let diarySubumitList = this.diarySubumitList;
       switch(this.tabIndex) {
         // case 0:
         // break;
@@ -111,7 +111,7 @@ export default {
       });
     },
     sendSelectedMember() {
-      let diarySubumitList = this.detailMsg.diarySubumitList;
+      let diarySubumitList = this.diarySubumitList;
       let memberIds = [];
       let memberNames = [];
       switch(this.tabIndex) {
