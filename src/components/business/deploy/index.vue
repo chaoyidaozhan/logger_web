@@ -183,7 +183,8 @@ export default {
             this.currentRoleMapTemplate = this.originCurrentRoleMapTemplate;
         },
         giveRoleAddTemplate() {
-            let twoDimensional = Object.values(this.allTemplatePagenumMapList);
+            let allTemplatePagenumMapList = Object.assign({}, this.allTemplatePagenumMapList);
+            let twoDimensional = Object.values(allTemplatePagenumMapList);
             let allSelectedTemplate = [];
             twoDimensional.forEach((itemA, indexA) => {
                 itemA.forEach((itemB, indexB) => {
@@ -199,6 +200,14 @@ export default {
                 excludeRepeat[item.id] = item;
             });
             this.currentRoleMapTemplate = Object.values(excludeRepeat);
+            // 
+            let twoDimensionalOrigin = Object.values(this.allTemplatePagenumMapList);
+            twoDimensionalOrigin.forEach((itemA, indexA) => {
+                itemA.forEach((itemB, indexB) => {
+                    itemB.isCurrentTemplateSelected = false;
+                });
+            });
+            this.isAddTemplateShow = false;
         },
         addRoleTemplate() {
             this.loadData();
@@ -713,6 +722,7 @@ export default {
             box-sizing: border-box;
             overflow-y: auto;
             height: 100%;
+            align-content: flex-start;
         }
         .templateItem {
             width: 275px;
