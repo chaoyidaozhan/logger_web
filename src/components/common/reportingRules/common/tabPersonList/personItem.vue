@@ -30,13 +30,14 @@ export default {
   cursor: pointer;
   width: 125px;
   height: 42px;
-  background: rgba(245,246,247,1);
   border-radius: 2px;
   margin-right: 7px;
   margin-bottom: 8px;
   line-height: 42px;
   padding-right: 8px;
+  background: rgba(245,246,247,1);
   &:hover{
+    box-shadow:0px 3px 6px 0px rgba(0,0,0,0.14);
     .isSelected {
       display: inline-block;
     }

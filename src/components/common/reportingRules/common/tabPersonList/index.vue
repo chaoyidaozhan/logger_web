@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     allSelect(isAllSelected) {
-      let diarySubumitList = this.detailMsg.diarySubumitList;
+      let diarySubumitList = this.diarySubumitList;
       switch(this.tabIndex) {
         // case 0:
         // break;
@@ -104,13 +104,14 @@ export default {
       }
       this.isAllSelected = isAllSelected;
       this.tabHeader[this.tabIndex].isAllSelected = isAllSelected;
+      this.diarySubumitList = diarySubumitList;
       this.isRender = false;
       this.$nextTick(() => {
         this.isRender = true;
       });
     },
     sendSelectedMember() {
-      let diarySubumitList = this.detailMsg.diarySubumitList;
+      let diarySubumitList = this.diarySubumitList;
       let memberIds = [];
       let memberNames = [];
       switch(this.tabIndex) {
@@ -185,6 +186,7 @@ export default {
       cursor: pointer;
       &.active {
         color: #EE2223;
+        font-weight: 500;
         &::before{
           content: '';
           width: 50%;

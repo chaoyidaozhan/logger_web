@@ -695,9 +695,9 @@ export default {
         top: -60px;
         right: 0;
         bottom: 0;
-        width: 622px;
+        width: 618px;
         box-shadow:-8px 0px 30px 0px rgba(74,81,93,0.2);
-        background: #F6F5F8;
+        background: #f5f5f5;
         .addTemplateHeader {
             height: 48px;
             padding: 0 22px 0 20px;
