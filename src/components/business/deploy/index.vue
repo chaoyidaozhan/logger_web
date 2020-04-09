@@ -83,6 +83,7 @@
                 </div>
                 <div class="mb-flex-1">
                     <YYPagination
+                        :current="pageNo"
                         :total="totalCount" 
                         :pageSize="pageSize"
                         :showTotal="false"
@@ -195,10 +196,13 @@ export default {
                 excludeRepeat[item.id] = item;
             });
             let templateIds = [];
+            let excludeSelectedTemplate = [];
             allSelectedTemplate.forEach((item, index) => {
-                excludeRepeat[item.id] = item;
+                if(!excludeRepeat[item.id]) {
+                    excludeSelectedTemplate.push(item);
+                }
             });
-            this.currentRoleMapTemplate = Object.values(excludeRepeat);
+            this.currentRoleMapTemplate = this.currentRoleMapTemplate.concat(excludeSelectedTemplate);
             // 
             let twoDimensionalOrigin = Object.values(this.allTemplatePagenumMapList);
             twoDimensionalOrigin.forEach((itemA, indexA) => {

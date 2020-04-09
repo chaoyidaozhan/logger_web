@@ -194,6 +194,7 @@ export default {
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
 .select-order-type {
+    height: 32px;
     .select-order-type-select {
         display: inline-block;
         vertical-align: middle;
