@@ -272,7 +272,8 @@ export default {
     },
     methods: {
         globalModel() {
-            window.open(`/#/globalModal?token=${this.$store.state.userInfo.token}`)
+            let {protocol, host, pathname} = window.location
+            window.open(`${protocol}//${host}${pathname}#/globalModal?token=${this.$store.state.userInfo.token}`)
         },  
         goLoggerDetail() {
             this.$router.push({
