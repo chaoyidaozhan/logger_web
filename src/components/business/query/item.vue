@@ -177,6 +177,50 @@
                                 <!-- <i class="icon-chat-normal"></i> -->
                                 <YYIcon type="arrow-right"></YYIcon>
                             </div>
+                            <div class="logger-list-col">
+                                <span class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                                    <i class="icon-position" v-if="!loggerItemData.like.isLike">
+                                        <YYIcon type="zan"></YYIcon>
+                                        <span class="word" style="width:14px">
+                                            {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
+                                        </span>
+                                    </i>
+                                    <i class="icon-position" style="color:#EE2223" v-else>
+                                        <YYIcon type="thumb-up"></YYIcon>
+                                        <span class="word">
+                                            {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
+                                        </span>
+                                    </i>
+                                </span>
+                                <span class="operate-item" :class="{active: showReply}" @click="handleReply">
+                                    <i class="icon-position" v-if="!showReply">
+                                        <YYIcon type="message-square"></YYIcon>
+                                        <span class="word">
+                                            {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
+                                        </span>
+                                    </i>
+                                    <i class="icon-position" v-else>
+                                        <YYIcon type="message-square"></YYIcon>
+                                        <span class="word">
+                                            {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
+                                        </span>
+                                    </i>
+                                </span>
+                                <span :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                                    <i class="icon-position" v-if="!loggerItemData.favorite.isFavorite">
+                                        <YYIcon type="xingxing-kong"></YYIcon>
+                                        <span class="word">
+                                            {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
+                                        </span>
+                                    </i>
+                                    <i class="icon-position" v-else>
+                                        <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
+                                        <span class="word">
+                                            {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
+                                        </span>
+                                    </i>
+                                </span> 
+                            </div>
                         </div>
                     </div>
                     <div class="logger-list-row">
@@ -213,6 +257,40 @@
                     </div>
                     <div class="lat"></div>
                     <!--点赞回复收藏-->
+                    <div class="logger-list-row logger-list-operate" v-if="!isDraft">
+                        <!-- <div class="logger-list-col">
+                            <span class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                                <i class="icon-position" v-if="!loggerItemData.like.isLike">
+                                    <YYIcon type="zan"></YYIcon>
+                                    {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
+                                </i>
+                                <i class="icon-position" style="color:#EE2223" v-else>
+                                    <YYIcon type="thumb-up"></YYIcon>
+                                    {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
+                                </i>
+                            </span>
+                            <span class="operate-item" style="margin-top:12px" :class="{active: showReply}" @click="handleReply">
+                                <i class="icon-position" v-if="!showReply">
+                                    <YYIcon type="message-square"></YYIcon>
+                                    {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
+                                </i>
+                                <i class="icon-position" v-else>
+                                    <YYIcon type="message-square"></YYIcon>
+                                    {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
+                                </i>
+                            </span>
+                            <span class="operate-item" style="margin-top:12px" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                                <i class="icon-position" v-if="!loggerItemData.favorite.isFavorite">
+                                    <YYIcon type="xingxing-kong"></YYIcon>
+                                    {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
+                                </i>
+                                <i class="icon-position" v-else>
+                                    <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
+                                    {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
+                                </i>
+                            </span> 
+                        </div> -->
+                    </div>
                     <div class="logger-list-row">
                         <div class="logger-list-col">
                             <fs-reply v-if="showReply"
@@ -220,19 +298,19 @@
                                 :dailyId="loggerItemData.id"/>
                         </div>
                     </div>
-                    <div class="line" v-if="!loggerItemData.islast && !this.isShowMenu"></div>
+                    <div class="line" v-if="!loggerItemData.islast"></div>
                 </div>
                 <div v-if="this.isShowMenu" class="borderStyle">
-                    <div class="topLine"></div>
-                    <div class="bottomLine"></div>
+                    <!-- <div class="topLine"></div>
+                    <div class="bottomLine"></div> -->
                     <div class="leftLine"></div>
-                    <div class="rightLine"></div>
+                    <!-- <div class="rightLine"></div> -->
                 </div>
             </div>
             <!--点赞回复收藏isShowMenu-->
             <div class="logger-list-vertical-operate">
                 <div class="logger-list-vertical-operate-menu"  v-show="isShowMenu">
-                    <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                    <!-- <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
                         <i class="icon-position" v-if="!loggerItemData.like.isLike">
                             <YYIcon type="zan"></YYIcon>
                         </i>
@@ -255,7 +333,7 @@
                         <i class="icon-position" v-else>
                             <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
                         </i>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -523,7 +601,7 @@ export default {
             if(this.contentExpand){
                 loggerDialog.style.backgroundImage = ''
             }else{
-                loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
+                loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 50%,rgba(255,255,255,1) 100%)'
                 let pageContent = document.querySelector('.page-logger-content')
                 if(this.$el.offsetHeight > pageContent.offsetHeight){
                     let pageLoggerList = document.querySelector('.page-logger-list')
@@ -651,12 +729,8 @@ export default {
                         let pageContent = document.querySelector('.page-logger-content')
                         if(e.offsetTop > pageContent.offsetHeight){
                             let pageLoggerList = document.querySelector('.page-logger-list')
-                            pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 10
+                            pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 20
                         }
-                        e.style.animation = 'changeFont 1s';
-                        setTimeout(() =>{
-                            e.style.animation = '';
-                        }, 1000)
                     }
                 })
                 event.stopPropagation();
@@ -681,7 +755,7 @@ export default {
             if(!(this.contentRealHeight > this.contentDefaultHeight && this.contentDefaultHeight)){
                 loggerDialog.style.backgroundImage = ''
             }else{
-                loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
+                loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 50%,rgba(255,255,255,1) 100%)'
             }
         })
 
@@ -735,17 +809,6 @@ export default {
 @import '~app_assets/css/var.less';
 @rowMarginBottom: 14px;
 @titleMarginBottom: 4px;
-@keyframes changeFont{
-    0%{
-        font-size: 14px;
-    }
-    50%{
-        font-size: 20px;
-    }
-    100%{
-        font-size: 14px;
-    }
-}
 
 @media screen and (min-width: 1250px) {
     .leftMenu{
@@ -1004,8 +1067,8 @@ export default {
                 position: absolute;
                 left: 0;
                 right: 0;
-                top: 100px;
                 bottom: 0;
+                height: 140px;
             }
             .loggerExpand{
                 position: relative;
@@ -1021,7 +1084,6 @@ export default {
             .handle-content-expand-btn {
                 color: @primary-color;
                 position: relative;
-                margin-bottom: 27px;
                 // &:after {
                 //     content: '';
                 //     height: 10px;
@@ -1034,8 +1096,35 @@ export default {
                     display: inline-block;
                 }
                 .logger-list-watcher{
-                    float: right;
-                    display: inline-block;
+                    display: block;
+                    font-size:14px;
+                    height: 56px;
+                    padding: 20px 0;
+                    .count {
+                        display: inline-block;
+                    }
+                    .logger-list-col {
+                        float:right;
+                        .operate-item {
+                            margin-right: 24px;
+                            .icon-position{
+                                font-size: 18px;
+                            }
+                            .word {
+                                font-size: 14px;
+                                width: 28px;
+                                display: inline-block;
+                            }
+                        }
+                        .icon-position{
+                            font-size: 18px;
+                        }
+                        .word {
+                            width: 28px;
+                            display: inline-block;
+                            font-size: 14px;
+                        }
+                    }
                 }
                 .lat {
                     height: 10px;
@@ -1110,13 +1199,12 @@ export default {
                 .leftLine{
                     margin: auto;
                     position: absolute;
-                    width: 1px;
+                    width: 3px;
                     height: 100%;
                     top: 0px;
                     left: 0px;
-                    background-image: linear-gradient(to bottom, #18B681 0%, #18B681 50%, transparent 50%);
-                    background-size: 1px 18px;
-                    background-repeat: repeat-y;
+                    background:linear-gradient(180deg,rgba(248,71,73,1) 0%,rgba(238,34,35,0) 100%);
+                    opacity:0.7;
                 }
                 .rightLine{
                     margin: auto;

@@ -354,12 +354,14 @@ export default {
             this.$eventbus.$emit('closeCanvas')
         },
         exit(){
-            this.isExit = true
-            this.isFontAdd = false
-            this.isFontReduce = false
-            this.isCanval = false
             window.close()
-            this.$eventbus.$emit('closeCanvas')
+            setTimeout(() => {
+                this.isExit = true
+                this.isFontAdd = false
+                this.isFontReduce = false
+                this.isCanval = false
+                this.$eventbus.$emit('closeCanvas')
+            }, 1000)
         },
         back2top(){
             this.$el.scrollTop = 0
@@ -370,7 +372,22 @@ export default {
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
-        this.openFullscreen(document.body)
+        let _this = this
+        
+        // document.addEventListener('click', () => {
+        //     this.openFullscreen(document.body)
+        // }, false)
+    
+        // this.$nextTick(
+        //     () => {
+        //         e.initEvent("click", true, true);
+        //         document.getElementById("globalModal").dispatchEvent(e);
+        //     }
+        // )
+        // // document.getElementById("clickme").dispatchEvent(e); 
+        // setTimeout(() => {
+        //     console.log(3)
+        // },10000)
         this.initList()
     },
     created() {
