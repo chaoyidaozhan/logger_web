@@ -143,6 +143,8 @@ export default {
                 path: '/LoggerDetail'
             }, {
                 path: '/LoggerTemplate'
+            },{
+                path: '/globalModal'
             })
             let exist = false;
             menus.forEach((m)=>{

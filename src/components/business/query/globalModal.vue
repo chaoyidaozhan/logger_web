@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showGlobalModal" id="globalModal" class="page-logger-list" @scroll.stop="onScroll">
+    <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll">
         <transition-group name="fade" class="spanModal" style="display: inline-block;">
             <fs-logger-list-item 
                 v-for="(item, index) in list"
@@ -144,7 +144,6 @@ export default {
             operateModal: false,
             operateModalData: null,
             menus:[],
-            showGlobalModal: false,
             isExit: false,
             isFontAdd: false,
             isFontReduce: false,
@@ -186,7 +185,6 @@ export default {
             } else if (document.webkitExitFullscreen) {
                 document.webkitExitFullscreen();
             }
-            this.showGlobalModal = false
         },
          //打开全屏方法
         openFullscreen(element) {
@@ -356,11 +354,11 @@ export default {
             this.$eventbus.$emit('closeCanvas')
         },
         exit(){
-            this.exitFullScreen()
             this.isExit = true
             this.isFontAdd = false
             this.isFontReduce = false
             this.isCanval = false
+            window.close()
             this.$eventbus.$emit('closeCanvas')
         },
         back2top(){
@@ -368,20 +366,20 @@ export default {
         }
     },
     updated () {
-        // window.open()
-        this.openFullscreen(window.top.document.body)
+        this.openFullscreen(document.body)
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
+        this.openFullscreen(document.body)
         this.initList()
     },
     created() {
         // this.$eventbus.$on('changeDrawing', (isDrawing)=>{
         //     this.isDrawing = isDrawing
         // })
-        this.$eventbus.$on('openglobal', ()=>{
-            this.showGlobalModal = true
-        })
+        // this.$eventbus.$on('openglobal', ()=>{
+        //     this.showGlobalModal = true
+        // })
         this.$eventbus.$on('translist', (list, pageNo, pageSize)=>{
             this.list = list
             this.pageNo = pageNo
@@ -396,7 +394,6 @@ export default {
             if (document.fullscreenElement != null) {
                 console.info("Went full screen");
             } else {
-                _this.showGlobalModal = false
                 _this.isCanval = false
                 console.info("Exited full screen");
             }
