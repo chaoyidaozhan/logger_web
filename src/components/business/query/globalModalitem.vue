@@ -774,8 +774,8 @@ export default {
 @import '~app_assets/css/var.less';
 .logger-item-modal{
     position: relative;
-    // margin: auto;
-    width: 70%;
+    margin: auto;
+    padding: 0 20px;
     // padding: 60px;
     // transform: scale(.7);
     .logger-content-item{

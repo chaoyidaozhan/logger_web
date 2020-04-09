@@ -10,6 +10,7 @@ import summaryNew from './summary-new'
 import template from './template'
 import deploy from './deploy'
 import groupTemplate from './groupTemplate'
+import globalModal from './globalModal'
 
 export default [{
     path: '/',
@@ -25,6 +26,7 @@ export default [{
         ...template,
         ...deploy,
         ...groupTemplate,
+        ...globalModal,
         {
             path: '*',
             redirect: '/LoggerQueryAll'

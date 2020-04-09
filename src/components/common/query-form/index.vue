@@ -272,7 +272,7 @@ export default {
     },
     methods: {
         globalModel() {
-            this.$eventbus.$emit('openglobal')
+            window.open(`/#/globalModal?token=${this.$store.state.userInfo.token}`)
         },  
         goLoggerDetail() {
             this.$router.push({
