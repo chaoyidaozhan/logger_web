@@ -109,7 +109,7 @@ export default {
             }, 200);
         },
         handleChangeDateMonth({month, beginDate, year}) { // 切换按日统计
-            clearTimeout(this.timer)
+            clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 this.pageNo = 1;
                 if(beginDate) {
