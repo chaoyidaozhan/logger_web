@@ -289,6 +289,9 @@ export default {
             this.isDeptShow = false
             this.isGroupShow = false
             this.isMemberShow = false
+            this.dept = [];
+            this.group = [];
+            this.member = [];
             this.$nextTick(() => {
                 if(v == '1') {
                     this.isDeptShow = true
@@ -364,7 +367,7 @@ export default {
                 }
                 this.trimIds(params)
                 this.rulesValidate(params)
-                this.$emit('handleQuery', params)
+                this.$emit('handleQuery', params);
             }, 200)
            
         },

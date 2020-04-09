@@ -14,8 +14,8 @@
                     <div 
                         class="select-tree-input2 cursor-pointer ellipsis" 
                         @click="openSelectMember" 
-                        :class="{disabled: !org.length && !dept.length && !member.length}">
-                        <template v-if="!org.length && !dept.length && !member.length">
+                        :class="{disabled: !org.length && !dept.length && !member.length && !group.length}">
+                        <template v-if="!org.length && !dept.length && !member.length && !group.length">
                             {{$t('noun.author')}}
                         </template>
                         <template>
@@ -27,6 +27,9 @@
                             </span>
                             <span v-for="item in member" :key="item.memberId">
                                 {{item.userName}}
+                            </span>
+                            <span v-for="item in group" :key="item.gid">
+                                {{item.groupName}}
                             </span>
                         </template>
                         <i class="icon-add"></i>
@@ -124,6 +127,7 @@ export default {
             org: [],
             dept: [],
             member: [],
+            group: [],
             loading: false,
             tables: null,
             stashSelectionKey: null,
@@ -180,27 +184,31 @@ export default {
         openSelectMember(){
             let s_mans = JSON.parse(JSON.stringify(this.member)) ;
             let s_dept = JSON.parse(JSON.stringify(this.dept)) ;    
-            let s_org = JSON.parse(JSON.stringify(this.org)) ;  
+            let s_org = JSON.parse(JSON.stringify(this.org)) ;
+            let s_group = JSON.parse(JSON.stringify(this.group)) ;  
             let info = {
                 title: this.$t('operate.select')+this.$t('noun.author'),
                 man: true,
                 dep: true,
-                team:  false,
+                team:  true,
                 showLoading: true,
                 selected: {
                     dep: [].concat(s_dept , s_org) ,
                     man: s_mans,
+                    team: s_group
                 },
                 limit: {
                     showAll: false,
                     warning: '',
                     count: 500
-                }
+                },
+                isPullAllGroup: true
             }
-            this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{
+            this.$selectTree.show(JSON.parse(JSON.stringify(info)), res=>{console.log(res)
                 this.org=[];
                 this.dept=[];
                 this.member=[];
+                this.group = [];
                 if(res.dep&&res.dep.length){
                     let org=[];
                     let dept=[];
@@ -220,6 +228,14 @@ export default {
                 }
                 if(res.man&&res.man.length){
                     this.member = res.man ;
+                }
+                if(res.team&&res.team.length){
+                    this.group = res.team.map((item, index) => {
+                        return {
+                            ...item,
+                            groupId: item.gid
+                        }
+                    });
                 }
             })
         },
@@ -467,7 +483,7 @@ export default {
                     return item[name + 'Id']
                 }).join(',') || ''
             }
-            const ids = ['org', 'dept', 'member']
+            const ids = ['org', 'dept', 'member', 'group']
             ids.forEach((id)=>{
                 const value = getIds(id)
                 if(value) {
@@ -492,11 +508,12 @@ export default {
             if (!data.beginDate || !data.endDate) {
                 return this.$YYMessage.warning(`${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.date')}`)
             }
-            if(!data.orgIds && !data.deptIds && !data.memberIds) {
+            if(!data.orgIds && !data.deptIds && !data.memberIds && !data.groupIds) {
                 return this.$YYMessage.warning(`
                     ${this.$t('noun.org')},
                     ${this.$t('noun.dept')},
-                    ${this.$t('noun.author')}
+                    ${this.$t('noun.author')},
+                    ${this.$t('noun.internalGroup')}
                     ${this.$t('toast.selectAtLeastOne')}
                 `)
             }

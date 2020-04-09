@@ -102,14 +102,14 @@ export default {
                 if(year) {
                     this.years = year || (new Date()).getFullYear();
                 }
-                if(this.params.deptIds || this.params.groupIds) {
+                if(this.params.deptIds || this.params.groupIds || this.params.memberIds) {
                     this.loadData();
                 } 
                 this.$eventbus.$emit('getYear', this.years);
             }, 200);
         },
         handleChangeDateMonth({month, beginDate, year}) { // 切换按日统计
-            clearTimeout(this.timer)
+            clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 this.pageNo = 1;
                 if(beginDate) {
