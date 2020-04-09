@@ -102,7 +102,7 @@ export default {
                 if(year) {
                     this.years = year || (new Date()).getFullYear();
                 }
-                if(this.params.deptIds || this.params.groupIds) {
+                if(this.params.deptIds || this.params.groupIds || this.params.memberIds) {
                     this.loadData();
                 } 
                 this.$eventbus.$emit('getYear', this.years);
