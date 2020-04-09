@@ -424,7 +424,7 @@ export default {
         }else if(submitPeriodic == 2) {
           this.startPickerDefault = firstCol;
         }
-        this.handleSubmitEndTime();
+        this.handleSubmitEndTime(submitPeriodic);
       },
       setEndTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
