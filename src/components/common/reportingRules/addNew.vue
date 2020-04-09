@@ -584,6 +584,22 @@ export default {
           default:
               break;
         }
+        let remindTimeArr = [];
+        if(submitPeriodic == 0) {
+          let start = +this.startPickerDefault.value;
+          let end = +this.endPickerDefault.value;
+          let interval = (start > end) ? (end = (24 - start) + end) : (end - start);
+          for(let i=1;i<interval;i++) {
+            remindTimeArr.push(i);
+          }
+        }else if(submitPeriodic == 1) {
+
+        }else if(submitPeriodic == 2) {
+          for(let i=1;i<25;i++) {
+            remindTimeArr.push(i);
+          }
+        }
+        this.remindTimeArr = remindTimeArr;
       },
       // 格式化编辑回显
       trimEditData(param) { 
@@ -775,12 +791,7 @@ export default {
         }
       },
     },
-    created () {
-      let remindTimeArr = [];
-      for(let i=1;i<16;i++) {
-        remindTimeArr.push(i);
-      }
-      this.remindTimeArr = remindTimeArr;
+    created() {
       this.getRule();
     },
     mounted () {
