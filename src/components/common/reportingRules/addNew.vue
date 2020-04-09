@@ -469,7 +469,7 @@ export default {
       },
       // 打开选择结束周
       handleSubmitEndWeek() {
-        let dayAndClock = this.startPickerDefault.value.split(' ')
+        let dayAndClock = this.startPickerDefault.value.split(' ');
         dayAndClock[0] = +dayAndClock[0];
         dayAndClock[1] = +dayAndClock[1];
         let i = 0;
@@ -487,7 +487,7 @@ export default {
                   name: this.week[i]
                 })
             }
-        }
+        };
         this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay.reverse());
         let endPickersecondColData = [];
         let j = 0;
