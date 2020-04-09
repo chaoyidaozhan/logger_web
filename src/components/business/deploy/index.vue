@@ -281,6 +281,7 @@ export default {
                 data: {
                     pageSize: this.pageSize,
                     pageNo: this.pageNo,
+                    status: 1
                 },
                 success: (res)=>{
                     if(res && res.code == 0) {
