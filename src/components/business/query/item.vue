@@ -524,6 +524,11 @@ export default {
                 loggerDialog.style.backgroundImage = ''
             }else{
                 loggerDialog.style.backgroundImage = 'linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.9) 67%,rgba(255,255,255,1) 100%)'
+                let pageContent = document.querySelector('.page-logger-content')
+                if(this.$el.offsetHeight > pageContent.offsetHeight){
+                    let pageLoggerList = document.querySelector('.page-logger-list')
+                    pageLoggerList.scrollTop = this.$el.offsetTop - 10
+                }
             }
         },
         handleEdit() {

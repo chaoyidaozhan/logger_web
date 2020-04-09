@@ -324,11 +324,13 @@ export default {
     },
     methods: {
         closeCanvas() { 
+            console.log("closeCanvas")
             const canvas = this.$el.querySelector('#draw');
             canvas.removeEventListener('mousedown', this.mousedownCanval, false);
             canvas.removeEventListener('mousemove', this.draw, false);
             canvas.removeEventListener('mouseup', this.mouseupCanval, false);
-            canvas.removeEventListener('mouseout', this.mouseupCanval, false);
+            canvas.removeEventListener('mouseleave', this.rightDraw, false);
+            canvas.removeEventListener('mouseenter', this.mouseenterCanval, false);
 
             document.querySelector('.nodrawing')
 
@@ -611,6 +613,7 @@ export default {
         let _this = this
         
         this.$eventbus.$on('opencanvas', (isCanval, defaultColor) => {
+            console.log('openCanvas')
             const canvas = _this.$el.querySelector('#draw');
             // const globalModal = document.querySelector('#globalModal');
             const ctx = canvas.getContext('2d');
@@ -775,7 +778,7 @@ export default {
 .logger-item-modal{
     position: relative;
     margin: auto;
-    padding: 0 20px;
+    padding: 5% 5% 0 5%;
     // padding: 60px;
     // transform: scale(.7);
     .logger-content-item{
