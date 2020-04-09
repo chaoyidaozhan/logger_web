@@ -154,9 +154,7 @@ export default {
                 },
                 requestBody: true,
                 success: (res)=>{
-                    if(res && res.code == 0) {
-                      this.$YYMessage.success(res)
-                    }
+                  this.$YYMessage.success('提醒成功');
                 }
             });
           }
