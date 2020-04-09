@@ -16,7 +16,7 @@
      <div class="desc">{{currentItemDetailMsg.detailMsgTime}}</div>
    </div>
    <div class="footer mb-flex mb-flex-align-center">
-    <div class="photoInfor mb-flex mb-flex-align-center">
+    <div class="photoInfor mb-flex mb-flex-align-center" v-if="currentItemDetailMsg.unSubmit.length">
       <div class="mb-flex">
         <template v-for="(item, index) in currentItemDetailMsg.unSubmit">
           <img class="personPhoto" v-if="index < 3" :src="item.avatar">

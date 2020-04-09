@@ -16,7 +16,7 @@
       <div>{{$t('operate.viewDetails')}}</div>
       <div class="yy-icon-Vjiantou-you"></div>
     </div>
-    <div class="photoInfor mb-flex mb-flex-align-center">
+    <div class="photoInfor mb-flex mb-flex-align-center" v-if="detailMsg.unSubmit.length">
       <div class="mb-flex">
         <template v-for="(item, index) in detailMsg.unSubmit">
           <img @click.stop="toSomeoneReportList(item)" class="personPhoto" v-if="index < 3" :src="item.avatar">

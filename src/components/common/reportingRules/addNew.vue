@@ -424,7 +424,7 @@ export default {
         }else if(submitPeriodic == 2) {
           this.startPickerDefault = firstCol;
         }
-        this.handleSubmitEndTime();
+        this.handleSubmitEndTime(submitPeriodic);
       },
       setEndTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
@@ -469,7 +469,7 @@ export default {
       },
       // 打开选择结束周
       handleSubmitEndWeek() {
-        let dayAndClock = this.startPickerDefault.value.split(' ')
+        let dayAndClock = this.startPickerDefault.value.split(' ');
         dayAndClock[0] = +dayAndClock[0];
         dayAndClock[1] = +dayAndClock[1];
         let i = 0;
@@ -487,7 +487,7 @@ export default {
                   name: this.week[i]
                 })
             }
-        }
+        };
         this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay.reverse());
         let endPickersecondColData = [];
         let j = 0;
@@ -584,6 +584,22 @@ export default {
           default:
               break;
         }
+        let remindTimeArr = [];
+        if(submitPeriodic == 0) {
+          let start = +this.startPickerDefault.value;
+          let end = +this.endPickerDefault.value;
+          let interval = (start > end) ? (end = (24 - start) + end) : (end - start);
+          for(let i=1;i<interval;i++) {
+            remindTimeArr.push(i);
+          }
+        }else if(submitPeriodic == 1) {
+
+        }else if(submitPeriodic == 2) {
+          for(let i=1;i<25;i++) {
+            remindTimeArr.push(i);
+          }
+        }
+        this.remindTimeArr = remindTimeArr;
       },
       // 格式化编辑回显
       trimEditData(param) { 
@@ -775,12 +791,7 @@ export default {
         }
       },
     },
-    created () {
-      let remindTimeArr = [];
-      for(let i=1;i<16;i++) {
-        remindTimeArr.push(i);
-      }
-      this.remindTimeArr = remindTimeArr;
+    created() {
       this.getRule();
     },
     mounted () {
