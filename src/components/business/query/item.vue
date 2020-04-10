@@ -163,58 +163,57 @@
                                 </div>
                                 <div class="count" v-if="loggerItemData.readCount">
                                     <div class="imageCount">
-                                        <img v-show="!!loggerItemData && !!loggerItemData.readLog[2]" style="right:88px;z-index:3" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[2] && loggerItemData.readLog[2].avatar" />    
-                                        <img v-show="!!loggerItemData && !!loggerItemData.readLog[1]" style="right:75px;z-index:2" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[1] && loggerItemData.readLog[1].avatar" />    
-                                        <img v-show="!!loggerItemData && !!loggerItemData.readLog[0]" style="right:62px;z-index:1" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[0] && loggerItemData.readLog[0].avatar" />    
+                                        <img v-show="!!loggerItemData && !!loggerItemData.readLog[2]" style="z-index:3" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[2] && loggerItemData.readLog[2].avatar" />    
+                                        <img v-show="!!loggerItemData && !!loggerItemData.readLog[1]" style="z-index:2" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[1] && loggerItemData.readLog[1].avatar" />    
+                                        <img v-show="!!loggerItemData && !!loggerItemData.readLog[0]" style="z-index:1" class="count-img" :src="!!loggerItemData && !!loggerItemData.readLog[0] && loggerItemData.readLog[0].avatar" />    
+                                        <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
+                                        <YYIcon type="arrow-right"></YYIcon>
                                     </div>
-                                    <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
-                                    <YYIcon type="arrow-right"></YYIcon>
                                 </div>
                             </Poptip>
                             <div class="count" v-else>
-                                <img class="count-img" src="" />    
                                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                                 <!-- <i class="icon-chat-normal"></i> -->
                                 <YYIcon type="arrow-right"></YYIcon>
                             </div>
                             <div class="logger-list-col">
                                 <span class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
-                                    <i class="icon-position" v-if="!loggerItemData.like.isLike">
-                                        <YYIcon type="zan"></YYIcon>
+                                    <i class="icon-position" style="width:32px;right:137px" v-if="!loggerItemData.like.isLike">
+                                        <YYIcon type="zan" style="margin-right:7px"></YYIcon>
                                         <span class="word" style="width:14px">
                                             {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
                                         </span>
                                     </i>
-                                    <i class="icon-position" style="color:#EE2223" v-else>
-                                        <YYIcon type="thumb-up"></YYIcon>
+                                    <i class="icon-position" style="width:32px;right:137px;color:#EE2223" v-else>
+                                        <YYIcon type="thumb-up" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
                                         </span>
                                     </i>
                                 </span>
                                 <span class="operate-item" :class="{active: showReply}" @click="handleReply">
-                                    <i class="icon-position" v-if="!showReply">
-                                        <YYIcon type="message-square"></YYIcon>
+                                    <i class="icon-position" style="right:64px" v-if="!showReply">
+                                        <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
                                         </span>
                                     </i>
-                                    <i class="icon-position" v-else>
-                                        <YYIcon type="message-square"></YYIcon>
+                                    <i class="icon-position" style="right:64px" v-else>
+                                        <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
                                         </span>
                                     </i>
                                 </span>
                                 <span :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
-                                    <i class="icon-position" v-if="!loggerItemData.favorite.isFavorite">
-                                        <YYIcon type="xingxing-kong"></YYIcon>
+                                    <i class="icon-position" style="right:0" v-if="!loggerItemData.favorite.isFavorite">
+                                        <YYIcon type="xingxing-kong" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
                                         </span>
                                     </i>
-                                    <i class="icon-position" v-else>
-                                        <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
+                                    <i class="icon-position" style="right:0" v-else>
+                                        <YYIcon type="xingxing-quan" style="color:#FF8B00;margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
                                         </span>
@@ -453,6 +452,8 @@ export default {
             this.rangeRealHeight = this.$refs.rangeHeight && this.$refs.rangeHeight.offsetHeight
             this.contentRealHeight = this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight
             this.rangeHeight = this.rangeDefaultHeight
+            debugger
+
             if(this.contentRealHeight > this.contentDefaultHeight) {
                 this.contentHeight = this.contentDefaultHeight
             } else {
@@ -1020,14 +1021,19 @@ export default {
                         display: flex;
                         align-items: center;
                         .imageCount{
-                            display: inline-block;
+                            position: relative;
+                            display: flex;
+                            align-items: center;
                             margin-right: 12px;
                             .count-img{
+                                position: relative;
+                                float: left;
                                 border-radius: 50%;
                                 width: 20px;
                                 height: 20px;
-                                position: absolute;
-                                top: 1px;
+                            }
+                            .count-img:not(:first-child){
+                                margin-left: -5px;
                             }
                         }
                     }
@@ -1102,13 +1108,18 @@ export default {
                     padding: 20px 0;
                     .count {
                         display: inline-block;
+                        align-items: center;
                     }
                     .logger-list-col {
+                        display: flex;
                         float:right;
                         .operate-item {
                             margin-right: 24px;
                             .icon-position{
                                 font-size: 18px;
+                                width: 53px;
+                                position: absolute;
+                                display: flex;
                             }
                             .word {
                                 font-size: 14px;
@@ -1117,6 +1128,9 @@ export default {
                             }
                         }
                         .icon-position{
+                            width: 53px;
+                            position: absolute;
+                            display: flex;
                             font-size: 18px;
                         }
                         .word {
