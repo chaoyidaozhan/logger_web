@@ -83,7 +83,7 @@ export default {
         });
       },
       editClick () {
-        this.$emit('changeShow', 2)
+        this.$emit('changeShow', 2, this.detailMsg)
       },
       close () {
         // 1 关闭 2 设置规则  3 查看详情

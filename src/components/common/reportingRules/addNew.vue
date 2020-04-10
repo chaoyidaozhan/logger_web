@@ -390,7 +390,7 @@ export default {
           // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用   周期为日月的时候传   
           param.submitDate = 1;
           param.submitStartTime = this.startPickerDefault.name + ':00';
-          param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          param.submitEndTime = this.endPickerDefault.name + ':00';
           // 
           param.doubleWeekRemind = 0;
           param.remindThisWeek = 0;
