@@ -511,7 +511,7 @@ export default {
                 let submitData = {
                     gather: this.summaryFlag ? 1 : 0, //是否是汇总日志 0：否 1：是
                     diaryTime: FormatTime(this.dateValue ? new Date(this.dateValue) : new Date(), "YYYY-MM-DD"),
-                    templateName: this.templateItemData.title || this.templateItemData.templateName,
+                    templateName: this.templateItemData.templateName || this.templateItemData.title,
                     version: this.templateItemData.version,
                     source: 3, //1 安卓   2 ios    3web    4微信
                     templateId: !this.editFlag ? this.$route.params.id || 0 : this.templateItemData.templateId || 0,

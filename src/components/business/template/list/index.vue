@@ -165,6 +165,7 @@ export default {
     font-size: 0;
     .commonTemplate,
     .allTemplate {
+
         padding-bottom: 12px;
         color: #333;
         font-size: 14px;
@@ -185,6 +186,9 @@ export default {
         grid-template-rows: repeat(auto-fill, 110px);
         grid-template-columns: repeat(auto-fill, 275px);
         justify-content: center;
+        .col {
+            margin: 0;
+        }
     }
     .template-item-content-create {
         span {
@@ -228,10 +232,10 @@ export default {
         height: 110px;
         display: inline-block;
         box-sizing: border-box;
-        margin: 0 16px 16px 0;
         font-size: 14px;
         overflow: hidden;
         border-radius: 3px;
+        margin: 0 16px 16px 0;
         // vertical-align: top;
         &.out-leave-active {
             transition: width .3s, opacity .3s;

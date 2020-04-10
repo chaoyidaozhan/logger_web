@@ -228,9 +228,10 @@ export default {
             }
         }
         .templateUpdataTime {
+            height: 32px;
+            line-height: 32px;
             font-size: 12px;
             color: #666;
-            padding-top: 7px;
         }
         .template-item-title {
             font-size: 14px;
