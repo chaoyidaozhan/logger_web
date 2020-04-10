@@ -1,6 +1,6 @@
 <template>
     <div class="summary-new">
-        <div class="search-form">
+        <div class="">
             <Form inline>
                 <!-- 模板 -->
                 <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.template')">

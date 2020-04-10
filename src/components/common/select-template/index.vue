@@ -3,6 +3,7 @@
         <YYSelect 
             v-model="templateId" 
             :invertable="false"
+            :transfer="false"
             :placeholder="`${$t('operate.select')}${$t('noun.template')}`">
             <YYOption v-for="(item, index) in tempListData"
                 :value="item.id"

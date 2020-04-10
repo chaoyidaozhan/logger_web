@@ -48,8 +48,9 @@
             </div>
             <div class="subctn">
               <YYSelect
-                v-model="formData.submitPeriodic"
                 :invertable="false"
+                :transfer="false"
+                v-model="formData.submitPeriodic"
                 @on-change="handleSubmitPeriodic(+formData.submitPeriodic)">
                 <YYOption :value="0">
                   {{$t('date.d')}}
@@ -74,7 +75,8 @@
             <div class="subctn">
               <YYSelect
                 v-model="formData.submitStartWeek"
-                :invertable="false" 
+                :invertable="false"
+                :transfer="false"
                 :multiple="true">
                 <YYOption :value="item.key + ''" :key="index" v-for="(item, index) in submitDate">
                   {{item.value}}
@@ -149,6 +151,7 @@
               <YYSelect 
                 :multiple="false"
                 :invertable="false"
+                :transfer="false"
                 v-model="formData.remindTime">
                 <YYOption :value="item" v-for="(item, index) in remindTimeArr" :key="index">
                   {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}

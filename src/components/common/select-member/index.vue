@@ -1,5 +1,7 @@
 <template>
     <YYSelect 
+        :invertable="false"
+        :transfer="false"
         class="query-select-member"
         style="width: '200px'"
         v-model="members"
@@ -10,7 +12,6 @@
         filterable
         sortable
         ref="member"
-        :transfer="false"
         :filterMethod="handleSearch"
         @on-change="handleSelect">
         <YYOption 
