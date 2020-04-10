@@ -80,6 +80,10 @@ export default {
             },
             deptOrderData: [ // dept  1
                 {
+                    name: this.$t('noun.daily'),
+                    id: 4
+                }, 
+                {
                     name: this.$t('noun.monthly'),
                     id: 0
                 },
