@@ -1108,6 +1108,12 @@ export default {
                     .count {
                         display: inline-block;
                         align-items: center;
+                        position: relative;
+                        .yy-icon-arrow-right{
+                            position: absolute;
+                            right: -17px;
+                            top: 0px;
+                        }
                     }
                     .logger-list-col {
                         display: flex;
