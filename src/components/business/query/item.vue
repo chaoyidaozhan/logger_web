@@ -176,49 +176,49 @@
                                 <!-- <i class="icon-chat-normal"></i> -->
                                 <YYIcon type="arrow-right"></YYIcon>
                             </div>
-                            <div class="logger-list-col">
-                                <span class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
-                                    <i class="icon-position" style="width:32px;right:137px" v-if="!loggerItemData.like.isLike">
+                            <div class="logger-list-col mb-flex mb-flex-align-center">
+                                <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="width:32px;right:137px" v-if="!loggerItemData.like.isLike">
                                         <YYIcon type="zan" style="margin-right:7px"></YYIcon>
-                                        <span class="word" style="width:14px">
+                                        <div class="word" style="width:14px">
                                             {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
-                                        </span>
-                                    </i>
-                                    <i class="icon-position" style="width:32px;right:137px;color:#EE2223" v-else>
+                                        </div>
+                                    </div>
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="width:32px;right:137px;color:#EE2223" v-else>
                                         <YYIcon type="thumb-up" style="margin-right:7px"></YYIcon>
-                                        <span class="word">
+                                        <div class="word">
                                             {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
-                                        </span>
-                                    </i>
-                                </span>
-                                <span class="operate-item" :class="{active: showReply}" @click="handleReply">
-                                    <i class="icon-position" style="right:64px" v-if="!showReply">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="operate-item" :class="{active: showReply}" @click="handleReply">
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:64px" v-if="!showReply">
                                         <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
                                         </span>
-                                    </i>
-                                    <i class="icon-position" style="right:64px" v-else>
+                                    </div>
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:64px" v-else>
                                         <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
                                         </span>
-                                    </i>
-                                </span>
-                                <span :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
-                                    <i class="icon-position" style="right:0" v-if="!loggerItemData.favorite.isFavorite">
+                                    </div>
+                                </div>
+                                <div :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:0" v-if="!loggerItemData.favorite.isFavorite">
                                         <YYIcon type="xingxing-kong" style="margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
                                         </span>
-                                    </i>
-                                    <i class="icon-position" style="right:0" v-else>
+                                    </div>
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:0" v-else>
                                         <YYIcon type="xingxing-quan" style="color:#FF8B00;margin-right:7px"></YYIcon>
                                         <span class="word">
                                             {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
                                         </span>
-                                    </i>
-                                </span> 
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -1034,6 +1034,9 @@ export default {
                             .count-img:not(:first-child){
                                 margin-left: -5px;
                             }
+                            & > span {
+                                margin-left: 10px;
+                            }
                         }
                     }
                 }
@@ -1105,6 +1108,9 @@ export default {
                     font-size:14px;
                     height: 56px;
                     padding: 20px 0;
+                    /deep/ .ivu-poptip-arrow {
+                        bottom: 17px;
+                    }
                     .count {
                         display: inline-block;
                         align-items: center;
