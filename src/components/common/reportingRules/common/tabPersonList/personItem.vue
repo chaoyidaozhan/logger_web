@@ -2,7 +2,7 @@
   <div class="personalItem mb-flex mb-flex-align-center" :class="{'active': memberMsg.isSelected}">
     <img class="personPhoto" :src="memberMsg.avatar">
     <div class="name mb-flex-1">{{memberMsg.userName}}</div>
-    <div class="personalCheckbox">
+    <div class="personalCheckbox" v-if="isCheckboxShow">
       <YYCheckbox class="isSelected" v-model="memberMsg.isSelected"/>
     </div>
   </div>
@@ -16,6 +16,10 @@ export default {
       default: function() {
         return {};
       }
+    },
+    isCheckboxShow: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

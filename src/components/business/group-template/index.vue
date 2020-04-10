@@ -51,6 +51,8 @@
             </span>
             <span class="ctn">
                 <YYSelect 
+                    :invertable="false"
+                    :transfer="false"
                     v-model="templateNameId" 
                     @on-change="templateListHandleChange" style="width: 300px">
                     <!-- <span v-for="(item, i) in templateDataList" key=''></span> -->
