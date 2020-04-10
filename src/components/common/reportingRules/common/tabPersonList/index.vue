@@ -13,7 +13,7 @@
       <!-- 已提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
         <div class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
-          <PersonItem :memberMsg="item"></PersonItem>
+          <PersonItem :memberMsg="item" :isCheckboxShow="false"></PersonItem>
         </div>
       </div>
       <!-- 未提交 -->
@@ -30,8 +30,9 @@
       </div>
     </div>
     <div class="footer">
-       <YYCheckbox class="isSelected" v-model="isAllSelected" @on-change="allSelect">全选</YYCheckbox>
+       <YYCheckbox v-show="tabIndex != 0" class="isSelected" v-model="isAllSelected" @on-change="allSelect">全选</YYCheckbox>
        <YYButton 
+        v-show="tabIndex != 0"
         @click="sendSelectedMember"
         type="primary">
           {{$t('operate.sendReminder')}}
