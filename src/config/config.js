@@ -2,11 +2,11 @@ import { getCookie } from 'yyzone'
 const YKJ_IS_DIWORK = getCookie('YKJ_IS_DIWORK')
 module.exports = {
     dev: { // 开发环境
-        uploadHost: 'http://web.api.chaoke.com:6062',
+        uploadHost: '//web-api-u8c-test.yyuap.com',
         host: '//ezone.chaoke.com:6058',
     },
     develop: { // 91
-        uploadHost: 'http://web.api.chaoke.com:6062',
+        uploadHost: '//web-api-u8c-test.yyuap.com',
         host: '//ezone.chaoke.com:6058',
     },
     test: { // daily
