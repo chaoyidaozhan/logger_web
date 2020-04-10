@@ -616,6 +616,8 @@ export default {
     .bodyContent {
         line-height: 22px;
         border-bottom: 1px solid #F0F0F0;
+        font-size: 12px;
+        color: #333;
         & > div {
             padding: 8px 16px;
         }
