@@ -78,6 +78,9 @@ export default {
         color: @primary-color;
     }
 }
+.logger-detail.logger-detail-bg {
+    background: #F4F6F8;
+}
 .logger-detail {
     height: 100%;
     overflow: auto;
@@ -87,7 +90,7 @@ export default {
     right: 0;
     top: 0;
     transition: all .4s ease;
-    background: #F4F6F8;
+    background: white;
     .title {
         padding: 10px;
         font-size: 14px;
