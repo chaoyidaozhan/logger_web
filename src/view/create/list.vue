@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-detail">
+    <div class="logger-detail logger-detail-bg">
         <div v-if="recentlyTemplates.length">
             <div class="title">
                 <div>{{$t('noun.frequentlyUsedtTemplate')}}</div>
