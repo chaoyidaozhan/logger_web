@@ -641,8 +641,15 @@ export default {
         }
         .memberSelectedTemplate {
             /deep/ .yy-tag {
-                margin-bottom: 5px;
+                height: 30px;
+                margin: 0 8px 8px 0;
+                border-radius:3px;
+                background: rgba(230,230,230,1);
+                .yy-tag-inner span {
+                    margin-right: 6px;
+                }
             }
+
         }
     }
     .changeOperate {
