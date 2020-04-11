@@ -1,5 +1,5 @@
 <template>
-  <div class="ctn">
+  <div class="ctn mb-flex mb-flex-v">
     <div class="list mb-flex mb-flex-align-center">
       <div 
         class="item"
@@ -9,24 +9,18 @@
         {{item.title}}({{item.sum}})
       </div>
     </div>
-    <div v-if="isRender" class="listContainer mb-flex-1">
+    <div class="listContainer mb-flex-1">
       <!-- 已提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
-        <div class="subCtnItem" v-for="(item, i) in diarySubumitList.submitNormal" :key="i">
-          <PersonItem :memberMsg="item" :isCheckboxShow="false"></PersonItem>
-        </div>
+        <PersonItem :memberMsg="item" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
       </div>
       <!-- 未提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
-        <div class="subCtnItem" v-for="(item, i) in diarySubumitList.unSubmit" :key="i">
-          <PersonItem :memberMsg="item"></PersonItem>
-        </div>
+        <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
       </div>
       <!-- 延期提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
-        <div class="subCtnItem" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i">
-          <PersonItem :memberMsg="item"></PersonItem>
-        </div>
+        <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
       </div>
     </div>
     <div class="footer">
@@ -173,15 +167,23 @@ export default {
 </script>
 <style lang='less' scoped>
 .ctn {
-  height: 100%;
   box-sizing: border-box;
   padding: 0 20px;
   .listContainer {
-    height: 100%;
-    overflow-y: auto;
-  }
-  .listContainer::-webkit-scrollbar {
-    width: 0;
+    position: relative;
+    .subCtn {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow-y: auto;
+      padding-top: 10px;
+      box-sizing: border-box;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
   }
   .list {
     height: 40px;
@@ -208,15 +210,13 @@ export default {
       }
     }
   }
-  .subCtn {
-    margin-top: 10px;
-  }
-  .footer{
-    position: absolute;
+
+  .footer {
+    // position: absolute;
     box-sizing: border-box;
-    bottom: 0;
-    right: 0;
-    width: 100%;
+    // bottom: 0;
+    // right: 0;
+    // width: 100%;
     padding: 0 0 13px 20px;
     background: white;
   }
