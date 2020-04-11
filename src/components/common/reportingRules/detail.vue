@@ -2,7 +2,7 @@
   <transition name="moveR">
     <div>
       <div class="bgCover" @click="close()"></div>
-      <div class="container">
+      <div class="container mb-flex mb-flex-v">
         <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
           <div class="title">{{$t('operate.setReportRules')}}</div>
           <div class="yy-icon-guanbi" @click="close"></div>
@@ -23,7 +23,7 @@
           class="dateRangeCommon" 
           @handleChangeDate="handleChangeDate">
         </monthRange>
-        <TabPersonList :detailMsg="detailMsgCopy" :dateRange="dateRange"></TabPersonList>
+        <TabPersonList class="mb-flex-1" :detailMsg="detailMsgCopy" :dateRange="dateRange"></TabPersonList>
       </div>
     </div>
   </transition>
@@ -162,24 +162,24 @@ export default {
     right: 0;
     top: 0;
     background: white;
-    .body{
-      height: 100%;
-      overflow-y: auto;
-      .noImgCtn {
-        text-align: center;
-        margin-top: 50%;
-        .noDataImg {
-          width:62px;
-          height:59px;
-        }
-        .tips{
-          height:16px;
-          font-size:12px;
-          color:rgba(102,102,102,1);
-          line-height:16px;
-        }
-      }
-    }
+    // .body{
+    //   height: 100%;
+    //   overflow-y: auto;
+    //   .noImgCtn {
+    //     text-align: center;
+    //     margin-top: 50%;
+    //     .noDataImg {
+    //       width:62px;
+    //       height:59px;
+    //     }
+    //     .tips{
+    //       height:16px;
+    //       font-size:12px;
+    //       color:rgba(102,102,102,1);
+    //       line-height:16px;
+    //     }
+    //   }
+    // }
   }
 </style>
 

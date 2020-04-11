@@ -58,6 +58,7 @@
             </div>
         </div>
         <div class="addTemplate mb-flex mb-flex-v" v-if="isAddTemplateShow">
+            <div class="bgCover" @click.stop="isAddTemplateShow = false"></div>
             <div class="addTemplateHeader mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>{{$t('noun.addTemplate')}}</div>
                 <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
@@ -697,6 +698,15 @@ export default {
         width: 618px;
         box-shadow:-8px 0px 30px 0px rgba(74,81,93,0.2);
         background: #f5f5f5;
+        .bgCover {
+            position: fixed;
+            right: 0;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            opacity: 0;
+            z-index: 100;
+        }
         .addTemplateHeader {
             height: 48px;
             padding: 0 22px 0 20px;
