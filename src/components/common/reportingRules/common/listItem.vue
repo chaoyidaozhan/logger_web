@@ -133,7 +133,7 @@ export default {
       cursor: pointer;
     }
     .photoInfor {
-      width: 124px;
+      min-width: 124px;
       height: 20px;
       justify-content: flex-end;
       img {

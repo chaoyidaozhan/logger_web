@@ -5,6 +5,7 @@
             <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'"  v-if="showReportRule">
                <YYSelect 
                     :invertable="false"
+                    :transfer="false"
                     v-model="classificationArrData" 
                     @on-change="classifyHandleChange" style="width: 180px">
                     <YYOption value="1">

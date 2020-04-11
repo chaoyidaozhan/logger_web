@@ -84,7 +84,7 @@ export default {
     height: 20px;
     margin-top: 8px;
     .photoInfor {
-      width: 124px;
+      min-width: 124px;
       height: 20px;
       .mb-flex {
         margin-right: 12px;
