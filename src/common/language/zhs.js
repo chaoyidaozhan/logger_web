@@ -15,7 +15,7 @@ module.exports = {
         department: '按部门统计',
         employee: '按人员统计',
         internalGroupReport: '按内部群统计',
-        summary: '汇报汇总',
+        summary: '汇总汇报',
         statistics: '汇报报表',
         templateManagement: '模版管理',
         deploy: '配置',
