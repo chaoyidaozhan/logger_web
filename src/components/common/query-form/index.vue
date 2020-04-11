@@ -268,13 +268,32 @@ export default {
             withPublic: false,
             isGroupOrDeptSelectedAll: false,
             showReportingRulesFlag: true,
-            orderTypeMulti: this.showOrderTypeMulti
+            orderTypeMulti: this.showOrderTypeMulti,
+            list: [],
+            pageNo: 1, 
+            pageSize: 20, 
+            offsetId:''//设置滚动到第几条
         }
     },
     methods: {
         globalModel() {
             let {protocol, host, pathname} = window.location
-            window.open(`${protocol}//${host}${pathname}#/globalModal?token=${this.$store.state.userInfo.token}`)
+            let url = `${protocol}//${host}${pathname}#/globalModal?token=${this.$store.state.userInfo.token}`
+            const $win = window.open(url)
+            let _this = this
+            $win.onload = function() {
+                setTimeout(() => {
+                    $win.postMessage(
+                    {
+                        list: _this.list,
+                        pageNo: _this.pageNo,
+                        pageSize: _this.pageSize,
+                        offsetId: _this.offsetId
+                    },
+                    '*'
+                    )
+                }, 2000)
+            }
         },  
         goLoggerDetail() {
             this.$router.push({
@@ -466,9 +485,19 @@ export default {
         this.$eventbus.$on('getStartEndTime', (data) => {
             this.startEndData = data
         })
+        this.$eventbus.$on('translist', (list, pageNo, pageSize)=>{
+            this.list = list
+            this.pageNo = pageNo
+            this.pageSize = pageSize
+        })
+        this.$eventbus.$on('transid', (id)=>{
+            this.offsetId = id
+        })
     },
     destroyed () {
         this.$eventbus.$off('setBtnLoading')
+        this.$eventbus.$off('translist')
+        this.$eventbus.$off('transid')
     }
 }
 </script>

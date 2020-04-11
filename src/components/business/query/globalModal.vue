@@ -151,7 +151,8 @@ export default {
             pen,
             offsetId:'',//设置滚动到第几条
             defaultColor:'#EE2223',//设置默认颜色
-            isDrawing:false
+            isDrawing:false,
+            times: 1.5 //倍数
         }
     },
     components: {
@@ -189,7 +190,6 @@ export default {
          //打开全屏方法
         openFullscreen(element) {
             if(element){
-                console.log(element)
                 if (element.requestFullscreen) {
                     element.requestFullscreen();
                 } else if (element.mozRequestFullScreen) {
@@ -334,8 +334,9 @@ export default {
             if(!!loggerItemModals.style.zoom){
                 loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) + .1
             }else{
-                loggerItemModals.style.zoom = parseFloat(1.5) + .1
+                loggerItemModals.style.zoom = parseFloat(this.times) + .1
             }
+            this.times = loggerItemModals.style.zoom
             this.$eventbus.$emit('closeCanvas')
         },
         fontReduce(){
@@ -350,8 +351,9 @@ export default {
             if(!!loggerItemModals.style.zoom){
                 loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) - .1
             }else{
-                loggerItemModals.style.zoom = parseFloat(1.5) - .1
+                loggerItemModals.style.zoom = parseFloat(this.times) - .1
             }
+            this.times = loggerItemModals.style.zoom
             this.$eventbus.$emit('closeCanvas')
         },
         exit(){
@@ -369,7 +371,12 @@ export default {
         }
     },
     updated () {
-        // this.openFullscreen(document.body)
+        if(this.offsetId !== ''){
+            let pageLoggerList = document.querySelector('.page-logger-list')
+            let firstOffset = document.getElementById(this.offsetId).offsetTop
+            pageLoggerList.scrollTop = firstOffset * this.times
+            this.offsetId = ''
+        }
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
@@ -386,12 +393,10 @@ export default {
         //     }
         // )
         // // document.getElementById("clickme").dispatchEvent(e); 
-        this.initList()
             // var e = document.createEvent("MouseEvents");
             // e.initEvent("click", true, true);
             // document.getElementById("globalModal").dispatchEvent(e);
         // setTimeout(() => {
-        //     console.log(3)
         // },10000)
     },
     created() {
@@ -424,9 +429,37 @@ export default {
             this.defaultColor = color
             this.$eventbus.$emit('changePen', color)
         })
+
+        this.loading = true
+        let getMessage = function (e) {
+            const data = e.data || {}
+            // 解析data就行
+            if(data) {
+                _this.list = data.list ? data.list : []
+                _this.pageNo = data.pageNo ? data.pageNo : 1
+                _this.pageSize = data.pageSize ? data.pageSize : 20
+                _this.offsetId = data.offsetId ? data.offsetId : ''
+                _this.loading = false
+            }
+            if(_this.list.length === 0) {
+                _this.initList()
+            }
+        }
+        window.addEventListener(
+            'message',
+            getMessage,
+            false
+        )
+        //长时间没有接收到postMessage
+        setTimeout(() => {
+            if(this.list.length === 0) {
+                this.initList()
+            }
+            window.removeEventListener('message', getMessage, false)
+        }, 2000)
     },
     destroyed(){
-        this.$eventbus.$off('openglobal')
+        // this.$eventbus.$off('openglobal')
         this.$eventbus.$off('translist')
         this.$eventbus.$off('transid')
         this.$eventbus.$off('changeColor')
