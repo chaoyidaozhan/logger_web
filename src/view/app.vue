@@ -121,6 +121,9 @@
 .ivu-modal-wrap{
     z-index: 9999!important;
 }
+.ivu-modal-mask {
+    opacity: 0;
+}
 .no-padding-logger-container {
     padding-left: 0!important;
 }
