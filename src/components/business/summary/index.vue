@@ -14,7 +14,19 @@
                         <div class="mb-flex mb-flex-align-center">
                             <div class="mb-flex-1">{{itemB.title}}</div>
                         </div>
-                        <div class="mb-flex-1">{{itemB.content}}</div>
+                        <div class="mb-flex-1 secondLevel" v-if="itemB.children">
+                            <div class="mb-flex mb-flex-align-center bodyContent" v-for="(itemB, indexB) in itemB.children">
+                                <div class="mb-flex mb-flex-align-center">
+                                    <div class="mb-flex-1">{{itemB.title}}</div>
+                                </div>
+                                <div class="mb-flex-1">
+                                    {{itemB.content}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-flex-1" v-else>
+                            {{itemB.content}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -456,6 +468,9 @@ export default {
             };
             this.loggerSummaryPageRef = this.$refs.loggerSummaryPageRef;
             let loggerSummaryPageRef = this.loggerSummaryPageRef;
+            if(!loggerSummaryPageRef) {
+                return;
+            }
             loggerSummaryPageRef.onscroll = throttle(() => {
                 //变量scrollTop是滚动条滚动时，距离顶部的距离
                 let scrollTop = loggerSummaryPageRef.scrollTop;
@@ -620,6 +635,12 @@ export default {
         color: #333;
         & > div {
             padding: 8px 16px;
+        }
+        & > div.secondLevel {
+            padding: 0;
+            & > div:last-of-type {
+                border-bottom: 0;
+            }
         }
         & > div:first-of-type {
             width: 140px;

@@ -648,6 +648,9 @@ export default {
                 .yy-tag-inner span {
                     margin-right: 6px;
                 }
+                .yy-icon-close {
+                    cursor: pointer;
+                }
             }
 
         }
