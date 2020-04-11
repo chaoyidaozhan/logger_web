@@ -375,11 +375,9 @@ export default {
         this.queryMemberId = this.$store.state.userInfo.member_id
         let _this = this
         
-        // document.addEventListener('click', (e) => {
-        //     debugger
-        //     console.log(e)
-        //     this.openFullscreen(document.body)
-        // }, false)
+        document.addEventListener('click', (e) => {
+            this.openFullscreen(document.body)
+        }, false)
     
         // this.$nextTick(
         //     () => {
@@ -388,7 +386,7 @@ export default {
         //     }
         // )
         // // document.getElementById("clickme").dispatchEvent(e); 
-            this.initList()
+        this.initList()
             // var e = document.createEvent("MouseEvents");
             // e.initEvent("click", true, true);
             // document.getElementById("globalModal").dispatchEvent(e);
