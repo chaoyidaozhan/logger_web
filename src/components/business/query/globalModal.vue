@@ -189,6 +189,7 @@ export default {
          //打开全屏方法
         openFullscreen(element) {
             if(element){
+                console.log(element)
                 if (element.requestFullscreen) {
                     element.requestFullscreen();
                 } else if (element.mozRequestFullScreen) {
@@ -368,15 +369,15 @@ export default {
         }
     },
     updated () {
-        this.openFullscreen(document.body)
+        // this.openFullscreen(document.body)
     },
     mounted () {
         this.queryMemberId = this.$store.state.userInfo.member_id
         let _this = this
         
-        // document.addEventListener('click', () => {
-        //     this.openFullscreen(document.body)
-        // }, false)
+        document.addEventListener('click', (e) => {
+            this.openFullscreen(document.body)
+        }, false)
     
         // this.$nextTick(
         //     () => {
@@ -385,10 +386,13 @@ export default {
         //     }
         // )
         // // document.getElementById("clickme").dispatchEvent(e); 
+        this.initList()
+            // var e = document.createEvent("MouseEvents");
+            // e.initEvent("click", true, true);
+            // document.getElementById("globalModal").dispatchEvent(e);
         // setTimeout(() => {
         //     console.log(3)
         // },10000)
-        this.initList()
     },
     created() {
         // this.$eventbus.$on('changeDrawing', (isDrawing)=>{

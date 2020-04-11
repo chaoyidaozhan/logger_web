@@ -778,7 +778,7 @@ export default {
 .logger-item-modal{
     position: relative;
     margin: auto;
-    padding: 5% 5% 0 5%;
+    // padding: 5% 5% 0 5%;
     // padding: 60px;
     // transform: scale(.7);
     .logger-content-item{
