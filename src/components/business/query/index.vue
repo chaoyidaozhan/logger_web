@@ -12,7 +12,7 @@
                     :isLowerLevel="isLowerLevel"
                     :loggerItemData="item"
                     :menus="item.title"
-                    :key="item.id || index" />
+                    :key="index" />
             </transition-group>
             <YYLoadingH  v-if='loading' :text="$t('status.loading')"></YYLoadingH>
             <div class="loading">

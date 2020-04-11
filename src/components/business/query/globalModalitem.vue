@@ -707,7 +707,7 @@ export default {
                 ctx.strokeStyle = defaultColor; //ctx is the canvas
                 ctx.lineJoin = 'round';
                 ctx.lineCap = 'round';
-                ctx.lineWidth = 6;
+                ctx.lineWidth = 3;
 
                 _this.mousedownCanval = mousedownCanval
                 _this.draw = draw

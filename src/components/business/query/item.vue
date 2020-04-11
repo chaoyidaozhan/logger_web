@@ -1,10 +1,10 @@
 <template>
-    <div class="logger-item">
+    <div class="logger-item" :id="loggerItemData.id">
         <!-- @mouseleave="closeMenu()" -->
         <div class="logger-content-item" @mouseleave="closeMenu()">
             <!-- @mouseleave="closeMenu()"> isShowMenu&& !isInternalGroupReport-->
             <div class="leftMenu">
-                <div class="leftMenuBox" v-show="isShowMenu&& !isInternalGroupReport">
+                <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
                     <div class="left-header" @click="back2Logger()">
                         {{loggerItemData.userName}}的工作汇报
                         <div class="left-close">
@@ -392,7 +392,7 @@ export default {
             members: null,
             isShowMenu: false,
             loggerItem: null,//记录该item
-            isInternalGroupReport: false//是否是内部群汇报
+            isInternalGroupReport: false,//是否是内部群汇报
         }
     },
     components: {
