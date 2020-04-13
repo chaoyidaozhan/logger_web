@@ -1,12 +1,6 @@
 <template>
-    <div class="template-item cursor-pointer" @click="goToDetail" :class="{itemDisable: data.dataStatus == 0}">
-        <div class="template-item-content" :class="{day: data.dataType == 1, week: data.dataType == 2, mouth: data.dataType == 3}">
-            <!-- <div class="template-item-title ellipsis" v-html="filterHtml(data.title)"></div>
-            <div v-if="!showEdit" class="template-item-describe ellipsis" v-html="filterHtml(data.describe)"></div>
-            <template v-if="showEdit">
-                <div class="template-item-time ellipsis">{{$t('operate.update')}}{{ data.createTime | filterTime }}</div>
-                <div v-if="!data.dataStatus" class="template-item-status ellipsis">{{$t('operate.discontinued')}}</div>
-            </template> -->
+    <div class="template-item cursor-pointer" @click="goToDetail">
+        <div class="template-item-content" :class="{itemDisable: data.dataStatus == 0, day: data.dataType == 1, week: data.dataType == 2, mouth: data.dataType == 3}">
             <div class="mb-flex mb-flex-align-center">
                 <div class="fileSuffixName"></div>
                 <div class="templateTitle">{{data.title}}</div>
@@ -27,19 +21,8 @@
                 </template>
             </div>
         </div>
-        <div class="enOrdisble" v-if="data.dataStatus == 0">{{$t('operate.discontinued')}}</div>
-        <div v-if="isSelectIconShow" class="selectIcon" :class="{selected: data.isCurrentTemplateSelected}"></div>
-        <!-- <div class="template-operate-modal" v-if="showEdit">
-            <template v-if="!data.dataStatus">
-                <span @click="handleSwitch('start')"><i class="icon-play"></i></span>
-                <span @click="goToTemplate"><i class="icon-edit"></i></span>
-                <span><i class="icon-delete" @click="handleDelete"></i></span>
-            </template>
-            <template v-else>
-                <span @click="handleSwitch('stop')"><i class="icon-stop"></i></span>
-                <span @click="goToTemplate"><i class="icon-check"></i></span>
-            </template>
-        </div> -->
+        <div :class="{itemDisable: data.dataStatus == 0}" class="enOrdisble" v-if="data.dataStatus == 0">{{$t('operate.discontinued')}}</div>
+        <div v-if="isSelectIconShow" class="selectIcon" :class="{itemDisable: data.dataStatus == 0, selected: data.isCurrentTemplateSelected}"></div>
     </div>
 </template>
 <script>
