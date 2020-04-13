@@ -92,7 +92,6 @@ export default {
     watch: {
       firstColData(newVal) {
         this.firstColumsData = newVal;
-        console.log(this.firstColumsData)
       },
       secondColData(newVal) {
         this.secondColumsData = newVal;
