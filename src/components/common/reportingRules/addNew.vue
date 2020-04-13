@@ -890,6 +890,7 @@ export default {
         background:rgba(255,171,0,0.07);
         border-radius: 3px;
         padding-left: 36px;
+        border-radius: 3px;
         .tipsimg {
           width: 14px;
           height: 16px;
