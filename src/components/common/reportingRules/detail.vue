@@ -1,5 +1,5 @@
 <template>
-  <transition name="moveR">
+  <transition>
     <div>
       <div class="bgCover" @click="close()"></div>
       <div class="container mb-flex mb-flex-v">
@@ -7,7 +7,9 @@
           <div class="title">{{$t('operate.setReportRules')}}</div>
           <div class="yy-icon-guanbi" @click="close"></div>
         </div>
-        <DetailItem @edit="editClick" :detailMsg="detailMsgCopy"></DetailItem>
+        <div class="detailItem">
+          <DetailItem @edit="editClick" :detailMsg="detailMsgCopy"></DetailItem>
+        </div>
         <dayRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 0" 
           class="dateRangeCommon" 
@@ -114,6 +116,9 @@ export default {
   // .moveR-leave-to{
   //   transform: translateX(100%);
   // }
+  .detailItem {
+    padding: 0 20px;
+  }
   .dateRangeCommon {
     margin: 0 auto 6px;
     justify-content: center;

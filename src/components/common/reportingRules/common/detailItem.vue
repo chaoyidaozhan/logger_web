@@ -56,12 +56,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .listItem {
-  width: 530px;
-  min-height: 140px;
   box-shadow: 0px 5px 15px 0px rgba(51,51,51,0.12);
   border-radius: 3px;
   margin: 0 auto 16px;
-  padding: 20px 20px 0;
+  padding: 20px;
   background: white;
   .header {
     height: 26px;

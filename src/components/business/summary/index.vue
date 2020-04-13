@@ -5,7 +5,7 @@
                 <div class="itemHeader mb-flex mb-flex-pack-justify mb-flex-align-center">
                     <div>
                         <YYCheckbox v-model="itemA.isWorkReportChecked" @on-change="someItemCheckChange(itemA)"></YYCheckbox>
-                        <span>{{itemA.templateName}}</span>
+                        <span>{{itemA.userName + '提交的' + itemA.templateName}}</span>
                     </div>
                     <div>{{$t('noun.submitTime') + '：' + itemA.workReportCreateTime}}</div>
                 </div>
