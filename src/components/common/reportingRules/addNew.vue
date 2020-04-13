@@ -9,7 +9,7 @@
         </div>
         <div class="body">
           <!-- 选择模板 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               <span class="must"></span>
               {{$t('operate.selectTemplate')}}
@@ -23,7 +23,7 @@
             </div>
           </div>
           <!-- 选人 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               <span class="must"></span>
               {{$t('operate.selectSubmitPeople')}}
@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- 选择周期 -->
-          <div class="item mb-flex mb-flex-pack-justify paddingTopInterval">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center paddingTopInterval">
             <div class="itemTitle">
               {{$t('operate.selectionCycle')}}
             </div>
@@ -68,7 +68,7 @@
             </div>
           </div>
           <!-- 周期选择日  指定日期-->
-          <div class="item mb-flex mb-flex-pack-justify" v-if="formData.submitPeriodic == 0">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center" v-if="formData.submitPeriodic == 0">
             <div class="itemTitle">
               {{$t('date.appointedDate')}}
             </div>
@@ -85,7 +85,7 @@
             </div>
           </div>
           <!-- 从当前周开始 -->
-          <div class="item subItem mb-flex mb-flex-pack-justify" v-if="formData.doubleWeekRemind">
+          <div class="item subItem mb-flex mb-flex-pack-justify mb-flex-align-center" v-if="formData.doubleWeekRemind">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -97,7 +97,7 @@
             </div>
           </div>
           <!-- 提交开始时间 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.submissionStartTime')}}
             </div>
@@ -115,7 +115,7 @@
             </div>
           </div>
           <!-- 提交结束时间 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.submissionEndTime')}}
             </div>
@@ -143,7 +143,7 @@
             </span>
           </div> 
           <!-- 提醒时间 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.reminderTime')}}
             </div>
