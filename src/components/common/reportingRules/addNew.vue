@@ -256,8 +256,6 @@ export default {
       handleQuery(id) {
         this.formData.templateId = id;
       },
-      // 
-      // 
       getRule() {
         let detailMsg = this.detailMsg;
         let currentItemDetailMsg = Object.assign({}, detailMsg.currentItemDetailMsg);
