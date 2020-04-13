@@ -100,7 +100,7 @@
                             <logger-list-content-node
                                 v-for="(item, index) in JSON.parse(loggerItemData.content)"
                                 :data="item"
-                                :key="index"
+                                :key="item.id + index"
                                 :filterEncode="filterEncode" />
                         </template>
                         <template v-else>
@@ -112,7 +112,7 @@
                         <!--具体内容-->
                         <div class="logger-list-row logger-list-content">
                             <div class="logger-list-col logger-at">
-                                <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
+                                <span class="at" v-for="(item, index) in loggerItemData.at" :key="item.id + index">
                                     @{{item.replayUserName}}
                                 </span>
                             </div>

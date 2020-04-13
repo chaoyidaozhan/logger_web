@@ -266,7 +266,6 @@ export default {
             function isScrollEnd() {
                 t2 = getScrollTop();
                 if(t2 === t1){
-                    console.log('滚动结束了')
                     _this.showBack2Top = false;
                 }
             }
