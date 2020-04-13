@@ -206,7 +206,7 @@ export default {
             diarySubmitPeopleStr: [],
             submitPeriodic: 0,
             submitDate: '0',
-            submitStartWeek: [],
+            submitStartWeek: ['1', '2', '3', '4', '5', '6', '7'],
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
