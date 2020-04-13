@@ -111,7 +111,7 @@
                         
                         <!--具体内容-->
                         <div class="logger-list-row logger-list-content">
-                            <div class="logger-list-col">
+                            <div class="logger-list-col logger-at">
                                 <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
                                     @{{item.replayUserName}}
                                 </span>
@@ -705,10 +705,10 @@ export default {
             // loggerListItem.style.border = '1px dashed #18B681'
             
             let itemScrollTop = pageLoggerList.scrollTop
-            let leftMenuBox = this.$el.querySelector('.leftMenuBox')
-            if(window.innerWidth <= 1250){
-                leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
-            }
+            // let leftMenuBox = this.$el.querySelector('.leftMenuBox')
+            // if(window.innerWidth <= 1250){
+            //     leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            // }
 
             // if(leftMenuBox) {
             //     if(itemScrollTop - this.$el.offsetTop > 0){
@@ -798,9 +798,9 @@ export default {
         this.$eventbus.$on('changeLeftMenuScroll', () => {
             let pageLoggerList = document.querySelector('.page-logger-list')
             let leftMenuBox = this.$el.querySelector('.leftMenuBox')
-            if(window.innerWidth <= 1250){
-                leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
-            }
+            // if(window.innerWidth <= 1250){
+            //     leftMenuBox.style.top = pageLoggerList.scrollTop-this.$el.offsetTop + 10 + 'px'
+            // }
         })
         window.onresize = function(){
             //通过js改变leftMenu样式
@@ -830,19 +830,19 @@ export default {
 @rowMarginBottom: 14px;
 @titleMarginBottom: 4px;
 
-@media screen and (min-width: 1250px) {
-    .leftMenu{
-        flex:1 !important;
-        .leftMenuBox{
-            position: fixed !important;
-            top: 70px !important;
-            height: 100% !important;
-            padding: 6px 16px 8px 16px !important;
-            z-index: 2020 !important;
-            width: 13% !important;
-        }
-    }
-}
+// @media screen and (min-width: 1250px) {
+//     .leftMenu{
+//         flex:1 !important;
+//         .leftMenuBox{
+//             position: fixed !important;
+//             top: 70px !important;
+//             height: 100% !important;
+//             padding: 6px 16px 8px 16px !important;
+//             z-index: 2020 !important;
+//             width: 13% !important;
+//         }
+//     }
+// }
 
 
 .logger-item{
@@ -919,6 +919,9 @@ export default {
                         text-overflow: ellipsis;
                     }
                 }
+                .logger-at {
+                    margin-left: 78px;
+                }
                 .logger-list-col {
                     margin-left: 54px;
                     .title {
@@ -951,7 +954,6 @@ export default {
                         display: inline-block;
                         margin-right: 4px;
                         font-size: 13px;
-                        margin-left: 24px;
                     }
                     .more {
                         color: #289CF2;
