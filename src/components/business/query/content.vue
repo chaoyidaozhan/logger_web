@@ -1,14 +1,14 @@
 <template>
     <div class="logger-list-row logger-list-content">
         <template v-if="typeof data === 'object'">
-            <div class="logger-list-col" v-if="data.type === 'InputDate'">
+            <div class="logger-list-col logger-content" v-if="data.type === 'InputDate'">
                 <div class="title-date" :id="data.id" >{{filterEncode(data.title)}}</div>
                 <div class="caption" style="display:inline-block">
                     <span v-html="filterEncode(data.content || data.value)"></span>
                     <span v-if="data.type=='InputTextNum'&& data.unit">{{data.unit}}</span>
                 </div>
             </div>
-            <div class="logger-list-col mark-title" v-else>
+            <div class="logger-list-col logger-content mark-title" :id="data.id" v-else>
                 <div class="title" :id="data.id" >{{filterEncode(data.title)}}</div>
                 <div class="caption" >
                     <span v-html="filterEncode(data.content || data.value)"></span>
@@ -52,7 +52,7 @@ export default {
 .logger-list-row {
     .logger-list-col {
         // background: #FAFAFA;
-        padding: 16px 24px;
+        padding: 16px 0;
     }
 }
 .logger-list-content-children {
@@ -60,7 +60,7 @@ export default {
         margin-bottom: 6px;
         .logger-list-col {
             // background: #FAFAFA;
-            padding: 16px 24px;
+            padding: 16px 0;
             .title {
                 color: #999 !important;
                 margin-bottom: 0 !important;
