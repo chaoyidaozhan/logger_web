@@ -133,7 +133,7 @@
             </div>
           </div>
           <!-- tips -->
-          <div class="item tipsCtn">
+          <div class="tipsCtn">
             <img class="tipsimg" :src="ImTips">
             <span class="desc" v-if="formData.submitPeriodic == 2">
               本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
@@ -143,7 +143,7 @@
             </span>
           </div> 
           <!-- 提醒时间 -->
-          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
+          <div class="remindTimeArea item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.reminderTime')}}
             </div>
@@ -878,10 +878,13 @@ export default {
         line-height: 20px;
         margin-top: -6px;
       }
+      .subctn {
+        font-size: 0;
+      }
       .tipsCtn {
-        height:36px;
+        height: 36px;
         background:rgba(255,171,0,0.07);
-        border-radius:3px;
+        border-radius: 3px;
         padding-left: 36px;
         .tipsimg {
           width: 14px;
@@ -889,9 +892,12 @@ export default {
           vertical-align: middle;
         }
         .desc {
-          color: #666666;
+          color: #666;
           vertical-align: middle;
         }
+      }
+      .remindTimeArea {
+        padding-top: 20px;
       }
     }
   }
