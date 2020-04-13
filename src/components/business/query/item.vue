@@ -4,7 +4,7 @@
         <div class="logger-content-item" @mouseleave="closeMenu()">
             <!-- @mouseleave="closeMenu()"> isShowMenu&& !isInternalGroupReport-->
             <div class="leftMenu">
-                <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
+                <!-- <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
                     <div class="left-header" @click="back2Logger()">
                         {{loggerItemData.userName}}的工作汇报
                         <div class="left-close">
@@ -16,7 +16,7 @@
                             {{item.title}}
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
                 <!-- @mouseenter="showMenu()"> -->
@@ -89,7 +89,7 @@
                         :style="{'height': `${contentHeight}px` }">
                         <div class="logger-list-row logger-list-time" v-if="loggerItemData.diaryTimeStatus">
                             <div class="logger-list-col">
-                                <div class="title-date">
+                                <div class="title-date outer-title">
                                     {{$t('noun.logDate')}}:
                                 </div>
                                 <div class="caption-date">{{loggerItemData.diaryTime | filterDiaryTime}}</div>
@@ -132,8 +132,8 @@
                 <div class="loggerDialog" v-show="contentRealHeight > contentDefaultHeight && contentDefaultHeight && !contentExpand">
                 </div>
                 <div class="loggerExpand"> 
-                    <div class="logger-list-row handle-content-expand-btn" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
-                        <div class="logger-list-col logger-open-close">
+                    <div class="logger-list-row handle-content-expand-btn" >
+                        <div class="logger-list-col logger-open-close" v-if="contentRealHeight > contentDefaultHeight && contentDefaultHeight">
                             <span class="cursor-pointer more" @click="handleContentExpand" v-if="!contentExpand">
                                 {{$t('operate.expand')}}
                             </span>
@@ -308,7 +308,20 @@
             </div>
             <!--点赞回复收藏isShowMenu-->
             <div class="logger-list-vertical-operate">
-                <div class="logger-list-vertical-operate-menu"  v-show="isShowMenu">
+                <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
+                    <div class="left-header" @click="back2Logger()">
+                        {{loggerItemData.userName}}的工作汇报
+                        <div class="left-close">
+                        </div>
+                    </div>
+                    <div class="left-line"></div>
+                    <div class="left-content">
+                        <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
+                            {{item.title}}
+                        </div>
+                    </div>
+                </div> 
+                <!-- <div class="logger-list-vertical-operate-menu"  v-show="isShowMenu"> -->
                     <!-- <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
                         <i class="icon-position" v-if="!loggerItemData.like.isLike">
                             <YYIcon type="zan"></YYIcon>
@@ -333,7 +346,7 @@
                             <YYIcon type="xingxing-quan" style="color:#FF8B00"></YYIcon>
                         </i>
                     </div> -->
-                </div>
+                <!-- </div> -->
             </div>
         </div>
     </div>
@@ -605,7 +618,7 @@ export default {
                 let pageContent = document.querySelector('.page-logger-content')
                 if(this.$el.offsetHeight > pageContent.offsetHeight){
                     let pageLoggerList = document.querySelector('.page-logger-list')
-                    pageLoggerList.scrollTop = this.$el.offsetTop - 10
+                    pageLoggerList.scrollTop = this.$el.offsetTop
                 }
             }
         },
@@ -713,7 +726,7 @@ export default {
         // 返回工作汇报
         back2Logger(){
             let pageLoggerList = document.querySelector('.page-logger-list')
-            pageLoggerList.scrollTop = this.loggerItem.offsetTop - 10
+            pageLoggerList.scrollTop = this.loggerItem.offsetTop
         },
         //返回工作汇报的当前title
         back2Title(item){
@@ -723,7 +736,7 @@ export default {
             this.$nextTick(()=>{
                 let _this = this
                 let pageLoggerList = document.querySelector('.page-logger-list')
-                pageLoggerList.scrollTop = this.loggerItem.offsetTop - 10
+                pageLoggerList.scrollTop = this.loggerItem.offsetTop
                 this.$el.querySelectorAll('.title').forEach((e)=>{
                     if(e.innerText === item.title && e.id === item.id.toString()){
                         let pageContent = document.querySelector('.page-logger-content')
@@ -731,8 +744,15 @@ export default {
                             let pageLoggerList = document.querySelector('.page-logger-list')
                             pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 20
                         }
+                        let markTitle = _this.$el.querySelector('.mark-title')
+                        markTitle.style.background = '#FAFAFA'
+                        setTimeout(() => {
+                            markTitle.style.background = ''
+                        }, 3000)
                     }
                 })
+
+
                 event.stopPropagation();
             })
         }
@@ -871,7 +891,7 @@ export default {
                 line-height: 24px;
                 word-break: break-all;
                 &.logger-list-time {
-                    margin-bottom: @rowMarginBottom;
+                    margin-bottom: 12px;
                     .title {
                         margin-bottom: @titleMarginBottom;
                     }
@@ -913,6 +933,9 @@ export default {
                         font-size: 13px;
                         color:#333;
                     }
+                    .outer-title{
+                        margin-left: 24px;
+                    }
                     .caption-date{
                         display: inline-block;
                         font-size: 13px;
@@ -928,6 +951,7 @@ export default {
                         display: inline-block;
                         margin-right: 4px;
                         font-size: 13px;
+                        margin-left: 24px;
                     }
                     .more {
                         color: #289CF2;
@@ -937,6 +961,7 @@ export default {
             }
             .logger-list-user {
                 line-height: 24px;
+                margin-left: 24px;
                 .template-name {
                     font-size: 12px;
                     text-align: center;
@@ -1043,9 +1068,10 @@ export default {
             }
             .logger-list-range {
                 font-size: 12px;
+                margin-left: 24px;
                 color: @gray-color-light;
                 margin-top: -20px;
-                margin-bottom: 10px;
+                margin-bottom: 13px;
                 position: relative;
                 .logger-list-col {
                     padding: 1px 0;
@@ -1102,12 +1128,14 @@ export default {
                 // }
                 .logger-open-close{
                     display: inline-block;
+                    margin-left: 78px;
                 }
                 .logger-list-watcher{
                     display: block;
                     font-size:14px;
                     height: 56px;
                     padding: 20px 0;
+                    margin-left: 78px;
                     /deep/ .ivu-poptip-arrow {
                         bottom: 17px;
                     }
@@ -1248,6 +1276,7 @@ export default {
             position: relative;
             flex:1;
             width: 56px;
+            padding-right: 20px;
             // height: 150px;
             // position: absolute;
             bottom: 0;
@@ -1258,29 +1287,73 @@ export default {
             //     right: 65px;
             //     bottom: -33px;
             // }
-            .logger-list-vertical-operate-menu {
-                display: inline-block;
-                margin-left: 16px;
-                position: absolute;
-                bottom: 0;
-                .operate-item{
-                    width:32px;
-                    height:32px;
-                    background:rgba(255,255,255,1);
-                    box-shadow:0px 2px 6px 0px rgba(0,0,0,0.12);
-                    border-radius:16px;
-                    margin: auto;
-                    position: relative;
-                    cursor: pointer;
-                    .icon-position{
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%,-50%);
+            .leftMenuBox{
+                position: sticky;
+                // top: 68px;
+                height: auto;
+                width: 100%;
+                top: 10px;
+                right: 20px;
+                background:rgba(255,255,255,0.7);
+                border-radius:0px 4px 4px 0px;
+                padding: 18px 16px 8px 28px;
+                z-index: 2020;
+                .left-header{
+                    height: 17px;
+                    font-size:12px;
+                    font-family:PingFangSC-Medium,PingFang SC;
+                    font-weight:500;
+                    color:rgba(51,51,51,1);
+                    line-height:17px
+                    .left-close{
+                        display: inline-block;
+                        float: right;
                     }
-                    
+                }
+                .left-line{
+                    width:100%;
+                    margin-top: 8px;
+                    height:1px;
+                    background: #D9D9D9;
+                }
+                .left-content{
+                    width:100%;
+                    margin-top: 8px;
+                    font-size:12px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(51,51,51,1);
+                    .left-item{
+                        cursor: pointer;
+                        padding: 10px 0;
+                        // height: 36px;
+                        // line-height: 36px;
+                    }
                 }
             }
+            // .logger-list-vertical-operate-menu {
+            //     display: inline-block;
+            //     margin-left: 16px;
+            //     position: absolute;
+            //     bottom: 0;
+            //     .operate-item{
+            //         width:32px;
+            //         height:32px;
+            //         background:rgba(255,255,255,1);
+            //         box-shadow:0px 2px 6px 0px rgba(0,0,0,0.12);
+            //         border-radius:16px;
+            //         margin: auto;
+            //         position: relative;
+            //         cursor: pointer;
+            //         .icon-position{
+            //             position: absolute;
+            //             top: 50%;
+            //             left: 50%;
+            //             transform: translate(-50%,-50%);
+            //         }
+                    
+            //     }
+            // }
         }
         .leftMenu{
             // position: fixed;
@@ -1407,5 +1480,8 @@ export default {
         display: none;
     }
 }
+
+        // background: #FAFAFA;
+        // padding: 16px 24px;
 </style>
 

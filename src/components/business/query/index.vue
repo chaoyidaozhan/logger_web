@@ -275,7 +275,6 @@ export default {
 .page-logger-content{
     height: 100%;
     overflow: auto;
-    padding-top: 10px;
     background: #F5F5F5;
     // .leftMenu{
     //     position: absolute;
