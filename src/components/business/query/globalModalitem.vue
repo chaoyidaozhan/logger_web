@@ -630,13 +630,14 @@ export default {
             if(!!loggerItemModals.style.zoom){
                 times = loggerItemModals.style.zoom
             }
-            function mousedownCanval(e){
+           function mousedownCanval(e){
                 isDrawing = true;
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
                 // _this.$eventbus.$emit('changeDrawing', true)
                 sessionStorage.setItem('isDrawing', isDrawing)
             }
             function draw(e) {
+                // this.$eventbus.$emit('drawFixed')
                 isDrawing = sessionStorage.getItem('isDrawing')
                 if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
                 ctx.beginPath();
@@ -657,26 +658,30 @@ export default {
             }
 
             function mouseenterCanval(e){
+                isDrawing = sessionStorage.getItem('isDrawing')
+                if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
+                ctx.beginPath();
+                // start from
+                
+                let leaveX = sessionStorage.getItem('leaveX')
+                let leaveY = sessionStorage.getItem('leaveY')
+                ctx.moveTo(leaveX, e.offsetY/times - leaveY);
+                // go to
+                ctx.lineTo(e.offsetX/times, e.offsetY/times);
+                ctx.stroke();
+                [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
+                if(!!window.getSelection().toString()){
+                    window.getSelection().removeAllRanges()
+                }
                 lastX = e.offsetX/times
                 lastY = e.offsetY/times
-                // isDrawing = sessionStorage.getItem('isDrawing')
-                // if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
-                // ctx.beginPath();
-                // // start from
-                // ctx.moveTo(lastX, lastY);
-                // // go to
-                // ctx.lineTo(e.offsetX/times, e.offsetY/times);
-                // ctx.stroke();
-                // [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
-                // if(!!window.getSelection().toString()){
-                //     window.getSelection().removeAllRanges()
-                // }
-                // console.log(e)
-                
             }
 
             function rightDraw(e){
                 isDrawing = sessionStorage.getItem('isDrawing')
+                sessionStorage.setItem('leaveX', lastX)
+                sessionStorage.setItem('leaveY', e.offsetY/times - lastY)
+                
                 if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
                 ctx.beginPath();
                 // start from
@@ -688,8 +693,6 @@ export default {
                 if(!!window.getSelection().toString()){
                     window.getSelection().removeAllRanges()
                 }
-                this.leaveX = e.offsetX/times
-                this.leaveY = e.offsetY/times
             }
 
             if(!isCanval){
