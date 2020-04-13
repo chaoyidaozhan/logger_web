@@ -441,7 +441,7 @@ export default {
         }else if(submitPeriodic == 2) {
           this.endPickerDefault = firstCol;
         }
-        this.remindTimeComputed();
+        this.remindTimeComputed(submitPeriodic);
       },
       getNum(str) { // 获取纯数字
         if (!str) {
@@ -588,9 +588,9 @@ export default {
           default:
               break;
         }
-        this.remindTimeComputed();
+        this.remindTimeComputed(submitPeriodic);
       },
-      remindTimeComputed() {
+      remindTimeComputed(submitPeriodic) {
         let remindTimeArr = [];
         if(submitPeriodic == 0) {
           let start = +this.startPickerDefault.value;
