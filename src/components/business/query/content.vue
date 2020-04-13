@@ -8,7 +8,7 @@
                     <span v-if="data.type=='InputTextNum'&& data.unit">{{data.unit}}</span>
                 </div>
             </div>
-            <div class="logger-list-col" v-else>
+            <div class="logger-list-col mark-title" v-else>
                 <div class="title" :id="data.id" >{{filterEncode(data.title)}}</div>
                 <div class="caption" >
                     <span v-html="filterEncode(data.content || data.value)"></span>
@@ -50,12 +50,17 @@ export default {
 @import '~app_assets/css/var.less';
 @rowMarginBottom: 14px;
 .logger-list-row {
-    margin-bottom: 18px;
+    .logger-list-col {
+        // background: #FAFAFA;
+        padding: 16px 24px;
+    }
 }
 .logger-list-content-children {
     .logger-list-row {
         margin-bottom: 6px;
         .logger-list-col {
+            // background: #FAFAFA;
+            padding: 16px 24px;
             .title {
                 color: #999 !important;
                 margin-bottom: 0 !important;
