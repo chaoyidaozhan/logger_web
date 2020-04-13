@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- 选择周期 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify paddingTopInterval">
             <div class="itemTitle">
               {{$t('operate.selectionCycle')}}
             </div>
@@ -836,9 +836,10 @@ export default {
     top: 0;
     background: white;
     .body{
+      padding: 0 20px;
       .item {
-        padding: 0 20px;
         min-height: 32px;
+        margin-bottom: 16px;
         .itemTitle {
           width: 80px;
           height: 32px;
@@ -865,10 +866,12 @@ export default {
           display: inline-block;
           clear: both;
         }
-        margin-bottom: 15px;
         &.submitCtn {
           margin-top: 30px;
         }
+      }
+      .item.paddingTopInterval {
+        padding-top: 8px;
       }
       .subItem {
         height: 20px;
