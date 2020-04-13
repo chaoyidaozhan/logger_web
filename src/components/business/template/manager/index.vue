@@ -839,13 +839,14 @@ export default {
             width: 24px;
             height: 24px;
             color: @white-color;
-            border: 1px solid @white-color;
+            // border: 1px solid @white-color;
             line-height: 24px;
             text-align: center;
             border-radius: 50%;
+            color: #dbe0e5;
         }
         &:hover i{
-            color: @white-color;
+            color: #ee2223;
         }
     }
     .main-inner {

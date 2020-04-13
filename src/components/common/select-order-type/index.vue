@@ -244,11 +244,11 @@ export default {
                 cursor: pointer;
                 transition: background 0.2s ease-in-out;
                 &:hover {
-                    background-color: #f3f3f3;
+                    background-color: #f0f3f9;
                 }
                 &.selected {
-                    span { color: @gray-color-dark; }
-                    background-color: @select-item-bg;
+                    // span { color: @gray-color-dark; }
+                    background-color: #fef9ed;
                 }
             }
         }

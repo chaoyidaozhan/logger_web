@@ -9,7 +9,7 @@
         </div>
         <div class="body">
           <!-- 选择模板 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               <span class="must"></span>
               {{$t('operate.selectTemplate')}}
@@ -23,7 +23,7 @@
             </div>
           </div>
           <!-- 选人 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               <span class="must"></span>
               {{$t('operate.selectSubmitPeople')}}
@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- 选择周期 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center paddingTopInterval">
             <div class="itemTitle">
               {{$t('operate.selectionCycle')}}
             </div>
@@ -68,7 +68,7 @@
             </div>
           </div>
           <!-- 周期选择日  指定日期-->
-          <div class="item mb-flex mb-flex-pack-justify" v-if="formData.submitPeriodic == 0">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center" v-if="formData.submitPeriodic == 0">
             <div class="itemTitle">
               {{$t('date.appointedDate')}}
             </div>
@@ -85,7 +85,7 @@
             </div>
           </div>
           <!-- 从当前周开始 -->
-          <div class="item subItem mb-flex mb-flex-pack-justify" v-if="formData.doubleWeekRemind">
+          <div class="item subItem mb-flex mb-flex-pack-justify mb-flex-align-center" v-if="formData.doubleWeekRemind">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -97,7 +97,7 @@
             </div>
           </div>
           <!-- 提交开始时间 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.submissionStartTime')}}
             </div>
@@ -115,7 +115,7 @@
             </div>
           </div>
           <!-- 提交结束时间 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.submissionEndTime')}}
             </div>
@@ -133,7 +133,7 @@
             </div>
           </div>
           <!-- tips -->
-          <div class="item tipsCtn">
+          <div class="tipsCtn">
             <img class="tipsimg" :src="ImTips">
             <span class="desc" v-if="formData.submitPeriodic == 2">
               本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
@@ -143,7 +143,7 @@
             </span>
           </div> 
           <!-- 提醒时间 -->
-          <div class="item mb-flex mb-flex-pack-justify">
+          <div class="remindTimeArea item mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
               {{$t('date.reminderTime')}}
             </div>
@@ -206,7 +206,7 @@ export default {
             diarySubmitPeopleStr: [],
             submitPeriodic: 0,
             submitDate: '0',
-            submitStartWeek: [],
+            submitStartWeek: ['1', '2', '3', '4', '5', '6', '7'],
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
@@ -836,9 +836,10 @@ export default {
     top: 0;
     background: white;
     .body{
+      padding: 0 20px;
       .item {
-        padding: 0 20px;
         min-height: 32px;
+        margin-bottom: 16px;
         .itemTitle {
           width: 80px;
           height: 32px;
@@ -865,20 +866,25 @@ export default {
           display: inline-block;
           clear: both;
         }
-        margin-bottom: 15px;
         &.submitCtn {
           margin-top: 30px;
         }
+      }
+      .item.paddingTopInterval {
+        padding-top: 8px;
       }
       .subItem {
         height: 20px;
         line-height: 20px;
         margin-top: -6px;
       }
+      .subctn {
+        font-size: 0;
+      }
       .tipsCtn {
-        height:36px;
+        height: 36px;
         background:rgba(255,171,0,0.07);
-        border-radius:3px;
+        border-radius: 3px;
         padding-left: 36px;
         .tipsimg {
           width: 14px;
@@ -886,9 +892,12 @@ export default {
           vertical-align: middle;
         }
         .desc {
-          color: #666666;
+          color: #666;
           vertical-align: middle;
         }
+      }
+      .remindTimeArea {
+        padding-top: 20px;
       }
     }
   }

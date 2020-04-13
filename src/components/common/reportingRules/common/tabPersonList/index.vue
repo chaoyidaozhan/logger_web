@@ -11,16 +11,25 @@
     </div>
     <div class="listContainer mb-flex-1">
       <!-- 已提交 -->
-      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
-        <PersonItem :memberMsg="item" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0">
+        <div class="mb-flex mb-flex-wrap">
+          <PersonItem :memberMsg="item" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
+          <YYEmpty v-if="!diarySubumitList.submitNormal.length" vertical="middle" text="暂无数据"/>
+        </div>
       </div>
       <!-- 未提交 -->
-      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
-        <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
+      <div class="subCtn" v-show="tabIndex == 1">
+        <div class="mb-flex mb-flex-wrap">
+          <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
+          <YYEmpty v-if="!diarySubumitList.unSubmit.length" vertical="middle" text="暂无数据"/>
+        </div>
       </div>
       <!-- 延期提交 -->
-      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
-        <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 2">
+        <div class="mb-flex mb-flex-wrap">
+          <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
+          <YYEmpty v-if="!diarySubumitList.submitPostpone.length" vertical="middle" text="暂无数据"/>
+        </div>
       </div>
     </div>
     <div class="footer">
@@ -183,6 +192,13 @@ export default {
       &::-webkit-scrollbar {
         width: 0;
       }
+      & > div {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    /deep/ .yy-empty {
+      margin: 0 auto;
     }
   }
   .list {
@@ -210,13 +226,8 @@ export default {
       }
     }
   }
-
   .footer {
-    // position: absolute;
     box-sizing: border-box;
-    // bottom: 0;
-    // right: 0;
-    // width: 100%;
     padding: 0 0 13px 20px;
     background: white;
   }

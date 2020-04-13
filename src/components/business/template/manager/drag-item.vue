@@ -9,7 +9,7 @@
             </label>
             <div class="mask" 
                 v-if="(currentItem && currentItem.id) == item.id && item.type === 'InputContainer'">
-                <Icon type="close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
+                <Icon type="close" class="ivu-icon-ios-close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
             <!-- 蒙版 -->
             <div class="mask" 
                 v-if="(currentItem && currentItem.id) == item.id">
-                <Icon type="close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
+                <Icon class="ivu-icon-ios-close" type="close" @click.native="handleDelete($event, zIndex, item, $parent.item)"></Icon>
             </div>
         </template>
         <!-- 子节点 -->

@@ -1,13 +1,15 @@
 <template>
-  <transition name="moveR">
+  <transition>
     <div>
       <div class="bgCover" @click="close()"></div>
-      <div class="container mb-flex mb-flex-v">
+      <div class="container mb-flex mb-flex-v" :class="{narrowWidth: isNarrowWidth}">
         <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
           <div class="title">{{$t('operate.setReportRules')}}</div>
           <div class="yy-icon-guanbi" @click="close"></div>
         </div>
-        <DetailItem @edit="editClick" :detailMsg="detailMsgCopy"></DetailItem>
+        <div class="detailItem">
+          <DetailItem @edit="editClick" :detailMsg="detailMsgCopy"></DetailItem>
+        </div>
         <dayRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 0" 
           class="dateRangeCommon" 
@@ -55,7 +57,8 @@ export default {
         return {
           tip_data,
           detailMsgCopy: {},
-          dateRange: {}
+          dateRange: {},
+          isNarrowWidth: true
         }
     },
     methods: {
@@ -80,6 +83,12 @@ export default {
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
           responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
           this.detailMsgCopy = responseData;
+          let diarySubumitList = this.detailMsgCopy.diarySubumitList;
+          if(diarySubumitList.submitNormal.length > 30 
+            || diarySubumitList.unSubmit.length > 30 
+            || diarySubumitList.submitPostpone.length > 30) {
+              this.isNarrowWidth = false;
+          }
         });
       },
       editClick () {
@@ -114,6 +123,9 @@ export default {
   // .moveR-leave-to{
   //   transform: translateX(100%);
   // }
+  .detailItem {
+    padding: 0 20px;
+  }
   .dateRangeCommon {
     margin: 0 auto 6px;
     justify-content: center;
@@ -151,6 +163,9 @@ export default {
     bottom: 0;
     opacity: 0;
     z-index: 100;
+  }
+  .container.narrowWidth {
+    width: 470px;
   }
   .container {
     font-size: 12px;

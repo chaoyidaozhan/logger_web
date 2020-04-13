@@ -57,8 +57,8 @@
                 </span>
             </div>
         </div>
+        <div class="bgCover" v-if="isAddTemplateShow" @click.stop="isAddTemplateShow = false"></div>
         <div class="addTemplate mb-flex mb-flex-v" v-if="isAddTemplateShow">
-            <div class="bgCover" @click.stop="isAddTemplateShow = false"></div>
             <div class="addTemplateHeader mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>{{$t('noun.addTemplate')}}</div>
                 <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
@@ -72,6 +72,18 @@
                         :data="item">
                     </fs-template-item>
                 </div>
+                <div class="addTemplatePagination">
+                    <YYPagination
+                        :current="pageNo"
+                        :total="totalCount" 
+                        :pageSize="pageSize"
+                        :showTotal="false"
+                        align="center"
+                        :show-elevator="false"
+                        :show-sizer="false"
+                        @on-change="paginationChange">
+                    </YYPagination>
+                </div>
             </div>
             <div class="addTemplateFooter mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>
@@ -83,15 +95,7 @@
                     <YYButton type="primary" @click.stop="giveRoleAddTemplate">{{$t('noun.addTemplate')}}</YYButton>
                 </div>
                 <div class="mb-flex-1">
-                    <YYPagination
-                        :current="pageNo"
-                        :total="totalCount" 
-                        :pageSize="pageSize"
-                        :showTotal="false"
-                        align="right"
-                        :show-elevator="false"
-                        :show-sizer="false"
-                        @on-change="paginationChange"/>
+
                 </div>
             </div>
         </div>
@@ -111,7 +115,8 @@ export default {
             mapKey: {
                 2: 'userName',
                 1: 'orgName',
-                0: 'deptName'
+                0: 'deptName',
+                3: 'groupName'
             },
             allTemplatePagenumMapList: {},
             totalCount: 0,
@@ -463,12 +468,17 @@ export default {
                 0: {
                     key: 'deptId',
                     value: []
+                },
+                3: {
+                    key: 'groupId',
+                    value: []
                 }
             }
             stashData[param.dataType].value.push(param[stashData[param.dataType].key])
             const memberIds = stashData[2].value
             const orgIds = stashData[1].value
             const deptIds = stashData[0].value
+            const groupIds = stashData[3].value
             this.$ajax({
                 url: '/rest/v1/diaryStatistics/acls',
                 type: 'delete',
@@ -476,7 +486,8 @@ export default {
                     memberId: this.currentMember.memberId,
                     memberIds: memberIds,
                     deptIds: deptIds,
-                    orgIds: orgIds
+                    orgIds: orgIds,
+                    groupIds: groupIds
                 },
                 requestBody: 1,
                 success: (res) =>{
@@ -700,23 +711,22 @@ export default {
             }
         }
     }
+    .bgCover {
+        position: fixed;
+        right: 0;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        opacity: 0;
+    }
     .addTemplate {
-        position: absolute;
+        position: fixed;
         top: -60px;
         right: 0;
         bottom: 0;
         width: 618px;
         box-shadow:-8px 0px 30px 0px rgba(74,81,93,0.2);
         background: #f5f5f5;
-        .bgCover {
-            position: fixed;
-            right: 0;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            opacity: 0;
-            z-index: 100;
-        }
         .addTemplateHeader {
             height: 48px;
             padding: 0 22px 0 20px;
@@ -733,6 +743,9 @@ export default {
             overflow-y: auto;
             height: 100%;
             align-content: flex-start;
+        }
+        .addTemplatePagination {
+            width: 100%;
         }
         .templateItem {
             width: 275px;

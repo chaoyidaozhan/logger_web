@@ -11,7 +11,7 @@
       <!-- 第一列 -->
       <div class="listsub mb-flex-1">
         <ul class="listCtn">
-        <li class="listItem"
+          <li class="listItem"
             v-for="(item, i) in firstColumsData"
             :key="i"
             @click="setFirstCol(item)"
@@ -23,27 +23,15 @@
       <!-- 第二列 -->
       <div class="listsub mb-flex-1" v-show="columns > 1">
         <ul class="listCtn">
-            <li class="listItem"
-              v-for="(item, i) in secondColumsData"
-              :key="i"
-              @click="setSecondCol(item)"
-              :class="{'active': currentSecondCol.value == item.value}">
-                {{item.name}}
-              </li>
+          <li class="listItem"
+            v-for="(item, i) in secondColumsData"
+            :key="i"
+            @click="setSecondCol(item)"
+            :class="{'active': currentSecondCol.value == item.value}">
+              {{item.name}}
+          </li>
         </ul>
       </div>
-      <!-- 第三列 -->
-      <!-- <div class="listsub mb-flex-1" v-show="columns > 2">
-        <ul class="listCtn">
-          <li class="listItem"
-            v-for="(item, i) in thirdColumsData"
-            :key="i"
-            @click="setMinute(item)"
-            :class="{'active': selfMinute == item}">
-              {{ item }}
-            </li>
-        </ul>
-      </div> -->
     </div>
     <div class="footer">
       <YYButton
@@ -104,6 +92,7 @@ export default {
     watch: {
       firstColData(newVal) {
         this.firstColumsData = newVal;
+        console.log(this.firstColumsData)
       },
       secondColData(newVal) {
         this.secondColumsData = newVal;
@@ -162,11 +151,8 @@ export default {
 <style lang='less' scoped>
 .ctn {
     position: relative;
-    // height: 32px;
-    // line-height: 32px;
     .subCtn {
       height: 32px;
-      // width: 115px;
       padding: 0px 10px;
       font-size: 12px;
       border: 1px solid #d9d9d9;
@@ -185,9 +171,9 @@ export default {
       }
     }
     .slideCtn {
+      position: absolute;
       width: 100%;
       height: 240px;
-      position: absolute;
       left: 0;
       top: 34px;
       z-index: 9;
@@ -195,6 +181,7 @@ export default {
       box-shadow:0px 3px 6px 0px rgba(74,81,93,0.25);
       border-radius:3px;
       border:1px solid rgba(221,221,221,1);
+      font-size: 12px;
       .listsub {
         height: 200px;
         overflow-y: auto;

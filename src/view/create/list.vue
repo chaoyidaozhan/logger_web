@@ -4,13 +4,17 @@
             <div class="title">
                 <div>{{$t('noun.frequentlyUsedtTemplate')}}</div>
             </div>
-            <fs-template-list :outerList='recentlyTemplates'/>
+            <div class="commonTemplateListGrid">
+                <fs-template-list :outerList='recentlyTemplates'/>
+            </div>
         </div>
         <div v-if="template.length">
             <div class="title">
                 <div>{{$t('placeholder.allTemplate')}}</div>
             </div>
-            <fs-template-list :outerList='template'/>
+            <div class="commonTemplateListGrid">
+                <fs-template-list :outerList='template'/>
+            </div>
         </div>
         
     </div>
@@ -82,3 +86,13 @@ export default {
     }
 }
 </script>
+<style lang="less" scoped>
+    .commonTemplateListGrid > .content {
+        display: grid;
+        grid-row-gap: 16px;
+        grid-column-gap: 16px;
+        grid-template-rows: repeat(auto-fill, 110px);
+        grid-template-columns: repeat(auto-fill, 275px);
+        justify-content: center;
+    }
+</style>
