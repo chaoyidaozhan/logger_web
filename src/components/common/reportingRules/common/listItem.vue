@@ -1,5 +1,5 @@
 <template>
- <div class="listItem">
+ <div class="listItem" @click.stop="getDetail">
    <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
       <div class="title">{{detailMsg.templateName}}</div>
       <div class="editAndDelete mb-flex mb-flex-pack-justify">
@@ -12,7 +12,7 @@
      <div class="desc">{{detailMsg.detailMsgTime}}</div>
    </div>
    <div class="footer mb-flex mb-flex-align-center mb-flex-pack-justify">
-    <div class="lookDetail mb-flex mb-flex-align-center" @click="getDetail">
+    <div class="lookDetail mb-flex mb-flex-align-center">
       <div>{{$t('operate.viewDetails')}}</div>
       <div class="yy-icon-Vjiantou-you"></div>
     </div>
@@ -49,15 +49,15 @@ export default {
     },
     methods: {
       toSomeoneReportList(item) {
-        this.$router.push({
-          path: '/LoggerQueryAll',
-          query: {
-            token: this.$store.state.userInfo.token
-          }
-        });
-        setTimeout(() => {
-          this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', item);
-        }, 1000);
+        // this.$router.push({
+        //   path: '/LoggerQueryAll',
+        //   query: {
+        //     token: this.$store.state.userInfo.token
+        //   }
+        // });
+        // setTimeout(() => {
+        //   this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', item);
+        // }, 1000);
       },
       delRule() {
         this.$emit('delRule', this.detailMsg)
@@ -88,6 +88,7 @@ export default {
   margin: 0 auto 16px;
   padding: 20px 20px 0;
   background: white;
+  cursor: pointer;
   .header {
     height: 20px;
     .title{
@@ -102,11 +103,9 @@ export default {
     }
     .edit {
       font-size: 16px;
-      cursor: pointer;
     }
     .delete {
       font-size: 16px;
-      cursor: pointer;
     }
     .notCreater {
       visibility: hidden;
@@ -130,7 +129,6 @@ export default {
     .lookDetail {
       font-size: 14px;
       color: #3B76DD;
-      cursor: pointer;
     }
     .photoInfor {
       min-width: 124px;
@@ -138,7 +136,6 @@ export default {
       justify-content: flex-end;
       img {
         display: block;
-        cursor: pointer;
       }
       .mb-flex {
         margin-right: 12px;
