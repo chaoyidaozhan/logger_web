@@ -62,11 +62,11 @@
                 <i >退出</i>
                 <!-- <YYIcon type="touping"></YYIcon> -->
             </div>
-            <div class="back2top" @click="back2top()">
+        </div>
+            <div class="back2top" @click="back2top()" v-if="showBack2Top" >
                 <!-- <i class="icon-add" ></i> -->
                 <YYIcon type="back-to-top"></YYIcon>
             </div>
-        </div>
     </div>
 </template>
 <script>
@@ -152,7 +152,8 @@ export default {
             offsetId:'',//设置滚动到第几条
             defaultColor:'#EE2223',//设置默认颜色
             isDrawing:false,
-            times: 1.5 //倍数
+            times: 1.5,//倍数
+            showBack2Top: false
         }
     },
     components: {
@@ -231,6 +232,19 @@ export default {
             }
             return Object.assign(data, this.params)
         },
+        debounce(func, wait) {
+            return function () {
+                let context = this;
+                let args = arguments;
+                let timeout = sessionStorage.getItem('globalModalTimer')
+                if (!!timeout) clearTimeout(timeout);
+                
+                timeout = setTimeout(() => {
+                    func.apply(context, args)
+                }, wait);
+                timeout = sessionStorage.setItem('globalModalTimer', timeout)
+            }
+        },
         onScroll(e) { // 分页
             if(!this.loading && this.hasMore) {
                 let $target = e && e.target
@@ -242,6 +256,27 @@ export default {
                     this.pageNo++
                 }
             }
+            this.showBack2Top = true;
+
+            let t1 = 0;
+            let t2 = 0;
+            let _this = this;
+            
+            // scroll监听
+            function isScrollEnd() {
+                t2 = getScrollTop();
+                if(t2 === t1){
+                    console.log('滚动结束了')
+                    _this.showBack2Top = false;
+                }
+            }
+
+            function getScrollTop () {
+                return document.documentElement.scrollTop || document.body.scrollTop;
+            }
+
+            t1 = getScrollTop();
+            this.debounce(isScrollEnd, 2000)();
         },
         updateList(res) { // load成功之后更新数据
             if(res.groupId && res.groupId !== this.getParams().groupId) return
@@ -517,7 +552,6 @@ export default {
     .tooldialog{
         position: fixed;
         top: 0;
-        bottom: 0;
         width: 120px;
         right: 0;
         color: #FFF;
@@ -576,20 +610,22 @@ export default {
         .active{
             opacity:0.5;
         }
-        .back2top{
-            font-size: 22px;
-            position: absolute;
-            bottom: 36px;
-            background: #000;
-            opacity:0.36;
-            width: 48px;
-            height: 48px;
-            color: #FFF;
-            line-height: 48px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 3px;
-        }
+    }
+    .back2top{
+        position: fixed;
+        bottom: 36px;
+        right: 36px;
+        font-size: 22px;
+        margin-top: 8px;
+        background: #000;
+        opacity: 0.36;
+        width: 48px;
+        height: 48px;
+        color: #FFF;
+        line-height: 48px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 3px;
     }
     // .canvaldialog{
     //     display: block;
