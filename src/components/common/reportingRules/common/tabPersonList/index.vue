@@ -11,16 +11,19 @@
     </div>
     <div class="listContainer mb-flex-1">
       <!-- 已提交 -->
-      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0 && diarySubumitList.submitNormal.length">
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0">
         <PersonItem :memberMsg="item" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
+        <YYEmpty v-if="!diarySubumitList.submitNormal.length" vertical="middle" text="暂无数据"/>
       </div>
       <!-- 未提交 -->
-      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 1 && diarySubumitList.unSubmit.length">
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 1">
         <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
+        <YYEmpty v-if="!diarySubumitList.unSubmit.length" vertical="middle" text="暂无数据"/>
       </div>
       <!-- 延期提交 -->
-      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 2 && diarySubumitList.submitPostpone.length">
+      <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 2">
         <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
+        <YYEmpty v-if="!diarySubumitList.submitPostpone.length" vertical="middle" text="暂无数据"/>
       </div>
     </div>
     <div class="footer">
@@ -184,6 +187,9 @@ export default {
         width: 0;
       }
     }
+    /deep/ .yy-empty {
+      margin: 0 auto;
+    }
   }
   .list {
     height: 40px;
@@ -210,13 +216,8 @@ export default {
       }
     }
   }
-
   .footer {
-    // position: absolute;
     box-sizing: border-box;
-    // bottom: 0;
-    // right: 0;
-    // width: 100%;
     padding: 0 0 13px 20px;
     background: white;
   }
