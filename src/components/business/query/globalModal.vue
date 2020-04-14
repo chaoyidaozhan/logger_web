@@ -456,10 +456,11 @@ export default {
         let _this = this
         document.addEventListener("fullscreenchange", function () {
             if (document.fullscreenElement != null) {
-                console.info("Went full screen");
+                console.info("Went full screen")
             } else {
                 _this.isCanval = false
-                console.info("Exited full screen");
+                _this.showGlobalModal = false
+                console.info("Exited full screen")
             }
         });
 
