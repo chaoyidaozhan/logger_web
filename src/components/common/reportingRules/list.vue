@@ -19,7 +19,7 @@
               <Item 
                 :data="item" 
                 v-for="(item, i) in listArr" 
-                :key="i" 
+                :key="item.id" 
                 @getDetail="getDetail" 
                 @toEdit="toEdit" 
                 @delRule="delRule">
