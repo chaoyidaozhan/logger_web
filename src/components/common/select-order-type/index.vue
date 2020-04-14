@@ -199,6 +199,7 @@ export default {
 @import '../../../assets/css/var.less';
 .select-order-type {
     height: 32px;
+    font-size: 0;
     .select-order-type-select {
         display: inline-block;
         vertical-align: middle;
