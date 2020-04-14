@@ -429,9 +429,15 @@ export default {
       },
       setEndTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
+        let startPickerDefault = this.startPickerDefault;
         if(submitPeriodic == 0) {
           this.endPickerDefault = firstCol;
         }else if(submitPeriodic == 1) {
+          let startPickerValue = this.startPickerDefault.value.split(' ');
+          if((+startPickerValue[0] == +firstCol.value) && (+startPickerValue[1] >= +secondCol.value)) {
+            this.$YYMessage.warning('结束时间必须大于开始时间');
+            return;
+          }
           this.endPickerDefault = {
             name: (firstCol.name + ' ' + secondCol.name),
             value: (firstCol.value + ' ' + secondCol.value)
