@@ -1,7 +1,6 @@
 <template>
     <YYSelect 
         :invertable="false"
-        :transfer="false"
         class="query-select-member"
         style="width: '200px'"
         v-model="members"
@@ -197,9 +196,9 @@ export default {
             display: none;
         }
     }
-    .yy-select-dropdown {
-        display: none;
-    }
+    // .yy-select-dropdown {
+    //     display: none;
+    // }
     .yy-avatar-wrapper {
         vertical-align: middle;
     }
