@@ -10,12 +10,13 @@
         <div class="bottomOperate mb-flex" v-if="showEdit">
             <div class="mb-flex mb-flex-align-stretch">
                 <template v-if="data.dataStatus == 1">
-                    <div :title="$t('operate.delete')" class="mb-flex-1 del" @click="handleDelete"></div>
+                    <div :title="$t('operate.delete')" class="mb-flex-1 del itemDisable"></div>
                     <div :title="$t('operate.disable')" class="mb-flex-1 disable" @click="handleSwitch('stop')"></div>
-                    <div :title="$t('operate.edit')" class="mb-flex-1 edit" @click="goToTemplate"></div>
+                    <div :title="$t('operate.edit')" class="mb-flex-1 edit itemDisable"></div>
                     <div :title="$t('operate.copy')" class="mb-flex-1 copy" @click="createCopyTemplate(data)"></div>
                 </template>
                 <template v-else>
+                    <div :title="$t('operate.delete')" class="mb-flex-1 del" @click="handleDelete"></div>
                     <div :title="$t('operate.enable')" class="mb-flex-1 enable" @click="handleSwitch('start')"></div>
                     <div :title="$t('operate.edit')" class="mb-flex-1 edit" @click="goToTemplate"></div>
                 </template>

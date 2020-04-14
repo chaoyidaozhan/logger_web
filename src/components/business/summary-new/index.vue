@@ -667,7 +667,7 @@ export default {
 .select-tree-input2 {
     display: inline-block;
     vertical-align: middle;
-    width: 100%;
+    width: 176px;
     padding: 4px 35px 4px 7px;
     font-size: 12px;
     border: 1px solid @border-color;
