@@ -277,23 +277,24 @@ export default {
     },
     methods: {
         globalModel() {
-            let {protocol, host, pathname} = window.location
-            let url = `${protocol}//${host}${pathname}#/globalModal?token=${this.$store.state.userInfo.token}`
-            const $win = window.open(url)
-            let _this = this
-            $win.onload = function() {
-                setTimeout(() => {
-                    $win.postMessage(
-                    {
-                        list: _this.list,
-                        pageNo: _this.pageNo,
-                        pageSize: _this.pageSize,
-                        offsetId: _this.offsetId
-                    },
-                    '*'
-                    )
-                }, 2000)
-            }
+            this.$eventbus.$emit('openglobal')
+            // let {protocol, host, pathname} = window.location
+            // let url = `${protocol}//${host}${pathname}#/globalModal?token=${this.$store.state.userInfo.token}`
+            // const $win = window.open(url)
+            // let _this = this
+            // $win.onload = function() {
+            //     setTimeout(() => {
+            //         $win.postMessage(
+            //         {
+            //             list: _this.list,
+            //             pageNo: _this.pageNo,
+            //             pageSize: _this.pageSize,
+            //             offsetId: _this.offsetId
+            //         },
+            //         '*'
+            //         )
+            //     }, 2000)
+            // }
         },  
         goLoggerDetail() {
             this.$router.push({
