@@ -478,17 +478,17 @@ export default {
         let nextWeekDay = [];
         let commonWeekDay = [];
         for (;i<7;i++) {
-            if(i<dayAndClock[0]) {
-                nextWeekDay.push({
-                  value: `${dayAndClock[0]-i}`,
-                  name: `${this.$t('date.next')} ${this.week[dayAndClock[0]-i-1]}`
-                });
-            }else {
-                commonWeekDay.push({
-                  value: `${i}`,
-                  name: this.week[i-1]
-                });
-            }
+          if(i<dayAndClock[0]) {
+            nextWeekDay.push({
+              value: `${dayAndClock[0]-i}`,
+              name: `${this.$t('date.next')} ${this.week[dayAndClock[0]-i-1]}`
+            });
+          }else {
+            commonWeekDay.push({
+              value: `${i}`,
+              name: this.week[i-1]
+            });
+          }
         };
         this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay.reverse());
         let endPickersecondColData = [];
