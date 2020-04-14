@@ -425,7 +425,7 @@ export default {
         }else if(submitPeriodic == 2) {
           this.startPickerDefault = firstCol;
         }
-        this.handleSubmitEndTime(submitPeriodic);
+        this.handleSubmitEndTime(submitPeriodic, true);
       },
       setEndTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
@@ -541,7 +541,7 @@ export default {
           }
       },
       // 打开选择结束时间 1~24
-      handleSubmitEndTime(submitPeriodic = 0) {
+      handleSubmitEndTime(submitPeriodic = 0, isFromSetPickerChange = false) {
         let i = 1;
         let tomorrow = [];
         let firstColData = [];
@@ -550,7 +550,7 @@ export default {
               const submitStartTimeValue = +this.startPickerDefault.value;
               let commonArr = [];
               let morrowArr = [];
-              for (; i <= 24; i++) {
+              for(; i <= 24; i++) {
                   let tomorrowTemp = '';
                   let time = '';
                   if (i <= submitStartTimeValue) {
@@ -561,7 +561,7 @@ export default {
                         value: i
                       });
                   } else {
-                      time = ` ${i<10?`0${i}`:i}:00`;
+                      time = `${i<10?`0${i}`:i}:00`;
                       commonArr.push({
                         name: time,
                         value: i
@@ -570,9 +570,16 @@ export default {
               }
               firstColData = commonArr.concat(morrowArr);
               this.endPickerFirstColData = firstColData;
+              isFromSetPickerChange && (this.endPickerDefault = firstColData[0]);
               break;
           case 1:
               this.handleSubmitEndWeek();
+              let endPickerFirstColData = this.endPickerFirstColData[1];
+              let endPickersecondColData = this.endPickersecondColData[0];
+              isFromSetPickerChange && (this.endPickerDefault = {
+                name: (endPickerFirstColData.name + ' ' + endPickersecondColData.name),
+                value: (endPickerFirstColData.value + ' ' + endPickersecondColData.value)
+              });
               break;
           case 2:
               {
@@ -587,6 +594,7 @@ export default {
                   }
                 }
                 this.endPickerFirstColData = firstColData;
+                isFromSetPickerChange && (this.endPickerDefault = firstColData[0]);
               }
               break;
           default:
