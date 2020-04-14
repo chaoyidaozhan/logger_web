@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-statistics" ref="loggerStatisticsWrapper">
+    <div class="logger-statistics" ref="loggerStatisticsWrapper" v-if="type == 'member'">
         <!--按日统计-->
         <template v-if="params.orderType == 4">
             <fs-month-picker @handleChangeDate="handleChangeDate"/>

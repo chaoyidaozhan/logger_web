@@ -18,7 +18,15 @@
                 :title="title"
                 :minDate="minDate"
                 :maxDate="maxDate"
-            />
+                v-if="type == 'dept' || type == 'group'"/>
+            <fs-member-statistics 
+                :params="params"
+                type="member"
+                :title="title"
+                :minDate="minDate"
+                :maxDate="maxDate"
+                ref="LoggerLoggerStatistics"
+                v-if="type == 'member'"/>
         </template>
     </fs-frame>
 </template>
