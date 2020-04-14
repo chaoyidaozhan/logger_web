@@ -400,8 +400,10 @@
         &.fade-enter-in {
             opacity: 1;
         }
+        margin-left: 24px;
         background-color: @white-color;
         font-size: 14px;        
+        margin-right: 24px;
         color: @gray-color-normal;     
         .input {
             position: relative;
@@ -449,7 +451,7 @@
                 cursor: pointer;
             }
             .face-btn {
-                margin: 0 14px;
+                margin-right: 14px;
             }
             .ok-btn {
                 float: right;

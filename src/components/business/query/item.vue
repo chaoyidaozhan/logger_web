@@ -100,7 +100,7 @@
                             <logger-list-content-node
                                 v-for="(item, index) in JSON.parse(loggerItemData.content)"
                                 :data="item"
-                                :key="index"
+                                :key="item.id + index"
                                 :filterEncode="filterEncode" />
                         </template>
                         <template v-else>
@@ -112,7 +112,7 @@
                         <!--具体内容-->
                         <div class="logger-list-row logger-list-content">
                             <div class="logger-list-col logger-at">
-                                <span class="at" v-for="(item, index) in loggerItemData.at" :key="index">
+                                <span class="at" v-for="(item, index) in loggerItemData.at" :key="item.id + index">
                                     @{{item.replayUserName}}
                                 </span>
                             </div>
@@ -178,47 +178,59 @@
                             </div>
                             <div class="logger-list-col mb-flex mb-flex-align-center">
                                 <div class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
-                                    <div class="icon-position mb-flex mb-flex-align-center" style="width:32px;right:137px" v-if="!loggerItemData.like.isLike">
-                                        <YYIcon type="zan" style="margin-right:7px"></YYIcon>
-                                        <div class="word" style="width:14px">
-                                            {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
+                                    <div class="icon-position mb-flex mb-flex-align-center"  v-if="!loggerItemData.like.isLike">
+                                        <div>
+                                            <YYIcon type="zan" style="margin-right:7px"></YYIcon>
+                                        </div>
+                                        <div class="word" >
+                                            {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '点赞' : loggerItemData.like.likeNum}}
                                         </div>
                                     </div>
-                                    <div class="icon-position mb-flex mb-flex-align-center" style="width:32px;right:137px;color:#EE2223" v-else>
-                                        <YYIcon type="thumb-up" style="margin-right:7px"></YYIcon>
+                                    <div class="icon-position mb-flex mb-flex-align-center" style="color:#EE2223" v-else>
+                                        <div>
+                                            <YYIcon type="thumb-up" style="margin-right:7px"></YYIcon>
+                                        </div>
                                         <div class="word">
-                                            {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '赞' : loggerItemData.like.likeNum}}
+                                            {{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '点赞' : loggerItemData.like.likeNum}}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="operate-item" :class="{active: showReply}" @click="handleReply">
-                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:64px" v-if="!showReply">
-                                        <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
-                                        <span class="word">
-                                            {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
-                                        </span>
-                                    </div>
-                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:64px" v-else>
-                                        <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
-                                        <span class="word">
-                                            {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
-                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:0" v-if="!loggerItemData.favorite.isFavorite">
-                                        <YYIcon type="xingxing-kong" style="margin-right:7px"></YYIcon>
-                                        <span class="word">
+                                <div class="operate-item" :class="{active: loggerItemData.favorite.isFavorite}" @click="handleCollect">
+                                    <div class="icon-position mb-flex mb-flex-align-center" v-if="!loggerItemData.favorite.isFavorite">
+                                        <div>
+                                            <YYIcon type="xingxing-kong" style="margin-right:7px"></YYIcon>
+                                        </div>
+                                        <div class="word">
                                             {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
-                                        </span>
+                                        </div>
                                     </div>
-                                    <div class="icon-position mb-flex mb-flex-align-center" style="right:0" v-else>
-                                        <YYIcon type="xingxing-quan" style="color:#FF8B00;margin-right:7px"></YYIcon>
-                                        <span class="word">
+                                    <div class="icon-position mb-flex mb-flex-align-center"  v-else>
+                                        <div>
+                                            <YYIcon type="xingxing-quan" style="color:#FF8B00;margin-right:7px"></YYIcon>
+                                        </div>
+                                        <div class="word">
                                             {{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}
-                                        </span>
+                                        </div>
                                     </div>
                                 </div> 
+                                <div class="operate-item" :class="{active: showReply}" @click="handleReply">
+                                    <div class="icon-position mb-flex mb-flex-align-center" v-if="!showReply">
+                                        <div style="height:14px">
+                                            <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
+                                        </div>
+                                        <div class="word" >
+                                            {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
+                                        </div>
+                                    </div>
+                                    <div class="icon-position mb-flex mb-flex-align-center" v-else>
+                                        <div style="height:14px">
+                                            <YYIcon type="message-square" style="margin-right:7px"></YYIcon>
+                                        </div>
+                                        <div class="word">
+                                            {{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -740,15 +752,23 @@ export default {
                 this.$el.querySelectorAll('.title').forEach((e)=>{
                     if(e.innerText === item.title && e.id === item.id.toString()){
                         let pageContent = document.querySelector('.page-logger-content')
-                        if(e.offsetTop > pageContent.offsetHeight){
+                        // if(e.offsetTop > pageContent.offsetHeight){
                             let pageLoggerList = document.querySelector('.page-logger-list')
                             pageLoggerList.scrollTop = e.offsetTop + _this.$el.offsetTop - 20
-                        }
-                        let markTitle = _this.$el.querySelector('.mark-title')
-                        markTitle.style.background = '#FAFAFA'
-                        setTimeout(() => {
-                            markTitle.style.background = ''
-                        }, 3000)
+                        // }
+
+                        _this.$el.querySelectorAll('.mark-title').forEach((e) => {
+                            if(e.id === item.id.toString()) {
+                                e.style.transition = ''
+                                e.style.background = '#FAFAFA'
+                                setTimeout(() => {
+                                    e.style.background = ''
+                                    e.style.transition = 'background 2s'
+                                }, 3000)
+                            }else{
+                                e.style.background = ''
+                            }
+                        })
                     }
                 })
 
@@ -890,6 +910,9 @@ export default {
             .logger-list-row {
                 line-height: 24px;
                 word-break: break-all;
+                .logger-content {
+                    padding: 16px 24px;
+                }
                 &.logger-list-time {
                     margin-bottom: 12px;
                     .title {
@@ -920,10 +943,13 @@ export default {
                     }
                 }
                 .logger-at {
-                    margin-left: 78px;
+                    margin-left: 78px !important;
                 }
                 .logger-list-col {
                     margin-left: 54px;
+                    .logger-content {
+                        padding: 16px 24px;
+                    }
                     .title {
                         // font-family: "PingFangSC-Medium"
                         margin-bottom: 6px;
@@ -964,6 +990,7 @@ export default {
             .logger-list-user {
                 line-height: 24px;
                 margin-left: 24px;
+                margin-right: 24px;
                 .template-name {
                     font-size: 12px;
                     text-align: center;
@@ -1094,27 +1121,29 @@ export default {
                     }
                 }
             }
-            .loggerlistcontent{
+            .loggerlistcontent {
                 .handle-content-expand {
                     overflow: hidden;
                 }
             }
-            .loggerDialog{
+            .loggerDialog {
                 position: absolute;
                 left: 0;
                 right: 0;
                 bottom: 0;
                 height: 140px;
             }
-            .loggerExpand{
+            .loggerExpand {
                 position: relative;
                 margin-top: 18px;
                 // left: 0;
                 // right: 30px;
                 // bottom: 20px;
-                .line{
+                .line {
                     background: #D9D9D9;
                     height: 1px;
+                    margin-left: 78px;
+                    margin-right: 24px;
                 }
             }
             .handle-content-expand-btn {
@@ -1134,7 +1163,7 @@ export default {
                 }
                 .logger-list-watcher{
                     display: block;
-                    font-size:14px;
+                    font-size:13px;
                     height: 56px;
                     padding: 20px 0;
                     margin-left: 78px;
@@ -1158,26 +1187,19 @@ export default {
                             margin-right: 24px;
                             .icon-position{
                                 font-size: 18px;
-                                width: 53px;
-                                position: absolute;
+                                position: relative;
                                 display: flex;
+                                align-items: center;
                             }
                             .word {
-                                font-size: 14px;
-                                width: 28px;
+                                font-size: 13px;
                                 display: inline-block;
                             }
                         }
                         .icon-position{
-                            width: 53px;
-                            position: absolute;
+                            position: relative;
                             display: flex;
                             font-size: 18px;
-                        }
-                        .word {
-                            width: 28px;
-                            display: inline-block;
-                            font-size: 14px;
                         }
                     }
                 }

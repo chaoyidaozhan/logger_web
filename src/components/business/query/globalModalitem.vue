@@ -809,7 +809,7 @@ export default {
             }
             &:after {
                 position: absolute;
-                left: 74px;
+                left: 86px;
                 height: 1px;
                 right: 20px;
                 bottom: 0;
