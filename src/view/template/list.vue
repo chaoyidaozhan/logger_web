@@ -48,5 +48,8 @@ export default {
     overflow: auto;
     padding: 20px 10px 60px;
     background: #f5f5f5;
+    &::-webkit-scrollbar {
+	    width: 0;
+    }
 }
 </style>

@@ -52,10 +52,9 @@
             <div class='fixed-right'>
                 <ul class="fixed-right-content">
                     <li class="table-cell"
-                        :class="{nodata: !item.totalCount}"
                         @click="handleModal(item)"
                         v-for="(item, index) in data" :key="index">
-                        {{item.totalCount ? `${item.totalCount}${$t('noun.article')}` : ''}}
+                        {{item.totalCount ? `${item.totalCount}${$t('noun.article')}` : `0${$t('noun.article')}`}}
                     </li>
                 </ul>
             </div>
