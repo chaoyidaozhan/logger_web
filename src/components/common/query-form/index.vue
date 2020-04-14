@@ -57,7 +57,7 @@
                     :showMember="false" 
                     :showGroup="true" 
                     :group="group"
-                    :limit="{ showAll: false, warning: '', count: 10 }"
+                    :limit="{ showAll: false, warning: '', count: 1 }"
                     :groupApiUri="groupApiUri"/>
             </FormItem> 
             <!-- <FormItem :label-width="50" :label="$t('noun.author')" v-if="showAllMember && !showTemplateCheck">
