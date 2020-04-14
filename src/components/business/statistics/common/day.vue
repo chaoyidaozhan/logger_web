@@ -61,6 +61,9 @@ export default {
     },
     watch: {
         start: 'initData',
+        title(newValue) {
+            this.columns.title = newValue;
+        }
     },
     methods: {
         initData() {

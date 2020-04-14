@@ -14,8 +14,8 @@
         <template slot="body">
             <fs-common-statistics 
                 :params="params"
-                type="dept"
-                :title="`${$t('noun.department')}${$t('noun.name')}`"
+                :type="type"
+                :title="title"
             />
         </template>
     </fs-frame>
@@ -26,7 +26,8 @@ export default {
     data() {
         return {
             deptId: 0,
-            validateString: 'deptId'
+            validateString: 'deptId',
+            type: 'dept'
         }
     },
     mixins: [statistics]

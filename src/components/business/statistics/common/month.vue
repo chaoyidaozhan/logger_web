@@ -44,6 +44,11 @@ export default {
             }
         }
     },
+    watch: {
+        title(newValue) {
+            this.columns.title = newValue;
+        }
+    },
     components: {
         FsTable
     },

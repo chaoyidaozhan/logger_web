@@ -23,7 +23,8 @@ export default {
                 deptIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.department')}`,
                 groupIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.internalGroup')}`,
                 memberIds: `${this.$t('operate.please')}${this.$t('operate.select')}${this.$t('noun.author')}`,
-            }
+            },
+            title: (this.$t('noun.department') + this.$t('noun.name'))
         }
     },
     components: {
@@ -37,13 +38,19 @@ export default {
              // classification 1部门 deptId ;   2人员 memberIds   3内部群 groupId
              switch (params.classification) {
                 case '1':
+                    this.type = 'dept';
                     this.validateString = 'deptIds';
+                    this.title = this.$t('noun.department') + this.$t('noun.name');
                     break
                 case '2':
+                    this.type = 'member';
                     this.validateString = 'memberIds';
+                    this.title = this.$t('noun.personnel') + this.$t('noun.name');
                     break
                 case '3':
+                    this.type = 'group';
                     this.validateString = 'groupIds';
+                    this.title = this.$t('noun.internalGroup') + this.$t('noun.name');
                     break
             }
             if (!!this.validateString && 

@@ -118,7 +118,7 @@ export default {
                 if(year) {
                     this.years = year || (new Date()).getFullYear();
                 }
-                if(this.params.memberIds || this.params.deptIds) {
+                if(this.params.memberIds || this.params.deptIds || this.params.groupIds) {
                     this.loadData();
                 } 
                 this.$eventbus.$emit('getStartEndTime', {
