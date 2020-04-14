@@ -80,10 +80,9 @@
                 </ul>
             </div>
             <div class="fixed-right table-cell"
-                :class="{nodata: !totalMap.total}"
                 :title="totalMap.total ? `${totalMap.total}${$t('noun.article')}` : ''"
                 >
-                {{totalMap.total ? `${totalMap.total}${$t('noun.article')}` : ''}}
+                {{totalMap.total ? `${totalMap.total}${$t('noun.article')}` : `0${$t('noun.article')}`}}
             </div>
         </div>
         <YYEmpty v-if="!data.length" :iconType="emptyData ? '' : type"
