@@ -591,14 +591,28 @@ export default {
       remindTimeComputed(submitPeriodic) {
         let remindTimeArr = [];
         if(submitPeriodic == 0) {
-          let start = +this.startPickerDefault.value;
-          let end = +this.endPickerDefault.value;
-          let interval = (start > end) ? (end = (24 - start) + end) : (end - start);
+          let dayStart = +this.startPickerDefault.value;
+          let dayEnd = +this.endPickerDefault.value;
+          let interval = (dayStart > dayEnd) ? (dayEnd = (24 - dayStart) + dayEnd) : (dayEnd - dayStart);
           for(let i=1;i<=interval;i++) {
             remindTimeArr.push(i);
           }
         }else if(submitPeriodic == 1) {
-
+          let [weekStart, clockStart] = this.startPickerDefault.value.split(' ');
+          let [weekEnd, clockEnd] = this.endPickerDefault.value.split(' ');
+          weekStart = +weekStart;
+          clockStart = +clockStart;
+          weekEnd = +weekEnd;
+          clockEnd = +clockEnd;
+          if(weekEnd == weekStart) {
+            for(let i=1;i<=(clockEnd - clockStart);i++) {
+              remindTimeArr.push(i);
+            }
+          }else {
+            for(let i=1;i<=23;i++) {
+              remindTimeArr.push(i);
+            }
+          }
         }else if(submitPeriodic == 2) {
           let mouthStart = +this.startPickerDefault.value;
           let mouthEnd = +this.endPickerDefault.value;
