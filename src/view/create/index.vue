@@ -5,7 +5,7 @@
                 <span 
                     class="back cursor-pointer pull-left" 
                     @click="handleBack">
-                    <Icon type="chevron-left"></Icon>
+                    <Icon type="chevron-left" class="yy-icon-Vjiantou-zuo"></Icon>
                     {{$t('operate.back')}}
                 </span>
                 <span 
