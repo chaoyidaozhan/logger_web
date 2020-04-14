@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
-                    <YYTag :key="index" @on-delete="delRoleTemplate(item)" closeable v-for="(item, index) in currentRoleMapTemplate">
+                    <YYTag :key="index" @on-delete="delRoleTemplate(item, index)" closeable v-for="(item, index) in currentRoleMapTemplate">
                         {{item.title}}
                     </YYTag>
                 </div>
@@ -57,11 +57,11 @@
                 </span>
             </div>
         </div>
-        <div class="bgCover" v-if="isAddTemplateShow" @click.stop="isAddTemplateShow = false"></div>
+        <div class="bgCover" v-if="isAddTemplateShow" @click.stop="addTemplateClose"></div>
         <div class="addTemplate mb-flex mb-flex-v" v-if="isAddTemplateShow">
             <div class="addTemplateHeader mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>{{$t('noun.addTemplate')}}</div>
-                <div class="yy-icon-guanbi" @click.stop="isAddTemplateShow = false"></div>
+                <div class="yy-icon-guanbi" @click.stop="addTemplateClose"></div>
             </div>
             <div class="addTemplateBody mb-flex-1 mb-flex mb-flex-pack-justify">
                 <div class="templateItem" v-for="(item, index) in currentPageNumTemplate">
@@ -85,6 +85,7 @@
                     </YYPagination>
                 </div>
             </div>
+
             <div class="addTemplateFooter mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>
                     <YYCheckbox v-model="isAllChecked" @on-change="allCheck(isAllChecked)">
@@ -164,6 +165,10 @@ export default {
         FsTemplateItem
     },
     methods: {
+        addTemplateClose() {
+            this.isAllChecked = false;
+            this.isAddTemplateShow = false;
+        },
         reportSave() {
             this.isAddTemplateShow = false;
             let templateIds = [];
@@ -222,7 +227,12 @@ export default {
             this.loadData();
             this.isAddTemplateShow = true;
         },
-        delRoleTemplate(item) {
+        delRoleTemplate(item, index) {
+            if(item.hasOwnProperty('isCurrentTemplateSelected')) {
+                this.currentRoleMapTemplate.splice(index, 1);
+                this.currentRoleMapTemplate = this.currentRoleMapTemplate;
+                return;
+            }
             this.$ajax({
                 url: '/rest/v1/diary/role_template_relation',
                 type: 'delete',
@@ -743,6 +753,9 @@ export default {
             overflow-y: auto;
             height: 100%;
             align-content: flex-start;
+        }
+        .templateList {
+            min-height: 300px;
         }
         .addTemplatePagination {
             width: 100%;
