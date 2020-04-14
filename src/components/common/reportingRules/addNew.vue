@@ -576,7 +576,7 @@ export default {
                     let time = `${i<10?`0${i}`:i}:00`;
                     firstColData.push({
                       name: time,
-                      value: time
+                      value: i
                     });
                   }
                 }
@@ -594,13 +594,15 @@ export default {
           let start = +this.startPickerDefault.value;
           let end = +this.endPickerDefault.value;
           let interval = (start > end) ? (end = (24 - start) + end) : (end - start);
-          for(let i=1;i<interval;i++) {
+          for(let i=1;i<=interval;i++) {
             remindTimeArr.push(i);
           }
         }else if(submitPeriodic == 1) {
 
         }else if(submitPeriodic == 2) {
-          for(let i=1;i<25;i++) {
+          let mouthStart = +this.startPickerDefault.value;
+          let mouthEnd = +this.endPickerDefault.value;
+          for(let i=1;i<=(mouthEnd - mouthStart);i++) {
             remindTimeArr.push(i);
           }
         }
@@ -773,7 +775,7 @@ export default {
               };
               this.handleSubmitStartTime(per);
               this.endPickerDefault = {
-                name: `18:00`,
+                name: '18:00',
                 value: '18'
               };
               this.handleSubmitEndTime(per);
