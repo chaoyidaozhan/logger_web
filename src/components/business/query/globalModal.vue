@@ -1,5 +1,5 @@
 <template>
-    <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll">
+    <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll" v-if="showGlobalModal">
         <transition-group name="fade" class="spanModal" style="display: inline-block;">
             <fs-logger-list-item 
                 v-for="(item, index) in list"
@@ -153,7 +153,8 @@ export default {
             defaultColor:'#EE2223',//设置默认颜色
             isDrawing:false,
             times: 1.5,//倍数
-            showBack2Top: false
+            showBack2Top: false,
+            showGlobalModal: false
         }
     },
     components: {
@@ -391,7 +392,9 @@ export default {
             this.$eventbus.$emit('closeCanvas')
         },
         exit(){
-            window.close()
+            this.exitFullScreen()
+            this.showGlobalModal = false
+            // window.close()
             setTimeout(() => {
                 this.isExit = true
                 this.isFontAdd = false
@@ -416,9 +419,9 @@ export default {
         this.queryMemberId = this.$store.state.userInfo.member_id
         let _this = this
         
-        document.addEventListener('click', (e) => {
-            this.openFullscreen(document.body)
-        }, false)
+        // document.addEventListener('click', (e) => {
+        //     this.openFullscreen(document.body)
+        // }, false)
     
         // this.$nextTick(
         //     () => {
@@ -437,9 +440,10 @@ export default {
         // this.$eventbus.$on('changeDrawing', (isDrawing)=>{
         //     this.isDrawing = isDrawing
         // })
-        // this.$eventbus.$on('openglobal', ()=>{
-        //     this.showGlobalModal = true
-        // })
+        this.$eventbus.$on('openglobal', ()=>{
+            this.showGlobalModal = true
+            this.openFullscreen(document.body)
+        })
         this.$eventbus.$on('translist', (list, pageNo, pageSize)=>{
             this.list = list
             this.pageNo = pageNo
@@ -493,7 +497,7 @@ export default {
         }, 2000)
     },
     destroyed(){
-        // this.$eventbus.$off('openglobal')
+        this.$eventbus.$off('openglobal')
         this.$eventbus.$off('translist')
         this.$eventbus.$off('transid')
         this.$eventbus.$off('changeColor')
