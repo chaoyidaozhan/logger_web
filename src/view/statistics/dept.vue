@@ -16,6 +16,8 @@
                 :params="params"
                 :type="type"
                 :title="title"
+                :minDate="minDate"
+                :maxDate="maxDate"
             />
         </template>
     </fs-frame>
