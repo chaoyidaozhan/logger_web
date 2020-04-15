@@ -148,7 +148,7 @@
             <div class="itemTitle">
               {{$t('date.reminderTime')}}
             </div>
-            <div class="subctn">
+            <div class="subctn mb-flex-1">
               <YYSelect 
                 :multiple="false"
                 :invertable="false"
@@ -158,6 +158,11 @@
                   {{$t('date.hoursBeforeTheDeadline').replace('<-placeholder->', item)}}
                 </YYOption>
               </YYSelect>
+            </div>
+            <div class="closeRemind">
+              <YYCheckbox v-model="formData.remindThisWeek">
+                <span>关闭提醒</span>
+              </YYCheckbox>
             </div>
           </div>
           <div class="item submitCtn">
@@ -932,6 +937,9 @@ export default {
       }
       .remindTimeArea {
         padding-top: 20px;
+      }
+      .closeRemind {
+        margin-left: 20px;
       }
     }
   }
