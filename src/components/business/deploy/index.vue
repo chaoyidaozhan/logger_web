@@ -2,7 +2,9 @@
     <div class="deploy-container" v-yyloading="isLoadingShow">
         <div class="deploy-member">
             <div class="deploy-title">
-                <span>{{$t('operate.addAdministrator')}}</span>
+                <span v-if="currentTabType == 0">添加汇报核查人</span>
+                <span v-else-if="currentTabType == 1">添加汇报催办人</span>
+                <span v-else-if="currentTabType == 2">{{$t('operate.addAdministrator')}}</span>
                 <span>
                     <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
                     <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
@@ -26,9 +28,9 @@
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
                     <div>{{currentMember.userName}}的{{currentTabType == 0 ? '核查' : '催办'}}模板</div>
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" @click.stop="addRoleTemplate">
                         <div class="yy-icon-xinzeng"></div>
-                        <div @click.stop="addRoleTemplate">{{$t('operate.add')}}</div>
+                        <div>{{$t('operate.add')}}</div>
                     </div>
                 </div>
                 <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
@@ -85,7 +87,6 @@
                     </YYPagination>
                 </div>
             </div>
-
             <div class="addTemplateFooter mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>
                     <YYCheckbox v-model="isAllChecked" @on-change="allCheck(isAllChecked)">
@@ -96,7 +97,6 @@
                     <YYButton type="primary" @click.stop="giveRoleAddTemplate">{{$t('noun.addTemplate')}}</YYButton>
                 </div>
                 <div class="mb-flex-1">
-
                 </div>
             </div>
         </div>
@@ -218,14 +218,14 @@ export default {
             let twoDimensionalOrigin = Object.values(this.allTemplatePagenumMapList);
             twoDimensionalOrigin.forEach((itemA, indexA) => {
                 itemA.forEach((itemB, indexB) => {
-                    itemB.isCurrentTemplateSelected = false;
+                    !itemB.hasOwnProperty('isCurrentTemplateSelected') && (itemB.isCurrentTemplateSelected = false);
                 });
             });
             this.isAddTemplateShow = false;
         },
         addRoleTemplate() {
-            this.loadData();
             this.isAddTemplateShow = true;
+            this.loadData();
         },
         delRoleTemplate(item, index) {
             if(item.hasOwnProperty('isCurrentTemplateSelected')) {
@@ -369,9 +369,23 @@ export default {
             })
         },
         handleDeleteMember() {
+            let title = '';
+            let content = '';
+            switch(this.currentTabType) {
+                case 0:
+                    title = '删除汇报核查人';
+                break;
+                case 1:
+                    title = '删除汇报催办人';
+                break;
+                case 2:
+                    title = '删除管理员';
+                break;
+            }
+            content = '是否' + title;
             this.$YYModal.show({
-                title: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
-                content: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
+                title,
+                content,
                 onOk: () => {
                     const members = [this.currentMember.memberId]
                     this.stashLimitData[this.currentMember.memberId] = null
@@ -391,6 +405,7 @@ export default {
                         return;
                     }
                     this.delRole();
+                    this.currentMember = null;
                 }
             })
 

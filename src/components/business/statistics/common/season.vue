@@ -54,6 +54,11 @@ export default {
             return list;
         },
     },
+    watch: {
+        title(newValue) {
+            this.columns.title = newValue;
+        }
+    },
     methods: {
         init() {
             this.columns.title = this.title;

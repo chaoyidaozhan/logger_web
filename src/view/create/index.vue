@@ -1,22 +1,22 @@
 <template>
     <fs-frame>
         <template slot="head">
-            <div class="logger-detail-header clearfix">
-                <span 
-                    class="back cursor-pointer pull-left" 
+            <div class="logger-detail-header mb-flex mb-flex-pack-center mb-flex-pack-justify">
+                <div 
+                    class="back cursor-pointer mb-flex mb-flex-pack-center" 
                     @click="handleBack">
-                    <Icon type="chevron-left" class="yy-icon-Vjiantou-zuo"></Icon>
-                    {{$t('operate.back')}}
-                </span>
-                <span 
+                    <div class="yy-icon-Vjiantou-zuo"></div>
+                    <div>{{$t('operate.back')}}</div>
+                </div>
+                <div 
                     v-if="type" 
-                    class="back pull-right" >
+                    class="back">
                     <YYButton 
                         type="primary" 
                         @click="saveDraftFun">
                         {{$t('operate.saveAsDraft')}}
                     </YYButton>
-                </span>
+                </div>
             </div>
         </template>
         <template slot="body">

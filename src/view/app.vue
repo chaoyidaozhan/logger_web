@@ -122,7 +122,7 @@
     z-index: 9999!important;
 }
 .ivu-modal-mask {
-    opacity: 0;
+    background-color: rgba(55, 55, 55, 0.6);
 }
 .no-padding-logger-container {
     padding-left: 0!important;

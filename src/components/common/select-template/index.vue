@@ -24,6 +24,10 @@ export default {
         templateType: {
             type: String,
             default: 'app'
+        },
+        templateIdDefault: {
+            type: String | Number,
+            default: 0
         }
     },
     data() {
@@ -34,7 +38,7 @@ export default {
                     title: this.$t('placeholder.allTemplate')
                 }
             ],
-            templateId: 0,
+            templateId: this.templateIdDefault,
             templateVersion: null
         }
     },
@@ -102,7 +106,7 @@ export default {
 <style lang="less" scoped>
 @import '../../../assets/css/var.less';
 .select-template {
-    width: 186px;
+    width: 100%;
     .ivu-select-dropdown-list {
         .ivu-select-item {
             padding: 12px 15px;
