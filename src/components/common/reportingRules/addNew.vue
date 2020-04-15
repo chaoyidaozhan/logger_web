@@ -150,6 +150,7 @@
             </div>
             <div class="subctn mb-flex-1">
               <YYSelect 
+                :disabled="!formData.remindType"
                 :multiple="false"
                 :invertable="false"
                 :transfer="false"
@@ -160,8 +161,8 @@
               </YYSelect>
             </div>
             <div class="closeRemind">
-              <YYCheckbox v-model="formData.remindThisWeek">
-                <span>关闭提醒</span>
+              <YYCheckbox v-model="formData.remindType" @on-change="remindTypeChange">
+                <span>员工提醒</span>
               </YYCheckbox>
             </div>
           </div>
@@ -216,7 +217,7 @@ export default {
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
-            remindType: 0,
+            remindType: true,
             remindTime: 0,
             doubleWeekRemind: false,
             remindThisWeek: false,
@@ -251,6 +252,11 @@ export default {
       }
     },
     methods: {
+      remindTypeChange() {
+        if(!this.formData.remindType) {
+          this.formData.remindTime = 0;
+        }
+      },
       close () {
         this.$emit('changeShow')
       },
@@ -330,8 +336,8 @@ export default {
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
-          if(!formData.remindTime) {
-            formData.remindType = 0;
+          if(!formData.remindType) {
+            formData.remindTime = 0;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
             this.columnsNum = 1;
