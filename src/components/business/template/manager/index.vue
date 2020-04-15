@@ -169,7 +169,7 @@
                     {{$t('menus.workLog')}}
                 </div>
                 <div v-html="previewHtml"></div>
-                <img v-if="previeWeb != '0'" src="../../../../assets/images/preview-mobile.png">
+                <img v-if="previeWeb != '0'" :src="require('../../../../assets/images/preview-mobile.png')">
             </div>
             <div slot="footer"></div>
         </Modal>
