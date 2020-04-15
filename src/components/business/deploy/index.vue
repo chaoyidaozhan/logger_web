@@ -369,9 +369,23 @@ export default {
             })
         },
         handleDeleteMember() {
+            let title = '';
+            let content = '';
+            switch(this.currentTabType) {
+                case 0:
+                    title = '删除汇报核查人';
+                break;
+                case 1:
+                    title = '删除汇报催办人';
+                break;
+                case 1:
+                    title = '删除管理员';
+                break;
+            }
+            content = '是否' + title;
             this.$YYModal.show({
-                title: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
-                content: `${this.$t('operate.delete')}${this.$t('noun.admin')}`,
+                title,
+                content,
                 onOk: () => {
                     const members = [this.currentMember.memberId]
                     this.stashLimitData[this.currentMember.memberId] = null
