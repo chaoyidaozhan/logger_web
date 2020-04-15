@@ -218,14 +218,14 @@ export default {
             let twoDimensionalOrigin = Object.values(this.allTemplatePagenumMapList);
             twoDimensionalOrigin.forEach((itemA, indexA) => {
                 itemA.forEach((itemB, indexB) => {
-                    itemB.isCurrentTemplateSelected = false;
+                    !itemB.hasOwnProperty('isCurrentTemplateSelected') && (itemB.isCurrentTemplateSelected = false);
                 });
             });
             this.isAddTemplateShow = false;
         },
         addRoleTemplate() {
-            this.loadData();
             this.isAddTemplateShow = true;
+            this.loadData();
         },
         delRoleTemplate(item, index) {
             if(item.hasOwnProperty('isCurrentTemplateSelected')) {
@@ -391,6 +391,7 @@ export default {
                         return;
                     }
                     this.delRole();
+                    this.currentMember = null;
                 }
             })
 
