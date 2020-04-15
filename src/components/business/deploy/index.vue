@@ -2,7 +2,9 @@
     <div class="deploy-container" v-yyloading="isLoadingShow">
         <div class="deploy-member">
             <div class="deploy-title">
-                <span>{{$t('operate.addAdministrator')}}</span>
+                <span v-if="currentTabType == 0">添加汇报核查人</span>
+                <span v-else-if="currentTabType == 1">添加汇报催办人</span>
+                <span v-else-if="currentTabType == 2">{{$t('operate.addAdministrator')}}</span>
                 <span>
                     <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
                     <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
@@ -85,7 +87,6 @@
                     </YYPagination>
                 </div>
             </div>
-
             <div class="addTemplateFooter mb-flex mb-flex-align-center mb-flex-pack-justify">
                 <div>
                     <YYCheckbox v-model="isAllChecked" @on-change="allCheck(isAllChecked)">
@@ -96,7 +97,6 @@
                     <YYButton type="primary" @click.stop="giveRoleAddTemplate">{{$t('noun.addTemplate')}}</YYButton>
                 </div>
                 <div class="mb-flex-1">
-
                 </div>
             </div>
         </div>
