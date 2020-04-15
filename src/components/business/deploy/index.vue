@@ -28,9 +28,9 @@
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
                     <div>{{currentMember.userName}}的{{currentTabType == 0 ? '核查' : '催办'}}模板</div>
-                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify">
+                    <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" @click.stop="addRoleTemplate">
                         <div class="yy-icon-xinzeng"></div>
-                        <div @click.stop="addRoleTemplate">{{$t('operate.add')}}</div>
+                        <div>{{$t('operate.add')}}</div>
                     </div>
                 </div>
                 <div class="memberSelectedTemplate mb-flex mb-flex-wrap">
