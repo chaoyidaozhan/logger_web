@@ -572,7 +572,6 @@ export default {
       this.contentRealHeight =
         this.$refs.contentHeight && this.$refs.contentHeight.offsetHeight;
       this.rangeHeight = this.rangeDefaultHeight;
-      debugger;
       if (this.contentRealHeight > this.contentDefaultHeight) {
         this.contentHeight = this.contentDefaultHeight;
       } else {
