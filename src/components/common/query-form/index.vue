@@ -316,14 +316,17 @@ export default {
             this.member = [];
             this.$nextTick(() => {
                 if(v == '1') {
+                    this.type = 'dept';
                     this.isDeptShow = true
                     this.orderTypeMulti = 'dept'
                 }
                 if(v == '2') {
+                    this.type = 'member';
                     this.isMemberShow = true
                     this.orderTypeMulti = 'member'
                 }
                 if(v == '3') {
+                    this.type = 'group';
                     this.isGroupShow = true
                     this.orderTypeMulti = 'group'
                 }
