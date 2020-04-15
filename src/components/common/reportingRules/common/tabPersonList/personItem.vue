@@ -69,6 +69,7 @@ export default {
   .personalCheckbox {
     width: 14px;
     height: 42px;
+    font-size: 0;
   }
   .isSelected {
     display: none
