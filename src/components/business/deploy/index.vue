@@ -378,7 +378,7 @@ export default {
                 case 1:
                     title = '删除汇报催办人';
                 break;
-                case 1:
+                case 2:
                     title = '删除管理员';
                 break;
             }
