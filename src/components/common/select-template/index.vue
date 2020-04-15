@@ -24,6 +24,10 @@ export default {
         templateType: {
             type: String,
             default: 'app'
+        },
+        templateIdDefault: {
+            type: String | Number,
+            default: 0
         }
     },
     data() {
@@ -34,7 +38,7 @@ export default {
                     title: this.$t('placeholder.allTemplate')
                 }
             ],
-            templateId: 0,
+            templateId: this.templateIdDefault,
             templateVersion: null
         }
     },

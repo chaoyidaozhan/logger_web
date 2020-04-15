@@ -16,8 +16,9 @@
             </div>
             <div class="subctn">
               <fs-select-template
-                :hasDefaultTemplate="true" 
-                templateType="web" 
+                :hasDefaultTemplate="true"
+                templateType="web"
+                :templateIdDefault="formData.templateId"
                 @handleChange="handleQuery"
                 ref="selectTemplate"/>
             </div>
@@ -271,7 +272,7 @@ export default {
         let submitPeriodic = currentItemDetailMsg.submitPeriodic;
         if(detailMsgKeys.length) {
           formData = {
-            templateId: currentItemDetailMsg.id + '',
+            templateId: currentItemDetailMsg.templateId,
             diarySubmitPeopleStr: currentItemDetailMsg.diarySubmitPeople,
             submitPeriodic: submitPeriodic,
             submitDate: currentItemDetailMsg.submitDate
