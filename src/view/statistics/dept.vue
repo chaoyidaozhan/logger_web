@@ -5,10 +5,11 @@
                 :showTemplate="true"
                 :showDept="true"
                 :showOrderType="true"
-                showOrderTypeMulti="dept"
+                :showOrderTypeMulti="type"
                 :showExportExcel="true"
                 :showReportRule="true"
                 deptApiUri="/team/v2/getAuthDepts"
+                groupApiUri="/group/authMe"
                 @handleQuery="handleQuery" ref="queryForm"/>
         </template>
         <template slot="body">
@@ -16,8 +17,6 @@
                 :params="params"
                 :type="type"
                 :title="title"
-                :minDate="minDate"
-                :maxDate="maxDate"
                 v-if="type == 'dept' || type == 'group'"/>
             <fs-member-statistics 
                 :params="params"
@@ -37,7 +36,8 @@ export default {
         return {
             deptId: 0,
             validateString: 'deptId',
-            type: 'dept'
+            type: 'dept',
+            groupApiUri: '/team/v2/getAuthDepts'
         }
     },
     mixins: [statistics]
