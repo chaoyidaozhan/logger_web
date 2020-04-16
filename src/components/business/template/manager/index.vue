@@ -169,7 +169,8 @@
                     {{$t('menus.workLog')}}
                 </div>
                 <div v-html="previewHtml"></div>
-                <img v-if="previeWeb != '0'" :src="require('../../../../assets/images/preview-mobile.png')">
+                <!-- <img v-if="previeWeb != '0'" :src="previeWebImage"> -->
+                <div v-if="previeWeb != '0'" class="previeWebImage"></div>
             </div>
             <div slot="footer"></div>
         </Modal>
@@ -181,6 +182,7 @@ import FsSelectTreeInput from 'app_component/common/select-tree-input/';
 import HTMLDeCode from 'app_src/filters/HTMLDeCode';
 import FsDragItem from './drag-item'
 import FsSubNav from './sub-nav'
+
 export default {
     data() {
         return {
@@ -813,6 +815,14 @@ export default {
     
 }
 .preview-modal {
+    .previeWebImage {
+        width: 340px;
+        height: 461px;
+        margin: 0 auto;
+        background: url('../../../../assets/images/preview-mobile.png') no-repeat center center;
+        background-size: contain;
+
+    }
     .ivu-modal-content {
         background-color: transparent;
     }
