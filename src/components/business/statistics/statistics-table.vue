@@ -91,7 +91,6 @@
 </template>
 <script>
 import Ps from 'perfect-scrollbar';
-// let Ps = null;
 
 export default {
     props: {
@@ -144,14 +143,6 @@ export default {
                 let container = this.$refs[el];
                 if(container) {
                     Ps && Ps.destroy(container);
-                    // Ps = new PerfectScrollbar(container, {
-                    //     wheelSpeed: 0.5,
-                    //     wheelPropagation: false,
-                    //     useBothWheelAxes: true,
-                    //     eventPassthrough : 'horizontal',
-                    //     minScrollbarLength: 60,
-                    //     maxScrollbarLength: 100
-                    // })
                     Ps.initialize(container, {
                         wheelSpeed: 0.5,
                         wheelPropagation: false,

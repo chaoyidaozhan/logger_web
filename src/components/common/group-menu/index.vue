@@ -33,7 +33,6 @@
 import Avatar from '../avatar'
 import FormatTime  from 'app_src/filters/format-time'
 import Ps from 'perfect-scrollbar';
-// let Ps = null;
 import Loading from 'app_component/common/loading-scroll/'
 export default {
     data() {
@@ -110,15 +109,6 @@ export default {
             this.$nextTick(()=>{
                 let container = this.$refs.groupWrap
                 Ps && Ps.destroy(container);
-                // Ps = new PerfectScrollbar(container, {
-                //     wheelSpeed: 0.5,
-                //     wheelPropagation: false,
-                //     useBothWheelAxes: true,
-                //     eventPassthrough : 'horizontal',
-                //     minScrollbarLength: 60,
-                //     maxScrollbarLength: 100
-                // })
-                // Ps.destroy(container)
                 Ps.initialize(container, {
                     wheelSpeed: 0.5,
                     wheelPropagation: false,
