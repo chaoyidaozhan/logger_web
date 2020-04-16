@@ -405,8 +405,7 @@ export default {
                     this.delRole();
                     this.currentMember = null;
                 }
-            })
-
+            });
         },
         handleAddLimit() {
             let dept = [], man = [], org = [], team = []
