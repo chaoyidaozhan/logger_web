@@ -229,7 +229,7 @@ export default {
   }
   .footer {
     box-sizing: border-box;
-    padding: 0 0 13px 20px;
+    padding: 0 0 13px 0;
     background: white;
   }
 }

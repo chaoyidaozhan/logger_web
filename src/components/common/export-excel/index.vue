@@ -52,7 +52,7 @@
         border-radius: 4px;
         box-sizing: border-box;
         .ivu-dropdown-item:hover {
-            background: @select-item-bg;
+            background: #f0f3f9;
         }
         a {
             color: @gray-color-medium;

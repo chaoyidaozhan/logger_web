@@ -579,11 +579,13 @@ export default {
             color: #333;
             // display: inline-block;
             .checkout-note {
-                margin-left: 6px;
                 font-size: 12px;
                 .check-num {
                     color: @primary-color
                 }
+            }
+            /deep/ .yy-checkbox-wrapper {
+                margin-right: 14px;
             }
         }
         .bottom-right {
@@ -622,6 +624,9 @@ export default {
         }
         & > div:last-of-type {
             color: #666;
+        }
+        /deep/ .yy-checkbox-wrapper {
+            margin-right: 8px;
         }
     }
     .itemBody {

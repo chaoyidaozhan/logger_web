@@ -148,8 +148,9 @@
             <div class="itemTitle">
               {{$t('date.reminderTime')}}
             </div>
-            <div class="subctn">
+            <div class="subctn mb-flex-1">
               <YYSelect 
+                :disabled="!formData.remindType"
                 :multiple="false"
                 :invertable="false"
                 :transfer="false"
@@ -159,8 +160,13 @@
                 </YYOption>
               </YYSelect>
             </div>
+            <div class="closeRemind">
+              <YYCheckbox v-model="formData.remindType" @on-change="remindTypeChange">
+                <span>员工提醒</span>
+              </YYCheckbox>
+            </div>
           </div>
-          <div class="item submitCtn">
+          <div class="item submitCtn mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -211,7 +217,7 @@ export default {
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
-            remindType: 0,
+            remindType: true,
             remindTime: 0,
             doubleWeekRemind: false,
             remindThisWeek: false,
@@ -246,6 +252,11 @@ export default {
       }
     },
     methods: {
+      remindTypeChange() {
+        if(!this.formData.remindType) {
+          this.formData.remindTime = 0;
+        }
+      },
       close () {
         this.$emit('changeShow')
       },
@@ -325,8 +336,8 @@ export default {
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
-          if(!formData.remindTime) {
-            formData.remindType = 0;
+          if(!formData.remindType) {
+            formData.remindTime = 0;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
             this.columnsNum = 1;
@@ -900,7 +911,7 @@ export default {
           clear: both;
         }
         &.submitCtn {
-          margin-top: 30px;
+          margin-top: 32px;
         }
       }
       .item.paddingTopInterval {
@@ -918,7 +929,7 @@ export default {
         height: 36px;
         background:rgba(255,171,0,0.07);
         border-radius: 3px;
-        padding-left: 36px;
+        padding-left: 16px;
         border-radius: 3px;
         .tipsimg {
           width: 14px;
@@ -931,7 +942,10 @@ export default {
         }
       }
       .remindTimeArea {
-        padding-top: 20px;
+        padding-top: 24px;
+      }
+      .closeRemind {
+        margin-left: 20px;
       }
     }
   }

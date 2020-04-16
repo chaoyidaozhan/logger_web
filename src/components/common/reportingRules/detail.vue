@@ -166,6 +166,9 @@ export default {
   }
   .container.narrowWidth {
     width: 470px;
+    /deep/ .personalItem {
+      width: 135px;
+    }
   }
   .container {
     font-size: 12px;

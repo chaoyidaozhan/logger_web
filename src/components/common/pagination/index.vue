@@ -27,7 +27,7 @@ export default {
 <style>
 .logger-page {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 32px;
     font-size: 12px;
 }
 </style>

@@ -176,7 +176,7 @@ export default {
         min-height: 110px;
     }
     .allTemplate {
-        padding-top: 8px;
+        padding-top: 24px;
     }
     .commonTemplateListGrid,
     .allTemplateList {

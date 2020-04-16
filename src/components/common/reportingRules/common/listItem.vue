@@ -60,7 +60,13 @@ export default {
         // }, 1000);
       },
       delRule() {
-        this.$emit('delRule', this.detailMsg)
+        this.$YYModal.show({
+            title: '',
+            content: '是否删除',
+            onOk:() => {
+              this.$emit('delRule', this.detailMsg);
+            }
+        });
       },
       toEdit() {
         this.$emit('toEdit', this.detailMsg)

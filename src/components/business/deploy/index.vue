@@ -1,14 +1,12 @@
 <template>
     <div class="deploy-container" v-yyloading="isLoadingShow">
         <div class="deploy-member">
-            <div class="deploy-title">
-                <span v-if="currentTabType == 0">添加汇报核查人</span>
-                <span v-else-if="currentTabType == 1">添加汇报催办人</span>
-                <span v-else-if="currentTabType == 2">{{$t('operate.addAdministrator')}}</span>
-                <span>
-                    <YYButton type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
-                    <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
-                </span>
+            <div class="deploy-title mb-flex mb-flex-align-center">
+                <div v-if="currentTabType == 0">添加汇报核查人</div>
+                <div v-else-if="currentTabType == 1">添加汇报催办人</div>
+                <div v-else-if="currentTabType == 2">{{$t('operate.addAdministrator')}}</div>
+                <YYButton class="operateAdd" type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
+                <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
             </div>
             <div class="deploy-member-content"
                 v-if="deployMember && deployMember.length">
@@ -407,8 +405,7 @@ export default {
                     this.delRole();
                     this.currentMember = null;
                 }
-            })
-
+            });
         },
         handleAddLimit() {
             let dept = [], man = [], org = [], team = []
@@ -590,18 +587,20 @@ export default {
 
 <style lang="less" scoped>
 .deploy-container {
-    padding: 20px;
+    padding: 40px;
     height: 100%;
     position: relative;
+    border-top: 1px solid #D9D9D9;
     .deploy-title {
         color: @text-color;
-        font-size: 14px;
+        font-size: 12px;
         margin-bottom: 14px;
-        span {
-            margin-left: 10px;
-        }
+        font-weight: 500;
         .ivu-btn {
             margin-right: 5px;
+        }
+        .operateAdd {
+            margin: 0 8px 0 16px;
         }
     }
     .deploy-member-content {
@@ -653,7 +652,7 @@ export default {
         }
     }
     .deploy-limit {
-        margin-top: 20px;
+        margin-top: 34px;
     }
     .reportMemberList {
         margin-bottom: 20px;
