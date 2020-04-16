@@ -336,6 +336,9 @@ export default {
         height: 32px;
         width: 100%;
         background: #fafafa;
+        .itemDisable {
+            display: none;
+        }
         & > div {
             height: 100%;
         }
