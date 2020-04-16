@@ -585,7 +585,7 @@ export default {
                 }
             }
             /deep/ .yy-checkbox-wrapper {
-                margin-right: 14px;
+                margin-right: 12px;
             }
         }
         .bottom-right {
@@ -626,7 +626,7 @@ export default {
             color: #666;
         }
         /deep/ .yy-checkbox-wrapper {
-            margin-right: 8px;
+            margin-right: 4px;
         }
     }
     .itemBody {

@@ -12,7 +12,7 @@
     <div class="listContainer mb-flex-1">
       <!-- 已提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0">
-        <div class="mb-flex mb-flex-wrap">
+        <div class="mb-flex mb-flex-wrap ">
           <PersonItem :memberMsg="item" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
           <YYEmpty v-if="!diarySubumitList.submitNormal.length" vertical="middle" text="暂无数据"/>
         </div>
