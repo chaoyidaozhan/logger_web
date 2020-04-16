@@ -93,16 +93,16 @@ export default {
         },
         initScroll() {
             this.$nextTick(()=>{
-                let container = this.$refs.loggerMenuLayout
-                Ps && Ps.destroy(container);
-                Ps = new PerfectScrollbar(container, {
-                    wheelSpeed: 0.5,
-                    wheelPropagation: false,
-                    useBothWheelAxes: true,
-                    eventPassthrough : 'horizontal',
-                    minScrollbarLength: 60,
-                    maxScrollbarLength: 100
-                })
+                // let container = this.$refs.loggerMenuLayout
+                // Ps && Ps.destroy(container);
+                // Ps = new PerfectScrollbar(container, {
+                //     wheelSpeed: 0.5,
+                //     wheelPropagation: false,
+                //     useBothWheelAxes: true,
+                //     eventPassthrough : 'horizontal',
+                //     minScrollbarLength: 60,
+                //     maxScrollbarLength: 100
+                // })
                 // Ps.destroy(container);
                 // Ps.initialize(container, {
                 //     wheelSpeed: 0.5,
@@ -243,10 +243,13 @@ export default {
         position: absolute;
         top: 10px;
         bottom: 0;
-        overflow: hidden;
+        overflow-y: auto;
         right: 0;
         left: 0;
         padding-bottom: 20px;
+        &::-webkit-scrollbar {
+            width: 0;
+        }
     }
 
     .logger-menu-logo {
