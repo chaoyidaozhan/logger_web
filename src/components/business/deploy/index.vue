@@ -745,7 +745,7 @@ export default {
     }
     .addTemplate {
         position: fixed;
-        top: -60px;
+        top: 0;
         right: 0;
         bottom: 0;
         width: 618px;
