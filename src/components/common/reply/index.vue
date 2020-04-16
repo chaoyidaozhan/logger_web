@@ -517,7 +517,6 @@
                     }
                 }
                 .operate {
-                    margin-bottom: 10px;
                     font-size: 12px;
                     color: @gray-color-light;
                     .reply, .del {
