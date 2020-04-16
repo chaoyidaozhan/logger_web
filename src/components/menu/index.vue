@@ -34,8 +34,8 @@
 </template>
 <script>
 import menus from './menuConfig'
-import PerfectScrollbar from 'perfect-scrollbar';
-let Ps = null;
+// import Ps from 'perfect-scrollbar';
+// let Ps = null;
 
 export default {
     data() {
@@ -63,7 +63,7 @@ export default {
                     if(item.type) {
                         for(let i = 0; i < item.type.length; i++) {
                             if(item.showStatistics && !menuLimits.showStatistics) return
-                            if(item.showConfig && !menuLimits.showConfig) return
+                            // if(item.showConfig && !menuLimits.showConfig) return
                             if(!!menuLimits[item.type[i]]) {
                                 return this.menus.push(item)
                             }

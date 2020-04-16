@@ -116,8 +116,7 @@ import FsSelectTemplate from 'app_component/common/select-template/'
 import FsSelectDate from 'app_component/common/select-date/'
 import FsSelectTreeInput from 'app_component/common/select-tree-input/'
 import formatTime from 'app_src/filters/format-time'
-import PerfectScrollbar from 'perfect-scrollbar';
-let Ps = null;
+import Ps from 'perfect-scrollbar';
 
 export default {
     data() {
@@ -153,23 +152,15 @@ export default {
                 if(!this.$refs.tab) return
                 let container = this.$refs.tab
                 Ps && Ps.destroy(container);
-                Ps = new PerfectScrollbar(container, {
-                        wheelSpeed: 0.5,
-                        wheelPropagation: false,
-                        useBothWheelAxes: true,
-                        eventPassthrough : 'vertical',
-                        minScrollbarLength: 60,
-                        maxScrollbarLength: 300
+                Ps.destroy(container);
+                Ps.initialize(container, {
+                    wheelSpeed: 0.5,
+                    wheelPropagation: false,
+                    useBothWheelAxes: true,
+                    eventPassthrough : 'vertical',
+                    minScrollbarLength: 60,
+                    maxScrollbarLength: 300
                 })
-                // Ps.destroy(container);
-                // Ps.initialize(container, {
-                //     wheelSpeed: 0.5,
-                //     wheelPropagation: false,
-                //     useBothWheelAxes: true,
-                //     eventPassthrough : 'vertical',
-                //     minScrollbarLength: 60,
-                //     maxScrollbarLength: 300
-                // })
 
             })
         },

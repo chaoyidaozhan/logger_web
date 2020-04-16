@@ -90,8 +90,7 @@
     </div>
 </template>
 <script>
-import PerfectScrollbar from 'perfect-scrollbar';
-let Ps = null;
+import Ps from 'perfect-scrollbar';
 
 export default {
     props: {
@@ -144,22 +143,14 @@ export default {
                 let container = this.$refs[el];
                 if(container) {
                     Ps && Ps.destroy(container);
-                    Ps = new PerfectScrollbar(container, {
+                    Ps.initialize(container, {
                         wheelSpeed: 0.5,
                         wheelPropagation: false,
                         useBothWheelAxes: true,
                         eventPassthrough : 'horizontal',
                         minScrollbarLength: 60,
                         maxScrollbarLength: 100
-                    })
-                    // Ps.initialize(container, {
-                    //     wheelSpeed: 0.5,
-                    //     wheelPropagation: false,
-                    //     useBothWheelAxes: true,
-                    //     eventPassthrough : 'horizontal',
-                    //     minScrollbarLength: 60,
-                    //     maxScrollbarLength: 100
-                    // });
+                    });
                     container.scrollTop = 0
                     container.scrollLeft = 0
                 }
