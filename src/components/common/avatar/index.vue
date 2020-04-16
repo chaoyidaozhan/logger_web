@@ -17,7 +17,8 @@
                     <i class="icon-department"></i>
                 </span>
                 <span :style="{'font-size': fontSize}" class="name" v-if="type=='group'">
-                    <Icon type="person-stalker"></Icon>
+                    <!-- <Icon type="person-stalker"></Icon> -->
+                    <YYIcon type="qunzu-fill"></YYIcon>
                 </span>
             </template>
             <span :style="{'font-size': fontSize}" class="name" v-else-if="name">{{ formatName }}</span>
