@@ -1,5 +1,5 @@
 <template>
-  <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll" v-if="showGlobalModal">
+  <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll" v-show="showGlobalModal">
     <transition-group name="fade" class="spanModal" style="display: inline-block;">
       <fs-logger-list-item
         v-for="(item, index) in list"
@@ -430,16 +430,13 @@ export default {
   },
   updated() {
     if (this.offsetId !== "") {
-      let pageLoggerList = document.querySelector(".page-logger-list");
-      let firstOffset = document.getElementById(this.offsetId).offsetTop;
+      let pageLoggerList = this.$el;
+      let firstOffset = this.$el.querySelector(`div[id='${this.offsetId}']`).offsetTop;
       pageLoggerList.scrollTop = firstOffset * this.times;
-      this.offsetId = "";
     }
   },
   mounted() {
     this.queryMemberId = this.$store.state.userInfo.member_id;
-    let _this = this;
-
     // document.addEventListener('click', (e) => {
     //     this.openFullscreen(document.body)
     // }, false)
@@ -461,20 +458,21 @@ export default {
     // this.$eventbus.$on('changeDrawing', (isDrawing)=>{
     //     this.isDrawing = isDrawing
     // })
+    let _this = this;
+
     this.$eventbus.$on("openglobal", () => {
-      this.showGlobalModal = true;
-      this.openFullscreen(document.body);
+      _this.showGlobalModal = true;
+      _this.openFullscreen(document.body);
     });
     this.$eventbus.$on("translist", (list, pageNo, pageSize) => {
-      this.list = list;
-      this.pageNo = pageNo;
-      this.pageSize = pageSize;
+      _this.list = list;
+      _this.pageNo = pageNo;
+      _this.pageSize = pageSize;
     });
     this.$eventbus.$on("transid", id => {
-      this.offsetId = id;
+      _this.offsetId = id;
     });
 
-    let _this = this;
     document.addEventListener("fullscreenchange", function() {
       if (document.fullscreenElement != null) {
         console.info("Went full screen");
@@ -491,28 +489,28 @@ export default {
     });
 
     this.loading = true;
-    let getMessage = function(e) {
-      const data = e.data || {};
-      // 解析data就行
-      if (data) {
-        _this.list = data.list ? data.list : [];
-        _this.pageNo = data.pageNo ? data.pageNo : 1;
-        _this.pageSize = data.pageSize ? data.pageSize : 20;
-        _this.offsetId = data.offsetId ? data.offsetId : "";
-        _this.loading = false;
-      }
-      if (_this.list.length === 0) {
-        _this.initList();
-      }
-    };
-    window.addEventListener("message", getMessage, false);
+    this.initList();
+    // let getMessage = function(e) {
+    //   const data = e.data || {};
+    //   // 解析data就行
+    //   if (data) {
+    //     _this.list = data.list ? data.list : [];
+    //     _this.pageNo = data.pageNo ? data.pageNo : 1;
+    //     _this.pageSize = data.pageSize ? data.pageSize : 20;
+    //     _this.offsetId = data.offsetId ? data.offsetId : "";
+    //     _this.loading = false;
+    //   }
+    //   if (_this.list.length === 0) {
+    //     _this.initList();
+    //   }
+    // };
+    // window.addEventListener("message", getMessage, false);
     //长时间没有接收到postMessage
-    setTimeout(() => {
-      if (this.list.length === 0) {
-        this.initList();
-      }
-      window.removeEventListener("message", getMessage, false);
-    }, 2000);
+    // setTimeout(() => {
+    //   if (this.list.length === 0) {
+    //   }
+    // window.removeEventListener("message", getMessage, false);
+    // }, 2000);
   },
   destroyed() {
     this.$eventbus.$off("openglobal");
