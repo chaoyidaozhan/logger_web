@@ -359,9 +359,6 @@ export default {
           this.isGroupShow = true;
           this.orderTypeMulti = "group";
         }
-        setTimeout(() => {
-          this.handleQuery();
-        });
       });
     },
     trimIds(params) {
