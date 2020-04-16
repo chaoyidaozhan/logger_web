@@ -174,7 +174,7 @@
                 v-else
               >{{$t('operate.collapse')}}</span>
             </div>
-            <div class="logger-list-col logger-list-location logger-list-watcher">
+            <div class="logger-list-col logger-list-location logger-list-watcher" v-if="!isDraft">
               <Poptip
                 v-if="loggerItemData.readCount"
                 @on-popper-show="getAllMembers"
@@ -1035,18 +1035,6 @@ export default {
 //         }
 //     }
 // }
-.ivu-poptip-popper {
-  .ivu-poptip-content {
-    .ivu-poptip-inner {
-      .ivu-poptip-body {
-        width: 540px;
-        .ivu-poptip-body-content {
-          height: 230px;
-        }
-      }
-    }
-  }
-}
 
 .logger-item {
   .logger-content-item {
@@ -1367,6 +1355,7 @@ export default {
             float: right;
             .operate-item {
               margin-right: 24px;
+              cursor: pointer;
               .icon-position {
                 font-size: 18px;
                 position: relative;
@@ -1382,6 +1371,18 @@ export default {
               position: relative;
               display: flex;
               font-size: 18px;
+            }
+          }
+          .ivu-poptip-popper {
+            .ivu-poptip-content {
+              .ivu-poptip-inner {
+                .ivu-poptip-body {
+                  width: 540px;
+                  .ivu-poptip-body-content {
+                    height: 230px;
+                  }
+                }
+              }
             }
           }
         }
