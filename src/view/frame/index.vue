@@ -59,7 +59,7 @@ export default {
 		left: 0;
 		right: 0;
 		top: 0;
-
+		
 		// // height: 32px;
 		// // line-height: 32px;
 		// font-size: 12px;

@@ -590,9 +590,10 @@ export default {
 
 <style lang="less" scoped>
 .deploy-container {
-    padding: 20px;
+    padding: 40px;
     height: 100%;
     position: relative;
+    border-top: 1px solid #D9D9D9;
     .deploy-title {
         color: @text-color;
         font-size: 14px;
