@@ -555,6 +555,9 @@ export default {
 <style lang="less">
 @import '../../../assets/css/var.less';
 .summary-new {
+    /deep/ .select-template {
+        width: 186px;
+    }
     .yy-empty {
         margin-top: 10%;
     }

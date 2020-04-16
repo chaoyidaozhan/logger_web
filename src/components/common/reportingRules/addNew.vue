@@ -922,9 +922,6 @@ export default {
         line-height: 20px;
         margin-top: -6px;
       }
-      .subctn {
-        font-size: 0;
-      }
       .tipsCtn {
         height: 36px;
         background:rgba(255,171,0,0.07);

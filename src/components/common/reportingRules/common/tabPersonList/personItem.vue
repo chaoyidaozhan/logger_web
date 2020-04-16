@@ -35,7 +35,8 @@ export default {
   width: 125px;
   height: 42px;
   border-radius: 2px;
-  margin-right: 7px;
+  margin-right: 5px;
+  margin-left: 2px;
   margin-bottom: 8px;
   line-height: 42px;
   padding-right: 8px;

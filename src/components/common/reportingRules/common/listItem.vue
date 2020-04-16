@@ -62,7 +62,7 @@ export default {
       delRule() {
         this.$YYModal.show({
             title: '',
-            content: '是否删除',
+            content: '确认要删除汇报规则吗？',
             onOk:() => {
               this.$emit('delRule', this.detailMsg);
             }

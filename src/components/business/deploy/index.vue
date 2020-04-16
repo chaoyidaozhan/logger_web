@@ -52,7 +52,7 @@
                     v-for="item in deployLimit"
                     v-if="!+item.status"
                     :key="item.id">
-                    {{item[mapKey[item.dataType]] || '“'}}
+                    {{item[mapKey[item.dataType]]}}
                     <i @click="handleDeleteLimit(item)" class="icon-delete-userlist"></i>
                 </span>
             </div>
@@ -163,6 +163,14 @@ export default {
         FsTemplateItem
     },
     methods: {
+        resetCurrentSelected() {
+            let twoDimensional = Object.values(this.allTemplatePagenumMapList);
+            twoDimensional.forEach((itemA, indexA) => {
+                itemA.forEach((itemB, indexB) => {
+                    itemB.isCurrentTemplateSelected = false;
+                });
+            });
+        },
         addTemplateClose() {
             this.isAllChecked = false;
             this.isAddTemplateShow = false;
@@ -518,6 +526,7 @@ export default {
             })
         },
         handleChangeLimit(param) {
+            this.resetCurrentSelected();
             if(this.currentMember && param.memberId === this.currentMember.memberId) {
                 return this.handleInitData()
             }
@@ -745,7 +754,7 @@ export default {
     }
     .addTemplate {
         position: fixed;
-        top: -60px;
+        top: 0;
         right: 0;
         bottom: 0;
         width: 618px;
