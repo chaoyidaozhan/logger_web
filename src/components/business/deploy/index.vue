@@ -653,7 +653,7 @@ export default {
         }
     }
     .deploy-limit {
-        margin-top: 20px;
+        margin-top: 34px;
     }
     .reportMemberList {
         margin-bottom: 20px;
