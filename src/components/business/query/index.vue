@@ -1,7 +1,7 @@
 <template>
   <div id="page-logger-content" class="page-logger-content">
     <div class="page-logger-list" @scroll.stop="onScroll">
-      <transition-group name="fade" style="display:block">
+      <transition-group name="fade" style="display:block;">
         <fs-logger-list-item
           v-for="(item, index) in list"
           @handleDelete="handleDelete"
@@ -13,6 +13,7 @@
           :loggerItemData="item"
           :menus="item.title"
           :key="index"
+          :style="index === 0 ? 'margin-top: 10px' : ''"
         />
       </transition-group>
       <YYLoadingH v-if="loading" :text="$t('status.loading')"></YYLoadingH>

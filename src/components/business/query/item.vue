@@ -390,6 +390,7 @@
       </div>
       <!--点赞回复收藏isShowMenu-->
       <div class="logger-list-vertical-operate">
+        <!-- v-show="isShowMenu && !isInternalGroupReport" -->
         <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
           <div class="left-header" @click="back2Logger()">
             {{loggerItemData.userName}}的工作汇报
@@ -402,7 +403,9 @@
               v-for="(item, index) in menus"
               :key="item.id + index"
               @click="back2Title($event, item)"
-            >{{item.title}}</div>
+            >
+              <span class="left-words">{{item.title}}</span>
+            </div>
           </div>
         </div>
         <!-- <div class="logger-list-vertical-operate-menu"  v-show="isShowMenu"> -->
@@ -878,10 +881,21 @@ export default {
         event.style.background = "";
         event.style.color = "";
         event.style.fontWeight = "";
+        event.style.marginRight = "";
       });
-      event.target.style.background = "#F6F6F6";
-      event.target.style.color = "#333333";
-      event.target.style.fontWeight = "500";
+
+      let leftWords = event.currentTarget.querySelector(".left-words");
+      let rightWidth =
+        this.$el.querySelector(".leftMenuBox").offsetWidth -
+        leftWords.offsetWidth -
+        12 -
+        12 -
+        16;
+      event.currentTarget.style.background = "#F6F6F6";
+      event.currentTarget.style.color = "#333333";
+      event.currentTarget.style.fontWeight = "550";
+      event.currentTarget.style.marginRight = rightWidth + "px";
+
       if (!this.contentExpand) {
         this.handleContentExpand();
       }
@@ -1045,6 +1059,7 @@ export default {
       // margin-left: 188px;
       margin: 0 auto;
       background-color: #fff;
+      overflow: hidden;
       min-width: 70%;
       @media screen and (min-width: 1920px) {
         max-width: 1197px;
@@ -1297,7 +1312,7 @@ export default {
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 0;
+        top: 240px;
         height: 140px;
       }
       .loggerExpand {
@@ -1506,9 +1521,11 @@ export default {
         right: 20px;
         background: rgba(255, 255, 255, 0.7);
         border-radius: 0px 4px 4px 0px;
-        padding: 18px 16px 8px 28px;
+        // padding: 18px 16px 8px 28px;
+        padding: 18px 16px 8px 0;
         z-index: 2020;
         .left-header {
+          margin-left: 12px;
           height: 17px;
           font-size: 12px;
           font-family: PingFangSC-Medium, PingFang SC;
@@ -1520,7 +1537,7 @@ export default {
           }
         }
         .left-line {
-          width: 100%;
+          margin-left: 12px;
           margin-top: 8px;
           height: 1px;
           background: #d9d9d9;
@@ -1534,7 +1551,7 @@ export default {
           color: rgba(51, 51, 51, 1);
           .left-item {
             cursor: pointer;
-            padding: 10px 0;
+            padding: 8px 0 8px 12px;
             // height: 36px;
             // line-height: 36px;
           }
