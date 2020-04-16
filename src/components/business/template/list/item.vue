@@ -1,6 +1,6 @@
 <template>
     <div class="template-item cursor-pointer" @click="goToDetail">
-        <div class="template-item-content" :class="{itemDisable: data.dataStatus == 0, day: data.dataType == 1, week: data.dataType == 2, mouth: data.dataType == 3}">
+        <div class="template-item-content" :class="{itemDisable: data.dataStatus == 0, day: data.dataType == 1, week: data.dataType == 2, mouth: data.dataType == 3, etc: data.dataType == 4}">
             <div class="mb-flex mb-flex-align-center">
                 <div class="fileSuffixName"></div>
                 <div class="templateTitle">{{data.title}}</div>
@@ -306,6 +306,25 @@ export default {
         }
         .fileSuffixName {
             background: url("../../../../assets/images/mouth.png") center center no-repeat;
+            background-size: contain;
+        }
+    }
+    .etc {
+        &:before {
+            content: '';
+            width: 3px;
+            position: absolute;
+            // border-top-left-radius: 4px;
+            // border-top-right-radius: 4px;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: rgba(51, 149, 255, 1);
+            opacity: .85;
+            transition: .4s ease all;
+        }
+        .fileSuffixName {
+            background: url("../../../../assets/images/etc.png") center center no-repeat;
             background-size: contain;
         }
     }
