@@ -34,8 +34,8 @@
 </template>
 <script>
 import menus from './menuConfig'
-import PerfectScrollbar from 'perfect-scrollbar';
-let Ps = null;
+import Ps from 'perfect-scrollbar';
+// let Ps = null;
 
 export default {
     data() {
