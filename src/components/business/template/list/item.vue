@@ -203,6 +203,7 @@ export default {
                 width: 40px;
                 height: 40px;
                 margin-right: 12px;
+                border-radius: 4px;
             }
             .templateTitle {
                 font-size: 14px;
