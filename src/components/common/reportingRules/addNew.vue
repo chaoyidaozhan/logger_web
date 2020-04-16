@@ -929,7 +929,7 @@ export default {
         height: 36px;
         background:rgba(255,171,0,0.07);
         border-radius: 3px;
-        padding-left: 36px;
+        padding-left: 16px;
         border-radius: 3px;
         .tipsimg {
           width: 14px;
