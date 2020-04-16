@@ -166,7 +166,7 @@
               </YYCheckbox>
             </div>
           </div>
-          <div class="item submitCtn">
+          <div class="item submitCtn mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -911,7 +911,7 @@ export default {
           clear: both;
         }
         &.submitCtn {
-          margin-top: 30px;
+          margin-top: 32px;
         }
       }
       .item.paddingTopInterval {
@@ -942,7 +942,7 @@ export default {
         }
       }
       .remindTimeArea {
-        padding-top: 20px;
+        padding-top: 24px;
       }
       .closeRemind {
         margin-left: 20px;
