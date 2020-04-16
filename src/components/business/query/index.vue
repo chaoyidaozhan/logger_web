@@ -223,12 +223,7 @@ export default {
             item.islast = true;
           }
         });
-        this.$eventbus.$emit(
-          "translist",
-          this.list,
-          this.pageNo,
-          this.pageSize
-        );
+        this.$eventbus.$emit("translist", this.list, this.pageNo, this.pageSize);
       } else {
         this.list = [];
         this.$YYMessage.warning(
