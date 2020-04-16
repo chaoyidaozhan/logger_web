@@ -63,7 +63,7 @@ export default {
                     if(item.type) {
                         for(let i = 0; i < item.type.length; i++) {
                             if(item.showStatistics && !menuLimits.showStatistics) return
-                            if(item.showConfig && !menuLimits.showConfig) return
+                            // if(item.showConfig && !menuLimits.showConfig) return
                             if(!!menuLimits[item.type[i]]) {
                                 return this.menus.push(item)
                             }
