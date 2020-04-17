@@ -12,7 +12,7 @@
           :isLowerLevel="isLowerLevel"
           :loggerItemData="item"
           :menus="item.title"
-          :key="index"
+          :key="item.id"
           :style="index === 0 ? 'margin-top: 10px' : ''"
         />
       </transition-group>
