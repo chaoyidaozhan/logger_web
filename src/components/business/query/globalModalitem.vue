@@ -331,7 +331,7 @@ export default {
             canvas.removeEventListener('mouseup', this.mouseupCanval, false);
             canvas.removeEventListener('mouseleave', this.rightDraw, false);
             canvas.removeEventListener('mouseenter', this.mouseenterCanval, false);
-
+            this.isCanval = false;
             document.querySelector('.nodrawing')
 
             let nodrawing = document.querySelector('.nodrawing')
