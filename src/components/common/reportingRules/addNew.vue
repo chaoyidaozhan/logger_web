@@ -328,7 +328,6 @@ export default {
             formData.remindType = remindType;
             formData.remindTime = currentItemDetailMsg.remindTime;
           }
-
           if(submitPeriodic == 0 || submitPeriodic == 2) {
               this.startPickerDefault = {
                 name: submitStartTimeDealWith.all,
@@ -340,33 +339,39 @@ export default {
               };
               this.columnsNum = 1;
           }
+          let editStatusWeekTime = () => {
+            this.startPickerDefault = {
+              name: this.week[+currentItemDetailMsg.submitStartWeek] + ' ' + submitStartTimeDealWith.all,
+              value: currentItemDetailMsg.submitStartWeek
+            };
+            this.startPickerSecondColDefault = {
+              name: submitStartTimeDealWith.all,
+              value: submitStartTimeDealWith.num
+            };
+            this.endPickerDefault = {
+              name: this.week[+currentItemDetailMsg.submitEndWeek] + ' ' + submitEndTimeDealWith.all,
+              value: currentItemDetailMsg.submitEndWeek
+            };
+            this.endPickerSecondColDefault = {
+              name: submitEndTimeDealWith.all,
+              value: submitEndTimeDealWith.num
+            };
+            formData.doubleWeekRemind = !!currentItemDetailMsg.doubleWeekRemind;
+            formData.remindThisWeek = !!currentItemDetailMsg.remindThisWeek;
+            formData.doubleWeekRemind && (formData.submitPeriodic = 3);
+          };
           switch (submitPeriodic) {
             case 0:
               formData.submitStartWeek = currentItemDetailMsg.submitStartWeek.split(',')
             break;
             case 1:
-              this.startPickerDefault = {
-                name: this.week[+currentItemDetailMsg.submitStartWeek] + ' ' + submitStartTimeDealWith.all,
-                value: currentItemDetailMsg.submitStartWeek
-              };
-              this.startPickerSecondColDefault = {
-                name: submitStartTimeDealWith.all,
-                value: submitStartTimeDealWith.num
-              };
-              this.endPickerDefault = {
-                name: this.week[+currentItemDetailMsg.submitEndWeek] + ' ' + submitEndTimeDealWith.all,
-                value: currentItemDetailMsg.submitEndWeek
-              };
-              this.endPickerSecondColDefault = {
-                name: submitEndTimeDealWith.all,
-                value: submitEndTimeDealWith.num
-              };
-              formData.doubleWeekRemind = !!currentItemDetailMsg.doubleWeekRemind;
-              formData.remindThisWeek = !!currentItemDetailMsg.remindThisWeek;
-              formData.doubleWeekRemind && (formData.submitPeriodic = 3);
+              editStatusWeekTime();
             break;
             case 2:
               
+            break;
+            case 3:
+              editStatusWeekTime();
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
@@ -374,7 +379,7 @@ export default {
             this.columnsNum = 1;
             this.handleSubmitStartTime(submitPeriodic);
             this.handleSubmitEndTime(submitPeriodic);
-          }else if(currentItemDetailMsg.submitPeriodic == 1) {
+          }else if(submitPeriodic == 1 || submitPeriodic == 3) {
             this.columnsNum = 2;
             this.handleSubmitStartTime(1);
             this.handleSubmitEndTime(1);
