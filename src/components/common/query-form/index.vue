@@ -151,7 +151,7 @@
       <div class="open-date" v-if="showBrowse" @click.stop="globalModel">
         <YYIcon type="yanshizhemoshi"></YYIcon>
       </div>
-      <div class="logger-menu-logo" v-if="showCreateMenu">
+      <div class="logger-menu-logo">
         <YYButton type="primary" @click="goLoggerDetail">{{$t('operate.createLog')}}</YYButton>
       </div>
     </Form>
