@@ -313,6 +313,12 @@ export default {
           submitEndTimeDealWith = timeDealWith(currentItemDetailMsg.submitEndTime);
           formData.submitStartTime = submitStartTimeDealWith.all;
           formData.submitEndTime = submitEndTimeDealWith.all;
+          let remindType = currentItemDetailMsg.remindType;
+          if(remindType == 1) {
+            this.isAdvanceRemindStaff = true;
+            formData.remindType = remindType;
+            formData.remindTime = currentItemDetailMsg.remindTime;
+          }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
               this.startPickerDefault = {
                 name: submitStartTimeDealWith.all,
