@@ -1,5 +1,5 @@
 <template>
-  <div class="logger-item" :id="loggerItemData.id">
+  <div class="logger-item" :id="loggerItemData.id" @mouseenter="setLocation()">
     <!-- @mouseleave="closeMenu()" -->
     <div class="logger-content-item" @mouseleave="closeMenu()">
       <!-- @mouseleave="closeMenu()"> isShowMenu&& !isInternalGroupReport-->
@@ -840,9 +840,11 @@ export default {
         this.loggerItemData.commentNum -= 1;
       }
     },
+    setLocation() {
+      this.$eventbus.$emit("transid", this.loggerItemData.id);
+    },
     showMenu() {
       //显示左右两边菜单
-      this.$eventbus.$emit("transid", this.loggerItemData.id);
       this.loggerItem = this.$el;
       this.isShowMenu = true;
       let pageLoggerList = document.querySelector(".page-logger-list");
