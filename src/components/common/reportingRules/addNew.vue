@@ -86,7 +86,7 @@
             </div>
           </div>
           <!-- 从当前周开始 -->
-          <div class="item subItem mb-flex mb-flex-pack-justify mb-flex-align-center" v-if="formData.doubleWeekRemind">
+          <div class="item subItem mb-flex mb-flex-pack-justify mb-flex-align-center" v-if="formData.doubleWeekRemind == 1">
             <div class="itemTitle">
             </div>
             <div class="subctn">
@@ -303,9 +303,18 @@ export default {
             id: currentItemDetailMsg.id,
             templateId: currentItemDetailMsg.templateId,
             diarySubmitPeopleStr: currentItemDetailMsg.diarySubmitPeople,
-            submitPeriodic: submitPeriodic,
+            submitPeriodic,
             submitDate: currentItemDetailMsg.submitDate
           };
+          let doubleWeekRemind = currentItemDetailMsg.doubleWeekRemind;
+          if(doubleWeekRemind == 1) {
+            formData.submitPeriodic = 3;
+            formData.doubleWeekRemind = doubleWeekRemind;
+          }
+          if(currentItemDetailMsg.remindThisWeek == 1) {
+            formData.remindThisWeek = 1;
+            this.isRemindThisWeek = true;
+          }
           let submitStartTimeDealWith = {};
           let submitEndTimeDealWith = {};
           let submitStartWeek = [];
@@ -319,6 +328,7 @@ export default {
             formData.remindType = remindType;
             formData.remindTime = currentItemDetailMsg.remindTime;
           }
+
           if(submitPeriodic == 0 || submitPeriodic == 2) {
               this.startPickerDefault = {
                 name: submitStartTimeDealWith.all,
@@ -360,9 +370,6 @@ export default {
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
-          if(!formData.remindTime) {
-            formData.remindType = false;
-          }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
             this.columnsNum = 1;
             this.handleSubmitStartTime(submitPeriodic);
