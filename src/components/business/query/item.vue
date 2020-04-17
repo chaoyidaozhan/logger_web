@@ -1377,9 +1377,9 @@ export default {
             .ivu-poptip-content {
               .ivu-poptip-inner {
                 .ivu-poptip-body {
-                  width: 540px;
+                  max-width: 540px;
                   .ivu-poptip-body-content {
-                    height: 230px;
+                    max-height: 200px;
                   }
                 }
               }
