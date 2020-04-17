@@ -212,14 +212,17 @@ export default {
             templateId: '',
             diarySubmitPeopleStr: [],
             submitPeriodic: 0,
-            submitDate: '0',
             submitStartWeek: ['1', '2', '3', '4', '5', '6', '7'],
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
+            // 提醒类型 0：不提醒，1：截止前
             remindType: 1,
+            // 提醒时间，1:1小时，2:2小时，15：15小时
             remindTime: 0,
+            // 双周提醒，0：单周提醒，1：双周提醒
             doubleWeekRemind: 0,
+            // 本周提醒：0：下周提醒，1：本周提醒
             remindThisWeek: 0,
         },
         submitDate: [
@@ -250,7 +253,7 @@ export default {
 	      endPickerSecondColDefault: {},
         remindTimeArr: [],
         isRemindThisWeek: false,
-        isAdvanceRemindStaff: true
+        isAdvanceRemindStaff: true,
       }
     },
     methods: {
@@ -396,6 +399,7 @@ export default {
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
           param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用  周和双周不传该字段
           param.submitDate = 0;
           // 
           param.doubleWeekRemind = 0;
