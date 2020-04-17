@@ -89,7 +89,7 @@ const menus = [
         path: '/Deploy',
         icon: 'icon-template-2018',
         showStatistics: true,
-        type: ['showConfig']
+        // type: ['showConfig']
     }
 ]
 export default menus;
