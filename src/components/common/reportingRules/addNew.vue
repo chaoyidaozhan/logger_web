@@ -253,7 +253,7 @@ export default {
 	      endPickerSecondColDefault: {},
         remindTimeArr: [],
         isRemindThisWeek: false,
-        isAdvanceRemindStaff: true,
+        isAdvanceRemindStaff: true
       }
     },
     methods: {
@@ -265,15 +265,14 @@ export default {
         this.formData.remindThisWeek = 0;
       },
       remindTypeChange() {
-        let formData = this.formData.remindTime;
         if(!this.isAdvanceRemindStaff) {
-          formData.remindTime = 0;
-          formData.remindType = 0;
+          this.formData.remindTime = 0;
+          this.formData.remindType = 0;
           return;
         }
-        formData.remindType = 1;
+        this.formData.remindType = 1;
         //默认提前1小时提醒
-        formData.remindTime = 1;
+        this.formData.remindTime = 1;
       },
       close () {
         this.$emit('changeShow')
@@ -301,6 +300,7 @@ export default {
         let submitPeriodic = currentItemDetailMsg.submitPeriodic;
         if(detailMsgKeys.length) {
           formData = {
+            id: currentItemDetailMsg.id,
             templateId: currentItemDetailMsg.templateId,
             diarySubmitPeopleStr: currentItemDetailMsg.diarySubmitPeople,
             submitPeriodic: submitPeriodic,
@@ -431,7 +431,8 @@ export default {
         if(param.remindTime !== 0) {
           param.remindType = 1;
         }
-        let uri = '/diarySubmitRule/add';
+        let uri = '';
+        param.id ? (uri = '/diarySubmitRule/edit') : (uri = '/diarySubmitRule/add');
         this.$ajax({
             url: uri,
             type: 'post',
