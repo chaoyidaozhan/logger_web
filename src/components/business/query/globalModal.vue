@@ -422,7 +422,7 @@ export default {
         this.isFontReduce = false;
         this.isCanval = false;
         this.$eventbus.$emit("closeCanvas");
-      }, 1000);
+      }, 100);
     },
     back2top() {
       this.$el.scrollTop = 0;
@@ -433,6 +433,7 @@ export default {
       let pageLoggerList = this.$el;
       let firstOffset = this.$el.querySelector(`div[id='${this.offsetId}']`).offsetTop;
       pageLoggerList.scrollTop = firstOffset * this.times;
+      this.offsetId = ""
     }
   },
   mounted() {
