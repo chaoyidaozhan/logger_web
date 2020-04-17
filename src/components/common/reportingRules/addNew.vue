@@ -91,7 +91,7 @@
             </div>
             <div class="subctn">
               <div>
-                <YYCheckbox v-model="formData.remindThisWeek">
+                <YYCheckbox v-model="isRemindThisWeek" @on-change="remindThisWeekChange">
                   <span>当前周开始</span>
                 </YYCheckbox>
               </div>
@@ -150,7 +150,7 @@
             </div>
             <div class="subctn mb-flex-1">
               <YYSelect 
-                :disabled="!formData.remindType"
+                :disabled="!isAdvanceRemindStaff"
                 :multiple="false"
                 :invertable="false"
                 :transfer="false"
@@ -161,7 +161,7 @@
               </YYSelect>
             </div>
             <div class="closeRemind">
-              <YYCheckbox v-model="formData.remindType" @on-change="remindTypeChange">
+              <YYCheckbox v-model="isAdvanceRemindStaff" @on-change="remindTypeChange">
                 <span>员工提醒</span>
               </YYCheckbox>
             </div>
@@ -217,10 +217,10 @@ export default {
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
-            remindType: true,
+            remindType: 1,
             remindTime: 0,
-            doubleWeekRemind: false,
-            remindThisWeek: false,
+            doubleWeekRemind: 0,
+            remindThisWeek: 0,
         },
         submitDate: [
             { key: '1', value: this.$t('date.mon') },
@@ -248,14 +248,29 @@ export default {
         endPickerDefault: {},
         startPickerSecondColDefault: {},
 	      endPickerSecondColDefault: {},
-        remindTimeArr: []
+        remindTimeArr: [],
+        isRemindThisWeek: false,
+        isAdvanceRemindStaff: true
       }
     },
     methods: {
-      remindTypeChange() {
-        if(!this.formData.remindType) {
-          this.formData.remindTime = 0;
+      remindThisWeekChange() {
+        if(this.isRemindThisWeek) {
+          this.formData.remindThisWeek = 1;
+          return;
         }
+        this.formData.remindThisWeek = 0;
+      },
+      remindTypeChange() {
+        let formData = this.formData.remindTime;
+        if(!this.isAdvanceRemindStaff) {
+          formData.remindTime = 0;
+          formData.remindType = 0;
+          return;
+        }
+        formData.remindType = 1;
+        //默认提前1小时提醒
+        formData.remindTime = 1;
       },
       close () {
         this.$emit('changeShow')
@@ -336,8 +351,8 @@ export default {
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
-          if(!formData.remindType) {
-            formData.remindTime = 0;
+          if(!formData.remindTime) {
+            formData.remindType = false;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
             this.columnsNum = 1;
@@ -773,10 +788,11 @@ export default {
       handleSubmitPeriodic(per) {
         per = +per;
         if(per == 3) {
-          this.formData.doubleWeekRemind = true;
+          this.formData.doubleWeekRemind = 1;
         }else {
-          this.formData.doubleWeekRemind = false;
-          this.formData.remindThisWeek = false;
+          this.formData.doubleWeekRemind = 0;
+          this.formData.remindThisWeek = 0;
+          this.isRemindThisWeek = false;
         }
         this.formData.remindTime = 0;
         // 根据不同的提价周期进行数据初始化
