@@ -388,10 +388,10 @@
           <!-- <div class="rightLine"></div> -->
         </div>
       </div>
-      <!--点赞回复收藏isShowMenu-->
+      <!--点赞回复收藏isShowMenu isInternalGroupReport-->
       <div class="logger-list-vertical-operate">
         <!-- v-show="isShowMenu && !isInternalGroupReport" -->
-        <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
+        <div class="leftMenuBox" v-show="isShowMenu">
           <div class="left-header" @click="back2Logger()">
             {{loggerItemData.userName}}的工作汇报
             <div class="left-close"></div>
