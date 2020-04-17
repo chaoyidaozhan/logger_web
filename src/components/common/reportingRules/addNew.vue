@@ -91,7 +91,7 @@
             </div>
             <div class="subctn">
               <div>
-                <YYCheckbox v-model="formData.remindThisWeek">
+                <YYCheckbox v-model="isRemindThisWeek" @on-change="remindThisWeekChange">
                   <span>当前周开始</span>
                 </YYCheckbox>
               </div>
@@ -150,7 +150,7 @@
             </div>
             <div class="subctn mb-flex-1">
               <YYSelect 
-                :disabled="!formData.remindType"
+                :disabled="!isAdvanceRemindStaff"
                 :multiple="false"
                 :invertable="false"
                 :transfer="false"
@@ -161,7 +161,7 @@
               </YYSelect>
             </div>
             <div class="closeRemind">
-              <YYCheckbox v-model="formData.remindType" @on-change="remindTypeChange">
+              <YYCheckbox v-model="isAdvanceRemindStaff" @on-change="remindTypeChange">
                 <span>员工提醒</span>
               </YYCheckbox>
             </div>
@@ -212,15 +212,18 @@ export default {
             templateId: '',
             diarySubmitPeopleStr: [],
             submitPeriodic: 0,
-            submitDate: '0',
             submitStartWeek: ['1', '2', '3', '4', '5', '6', '7'],
             submitEndWeek: [],
             submitStartTime: [],
             submitEndTime: [],
-            remindType: true,
+            // 提醒类型 0：不提醒，1：截止前
+            remindType: 1,
+            // 提醒时间，1:1小时，2:2小时，15：15小时
             remindTime: 0,
-            doubleWeekRemind: false,
-            remindThisWeek: false,
+            // 双周提醒，0：单周提醒，1：双周提醒
+            doubleWeekRemind: 0,
+            // 本周提醒：0：下周提醒，1：本周提醒
+            remindThisWeek: 0,
         },
         submitDate: [
             { key: '1', value: this.$t('date.mon') },
@@ -248,14 +251,29 @@ export default {
         endPickerDefault: {},
         startPickerSecondColDefault: {},
 	      endPickerSecondColDefault: {},
-        remindTimeArr: []
+        remindTimeArr: [],
+        isRemindThisWeek: false,
+        isAdvanceRemindStaff: true,
       }
     },
     methods: {
-      remindTypeChange() {
-        if(!this.formData.remindType) {
-          this.formData.remindTime = 0;
+      remindThisWeekChange() {
+        if(this.isRemindThisWeek) {
+          this.formData.remindThisWeek = 1;
+          return;
         }
+        this.formData.remindThisWeek = 0;
+      },
+      remindTypeChange() {
+        let formData = this.formData.remindTime;
+        if(!this.isAdvanceRemindStaff) {
+          formData.remindTime = 0;
+          formData.remindType = 0;
+          return;
+        }
+        formData.remindType = 1;
+        //默认提前1小时提醒
+        formData.remindTime = 1;
       },
       close () {
         this.$emit('changeShow')
@@ -336,8 +354,8 @@ export default {
             break;
           }
           formData.remindTime = currentItemDetailMsg.remindTime;
-          if(!formData.remindType) {
-            formData.remindTime = 0;
+          if(!formData.remindTime) {
+            formData.remindType = false;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
             this.columnsNum = 1;
@@ -381,6 +399,7 @@ export default {
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
           param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用  周和双周不传该字段
           param.submitDate = 0;
           // 
           param.doubleWeekRemind = 0;
@@ -773,10 +792,11 @@ export default {
       handleSubmitPeriodic(per) {
         per = +per;
         if(per == 3) {
-          this.formData.doubleWeekRemind = true;
+          this.formData.doubleWeekRemind = 1;
         }else {
-          this.formData.doubleWeekRemind = false;
-          this.formData.remindThisWeek = false;
+          this.formData.doubleWeekRemind = 0;
+          this.formData.remindThisWeek = 0;
+          this.isRemindThisWeek = false;
         }
         this.formData.remindTime = 0;
         // 根据不同的提价周期进行数据初始化
