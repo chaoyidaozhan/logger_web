@@ -71,7 +71,7 @@
 		"@babel/polyfill": "^7.0.0",
 		"axios": "^0.19.2",
 		"es6-promise": "^4.2.4",
-		"iview": "^3.5.4",
+		"iview": "^2.8.0",
 		"perfect-scrollbar": "^0.7.1",
 		"sortablejs": "^1.7.0",
 		"url-search-params": "^1.1.0",
