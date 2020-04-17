@@ -45,7 +45,7 @@
                 v-if="type == 'dept' || type == 'group'"/>
             <fs-member-statistics 
                 :params="params"
-                type="member"
+                :type="type"
                 :title="title"
                 :minDate="minDate"
                 :maxDate="maxDate"

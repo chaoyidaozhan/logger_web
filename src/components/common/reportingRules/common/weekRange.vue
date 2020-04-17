@@ -52,11 +52,11 @@ export default {
     },
     computed: {
         beginDate() {
-            return this.getDate(this.nowYear, this.nowWeek, 1);
+            return this.getDate(this.nowYear, this.nowWeek - 1, 1);
         },  
         endDate() {
             let count = this.doubleWeekRemind ? 2 : 1
-            return this.getDate(this.nowYear, this.nowWeek + count, 2);
+            return this.getDate(this.nowYear, this.nowWeek + count - 1, 2);
         },  
     },
 	methods: {
@@ -68,12 +68,12 @@ export default {
                 w = Math.ceil((t + ((dateStart.getDay() + 1) - 1)) / 7 ); 
             return w;
         },
-        getDate(year,weeks,endday){   
+        getDate(year,weeks,endday){
             var date = new Date(year,"0","1");   
             var time = date.getTime();   
             let oneWeek = this.doubleWeekRemind ? 1 : 0
             time += (weeks-oneWeek) * 7 * 24 * 3600000 - (3600000 * 24 * endday) - 24 * 3600000;   
-            date.setTime(time);   
+            date.setTime(time);
             return formatTime(date, "YYYY-MM-DD")
         },
         setNowDate() { // 初始化调用

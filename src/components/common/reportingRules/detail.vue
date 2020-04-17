@@ -18,6 +18,8 @@
         <weekRange 
           v-if="detailMsgCopy.currentItemDetailMsg.submitPeriodic == 1" 
           class="dateRangeCommon" 
+          :doubleWeekRemind="doubleWeekRemind"
+          :remindThisWeek="remindThisWeek"
           @handleChangeDate="handleChangeDate">
         </weekRange>
         <monthRange 
@@ -58,7 +60,9 @@ export default {
           tip_data,
           detailMsgCopy: {},
           dateRange: {},
-          isNarrowWidth: true
+          isNarrowWidth: true,
+doubleWeekRemind: false,
+remindThisWeek: false
         }
     },
     methods: {

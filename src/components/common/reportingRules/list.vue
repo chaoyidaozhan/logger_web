@@ -7,6 +7,7 @@
             <div class="title">{{$t('operate.reportRules')}}</div>
             <div class="mb-flex-1">
               <YYButton
+                v-if="userInfo.diary_manager || userInfo.admin || userInfo.groupManager || userInfo.deptManager"
                 type="ghost" 
                 @click="setRules()">
                 {{$t('operate.setReportRules')}}
@@ -52,7 +53,8 @@ export default {
     data() {
         return {
           listArr: [],
-          tip_data
+          tip_data,
+          userInfo: this.$store.state.userInfo
         }
     },
     methods: {
