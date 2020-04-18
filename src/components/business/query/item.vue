@@ -896,6 +896,7 @@ export default {
       event.currentTarget.style.background = "#F6F6F6";
       event.currentTarget.style.color = "#333333";
       event.currentTarget.style.fontWeight = "550";
+      event.currentTarget.style.borderRadius = "0px 16px 16px 0px";
       event.currentTarget.style.marginRight = rightWidth + "px";
 
       if (!this.contentExpand) {
