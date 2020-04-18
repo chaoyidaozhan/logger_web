@@ -51,7 +51,7 @@
             </FormItem>
            
             <FormItem>
-                <YYButton type="primary" class="submit-btn" @click="handleSubmit" :loading="btnloading">
+                <YYButton type="primary" class="submit-btn" @click="handleSubmit">
                     {{$t('operate.submit')}}
                 </YYButton>
                 <YYButton type="default" class="cancel-btn" @click="cancleSubmit">
