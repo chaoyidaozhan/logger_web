@@ -3,7 +3,7 @@
     <img class="personPhoto" :src="memberMsg.avatar">
     <div class="name mb-flex-1">{{memberMsg.userName}}</div>
     <div class="personalCheckbox" v-if="isCheckboxShow">
-      <YYCheckbox class="isSelected" v-model="memberMsg.isSelected"/>
+      <YYCheckbox class="isSelected" v-model="memberMsg.isSelected" @on-change="check"/>
     </div>
   </div>
 </template>
@@ -25,6 +25,11 @@ export default {
   data () {
     return {
       isGray: true
+    }
+  },
+  methods: {
+    check(memberMsg) {
+      this.$emit('itemCheck')
     }
   }
 }

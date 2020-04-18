@@ -13,21 +13,21 @@
       <!-- 已提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0">
         <div class="mb-flex mb-flex-wrap ">
-          <PersonItem :memberMsg="item" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
+          <PersonItem :memberMsg="item" @itemCheck="itemCheck(item)" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
           <YYEmpty v-if="!diarySubumitList.submitNormal.length" vertical="middle" text="暂无数据"/>
         </div>
       </div>
       <!-- 未提交 -->
       <div class="subCtn" v-if="isRender" v-show="tabIndex == 1">
         <div class="mb-flex mb-flex-wrap">
-          <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
+          <PersonItem :memberMsg="item" @itemCheck="itemCheck(item)" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
           <YYEmpty v-if="!diarySubumitList.unSubmit.length" vertical="middle" text="暂无数据"/>
         </div>
       </div>
       <!-- 延期提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-if="isRender" v-show="tabIndex == 2">
         <div class="mb-flex mb-flex-wrap">
-          <PersonItem :memberMsg="item" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
+          <PersonItem :memberMsg="item" @itemCheck="itemCheck(item)" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
           <YYEmpty v-if="!diarySubumitList.submitPostpone.length" vertical="middle" text="暂无数据"/>
         </div>
       </div>
@@ -96,6 +96,38 @@ export default {
     PersonItem
   },
   methods: {
+    itemCheck(item) {
+      let selectedLen = 0;
+      let diarySubumitList = this.diarySubumitList;
+      let unSubmit = diarySubumitList.unSubmit;
+      let submitPostpone = diarySubumitList.submitPostpone;
+      switch(this.tabIndex) {
+        // case 0:
+        // break;
+        case 1:
+          unSubmit.forEach((item, index) => {
+            item.isSelected && (++selectedLen);
+          });
+          if(unSubmit.length == selectedLen) {
+            this.tabHeader[this.tabIndex].isAllSelected = true;
+            this.isAllSelected = true;
+          }
+        break;
+        case 2:
+          submitPostpone.forEach((item, index) => {
+            item.isSelected && (++selectedLen);
+          });
+          if(submitPostpone.length == selectedLen) {
+            this.tabHeader[this.tabIndex].isAllSelected = true;
+            this.isAllSelected = true;
+          }
+        break;
+      }
+      if(selectedLen === 0) {
+        this.tabHeader[this.tabIndex].isAllSelected = false;
+        this.isAllSelected = false;
+      }
+    },
     allSelect(isAllSelected) {
       let diarySubumitList = this.diarySubumitList;
       switch(this.tabIndex) {
@@ -143,6 +175,10 @@ export default {
             }
           });
         break;
+      }
+      if(!memberIds.length) {
+        this.$YYMessage.warning('请先选择人员');
+        return;
       }
       this.$YYModal.show({
           title: ``,
