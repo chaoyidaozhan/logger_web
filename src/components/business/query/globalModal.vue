@@ -462,7 +462,7 @@ export default {
     let _this = this;
 
     this.$eventbus.$on("openglobal", () => {
-      // _this.showGlobalModal = true;
+      _this.showGlobalModal = true;
       _this.openFullscreen(document.getElementById('globalModal'));
     });
     this.$eventbus.$on("translist", (list, pageNo, pageSize) => {
