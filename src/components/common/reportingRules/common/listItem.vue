@@ -49,15 +49,15 @@ export default {
     },
     methods: {
       toSomeoneReportList(item) {
-        // this.$router.push({
-        //   path: '/LoggerQueryAll',
-        //   query: {
-        //     token: this.$store.state.userInfo.token
-        //   }
-        // });
-        // setTimeout(() => {
-        //   this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', item);
-        // }, 1000);
+        this.$router.push({
+          path: '/LoggerQueryAll',
+          query: {
+            token: this.$store.state.userInfo.token
+          }
+        });
+        setTimeout(() => {
+          this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', item);
+        }, 1000);
       },
       delRule() {
         this.$YYModal.show({
