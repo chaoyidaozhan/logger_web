@@ -20,7 +20,7 @@
     <div class="photoInfor mb-flex mb-flex-align-center" v-if="currentItemDetailMsg.unSubmit.length">
       <div class="mb-flex">
         <template v-for="(item, index) in currentItemDetailMsg.unSubmit">
-          <img class="personPhoto" v-if="index < 3" :src="item.avatar">
+          <img @click.stop="toSomeoneReportList(item)" class="personPhoto" v-if="index < 3" :src="item.avatar"/>
         </template>
       </div>
       <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', currentItemDetailMsg.unSubmitCount || '')}}</div>
@@ -47,6 +47,17 @@ export default {
       }
   },
   methods: {
+    toSomeoneReportList(item) {
+      this.$router.push({
+        path: '/LoggerQueryAll',
+        query: {
+          token: this.$store.state.userInfo.token
+        }
+      });
+      setTimeout(() => {
+        this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', Object.assign({}, item));
+      });
+    },
     handleClick () {
       this.$emit('edit')
     }
@@ -97,6 +108,7 @@ export default {
         border-radius: 50%;
         box-sizing: border-box;
         border: 1px solid white;
+        cursor: pointer;
       }
       .personPhoto:first-of-type {
         margin-left: 0;
