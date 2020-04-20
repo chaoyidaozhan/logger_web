@@ -60,7 +60,7 @@
         <ColorPane v-if="isCanval" :color="defaultColor"></ColorPane>
 
         <div class="exit" :class="{active:isExit}" @click="exit()">
-          <i>退出</i>
+          <i>{{$t('menus.exit')}}</i>
           <!-- <YYIcon type="touping"></YYIcon> -->
         </div>
       </div>

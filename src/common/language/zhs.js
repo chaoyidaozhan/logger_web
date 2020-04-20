@@ -19,7 +19,8 @@ module.exports = {
         statistics: '汇报报表',
         templateManagement: '模版管理',
         deploy: '配置',
-        groupTemplateManagement: '模板定制化'
+        groupTemplateManagement: '模板定制化',
+        exit: '退出'
     },
     operate: { // 操作
         back: '返回',
