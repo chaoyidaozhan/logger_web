@@ -615,7 +615,6 @@ export default {
         this.$eventbus.$on('opencanvas', (isCanval, defaultColor) => {
             console.log('openCanvas')
             const canvas = _this.$el.querySelector('#draw');
-            // const globalModal = document.querySelector('#globalModal');
             const ctx = canvas.getContext('2d');
 
             let isDrawing = false;
@@ -633,11 +632,9 @@ export default {
            function mousedownCanval(e){
                 isDrawing = true;
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
-                // _this.$eventbus.$emit('changeDrawing', true)
                 sessionStorage.setItem('isDrawing', isDrawing)
             }
             function draw(e) {
-                // this.$eventbus.$emit('drawFixed')
                 isDrawing = sessionStorage.getItem('isDrawing')
                 if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
                 ctx.beginPath();
@@ -760,17 +757,6 @@ export default {
             this.setRangeHeight()        
         })
 
-        //通过js改变leftMenu样式
-        // let leftMenus = document.querySelectorAll('.leftMenu')
-        // let loggerList = document.querySelector('.logger-list-item')
-        // let loggerContent = document.querySelector('.logger-content-item')
-        // let loggerOperates = document.querySelectorAll('.logger-list-vertical-operate')
-        // leftMenus.forEach((leftMenu) => {
-        //     leftMenu.style.width = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 + 'px'
-        // })
-        // loggerOperates.forEach((loggerOperate)=>{
-        //     loggerOperate.style.right = (loggerContent.offsetWidth - loggerList.offsetWidth)/2 - 56 + 'px'
-        // })
     },
     destroyed(){
         this.$eventbus.$off('opencanvas')
@@ -784,20 +770,12 @@ export default {
 .logger-item-modal{
     position: relative;
     margin: auto;
-    // padding: 5% 5% 0 5%;
-    // padding: 60px;
-    // transform: scale(.7);
     .logger-content-item{
         position: relative;
         display: inline-block;
         width: 100%;
         .logger-list-item {
-            // margin-left: 188px;
-            // margin:0 auto;
-            // max-width: 1024px;
             min-width: 768px;
-            // margin: auto;
-            // float: left;
             padding: 32px 32px 0;
             position: relative;
             background-color: @white-color;
@@ -882,8 +860,6 @@ export default {
             .logger-list-user {
                 line-height: 24px;
                 .template-name {
-                    // border: 1px solid @primary-color;
-                    // color: @primary-color;
                     background:rgba(245,245,245,1);
                     border-radius:5px;
                     font-weight:400;
@@ -1003,14 +979,6 @@ export default {
             .handle-content-expand-btn {
                 color: @primary-color;
                 position: relative;
-                // &:after {
-                //     content: '';
-                //     height: 10px;
-                //     width: 100%;
-                //     position: absolute;
-                //     top: -10px;
-                //     background: -webkit-linear-gradient(bottom, #ffffff 0, rgba(255, 255, 255, 0.4) 20%, rgba(255, 255, 255, 0) 100%);
-                // }
             }
             .logger-open-close{
                 display: inline-block;
@@ -1128,16 +1096,6 @@ export default {
                 display: none;
             }
         }
-    }
-    .canvaldialog{
-    //     width: 100%;
-    //     height: 100%;
-        // display: block;
-        // position: absolute;
-        // top:0;
-        // bottom:0;
-        // // left: 0;
-        // right: 0;
     }
 }
 </style>
