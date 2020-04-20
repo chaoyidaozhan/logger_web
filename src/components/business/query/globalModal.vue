@@ -457,8 +457,10 @@ export default {
   updated() {
     if (this.offsetId !== "") {
       let pageLoggerList = this.$el.querySelector('.page-logger-list');
-      let firstOffset = this.$el.querySelector(`div[id='${this.offsetId}']`).offsetTop;
-      pageLoggerList.scrollTop = firstOffset * this.times;
+      let firstOffset = this.$el.querySelector(`div[id='${this.offsetId}']`) && this.$el.querySelector(`div[id='${this.offsetId}']`).offsetTop;
+      if(!!firstOffset){
+        pageLoggerList.scrollTop = firstOffset * this.times;
+      }
       this.offsetId = ""
     }
   },
