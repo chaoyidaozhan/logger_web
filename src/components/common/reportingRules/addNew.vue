@@ -17,7 +17,7 @@
             <div class="subctn">
               <fs-select-template
                 v-if="isAllTemplateShow"
-                :hasDefaultTemplate="true"
+                :hasDefaultTemplate="formData.templateId ? true : false"
                 templateType="web"
                 :templateIdDefault="formData.templateId"
                 @handleChange="handleQuery"
@@ -386,9 +386,6 @@ export default {
             this.handleSubmitStartTime(1);
             this.handleSubmitEndTime(1);
           }
-          this.$store.dispatch('update_template_web').then(()=>{
-            this.isAllTemplateShow = true;
-          });
           this.formData = {
             ...this.formData,
             ...formData
@@ -421,7 +418,7 @@ export default {
           param.submitStartWeek = param.submitStartWeek.join(',');
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
-          param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          param.submitEndTime = this.endPickerDefault.name + ':00';
           // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用  周和双周不传该字段
           param.submitDate = 0;
           // 
@@ -883,7 +880,10 @@ export default {
       },
     },
     created() {
-      this.getRule();
+      this.$store.dispatch('update_template_web').then(()=>{
+        this.getRule();
+        this.isAllTemplateShow = true;
+      });
     },
     mounted () {
     },
