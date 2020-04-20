@@ -646,9 +646,9 @@ export default {
                 ctx.lineTo(e.offsetX/times, e.offsetY/times);
                 ctx.stroke();
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
-                if(!!window.getSelection().toString()){
-                    window.getSelection().removeAllRanges()
-                }
+                // if(!!window.getSelection().toString()){
+                //     window.getSelection().removeAllRanges()
+                // }
             }
 
             function mouseupCanval(e){
@@ -671,9 +671,9 @@ export default {
                 ctx.lineTo(e.offsetX/times, e.offsetY/times);
                 ctx.stroke();
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
-                if(!!window.getSelection().toString()){
-                    window.getSelection().removeAllRanges()
-                }
+                // if(!!window.getSelection().toString()){
+                //     window.getSelection().removeAllRanges()
+                // }
                 lastX = e.offsetX/times
                 lastY = e.offsetY/times
             }
@@ -692,9 +692,9 @@ export default {
                 ctx.lineTo(e.offsetX/times, e.offsetY/times);
                 ctx.stroke();
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
-                if(!!window.getSelection().toString()){
-                    window.getSelection().removeAllRanges()
-                }
+                // if(!!window.getSelection().toString()){
+                //     window.getSelection().removeAllRanges()
+                // }
             }
 
             if(!isCanval){
