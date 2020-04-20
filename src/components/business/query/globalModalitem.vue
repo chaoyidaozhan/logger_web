@@ -613,8 +613,10 @@ export default {
         let _this = this
         
         this.$eventbus.$on('opencanvas', (isCanval, defaultColor) => {
+
             console.log('openCanvas')
             const canvas = _this.$el.querySelector('#draw');
+
             const ctx = canvas.getContext('2d');
 
             let isDrawing = false;
@@ -637,6 +639,9 @@ export default {
             }
             function draw(e) {
                 isDrawing = sessionStorage.getItem('isDrawing')
+                // if(!!window.getSelection().toString()){
+                //     window.getSelection().removeAllRanges()
+                // }
                 if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
                 ctx.beginPath();
                 // start from
@@ -657,6 +662,9 @@ export default {
             }
 
             function mouseenterCanval(e){
+                // if(!!window.getSelection().toString()){
+                //     window.getSelection().removeAllRanges()
+                // }
                 isDrawing = sessionStorage.getItem('isDrawing')
                 if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
                 ctx.beginPath();
@@ -731,6 +739,8 @@ export default {
                 let nodrawing = document.querySelector('.nodrawing')
                 nodrawing.style.borderRadius = '3px 3px 0px 0px'
                 this.isCanval = true
+                let loggerModelItem = _this.$el
+                loggerModelItem.style.userSelect = 'none'
             }else{
                 canvas.removeEventListener('mousedown', this.mousedownCanval, false);
                 canvas.removeEventListener('mousemove', this.draw, false);
@@ -744,6 +754,9 @@ export default {
                 nodrawing.style.borderRadius = '3px'
 
                 this.isCanval = false
+
+                let loggerModelItem = _this.$el
+                loggerModelItem.style.userSelect = 'auto'
             }
         })
 

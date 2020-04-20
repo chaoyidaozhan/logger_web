@@ -467,7 +467,7 @@ export default {
     let loggerItemModals = document.querySelector(".spanModal");
     if(this.isFireFox === 1){
         loggerItemModals.style.transform = `scale(${this.times})`;
-        loggerItemModals.style.transformOrigin = `top`;
+        loggerItemModals.style.transformOrigin = `0 0`;
     }
     // document.addEventListener('click', (e) => {
     //     this.openFullscreen(document.body)
