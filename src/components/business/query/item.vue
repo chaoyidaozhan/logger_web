@@ -1,22 +1,7 @@
 <template>
-  <div class="logger-item" :id="loggerItemData.id" @mouseenter="setLocation()">
-    <!-- @mouseleave="closeMenu()" -->
+  <div class="logger-item" :id="loggerItemData.id + '' + index" @mouseenter="setLocation(index)">
     <div class="logger-content-item" @mouseleave="closeMenu()">
-      <!-- @mouseleave="closeMenu()"> isShowMenu&& !isInternalGroupReport-->
       <div class="leftMenu">
-        <!-- <div class="leftMenuBox" v-show="isShowMenu && !isInternalGroupReport">
-                    <div class="left-header" @click="back2Logger()">
-                        {{loggerItemData.userName}}的工作汇报
-                        <div class="left-close">
-                        </div>
-                    </div>
-                    <div class="left-line"></div>
-                    <div class="left-content">
-                        <div class="left-item" v-for="(item, index) in menus" :key="index" @click="back2Title(item)">
-                            {{item.title}}
-                        </div>
-                    </div>
-        </div>-->
       </div>
       <div class="logger-list-item" ref="loggerListItem" @mouseenter="showMenu()">
         <!-- @mouseenter="showMenu()"> -->
@@ -840,8 +825,8 @@ export default {
         this.loggerItemData.commentNum -= 1;
       }
     },
-    setLocation() {
-      this.$eventbus.$emit("transid", this.loggerItemData.id);
+    setLocation(index) {
+      this.$eventbus.$emit("transid", this.loggerItemData.id + '' + index);
     },
     showMenu() {
       //显示左右两边菜单

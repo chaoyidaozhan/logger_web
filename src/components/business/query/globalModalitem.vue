@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-item-modal" :id="loggerItemData.id">
+    <div class="logger-item-modal" :id="loggerItemData.id + '' + index">
         <div class="logger-content-item"  @mouseleave="closeMenu()">
             <div class="logger-list-item logger-list-item-modal" ref="loggerListItem" @mouseenter="showMenu()">
                 <!--当前人信息-->
