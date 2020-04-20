@@ -4,6 +4,7 @@
       <div class="title">{{currentItemDetailMsg.templateName}}</div>
       <div>
         <YYButton
+          v-if="currentMemberId == currentItemDetailMsg.memberId"
           type="ghost" 
           size="small" 
           @click="handleClick()">
@@ -41,7 +42,8 @@ export default {
   },
   data() {
       return {
-        currentItemDetailMsg: {}
+        currentItemDetailMsg: {},
+        currentMemberId: this.$store.state.userInfo.member_id
       }
   },
   methods: {
