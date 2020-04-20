@@ -55,8 +55,10 @@ export default {
             }
             if (!!this.validateString && 
                 !(!!params[this.validateString] || params[this.validateString] == 0)) {
+                this.params = params
                 return this.$Message.warning(this.validateMsg[this.validateString])
             }
+            console.log(2)
             this.minDate = params.minDate || ''
             this.maxDate = params.maxDate || ''
             delete params.minDate
