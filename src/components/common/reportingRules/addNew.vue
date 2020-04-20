@@ -386,9 +386,6 @@ export default {
             this.handleSubmitStartTime(1);
             this.handleSubmitEndTime(1);
           }
-          this.$store.dispatch('update_template_web').then(()=>{
-            this.isAllTemplateShow = true;
-          });
           this.formData = {
             ...this.formData,
             ...formData
@@ -883,7 +880,10 @@ export default {
       },
     },
     created() {
-      this.getRule();
+      this.$store.dispatch('update_template_web').then(()=>{
+        this.getRule();
+        this.isAllTemplateShow = true;
+      });
     },
     mounted () {
     },
