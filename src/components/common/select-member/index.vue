@@ -76,7 +76,7 @@ export default {
                 label: item.userName,
                 value: item.memberId
             }
-        })
+        });
         return {
             members: [],
             searchResult: []
