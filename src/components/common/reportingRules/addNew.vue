@@ -943,6 +943,9 @@ export default {
         .subctn {
           margin-left: 10px;
           width: 340px;
+          /deep/ .yy-select {
+            display: block;
+          }
         }
         &::after {
           content: '';

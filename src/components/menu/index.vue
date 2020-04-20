@@ -273,7 +273,7 @@ export default {
         .ivu-menu-submenu-title {
             height: 44px;
             padding: 12px 16px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 20px;
             color: #333;
             border-right: 0 !important;
@@ -290,8 +290,8 @@ export default {
                 font-size: 16px;
                 margin-right: 4px;
                 vertical-align: middle;
-                width: 18px;
-                height: 18px;
+                width: 16px;
+                height: 16px;
                 display: inline-block;
                 color: @gray-color-light;
             }

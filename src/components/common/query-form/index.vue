@@ -356,6 +356,7 @@ export default {
           this.isGroupShow = true;
           this.orderTypeMulti = "group";
         }
+        this.handleQuery();
       });
     },
     trimIds(params) {
