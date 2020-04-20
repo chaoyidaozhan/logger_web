@@ -56,7 +56,7 @@ export default {
                 6:this.$t('date.sat'),
                 7:this.$t('date.sun'),
             };
-            timeText = `${this.data.submitStartWeek && weekMap[this.data.submitStartWeek] || ""}${this.data.submitStartTime && this.data.submitStartTime.substring(0,5)}-${this.data.submitStartWeek>this.data.submitEndWeek?`${this.$t('date.next')} `:''}${this.data.submitEndWeek && weekMap[this.data.submitEndWeek] || ""}${this.data.submitEndTime && this.data.submitEndTime.substring(0,5)}`;                
+            timeText = `${this.data.submitStartWeek && weekMap[this.data.submitStartWeek] || ""}${this.data.submitStartTime && this.data.submitStartTime.substring(0,5)}-${this.data.submitStartWeek>this.data.submitEndWeek?`${this.$t('date.next')} `:''}${this.data.submitEndWeek && weekMap[+this.data.submitEndWeek] || ""}${this.data.submitEndTime && this.data.submitEndTime.substring(0,5)}`;
         } else if(submitPeriodic == 2) {
             timeText = `${this.$t('date.lastDayOfTheMonth')}${this.data.submitStartTime && this.data.submitStartTime.substring(0,5)}-${this.data.submitEndTime && this.data.submitEndTime.substring(0,5)}`;
         }
