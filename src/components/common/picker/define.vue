@@ -1,9 +1,12 @@
 <template>
+<div class="statisticsOfDeptMemberTimePicker">
+	<div class="qzidNameAndCount">{{originData.spaceName && (originData.spaceName + '  ' + originData.memberCount + '人共' + originData.diaryCount + '篇')}}</div>
 	<div class="picker">
 		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delDate"></div>
         <div class="date-range">{{beginDate}} - {{endDate}}</div>
 		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addDate"></div>
 	</div>
+</div>
 </template>
 <script>
 import formatTime from 'app_src/filters/format-time'

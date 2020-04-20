@@ -1,12 +1,23 @@
 <template>
+<div class="statisticsOfDeptMemberTimePicker">
+	<div class="qzidNameAndCount">{{originData.spaceName && (originData.spaceName + '  ' + originData.memberCount + '人共' + originData.diaryCount + '篇')}}</div>
 	<div class="picker">
 		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delYear"></div>
 		<div>{{nowYear}}</div>
 		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addYear"></div>
 	</div>
+</div>
 </template>
 <script>
 export default {
+	props: {
+		originData: {
+			type: Object,
+			default: function() {
+				return {};
+			}
+		}
+	},
 	data() {
 		return {
 			nowYear: '',
