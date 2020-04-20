@@ -427,12 +427,12 @@ export default {
       }, 100);
     },
     back2top() {
-      this.$el.scrollTop = 0;
+      this.$el.querySelector('.page-logger-list').scrollTop = 0;
     }
   },
   updated() {
     if (this.offsetId !== "") {
-      let pageLoggerList = this.$el;
+      let pageLoggerList = this.$el.querySelector('.page-logger-list');
       let firstOffset = this.$el.querySelector(`div[id='${this.offsetId}']`).offsetTop;
       pageLoggerList.scrollTop = firstOffset * this.times;
       this.offsetId = ""
