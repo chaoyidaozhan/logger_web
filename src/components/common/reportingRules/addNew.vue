@@ -17,7 +17,7 @@
             <div class="subctn">
               <fs-select-template
                 v-if="isAllTemplateShow"
-                :hasDefaultTemplate="true"
+                :hasDefaultTemplate="formData.templateId ? true : false"
                 templateType="web"
                 :templateIdDefault="formData.templateId"
                 @handleChange="handleQuery"
