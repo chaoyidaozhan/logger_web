@@ -9,6 +9,7 @@
                 :showOrderType="true"
                 :showOrderTypeMulti="type"
                 :showExportExcel="true"
+                :showCreatReport="false"
                 deptApiUri="/team/v2/getAuthDepts"
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
@@ -22,6 +23,7 @@
                 :showExportExcel="true"
                 :showGroupExcelBtn="true"
                 :showDeptExcelBtn="false"
+                :showCreatReport="false"
                 groupApiUri="/group/authMe"
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
@@ -34,6 +36,7 @@
                 :showExportExcel="true"
                 :showGroupExcelBtn="false"
                 :showDeptExcelBtn="false"
+                :showCreatReport="false"
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
         </template>
