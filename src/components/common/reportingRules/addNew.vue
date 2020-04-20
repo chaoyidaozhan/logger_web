@@ -819,7 +819,7 @@ export default {
           this.formData.remindThisWeek = 0;
           this.isRemindThisWeek = false;
         }
-        this.formData.remindTime = 0;
+        this.formData.remindTime = 1;
         // 根据不同的提价周期进行数据初始化
         switch (per) {
             case 0:
