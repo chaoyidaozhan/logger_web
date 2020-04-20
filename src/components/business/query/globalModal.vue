@@ -439,7 +439,19 @@ export default {
       }, 100);
     },
     back2top() {
-      this.$el.querySelector('.page-logger-list').scrollTop = 0;
+      let _this = this
+      let scrollToptimer = setInterval(function () {
+        // console.log("定时循环回到顶部")
+        var top = _this.$el.querySelector('.page-logger-list').scrollTop;
+        var speed = top / 4;
+        if (_this.$el.querySelector('.page-logger-list').scrollTop!=0) {
+            _this.$el.querySelector('.page-logger-list').scrollTop -= speed;
+        }
+        if (top == 0) {
+            clearInterval(scrollToptimer);
+        }
+    }, 30); 
+      // this.$el.querySelector('.page-logger-list').scrollTop = 0;
     }
   },
   updated() {
