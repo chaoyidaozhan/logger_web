@@ -563,11 +563,17 @@ export default {
     this.$eventbus.$on("transid", id => {
       this.offsetId = id;
     });
+    this.$eventbus.$on('reportingRules/common/listItem--someoneReportList', (data) => {
+      this.member = [data];
+      this.orderTypeMulti = 'member';
+      this.handleQuery();
+    });
   },
   destroyed() {
     this.$eventbus.$off("setBtnLoading");
     this.$eventbus.$off("translist");
     this.$eventbus.$off("transid");
+    this.$eventbus.$off("reportingRules/common/listItem--someoneReportList");
   }
 };
 </script>

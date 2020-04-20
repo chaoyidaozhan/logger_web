@@ -56,8 +56,8 @@ export default {
           }
         });
         setTimeout(() => {
-          this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', item);
-        }, 1000);
+          this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', Object.assign({}, item));
+        });
       },
       delRule() {
         this.$YYModal.show({
