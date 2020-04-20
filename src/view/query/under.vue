@@ -4,6 +4,7 @@
             <fs-query-form 
                 :showTemplate="true"
                 :showDatePicker="showDatePicker"
+                :showCreateMenu="true"
                 :showDept="true"
                 :showOtherDept="true"
                 deptApiUri="/team/getDeptsWithPart"
