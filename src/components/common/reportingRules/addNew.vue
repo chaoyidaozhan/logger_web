@@ -16,6 +16,7 @@
             </div>
             <div class="subctn">
               <fs-select-template
+                v-if="isAllTemplateShow"
                 :hasDefaultTemplate="true"
                 templateType="web"
                 :templateIdDefault="formData.templateId"
@@ -209,7 +210,7 @@ export default {
           columnsNum: 1,
           // 
           formData: {
-            templateId: '',
+            templateId: 0,
             diarySubmitPeopleStr: [],
             submitPeriodic: 0,
             submitStartWeek: ['1', '2', '3', '4', '5', '6', '7'],
@@ -253,7 +254,8 @@ export default {
 	      endPickerSecondColDefault: {},
         remindTimeArr: [],
         isRemindThisWeek: false,
-        isAdvanceRemindStaff: true
+        isAdvanceRemindStaff: true,
+        isAllTemplateShow: false
       }
     },
     methods: {
@@ -384,6 +386,9 @@ export default {
             this.handleSubmitStartTime(1);
             this.handleSubmitEndTime(1);
           }
+          this.$store.dispatch('update_template_web').then(()=>{
+            this.isAllTemplateShow = true;
+          });
           this.formData = {
             ...this.formData,
             ...formData
