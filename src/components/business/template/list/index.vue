@@ -16,15 +16,15 @@
             </div>
         </template>
         <template v-else>
-            <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
+            <!-- <div class="commonTemplate">{{$t('operate.commonTemplate')}}</div>
             <div class="commonTemplateList">
                 <transition-group :name="animate" class="commonTemplateListGrid">
                     <div class="col" v-for="item in recentlyTemplates" :key="item.id">
                         <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
                     </div>
                 </transition-group>
-            </div>
-            <div class="allTemplate">{{$t('operate.allTemplate')}}</div>
+            </div> -->
+            <!-- <div class="allTemplate">{{$t('operate.allTemplate')}}</div> -->
             <transition-group :name="animate" class="allTemplateList">
                 <div class="col" v-for="item in list" :key="item.id">
                     <fs-template-item @successCreateCopyTemplate="successCreateCopyTemplate" @setTempListData="setTempListData" :showEdit="showEdit" :data="item" @deleteData="deleteData"/>
