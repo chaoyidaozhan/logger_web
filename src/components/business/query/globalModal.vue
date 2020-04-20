@@ -158,7 +158,8 @@ export default {
       isDrawing: false,
       times: 1.5, //倍数
       showBack2Top: false,
-      showGlobalModal: false
+      showGlobalModal: false,
+      isFireFox: 0 //判断是否是火狐浏览器
     };
   },
   components: {
@@ -388,13 +389,17 @@ export default {
         return;
       }
       if (!!loggerItemModals.style.zoom) {
-        loggerItemModals.style.zoom =
-          parseFloat(loggerItemModals.style.zoom) + 0.1;
+        loggerItemModals.style.zoom = parseFloat(loggerItemModals.style.zoom) + 0.1;
       } else {
         loggerItemModals.style.zoom = parseFloat(this.times) + 0.1;
       }
       this.times = loggerItemModals.style.zoom;
-      sessionStorage.setItem('newTimes', this.times)
+      if(this.isFireFox === 1){
+        sessionStorage.setItem('newTimes', 1)
+        loggerItemModals.style.transform = `scale(${this.times})`;
+      }else{
+        sessionStorage.setItem('newTimes', this.times)
+      }
       // this.$eventbus.$emit("closeCanvas");
     },
     fontReduce() {
@@ -413,7 +418,12 @@ export default {
         loggerItemModals.style.zoom = parseFloat(this.times) - 0.1;
       }
       this.times = loggerItemModals.style.zoom;
-      sessionStorage.setItem('newTimes', this.times)
+      if(this.isFireFox === 1){
+        sessionStorage.setItem('newTimes', 1)
+        loggerItemModals.style.transform = `scale(${this.times})`;
+      }else{
+        sessionStorage.setItem('newTimes', this.times)
+      }
       // this.$eventbus.$emit("closeCanvas");
     },
     exit() {
@@ -442,6 +452,11 @@ export default {
   },
   mounted() {
     this.queryMemberId = this.$store.state.userInfo.member_id;
+    let loggerItemModals = document.querySelector(".spanModal");
+    if(this.isFireFox === 1){
+        loggerItemModals.style.transform = `scale(${this.times})`;
+        loggerItemModals.style.transformOrigin = `top`;
+    }
     // document.addEventListener('click', (e) => {
     //     this.openFullscreen(document.body)
     // }, false)
@@ -497,7 +512,17 @@ export default {
 
     this.loading = true;
     this.initList();
-    sessionStorage.setItem('newTimes', this.times);
+    
+    
+    // 支持火狐浏览器
+    if(navigator.userAgent.indexOf("Firefox") !== -1){
+      this.isFireFox = 1;
+    }
+    if(this.isFireFox === 1){
+      sessionStorage.setItem('newTimes', 1)
+    }else{
+      sessionStorage.setItem('newTimes', this.times)
+    }
     // let getMessage = function(e) {
     //   const data = e.data || {};
     //   // 解析data就行
