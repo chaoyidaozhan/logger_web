@@ -46,14 +46,27 @@
         <p slot="footer"></p>
       </Modal>
     </div>
-    <!-- <GlobalModal></GlobalModal> -->
+    <GlobalModal 
+    :url="url"
+    :showDatePicker="showDatePicker"
+    :params="params"
+    :dataStatus="dataStatus"
+    :range="range"
+    :isCollect="isCollect"
+    :isLowerLevel="isLowerLevel"
+    :isDraft="isDraft"
+    :isUnread="isUnread"
+    :withPublic="withPublic"
+    :initCreateDate="initCreateDate"
+    >
+    </GlobalModal>
   </div>
 </template>
 <script>
 import FsLoggerListItem from "./item";
 import FormatTime from "app_src/filters/format-time";
 import FsAvatar from "app_component/common/avatar";
-// import GlobalModal from './globalModal'
+import GlobalModal from './globalModal'
 
 /**
     range 
@@ -133,8 +146,8 @@ export default {
   },
   components: {
     FsLoggerListItem,
-    FsAvatar
-    // GlobalModal
+    FsAvatar,
+    GlobalModal
   },
   watch: {
     pageNo: "loadData",

@@ -2,16 +2,15 @@
     <div :class="{'no-padding-logger-container': ($router.currentRoute.path == '/GroupTemplate'), 'logger-container': true}">
         <fs-sign-menu ref="menu" v-if="hasGetUserInfo && $router.currentRoute.path != '/GroupTemplate'"/>
         <router-view v-if="hasGetUserInfo"/>
-        <global-modal></global-modal>
     </div>
 </template>
 <script>
     import FsSignMenu from 'app_component/menu'
-    import globalModal from 'app_component/business/query/globalModal'
+    // import globalModal from 'app_component/business/query/globalModal'
     export default {
         components: {
             FsSignMenu,
-            globalModal
+            // globalModal
         },
         data() {
             return {

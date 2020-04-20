@@ -555,14 +555,14 @@ export default {
     this.$eventbus.$on("getStartEndTime", data => {
       this.startEndData = data;
     });
-    this.$eventbus.$on("translist", (list, pageNo, pageSize) => {
-      this.list = list;
-      this.pageNo = pageNo;
-      this.pageSize = pageSize;
-    });
-    this.$eventbus.$on("transid", id => {
-      this.offsetId = id;
-    });
+    // this.$eventbus.$on("translist", (list, pageNo, pageSize) => {
+    //   this.list = list;
+    //   this.pageNo = pageNo;
+    //   this.pageSize = pageSize;
+    // });
+    // this.$eventbus.$on("transid", id => {
+    //   this.offsetId = id;
+    // });
     this.$eventbus.$on('reportingRules/common/listItem--someoneReportList', (data) => {
       this.member = [data];
       this.orderTypeMulti = 'member';
@@ -571,8 +571,8 @@ export default {
   },
   destroyed() {
     this.$eventbus.$off("setBtnLoading");
-    this.$eventbus.$off("translist");
-    this.$eventbus.$off("transid");
+    // this.$eventbus.$off("translist");
+    // this.$eventbus.$off("transid");
     this.$eventbus.$off("reportingRules/common/listItem--someoneReportList");
   }
 };
