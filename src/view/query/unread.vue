@@ -6,6 +6,7 @@
                 :showTemplate="true"
                 :showDatePicker="showDatePicker"
                 :showWithPublic="true"
+                :showCreateMenu="true"
                 :showBrowse="true"
                 @handleChangePublic="handleChangePublic"
                 :createDate="createDate"

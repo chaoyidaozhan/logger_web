@@ -9,6 +9,7 @@
                 deptApiUri="/team/getDeptsWithPart"
                 @handleQuery="handleQuery" 
                 ref="queryForm"
+                :showCreateMenu="true"
                 :showBrowse="true"
                 :createDate="createDate"/>
         </template>

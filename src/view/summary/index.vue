@@ -8,7 +8,7 @@
                 :showTemplateCheck="true" 
                 :showDatePicker="true" 
                 :templateType="templateType"
-                :showCreatReport="false"
+                :showCreateMenu="false"
                 @handleTemplateType="handleTemplateType"
                 @handleQuery="handleQuery" 
                 :createDate="createDate"

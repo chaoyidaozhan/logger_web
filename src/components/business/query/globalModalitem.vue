@@ -630,6 +630,7 @@ export default {
                 times = loggerItemModals.style.zoom
             }
            function mousedownCanval(e){
+                times = sessionStorage.getItem('newTimes')
                 isDrawing = true;
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
                 sessionStorage.setItem('isDrawing', isDrawing)
@@ -641,6 +642,7 @@ export default {
                 // start from
                 ctx.moveTo(lastX, lastY);
                 // go to
+                times = sessionStorage.getItem('newTimes')
                 ctx.lineTo(e.offsetX/times, e.offsetY/times);
                 ctx.stroke();
                 [lastX, lastY] = [e.offsetX/times, e.offsetY/times];
@@ -662,6 +664,8 @@ export default {
                 
                 let leaveX = sessionStorage.getItem('leaveX')
                 let leaveY = sessionStorage.getItem('leaveY')
+
+                times = sessionStorage.getItem('newTimes')
                 ctx.moveTo(leaveX, e.offsetY/times - leaveY);
                 // go to
                 ctx.lineTo(e.offsetX/times, e.offsetY/times);
@@ -677,6 +681,7 @@ export default {
             function rightDraw(e){
                 isDrawing = sessionStorage.getItem('isDrawing')
                 sessionStorage.setItem('leaveX', lastX)
+                times = sessionStorage.getItem('newTimes')
                 sessionStorage.setItem('leaveY', e.offsetY/times - lastY)
                 
                 if (isDrawing === 'false') return; // stop the fn from running when they are not moused down
@@ -693,7 +698,7 @@ export default {
             }
 
             if(!isCanval){
-                let pageLoggerList = document.querySelector('.page-logger-list')
+                let pageLoggerList = document.querySelector('#globalModal')
                 let loggerItemModal = document.querySelector('.logger-item-modal')
                 let canvaldialog = _this.$el.querySelector('.canvaldialog')
                 //第一加载时算高宽，为了优化性能，以后都不要算了
@@ -702,9 +707,8 @@ export default {
                     canvaldialog.style.right = 0
                     canvaldialog.style.top = 0
                     canvaldialog.style.bottom = 0
-                    canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 200)/2 + 'px'
                 }
-
+                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 200)/2 + 'px'
                 canvas.width = pageLoggerList.offsetWidth
                 canvas.height = _this.$el.scrollHeight
                 ctx.strokeStyle = defaultColor; //ctx is the canvas

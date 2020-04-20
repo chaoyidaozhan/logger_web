@@ -151,7 +151,7 @@
       <div class="open-date" v-if="showBrowse" @click.stop="globalModel">
         <YYIcon type="yanshizhemoshi"></YYIcon>
       </div>
-      <div class="logger-menu-logo" v-if="showCreatReport">
+      <div class="logger-menu-logo"  v-if="showCreateMenu">>
         <YYButton type="primary" @click="goLoggerDetail">{{$t('operate.createLog')}}</YYButton>
       </div>
     </Form>
@@ -266,15 +266,11 @@ export default {
     },
     showCreateMenu: {
       type: Boolean,
-      default: false
+      default: true
     },
     showBrowse: {
       type: Boolean,
       default: false
-    },
-    showCreatReport: {
-      type: Boolean,
-      default: true
     }
   },
   components: {
