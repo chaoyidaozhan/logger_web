@@ -1,9 +1,12 @@
 <template>
+<div class="statisticsOfDeptMemberTimePicker">
+	<div class="qzidNameAndCount">{{originData.spaceName && (originData.spaceName + '  ' + originData.memberCount + '人共' + originData.diaryCount + '篇')}}</div>
 	<div class="picker">
 		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delMonth"></div>
 		<div>{{nowYear}}/{{(10 - nowMonth > 0) ? `0${nowMonth}` : nowMonth}}</div>
 		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addMonth"></div>
 	</div>
+</div>
 </template>
 <script type="text/javascript">
 export default {

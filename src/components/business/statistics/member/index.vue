@@ -2,7 +2,7 @@
     <div class="logger-statistics" ref="loggerStatisticsWrapper" v-if="type == 'member'">
         <!--按日统计-->
         <template v-if="params.orderType == 4">
-            <fs-month-picker @handleChangeDate="handleChangeDate"/>
+            <fs-month-picker @handleChangeDate="handleChangeDate" :originData="originData"/>
             <fs-member-statistics-day
                 v-if="start"
                 :data="list"
@@ -14,7 +14,7 @@
         </template>
         <!--按周统计-->
         <template v-if="params.orderType == 2">
-            <fs-week-picker @handleChangeDate="handleChangeDate"/>
+            <fs-week-picker @handleChangeDate="handleChangeDate" :originData="originData"/>
             <fs-member-statistics-week
                 v-if="start"
                 :data="list"
@@ -26,7 +26,7 @@
         </template>
         <!--按月统计-->
         <template v-if="params.orderType == 0">
-            <fs-year-picker @handleChangeDate="handleChangeDate"/>
+            <fs-year-picker @handleChangeDate="handleChangeDate" :originData="originData"/>
             <fs-member-statistics-month
                 v-if="start"
                 :data="list"
@@ -41,6 +41,7 @@
             <fs-define-picker 
                 :minDate="minDate"
                 :maxDate="maxDate"
+                :originData="originData"
                 @handleChangeDate="handleChangeDate"/>
             <fs-member-statistics-define
                 v-if="start && end"
@@ -104,7 +105,8 @@ export default {
             totalCount: 0,
             pageSize: 50,
             pageNo: 1,
-            loaded: true
+            loaded: true,
+            originData: {}
         }
     },
     components: {
@@ -172,6 +174,7 @@ export default {
                             })
                         }
                         this.totalMap = res.data.totalMap || {};
+                        this.originData = res.data;
                     }
                     this.loaded = true;
                 },

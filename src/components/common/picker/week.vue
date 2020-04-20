@@ -1,10 +1,13 @@
 <template>
+<div class="statisticsOfDeptMemberTimePicker">
+	<div class="qzidNameAndCount">{{originData.spaceName && (originData.spaceName + '  ' + originData.memberCount + '人共' + originData.diaryCount + '篇')}}</div>
 	<div class="picker">
 		<div class="btn lt yy-icon-Vjiantou-zuo" :class="{disabled:this.ltDisabled}" @click="delWeek"></div>
 		<div>{{nowYear}}/{{(10 - nowWeek > 0) ? `0${nowWeek}` : nowWeek}}</div>
         <div class="date-range">{{beginDate}} - {{endDate}}</div>
 		<div class="btn rt yy-icon-Vjiantou-you" :class="{disabled:this.rtDisabled}" @click="addWeek"></div>
 	</div>
+</div>
 </template>
 <script>
 import formatTime from 'app_src/filters/format-time'
