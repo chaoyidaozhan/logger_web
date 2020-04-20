@@ -1,71 +1,73 @@
 <template>
-  <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll" v-show="showGlobalModal">
-    <transition-group name="fade" class="spanModal" style="display: inline-block;">
-      <fs-logger-list-item
-        v-for="(item, index) in list"
-        @handleDelete="handleDelete"
-        @handleViewLowerLevel="handleViewLowerLevel"
-        @handleOperateModal="handleOperateModal"
-        :index="index"
-        :isDraft="isDraft"
-        :isLowerLevel="isLowerLevel"
-        :loggerItemData="item"
-        :menus="item.title"
-        :key="`${index}global`"
-      />
-    </transition-group>
-    <YYLoadingH v-if="loading" :text="$t('status.loading')"></YYLoadingH>
-    <div class="loading">
-      <div
-        class="loading-content"
-        v-if="!hasMore && !loading && list.length"
-      >{{$t('status.loadedAllData')}}</div>
-    </div>
-    <YYEmpty vertical="top" v-if="!list.length && !loading" />
-    <!--操作记录弹层-->
-    <Modal v-model="operateModal" class="operate-modal" :title="$t('noun.operationRecord')">
-      <div class="operate-row" v-for="item in operateModalData" :key="`${item.id}global`">
-        <fs-avatar
-          class="operate-avatar"
-          size="31px"
-          :avatar="item.avatar"
-          :fontSize="item.userName ? '12px' : '18px'"
-          :name="item.userName"
-        ></fs-avatar>
-        <div class="operate-content">
-          <div class="clearfix">
-            <span>{{item.userName}}</span>
-            <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
+  <div v-show="showGlobalModal" >
+    <div id="globalModal" class="page-logger-list" @scroll.stop="onScroll" >
+      <transition-group name="fade" class="spanModal" style="display: inline-block;">
+        <fs-logger-list-item
+          v-for="(item, index) in list"
+          @handleDelete="handleDelete"
+          @handleViewLowerLevel="handleViewLowerLevel"
+          @handleOperateModal="handleOperateModal"
+          :index="index"
+          :isDraft="isDraft"
+          :isLowerLevel="isLowerLevel"
+          :loggerItemData="item"
+          :menus="item.title"
+          :key="`${index}global`"
+        />
+      </transition-group>
+      <YYLoadingH v-if="loading" :text="$t('status.loading')"></YYLoadingH>
+      <div class="loading">
+        <div
+          class="loading-content"
+          v-if="!hasMore && !loading && list.length"
+        >{{$t('status.loadedAllData')}}</div>
+      </div>
+      <YYEmpty vertical="top" v-if="!list.length && !loading" />
+      <!--操作记录弹层-->
+      <Modal v-model="operateModal" class="operate-modal" :title="$t('noun.operationRecord')">
+        <div class="operate-row" v-for="item in operateModalData" :key="`${item.id}global`">
+          <fs-avatar
+            class="operate-avatar"
+            size="31px"
+            :avatar="item.avatar"
+            :fontSize="item.userName ? '12px' : '18px'"
+            :name="item.userName"
+          ></fs-avatar>
+          <div class="operate-content">
+            <div class="clearfix">
+              <span>{{item.userName}}</span>
+              <span class="pull-right">{{item.createTime | filterDiaryUserTime}}</span>
+            </div>
+            <div>{{item.reason}}</div>
           </div>
-          <div>{{item.reason}}</div>
+        </div>
+        <p slot="footer"></p>
+      </Modal>
+
+      <!-- <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas> -->
+      <div class="tooldialog">
+        <div class="fontAdd" :class="{active:isFontAdd}" @click="fontAdd()">
+          <!-- <i class="icon-add" ></i> -->
+          <YYIcon type="zihaojia"></YYIcon>
+        </div>
+        <div class="fontReduce" :class="{active:isFontReduce}" @click="fontReduce()">
+          <!-- <i class="icon-add" ></i> -->
+          <YYIcon type="zihaojian"></YYIcon>
+        </div>
+        <div class="nodrawing" :class="{active:isCanval}" @click="drawing()">
+          <YYIcon type="huabi"></YYIcon>
+        </div>
+        <ColorPane v-if="isCanval" :color="defaultColor"></ColorPane>
+
+        <div class="exit" :class="{active:isExit}" @click="exit()">
+          <i>退出</i>
+          <!-- <YYIcon type="touping"></YYIcon> -->
         </div>
       </div>
-      <p slot="footer"></p>
-    </Modal>
-
-    <!-- <canvas class="canvaldialog" id="draw" v-show="isCanval"></canvas> -->
-    <div class="tooldialog">
-      <div class="fontAdd" :class="{active:isFontAdd}" @click="fontAdd()">
+      <div class="back2top" @click="back2top()" v-if="showBack2Top">
         <!-- <i class="icon-add" ></i> -->
-        <YYIcon type="zihaojia"></YYIcon>
+        <YYIcon type="back-to-top"></YYIcon>
       </div>
-      <div class="fontReduce" :class="{active:isFontReduce}" @click="fontReduce()">
-        <!-- <i class="icon-add" ></i> -->
-        <YYIcon type="zihaojian"></YYIcon>
-      </div>
-      <div class="nodrawing" :class="{active:isCanval}" @click="drawing()">
-        <YYIcon type="huabi"></YYIcon>
-      </div>
-      <ColorPane v-if="isCanval" :color="defaultColor"></ColorPane>
-
-      <div class="exit" :class="{active:isExit}" @click="exit()">
-        <i>退出</i>
-        <!-- <YYIcon type="touping"></YYIcon> -->
-      </div>
-    </div>
-    <div class="back2top" @click="back2top()" v-if="showBack2Top">
-      <!-- <i class="icon-add" ></i> -->
-      <YYIcon type="back-to-top"></YYIcon>
     </div>
   </div>
 </template>
@@ -425,12 +427,12 @@ export default {
       }, 100);
     },
     back2top() {
-      this.$el.scrollTop = 0;
+      this.$el.querySelector('.page-logger-list').scrollTop = 0;
     }
   },
   updated() {
     if (this.offsetId !== "") {
-      let pageLoggerList = this.$el;
+      let pageLoggerList = this.$el.querySelector('.page-logger-list');
       let firstOffset = this.$el.querySelector(`div[id='${this.offsetId}']`).offsetTop;
       pageLoggerList.scrollTop = firstOffset * this.times;
       this.offsetId = ""
@@ -462,8 +464,10 @@ export default {
     let _this = this;
 
     this.$eventbus.$on("openglobal", () => {
-      _this.showGlobalModal = true;
       _this.openFullscreen(document.getElementById('globalModal'));
+      setTimeout(() => {
+        _this.showGlobalModal = true;
+      }, 200)
     });
     this.$eventbus.$on("translist", (list, pageNo, pageSize) => {
       _this.list = list;

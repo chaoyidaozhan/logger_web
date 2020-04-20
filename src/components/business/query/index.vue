@@ -2,6 +2,7 @@
   <div id="page-logger-content" class="page-logger-content">
     <div class="page-logger-list" @scroll.stop="onScroll">
       <transition-group name="fade" style="display:block;">
+        <!-- :key="item.id + '' + index" 为了解决 duplicate key的问题， 浏览界面和此界面2个的id会重复，另外加载数据时id也会重复 -->
         <fs-logger-list-item
           v-for="(item, index) in list"
           @handleDelete="handleDelete"
@@ -12,7 +13,7 @@
           :isLowerLevel="isLowerLevel"
           :loggerItemData="item"
           :menus="item.title"
-          :key="item.id"
+          :key="item.id + '' + index" 
           :style="index === 0 ? 'margin-top: 10px' : ''"
         />
       </transition-group>

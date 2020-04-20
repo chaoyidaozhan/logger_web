@@ -1,5 +1,5 @@
 <template>
-    <div class="logger-item-modal" :id="loggerItemData.id">
+    <div class="logger-item-modal" :id="loggerItemData.id + '' + index">
         <div class="logger-content-item"  @mouseleave="closeMenu()">
             <div class="logger-list-item logger-list-item-modal" ref="loggerListItem" @mouseenter="showMenu()">
                 <!--当前人信息-->
@@ -699,11 +699,14 @@ export default {
                 let pageLoggerList = document.querySelector('.page-logger-list')
                 let loggerItemModal = document.querySelector('.logger-item-modal')
                 let canvaldialog = _this.$el.querySelector('.canvaldialog')
-                canvaldialog.style.position = 'absolute'
-                canvaldialog.style.right = 0
-                canvaldialog.style.top = 0
-                canvaldialog.style.bottom = 0
-                canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 200)/2 + 'px'
+                //第一加载时算高宽，为了优化性能，以后都不要算了
+                if(!canvaldialog.getAttribute('width')) {
+                    canvaldialog.style.position = 'absolute'
+                    canvaldialog.style.right = 0
+                    canvaldialog.style.top = 0
+                    canvaldialog.style.bottom = 0
+                    canvaldialog.style.left = (loggerItemModal.offsetWidth - pageLoggerList.offsetWidth - 200)/2 + 'px'
+                }
 
                 canvas.width = pageLoggerList.offsetWidth
                 canvas.height = _this.$el.scrollHeight
