@@ -19,7 +19,8 @@ module.exports = {
         statistics: 'Report Forms',
         templateManagement: 'Template',
         deploy: 'Deploy',
-        groupTemplateManagement: 'Template customization'
+        groupTemplateManagement: 'Template customization',
+        exit: 'Exit'
     },
     operate: { // 操作
         back: 'Back',

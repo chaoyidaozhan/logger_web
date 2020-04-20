@@ -159,7 +159,7 @@
                 v-else
               >{{$t('operate.collapse')}}</span>
             </div>
-            <div class="logger-list-col logger-list-location logger-list-watcher" v-if="!isDraft">
+            <div class="logger-list-col logger-list-location logger-list-watcher">
               <Poptip
                 v-if="loggerItemData.readCount"
                 @on-popper-show="getAllMembers"
@@ -181,7 +181,7 @@
                     <span class="username">{{item.userName || ''}}</span>
                   </div>
                 </div>
-                <div class="count" v-if="loggerItemData.readCount">
+                <div class="count" v-if="loggerItemData.readCount && !isDraft">
                   <div class="imageCount">
                     <img
                       v-show="!!loggerItemData && !!loggerItemData.readLog[2]"
@@ -206,12 +206,12 @@
                   </div>
                 </div>
               </Poptip>
-              <div class="count" v-else>
+              <div class="count" v-else-if="!isDraft">
                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                 <!-- <i class="icon-chat-normal"></i> -->
                 <!-- <YYIcon type="arrow-right"></YYIcon> -->
               </div>
-              <div class="logger-list-col mb-flex mb-flex-align-center">
+              <div class="logger-list-col mb-flex mb-flex-align-center" v-if="!isDraft">
                 <div
                   class="operate-item"
                   :class="{active: loggerItemData.like.isLike}"
