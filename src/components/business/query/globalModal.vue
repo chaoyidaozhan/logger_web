@@ -614,7 +614,8 @@ export default {
     width: 120px;
     right: 0;
     color: #fff;
-    padding: 36px;
+    padding: 36px 0 36px 36px;
+    margin-right: 36px;
     font-size: 15px;
     .fontAdd {
       font-size: 22px;
