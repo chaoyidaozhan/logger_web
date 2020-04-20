@@ -425,6 +425,7 @@ export default {
           param.doubleWeekRemind = 0;
           param.remindThisWeek = 0;
         }else if (param.submitPeriodic == 1 || param.submitPeriodic == 3) {
+          param.submitPeriodic = 1;
           let startWeekDayMapClockName = this.startPickerDefault.name.split(' ');
           let startWeekDayMapClockValue = this.startPickerDefault.value.split(' ');
           let endWeekDayMapClockName = this.endPickerDefault.name.split(' ');
