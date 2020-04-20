@@ -48,7 +48,9 @@ module.exports = {
         reply: '回復',
         add: '添加',
         delete: '刪除',
-
+        comment: '評論',
+        like: '點贊',
+        favorite: '收藏',
         edit: '編輯',
         disable: '停用',
         print: '打印',
@@ -283,7 +285,8 @@ module.exports = {
         configureAdministratorAndStatisticsPermissions: '配置管理員及統計權限',
         statisticalAuthority: "的統計權限",
         addReportReviewer: '添加匯報核查人',
-        addReportReminder: '添加匯報催辦人'
+        addReportReminder: '添加匯報催辦人',
+        workReports: '的工作匯報'
     },
     summary: {
         PersonsNotSubmitted: '人未提交',
@@ -296,5 +299,6 @@ module.exports = {
         TheTemplate: '模板',
         TheAuthor: '提交人',
         SpecifyDate: '指定日期',
+        submitted: '提交的'
     }
 }

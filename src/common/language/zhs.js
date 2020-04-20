@@ -49,7 +49,8 @@ module.exports = {
         add: '添加',
         delete: '删除',
         comment: '评论',
-
+        like: '点赞',
+        favorite: '收藏',
         edit: '编辑',
         disable: '停用',
         print: '打印',
@@ -284,7 +285,8 @@ module.exports = {
         configureAdministratorAndStatisticsPermissions: '配置管理员及统计权限',
         statisticalAuthority: "的统计权限",
         addReportReviewer: '添加汇报核查人',
-        addReportReminder: '添加汇报催办人'
+        addReportReminder: '添加汇报催办人',
+        workReports: '的工作汇报'
     },
     summary: {
         AsATotal: '等共',
@@ -296,5 +298,6 @@ module.exports = {
         TheTemplate: '模板',
         TheAuthor: '提交人',
         SpecifyDate: '指定日期',
+        submitted: '提交的'
     }
 }
