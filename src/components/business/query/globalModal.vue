@@ -381,7 +381,7 @@ export default {
       this.isExit = false;
       this.isFontAdd = true;
       this.isFontReduce = false;
-      this.isCanval = false;
+      // this.isCanval = false;
       let loggerItemModals = document.querySelector(".spanModal");
       if (loggerItemModals.style.zoom === "1.8") {
         //2.2
@@ -394,13 +394,14 @@ export default {
         loggerItemModals.style.zoom = parseFloat(this.times) + 0.1;
       }
       this.times = loggerItemModals.style.zoom;
-      this.$eventbus.$emit("closeCanvas");
+      sessionStorage.setItem('newTimes', this.times)
+      // this.$eventbus.$emit("closeCanvas");
     },
     fontReduce() {
       this.isExit = false;
       this.isFontAdd = false;
       this.isFontReduce = true;
-      this.isCanval = false;
+      // this.isCanval = false;
       let loggerItemModals = document.querySelector(".spanModal");
       if (loggerItemModals.style.zoom === "1") {
         return;
@@ -412,7 +413,8 @@ export default {
         loggerItemModals.style.zoom = parseFloat(this.times) - 0.1;
       }
       this.times = loggerItemModals.style.zoom;
-      this.$eventbus.$emit("closeCanvas");
+      sessionStorage.setItem('newTimes', this.times)
+      // this.$eventbus.$emit("closeCanvas");
     },
     exit() {
       this.exitFullScreen();
@@ -495,6 +497,7 @@ export default {
 
     this.loading = true;
     this.initList();
+    sessionStorage.setItem('newTimes', this.times);
     // let getMessage = function(e) {
     //   const data = e.data || {};
     //   // 解析data就行
