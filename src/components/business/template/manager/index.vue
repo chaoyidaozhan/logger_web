@@ -107,8 +107,8 @@
                             <label class="extra-label"><i>*</i>
                                 {{$t('noun.template')}}{{$t('noun.uName')}}
                             </label>
-                            <Input :placeholder="$t('placeholder.maximum15Chars')" 
-                                    :maxlength="15" v-model="data.title" type="text"/>
+                            <Input :placeholder="$t('placeholder.maximum30Chars')" 
+                                    :maxlength="30" v-model="data.title" type="text"/>
                         </div>
                         <div class="extra-item">
                             <label class="extra-label">

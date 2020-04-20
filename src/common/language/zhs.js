@@ -151,6 +151,7 @@ module.exports = {
         maximum10Chars: '不超过10个字',
         maximum15Chars: '不超过15个字',
         maximum20Chars: '不超过20个字',
+        maximum30Chars: '不超过30个字',
         maximum50Chars: '不超过50个字',
         maximum100Chars: '不超过100个字',
         enterUnit: '请输入单位比如（元）',

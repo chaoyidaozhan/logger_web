@@ -150,6 +150,7 @@ module.exports = {
         maximum10Chars: 'Maximum 10 Chars',
         maximum15Chars: 'Maximum 15 Chars',
         maximum20Chars: 'Maximum 20 Chars',
+        maximum30Chars: 'Maximum 30 Chars',
         maximum50Chars: 'Maximum 50 Chars',
         maximum100Chars: 'Maximum 100 Chars',
         enterUnit: 'Please enter a unit such as ($)',
