@@ -56,7 +56,7 @@ export default {
                 showStatistics: userInfo && userInfo.showStatistics,
                 showConfig: userInfo && userInfo.showConfig,
                 diary_manager: userInfo && userInfo.diary_manager,
-            }
+            };
             this.menus = []
             if(menus) {
                 menus.forEach((item)=>{

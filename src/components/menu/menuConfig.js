@@ -88,7 +88,7 @@ const menus = [
         name: 'menus.deploy',
         path: '/Deploy',
         icon: 'icon-template-2018',
-        showStatistics: true,
+        showStatistics: false,
         type: ['diary_manager', 'admin']
     }
 ]
