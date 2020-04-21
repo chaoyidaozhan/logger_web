@@ -145,7 +145,13 @@ module.exports = {
         deleteSucess: '删除成功',
         offSucess: '关闭成功',
         telplateHasBinded: '该模板已经绑定过了',
-        selectRuleMaker: '請選擇規則制定人'
+        selectRuleMaker: '請選擇規則制定人',
+        deleteReportReviewer: '刪除匯報核查人',
+        deleteReportReminder: '刪除匯報催辦人',
+        deleteAdmin: '刪除管理員',
+        deleteReportReviewerOrNot: '是否刪除匯報核查人',
+        deleteReportReminderOrNot: '是否刪除匯報催辦人',
+        deleteAdminOrNot: '是否删除管理員'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',
@@ -168,7 +174,8 @@ module.exports = {
         targetingSettings: '定位設置',
         whetherTheSelectedLocationIsRequired: '所選位置是否必填',
         pleaseSelect: '请选择',
-        remindEmployee: '員工提醒'
+        remindEmployee: '員工提醒',
+        de: '的'
     },
     date: { // 時間
         mon: '周壹',
@@ -217,6 +224,8 @@ module.exports = {
         to: '至',
     },
     noun: { // 固有名詞
+        review: '核查',
+        remind: '催辦',
         expand: '展開',
         collapse: '收起',
         web: 'web端',

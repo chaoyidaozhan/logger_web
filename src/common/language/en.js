@@ -146,7 +146,13 @@ module.exports = {
         deleteSucess: 'Delete Sucess',
         offSucess: 'Turn Off Sucess',
         telplateHasBinded: 'The template has been bound',
-        selectRuleMaker: 'Please select rule maker'
+        selectRuleMaker: 'Please select rule maker',
+        deleteReportReviewer: 'Delete the report reviewer',
+        deleteReportReminder: 'Delete the report reminder',
+        deleteAdmin: 'Delete the administrator',
+        deleteReportReviewerOrNot: 'Whether or not to delete the report reviewer?',
+        deleteReportReminderOrNot: 'Whether or not to delete the report reminder?',
+        deleteAdminOrNot: 'Whether or not to delete the administrator?'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',
@@ -169,7 +175,8 @@ module.exports = {
         targetingSettings: 'Targeting settings',
         whetherTheSelectedLocationIsRequired: 'Whether the selected location is required',
         pleaseSelect: 'Please Select',
-        remindEmployee: 'Remind Employee'
+        remindEmployee: 'Remind Employee',
+        de: '\'s '
     },
     date: { // 时间
         mon: 'Mon',
@@ -218,6 +225,8 @@ module.exports = {
         to: 'to',
     },
     noun: { // 固有名词
+        review: ' review ',
+        remind: ' remind ',
         expand: 'Expand',
         collapse: 'Collapse',
         web: 'Web',
