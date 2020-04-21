@@ -350,7 +350,7 @@ export default {
           }
           let editStatusWeekTime = () => {
             this.startPickerDefault = {
-              name: this.week[+currentItemDetailMsg.submitStartWeek] + ' ' + submitStartTimeDealWith.all,
+              name: this.week[(+currentItemDetailMsg.submitStartWeek) - 1] + ' ' + submitStartTimeDealWith.all,
               value: currentItemDetailMsg.submitStartWeek
             };
             this.startPickerSecondColDefault = {
@@ -358,7 +358,7 @@ export default {
               value: submitStartTimeDealWith.num
             };
             this.endPickerDefault = {
-              name: this.week[+currentItemDetailMsg.submitEndWeek] + ' ' + submitEndTimeDealWith.all,
+              name: this.week[(+currentItemDetailMsg.submitEndWeek) - 1] + ' ' + submitEndTimeDealWith.all,
               value: currentItemDetailMsg.submitEndWeek
             };
             this.endPickerSecondColDefault = {
