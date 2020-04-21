@@ -167,7 +167,8 @@ module.exports = {
         enterTtheInternalGroupNameToSearch: '輸入內部群名稱進行搜索',
         targetingSettings: '定位設置',
         whetherTheSelectedLocationIsRequired: '所選位置是否必填',
-        pleaseSelect: '请选择'
+        pleaseSelect: '请选择',
+        remindEmployee: '員工提醒'
     },
     date: { // 時間
         mon: '周壹',

@@ -168,7 +168,8 @@ module.exports = {
         enterTtheInternalGroupNameToSearch: 'Enter the internal group name to search',
         targetingSettings: 'Targeting settings',
         whetherTheSelectedLocationIsRequired: 'Whether the selected location is required',
-        pleaseSelect: 'Please Select'
+        pleaseSelect: 'Please Select',
+        remindEmployee: 'Remind Employee'
     },
     date: { // 时间
         mon: 'Mon',
@@ -206,7 +207,7 @@ module.exports = {
         startingAndEndingTime: 'Period',
         lastDayOfTheMonth: 'Last day of the month',
 
-        biweekly: 'biweekly',
+        biweekly: 'Biweekly',
         fromCurrentWeek: 'From current week',
         appointedDate: 'Appointed date',
         submissionStartTime: 'Submission start time',

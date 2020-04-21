@@ -64,7 +64,7 @@
                   {{$t('date.m')}}
                 </YYOption>
                 <YYOption :value="3">
-                  双周提醒
+                  {{$t('date.biweekly')}}
                 </YYOption>
             </YYSelect>
             </div>
@@ -93,7 +93,7 @@
             <div class="subctn">
               <div>
                 <YYCheckbox v-model="isRemindThisWeek" @on-change="remindThisWeekChange">
-                  <span>当前周开始</span>
+                  <span>{{$t('date.fromCurrentWeek')}}</span>
                 </YYCheckbox>
               </div>
             </div>
@@ -138,7 +138,7 @@
           <div class="tipsCtn">
             <img class="tipsimg" :src="ImTips">
             <span class="desc" v-if="formData.submitPeriodic == 2">
-              本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
+              {{$t('date.lastDayOfTheMonth')}} {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
             </span>
             <span class="desc" v-else>
               {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
@@ -163,7 +163,7 @@
             </div>
             <div class="closeRemind">
               <YYCheckbox v-model="isAdvanceRemindStaff" @on-change="remindTypeChange">
-                <span>员工提醒</span>
+                <span>{{$t('placeholder.remindEmployee')}}</span>
               </YYCheckbox>
             </div>
           </div>
@@ -918,7 +918,7 @@ export default {
     font-size: 12px;
     position: fixed;
     box-shadow: -8px 0px 30px 0px rgba(74,81,93,0.2);
-    width: 470px;
+    width: 518px;
     height: 100%;
     z-index: 101;
     right: 0;
@@ -930,7 +930,7 @@ export default {
         min-height: 32px;
         margin-bottom: 16px;
         .itemTitle {
-          width: 80px;
+          width: 128px;
           height: 32px;
           text-align: right;
           .must {
