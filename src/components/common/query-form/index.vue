@@ -604,7 +604,7 @@ export default {
 .search-form {
   .ivu-form-inline {
     .ivu-form-item {
-      min-width: 200px;
+      min-width: 150px;
       margin-right: 8px;
       .ivu-form-item-label {
         padding: 10px 8px 10px 0;

@@ -1030,7 +1030,7 @@ export default {
   .logger-content-item {
     position: relative;
     display: inline-block;
-    min-width: 1040px;
+    min-width: 887px;
     display: flex;
     .logger-list-item {
       flex: 1;
@@ -1043,7 +1043,7 @@ export default {
         max-width: 1197px;
       }
       @media screen and (max-width: 1200px) {
-        min-width: 720px;
+        min-width: 640px;
       }
       // margin: auto;
       // float: left;
@@ -1513,7 +1513,7 @@ export default {
         // top: 68px;
         height: auto;
         width: 100%;
-        min-width: 168px;
+        min-width: 80px;
         top: 10px;
         right: 20px;
         background: rgba(255, 255, 255, 0.7);
