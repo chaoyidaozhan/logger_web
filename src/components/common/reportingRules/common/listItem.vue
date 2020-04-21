@@ -81,7 +81,7 @@ export default {
   box-shadow: 0px 5px 15px 0px rgba(51,51,51,0.12);
   border-radius: 3px;
   margin: 0 auto 16px;
-  padding: 20px 20px 0;
+  padding: 20px;
   background: white;
   cursor: pointer;
   .header {
