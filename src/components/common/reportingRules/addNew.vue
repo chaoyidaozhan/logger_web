@@ -476,7 +476,7 @@ export default {
         let submitPeriodic = +this.formData.submitPeriodic;
         if(submitPeriodic == 0) {
           this.startPickerDefault = firstCol;
-        }else if(submitPeriodic == 1) {
+        }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           this.startPickerDefault = {
             name: (firstCol.name + ' ' + secondCol.name),
             value: (firstCol.value + ' ' + secondCol.value)
@@ -491,7 +491,7 @@ export default {
         let startPickerDefault = this.startPickerDefault;
         if(submitPeriodic == 0) {
           this.endPickerDefault = firstCol;
-        }else if(submitPeriodic == 1) {
+        }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           let startPickerValue = this.startPickerDefault.value.split(' ');
           if((+startPickerValue[0] == +firstCol.value) && (+startPickerValue[1] >= +secondCol.value)) {
             this.$YYMessage.warning('结束时间必须大于开始时间');
@@ -546,7 +546,7 @@ export default {
           if(i < dayAndClock[0]) {
             nextWeekDay.push({
               value: `${dayAndClock[0]-i}`,
-              name: `${this.$t('date.next')} ${this.week[dayAndClock[0]-i-1]}`
+              name: `${this.$t('date.next')}${this.week[dayAndClock[0]-i-1]}`
             });
           }else {
             commonWeekDay.push({
