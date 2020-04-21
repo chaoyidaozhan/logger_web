@@ -2,8 +2,8 @@
     <div class="deploy-container" v-yyloading="isLoadingShow">
         <div class="deploy-member">
             <div class="deploy-title mb-flex mb-flex-align-center">
-                <div v-if="currentTabType == 0">添加汇报核查人</div>
-                <div v-else-if="currentTabType == 1">添加汇报催办人</div>
+                <div v-if="currentTabType == 0">{{$t('title.addReportReviewer')}}</div>
+                <div v-else-if="currentTabType == 1">{{$t('title.addReportReminder')}}</div>
                 <div v-else-if="currentTabType == 2">{{$t('operate.addAdministrator')}}</div>
                 <YYButton class="operateAdd" type="primary" @click="handleAddMember">{{$t('operate.add')}}</YYButton>
                 <YYButton type="default" @click="handleDeleteMember" v-if="currentMember">{{$t('operate.delete')}}</YYButton>
@@ -25,7 +25,7 @@
         <div class="deploy-limit" v-if="currentTab != 'configureAdministrator' && currentMember">
             <div class="reportMemberList">
                 <div class="memberAddTemplate mb-flex mb-flex-align-center">
-                    <div>{{currentMember.userName}}的{{currentTabType == 0 ? '核查' : '催办'}}模板</div>
+                    <div>{{currentMember.userName}}{{$t('placeholder.de')}}{{currentTabType == 0 ? $t('noun.review') : $t('noun.remind')}}{{$t('noun.template')}}</div>
                     <div class="mb-flex mb-flex-align-center mb-flex-pack-justify" @click.stop="addRoleTemplate">
                         <div class="yy-icon-xinzeng"></div>
                         <div>{{$t('operate.add')}}</div>
@@ -37,7 +37,7 @@
                     </YYTag>
                 </div>
             </div>
-            <div class="changeOperate mb-flex mb-flex-pack-justify">
+            <div class="changeOperate mb-flex">
                 <YYButton type="primary" @click="reportSave">{{$t('operate.save')}}</YYButton>
                 <YYButton @click="reportReset">{{$t('operate.reset')}}</YYButton>
             </div>
@@ -379,16 +379,18 @@ export default {
             let content = '';
             switch(this.currentTabType) {
                 case 0:
-                    title = '删除汇报核查人';
+                    title = this.$t('toast.deleteReportReviewer');
+                    content = this.$t('toast.deleteReportReviewerOrNot');
                 break;
                 case 1:
-                    title = '删除汇报催办人';
+                    title = this.$t('toast.deleteReportReminder');
+                    content = this.$t('toast.deleteReportReminderOrNot');
                 break;
                 case 2:
-                    title = '删除管理员';
+                    title = this.$t('toast.deleteAdmin');
+                    content = this.$t('toast.deleteAdminOrNot');
                 break;
             }
-            content = '是否' + title;
             this.$YYModal.show({
                 title,
                 content,
@@ -700,7 +702,10 @@ export default {
         }
     }
     .changeOperate {
-        width: 128px;
+        // width: 128px;
+        > * {
+            margin-right: 8px;
+        }
     }
     .deploy-limit-content {
         border: 1px solid @border-color-dark;
