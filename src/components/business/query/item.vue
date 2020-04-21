@@ -159,7 +159,7 @@
                 v-else
               >{{$t('operate.collapse')}}</span>
             </div>
-            <div class="logger-list-col logger-list-location logger-list-watcher">
+            <div class="logger-list-col logger-list-location logger-list-watcher" v-if="!isDraft">
               <Poptip
                 v-if="loggerItemData.readCount"
                 @on-popper-show="getAllMembers"
@@ -181,7 +181,7 @@
                     <span class="username">{{item.userName || ''}}</span>
                   </div>
                 </div>
-                <div class="count" v-if="loggerItemData.readCount && !isDraft">
+                <div class="count" v-if="loggerItemData.readCount">
                   <div class="imageCount">
                     <img
                       v-show="!!loggerItemData && !!loggerItemData.readLog[2]"
@@ -206,12 +206,12 @@
                   </div>
                 </div>
               </Poptip>
-              <div class="count" v-else-if="!isDraft">
+              <div class="count" v-else>
                 <span>{{loggerItemData.readCount}}{{$t('noun.peopleHaveSeen')}}</span>
                 <!-- <i class="icon-chat-normal"></i> -->
                 <!-- <YYIcon type="arrow-right"></YYIcon> -->
               </div>
-              <div class="logger-list-col mb-flex mb-flex-align-center" v-if="!isDraft">
+              <div class="logger-list-col mb-flex mb-flex-align-center">
                 <div
                   class="operate-item"
                   :class="{active: loggerItemData.like.isLike}"
@@ -286,6 +286,8 @@
                 </div>
               </div>
             </div>
+            <div class="logger-list-col logger-list-location logger-list-closewatcher" v-else>
+            </div>
           </div>
           <div class="logger-list-row">
             <!-- <div class="logger-list-col logger-list-location">
@@ -321,7 +323,7 @@
           </div>
           <div class="lat"></div>
           <!--点赞回复收藏-->
-          <div class="logger-list-row logger-list-operate" v-if="!isDraft">
+          <div class="logger-list-row logger-list-operate">
             <!-- <div class="logger-list-col">
                             <span class="operate-item" :class="{active: loggerItemData.like.isLike}" @click="handleLike">
                                 <i class="icon-position" v-if="!loggerItemData.like.isLike">
@@ -1373,6 +1375,12 @@ export default {
               }
             }
           }
+        }
+        .logger-list-closewatcher {
+            display: block;
+            font-size: 13px;
+            height: 20px;
+            margin-left: 78px;
         }
         .lat {
           height: 10px;
