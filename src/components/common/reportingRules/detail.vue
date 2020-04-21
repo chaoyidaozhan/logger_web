@@ -61,8 +61,8 @@ export default {
           detailMsgCopy: {},
           dateRange: {},
           isNarrowWidth: true,
-doubleWeekRemind: false,
-remindThisWeek: false
+          doubleWeekRemind: false,
+          remindThisWeek: false
         }
     },
     methods: {
@@ -109,6 +109,9 @@ remindThisWeek: false
     },
     created() {
       this.detailMsgCopy = Object.assign({}, this.detailMsg);
+      let currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
+      this.doubleWeekRemind = (currentItemDetailMsg.doubleWeekRemind == 1);
+      this.remindThisWeek = (currentItemDetailMsg.remindThisWeek == 1);
     },
     mounted () {
     },
