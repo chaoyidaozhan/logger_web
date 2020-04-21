@@ -296,7 +296,7 @@ export default {
           let arr = clock.split(':');
           return {
             all: (arr[0] + ':' + arr[1]),
-            num: arr[0]
+            num: +arr[0]
           };
         };
         let submitPeriodic = currentItemDetailMsg.submitPeriodic;
@@ -335,10 +335,17 @@ export default {
                 name: submitStartTimeDealWith.all,
                 value: submitStartTimeDealWith.num
               };
-              this.endPickerDefault = {
-                name: submitEndTimeDealWith.all,
-                value: submitEndTimeDealWith.num
-              };
+              if(submitStartTimeDealWith.num >= submitEndTimeDealWith.num) {
+                this.endPickerDefault = {
+                  name: `${this.$t('date.morrow')} ${submitEndTimeDealWith.all}`,
+                  value: submitEndTimeDealWith.num
+                };
+              }else {
+                this.endPickerDefault = {
+                  name: submitEndTimeDealWith.all,
+                  value: submitEndTimeDealWith.num
+                };
+              }
               this.columnsNum = 1;
           }
           let editStatusWeekTime = () => {
