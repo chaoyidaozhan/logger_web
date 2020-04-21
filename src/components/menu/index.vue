@@ -50,7 +50,7 @@ export default {
         initMenu() { // 初始化导航菜单
             let userInfo = this.$store.state.userInfo
             let menuLimits = {
-                admin:  userInfo && userInfo.admin, 
+                admin:  userInfo && userInfo.admin,
                 diary_examer:  userInfo && userInfo.diary_examer, 
                 deptManager:  userInfo && userInfo.deptManager,
                 showStatistics: userInfo && userInfo.showStatistics,

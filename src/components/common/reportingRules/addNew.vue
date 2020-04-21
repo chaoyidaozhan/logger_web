@@ -418,7 +418,13 @@ export default {
           param.submitStartWeek = param.submitStartWeek.join(',');
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
-          param.submitEndTime = this.endPickerDefault.name + ':00';
+          //列表里的日期值,结束日期次日值小于等于开始值,结束日期与开始日期同一天的值大于开始值
+          if(+this.endPickerDefault.value <= +this.startPickerDefault.value) {
+            param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          }else {
+            param.submitEndTime = this.endPickerDefault.name + ':00';
+          }
+          
           // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用  周和双周不传该字段
           param.submitDate = 0;
           // 
