@@ -329,6 +329,10 @@ export default {
             this.isAdvanceRemindStaff = true;
             formData.remindType = remindType;
             formData.remindTime = currentItemDetailMsg.remindTime;
+          }else if(remindType == 0) {
+            this.isAdvanceRemindStaff = false;
+            formData.remindType = remindType;
+            formData.remindTime = 0;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
               this.startPickerDefault = {
