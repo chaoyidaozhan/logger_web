@@ -145,7 +145,13 @@ module.exports = {
         deleteSucess: '删除成功',
         offSucess: '关闭成功',
         telplateHasBinded: '该模板已经绑定过了',
-        selectRuleMaker: '请选择规则制定人'
+        selectRuleMaker: '请选择规则制定人',
+        deleteReportReviewer: '删除汇报核查人',
+        deleteReportReminder: '删除汇报催办人',
+        deleteAdmin: '删除管理员',
+        deleteReportReviewerOrNot: '是否删除汇报核查人',
+        deleteReportReminderOrNot: '是否删除汇报催办人',
+        deleteAdminOrNot: '是否删除管理员'
     },
     placeholder: { // 输入框提示文字
         postYourComment: '发表您的评论',
@@ -167,7 +173,9 @@ module.exports = {
         enterTtheInternalGroupNameToSearch: '输入内部群名称进行搜索',
         targetingSettings: '定位设置',
         whetherTheSelectedLocationIsRequired: '所选位置是否必填',
-        pleaseSelect: '请选择'
+        pleaseSelect: '请选择',
+        remindEmployee: '员工提醒',
+        de: '的'
     },
     date: { // 时间
         mon: '周一',
@@ -216,6 +224,8 @@ module.exports = {
         to: '至',
     },
     noun: { // 固有名词
+        review: '核查',
+        remind: '催办',
         expand: '展开',
         collapse: '收起',
         web: 'web端',

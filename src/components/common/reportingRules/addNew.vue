@@ -64,7 +64,7 @@
                   {{$t('date.m')}}
                 </YYOption>
                 <YYOption :value="3">
-                  双周提醒
+                  {{$t('date.biweekly')}}
                 </YYOption>
             </YYSelect>
             </div>
@@ -93,7 +93,7 @@
             <div class="subctn">
               <div>
                 <YYCheckbox v-model="isRemindThisWeek" @on-change="remindThisWeekChange">
-                  <span>当前周开始</span>
+                  <span>{{$t('date.fromCurrentWeek')}}</span>
                 </YYCheckbox>
               </div>
             </div>
@@ -138,7 +138,7 @@
           <div class="tipsCtn">
             <img class="tipsimg" :src="ImTips">
             <span class="desc" v-if="formData.submitPeriodic == 2">
-              本月最后一天{{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
+              {{$t('date.lastDayOfTheMonth')}} {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
             </span>
             <span class="desc" v-else>
               {{$t('date.pleaseFillReportAtSomeTime').replace('<-placeholder->', endPickerDefault.name)}}
@@ -163,7 +163,7 @@
             </div>
             <div class="closeRemind">
               <YYCheckbox v-model="isAdvanceRemindStaff" @on-change="remindTypeChange">
-                <span>员工提醒</span>
+                <span>{{$t('placeholder.remindEmployee')}}</span>
               </YYCheckbox>
             </div>
           </div>
@@ -296,7 +296,7 @@ export default {
           let arr = clock.split(':');
           return {
             all: (arr[0] + ':' + arr[1]),
-            num: arr[0]
+            num: +arr[0]
           };
         };
         let submitPeriodic = currentItemDetailMsg.submitPeriodic;
@@ -329,21 +329,32 @@ export default {
             this.isAdvanceRemindStaff = true;
             formData.remindType = remindType;
             formData.remindTime = currentItemDetailMsg.remindTime;
+          }else if(remindType == 0) {
+            this.isAdvanceRemindStaff = false;
+            formData.remindType = remindType;
+            formData.remindTime = 0;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
               this.startPickerDefault = {
                 name: submitStartTimeDealWith.all,
                 value: submitStartTimeDealWith.num
               };
-              this.endPickerDefault = {
-                name: submitEndTimeDealWith.all,
-                value: submitEndTimeDealWith.num
-              };
+              if(submitStartTimeDealWith.num >= submitEndTimeDealWith.num) {
+                this.endPickerDefault = {
+                  name: `${this.$t('date.morrow')} ${submitEndTimeDealWith.all}`,
+                  value: submitEndTimeDealWith.num
+                };
+              }else {
+                this.endPickerDefault = {
+                  name: submitEndTimeDealWith.all,
+                  value: submitEndTimeDealWith.num
+                };
+              }
               this.columnsNum = 1;
           }
           let editStatusWeekTime = () => {
             this.startPickerDefault = {
-              name: this.week[+currentItemDetailMsg.submitStartWeek] + ' ' + submitStartTimeDealWith.all,
+              name: this.week[(+currentItemDetailMsg.submitStartWeek) - 1] + ' ' + submitStartTimeDealWith.all,
               value: currentItemDetailMsg.submitStartWeek
             };
             this.startPickerSecondColDefault = {
@@ -351,7 +362,7 @@ export default {
               value: submitStartTimeDealWith.num
             };
             this.endPickerDefault = {
-              name: this.week[+currentItemDetailMsg.submitEndWeek] + ' ' + submitEndTimeDealWith.all,
+              name: this.week[(+currentItemDetailMsg.submitEndWeek) - 1] + ' ' + submitEndTimeDealWith.all,
               value: currentItemDetailMsg.submitEndWeek
             };
             this.endPickerSecondColDefault = {
@@ -418,7 +429,13 @@ export default {
           param.submitStartWeek = param.submitStartWeek.join(',');
           param.submitEndWeek = param.submitEndWeek.join(',');
           param.submitStartTime = this.startPickerDefault.name + ':00';
-          param.submitEndTime = this.endPickerDefault.name + ':00';
+          //列表里的日期值,结束日期次日值小于等于开始值,结束日期与开始日期同一天的值大于开始值
+          if(+this.endPickerDefault.value <= +this.startPickerDefault.value) {
+            param.submitEndTime = this.endPickerDefault.name.split(' ')[1] + ':00';
+          }else {
+            param.submitEndTime = this.endPickerDefault.name + ':00';
+          }
+          
           // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用  周和双周不传该字段
           param.submitDate = 0;
           // 
@@ -470,7 +487,7 @@ export default {
         let submitPeriodic = +this.formData.submitPeriodic;
         if(submitPeriodic == 0) {
           this.startPickerDefault = firstCol;
-        }else if(submitPeriodic == 1) {
+        }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           this.startPickerDefault = {
             name: (firstCol.name + ' ' + secondCol.name),
             value: (firstCol.value + ' ' + secondCol.value)
@@ -485,7 +502,7 @@ export default {
         let startPickerDefault = this.startPickerDefault;
         if(submitPeriodic == 0) {
           this.endPickerDefault = firstCol;
-        }else if(submitPeriodic == 1) {
+        }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           let startPickerValue = this.startPickerDefault.value.split(' ');
           if((+startPickerValue[0] == +firstCol.value) && (+startPickerValue[1] >= +secondCol.value)) {
             this.$YYMessage.warning('结束时间必须大于开始时间');
@@ -536,11 +553,11 @@ export default {
         let i = 1;
         let nextWeekDay = [];
         let commonWeekDay = [];
-        for (;i<=7;i++) {
-          if(i < dayAndClock[0]) {
+        for (;i<=7;i++) {console.log(i, dayAndClock[0])
+          if(i <= dayAndClock[0]) {
             nextWeekDay.push({
-              value: `${dayAndClock[0]-i}`,
-              name: `${this.$t('date.next')} ${this.week[dayAndClock[0]-i-1]}`
+              value: i,
+              name: `${this.$t('date.next')}${this.week[i-1]}`
             });
           }else {
             commonWeekDay.push({
@@ -549,7 +566,7 @@ export default {
             });
           }
         };
-        this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay.reverse());
+        this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay);
         let endPickersecondColData = [];
         let j = 0;
         for (; j <= 24; j++) {
@@ -918,7 +935,7 @@ export default {
     font-size: 12px;
     position: fixed;
     box-shadow: -8px 0px 30px 0px rgba(74,81,93,0.2);
-    width: 470px;
+    width: 518px;
     height: 100%;
     z-index: 101;
     right: 0;
@@ -930,7 +947,7 @@ export default {
         min-height: 32px;
         margin-bottom: 16px;
         .itemTitle {
-          width: 80px;
+          width: 128px;
           height: 32px;
           text-align: right;
           .must {

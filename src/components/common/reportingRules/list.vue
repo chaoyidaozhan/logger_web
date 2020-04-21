@@ -2,7 +2,7 @@
   <transition name="moveR">
     <div>
       <div class="bgCover" @click="close()"></div>
-      <div class="container">
+      <div class="container mb-flex mb-flex-v">
           <div class="header mb-flex mb-flex-pack-justify mb-flex-align-center">
             <div class="title">{{$t('operate.reportRules')}}</div>
             <div class="mb-flex-1">
@@ -15,7 +15,7 @@
             </div>
             <div class="yy-icon-guanbi" @click="close"></div>
           </div>
-          <div class="body">
+          <div class="body mb-flex-1">
             <div class="scrollBody" v-if="listArr.length">
               <Item 
                 :data="item" 
@@ -164,7 +164,6 @@ export default {
       }
     }
     .body{
-      height: 100%;
       overflow-y: auto;
       padding-top: 16px;
       box-sizing: border-box;

@@ -181,6 +181,7 @@ import FsSelectGroup from "../select-group/";
 import FsSelectOrderType from "../select-order-type/";
 import FsExportExcel from "../export-excel";
 import config from "app_src/config/config";
+
 export default {
   props: {
     showTemplate: {
@@ -564,7 +565,11 @@ export default {
     //   this.offsetId = id;
     // });
     this.$eventbus.$on('reportingRules/common/listItem--someoneReportList', (data) => {
-      this.member = [data];
+      this.$refs.selectMember.members = [{
+          avatar: data.avatar,
+          label: data.userName,
+          value: data.memberId
+      }];
       this.orderTypeMulti = 'member';
       this.handleQuery();
     });

@@ -50,13 +50,13 @@ export default {
         initMenu() { // 初始化导航菜单
             let userInfo = this.$store.state.userInfo
             let menuLimits = {
-                admin:  userInfo && userInfo.admin, 
+                admin:  userInfo && userInfo.admin,
                 diary_examer:  userInfo && userInfo.diary_examer, 
                 deptManager:  userInfo && userInfo.deptManager,
                 showStatistics: userInfo && userInfo.showStatistics,
                 showConfig: userInfo && userInfo.showConfig,
                 diary_manager: userInfo && userInfo.diary_manager,
-            }
+            };
             this.menus = []
             if(menus) {
                 menus.forEach((item)=>{

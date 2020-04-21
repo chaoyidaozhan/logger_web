@@ -146,7 +146,13 @@ module.exports = {
         deleteSucess: 'Delete Sucess',
         offSucess: 'Turn Off Sucess',
         telplateHasBinded: 'The template has been bound',
-        selectRuleMaker: 'Please select rule maker'
+        selectRuleMaker: 'Please select rule maker',
+        deleteReportReviewer: 'Delete the report reviewer',
+        deleteReportReminder: 'Delete the report reminder',
+        deleteAdmin: 'Delete the administrator',
+        deleteReportReviewerOrNot: 'Whether or not to delete the report reviewer?',
+        deleteReportReminderOrNot: 'Whether or not to delete the report reminder?',
+        deleteAdminOrNot: 'Whether or not to delete the administrator?'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',
@@ -168,7 +174,9 @@ module.exports = {
         enterTtheInternalGroupNameToSearch: 'Enter the internal group name to search',
         targetingSettings: 'Targeting settings',
         whetherTheSelectedLocationIsRequired: 'Whether the selected location is required',
-        pleaseSelect: 'Please Select'
+        pleaseSelect: 'Please Select',
+        remindEmployee: 'Remind Employee',
+        de: '\'s '
     },
     date: { // 时间
         mon: 'Mon',
@@ -206,7 +214,7 @@ module.exports = {
         startingAndEndingTime: 'Period',
         lastDayOfTheMonth: 'Last day of the month',
 
-        biweekly: 'biweekly',
+        biweekly: 'Biweekly',
         fromCurrentWeek: 'From current week',
         appointedDate: 'Appointed date',
         submissionStartTime: 'Submission start time',
@@ -217,6 +225,8 @@ module.exports = {
         to: 'to',
     },
     noun: { // 固有名词
+        review: ' review ',
+        remind: ' remind ',
         expand: 'Expand',
         collapse: 'Collapse',
         web: 'Web',

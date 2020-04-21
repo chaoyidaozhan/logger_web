@@ -1,7 +1,7 @@
 <template>
  <div class="listItem" @click.stop="getDetail">
    <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
-      <div class="title">{{detailMsg.templateName}}</div>
+      <div class="title mb-flex-1">{{detailMsg.templateName}}</div>
       <div class="editAndDelete mb-flex mb-flex-pack-justify">
         <div class="edit yy-icon-bianji-2" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="toEdit"></div>
         <div class="delete yy-icon-lajitong" @click.stop="delRule"></div>
@@ -19,7 +19,7 @@
     <div class="photoInfor mb-flex mb-flex-align-center" v-if="detailMsg.unSubmit.length">
       <div class="mb-flex">
         <template v-for="(item, index) in detailMsg.unSubmit">
-          <img @click.stop="toSomeoneReportList(item)" class="personPhoto" v-if="index < 3" :src="item.avatar">
+          <img class="personPhoto" v-if="index < 3" :src="item.avatar">
         </template>
       </div>
       <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', detailMsg.unSubmitCount || '')}}</div>
@@ -48,17 +48,6 @@ export default {
         }
     },
     methods: {
-      toSomeoneReportList(item) {
-        this.$router.push({
-          path: '/LoggerQueryAll',
-          query: {
-            token: this.$store.state.userInfo.token
-          }
-        });
-        setTimeout(() => {
-          this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', Object.assign({}, item));
-        });
-      },
       delRule() {
         this.$YYModal.show({
             title: '',
@@ -92,15 +81,16 @@ export default {
   box-shadow: 0px 5px 15px 0px rgba(51,51,51,0.12);
   border-radius: 3px;
   margin: 0 auto 16px;
-  padding: 20px 20px 0;
+  padding: 20px;
   background: white;
   cursor: pointer;
   .header {
-    height: 20px;
-    .title{
+    min-height: 20px;
+    .title {
       font-size: 14px;
       font-weight: 500;
       color: #333;
+      line-height: 20px;
     }
     .editAndDelete {
       visibility: hidden;
