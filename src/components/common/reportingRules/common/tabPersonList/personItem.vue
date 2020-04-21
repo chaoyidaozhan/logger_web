@@ -1,6 +1,6 @@
 <template>
   <div class="personalItem mb-flex mb-flex-align-center" :class="{'active': memberMsg.isSelected}">
-    <img class="personPhoto" :src="memberMsg.avatar">
+    <img class="personPhoto" :src="memberMsg.avatar" @click.stop="toSomeoneReportList(memberMsg)">
     <div class="name mb-flex-1">{{memberMsg.userName}}</div>
     <div class="personalCheckbox" v-if="isCheckboxShow">
       <YYCheckbox class="isSelected" v-model="memberMsg.isSelected" @on-change="check"/>
@@ -30,7 +30,18 @@ export default {
   methods: {
     check(memberMsg) {
       this.$emit('itemCheck')
-    }
+    },
+    toSomeoneReportList(item) {
+      this.$router.push({
+        path: '/LoggerQueryAll',
+        query: {
+          token: this.$store.state.userInfo.token
+        }
+      });
+      setTimeout(() => {
+        this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', Object.assign({}, item));
+      }, 1000);
+    },
   }
 }
 </script>

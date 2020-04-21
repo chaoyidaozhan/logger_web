@@ -19,7 +19,7 @@
     <div class="photoInfor mb-flex mb-flex-align-center" v-if="detailMsg.unSubmit.length">
       <div class="mb-flex">
         <template v-for="(item, index) in detailMsg.unSubmit">
-          <img @click.stop="toSomeoneReportList(item)" class="personPhoto" v-if="index < 3" :src="item.avatar">
+          <img class="personPhoto" v-if="index < 3" :src="item.avatar">
         </template>
       </div>
       <div class="submitNum">{{$t('operate.someoneNotSubmit').replace('<-placeholder->', detailMsg.unSubmitCount || '')}}</div>
@@ -48,17 +48,6 @@ export default {
         }
     },
     methods: {
-      toSomeoneReportList(item) {
-        this.$router.push({
-          path: '/LoggerQueryAll',
-          query: {
-            token: this.$store.state.userInfo.token
-          }
-        });
-        setTimeout(() => {
-          this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', Object.assign({}, item));
-        });
-      },
       delRule() {
         this.$YYModal.show({
             title: '',
