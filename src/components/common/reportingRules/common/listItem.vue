@@ -1,7 +1,7 @@
 <template>
  <div class="listItem" @click.stop="getDetail">
    <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
-      <div class="title">{{detailMsg.templateName}}</div>
+      <div class="title mb-flex-1">{{detailMsg.templateName}}</div>
       <div class="editAndDelete mb-flex mb-flex-pack-justify">
         <div class="edit yy-icon-bianji-2" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="toEdit"></div>
         <div class="delete yy-icon-lajitong" @click.stop="delRule"></div>
@@ -85,11 +85,12 @@ export default {
   background: white;
   cursor: pointer;
   .header {
-    height: 20px;
-    .title{
+    min-height: 20px;
+    .title {
       font-size: 14px;
       font-weight: 500;
       color: #333;
+      line-height: 20px;
     }
     .editAndDelete {
       visibility: hidden;

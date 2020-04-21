@@ -1,7 +1,7 @@
 <template>
  <div class="listItem">
    <div class="header mb-flex mb-flex-align-center mb-flex-pack-justify">
-      <div class="title">{{currentItemDetailMsg.templateName}}</div>
+      <div class="title mb-flex-1">{{currentItemDetailMsg.templateName}}</div>
       <div>
         <YYButton
           v-if="currentMemberId == currentItemDetailMsg.memberId"
@@ -64,11 +64,14 @@ export default {
   padding: 20px;
   background: white;
   .header {
-    height: 26px;
-    .title{
+    min-height: 26px;
+    .title {
+      padding-right: 10px;
       font-size: 14px;
       font-weight: 500;
       color: #333;
+      line-height: 20px;
+      box-sizing: border-box;
     }
   }
   .subHeader {
