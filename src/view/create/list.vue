@@ -1,16 +1,20 @@
 <template>
     <div class="logger-detail logger-detail-bg">
         <div v-if="recentlyTemplates.length">
-            <div class="title">
-                <div>{{$t('noun.frequentlyUsedtTemplate')}}</div>
+            <div class="commonTemplateListGrid">
+                <div class="title">
+                    <div>{{$t('noun.frequentlyUsedtTemplate')}}</div>
+                </div>
             </div>
             <div class="commonTemplateListGrid">
                 <fs-template-list :outerList='recentlyTemplates'/>
             </div>
         </div>
         <div v-if="template.length">
-            <div class="title">
-                <div>{{$t('placeholder.allTemplate')}}</div>
+            <div class="commonTemplateListGrid">
+                <div class="title">
+                    <div>{{$t('placeholder.allTemplate')}}</div>
+                </div>
             </div>
             <div class="commonTemplateListGrid">
                 <fs-template-list :outerList='template'/>
@@ -93,6 +97,13 @@ export default {
         grid-column-gap: 16px;
         grid-template-rows: repeat(auto-fill, 110px);
         grid-template-columns: repeat(auto-fill, 275px);
+        justify-content: center;
+    }
+    .commonTemplateListGrid > .title {
+        display: grid;
+        grid-template-rows: repeat(auto-fill, 40px);
+        grid-template-columns: repeat(auto-fill, 275px);
+        grid-column-gap: 16px;
         justify-content: center;
     }
 </style>

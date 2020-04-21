@@ -1,5 +1,5 @@
 <template>
-  <div class="ctn mb-flex mb-flex-v">
+  <div class="ctn mb-flex mb-flex-v tab-person-list-wrapper">
     <div class="list mb-flex mb-flex-align-center">
       <div 
         class="item"
@@ -269,4 +269,11 @@ export default {
     background: white;
   }
 }
+</style>
+<style lang="less">
+  .ctn.tab-person-list-wrapper {
+    .yy-empty-content {
+      position: relative;
+    }
+  }
 </style>
