@@ -226,7 +226,7 @@
                     </div>
                     <div
                       class="word"
-                    >{{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '点赞' : loggerItemData.like.likeNum}}</div>
+                    >{{loggerItemData.like && loggerItemData.like.likeNum === 0 ? $t('operate.like') : loggerItemData.like.likeNum}}</div>
                   </div>
                   <div
                     class="icon-position mb-flex mb-flex-align-center"
@@ -238,7 +238,7 @@
                     </div>
                     <div
                       class="word"
-                    >{{loggerItemData.like && loggerItemData.like.likeNum === 0 ? '点赞' : loggerItemData.like.likeNum}}</div>
+                    >{{loggerItemData.like && loggerItemData.like.likeNum === 0 ? $t('operate.like') : loggerItemData.like.likeNum}}</div>
                   </div>
                 </div>
                 <div
@@ -255,7 +255,7 @@
                     </div>
                     <div
                       class="word"
-                    >{{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}</div>
+                    >{{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? $t('operate.favorite') : loggerItemData.favorite.favoriteNum}}</div>
                   </div>
                   <div class="icon-position mb-flex mb-flex-align-center" v-else>
                     <div>
@@ -263,7 +263,7 @@
                     </div>
                     <div
                       class="word"
-                    >{{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? '收藏' : loggerItemData.favorite.favoriteNum}}</div>
+                    >{{loggerItemData.favorite && loggerItemData.favorite.favoriteNum === 0 ? $t('operate.favorite') : loggerItemData.favorite.favoriteNum}}</div>
                   </div>
                 </div>
                 <div class="operate-item" :class="{active: showReply}" @click="handleReply">
@@ -273,7 +273,7 @@
                     </div>
                     <div
                       class="word"
-                    >{{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}</div>
+                    >{{loggerItemData.commentNum === 0 ? $t('operate.comment') : loggerItemData.commentNum }}</div>
                   </div>
                   <div class="icon-position mb-flex mb-flex-align-center" v-else>
                     <div style="height:14px">
@@ -281,7 +281,7 @@
                     </div>
                     <div
                       class="word"
-                    >{{loggerItemData.commentNum === 0 ? '评论' : loggerItemData.commentNum }}</div>
+                    >{{loggerItemData.commentNum === 0 ? $t('operate.comment') : loggerItemData.commentNum }}</div>
                   </div>
                 </div>
               </div>
@@ -380,7 +380,7 @@
         <!-- v-show="isShowMenu && !isInternalGroupReport" -->
         <div class="leftMenuBox" v-show="isShowMenu">
           <div class="left-header" @click="back2Logger()">
-            {{loggerItemData.userName}}的工作汇报
+            {{loggerItemData.userName + $t('title.workReports')}}
             <div class="left-close"></div>
           </div>
           <div class="left-line"></div>

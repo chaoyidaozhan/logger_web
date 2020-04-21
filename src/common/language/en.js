@@ -17,7 +17,7 @@ module.exports = {
         internalGroupReport: 'Internal Group',
         summary: 'Summary',
         statistics: 'Report Forms',
-        templateManagement: 'Template Management',
+        templateManagement: 'Template',
         deploy: 'Deploy',
         groupTemplateManagement: 'Template customization',
         exit: 'Exit'
@@ -49,6 +49,9 @@ module.exports = {
         reply: 'Reply',
         add: 'Add',
         delete: 'Delete',
+        comment: 'Comment',
+        like: 'Like',
+        favorite: 'Favorite',
         edit: 'Edit',
         disable: 'Disable',
         print: 'Print',
@@ -284,7 +287,8 @@ module.exports = {
         configureAdministratorAndStatisticsPermissions: 'Configure administrator and statistics permissions',
         statisticalAuthority: "'s statistical authority",
         addReportReviewer: 'Add Reviewer',
-        addReportReminder: 'Add Reminder'
+        addReportReminder: 'Add Reminder',
+        workReports: '\'s reports'
     },
     summary: {
         PersonsNotSubmitted: ' people not submitted',
@@ -297,5 +301,6 @@ module.exports = {
         TheTemplate: 'Template',
         TheAuthor: 'Submitter',
         SpecifyDate: 'Specify Date',
+        submitted: ' submitted '
     }
 }

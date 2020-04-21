@@ -5,7 +5,7 @@
                 <div class="itemHeader mb-flex mb-flex-pack-justify mb-flex-align-center">
                     <div>
                         <YYCheckbox v-model="itemA.isWorkReportChecked" @on-change="someItemCheckChange(itemA)"></YYCheckbox>
-                        <span>{{itemA.userName + '提交的' + itemA.templateName}}</span>
+                        <span>{{itemA.userName + $t('summary.submitted') + itemA.templateName}}</span>
                     </div>
                     <div>{{$t('noun.submitTime') + '：' + itemA.workReportCreateTime}}</div>
                 </div>
@@ -590,7 +590,9 @@ export default {
         }
         .bottom-right {
             // float: right;
-            width: 192px;
+            :first-child {
+                margin-right: 12px;
+            }
             .ivu-btn-success {
                 border-color: @primary-color;
                 background-color: @primary-color;
