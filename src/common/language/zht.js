@@ -49,7 +49,9 @@ module.exports = {
         reply: '回復',
         add: '添加',
         delete: '刪除',
-
+        comment: '評論',
+        like: '點贊',
+        favorite: '收藏',
         edit: '編輯',
         disable: '停用',
         print: '打印',
@@ -165,7 +167,8 @@ module.exports = {
         enterTtheInternalGroupNameToSearch: '輸入內部群名稱進行搜索',
         targetingSettings: '定位設置',
         whetherTheSelectedLocationIsRequired: '所選位置是否必填',
-        pleaseSelect: '请选择'
+        pleaseSelect: '请选择',
+        remindEmployee: '員工提醒'
     },
     date: { // 時間
         mon: '周壹',
@@ -284,7 +287,8 @@ module.exports = {
         configureAdministratorAndStatisticsPermissions: '配置管理員及統計權限',
         statisticalAuthority: "的統計權限",
         addReportReviewer: '添加匯報核查人',
-        addReportReminder: '添加匯報催辦人'
+        addReportReminder: '添加匯報催辦人',
+        workReports: '的工作匯報'
     },
     summary: {
         PersonsNotSubmitted: '人未提交',
@@ -297,5 +301,6 @@ module.exports = {
         TheTemplate: '模板',
         TheAuthor: '提交人',
         SpecifyDate: '指定日期',
+        submitted: '提交的'
     }
 }

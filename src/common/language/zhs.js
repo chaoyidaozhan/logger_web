@@ -50,7 +50,8 @@ module.exports = {
         add: '添加',
         delete: '删除',
         comment: '评论',
-
+        like: '点赞',
+        favorite: '收藏',
         edit: '编辑',
         disable: '停用',
         print: '打印',
@@ -166,7 +167,8 @@ module.exports = {
         enterTtheInternalGroupNameToSearch: '输入内部群名称进行搜索',
         targetingSettings: '定位设置',
         whetherTheSelectedLocationIsRequired: '所选位置是否必填',
-        pleaseSelect: '请选择'
+        pleaseSelect: '请选择',
+        remindEmployee: '员工提醒'
     },
     date: { // 时间
         mon: '周一',
@@ -285,7 +287,8 @@ module.exports = {
         configureAdministratorAndStatisticsPermissions: '配置管理员及统计权限',
         statisticalAuthority: "的统计权限",
         addReportReviewer: '添加汇报核查人',
-        addReportReminder: '添加汇报催办人'
+        addReportReminder: '添加汇报催办人',
+        workReports: '的工作汇报'
     },
     summary: {
         AsATotal: '等共',
@@ -297,5 +300,6 @@ module.exports = {
         TheTemplate: '模板',
         TheAuthor: '提交人',
         SpecifyDate: '指定日期',
+        submitted: '提交的'
     }
 }
