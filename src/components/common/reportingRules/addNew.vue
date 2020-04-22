@@ -112,7 +112,7 @@
                   :columns="columnsNum"
                   :firstColDefault="startPickerDefault"
                   :secondColDefault="startPickerSecondColDefault"
-                  :showValue="columnsNum ==1 ? startPickerDefault.name : (startPickerDefault.name + ' ' + startPickerSecondColDefault.name)">
+                  :showValue="columnsNum == 1 ? startPickerDefault.name : (startPickerDefault.name + ' ' + startPickerSecondColDefault.name)">
                 </WeekTime>
             </div>
           </div>
