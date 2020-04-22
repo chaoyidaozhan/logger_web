@@ -157,7 +157,7 @@ module.exports = {
         noDataYet: '暂无数据',
         pleaseSelectMemberFirst: '请先选择人员',
         remindSucceeded: '提醒成功',
-        youWillSendRemindToSomeone: '你将给“s%”等s%人发送提交汇报提醒。',
+        youWillSendRemindToSomeone: '你将给“s1%”等s2%人发送提交汇报提醒。',
         pleaseSelectTime: '请选择时间',
         pleaseSelectWeekOrTime: '请选择周或时间',
         confirmToDeleteReportRule: '确认要删除汇报规则吗'

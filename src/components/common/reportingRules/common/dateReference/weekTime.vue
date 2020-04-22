@@ -96,6 +96,12 @@ export default {
       secondColData(newVal) {
         this.secondColumsData = newVal;
       },
+      firstColDefault(newVal) {
+        this.currentFirstCol = newVal;
+      },
+      secondColDefault(newVal) {
+        this.currentSecondCol = newVal;
+      }
     },
     components: {
     },
@@ -130,8 +136,6 @@ export default {
           this.$emit('setTimePicker', this.currentFirstCol);
         }else if(this.columns == 2) {
           this.$emit('setTimePicker', this.currentFirstCol, this.currentSecondCol);
-        }else if(this.columns == 3) {
-          this.$emit('setTimePicker', this.currentFirstCol);
         }
         this.showSlide = false
       },
