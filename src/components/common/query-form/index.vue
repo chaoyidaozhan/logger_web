@@ -2,7 +2,7 @@
   <div class="search-form">
     <Form inline>
       <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
-      <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'" v-if="showReportRule">
+      <FormItem :label-width="lang === 'en' ? 60 : 40" :label="$t('noun.type')" v-if="showReportRule">
         <YYSelect
           :invertable="false"
           :transfer="false"

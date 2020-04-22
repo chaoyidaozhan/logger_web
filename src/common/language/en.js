@@ -298,7 +298,8 @@ module.exports = {
         admin: 'Administrator',
         frequentlyUsedtTemplate: "Common templates",
         templateStatus: "Template status",
-        addTemplate: 'Add Template'
+        addTemplate: 'Add Template',
+        type: 'Type'
     },
     title: {
         logTemplate: 'Report Template',
