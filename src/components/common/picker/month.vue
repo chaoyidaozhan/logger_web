@@ -22,6 +22,14 @@ export default {
 			rtDisabled: false
 		}
 	},
+	props: {
+		originData: {
+			type: Object,
+			default: function() {
+				return {};
+			}
+		}
+	},
 	watch: {
 		nowMonth() {
             if (this.nowYear === this.maxYear && this.nowMonth == this.maxMonth) {

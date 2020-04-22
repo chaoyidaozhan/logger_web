@@ -233,6 +233,10 @@ export default {
     position: relative;
     line-height: 22px;
     transition: all 0.2s ease-in-out;
+    .scroll-auto-ctn {
+        max-height: 100px;
+        overflow-y: auto;
+    }
     .icon-add {
         position: absolute;
         height: 30px;

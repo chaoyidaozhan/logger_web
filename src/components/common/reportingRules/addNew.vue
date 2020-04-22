@@ -329,6 +329,10 @@ export default {
             this.isAdvanceRemindStaff = true;
             formData.remindType = remindType;
             formData.remindTime = currentItemDetailMsg.remindTime;
+          }else if(remindType == 0) {
+            this.isAdvanceRemindStaff = false;
+            formData.remindType = remindType;
+            formData.remindTime = 0;
           }
           if(submitPeriodic == 0 || submitPeriodic == 2) {
               this.startPickerDefault = {
@@ -549,11 +553,11 @@ export default {
         let i = 1;
         let nextWeekDay = [];
         let commonWeekDay = [];
-        for (;i<=7;i++) {
-          if(i < dayAndClock[0]) {
+        for (;i<=7;i++) {console.log(i, dayAndClock[0])
+          if(i <= dayAndClock[0]) {
             nextWeekDay.push({
-              value: `${dayAndClock[0]-i}`,
-              name: `${this.$t('date.next')}${this.week[dayAndClock[0]-i-1]}`
+              value: i,
+              name: `${this.$t('date.next')}${this.week[i-1]}`
             });
           }else {
             commonWeekDay.push({
@@ -562,7 +566,7 @@ export default {
             });
           }
         };
-        this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay.reverse());
+        this.endPickerFirstColData = commonWeekDay.concat(nextWeekDay);
         let endPickersecondColData = [];
         let j = 0;
         for (; j <= 24; j++) {

@@ -53,7 +53,7 @@ export default {
 		box-sizing: border-box;
 		// min-width: @min-container-width;
 		position: relative;
-		min-width: 1200px;
+		// min-width: 1200px;
         overflow-x: auto;
 	}
 	.logger-frame-header {
@@ -61,7 +61,8 @@ export default {
 		left: 0;
 		right: 0;
 		top: 0;
-		
+		min-width: 887px;
+		// min-width: 985px;
 		// // height: 32px;
 		// // line-height: 32px;
 		// font-size: 12px;

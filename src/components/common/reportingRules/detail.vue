@@ -27,7 +27,7 @@
           class="dateRangeCommon" 
           @handleChangeDate="handleChangeDate">
         </monthRange>
-        <TabPersonList class="mb-flex-1" :detailMsg="detailMsgCopy" :dateRange="dateRange"></TabPersonList>
+        <TabPersonList v-if="isTabPersonListShow" class="mb-flex-1" :detailMsg="detailMsgCopy" :dateRange="dateRange"></TabPersonList>
       </div>
     </div>
   </transition>
@@ -62,7 +62,8 @@ export default {
           dateRange: {},
           isNarrowWidth: true,
           doubleWeekRemind: false,
-          remindThisWeek: false
+          remindThisWeek: false,
+          isTabPersonListShow: true
         }
     },
     methods: {
@@ -83,7 +84,7 @@ export default {
         });
       },
       handleChangeDate(data) {
-        this.dateRange = data
+        this.dateRange = data;
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
           responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
           this.detailMsgCopy = responseData;
@@ -93,6 +94,10 @@ export default {
             || diarySubumitList.submitPostpone.length > 30) {
               this.isNarrowWidth = false;
           }
+          this.isTabPersonListShow = false;
+          this.$nextTick(() => {
+            this.isTabPersonListShow = true;
+          });
         });
       },
       editClick () {

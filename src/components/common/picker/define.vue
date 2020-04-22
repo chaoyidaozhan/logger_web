@@ -17,7 +17,13 @@ export default {
         },
         maxDate: {
             type: String
-        }
+        },
+        originData: {
+			type: Object,
+			default: function() {
+				return {};
+			}
+		}
     },
 	data() {
 		return {

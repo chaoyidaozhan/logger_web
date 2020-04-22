@@ -23,6 +23,14 @@ export default {
 			ltDisabled: false,
 			rtDisabled: false
 		}
+    },
+    props: {
+		originData: {
+			type: Object,
+			default: function() {
+				return {};
+			}
+		}
 	},
 	watch: {
 		nowWeek() {
