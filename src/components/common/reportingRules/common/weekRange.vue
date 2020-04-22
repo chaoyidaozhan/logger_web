@@ -52,11 +52,11 @@ export default {
     },
     computed: {
         beginDate() {
-            return this.getDate(this.nowYear, this.nowWeek - 1, 1);
+            return this.getDate(this.nowYear, this.doubleWeekRemind ? this.nowWeek : (this.nowWeek - 1), 1);
         },  
         endDate() {
             let count = this.doubleWeekRemind ? 2 : 1
-            return this.getDate(this.nowYear, this.nowWeek + count - 1, 2);
+            return this.getDate(this.nowYear, this.doubleWeekRemind ? (this.nowWeek + count) : (this.nowWeek + count - 1), 2);
         },  
     },
 	methods: {
