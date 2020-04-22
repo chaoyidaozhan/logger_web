@@ -1,6 +1,6 @@
 <template>
-    <div class="logger-summary-content">
-        <div class="tableList" v-if="list.length" ref="loggerSummaryPageRef">
+    <div class="logger-summary-content" ref="loggerSummaryPageRef" @scroll.stop="contentScroll">
+        <div class="tableList" v-if="list.length">
             <div class="tableItem" v-for="(itemA, indexA) in list">
                 <div class="itemHeader mb-flex mb-flex-pack-justify mb-flex-align-center">
                     <div>
@@ -435,7 +435,6 @@ export default {
                             if(listLen === 0) {
                                 return;
                             }
-                            this.loggerSummaryPage(res);
                         }, 1000);
                     },
                     error: (res) => {
@@ -446,9 +445,6 @@ export default {
             }
         },
         loggerSummaryPage() {
-            if(this.loggerSummaryPageRef) {
-                return;
-            }
             let throttle = function(method, delay, duration) {
                 let timer = null;
                 let begin = new Date();    
@@ -471,7 +467,7 @@ export default {
             if(!loggerSummaryPageRef) {
                 return;
             }
-            loggerSummaryPageRef.onscroll = throttle(() => {
+            return throttle(() => {
                 //变量scrollTop是滚动条滚动时，距离顶部的距离
                 let scrollTop = loggerSummaryPageRef.scrollTop;
                 //变量windowHeight是可视区的高度
@@ -485,6 +481,7 @@ export default {
                 }   
             } , 100, 500);
         },
+        contentScroll() {},
         initList() { // 初始化列表
             this.pageNo = 1;
             this.dataType = false;
@@ -494,6 +491,9 @@ export default {
             this.loadData();
         }
     },
+    mounted() {
+        this.contentScroll = this.loggerSummaryPage();
+    }
 }
 </script>
 <style  lang="less">
