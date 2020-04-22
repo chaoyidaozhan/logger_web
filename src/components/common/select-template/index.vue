@@ -107,6 +107,7 @@ export default {
 @import '../../../assets/css/var.less';
 .select-template {
     width: 100%;
+    min-width: 176px;
     .ivu-select-dropdown-list {
         .ivu-select-item {
             padding: 12px 15px;

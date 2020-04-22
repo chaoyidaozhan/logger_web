@@ -435,7 +435,6 @@ export default {
           }else {
             param.submitEndTime = this.endPickerDefault.name + ':00';
           }
-          
           // 提交日期，0：每天，1：每月最后一天 ;提交周期为日、月时使用  周和双周不传该字段
           param.submitDate = 0;
           // 

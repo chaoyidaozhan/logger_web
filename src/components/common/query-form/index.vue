@@ -137,8 +137,7 @@
           :class="'exportStyle'"
           :label-width="10"
           class="export-btn"
-          v-if="showExportExcel"
-        >
+          v-if="showExportExcel">
           <fs-export-excel
             @handleExportExcel="handleExportExcel"
             @handlePersonData="handlePersonData"

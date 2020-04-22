@@ -4,7 +4,7 @@
       <div class="title mb-flex-1">{{detailMsg.templateName}}</div>
       <div class="editAndDelete mb-flex mb-flex-pack-justify">
         <div class="edit yy-icon-bianji-2" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="toEdit"></div>
-        <div class="delete yy-icon-lajitong" @click.stop="delRule"></div>
+        <div class="delete yy-icon-lajitong" :class="{notCreater: currentMemberId != detailMsg.memberId}" @click.stop="delRule"></div>
       </div>
    </div>
    <div class="subHeader">
