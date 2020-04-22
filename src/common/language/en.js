@@ -83,7 +83,7 @@ module.exports = {
         enable: 'Enable',
         reset: 'Reset',
 
-        reportRules: 'Reporting rules',
+        reportRules: 'Rules',
         setReportRules: 'Set reporting rules',
         noReportRules: 'No reporting rules',
         selectTemplate: 'Select template',
