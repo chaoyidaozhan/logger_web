@@ -71,7 +71,7 @@ export default {
                     let date = new Date(`${yearMonth}/${i+1}`)
                     this.columns.array.push(`${i+1} ${this.$t(sArr[date.getDay()])}`)
                 } else {
-                    this.columns.array.push(`${i+1} 周${getWeek(new Date(`${yearMonth}/${i+1}`))}`)
+                    this.columns.array.push(`${i+1} ${this.$t('date.w')}${getWeek(new Date(`${yearMonth}/${i+1}`))}`)
                 }
             }
         }

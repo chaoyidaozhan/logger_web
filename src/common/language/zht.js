@@ -157,7 +157,10 @@ module.exports = {
         noDataYet: '暫無數據',
         pleaseSelectMemberFirst: '請先選擇人員',
         remindSucceeded: '提醒成功',
-        youWillSendRemindToSomeone: '你將給“s%”等s%人發送提交匯報提醒。'
+        youWillSendRemindToSomeone: '你將給“s%”等s%人發送提交匯報提醒。',
+        pleaseSelectTime: '請選擇時間',
+        pleaseSelectWeekOrTime: '請選擇周或者時間',
+        confirmToDeleteReportRule: '確認要刪除匯報規則嗎？'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',
