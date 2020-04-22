@@ -1037,7 +1037,7 @@ export default {
       // margin-left: 188px;
       margin: 0 auto;
       background-color: #fff;
-      overflow: hidden;
+      // overflow: hidden;
       min-width: 70%;
       @media screen and (min-width: 1920px) {
         max-width: 1197px;
@@ -1283,7 +1283,7 @@ export default {
       }
       .loggerlistcontent {
         .handle-content-expand {
-          // overflow: hidden;
+          overflow: hidden;
         }
       }
       .loggerDialog {
