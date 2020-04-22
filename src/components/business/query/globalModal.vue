@@ -182,17 +182,30 @@ export default {
   methods: {
     //退出全屏方法
     exitFullScreen() {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-        document.msExiFullscreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      }
+        if (document.msExitFullscreen) {
+          document.msExiFullscreen();
+        }else if(document.webkitCancelFullScreen){
+            document.webkitCancelFullScreen();
+        }else if(document.mozCancelFullScreen){
+            document.mozCancelFullScreen();
+        }else if(document.cancelFullScreen){
+            document.cancelFullScreen();
+        }else if(document.exitFullscreen){
+            document.exitFullscreen();
+        }else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      // if (document.exitFullscreen) {
+      //   document.exitFullscreen();
+      // } else if (document.mozCancelFullScreen) {
+      //   document.mozCancelFullScreen();
+      // } else if (document.msExitFullscreen) {
+      //   document.msExiFullscreen();
+      // } else if (document.webkitCancelFullScreen) {
+      //   document.webkitCancelFullScreen();
+      // } else if (document.webkitExitFullscreen) {
+      //   document.webkitExitFullscreen();
+      // }
     },
     //打开全屏方法
     openFullscreen(element) {
