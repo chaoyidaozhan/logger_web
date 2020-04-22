@@ -619,6 +619,9 @@ export default {
   .adapt1440p .search-form-select-dept, .adapt1440p .search-form-select-template {
     min-width: 140.8px;
   }
+  .search-form-select-dept {
+    max-width: 180px;
+  }
   .adapt1440p .search-form-select-date {
     min-width: 120px!important;
   }
