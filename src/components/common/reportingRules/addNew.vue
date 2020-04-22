@@ -578,7 +578,7 @@ export default {
         let nextWeekDay = [];
         let commonWeekDay = [];
         for (;i<=7;i++) {
-          if(i <= dayAndClock[0]) {
+          if(i < dayAndClock[0]) {
             nextWeekDay.push({
               value: i,
               name: `${this.$t('date.next')}${this.week[i-1]}`
