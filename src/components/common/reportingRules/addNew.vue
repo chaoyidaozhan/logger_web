@@ -486,13 +486,13 @@ export default {
         let submitPeriodic = +this.formData.submitPeriodic;
         if(submitPeriodic == 0) {
           if(!firstCol.name) {
-            this.$YYMessage.warning('请选择时间');
+            this.$YYMessage.warning(this.$t('toast.pleaseSelectTime'));
             return;
           }
           this.startPickerDefault = firstCol;
         }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           if(!firstCol.name || !secondCol.name) {
-            this.$YYMessage.warning('请选择周或时间');
+            this.$YYMessage.warning(this.$t('toast.pleaseSelectWeekOrTime'));
             return;
           }
           this.startPickerDefault = {
@@ -501,7 +501,7 @@ export default {
           };
         }else if(submitPeriodic == 2) {
           if(!firstCol.name) {
-            this.$YYMessage.warning('请选择时间');
+            this.$YYMessage.warning(this.$t('toast.pleaseSelectTime'));
             return;
           }
           this.startPickerDefault = firstCol;
@@ -513,13 +513,13 @@ export default {
         let startPickerDefault = this.startPickerDefault;
         if(submitPeriodic == 0) {
           if(!firstCol.name) {
-            this.$YYMessage.warning('请选择时间');
+            this.$YYMessage.warning(this.$t('toast.pleaseSelectTime'));
             return;
           }
           this.endPickerDefault = firstCol;
         }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           if(!firstCol.name || !secondCol.name) {
-            this.$YYMessage.warning('请选择周或时间');
+            this.$YYMessage.warning(this.$t('toast.pleaseSelectWeekOrTime'));
             return;
           }
           let startPickerValue = this.startPickerDefault.value.split(' ');
@@ -537,7 +537,7 @@ export default {
           };
         }else if(submitPeriodic == 2) {
           if(!firstCol.name) {
-            this.$YYMessage.warning('请选择时间');
+            this.$YYMessage.warning(this.$t('toast.pleaseSelectTime'));
             return;
           }
           this.endPickerDefault = firstCol;
@@ -887,8 +887,8 @@ export default {
             case 1:
               this.columnsNum = 2;
               this.startPickerDefault = {
-                name: '周五',
-                value: 5
+                name: `${this.$t('date.fri')}`,
+                value: '5'
               };
               this.startPickerSecondColDefault = {
                 name: '18:00',
@@ -921,7 +921,7 @@ export default {
             case 3:
               this.columnsNum = 2;
               this.startPickerDefault = {
-                name: '周五',
+                name: `${this.$t('date.fri')}`,
                 value: 5
               };
               this.startPickerSecondColDefault = {

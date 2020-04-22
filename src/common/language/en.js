@@ -158,7 +158,10 @@ module.exports = {
         noDataYet: 'No data yet',
         pleaseSelectMemberFirst: 'Please select member first.',
         remindSucceeded: 'Reminder succeeded.',
-        youWillSendRemindToSomeone: 'You will send a report submission reminder to s2% people include "s1%"'
+        youWillSendRemindToSomeone: 'You will send a report submission reminder to s2% people include "s1%"',
+        pleaseSelectTime: 'Please select time.',
+        pleaseSelectWeekOrTime: 'Please select a week or time.',
+        confirmToDeleteReportRule: 'Are you sure you want to delete the reporting rule?'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',

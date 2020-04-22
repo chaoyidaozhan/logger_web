@@ -51,7 +51,7 @@ export default {
       delRule() {
         this.$YYModal.show({
             title: '',
-            content: '确认要删除汇报规则吗？',
+            content: this.$t('toast.confirmToDeleteReportRule'),
             onOk:() => {
               this.$emit('delRule', this.detailMsg);
             }
