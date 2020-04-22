@@ -33,14 +33,18 @@ export default {
     },
     toSomeoneReportList(item) {
       this.$router.push({
-        path: '/LoggerQueryAll',
+        // path: '/LoggerQueryAll',
+        name: 'LoggerQueryAll',
         query: {
           token: this.$store.state.userInfo.token
+        },
+        params: {
+          isForbiddenInitLoadData: true
         }
       });
       setTimeout(() => {
         this.$eventbus.$emit('reportingRules/common/listItem--someoneReportList', Object.assign({}, item));
-      }, 1000);
+      }, 1500);
     },
   }
 }

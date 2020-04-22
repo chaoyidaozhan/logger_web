@@ -17,6 +17,7 @@ const QueryLevel = () => import('app_view/query/level')
 const QueryUnread = () => import('app_view/query/unread')
 
 export default [{
+    name: 'LoggerQueryAll',
     path: 'LoggerQueryAll',
     component: QueryAll
 }, {

@@ -295,6 +295,11 @@ export default {
   },
   mounted() {
     this.queryMemberId = this.$store.state.userInfo.member_id;
+    let isForbiddenInitLoadData = this.$route.params.isForbiddenInitLoadData;
+    if(isForbiddenInitLoadData) {
+      isForbiddenInitLoadData = false;
+      return;
+    }
     this.initList();
   }
 };
