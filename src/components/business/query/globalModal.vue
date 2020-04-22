@@ -374,7 +374,7 @@ export default {
       this.pageNo = 1;
       this.loading = false;
       this.hasMore = true;
-      this.loadData();
+      // this.loadData();
     },
     drawing() {
       // let isDrawing = sessionStorage.getItem('isDrawing')
