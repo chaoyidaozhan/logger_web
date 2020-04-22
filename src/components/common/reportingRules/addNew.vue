@@ -486,13 +486,25 @@ export default {
       setStartTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
         if(submitPeriodic == 0) {
+          if(!firstCol.name) {
+            this.$YYMessage.warning('请选择时间');
+            return;
+          }
           this.startPickerDefault = firstCol;
         }else if(submitPeriodic == 1 || submitPeriodic == 3) {
+          if(!firstCol.name || !secondCol.name) {
+            this.$YYMessage.warning('请选择周或时间');
+            return;
+          }
           this.startPickerDefault = {
             name: (firstCol.name + ' ' + secondCol.name),
             value: (firstCol.value + ' ' + secondCol.value)
           };
         }else if(submitPeriodic == 2) {
+          if(!firstCol.name) {
+            this.$YYMessage.warning('请选择时间');
+            return;
+          }
           this.startPickerDefault = firstCol;
         }
         this.handleSubmitEndTime(submitPeriodic, true);
@@ -501,8 +513,16 @@ export default {
         let submitPeriodic = +this.formData.submitPeriodic;
         let startPickerDefault = this.startPickerDefault;
         if(submitPeriodic == 0) {
+          if(!firstCol.name) {
+            this.$YYMessage.warning('请选择时间');
+            return;
+          }
           this.endPickerDefault = firstCol;
         }else if(submitPeriodic == 1 || submitPeriodic == 3) {
+          if(!firstCol.name || !secondCol.name) {
+            this.$YYMessage.warning('请选择周或时间');
+            return;
+          }
           let startPickerValue = this.startPickerDefault.value.split(' ');
           if((+startPickerValue[0] == +firstCol.value) && (+startPickerValue[1] >= +secondCol.value)) {
             this.$YYMessage.warning($t('toast.endMustGreaterThanStartTime'));
@@ -513,6 +533,10 @@ export default {
             value: (firstCol.value + ' ' + secondCol.value)
           };
         }else if(submitPeriodic == 2) {
+          if(!firstCol.name) {
+            this.$YYMessage.warning('请选择时间');
+            return;
+          }
           this.endPickerDefault = firstCol;
         }
         this.remindTimeComputed(submitPeriodic);
@@ -553,7 +577,7 @@ export default {
         let i = 1;
         let nextWeekDay = [];
         let commonWeekDay = [];
-        for (;i<=7;i++) {console.log(i, dayAndClock[0])
+        for (;i<=7;i++) {
           if(i <= dayAndClock[0]) {
             nextWeekDay.push({
               value: i,
