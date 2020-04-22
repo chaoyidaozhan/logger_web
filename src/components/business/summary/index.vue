@@ -483,6 +483,9 @@ export default {
         },
         contentScroll() {},
         initList() { // 初始化列表
+            if(this.loading) {
+                return;
+            }
             this.pageNo = 1;
             this.dataType = false;
             this.checkNum = 0;
