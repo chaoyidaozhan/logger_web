@@ -61,7 +61,7 @@ export default {
 		left: 0;
 		right: 0;
 		top: 0;
-		min-width: 887px;
+		min-width: 947px;
 		// min-width: 985px;
 		// // height: 32px;
 		// // line-height: 32px;
@@ -77,6 +77,7 @@ font-size: 14px;
 background-color: #fff;
 	}
 	.logger-frame-body {
+		min-width: 947px;
 		height: 100%;
 		position: relative;
 	}

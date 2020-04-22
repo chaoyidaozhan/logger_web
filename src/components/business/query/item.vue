@@ -1030,7 +1030,7 @@ export default {
   .logger-content-item {
     position: relative;
     display: inline-block;
-    min-width: 887px;
+    min-width: 947px;
     display: flex;
     .logger-list-item {
       flex: 1;
@@ -1513,7 +1513,7 @@ export default {
         // top: 68px;
         height: auto;
         width: 100%;
-        min-width: 80px;
+        min-width: 100px;
         top: 10px;
         right: 20px;
         background: rgba(255, 255, 255, 0.7);
