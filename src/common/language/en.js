@@ -83,7 +83,7 @@ module.exports = {
         enable: 'Enable',
         reset: 'Reset',
 
-        reportRules: 'Reporting rules',
+        reportRules: 'Rules',
         setReportRules: 'Set reporting rules',
         noReportRules: 'No reporting rules',
         selectTemplate: 'Select template',
@@ -298,7 +298,8 @@ module.exports = {
         admin: 'Administrator',
         frequentlyUsedtTemplate: "Common templates",
         templateStatus: "Template status",
-        addTemplate: 'Add Template'
+        addTemplate: 'Add Template',
+        type: 'Type'
     },
     title: {
         logTemplate: 'Report Template',

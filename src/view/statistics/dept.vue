@@ -11,6 +11,7 @@
                 :showExportExcel="true"
                 :showCreateMenu="false"
                 deptApiUri="/team/v2/getAuthDepts"
+                adapt1440p
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
             <fs-query-form 
@@ -24,6 +25,7 @@
                 :showGroupExcelBtn="true"
                 :showDeptExcelBtn="false"
                 :showCreateMenu="false"
+                adapt1440p
                 groupApiUri="/group/authMe"
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
@@ -37,6 +39,7 @@
                 :showGroupExcelBtn="false"
                 :showDeptExcelBtn="false"
                 :showCreateMenu="false"
+                adapt1440p
                 @handleQuery="handleQuery" 
                 ref="queryForm"/>
         </template>

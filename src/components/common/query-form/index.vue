@@ -1,14 +1,14 @@
 <template>
-  <div class="search-form">
+  <div class="search-form" :class="{adapt1440p}">
     <Form inline>
       <!-- 分类： 按部门统计 按人员统计 按内部群统计 -->
-      <FormItem :label-width="lang === 'en' ? 60 : 40" :label="'分类'" v-if="showReportRule">
+      <FormItem :label-width="40" :label="$t('noun.type')" v-if="showReportRule">
         <YYSelect
           :invertable="false"
           :transfer="false"
           v-model="classificationArrData"
           @on-change="classifyHandleChange"
-          style="width: 180px"
+          class="search-form-select-type"
         >
           <YYOption value="1">{{$t('menus.department')}}</YYOption>
           <YYOption value="2">{{$t('menus.employee')}}</YYOption>
@@ -48,6 +48,7 @@
       >
         <fs-select-tree-input
           ref="selectDept"
+          class="search-form-select-dept"
           :title="`${$t('operate.select')}${$t('noun.department')}`"
           :placeholder="`${$t('operate.select')}${$t('noun.department')}`"
           @handleSelect="handleSelect"
@@ -60,7 +61,7 @@
         />
       </FormItem>
       <FormItem
-        :label-width="lang === 'en' ? 98 : 50"
+        :label-width="lang === 'en' ? 90 : 50"
         :label="$t('noun.internalGroup')"
         v-if="isGroupShow"
       >
@@ -94,6 +95,7 @@
         v-if="showTemplate"
       >
         <fs-select-template
+          class="search-form-select-template"
           :hasDefaultTemplate="hasDefaultTemplate"
           :templateType="templateType"
           @handleChange="handleQuery"
@@ -113,7 +115,7 @@
                     :member="member"
                     @handleSelect="handleSelect"/>
       </FormItem>-->
-      <FormItem :label-width="40" :label="$t('noun.date')" v-if="showOrderType || orderTypeMulti">
+      <FormItem :label-width="40" :label="$t('noun.date')" v-if="showOrderType || orderTypeMulti" class="search-form-select-date">
         <fs-select-order-type
           ref="selectOrderType"
           :classificationArrData="classificationArrData"
@@ -269,6 +271,10 @@ export default {
       default: true
     },
     showBrowse: {
+      type: Boolean,
+      default: false
+    },
+    adapt1440p: {
       type: Boolean,
       default: false
     }
@@ -602,6 +608,20 @@ export default {
 }
 .reportRules {
   float: right;
+}
+.search-form-select-type {
+  width: 140px;
+}
+@media (max-width: 1440px) {
+  .adapt1440p .search-form-select-type {
+    width: 112px;
+  }
+  .adapt1440p .search-form-select-dept, .adapt1440p .search-form-select-template {
+    min-width: 140.8px;
+  }
+  .adapt1440p .search-form-select-date {
+    min-width: 120px!important;
+  }
 }
 </style>
 <style lang='less'>

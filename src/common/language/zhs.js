@@ -297,7 +297,8 @@ module.exports = {
         admin: '管理员',
         frequentlyUsedtTemplate: "常用模板",
         templateStatus: "模板状态",
-        addTemplate: '添加模版'
+        addTemplate: '添加模版',
+        type: '分类'
     },
     title: {
         logTemplate: '汇报模板',
