@@ -93,7 +93,8 @@ module.exports = {
         notSubmitted: '未提交',
         postponedSubmission: '延期提交',
         someoneNotSubmit: '<-placeholder->人未提交',
-        viewDetails: '查看详情'
+        viewDetails: '查看详情',
+        playVideo: '视频播放'
     },
     status: { // 状态
         loading: '正在加载...',
@@ -106,6 +107,7 @@ module.exports = {
         copyTemplateSuccess: '复制模板成功'
     },
     toast: { // 提示
+        endMustGreaterThanStartTime: '结束时间必须大于开始时间',
         operationFailed: '操作失败',
         successfullyDeleted: '删除成功',
         deleteLogPrompt: '删除汇报提示',
@@ -151,7 +153,11 @@ module.exports = {
         deleteAdmin: '删除管理员',
         deleteReportReviewerOrNot: '是否删除汇报核查人',
         deleteReportReminderOrNot: '是否删除汇报催办人',
-        deleteAdminOrNot: '是否删除管理员'
+        deleteAdminOrNot: '是否删除管理员',
+        noDataYet: '暂无数据',
+        pleaseSelectMemberFirst: '请先选择人员',
+        remindSucceeded: '提醒成功',
+        youWillSendRemindToSomeone: '你将给“s%”等s%人发送提交汇报提醒。'
     },
     placeholder: { // 输入框提示文字
         postYourComment: '发表您的评论',

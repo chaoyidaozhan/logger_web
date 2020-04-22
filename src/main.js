@@ -53,6 +53,7 @@ Vue.use(selectTree)
 window.storage = storage // 建立全局的storage
 
 getWebLang().then(lang => {
+    lang = 'en'
     setLocale(lang)
     i18n.locale = lang
     locale(lang)

@@ -505,7 +505,7 @@ export default {
         }else if(submitPeriodic == 1 || submitPeriodic == 3) {
           let startPickerValue = this.startPickerDefault.value.split(' ');
           if((+startPickerValue[0] == +firstCol.value) && (+startPickerValue[1] >= +secondCol.value)) {
-            this.$YYMessage.warning('结束时间必须大于开始时间');
+            this.$YYMessage.warning($t('toast.endMustGreaterThanStartTime'));
             return;
           }
           this.endPickerDefault = {

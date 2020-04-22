@@ -35,7 +35,7 @@ export default {
         open(src, title) {
             this.showModal = true;
             this.src = src;
-            this.title = title  || '视频播放';
+            this.title = title  || this.$t('operate.playVideo');
             if(this.player) {
                 this.player.src(this.src);
                 this.player.load(this.src);

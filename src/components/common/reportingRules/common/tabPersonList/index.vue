@@ -14,26 +14,26 @@
       <div class="subCtn mb-flex mb-flex-wrap" v-show="tabIndex == 0">
         <div class="mb-flex mb-flex-wrap ">
           <PersonItem :memberMsg="item" @itemCheck="itemCheck(item)" :isCheckboxShow="false" v-for="(item, i) in diarySubumitList.submitNormal" :key="i"></PersonItem>
-          <YYEmpty v-if="!diarySubumitList.submitNormal.length" vertical="middle" text="暂无数据"/>
+          <YYEmpty v-if="!diarySubumitList.submitNormal.length" vertical="middle" :text="$t('toast.noDataYet')"/>
         </div>
       </div>
       <!-- 未提交 -->
       <div class="subCtn" v-if="isRender" v-show="tabIndex == 1">
         <div class="mb-flex mb-flex-wrap">
           <PersonItem :memberMsg="item" @itemCheck="itemCheck(item)" v-for="(item, i) in diarySubumitList.unSubmit" :key="i"></PersonItem>
-          <YYEmpty v-if="!diarySubumitList.unSubmit.length" vertical="middle" text="暂无数据"/>
+          <YYEmpty v-if="!diarySubumitList.unSubmit.length" vertical="middle" :text="$t('toast.noDataYet')"/>
         </div>
       </div>
       <!-- 延期提交 -->
       <div class="subCtn mb-flex mb-flex-wrap" v-if="isRender" v-show="tabIndex == 2">
         <div class="mb-flex mb-flex-wrap">
           <PersonItem :memberMsg="item" @itemCheck="itemCheck(item)" v-for="(item, i) in diarySubumitList.submitPostpone" :key="i"></PersonItem>
-          <YYEmpty v-if="!diarySubumitList.submitPostpone.length" vertical="middle" text="暂无数据"/>
+          <YYEmpty v-if="!diarySubumitList.submitPostpone.length" vertical="middle" :text="$t('toast.noDataYet')"/>
         </div>
       </div>
     </div>
     <div class="footer">
-       <YYCheckbox v-show="tabIndex != 0" class="isSelected" v-model="isAllSelected" @on-change="allSelect">全选</YYCheckbox>
+       <YYCheckbox v-show="tabIndex != 0" class="isSelected" v-model="isAllSelected" @on-change="allSelect">{{$t('operate.checkAll')}}</YYCheckbox>
        <YYButton 
         v-show="tabIndex != 0"
         @click="sendSelectedMember"
@@ -177,12 +177,12 @@ export default {
         break;
       }
       if(!memberIds.length) {
-        this.$YYMessage.warning('请先选择人员');
+        this.$YYMessage.warning(this.$t('toast.pleaseSelectMemberFirst'));
         return;
       }
       this.$YYModal.show({
           title: ``,
-          content: `你将给“${memberNames.join(',')}”等${memberNames.length}人发送提交汇报提醒。`,
+          content: this.$t('toast.youWillSendRemindToSomeone').replace('s1%', memberNames.join(',')).replace('s2%', memberNames.length),
           onOk: () => {
             this.$ajax({
                 url: '/diarySubmitRule/remind',
@@ -194,7 +194,7 @@ export default {
                 },
                 requestBody: true,
                 success: (res)=>{
-                  this.$YYMessage.success('提醒成功');
+                  this.$YYMessage.success(this.$t('toast.remindSucceeded'));
                 }
             });
           }

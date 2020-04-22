@@ -94,7 +94,8 @@ module.exports = {
         notSubmitted: 'Not submitted',
         postponedSubmission: 'Postponed submission',
         someoneNotSubmit: '<-placeholder-> not submitted',
-        viewDetails: 'View details'
+        viewDetails: 'View details',
+        playVideo: 'Play video'
     },
     status: { // 状态
         loading: 'Loading...',
@@ -107,6 +108,7 @@ module.exports = {
         copyTemplateSuccess: 'Template copied successfully'
     },
     toast: { // 提示
+        endMustGreaterThanStartTime: 'The end time must be greater than the start time',
         operationFailed: 'Operation Failed',
         successfullyDeleted: 'Deleted successfully',
         deleteLogPrompt: 'Prompt',
@@ -152,7 +154,11 @@ module.exports = {
         deleteAdmin: 'Delete the administrator',
         deleteReportReviewerOrNot: 'Whether or not to delete the report reviewer?',
         deleteReportReminderOrNot: 'Whether or not to delete the report reminder?',
-        deleteAdminOrNot: 'Whether or not to delete the administrator?'
+        deleteAdminOrNot: 'Whether or not to delete the administrator?',
+        noDataYet: 'No data yet',
+        pleaseSelectMemberFirst: 'Please select member first.',
+        remindSucceeded: 'Reminder succeeded.',
+        youWillSendRemindToSomeone: 'You will send a report submission reminder to s2% people include "s1%"'
     },
     placeholder: { // 输入框提示文字
         postYourComment: 'Publish Comment',
