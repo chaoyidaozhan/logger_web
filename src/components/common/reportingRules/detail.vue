@@ -85,7 +85,6 @@ export default {
       },
       handleChangeDate(data) {
         this.dateRange = data;
-        this.isTabPersonListShow = false;
         this.itemDetailMsg(this.detailMsg, data.beginDate).then((responseData) => {
           responseData.currentItemDetailMsg = this.detailMsgCopy.currentItemDetailMsg;
           this.detailMsgCopy = responseData;
@@ -95,6 +94,7 @@ export default {
             || diarySubumitList.submitPostpone.length > 30) {
               this.isNarrowWidth = false;
           }
+          this.isTabPersonListShow = false;
           this.$nextTick(() => {
             this.isTabPersonListShow = true;
           });
