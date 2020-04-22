@@ -112,7 +112,7 @@
                   :columns="columnsNum"
                   :firstColDefault="startPickerDefault"
                   :secondColDefault="startPickerSecondColDefault"
-                  :showValue="startPickerDefault.name">
+                  :showValue="columnsNum ==1 ? startPickerDefault.name : (startPickerDefault.name + ' ' + startPickerSecondColDefault.name)">
                 </WeekTime>
             </div>
           </div>
@@ -130,7 +130,7 @@
                   :columns="columnsNum"
                   :firstColDefault="endPickerDefault"
                   :secondColDefault="endPickerSecondColDefault"
-                  :showValue="endPickerDefault.name">
+                  :showValue="columnsNum == 1 ? (endPickerDefault.name) : (endPickerDefault.name + ' ' + endPickerSecondColDefault.name)">
               </WeekTime>
             </div>
           </div>
@@ -354,7 +354,7 @@ export default {
           }
           let editStatusWeekTime = () => {
             this.startPickerDefault = {
-              name: this.week[(+currentItemDetailMsg.submitStartWeek) - 1] + ' ' + submitStartTimeDealWith.all,
+              name: this.week[(+currentItemDetailMsg.submitStartWeek) - 1],
               value: currentItemDetailMsg.submitStartWeek
             };
             this.startPickerSecondColDefault = {
@@ -362,7 +362,7 @@ export default {
               value: submitStartTimeDealWith.num
             };
             this.endPickerDefault = {
-              name: this.week[(+currentItemDetailMsg.submitEndWeek) - 1] + ' ' + submitEndTimeDealWith.all,
+              name: this.week[(+currentItemDetailMsg.submitEndWeek) - 1] ,
               value: currentItemDetailMsg.submitEndWeek
             };
             this.endPickerSecondColDefault = {
@@ -496,8 +496,8 @@ export default {
             return;
           }
           this.startPickerDefault = {
-            name: (firstCol.name + ' ' + secondCol.name),
-            value: (firstCol.value + ' ' + secondCol.value)
+            name: firstCol.name,
+            value: firstCol.value
           };
         }else if(submitPeriodic == 2) {
           if(!firstCol.name) {
@@ -528,8 +528,12 @@ export default {
             return;
           }
           this.endPickerDefault = {
-            name: (firstCol.name + ' ' + secondCol.name),
-            value: (firstCol.value + ' ' + secondCol.value)
+            name: firstCol.name,
+            value: firstCol.value
+          };
+          this.endPickerSecondColDefault = {
+            name: secondCol.name,
+            value: secondCol.value
           };
         }else if(submitPeriodic == 2) {
           if(!firstCol.name) {
@@ -670,8 +674,12 @@ export default {
               let endPickerFirstColData = this.endPickerFirstColData[1];
               let endPickersecondColData = this.endPickersecondColData[0];
               isFromSetPickerChange && (this.endPickerDefault = {
-                name: (endPickerFirstColData.name + ' ' + endPickersecondColData.name),
-                value: (endPickerFirstColData.value + ' ' + endPickersecondColData.value)
+                name: endPickerFirstColData.name,
+                value: endPickerFirstColData.value
+              });
+              isFromSetPickerChange && (this.endPickerSecondColDefault = {
+                name: endPickersecondColData.name,
+                value: endPickersecondColData.value
               });
               break;
           case 2:
@@ -879,13 +887,21 @@ export default {
             case 1:
               this.columnsNum = 2;
               this.startPickerDefault = {
-                name: '周五 18:00',
-                value: '5 18'
+                name: '周五',
+                value: 5
+              };
+              this.startPickerSecondColDefault = {
+                name: '18:00',
+                value: 18
               };
               this.handleSubmitStartTime(per);
               this.endPickerDefault = {
-                name: `${this.$t('date.next')}${this.$t('date.mon')} 09:00`,
-                value: '1 9'
+                name: `${this.$t('date.next')}${this.$t('date.mon')}`,
+                value: 1
+              };
+              this.endPickerSecondColDefault = {
+                name: '09:00',
+                value: 9
               };
               this.handleSubmitEndTime(per);
             break;
@@ -905,13 +921,21 @@ export default {
             case 3:
               this.columnsNum = 2;
               this.startPickerDefault = {
-                name: '周五 18:00',
-                value: '5 18'
+                name: '周五',
+                value: 5
+              };
+              this.startPickerSecondColDefault = {
+                name: '18:00',
+                value: 18
               };
               this.handleSubmitStartTime(1);
               this.endPickerDefault = {
-                name: `${this.$t('date.next')}${this.$t('date.mon')} 09:00`,
-                value: '1 9'
+                name: `${this.$t('date.next')}${this.$t('date.mon')}`,
+                value: 1
+              };
+              this.endPickerSecondColDefault = {
+                name: `09:00`,
+                value: 9
               };
               this.handleSubmitEndTime(1);
             break;

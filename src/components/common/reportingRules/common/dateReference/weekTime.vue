@@ -96,6 +96,12 @@ export default {
       secondColData(newVal) {
         this.secondColumsData = newVal;
       },
+      firstColDefault(newVal) {console.log(newVal, 111)
+        this.currentFirstCol = newVal;
+      },
+      secondColDefault(newVal) {console.log(newVal, 222)
+        this.currentSecondCol = newVal;
+      }
     },
     components: {
     },
