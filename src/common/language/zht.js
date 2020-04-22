@@ -93,7 +93,8 @@ module.exports = {
         notSubmitted: '未提交',
         postponedSubmission: '延期提交',
         someoneNotSubmit: '<-placeholder->人未提交',
-        viewDetails: '查看詳情'
+        viewDetails: '查看詳情',
+        playVideo: '視頻播放'
     },
     status: { // 狀態
         loading: '正在加載...',
@@ -106,6 +107,7 @@ module.exports = {
         copyTemplateSuccess: '復制模板成功'
     },
     toast: { // 提示
+        endMustGreaterThanStartTime: '結束時間必須大於開始時間',
         operationFailed: '操作失敗',
         successfullyDeleted: '刪除成功',
         deleteLogPrompt: '刪除匯報提示',
@@ -151,7 +153,11 @@ module.exports = {
         deleteAdmin: '刪除管理員',
         deleteReportReviewerOrNot: '是否刪除匯報核查人',
         deleteReportReminderOrNot: '是否刪除匯報催辦人',
-        deleteAdminOrNot: '是否删除管理員'
+        deleteAdminOrNot: '是否删除管理員',
+        noDataYet: '暫無數據',
+        pleaseSelectMemberFirst: '請先選擇人員',
+        remindSucceeded: '提醒成功',
+        youWillSendRemindToSomeone: '你將給“s%”等s%人發送提交匯報提醒。'
     },
     placeholder: { // 輸入框提示文字
         postYourComment: '發表您的評論',

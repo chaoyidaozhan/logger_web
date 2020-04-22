@@ -67,7 +67,7 @@
                             v-if="Object.keys(tables).length > 1" 
                             class="tabs-bread">
                             <i class="icon-arrow-left" v-if="isDisplayHistoryTemplate"></i>
-                            {{isDisplayHistoryTemplate ? '收起' : '展开'}}
+                            {{isDisplayHistoryTemplate ? $t('noun.collapse') : $t('noun.expand')}}
                             <i class="icon-arrow-right" v-if="!isDisplayHistoryTemplate"></i>
                         </span>
                     </div>
