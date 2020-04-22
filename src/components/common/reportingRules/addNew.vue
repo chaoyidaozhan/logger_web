@@ -387,7 +387,6 @@ export default {
               editStatusWeekTime();
             break;
           }
-          formData.remindTime = currentItemDetailMsg.remindTime;
           if(submitPeriodic == 0 || submitPeriodic == 2) {
             this.columnsNum = 1;
             this.handleSubmitStartTime(submitPeriodic);
@@ -397,6 +396,7 @@ export default {
             this.handleSubmitStartTime(1);
             this.handleSubmitEndTime(1);
           }
+          this.remindTimeComputed(submitPeriodic);
           this.formData = {
             ...this.formData,
             ...formData
@@ -404,6 +404,7 @@ export default {
         }else {
           this.handleSubmitPeriodic(0);
         }
+        
       },
       handleSubmitRule() {
         let param = this.cloneObj(this.formData);
@@ -442,10 +443,10 @@ export default {
           param.remindThisWeek = 0;
         }else if (param.submitPeriodic == 1 || param.submitPeriodic == 3) {
           param.submitPeriodic = 1;
-          let startWeekDayMapClockName = this.startPickerDefault.name.split(' ');
-          let startWeekDayMapClockValue = this.startPickerDefault.value.split(' ');
-          let endWeekDayMapClockName = this.endPickerDefault.name.split(' ');
-          let endWeekDayMapClockValue = this.endPickerDefault.value.split(' ');
+          let startWeekDayMapClockName = [this.startPickerDefault.name, this.startPickerSecondColDefault.name];
+          let startWeekDayMapClockValue = [this.startPickerDefault.value, this.startPickerSecondColDefault.value];
+          let endWeekDayMapClockName = [this.endPickerDefault.name, this.endPickerSecondColDefault.name];
+          let endWeekDayMapClockValue = [this.endPickerDefault.value, this.endPickerSecondColDefault.value];
           param.submitStartWeek = startWeekDayMapClockValue[0];
           param.submitStartTime = startWeekDayMapClockName[1] + ':00';
           param.submitEndWeek = endWeekDayMapClockValue[0];
@@ -499,6 +500,10 @@ export default {
             name: firstCol.name,
             value: firstCol.value
           };
+          this.startPickerSecondColDefault = {
+            name: secondCol.name,
+            value: secondCol.value
+          };
         }else if(submitPeriodic == 2) {
           if(!firstCol.name) {
             this.$YYMessage.warning(this.$t('toast.pleaseSelectTime'));
@@ -506,7 +511,7 @@ export default {
           }
           this.startPickerDefault = firstCol;
         }
-        this.handleSubmitEndTime(submitPeriodic, true);
+        this.handleSubmitEndTime((submitPeriodic == 3) ? 1 : submitPeriodic, true);
       },
       setEndTimePicker(firstCol, secondCol) {
         let submitPeriodic = +this.formData.submitPeriodic;
@@ -522,8 +527,9 @@ export default {
             this.$YYMessage.warning(this.$t('toast.pleaseSelectWeekOrTime'));
             return;
           }
-          let startPickerValue = this.startPickerDefault.value.split(' ');
-          if((+startPickerValue[0] == +firstCol.value) && (+startPickerValue[1] >= +secondCol.value)) {
+          let startPickerValue = this.startPickerDefault.value;
+          let startPickerSecondColDefault = this.startPickerSecondColDefault.value;
+          if((+startPickerValue == +firstCol.value) && (+startPickerSecondColDefault >= +secondCol.value)) {
             this.$YYMessage.warning($t('toast.endMustGreaterThanStartTime'));
             return;
           }
@@ -574,7 +580,7 @@ export default {
       },
       // 打开选择结束周
       handleSubmitEndWeek() {
-        let dayAndClock = this.startPickerDefault.value.split(' ');
+        let dayAndClock = [this.startPickerDefault.value, this.startPickerSecondColDefault.value];
         dayAndClock[0] = +dayAndClock[0];
         dayAndClock[1] = +dayAndClock[1];
         let i = 1;
@@ -713,12 +719,8 @@ export default {
             remindTimeArr.push(i);
           }
         }else if(submitPeriodic == 1) {
-          let [weekStart, clockStart] = this.startPickerDefault.value.split(' ');
-          let [weekEnd, clockEnd] = this.endPickerDefault.value.split(' ');
-          weekStart = +weekStart;
-          clockStart = +clockStart;
-          weekEnd = +weekEnd;
-          clockEnd = +clockEnd;
+          let [weekStart, clockStart] = [+this.startPickerDefault.value, +this.startPickerSecondColDefault.value];
+          let [weekEnd, clockEnd] = [+this.endPickerDefault.value, +this.endPickerSecondColDefault.value];
           if(weekEnd == weekStart) {
             for(let i=1;i<=(clockEnd - clockStart);i++) {
               remindTimeArr.push(i);
@@ -865,9 +867,9 @@ export default {
           this.formData.doubleWeekRemind = 1;
         }else {
           this.formData.doubleWeekRemind = 0;
-          this.formData.remindThisWeek = 0;
-          this.isRemindThisWeek = false;
         }
+        this.formData.remindThisWeek = 0;
+        this.isRemindThisWeek = false;
         this.formData.remindTime = 1;
         // 根据不同的提价周期进行数据初始化
         switch (per) {
