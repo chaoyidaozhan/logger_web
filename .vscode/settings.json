@@ -1,0 +1,9 @@
+{
+    "jumpToAliasFile.alias": {
+        "vue": "vue/dist/vue.js",
+        "app_src": "/Users/huangxiaogang/logger_web/src",
+        "app_component": "app_src/components",
+        "app_view": "app_src/view",
+        "app_assets": "app_src/assets"
+    }
+}
